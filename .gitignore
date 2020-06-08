@@ -31,12 +31,16 @@ $RECYCLE.BIN/
 # IntelliJ project files
 .idea
 *.iml
-out
-gen
-### Example user template template
-### Example user template
 
-# IntelliJ project files
+node_modules
+package-lock.json
+yarn.lock
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
 ### Linux template
 *~
 
