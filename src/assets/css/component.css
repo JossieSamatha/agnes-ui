@@ -1,0 +1,587 @@
+/*=====================================
+
+          消息通知抽屉样式调整
+
+=======================================*/
+.noticeDrawer.slotCanve {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    transition: all 1s ease 0s;
+}
+
+.noticeDrawer .slotCanve .top{
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.noticeDrawer .slotCanve .top .searchInput input {
+    height: 28px;
+    line-height: 28px;
+    border-radius: 12px;
+    background: #F6F8FA;
+}
+
+.noticeDrawer .slotCanve .top .searchInput .el-input__suffix .el-icon-search {
+    line-height: 28px;
+}
+
+.noticeDrawer .slotCanve .top .refreshIcon {
+    color: #999;
+    font-size: 18px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.noticeDrawer .slotCanve .top .refreshIcon:hover {
+    color: #34538b;
+}
+
+
+/*消息盒子*/
+
+.noticeDrawer .slotCanve .container {
+    display: flex;
+    flex: 1;
+    height: 100%;
+}
+
+.noticeDrawer .slotCanve .container .messagebox {
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    padding: 0 10px;
+    overflow-y: auto;
+}
+
+.noticeDrawer .slotCanve .container .messagebox::-webkit-scrollbar{
+    width: 7px;
+}
+
+.noticeDrawer .slotCanve .container .messagebox li.boxLi {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+    border: 1px solid #EAEAEA;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.noticeDrawer .slotCanve .container .messagebox li.boxLi:hover {
+    background: #EEF5FC;
+}
+
+.noticeDrawer .slotCanve .container .messagebox li.boxLi>.title{
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    padding-bottom: 5px;
+}
+
+.noticeDrawer .slotCanve .container .messagebox li.boxLi>.title
+.el-badge__content.is-fixed.is-dot {
+    right: 0;
+}
+
+.noticeDrawer .slotCanve .container .messagebox li.boxLi>.content{
+    color: #666;
+    margin: 10px 0;
+    text-indent: 1em;
+}
+
+.noticeDrawer .slotCanve .container .messagebox li.boxLi>.content>span{
+
+}
+
+.noticeDrawer .slotCanve .container .messagebox li.boxLi>.footer{
+    font-size: 12px;
+    color: #999;
+    text-align: right;
+}
+
+/* 消息盒子里面的分页样式调整 */
+.noticeDrawer .slotCanve .el-pagination .el-pagination__sizes .el-input {
+    width: 80px;
+}
+
+.noticeDrawer .slotCanve .el-pagination .el-pagination__sizes .el-input>input {
+    padding: 0 0 0 5px;
+    height: 22px;
+    line-height: 22px;
+    font-size: 12px;
+    text-align: left;
+}
+
+.noticeDrawer .slotCanve .el-pagination .el-pagination--small .btn-next,
+.noticeDrawer .slotCanve .el-pagination .el-pagination--small .btn-prev,
+.noticeDrawer .slotCanve .el-pagination .el-pagination--small .el-pager li,
+.noticeDrawer .slotCanve .el-pagination .el-pagination--small .el-pager li:last-child {
+    line-height: 28px;
+    height: 28px;
+    font-size: 13px;
+}
+
+
+/* el-tree通用组件 */
+
+.treeContainer {
+    position: relative;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none){
+    .treeContainer {
+        overflow-y: auto;
+    }
+}
+
+.treeContainer::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+.treeContainer:hover::-webkit-scrollbar-thumb {
+    background: rgba(135,141,153,.3);
+}
+
+
+.el-tree .el-tree-node .el-tree-node__content {
+    position: relative;
+    display: flex;
+    height: 40px;
+    cursor: default;
+}
+
+.el-tree > .el-tree-node > .el-tree-node__content {
+    color: #333;
+}
+
+.el-tree > .el-tree-node.is-expanded > .el-tree-node__content {
+    color: #476DBE;
+    background: transparent;
+}
+
+.el-tree .el-tree-node.is-expanded .el-tree-node__children .el-tree-node > .el-tree-node__content:hover,
+.el-tree .el-tree-node.is-expanded .el-tree-node__children .el-tree-node.is-current > .el-tree-node__content {
+    color: #476DBE;
+    background: #EFF2F7;
+}
+
+.el-tree .el-tree-node.is-expanded .el-tree-node__children
+.el-tree-node.is-current > .el-tree-node__content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: #476DBE;
+}
+
+.el-tree .el-tree-node.is-expanded .el-tree-node__children
+.el-tree-node.is-current > .el-tree-node__content::after {
+    content: '';
+    position: absolute;
+    top: calc(50% - 4px);
+    right: 0;
+    border: 5px solid transparent;
+    border-right: 5px solid #476DBE;
+}
+
+.el-tree .el-tree-node .el-tree-node__content .tree-node-icon {
+    width: 14px;
+    height: 14px;
+    line-height: 14px;
+    text-align: center;
+    background-size: cover;
+    transform: rotate(0);
+    margin: 0 7px 0 15px;
+    padding: 0;
+}
+
+.el-tree .el-tree-node .el-tree-node__children
+.el-tree-node > .el-tree-node__content {
+    height: 30px;
+}
+
+.el-tree .el-tree-node.is-expanded .el-tree-node__children
+.el-tree-node.is-current > .el-tree-node__content > .tree-node-icon::after {
+    color: #476DBE;
+}
+
+.el-tree.compact .el-tree-node .el-tree-node__content {
+    height: 30px;
+}
+
+.el-tree > .el-tree-node > .el-tree-node__content > .custom-tree-node {
+    line-height: 40px;
+}
+
+.el-tree.compact .el-tree-node .el-tree-node__content > .custom-tree-node {
+    line-height: 30px;
+}
+
+
+.el-tree > .el-tree-node .el-tree-node__children .el-tree-node > .el-tree-node__content
+.custom-tree-node {
+    line-height: 30px;
+}
+
+.el-tree > .el-tree-node .el-tree-node__content .custom-tree-node span[class^=el-icon-]:before {
+    margin-right: 2px;
+}
+
+
+
+
+/* =============================
+
+    el-scrollbar滚动条通用样式
+
+   ============================= */
+.el-scrollbar.pagescroll-vertical {
+    height: 100%;
+}
+
+.el-scrollbar.pagescroll-vertical > .el-scrollbar__wrap {
+    width: 100%;
+    -ms-scroll-chaining: chained;
+    -ms-overflow-style: none;
+    -ms-content-zooming: zoom;
+    -ms-scroll-rails: none;
+    -ms-content-zoom-limit-min: 100%;
+    -ms-content-zoom-limit-max: 500%;
+    -ms-scroll-snap-type: proximity;
+    -ms-scroll-snap-points-x: snapList(100%, 200%, 300%, 400%, 500%);
+    -ms-overflow-style: none;
+    overflow-x: hidden;
+}
+
+.el-scrollbar.pagescroll-vertical .el-scrollbar__wrap::-webkit-scrollbar,
+.el-scrollbar.pagescroll-horizontal > .el-scrollbar__wrap::-webkit-scrollbar,
+.el-scrollbar.pagescroll-vertical .el-scrollbar__wrap > .el-scrollbar__bar.is-horizontal,
+.el-scrollbar.pagescroll-horizontal > .el-scrollbar__wrap > .el-scrollbar__bar.is-vertical {
+    display: none;
+}
+
+.el-scrollbar.pagescroll-vertical .el-scrollbar__bar {
+    right: 0;
+}
+
+.el-scrollbar.pagescroll-horizontal {
+    height: 100%;
+}
+
+.el-scrollbar.pagescroll-horizontal > .el-scrollbar__wrap {
+    width: 100%;
+    -ms-scroll-chaining: chained;
+    -ms-overflow-style: none;
+    -ms-content-zooming: zoom;
+    -ms-scroll-rails: none;
+    -ms-content-zoom-limit-min: 100%;
+    -ms-content-zoom-limit-max: 500%;
+    -ms-scroll-snap-type: proximity;
+    -ms-scroll-snap-points-x: snapList(100%, 200%, 300%, 400%, 500%);
+    -ms-overflow-style: none;
+    overflow-y: hidden;
+}
+
+/* ======================================
+
+
+               form 表单组件
+
+
+   ======================================*/
+.page-info-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 0 auto;
+    padding-top: 20px;
+}
+
+.page-info-container .el-form {
+    flex: 1;
+    overflow-y: scroll;
+    padding: 0 10%;
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none){
+    .page-info-container .el-form {
+        overflow-y: auto;
+    }
+}
+
+.page-info-container .el-form::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+.page-info-container .el-form:hover::-webkit-scrollbar-thumb {
+    background: rgba(135, 141, 153, .3);
+}
+
+.page-info-container .el-form .el-form-item__label {
+    color: #333;
+}
+
+.page-info-container .el-form .el-form-item__label {
+    color: #333;
+}
+
+.page-info-container .el-form .el-input__inner {
+    border: 1px solid #EFF2F7;
+}
+
+.page-info-container .el-form .el-form-item .el-form-item__content
+.el-select .el-select__tags .el-tag.el-tag--info {
+    color: #666;
+    background: #f6f6f6;
+    border: none;
+    padding: 0 10px;
+    border-radius: 5px;
+}
+
+.page-info-container .el-form .el-form-item .el-form-item__content
+.el-select .el-select__tags .el-tag.el-tag--info .el-tag__close {
+    background: transparent;
+    color: #999;
+    transform: scale(1);
+}
+
+.page-info-container .el-form .el-form-item .el-form-item__content
+.el-select .el-select__tags .el-tag.el-tag--info .el-tag__close:hover {
+    color: #ff0000;
+}
+
+.el-checkbox-group {
+    line-height: 1;
+}
+
+.el-radio,.el-checkbox {
+    line-height: 32px;
+    margin-right: 10px;
+}
+
+.el-radio .el-radio__label,
+.el-checkbox .el-checkbox__label {
+    padding-left: 4px;
+}
+
+/* ======================================
+
+
+         按钮面板公共样式
+
+
+   ======================================*/
+
+/* 处理按钮面板 -- 含背景色实心按钮组，按钮居中，多用于表单提交*/
+.action-panel {
+    text-align: center;
+}
+
+.action-panel > button {
+    padding: 5px 13px;
+}
+
+.action-panel > button.el-button--primary {
+    border-color: #476DBE;
+    background: #476DBE;
+}
+
+/* 操作按钮面板 -- 线框型按钮，多用于表格或其他操作 */
+.option-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3px;
+}
+
+.option-panel.border-left {
+    position: relative;
+    padding: 5px 7px;
+}
+
+.option-panel.border-left::before {
+    content: '';
+    position: absolute;
+    top: 25%;
+    left: 0;
+    width: 2px;
+    height: 50%;
+    background: #476DBE;
+}
+
+.option-panel .el-button {
+    padding: 4px 10px;
+    min-width: 70px;
+}
+
+.option-panel .el-button + .el-button {
+    margin-left: 1px;
+}
+
+.option-panel button.el-button--default:not(.is-disabled) {
+    color: #476DBE;
+    border-color: #476DBE;
+    background: transparent;
+}
+
+/* =============================
+
+    fixedCircleBtn 定位圆形样式
+
+   ============================= */
+.fixedCircleBtn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    right: 40px;
+    top: 40%;
+    z-index: 1000;
+}
+
+.fixedCircleBtn > button {
+    width: 77px;
+    height: 77px;
+    color: #fff;
+    background: #476DBE;
+    box-shadow: 0px 0px 10px 0px #476DBE;
+    border: none;
+    border-radius: 50%;
+    padding: 0;
+}
+
+.fixedCircleBtn > button + button {
+    margin-left: 0 !important;
+    margin-top: 10px;
+}
+
+.fixedCircleBtn > button.red {
+    background: #F5222E;
+    box-shadow: 0px 0px 10px 0px #F5222E;
+}
+
+.fixedCircleBtn > button:hover {
+    color: #476DBE;
+    background: #EEF5FC;
+    border: none;
+}
+
+.fixedCircleBtn > button.red:hover {
+    color: #F5222E;
+    background: #ffefef;
+}
+
+.fixedCircleBtn > button > i {
+    display: block;
+    font-size: 22px;
+}
+
+.fixedCircleBtn > button > span {
+    display: block;
+    margin: 3px 0px !important;
+    font-size: 14px;
+}
+
+/* =============================
+
+    el-card 卡片通用样式
+
+   ============================= */
+.el-card {
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.06);
+}
+
+.el-card + .el-card {
+    margin-top: 10px;
+}
+
+.el-card .el-card__header {
+    padding: 0;
+    border-bottom: none;
+}
+
+.el-card .el-card__header .clearfix {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px 0px 20px;
+}
+
+.el-card .el-card__header .clearfix::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 2px;
+    height: 50%;
+    left: 1px;
+    top: calc(25% + 5px);
+    background: #476DBE;
+}
+
+.el-card .el-card__header .clearfix .title {
+    color: #333;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* ======================================
+
+
+      gf-grid 样式
+
+
+   ======================================*/
+.gf-grid .gf-grid-toolbar {
+    border: none;
+    padding: 0 0 5px 0;
+}
+
+.gf-grid .gf-grid-toolbar .el-input__inner{
+    border-right: none;
+}
+
+.gf-grid .gf-grid-toolbar .el-input-group__append {
+    background: transparent;
+    padding: 0px 15px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
