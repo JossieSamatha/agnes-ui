@@ -10,7 +10,7 @@
                         <p class="menu-label" :class="activeMenu == menu.menuid ? 'active' : ''">{{menu.menuname}}</p>
                         <ul class="second-menu" v-for="submenu in menu.children" :key="submenu.menuid">
                             <li class="menu-label">
-                                <span>{{submenu.menuname}}</span>
+                                <span @click="showMenuTab(submenu)">{{submenu.menuname}}</span>
                                 <i class="star fa fa-star-o" v-if="submenu.collect != 'true'" @click="collectChange('true',submenu)"></i>
                                 <i class="star fa fa-star" v-else @click="collectChange('false',submenu)"></i>
                             </li>
@@ -71,14 +71,19 @@
             }
         },
         methods: {
-            showView: function (res) {
-                const viewId = res.menuid;
+            showView: function (menu) {
+                const viewId = menu.menucode;
                 const pageView = this.$app.views.getView(viewId);
                 if (!pageView) {
                     return;
                 }
-                const tabView = Object.assign({args: {data: res}}, pageView, {id: viewId || ''});
+                const tabView = Object.assign({args: {data: menu}}, pageView, {id: viewId || ''});
                 this.$nav.showView(tabView);
+            },
+
+            showMenuTab(menu){
+                this.showView(menu);
+                this.closeSideMenu();
             },
 
             showFirstMenu(menu) {

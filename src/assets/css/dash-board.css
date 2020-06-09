@@ -1,0 +1,819 @@
+/*=====================================
+
+            弹框样式
+
+=======================================*/
+.datav_client_view .el-dialog {
+    width: 750px;
+    border-radius: 5px;
+}
+
+.datav_client_view .el-dialog .el-form {
+    padding: 0;
+}
+
+.datav_client_view .el-dialog .el-dialog__header {
+    text-align: left;
+    padding: 5px 15px;
+    border-bottom: 1px solid #EAEDF1;
+}
+
+.datav_client_view .el-dialog .el-dialog__header .el-dialog__title {
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.datav_client_view .el-dialog .el-dialog__header .el-dialog__headerbtn {
+    top: 10px;
+    margin: 0;
+}
+
+.datav_client_view .el-dialog .el-dialog__header
+.el-dialog__headerbtn .el-dialog__close {
+    color: #666;
+    font-weight: bold;
+}
+
+.datav_client_view .el-dialog .el-dialog__body {
+    padding: 15px 15px 0;
+}
+
+.datav_client_view .el-dialog .el-dialog__body>.searchPanel {
+    margin-top: -5px;
+}
+
+.datav_client_view .el-dialog .el-dialog__body > .content {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.datav_client_view .el-dialog .el-dialog__body > .content > div {
+    height: 100%;
+}
+
+.datav_client_view .el-dialog .el-dialog__body > .content > div
+.title {
+    text-align: center;
+    font-weight: bold;
+    color: #666;
+    height: 22px;
+    line-height: 22px;
+}
+
+.datav_client_view .el-dialog .el-dialog__body > .content > div > div {
+    height: calc(100% - 30px);
+    border: 1px solid #CCD3D5;
+    margin: 5px 10px;
+    overflow: auto;
+}
+
+.datav_client_view .el-dialog .el-dialog__footer {
+    padding-bottom: 15px;
+}
+
+
+.datav_client_view .el-dialog .el-dialog__footer .el-button.el-button--primary {
+    background-color: #476DBE;
+    border-color: #476DBE;
+}
+
+/*==========================
+
+    module-card组件样式
+    描述：模块化的卡片样式
+
+============================*/
+
+.datav_client_view .el-card.moduleCard {
+    border-radius: 0 4px 4px 4px;
+    border: none;
+    box-shadow: none;
+    margin-bottom: 10px;
+    transition: .3s;
+}
+
+.datav_client_view .el-card.moduleCard:hover,
+.datav_client_view .el-card.moduleCard:focus {
+    box-shadow:0px 0px 6px 0px rgba(0, 0, 0, 0.06);
+}
+
+.datav_client_view .el-card.moduleCard .el-card__body{
+    padding: 5px 5px 5px 10px;
+}
+
+/*moduleCard头部样式*/
+.datav_client_view .el-card.moduleCard .el-card__header {
+    position: relative;
+    padding: 5px 0;
+    font-weight: bold;
+    border-bottom: none;
+}
+
+.datav_client_view .indexPage .el-card.moduleCard .el-card__header {
+    padding: 5px 10px;
+    border-bottom: 1px solid #EAEAEA;
+}
+
+.datav_client_view .el-card.moduleCard .el-card__header .clearfix>span {
+    position: relative;
+    margin-left: 10px;
+    font-size: 14px;
+    color: #333;
+}
+
+.datav_client_view .el-card.moduleCard .el-card__header .clearfix>span:before{
+    display: block;
+    position: absolute;
+    content: '';
+    width: 3px;
+    height: 14px;
+    background: #476DBE;
+    left: -10px;
+    top: 2px;
+}
+
+.datav_client_view .el-card.moduleCard .el-card__header .headOption{
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    line-height: 28px;
+}
+
+/*============================
+
+        table表格样式
+
+==============================*/
+
+/*表格样式*/
+.ag-ltr .ag-pinned-left-cols-viewport {
+    border-right: 1px dotted #EAEDF1;
+}
+
+.ag-theme-balham .ag-header-cell-label {
+    font-size: 12px;
+}
+
+.ag-theme-balham .ag-header-cell,
+.ag-theme-balham .ag-header-group-cell {
+    font-size: 13px;
+    line-height: 21px;
+}
+
+.ag-theme-balham .ag-root,
+.ag-theme-balham .ag-header {
+    border-color: #EAEDF1;
+    background: #F6F8FA;
+}
+
+.ag-theme-balham .ag-header-cell {
+    border-right-color: transparent;
+    color: #333;
+    font-weight: bold;
+}
+
+.ag-theme-balham .ag-header-cell-resize::after {
+    border-right-color: transparent;
+}
+
+.ag-theme-balham .ag-pinned-left-header .ag-header-cell:last-child
+.ag-header-cell-resize::after {
+    border-right-color: #EAEDF1;
+}
+
+.ag-theme-balham .ag-header-cell-label .ag-header-cell-text {
+    line-height: 25px;
+}
+
+.ag-theme-balham .ag-cell {
+    font-size: 12px;
+    color: #666;
+    line-height: 21px;
+    border-right-color: #EAEDF1;
+}
+
+.ag-theme-balham .ag-cell.ag-cell-focus {
+    border: 1px solid #9bc2e6;
+}
+
+.ag-theme-balham .ag-row {
+    border-bottom-color: #EAEDF1;
+}
+
+
+.ag-theme-balham .ag-row-odd {
+    background: #F6F8FA;
+}
+
+.ag-theme-balham .ag-row-even {
+    background: #fff;
+}
+
+.ag-theme-balham .ag-row-hover {
+    background: #E6F0FA;
+}
+
+.gf-grid-status-bar {
+    border: none;
+}
+
+.ag-body-viewport::-webkit-scrollbar {
+    width: 5px;
+    height: 8px;
+}
+
+/* =============================
+
+    el-scrollbar滚动条通用样式
+
+   ============================= */
+.el-scrollbar.pagescroll-vertical {
+    height: 100%;
+}
+
+.el-scrollbar.pagescroll-vertical .el-scrollbar__wrap{
+    overflow-x: hidden;
+}
+
+.el-scrollbar.pagescroll-vertical .el-scrollbar__bar{
+    right: 0;
+}
+
+.el-scrollbar.pagescroll-horizontal {
+    width: 100%;
+}
+
+.el-scrollbar.pagescroll-horizontal .el-scrollbar__wrap{
+    overflow-y: hidden;
+}
+
+/*============================
+
+        监控大屏 -- 客户360
+
+==============================*/
+.datav_client_view {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.datav_client_view .topPanel {
+    margin-bottom: 5px;
+}
+
+.datav_client_view .topPanel .optionPanel{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.datav_client_view .topPanel .optionPanel
+.searchInput {
+    width: 200px;
+}
+
+.datav_client_view .topPanel .optionPanel
+.searchInput input{
+    height: 28px;
+    line-height: 28px;
+    font-size: 12px;
+    color: #666;
+}
+
+.datav_client_view .topPanel .optionPanel
+.searchInput .el-input__icon{
+    line-height: 28px;
+}
+
+.datav_client_view .topPanel .optionPanel
+.boardeEdit{
+    line-height: 28px;
+    color: #476DBE;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.datav_client_view .topPanel .content {
+    display: flex;
+    flex-wrap: wrap;
+    background: #f2f2f2;
+    padding: 10px 10px 7px;
+}
+
+.datav_client_view .topPanel .content>p{
+    flex: 0 20%;
+    margin-bottom: 3px;
+}
+
+.datav_client_view .topPanel .content>p>label{
+    color: #333;
+}
+
+.datav_client_view .topPanel .content>p>span{
+    color: #666;
+}
+
+.datav_client_view .gridContainer{
+    position: relative;
+    flex: 1;
+    background: #f2f2f2;
+    overflow: hidden;
+}
+
+.datav_client_view .boardChoose .el-dialog{
+    width: 800px!important;
+}
+
+.datav_client_view .boardChoose .el-dialog__body>div{
+    display: flex;
+    flex-direction: column;
+    min-height: 350px;
+    max-height: 550px;
+}
+
+.datav_client_view .boardChoose .defineBtn{
+    color: #476DBE;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+
+.datav_client_view .boardChoose .selectBoard {
+    position: relative;
+    width: 100%;
+    margin: 0 auto 5px 0px;
+}
+
+.datav_client_view .boardChoose .selectBoard .el-radio-group .el-radio {
+    width: 90px;
+    height: 25px;
+    line-height: 1;
+    color: #333;
+    border-color: #EAEDF1;
+    margin-right: 5px;
+    padding: 4px 5px;
+    text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.datav_client_view .boardChoose .selectBoard .el-radio-group .el-radio+.el-radio {
+    margin-left: 0px;
+}
+
+.datav_client_view .boardChoose .selectBoard .el-radio-group .el-radio .el-radio__input{
+    display: none;
+}
+
+.datav_client_view .boardChoose .selectBoard .el-radio-group .el-radio .el-radio__label{
+    padding-left: 0;
+    font-size: 14px;
+}
+
+.datav_client_view .boardChoose .selectBoard .el-radio-group .el-radio.is-checked {
+    color: #476DBE;
+    border-color: #D9E8FD;
+    background: #F3F8FF;
+}
+
+.datav_client_view .boardChoose .selectBoard .el-radio-group .el-radio__input.is-checked+.el-radio__label {
+    color: #476DBE;
+}
+
+.datav_client_view .boardChoose .selectBoard>.setDefine {
+    position: absolute;
+    right: 0;
+    top: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #476DBE;
+    cursor: pointer;
+}
+
+.datav_client_view .boardChoose .boardContainer{
+    display: flex;
+    position: relative;
+    flex-wrap: wrap;
+    flex: 1;
+    align-content: flex-start;
+    height: 100%;
+    overflow-y: auto;
+}
+
+
+.datav_client_view .boardChoose .boardContainer>p{
+    position: relative;
+    width: 182px;
+    height: 108px;
+    padding: 1px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    border: 1px dashed #eaeaea;
+    background: #f2f2f2;
+    cursor: pointer;
+}
+
+.datav_client_view .boardChoose .boardContainer>p:hover{
+    border-color: #476DBE;
+}
+
+.datav_client_view .boardChoose .boardContainer>p.active{
+    border-color: #f5222e;
+}
+
+.datav_client_view .boardChoose .boardContainer>p>img{
+    width: 200px;
+    height: 100px;
+    vertical-align: middle;
+}
+
+.datav_client_view .boardChoose .boardContainer>p
+.vue-grid-layout .vue-grid-item:not(.vue-grid-placeholder){
+    border: 1px solid #ccc;
+}
+
+.datav_client_view .gridContainer .vue-grid-layout {
+    width: 100%;
+    height: 100%;
+}
+
+.datav_client_view .vue-grid-item.cssTransforms {
+    background: #fff;
+}
+
+.datav_client_view .gridContainer .vue-grid-layout .vue-grid-item .menuContent {
+    position: relative;
+    min-height: 100%;
+    max-height: 100%;
+    padding: 5px;
+    overflow: hidden;
+}
+
+.datav_client_view .gridContainer.edit .vue-grid-layout .vue-grid-item
+.menuContent {
+    cursor: grab;
+}
+
+.datav_client_view .gridContainer.edit .vue-grid-layout .vue-grid-item
+.menuContent:hover {
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.24);
+}
+
+
+.datav_client_view .boardChoose .boardContainer .delUnitGrid,
+.datav-block .vue-grid-layout .vue-grid-item .delUnitGrid,
+.datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
+.delUnitGrid {
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: #666;
+    padding: 2px 3px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.datav_client_view .boardChoose .boardContainer .delUnitGrid:hover,
+.datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
+.delUnitGrid:hover {
+    color: #f5222e;
+}
+
+.datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
+.menuContent>div {
+    position: absolute;
+    top: 0px;
+    left: 5px;
+    width: calc(100% - 10px);
+    height: calc(100% - 5px);
+}
+
+.datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
+.menuContent .el-card.moduleCard {
+    height: 100%;
+    margin-bottom: 0;
+}
+
+.datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
+.menuContent .el-card.moduleCard .el-card__header .clearfix{
+    padding: 0;
+}
+
+.datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
+.menuContent .el-card.moduleCard .el-card__header .clearfix::before{
+    display: none;
+}
+
+.datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
+.menuContent .el-card.moduleCard .el-card__body>.content {
+    height: 100%;
+}
+
+.datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
+.menuContent .el-card.moduleCard .el-card__body {
+    height: calc(100% - 31px);
+}
+
+.datav_client_view.datavBoard {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 170px;
+}
+
+.datav_client_view .gridContainer .elChooseArrContent {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 170px;
+    background: rgba(0,0,0,.2);
+}
+
+.datav_client_view .gridContainer:not(.edit) .elChooseArrContent {
+    display: none;
+}
+
+.datav_client_view .gridContainer .elChooseArrContent .dragDiv {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    margin: 0 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.datav_client_view .gridContainer .elChooseArrContent .dragDiv::-webkit-scrollbar {
+    height: 6px;
+}
+
+.datav_client_view .gridContainer .elChooseArrContent>div
+.elChooseDiv {
+    flex: 0 0 250px;
+    width: 250px;
+    height: 150px;
+    background: #f2f2f2;
+    text-align: center;
+    cursor: grab;
+    overflow: hidden;
+    transition: .5s all ease;
+}
+.datav_client_view .gridContainer .elChooseArrContent>div
+.elChooseDiv+.elChooseDiv {
+    margin-left: 10px;
+}
+
+.datav_client_view .gridContainer .elChooseArrContent>div
+.elChooseDiv>p.title {
+    height: 22px;
+    line-height: 22px;
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
+
+.datav_client_view .gridContainer .elChooseArrContent>div
+.elChooseDiv>p.content {
+    height: 118px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #fff;
+    margin: 5px;
+}
+
+.datav_client_view.datavBoard .gridContainer .elChooseArrContent>div
+.elChooseDiv>p.content .datav-temp-img {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+.datav_client_view .gridContainer .elChooseArrContent>div
+.elChooseDiv:hover {
+    background: #fff;
+    transform: scale(1.03);
+}
+
+/*==========================
+
+     客户360相关样式
+
+============================*/
+.datav_client_view .rapid-contact-form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.datav_client_view .rapid-contact-form>p {
+    width: 100%;
+    height: 20%;
+    max-height: 37px;
+    border-radius: 19px;
+    border: 1px solid #EFF2F7;
+    background: #F4F6FB;
+}
+
+.datav_client_view .rapid-contact-form>p .el-input {
+    height: 100%;
+}
+
+.datav_client_view .rapid-contact-form>p .el-input>input {
+    border: none;
+    background: transparent;
+    line-height: 1;
+    height: 100%;
+    border-radius: 19px 0 0 19px;
+    padding-left: 45px;
+    padding-right: 10px;
+}
+
+.datav_client_view .rapid-contact-form>p .el-input
+.el-input__prefix {
+    left: 15px;
+}
+
+.datav_client_view .rapid-contact-form>p .el-input
+.el-input__prefix .el-input__icon {
+    font-size: 17px;
+    color: #666;
+    line-height: 1;
+}
+
+.datav_client_view .rapid-contact-form>p .el-input
+.el-input__prefix .el-input__icon.el-icon-phone-outline {
+    font-size: 20px;
+}
+
+.datav_client_view .rapid-contact-form>p .el-input
+.el-input-group__append {
+    border: none;
+    background: transparent;
+    height: 100%;
+    border-radius: 0 19px 19px 0;
+    color: #476DBE;
+    font-size: 12px;
+}
+
+.datav_client_view .rapid-contact-form>p>.el-button {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 19px;
+    font-size: 12px;
+    color: #476DBE;
+    background: transparent;
+    padding: 0;
+}
+
+.datav_client_view .form_comp {
+    height: 100%;
+}
+
+.datav_client_view .form_comp .el-form-item .el-form-item__label{
+    line-height: 28px;
+    font-size: 13px;
+    color: #333;
+}
+
+.datav_client_view .form_comp .el-form-item .el-form-item__content {
+    line-height: 28px;
+    font-size: 13px;
+}
+
+.datav_client_view .form_comp .el-form-item .el-form-item__content p {
+    width: 100%;
+    height: 100%;
+    line-height: 28px;
+}
+
+.datav_client_view .form_comp .el-form-item .el-form-item__content input {
+    line-height: 26px;
+    height: 26px;
+    border-color: #EAEDF1;
+    font-size: 13px;
+    color: #666;
+}
+
+.datav_client_view .form_comp .el-form-item .el-form-item__content
+span.el-input__suffix .el-input__icon {
+    line-height: 26px;
+    font-size: 12px;
+}
+
+.datav_client_view .form_comp .el-form-item .el-form-item__content
+.el-radio+.el-radio {
+    line-height: 26px;
+    margin-left: 10px;
+}
+
+.datav_client_view .form_comp .el-form-item .el-form-item__content
+.el-radio .el-radio__input .el-radio__inner {
+    width: 12px;
+    height: 12px;
+}
+
+.datav_client_view .form_comp .el-form-item .el-form-item__content
+.el-radio .el-radio__input.is-checked .el-radio__inner {
+    border-color: #476DBE;
+    background: #476DBE;
+}
+
+.datav_client_view .form_comp .el-form-item .el-form-item__content
+.el-radio .el-radio__label {
+    padding-left: 3px;
+    font-size: 13px;
+}
+
+.datav_client_view .form_comp .el-form-item .el-form-item__content
+.el-radio .el-radio__input.is-checked+.el-radio__label {
+    color: #476DBE;
+}
+
+.datav_client_view .form_comp .el-form-item .el-form-item__content
+.el-checkbox.is-checked:not(.is-disabled) .el-checkbox__label {
+    color: inherit;
+}
+
+.datav_client_view .form_comp .el-form-item .el-form-item__content
+.el-checkbox .el-checkbox__label {
+    font-size: 13px;
+    padding-left: 5px;
+}
+
+.datav_client_view .form_comp .el-form-item .el-form-item__content
+.el-checkbox:not(:last-child) {
+    margin-right: 10px;
+}
+
+.datav_client_view .form_comp .el-form-item .el-form-item__content
+.el-checkbox+.el-checkbox {
+    margin-left: 0;
+}
+
+.datav_client_view .form_comp .el-form-item .el-form-item__content
+.el-checkbox__inner{
+    width: 12px;
+    height: 12px;
+    border: 1px solid #C7C7C7;
+    border-radius: 2px;
+}
+
+.datav_client_view .form_comp .el-form-item .el-form-item__content
+.el-checkbox__input.is-checked:not(.is-disabled) .el-checkbox__inner,
+.datav_client_view .form_comp .el-form-item .el-form-item__content
+.el-checkbox__input.is-indeterminate:not(.is-disabled) .el-checkbox__inner{
+    background: #476DBE;
+    border: 1px solid #476DBE;
+    font-weight: bold;
+}
+
+.datav_client_view .form_comp .el-form-item .el-form-item__content
+.el-checkbox__input.is-indeterminate .el-checkbox__inner::before{
+    transform: scale(.7);
+}
+
+.datav_client_view .form_comp .el-form-item .el-form-item__content
+.el-checkbox__input.is-checked .el-checkbox__inner::after{
+    border-width: 2px;
+    height: 9px;
+    top: -2px;
+    width: 3px;
+    left: 3px;
+}
+
+.datav_client_view .form_comp .el-form-item .el-form-item__content button {
+    padding: 11px 15px;
+    border: none;
+    color: #fff;
+    background: #476DBE;
+    line-height: 0;
+}
+
+.datav_client_view .form_comp .el-select-dropdown__wrap .el-select-dropdown__item {
+    height: 30px;
+    line-height: 30px;
+    font-size: 13px;
+}
+
+.datav_client_view .form_comp .el-select-dropdown__wrap
+.el-select-dropdown__item.selected{
+    color: #476DBE;
+}
+
+.vue-grid-layout {
+    height: 100%;
+    overflow: auto;
+}
