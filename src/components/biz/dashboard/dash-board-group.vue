@@ -56,7 +56,6 @@
 
         },
         watch: {
-
         },
         computed: {
             boardColNum(){

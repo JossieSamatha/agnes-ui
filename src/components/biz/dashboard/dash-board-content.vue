@@ -52,20 +52,20 @@
         },
         data: function () {
             return {
-                dragDisabled: true,            // draggable属性配置
-                ifCloseIconShow: false,     // 是否显示删除按钮
             }
         },
         mounted() {
 
         },
         watch: {
-            isGridEdit(val){
-                this.ifCloseIconShow = val;
-                this.dragDisabled = !val;
-            }
         },
         computed: {
+            ifCloseIconShow(){
+                return this.isGridEdit;
+            },
+            dragDisabled(){
+                return !this.isGridEdit;
+            },
         },
         methods: {
             // 内容删除

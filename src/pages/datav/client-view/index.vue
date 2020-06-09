@@ -19,10 +19,7 @@
                 </p>
             </div>
         </div>
-        <grid-container ref="gridContainer"
-                :isGridDefine="isGridDefine"
-                :isGridEdit="isGridEdit">
-        </grid-container>
+        <grid-container ref="gridContainer"></grid-container>
         <board-choose ref="boardChoose"
                 :showDialog="boardChooseDialog"
                 @closeDialog="closeDialog"
@@ -94,10 +91,10 @@
             boardEditFinish(editType){
                 if(editType == 'content'){
                     this.isGridEdit = false;
-                    this.$refs.gridContainer.isGridEdit = false;
+                    this.$set(this.$refs.gridContainer, 'isGridEdit', false);
                 }else if(editType == 'layout'){
                     this.isGridDefine = false;
-                    this.$refs.gridContainer.isGridDefine = false;
+                    this.$set(this.$refs.gridContainer, 'isGridDefine', false);
                     var newdDefineBoard = {
                         boardId: this.$caseUtils.randomString(9),
                         boardData: this.$refs.gridContainer.gridLayout.boardData
@@ -113,8 +110,8 @@
                 this.$refs.gridContainer.elChooseContentShow = true;
                 this.isGridEdit = true;
                 this.isGridDefine = false;
-                this.$refs.gridContainer.isGridEdit = true;
-                this.$refs.gridContainer.isGridDefine = false;
+                this.$set(this.$refs.gridContainer, 'isGridEdit', true);
+                this.$set(this.$refs.gridContainer, 'isGridDefine', false);
                 let gridLayout =  JSON.parse(JSON.stringify(choosedBoard));
                 let boardData = gridLayout.boardData;
                 let boardStyleArr = this.$refs.gridContainer.boardStyleArr;
