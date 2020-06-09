@@ -1,5 +1,5 @@
 <template>
-    <div class="left-side-container">
+    <div class="left-side-container" :class="ifSideMenuFlod?'fold':''">
         <div class="gf-vertical-expand" :class="ifSideMenuFlod?'fold':''">
             <div class="gf-menu entrance-menu" @click="menuChoose(allMenu)">
                 <el-tooltip :disabled="!ifSideMenuFlod" effect="dark" :content="platFormTitle" placement="right">
@@ -40,8 +40,10 @@
                 </div>
             </div>
         </div>
-        <gf-side-menu v-if="showSideMenu" :sideMenu="curSideMenu"
-                      @markMenuChange="markMenuChange" @closeSideMenu="closeSideMenu"></gf-side-menu>
+        <transition name="slide-fade">
+            <gf-side-menu v-if="showSideMenu" :sideMenu="curSideMenu"
+                          @markMenuChange="markMenuChange" @closeSideMenu="closeSideMenu"></gf-side-menu>
+        </transition>
     </div>
 </template>
 <script>
@@ -85,7 +87,7 @@
         },
         methods: {
             showView: function (menu) {
-                const viewId = menu.resCode;
+                const viewId = menu.menucode;
                 const pageView = this.$app.views.getView(viewId);
                 if (!pageView) {
                     return;
@@ -101,6 +103,8 @@
 
             markMenuChoose(menu){
                 this.activeMarkMenu = menu.menuid;
+                this.showView(menu);
+                this.showSideMenu = false;
             },
 
             showFastMenu(){
@@ -143,4 +147,11 @@
     }
 </script>
 <style>
+    .slide-fade-enter-active, .slide-fade-leave-active {
+        transition: all 1s ease;
+    }
+    .slide-fade-enter, .slide-fade-leave-to {
+        transform: translateX(-10px);
+        opacity: 0;
+    }
 </style>
