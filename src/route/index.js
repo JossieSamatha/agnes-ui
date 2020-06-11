@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import LoginView from "@hex/goframe-ui-admin/src/views/login"
 import LayoutMain from "../layout/main"
-
 
 Vue.use(Router);
 
 export const routeMap = [
-    {path: '/**', component: LayoutMain, name: 'main'},
+    {path: '/login', name: 'login', component: LoginView},
+    {path: '/**', name: 'main', component: LayoutMain}
 ];
 
 export default new Router({
