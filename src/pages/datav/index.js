@@ -5,7 +5,7 @@ var pages = [
         id: "datav.clientview",
         title: "客户服务360视图",
         component: clientView,
-        closeable: true
+        closeable: false
     }
 ];
 

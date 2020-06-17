@@ -7,7 +7,7 @@
             <el-select class="studioType" v-model="studioType" :popper-append-to-body="false"
                        @change="studioTypeChange">
                 <el-option value="0" label="应用模式（APP STUDIO）"></el-option>
-                <el-option value="1" label="开发模式（DEV STUDIO）"></el-option>
+                <el-option value="1" label="管理模式（DEV STUDIO）"></el-option>
             </el-select>
         </template>
         <div class="top-menu-right" slot="nav-user-before">
@@ -96,7 +96,6 @@
                 });
             },
             showMain() {
-                //aicm.app
                 let viewId = 'datav.clientview';
                 let pageView = this.$app.views.getView(viewId);
                 let tabView = Object.assign({args: {}, id: viewId}, pageView);

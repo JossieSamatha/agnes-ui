@@ -259,6 +259,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    padding: 0;
 }
 
 .datav_client_view .topPanel {
@@ -680,6 +681,7 @@
 
 .datav_client_view .form_comp {
     height: 100%;
+    padding: 0;
 }
 
 .datav_client_view .form_comp .el-form-item .el-form-item__label{
