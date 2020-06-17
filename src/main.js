@@ -20,6 +20,7 @@ import './assets/css/component.css';
 import './assets/css/agnes.css';
 import './assets/css/dash-board.css';
 
+
 Vue.use(ElementUI);
 Vue.use(echarts);
 Vue.prototype.echarts = echarts;
@@ -27,6 +28,7 @@ Vue.use(srcPage);
 Vue.use(AresUI);
 Vue.use(Gfui, {tabBar: {cacheMultiView: true, hideTitleBar: false}});
 Gfui.use(Pages);
+Gfui.use(AresUI);
 
 Vue.component('draggable', draggable);
 Vue.component('GridLayout', VueGridLayout.GridLayout);

@@ -47,13 +47,14 @@
 </template>
 
 <script>
-    import menus from './sideMenuData'
     import noticeData from './noticeData'
+    import {toColumn} from "@hex/goframe-ui-admin/src/utils/menu";
+    import init from './initMenus'
     export default {
         data() {
             return {
                 svgImg: this.$svgImg,
-                menus: menus,
+                menus: init.initMenus(toColumn(this.$store.getters.menus)),
                 noticeData: noticeData,
                 studioType: '0',
                 searchValue: '',
