@@ -124,6 +124,8 @@
         async mounted() {
             //默认加载首页
             this.showMain();
+            this.$app.registerCmd('gf.changePwd',() => this.changePwd());
+            this.$app.registerCmd('gf.logout',() => this.logout());
         }
     };
 </script>
