@@ -886,7 +886,7 @@ form input[type=submit] {
     flex-direction: column;
     min-height: 300px;
     max-height: 80%;
-    height: 60%;
+    height: 100%;
     border-radius: 8px;
 }
 
@@ -925,6 +925,7 @@ form input[type=submit] {
     flex: 1;
     height: 100%;
     padding: 0;
+    overflow: hidden;
 }
 
 /*.el-dialog__wrapper .el-dialog .el-dialog__body .el-form .el-form-item*/
@@ -1000,6 +1001,7 @@ form input[type=submit] {
     line-height: 28px;
     border-color: #EAEDF1;
     border-radius: 2px;
+    text-align: left;
 }
 
 .el-form .el-form-item .el-form-item__content .el-textarea__inner {
@@ -1948,7 +1950,21 @@ form input[type=submit] {
 }
 
 
+/* 资源配置-页面-新增*/
+.el-form-item{
+    margin-bottom: 18px !important;
+}
 
+/* 资源配置-智能运营平台-新增下拉列表*/
+.el-select-dropdown.el-popper{
+    height: auto;
+}
 
+/* 消息提醒-Model*/
+.el-message{
+    height: auto;
+}
 
-
+.el-form-item__label{
+    vertical-align: initial;
+}

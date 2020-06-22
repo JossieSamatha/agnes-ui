@@ -503,8 +503,9 @@
     box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.06);
 }
 
+/*资源管理*/
 .el-card + .el-card {
-    margin-top: 10px;
+    /*margin-top: 10px;*/
 }
 
 .el-card .el-card__header {
