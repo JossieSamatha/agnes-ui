@@ -40,9 +40,9 @@ body ::-webkit-scrollbar-track {
             登录界面样式
 
 =======================================*/
-body>div{
-    height: 100%;
-}
+/*body>div{*/
+    /*height: 100%;*/
+/*}*/
 
 .gf-login-head {
     padding: 40px 20px 20px 10%!important;
@@ -884,9 +884,6 @@ form input[type=submit] {
 .el-dialog__wrapper .el-dialog {
     display: flex;
     flex-direction: column;
-    min-height: 300px;
-    max-height: 80%;
-    height: 100%;
     border-radius: 8px;
 }
 
@@ -925,7 +922,6 @@ form input[type=submit] {
     flex: 1;
     height: 100%;
     padding: 0;
-    overflow: hidden;
 }
 
 /*.el-dialog__wrapper .el-dialog .el-dialog__body .el-form .el-form-item*/
@@ -956,20 +952,23 @@ form input[type=submit] {
     height: 55px;
 }
 
-.el-dialog__wrapper .el-dialog .el-dialog__footer .el-button {
+.el-dialog__wrapper .el-dialog .el-dialog__footer .el-button,
+.el-dialog__wrapper .el-dialog .gf-form-btn .el-button {
     width: 75px;
     min-width: 75px;
     height: 25px;
     padding: 0;
 }
 
-.el-dialog__wrapper .el-dialog .el-dialog__footer .el-button.el-button--primary {
+.el-dialog__wrapper .el-dialog .el-dialog__footer .el-button.el-button--primary,
+.el-dialog__wrapper .el-dialog .gf-form-btn .el-button.el-button--primary {
     color: #fff;
     background: #476DBE;
     border-color: #476DBE;
 }
 
-.el-dialog__wrapper .el-dialog .el-dialog__footer .el-button > i {
+.el-dialog__wrapper .el-dialog .el-dialog__footer .el-button > i,
+.el-dialog__wrapper .el-dialog .gf-form-btn .el-button > i {
     display: none;
 }
 
@@ -1001,7 +1000,6 @@ form input[type=submit] {
     line-height: 28px;
     border-color: #EAEDF1;
     border-radius: 2px;
-    text-align: left;
 }
 
 .el-form .el-form-item .el-form-item__content .el-textarea__inner {
@@ -1950,21 +1948,7 @@ form input[type=submit] {
 }
 
 
-/* 资源配置-页面-新增*/
-.el-form-item{
-    margin-bottom: 18px !important;
-}
 
-/* 资源配置-智能运营平台-新增下拉列表*/
-.el-select-dropdown.el-popper{
-    height: auto;
-}
 
-/* 消息提醒-Model*/
-.el-message{
-    height: auto;
-}
 
-.el-form-item__label{
-    vertical-align: initial;
-}
+
