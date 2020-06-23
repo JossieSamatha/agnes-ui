@@ -1,0 +1,18 @@
+/*=====================================
+
+        客户反馈 样式调整
+
+=======================================*/
+
+.feedbackPopover .el-form,
+.feedbackPopover .el-form .el-form-item .el-form-item__label{
+    padding: 0;
+}
+
+.feedbackPopover .el-form .el-form-item .el-form-item__label{
+    margin-bottom: 5px;
+}
+
+.feedbackPopover .el-form .el-form-item{
+    margin-bottom: 0;
+}

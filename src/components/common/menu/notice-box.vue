@@ -1,0 +1,63 @@
+<template>
+    <el-drawer class="noticeDrawer"
+            :with-header="false"
+            :visible.sync="showDrawer"
+            :direction="direction"
+            :before-close="handleClose">
+        <div class="slotCanve">
+            <div class="top">
+                <el-input class="searchInput" placeholder="请选择输入内容..." suffix-icon="el-icon-search" v-model="messageParam">
+                </el-input>
+                <li class="refreshIcon el-icon-refresh" title="刷新"></li>
+            </div>
+            <div class="container">
+                <ul class="messagebox">
+                <li class="boxLi" v-for="notice in noticeData" :key="notice.pkId" @click="handelNotice(notice)">
+                    <p class="title">
+                        <el-badge :is-dot="notice.isRead=='0'">{{notice.remindTital}}</el-badge>
+                    </p>
+                    <div class="content">
+                        <span>{{notice.remindContent}}</span>
+                    </div>
+                    <p class="footer">{{notice.crtTime}}</p>
+                </li>
+                </ul>
+            </div>
+        </div>
+    </el-drawer>
+</template>
+
+<script>
+    export default {
+        data() {
+            return {
+                messageParam: '',
+                drawer: false,
+                direction: 'rtl'
+            }
+        },
+        props: {
+            noticeData: {
+                type: Array,
+                default: function () {
+                    return []
+                }
+            },
+            showDrawer: {
+                type: Boolean,
+                default: false
+            }
+        },
+        methods: {
+            handelNotice(notice){
+                notice.isRead = '1';
+            },
+            handleClose(){
+                this.$emit('noticeDrawerClose');
+            }
+        },
+    };
+</script>
+
+<style>
+</style>
