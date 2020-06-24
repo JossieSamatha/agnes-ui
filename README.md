@@ -11,10 +11,10 @@ yarn install
 
 ### 本地运行
 ```
-npm run serve
+yarn serve
 ```
 
 ### 编译打包
 ```
-npm run build
+yarn build
 ```
