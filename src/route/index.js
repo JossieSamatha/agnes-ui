@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import LoginView from "@hex/goframe-ui-admin/src/views/login"
+import LoginView from "@hex/ares-ui/src/views/login"
 import LayoutMain from "../layout/main"
 
 Vue.use(Router);

@@ -16,7 +16,7 @@
     "unit": "run-s lint test:unit"
   },
   "dependencies": {
-    "@hex/goframe-ui-admin": "5.0.0-beta.5",
+    "@hex/ares-ui": "5.0.1",
     "@hex/goframe-ui": "^5.0.4",
     "core-js": "^3.6.4",
     "echarts": "^4.8.0",
