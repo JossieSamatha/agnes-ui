@@ -122,6 +122,7 @@
             }
         },
         async mounted() {
+            console.log(toColumn(this.$store.getters.menus))
             //默认加载首页
             this.showMain();
             this.$app.registerCmd('gf.changePwd',() => this.changePwd());
