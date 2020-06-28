@@ -48,7 +48,7 @@
 
 <script>
     import noticeData from './noticeData'
-    import {toColumn} from "@hex/goframe-ui-admin/src/utils/menu";
+    import {toColumn} from "@hex/ares-ui/src/utils/menu";
     import init from './initMenus'
     export default {
         data() {

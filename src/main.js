@@ -4,12 +4,12 @@ import App from "./App.vue";
 import Pages from "./pages/index";
 import srcPage from '../src/index';
 import Gfui from "@hex/goframe-ui";
-import AresUI from '@hex/goframe-ui-admin';
+import AresUI from '@hex/ares-ui';
 import router from "./route/index";
 import draggable from "vuedraggable";
 import VueGridLayout from 'vue-grid-layout';
 import echarts from 'echarts'
-import store from '@hex/goframe-ui-admin/src/store/index';
+import store from '@hex/ares-ui/src/store/index';
 
 import './utils/permission';
 import "element-ui/lib/theme-chalk/index.css";
