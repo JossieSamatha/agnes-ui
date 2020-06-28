@@ -28,7 +28,7 @@
     @import "~@hex/goframe-ui/src/lib/tabs/chrome-tabs.css";
     @import "~@hex/goframe-ui/src/lib/semantic-ui-css/semantic.css";
     @import "~@hex/goframe-ui/src/style/gf-ui.css";
-    @import "~@hex/goframe-ui-admin/src/style/gf.css";
+    @import "~@hex/ares-ui/src/style/gf.css";
 
     html, body {
         height: 100%;
