@@ -76,9 +76,10 @@
                         return false;
                     }
                     let data = that.$utils.deepClone(that.form);
-                    this.$api.AicmPluginFuncApi.add(data).then(function (resp) {
+                    this.$api.AgnesToolManageApi.saveMsg(data).then(function (resp) {
                         if (resp && resp.ok) {
                             that.$message.success("保存成功");
+                            that.close();
                         } else {
                             that.$message.error(resp.message || '保存失败');
                         }
@@ -86,7 +87,7 @@
                 });
             },
             close(){
-
+                this.$nav.closeCurrentTab()
             }
         },
         watch:{

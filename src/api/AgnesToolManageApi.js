@@ -8,7 +8,7 @@ class AgnesToolManageApi {
         })
     }
 
-    save(params) {
+    saveMsg(params) {
         return request({
             url: '/agnes/msg/saveMsg',
             method: 'post',
