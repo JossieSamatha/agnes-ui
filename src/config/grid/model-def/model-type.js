@@ -7,29 +7,13 @@ const colButtons = [
 
 export default {
     columnDefs: [
+        {headerName: "名称", field: "typeName"},
         column.colCrtUser,
         column.colCrtTm,
         column.buildOpCol(120, colButtons)
     ],
-    rowData: [
-        {
-            "typeName": "类型名称1",
-            "createTime": "2020-01-01 12:00:00",
-            "createUser": "李一（123123）"
-        },
-        {
-            "typeName": "类型名称3",
-            "createTime": "2020-01-01 12:00:00",
-            "createUser": "李一（123123）"
-        },
-        {
-            "typeName": "类型名称3",
-            "createTime": "2020-01-01 12:00:00",
-            "createUser": "李一（123123）"
-        }
-    ],
     ext: {
-        // fetchUrl: "/api/report/org/list",    //后台查询数据的URL地址
+        fetchUrl: "/agnes-ac/v1/config/model/type/list",    //后台查询数据的URL地址
         fetchMethod: 'get',
         pagingMode: false, //不分页
         checkboxColumn: 1, //是否显示checkbox列,

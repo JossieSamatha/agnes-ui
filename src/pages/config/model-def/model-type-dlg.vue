@@ -2,8 +2,8 @@
     <div>
         <el-form :model="form" :disabled="mode==='view'" ref="form" :rules="rules" label-width="85px"
                  style="padding: 10px;">
-            <el-form-item prop="typeName" label="类型名称">
-                <gf-input type="text" v-model="form.typeName" size="small"/>
+            <el-form-item label="类型名称" prop="modelType.typeName">
+                <gf-input type="text" v-model="form.modelType.typeName"/>
             </el-form-item>
 
             <el-form-item label="字段编辑">
@@ -30,50 +30,33 @@
         data() {
             return {
                 form: {
-                    typeName: '',
+                    modelType: {
+                        modelTypeId: '',
+                        typeName: ''
+                    },
                     fields: []
                 },
                 rules: {
-                    typeName: [{required: true, message: "请输入类型名称"}],
+                    'modelType.typeName': [{required: true, message: "请输入模型名称"}],
                 },
             }
         },
 
-        created() {
-            Object.assign(this.form, this.row);
-            this.fetchFields();
+        beforeMount() {
+            Object.assign(this.form.modelType, this.row);
+            if (this.form.modelType.modelTypeId) {
+                const p = this.fetchFields();
+                this.$app.blockingApp(p);
+            }
         },
         methods: {
-            fetchFields() {
-                //todo load data
-                this.form.fields = [
-                    {
-                        "fieldId": "字段ID-1",
-                        "fieldName": "字段名称-1",
-                        "fieldType": "01",
-                        "mustFill": "1",
-                        "maxLen": 256,
-                        "createTime": "2020-01-01 12:00:00",
-                        "createUser": "李一（123123）"
-                    },
-                    {
-                        "fieldId": "字段ID-2",
-                        "fieldName": "字段名称-2",
-                        "fieldType": "01",
-                        "mustFill": "1",
-                        "maxLen": 256,
-                        "createTime": "2020-01-01 12:00:00",
-                        "createUser": "李一（123123）"
-                    },
-                    {
-                        "fieldId": "字段ID-3",
-                        "fieldName": "字段名称-3",
-                        "fieldType": "01",
-                        "mustFill": "1",
-                        "maxLen": 256,
-                        "createTime": "2020-01-01 12:00:00",
-                        "createUser": "李一（123123）"
-                    }];
+            async fetchFields() {
+                try {
+                    const resp = await this.$api.modelConfigApi.getModelFieldList(this.form.modelType.modelTypeId);
+                    this.form.fields = resp.data;
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
             },
             async save() {
                 const ok = await this.$refs['form'].validate();
@@ -82,11 +65,13 @@
                 }
 
                 try {
-                    //todo post to server
+                    const p = this.$api.modelConfigApi.saveModel(this.form);
+                    await this.$app.blockingApp(p);
+
                     if (this.actionOk) {
                         await this.actionOk(this.form, this.row);
                     }
-                    this.$msg.info('保存成功');
+                    this.$msg.success('保存成功');
                     this.$dialog.close(this);
                 } catch (reason) {
                     this.$msg.error(reason);

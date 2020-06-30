@@ -12,8 +12,13 @@ function showWarning(msg, title = "提示") {
 }
 
 function showError(reason, title = "错误") {
-    const msg = reason.message ? reason.message : reason;
-
+    const resp = reason.response ? reason.response.data : null;
+    let msg;
+    if (resp) {
+        msg = `${resp.code} - ${resp.message}`;
+    } else {
+        msg = reason.message ? reason.message : reason;
+    }
     vue.$msgbox({
         type: "error",
         title: title,
@@ -65,6 +70,7 @@ async function ask(msg) {
 export default {
     error: showError,
     msg: showMessage,
+    success: showMessage,
     warning: showWarning,
     info: showInfo,
     notify: showNotify,

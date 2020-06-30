@@ -2,8 +2,8 @@
     <div>
         <el-form class="fit-box" :disabled="mode==='view'" :model="form" ref="form" :rules="rules" label-width="85px"
                  style="padding: 10px;">
-            <el-form-item label="字段编码" prop="fieldId">
-                <gf-input type="text" v-model="form.fieldId"/>
+            <el-form-item label="字段编码" prop="fieldKey">
+                <gf-input type="text" v-model="form.fieldKey"/>
             </el-form-item>
             <el-form-item label="字段名称" prop="fieldName">
                 <gf-input type="text" v-model="form.fieldName"/>
@@ -11,14 +11,11 @@
             <el-form-item label="字段类型" prop="inputType">
                 <gf-dict-select dict-type="AGNES_FIELD_TYPE" v-model="form.fieldType"/>
             </el-form-item>
-            <el-form-item label="字段长度" prop="maxLen">
-                <gf-input type="text" v-model.number="form.maxLen" name="maxLen"/>
-            </el-form-item>
             <el-form-item label="是否必填">
-                <gf-dict-radio-group dict-type="AGNES_YES_NO" v-model="form.mustFill"/>
+                <gf-dict-radio-group dict-type="GF_BOOL_TYPE" v-model="form.mustFill"/>
             </el-form-item>
         </el-form>
-        <dialog-footer :ok-button="mode !== 'view'" :on-save="onSave"></dialog-footer>
+        <dialog-footer :ok-button="mode !== 'view'" :on-save="onSave" ok-button-title="确定"></dialog-footer>
     </div>
 </template>
 
@@ -27,14 +24,13 @@
         data() {
             return {
                 form: {
-                    fieldId: '',
+                    fieldKey: '',
                     fieldName: '',
-                    inputType: '01',
-                    maxLen: 256,
+                    fieldType: '01',
                     mustFill: '0'
                 },
                 rules: {
-                    fieldId: [{required: true, message: "请输入字段名称"}],
+                    fieldKey: [{required: true, message: "请输入字段编码"}],
                     fieldName: [{required: true, message: "请输入字段名称"}]
                 },
             };

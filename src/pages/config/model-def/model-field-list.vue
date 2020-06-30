@@ -22,6 +22,13 @@
                 }
             }
         },
+        watch: {
+            rowData(value) {
+                if (this.grid) {
+                    this.grid.setRowData(value);
+                }
+            }
+        },
         methods: {
             onReady() {
                 this.grid = this.$refs.grid;
@@ -39,7 +46,7 @@
                     FieldDlg,
                     {
                         args: {row, mode, actionOk},
-                        width: '50%',
+                        width: '600px',
                         title: this.$dialog.formatTitle('字段', mode),
                     }
                 );

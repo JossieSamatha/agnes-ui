@@ -1,7 +1,7 @@
-const colCrtUser = {headerName: "创建人", field: "createUser"};
-const colCrtTm = {headerName: "创建时间", field: "createTime"};
+const colCrtUser = {headerName: "创建人", field: "crtUser"};
+const colCrtTm = {headerName: "创建时间", field: "crtTs"};
 const colUpdUser = {headerName: "更新人", field: "updateUser"};
-const colUpdTm = {headerName: "更新时间", field: "updateTime"};
+const colUpdTm = {headerName: "更新时间", field: "updateTs"};
 
 
 function buildOpCol(width, buttons) {

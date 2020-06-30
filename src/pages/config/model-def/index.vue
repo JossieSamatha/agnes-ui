@@ -1,6 +1,6 @@
 <template>
     <div>
-        <gf-grid ref="grid" grid-no="agnes-model-type" @row-double-click="showModel">
+        <gf-grid @row-double-click="editModel" grid-no="agnes-model-type" ref="grid">
             <template slot="right-before">
                 <gf-button @click="addModel" size="mini">添加</gf-button>
             </template>
@@ -26,7 +26,7 @@
                     {
                         args: {row, mode, actionOk},
                         width: '50%',
-                        title: this.$dialog.formatTitle('类型', mode),
+                        title: this.$dialog.formatTitle('模型类型', mode),
                     }
                 );
             },
@@ -47,12 +47,12 @@
             },
             async deleteModel(params) {
                 const row = params.data;
-                const ok = await this.$msg.ask(`确认删除类型:[${row.typeName}]吗, 是否继续?`);
+                const ok = await this.$msg.ask(`确认删除模型类型:[${row.typeName}]吗, 是否继续?`);
                 if (!ok) {
                     return
                 }
                 try {
-                    //todo call delete api
+                    this.$api.modelConfigApi.deleteModel(row.modelTypeId);
                     this.reloadData();
                 } catch (reason) {
                     this.$msg.error(reason);

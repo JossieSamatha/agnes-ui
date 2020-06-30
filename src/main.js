@@ -11,6 +11,8 @@ import VueGridLayout from 'vue-grid-layout';
 import echarts from 'echarts'
 import store from '@hex/ares-ui/src/store/index';
 import Config from "./config/index";
+import Api from "./api/index";
+import gridApi from "./api/grid-api";
 
 import './utils/permission';
 import "element-ui/lib/theme-chalk/index.css";
@@ -27,10 +29,14 @@ Vue.use(echarts);
 Vue.prototype.echarts = echarts;
 Vue.use(srcPage);
 Vue.use(AresUI);
-Vue.use(Gfui, {tabBar: {cacheMultiView: true, hideTitleBar: false}});
+Vue.use(Gfui, {
+    tabBar: {cacheMultiView: true, hideTitleBar: false},
+    grid: {gridApi}
+});
 Gfui.use(Pages);
 Gfui.use(AresUI);
 Gfui.use(Config);
+Gfui.use(Api);
 
 Vue.component('draggable', draggable);
 Vue.component('GridLayout', VueGridLayout.GridLayout);
