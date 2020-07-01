@@ -52,7 +52,8 @@
                     return
                 }
                 try {
-                    this.$api.modelConfigApi.deleteModel(row.modelTypeId);
+                    const p = this.$api.modelConfigApi.deleteModel(row.modelTypeId);
+                    await this.$app.blockingApp(p);
                     this.reloadData();
                 } catch (reason) {
                     this.$msg.error(reason);
