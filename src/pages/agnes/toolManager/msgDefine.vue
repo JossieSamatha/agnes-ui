@@ -4,15 +4,7 @@
             <gf-input v-model.trim="form.msgName"  placeholder="渠道收件消息" style="width: 50%"/>
         </el-form-item>
         <el-form-item label="topic" prop="msgTopic">
-            <!--            <gf-dict v-model="form.msgTopic" dict-type="sto" />-->
-            <el-select v-model="form.msgTopic" placeholder="请选择" style="width: 50%">
-                <el-option
-                        v-for="item in msgTopicOptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select>
+            <gf-dict v-model="form.msgTopic" dict-type="AC_MSG_TOPIC" style="width: 50%"/>
         </el-form-item>
         <el-form-item label="消息对象类型" prop="msgObjId">
             <el-select v-model="form.msgObjId" placeholder="请选择" style="width: 50%">
@@ -38,7 +30,6 @@
             return {
                 form:{msgName:'',msgTopic:'',msgObjId:''},
                 msgObjOptions:[],
-                msgTopicOptions:[{value:"1",label:"消息topic1"},{value:"2",label:"消息topic2"}],
                 options:[{value:"xit",label:"渠道类收件对象"},{value:"waibu",label:"文件到达对象"}],
                 rules: {
                     msgName: [
