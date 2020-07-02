@@ -16,8 +16,8 @@
     "unit": "run-s lint test:unit"
   },
   "dependencies": {
-    "@hex/ares-ui": "5.0.1",
-    "@hex/goframe-ui": "^5.0.4",
+    "@hex/ares-ui": "^5.0.1",
+    "@hex/gf-ui": "^5.0.11",
     "core-js": "^3.6.4",
     "echarts": "^4.8.0",
     "element-ui": "^2.13.0",
