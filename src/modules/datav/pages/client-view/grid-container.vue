@@ -90,7 +90,7 @@
             },
 
             getImgPath(imgName){
-                return require('../../../assets/img/datav/'+imgName+'.png');
+                return require('../../../../assets/img/datav/'+imgName+'.png');
             },
 
             addUnitGrid(newUnitObj) {

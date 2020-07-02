@@ -1,4 +1,4 @@
-import column from "../../column"
+import column from "../../../../../config/column"
 
 const colButtons = [
     {key: 'editModel', title: '编辑'},
@@ -15,7 +15,7 @@ export default {
     ext: {
         fetchUrl: "/agnes-ac/v1/config/model/type/list",    //后台查询数据的URL地址
         fetchMethod: 'get',
-        pagingMode: false, //不分页
+        pagingMode: true, //不分页
         checkboxColumn: 1, //是否显示checkbox列,
         enableExportLocal: false
     }
