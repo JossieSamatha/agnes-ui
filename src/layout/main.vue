@@ -97,7 +97,7 @@
                 });
             },
             showMain() {
-                let viewId = 'datav.clientview';
+                let viewId = 'agnes.msg.def';
                 let pageView = this.$app.views.getView(viewId);
                 let tabView = Object.assign({args: {}, id: viewId}, pageView);
                 this.$nav.showView(tabView);
