@@ -16,7 +16,7 @@
                 </el-option>
             </el-select>
         </el-form-item>
-        <el-row class="gf-form-btn2" style="margin-left: 20%" >
+        <el-row class="gf-form-btn2" v-if="mode!=='view'" style="margin-left: 20%" >
             <el-button type="primary" @click="save()"  icon="el-icon-success">提交</el-button>
             <el-button @click="close" icon="el-icon-circle-close">取消</el-button>
         </el-row>
