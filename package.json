@@ -13,7 +13,8 @@
     "lint": "vue-cli-service lint -f json -o report.json",
     "deploy": "yarn publish --registry=http://repo.hexinfo.cn:8000/artifactory/api/npm/npm-goframe/ ",
     "test:unit": "vue-cli-service test:unit",
-    "unit": "run-s lint test:unit"
+    "unit": "run-s lint test:unit",
+    "api": "swagger-api http://localhost:9002/v2/api-docs"
   },
   "dependencies": {
     "@hex/ares-ui": "^5.0.1",
@@ -29,6 +30,7 @@
     "vuex": "^3.1.2"
   },
   "devDependencies": {
+    "@hex/swagger-api": "1.0.6",
     "@vue/cli-plugin-babel": "^4.2.0",
     "@vue/cli-plugin-eslint": "^4.2.0",
     "@vue/cli-plugin-unit-jest": "^4.2.3",
@@ -57,7 +59,10 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {},
+    "rules": {
+      "no-debugger": "error",
+      "no-console": "error"
+    },
     "overrides": [
       {
         "files": [
