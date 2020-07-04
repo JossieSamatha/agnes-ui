@@ -1,4 +1,4 @@
-import column from "../../column"
+import column from "../../../../../config/column"
 
 const colButtons = [
     {key: 'editModel', title: '编辑'},
