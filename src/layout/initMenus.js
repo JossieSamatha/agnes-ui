@@ -1,35 +1,38 @@
 function initMenus(menus) {
+    AllMenus.allMenu.children = [];
+    AllMenus.markMenu = [];
     var index = 0;
-    var hander = {
-        menuid: index++,
-        menucode: "gf.manage",
-        menuname: "系统管理",
-        children: []
-    }
-    menus.forEach(data => {
-        var menu = {
+    menus.forEach(colnums => {
+        var hander = {
             menuid: index++,
-            menucode: data.code,
-            menuname: data.title,
+            menucode: colnums.code,
+            menuname: colnums.title,
             children: []
         }
-        if(data.columns !== null){
-            data.columns[0].menus.forEach(column => {
-                menu.children.push({
+        if(colnums.columns !== null){
+            colnums.columns.forEach(menuss=>{
+                var colnum = {
                     menuid: index++,
-                    menucode: column.code,
-                    menuname: column.title,
-                    view: column.view
-                })
+                    menucode: menuss.code,
+                    menuname: menuss.title,
+                    children: []
+                }
+                if(menuss.menus!==null){
+                    menuss.menus.forEach(data=>{
+                        colnum.children.push({
+                            menuid: index++,
+                            menucode: data.code,
+                            menuname: data.title,
+                            actionUrl:data.actionUrl
+                        })
+                    })
+                }
+                hander.children.push(colnum)
             })
         }
-        if (data.code === "gf.system.manage" || data.code === "gf.dev.manage") {
-            hander.children.push(menu);
-        }else {
-            AllMenus.allMenu.children.push(menu);
-        }
+        AllMenus.allMenu.children.push(hander);
     })
-    AllMenus.allMenu.children.push(hander);
+
     return AllMenus
 }
 
