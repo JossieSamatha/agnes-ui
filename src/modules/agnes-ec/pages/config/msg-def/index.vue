@@ -54,7 +54,10 @@
                 try {
                     const p = this.$api.msgDefineApi.deleteMsg(row.msgId);
                     await this.$app.blockingApp(p);
-                    this.reloadData();
+                    this.$nextTick(function () {
+                        this.reloadData();
+                    })
+
                 } catch (reason) {
                     this.$msg.error(reason);
                 }

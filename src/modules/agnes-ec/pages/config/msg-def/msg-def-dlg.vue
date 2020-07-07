@@ -67,7 +67,7 @@
                     await this.$app.blockingApp(p);
 
                     if (this.actionOk) {
-                        await this.actionOk(this.form, this.row);
+                        await this.actionOk();
                     }
                     this.$msg.success('保存成功');
                     this.$dialog.close(this);
