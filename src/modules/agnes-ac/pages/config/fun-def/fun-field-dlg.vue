@@ -9,7 +9,7 @@
                 <gf-input type="text" v-model="form.fieldName"/>
             </el-form-item>
             <el-form-item label="参数类型" prop="inputType">
-                <gf-input type="text" v-model="form.fieldType"/>
+                <gf-dict-select dict-type="AC_FUN_TYPE" v-model="form.fieldType"/>
             </el-form-item>
             <el-form-item label="是否必填">
                 <gf-dict-radio-group dict-type="GF_BOOL_TYPE" v-model="form.mustFill"/>
@@ -29,12 +29,12 @@
                     fieldType: '',
                     mustFill: '0'
                 },
-                rules: {
-                    fieldId: [{required: true, message: "请输入英文名称"}],
-                    fieldName: [{required: true, message: "请输入中文名称"}],
-                    inputType: [{required: true, message: "请输入字段类型"}]
-
-                },
+                // rules: {
+                //     fieldId: [{required: true, message: "请输入英文名称"}],
+                //     fieldName: [{required: true, message: "请输入中文名称"}],
+                //     inputType: [{required: true, message: "请输入字段类型"}]
+                //
+                // },
             };
         },
         props: {
