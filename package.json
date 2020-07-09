@@ -61,7 +61,7 @@
     },
     "rules": {
       "no-debugger": "error",
-      "no-console": "off"
+      "no-console": "error"
     },
     "overrides": [
       {
