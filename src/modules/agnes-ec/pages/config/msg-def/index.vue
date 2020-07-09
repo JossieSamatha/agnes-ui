@@ -57,7 +57,6 @@
                     this.$nextTick(function () {
                         this.reloadData();
                     })
-
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
