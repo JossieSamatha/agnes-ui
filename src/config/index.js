@@ -1,5 +1,8 @@
+import Grid from './grid/index';
+
 const Loading = {
-    load: function () {
+    load: function (Gfui) {
+        Gfui.use(Grid);
     }
 };
 
