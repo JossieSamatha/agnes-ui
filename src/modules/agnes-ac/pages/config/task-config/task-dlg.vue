@@ -4,7 +4,7 @@
             <el-form :model="form" :disabled="mode==='view'" ref="form" :rules="rules" label-width="85px"
                      style="padding: 10px">
                 <el-form-item label="执行方式" prop="exeType" ref="exeType" v-show="this.mode==='add'">
-                    <gf-dict-radio-group @change="exeTypeChange"  dict-type="AC_EXE_TYPE" name="exeType" v-model="form.exeType"/>
+                    <gf-dict-radio-group  dict-type="AC_EXE_TYPE" name="exeType" v-model="form.exeType"/>
                 </el-form-item>
                 <el-form-item label="执行时间" prop="exeTime" ref="exeTime" v-show="form.exeType==='02'||this.mode==='edit'">
                     <!-- <gf-date-picker type="date" v-model="form.exeTime"/> -->
@@ -24,7 +24,7 @@
                     <gf-dict dict-type="AC_BIZ_TAG" v-model="form.bizTag"/>
                 </el-form-item>
                 <el-form-item >
-                    <el-checkbox @change="checkboxChange" v-model="checked">根据业务参数批量生成任务</el-checkbox>
+                    <el-checkbox v-model="checked">根据业务参数批量生成任务</el-checkbox>
                 </el-form-item>
                 <el-form-item label="关联产品" prop="bizParam" ref="bizParam" v-show="checked">
                     <!-- <gf-combobox v-model="form.bizParam"/> -->
