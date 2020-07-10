@@ -7,7 +7,7 @@
                 <gf-dict-radio-group @change="exeTypeChange"  dict-type="AC_EXE_TYPE" name="exeType" v-model="form.exeType"/>
             </el-form-item>
             <el-form-item label="执行时间" prop="exeTime" ref="exeTime" style="display:none;">
-                <!-- <gf-date-picker type="date" v-model="form.startTime"/> -->
+                 <gf-date-picker type="date" v-model="form.exeTime"/>
                 <el-date-picker
                 v-model="form.exeTime"
                 type="datetime"
