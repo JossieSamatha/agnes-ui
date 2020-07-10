@@ -49,7 +49,7 @@
 <script>
     import noticeData from './noticeData'
     import {toColumn} from "@hex/ares-ui/src/utils/menu";
-    import init from './initMenus'
+    import init from './init-menus'
     export default {
         data() {
             return {
