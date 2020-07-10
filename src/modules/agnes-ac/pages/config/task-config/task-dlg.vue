@@ -3,10 +3,10 @@
         <el-scrollbar style="height:400px">
             <el-form :model="form" :disabled="mode==='view'" ref="form" :rules="rules" label-width="85px"
                      style="padding: 10px">
-                <el-form-item label="执行方式" prop="exeType" ref="exeType">
+                <el-form-item label="执行方式" prop="exeType" ref="exeType" v-show="this.mode==='add'">
                     <gf-dict-radio-group @change="exeTypeChange"  dict-type="AC_EXE_TYPE" name="exeType" v-model="form.exeType"/>
                 </el-form-item>
-                <el-form-item label="执行时间" prop="exeTime" ref="exeTime" v-show="form.exeType==='02'">
+                <el-form-item label="执行时间" prop="exeTime" ref="exeTime" v-show="form.exeType==='02'||this.mode==='edit'">
                     <!-- <gf-date-picker type="date" v-model="form.exeTime"/> -->
                     <el-date-picker
                             v-model="form.exeTime"
@@ -101,10 +101,7 @@ export default {
         Object.assign(this.form, this.row);
     },
     mounted(){
-        if(this.mode==="edit"){
-            this.$refs.exeType.$el.style.cssText='display:none';
-            this.$refs.exeTime.$el.style.cssText='display:display';
-        }
+      
     },
     methods:{
 
