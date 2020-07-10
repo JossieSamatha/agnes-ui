@@ -1,55 +1,56 @@
 <template>
     <div>
         <el-scrollbar class="pagescroll-vertical autoHeight" :native="false" :noresize="false">
-        <el-form :model="form" :disabled="mode==='view'" ref="form" :rules="rules" label-width="85px"
-                 style="padding: 10px;">
-            <el-row :gutter="20">
-                <el-col :span="8">
-                    <el-form-item label="函数编号" prop="fnCode">
-                        <gf-input type="text" v-model="form.reFunDef.fnCode"/>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                    <el-form-item label="函数名称" prop="fnName">
-                        <gf-input type="text" v-model="form.reFunDef.fnName"/>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                    <el-form-item label="函数类型" prop="fnType">
-                        <gf-dict-select dict-type="AGNES_FUN_TYPE" v-model="form.reFunDef.fnType" ></gf-dict-select>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row :gutter="20">
-                <el-col :span="8">
-                    <el-form-item label="目标地址" prop="fnTarget">
-                        <gf-input type="text" v-model="form.reFunDef.fnTarget"/>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="16">
-                    <el-form-item label="函数描述" prop="fnDesc">
-                        <gf-input type="text" v-model="form.reFunDef.fnDesc"/>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row v-if="form.reFunDef.fnType === 'sql'">
-                <el-col :span="8">
-                    <el-form-item label="数据源" prop="bizParamDb">
-                        <gf-dict dictType="AGNES_DATASOURCE" v-model="form.reFunDef.bizParamDb"></gf-dict>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="16">
-                    <el-form-item label="SQL语句" prop="bizParamSql">
-                        <gf-input type="textarea" v-model="form.reFunDef.bizParamSql" :max-byte-len="256" resize="none"
-                                  :autosize="{minRows: 2, maxRows: 6}" clear-regex="[^\x00-\xff]"/>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-form-item label="参数定义">
-                <fun-field-list :row-data="form.reFunDef.fnArgs"></fun-field-list>
-            </el-form-item>
-        </el-form>
-        <dialog-footer :on-save="save"></dialog-footer>
+            <el-form :model="form" :disabled="mode==='view'" ref="form" :rules="rules" label-width="85px"
+                     style="padding: 10px;">
+                <el-row :gutter="20">
+                    <el-col :span="8">
+                        <el-form-item label="函数编号" prop="fnCode">
+                            <gf-input type="text" v-model="form.reFunDef.fnCode"/>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="函数名称" prop="fnName">
+                            <gf-input type="text" v-model="form.reFunDef.fnName"/>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="函数类型" prop="fnType">
+                            <gf-dict-select dict-type="AGNES_FUN_TYPE" v-model="form.reFunDef.fnType"></gf-dict-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="8">
+                        <el-form-item label="目标地址" prop="fnTarget">
+                            <gf-input type="text" v-model="form.reFunDef.fnTarget"/>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="16">
+                        <el-form-item label="函数描述" prop="fnDesc">
+                            <gf-input type="text" v-model="form.reFunDef.fnDesc"/>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row v-if="form.reFunDef.fnType === 'sql'">
+                    <el-col :span="8">
+                        <el-form-item label="数据源" prop="bizParamDb">
+                            <gf-dict dictType="AGNES_DATASOURCE" v-model="form.reFunDef.bizParamDb"></gf-dict>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="16">
+                        <el-form-item label="SQL语句" prop="bizParamSql">
+                            <gf-input type="textarea" v-model="form.reFunDef.bizParamSql" :max-byte-len="256"
+                                      resize="none"
+                                      :autosize="{minRows: 2, maxRows: 6}" clear-regex="[^\x00-\xff]"/>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-form-item label="参数定义">
+                    <fun-field-list :row-data="form.reFunDef.fnArgs"></fun-field-list>
+                </el-form-item>
+            </el-form>
+            <dialog-footer :on-save="save"></dialog-footer>
         </el-scrollbar>
     </div>
 </template>
