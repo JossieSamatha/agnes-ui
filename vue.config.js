@@ -5,6 +5,14 @@ module.exports = {
     devServer: {
         port: 8006,
         proxy: {
+            '/api/agnes-ec': {
+                target: 'http://127.0.0.1:9003',
+                ws: true,
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api/agnes-ec': '/'
+                }
+            },
             '/api/agnes-ac': {
                 target: 'http://127.0.0.1:9002',
                 ws: true,
