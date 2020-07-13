@@ -1,4 +1,4 @@
-import pages from "./pages/index";
+import pages from "./client-view/index";
 
 // 定义 Loading 对象
 const datav = {
