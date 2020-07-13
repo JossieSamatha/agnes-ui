@@ -16,3 +16,8 @@
 .feedbackPopover .el-form .el-form-item{
     margin-bottom: 0;
 }
+
+.taskDefForm.el-form .el-form-item {
+    margin-bottom: 5px;
+}
+
