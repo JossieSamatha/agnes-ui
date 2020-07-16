@@ -1,15 +1,16 @@
 <template>
     <div>
-        <gf-grid @row-double-click="showModel" grid-no="agnes-msg-def" ref="grid">
+        <gf-grid @row-double-click="showOrgType" grid-no="agnes-org-type-list" ref="grid">
             <template slot="left">
-                <gf-button @click="addModel" size="mini">添加</gf-button>
+                <gf-button @click="addOrgType" size="mini">添加</gf-button>
+                <gf-button @click="deleteOrgType" size="mini">删除</gf-button>
             </template>
         </gf-grid>
     </div>
 </template>
 
 <script>
-    import MsgDefDlg from "./msg-def-dlg";
+    import OrgTypeDlg from "./org-type-dlg";
 
     export default {
         methods: {
@@ -22,37 +23,39 @@
                     return;
                 }
                 this.$nav.showDialog(
-                    MsgDefDlg,
+                    OrgTypeDlg,
                     {
                         args: {row, mode, actionOk},
                         width: '40%',
-                        title: this.$dialog.formatTitle('消息定义', mode),
+                        closeOnClickModal: false,
+                        title: this.$dialog.formatTitle('机构类型', mode),
                     }
                 );
             },
-            async onAddModel() {
+            async onAddOrgType() {
                 this.reloadData();
             },
-            async onEditModel() {
+            async onEditOrgType() {
                 this.reloadData();
             },
-            addModel() {
-                this.showDlg('add', {}, this.onAddModel.bind(this));
+            addOrgType() {
+                this.showDlg('add', {}, this.onAddOrgType.bind(this));
             },
-            showModel(params) {
+            showOrgType(params) {
                 this.showDlg('view', params.data);
             },
-            editModel(params) {
-                this.showDlg('edit', params.data, this.onEditModel.bind(this));
+            editOrgType(params) {
+                this.showDlg('edit', params.data, this.onEditOrgType.bind(this));
             },
-            async deleteModel(params) {
-                const row = params.data;
-                const ok = await this.$msg.ask(`确认删除消息:[${row.msgName}]吗, 是否继续?`);
+            async deleteOrgType() {
+                const row = this.$refs.grid.getSelectedRows();
+                const ok = await this.$msg.ask(`确认删除选中的机构类型吗, 是否继续?`);
                 if (!ok) {
                     return
                 }
+                const orgTypeIds=this.lodash.map(row,'orgTypeId');
                 try {
-                    const p = this.$api.msgDefineApi.deleteMsg(row.msgId);
+                    const p = this.$api.orgTypeApi.deleteOrgType(orgTypeIds);
                     await this.$app.blockingApp(p);
                     this.reloadData();
                 } catch (reason) {
