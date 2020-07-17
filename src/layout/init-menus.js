@@ -1,7 +1,11 @@
 function initMenus(menus) {
-    AllMenus.allMenu.children = [];
-    AllMenus.markMenu = [];
-    var index = 0;
+    let AllMenus = {
+        allMenu: {
+            menuid: "root",
+            children: []
+        },
+        markMenu: [],
+    }
     menus.forEach(colnums => {
         var hander = {
             menuid: index++,
@@ -35,14 +39,7 @@ function initMenus(menus) {
 
     return AllMenus
 }
-
-var AllMenus = {
-    allMenu: {
-        menuid: "root",
-        children: []
-    },
-    markMenu: [],
-}
+var index = 0;
 
 export default {
     initMenus

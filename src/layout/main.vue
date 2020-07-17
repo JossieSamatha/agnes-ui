@@ -4,9 +4,10 @@
             <img :src="require('../assets/img/logo-white.png')" alt="logo" class="gf-app-logo">
         </template>
         <template slot="menu">
-            <el-select class="studio-type" v-model="studioType" :popper-append-to-body="false">
-                <el-option value="0" label="应用模式（APP STUDIO）"></el-option>
-                <el-option value="1" label="管理模式（DEV STUDIO）"></el-option>
+            <el-select class="studioType" v-model="studioType" :popper-append-to-body="false"
+                       @change="studioTypeChange">
+                <el-option value="appMenus" label="应用模式（APP STUDIO）"></el-option>
+                <el-option value="adminMenus" label="管理模式（DEV STUDIO）"></el-option>
             </el-select>
         </template>
         <div class="top-menu-right" slot="nav-user-before">
@@ -53,13 +54,15 @@
         data() {
             return {
                 svgImg: this.$svgImg,
-                menus: init.initMenus(toColumn(this.$store.getters.menus)),
+                appMenus: {},
+                adminMenus: {},
+                menus:{},
                 noticeData: noticeData,
-                studioType: '0',
+                studioType: 'appMenus',
                 searchValue: '',
                 showNoticeDrawer: false,
                 feedbackContent: '',
-                feedbackShow: false,
+                feedbackShow: false
             }
         },
         methods: {
@@ -73,6 +76,33 @@
                 }
                 const tabView = Object.assign({args: {data: {}}}, pageView, {id: viewId || ''});
                 this.$nav.showView(tabView);
+            },
+            loadMenus(){
+                //初始化菜单
+                let _this = this;
+                let otherMenus = [];
+                let data = this.$store.getters.menus;
+                if(data){
+
+                    data.forEach(menu=> {
+                            if (menu.resCode === 'app') {
+                                Object.assign(_this.appMenus,init.initMenus(toColumn(menu.children)))
+                            }
+                            else if(menu.resCode === 'admin'){
+                                Object.assign(_this.adminMenus,init.initMenus(toColumn(menu.children)))
+                            }
+                            else {
+                                otherMenus.push(menu)
+                            }
+                    });
+                    const other = init.initMenus(toColumn(otherMenus));
+                    if(other.allMenu.children){
+                        other.allMenu.children.forEach(data=>{
+                            _this.adminMenus.allMenu.children.push(data)
+                        })
+                    }
+                    this.studioTypeChange('appMenus');
+                }
             },
             changePwd: function () {
                 let publicKey = this.$store.getters.appConfig.publicKey;
@@ -90,9 +120,8 @@
                 })
             },
             logout: function () {
-                let _this = this;
                 this.$store.dispatch('logout').then(() => {
-                    _this.$router.push({path: '/login'});
+                    this.$router.push({path: '/login'});
                 });
             },
             showMain() {
@@ -101,7 +130,16 @@
                 let tabView = Object.assign({args: {}, id: viewId}, pageView);
                 this.$nav.showView(tabView);
             },
-            handelNotice() {
+            studioTypeChange(val) {
+                if(val === 'appMenus'){
+                    this.showView('aicm.studio.web');
+                    this.menus = this.appMenus;
+                }else{
+                    this.showView('aicm.nuxeo.web');
+                    this.menus = this.adminMenus;
+                }
+            },
+            handelNotice(){
                 this.showNoticeDrawer = true;
             },
 
@@ -114,6 +152,8 @@
             }
         },
         async mounted() {
+            //加载菜单
+            this.loadMenus();
             //默认加载首页
             this.showMain();
             this.$app.registerCmd('gf.changePwd', () => this.changePwd());
