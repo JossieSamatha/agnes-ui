@@ -14,12 +14,6 @@ export default {
     deleteLinkMan(form) {
         return request.post("/agnes-dop/v1/dop/linkman/delete", form);
     },
-    checkLinkMan(form) {
-        return request.post("/agnes-dop/v1/dop/linkman/check", form);
-    },
-    checkGroup(form) {
-        return request.post("/agnes-dop/v1/dop/linkman/check/group", form);
-    },
     queryLinkManGroup() {
         return request.get("/agnes-dop/v1/dop/linkman/group", );
     },

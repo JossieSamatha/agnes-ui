@@ -3,6 +3,7 @@
         <gf-grid @row-double-click="editModel" grid-no="agnes-model-type" ref="grid">
             <template slot="right-before">
                 <gf-button @click="addModel" size="mini">添加</gf-button>
+                <gf-button @click="addModel" size="mini">删除</gf-button>
             </template>
         </gf-grid>
     </div>
@@ -17,7 +18,7 @@
                 this.$refs.grid.reloadData();
             },
             showDlg(mode, row, actionOk) {
-                if (mode !== 'add' && !row) {
+                if (mode !== 'add' && !row ) {
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
@@ -47,6 +48,11 @@
             },
             async deleteModel(params) {
                 const row = params.data;
+                let rows = this.$refs.grid.getSelectedRows();
+                if(!rows){
+                    this.$msg.warning("请选中一条记录!");
+                    return
+                }
                 const ok = await this.$msg.ask(`确认删除模型类型:[${row.typeName}]吗, 是否继续?`);
                 if (!ok) {
                     return
