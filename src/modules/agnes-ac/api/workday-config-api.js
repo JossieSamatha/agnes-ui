@@ -8,6 +8,9 @@ export default {
     saveWorkday(form) {
         return request.post("/agnes-ac/v1/config/workday/save", form);
     },
+    updateWorkday(form) {
+        return request.post("/agnes-ac/v1/config/workday/update", form);
+    },
     deleteWorkday(workdayId) {
         return request.post("/agnes-ac/v1/config/workday/delete", null, {params: {workdayId}});
     }
