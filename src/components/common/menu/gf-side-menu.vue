@@ -2,7 +2,8 @@
     <div class="gf-side-menu">
         <div class="menu-container">
             <div class="header">
-                <el-input class="search" placeholder="请输入关键词" suffix-icon="el-icon-search" v-model="searchValue"></el-input>
+                <el-input class="search" placeholder="请输入关键词" suffix-icon="el-icon-search"
+                          v-model="searchValue"></el-input>
             </div>
             <div class="scroll-container">
                 <div class="content">
@@ -11,7 +12,8 @@
                         <ul class="second-menu" v-for="submenu in menu.children" :key="submenu.menuid">
                             <li class="menu-label">
                                 <span @click="showMenuTab(submenu)">{{submenu.menuname}}</span>
-                                <i class="star fa fa-star-o" v-if="submenu.collect != 'true'" @click="collectChange('true',submenu)"></i>
+                                <i class="star fa fa-star-o" v-if="submenu.collect != 'true'"
+                                   @click="collectChange('true',submenu)"></i>
                                 <i class="star fa fa-star" v-else @click="collectChange('false',submenu)"></i>
                             </li>
                         </ul>
@@ -60,9 +62,9 @@
             }
         },
         computed: {
-            secondMenuObj(){
+            secondMenuObj() {
                 return this.sideMenu.children.map(function (menu) {
-                    if(!menu.children){
+                    if (!menu.children) {
                         menu.children = [];
                         menu.children.push(menu);
                     }
@@ -73,15 +75,22 @@
         methods: {
             showView: function (menu) {
                 const viewId = menu.menucode;
-                const pageView = this.$app.views.getView(viewId);
-                if (!pageView) {
-                    return;
+                let tabObj = {};
+                if(menu.actionUrl && menu.actionUrl.indexOf('goframe/p') !== -1){
+                    tabObj = menu;
+                    tabObj.title = menu.menuname;
+                    tabObj.ifIframe = true;
+                }else{
+                    tabObj = this.$app.views.getView(viewId);
                 }
-                const tabView = Object.assign({args: {data: menu}}, pageView, {id: viewId || ''});
+                if(!tabObj){
+                    return false;
+                }
+                const tabView = Object.assign({args: {data: menu}}, tabObj, {id: viewId || ''});
                 this.$nav.showView(tabView);
             },
 
-            showMenuTab(menu){
+            showMenuTab(menu) {
                 this.showView(menu);
                 this.closeSideMenu();
             },
@@ -90,11 +99,11 @@
                 this.activeMenu = menu.menuid;
             },
 
-            closeSideMenu(){
+            closeSideMenu() {
                 this.$emit("closeSideMenu");
             },
 
-            collectChange(type, menu){
+            collectChange(type, menu) {
                 this.$set(menu, 'collect', type);
                 this.$emit('markMenuChange', {type: type, menu: menu})
             }

@@ -45,11 +45,14 @@
         text-align: center;
         border-top: solid 1px #eee;
         padding-top: 15px;
-        margin: 0 -20px;
         padding-bottom: 10px;
     }
 
     .el-dialog .dialog-footer-bar.footer > button {
         padding: 6px 20px;
+    }
+
+    .el-dialog .dialog-footer-bar.footer > button.el-button--primary {
+        background-color: #476DBE;
     }
 </style>

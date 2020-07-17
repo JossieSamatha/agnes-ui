@@ -1,5 +1,5 @@
 <template>
-    <div class="left-side-container" :class="ifSideMenuFlod?'fold':''">
+    <div class="left-side-container" :class="ifSideMenuFlod?'fold':''" v-clickoutside="closeSideMenu">
         <div class="gf-vertical-expand" :class="ifSideMenuFlod?'fold':''">
             <div class="gf-menu entrance-menu" @click="menuChoose(allMenu)">
                 <el-tooltip :disabled="!ifSideMenuFlod" effect="dark" :content="platFormTitle" placement="right">
@@ -142,7 +142,14 @@
                         _that.editMenuCollect(setMenu, menu.children, type);
                     }
                 });
-            }
+            },
+
+            // // 点击其他地方隐藏侧边菜单
+            // sideMenuOtherClick(e){
+            //     if (e.target.className != 'left-side-container' && this.showSideMenu) {
+            //         this.closeSideMenu();
+            //     }
+            // }
         }
     }
 </script>

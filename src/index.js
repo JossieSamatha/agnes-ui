@@ -2,6 +2,7 @@ import Config from "./config/index";
 import Components from "./components/index";
 import Utils from "./utils/index.js";
 import modules from './modules/index';
+import directive from './directives/index'
 import draggable from "vuedraggable";
 
 
@@ -12,6 +13,7 @@ const AgnesUI = {
         Vue.use(Config);
         Vue.use(Components, options);
         Vue.use(Utils, options);
+        Vue.use(directive);
         Vue.component('draggable', draggable);
     },
     load: function (Gfui) {

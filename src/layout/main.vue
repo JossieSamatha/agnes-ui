@@ -4,8 +4,7 @@
             <img :src="require('../assets/img/logo-white.png')" alt="logo" class="gf-app-logo">
         </template>
         <template slot="menu">
-            <el-select class="studioType" v-model="studioType" :popper-append-to-body="false"
-                       @change="studioTypeChange">
+            <el-select class="studio-type" v-model="studioType" :popper-append-to-body="false">
                 <el-option value="0" label="应用模式（APP STUDIO）"></el-option>
                 <el-option value="1" label="管理模式（DEV STUDIO）"></el-option>
             </el-select>
@@ -48,7 +47,7 @@
 
 <script>
     import noticeData from './noticeData'
-    import {toColumn} from "@hex/ares-ui/src/utils/menu";
+    import {toColumn} from "./menus";
     import init from './init-menus'
     export default {
         data() {
@@ -60,14 +59,14 @@
                 searchValue: '',
                 showNoticeDrawer: false,
                 feedbackContent: '',
-                feedbackShow: false
+                feedbackShow: false,
             }
         },
         methods: {
             showView(viewId) {
                 this.view = viewId;
             },
-            showTabView: function(viewId){
+            showTabView: function (viewId) {
                 const pageView = this.$app.views.getView(viewId);
                 if (!pageView) {
                     return;
@@ -102,30 +101,23 @@
                 let tabView = Object.assign({args: {}, id: viewId}, pageView);
                 this.$nav.showView(tabView);
             },
-            studioTypeChange(val) {
-                if(val == '0'){
-                    this.showView('aicm.studio.web');
-                }else{
-                    this.showView('aicm.nuxeo.web');
-                }
-            },
-            handelNotice(){
+            handelNotice() {
                 this.showNoticeDrawer = true;
             },
 
-            noticeDrawerClose(){
+            noticeDrawerClose() {
                 this.showNoticeDrawer = false;
             },
 
-            handelfeedback(ifShow){
+            handelfeedback(ifShow) {
                 this.feedbackShow = ifShow;
             }
         },
         async mounted() {
             //默认加载首页
             this.showMain();
-            this.$app.registerCmd('gf.changePwd',() => this.changePwd());
-            this.$app.registerCmd('gf.logout',() => this.logout());
+            this.$app.registerCmd('gf.changePwd', () => this.changePwd());
+            this.$app.registerCmd('gf.logout', () => this.logout());
         }
     };
 </script>

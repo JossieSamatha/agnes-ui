@@ -189,13 +189,13 @@ form input[type=submit] {
     color: #fff;
 }
 
-/*studioType样式调整*/
+/*studio-type样式调整*/
 
-.gf-top-menubar .studioType .el-input {
+.gf-top-menubar .studio-type .el-input {
     height: 45px;
 }
 
-.gf-top-menubar .studioType .el-input .el-input__inner {
+.gf-top-menubar .studio-type .el-input .el-input__inner {
     width: 210px;
     height: 45px;
     line-height: 45px;
@@ -205,22 +205,22 @@ form input[type=submit] {
     background: transparent;
 }
 
-.gf-top-menubar .studioType .el-select .el-input .el-select__caret {
+.gf-top-menubar .studio-type .el-select .el-input .el-select__caret {
     color: #C2D5FF;
 }
 
-.gf-top-menubar .studioType .el-select .el-input.is-focus .el-input__inner,
-.gf-top-menubar .studioType .el-select .el-input.is-focus .el-select__caret {
+.gf-top-menubar .studio-type .el-select .el-input.is-focus .el-input__inner,
+.gf-top-menubar .studio-type .el-select .el-input.is-focus .el-select__caret {
     color: #fff;
 }
 
-.gf-top-menubar .studioType .el-popper {
+.gf-top-menubar .studio-type .el-popper {
     min-width: auto !important;
     border: none;
     margin-top: 0;
 }
 
-.gf-top-menubar .studioType .el-popper .popper__arrow::after {
+.gf-top-menubar .studio-type .el-popper .popper__arrow::after {
     border-bottom-color: #EBEEF5;
 }
 
@@ -324,7 +324,9 @@ form input[type=submit] {
 }
 
 .gf-vertical-expand .gf-menu.mark-menu {
+    height: 100%;
     flex: 1;
+    overflow-y: auto;
 }
 
 .gf-side-menu .speedyMenu {
@@ -663,6 +665,12 @@ form input[type=submit] {
     background: #EFF2F7;
 }
 
+.gf-side-menu > .speedyMenu .fast-entrance {
+    width: 100%;
+    height: calc(100% - 44px);
+    overflow-y: auto;
+}
+
 .gf-side-menu > .speedyMenu .fast-entrance .gf-menu-item.active {
     position: relative;
     color: #476DBE;
@@ -917,22 +925,25 @@ form input[type=submit] {
 }
 
 .el-dialog__wrapper .el-dialog .el-dialog__body {
-    -moz-flex: 1;
-    -ms-flex: 1;
+    display: flex;
+    flex-direction: column;
     flex: 1;
     height: 100%;
-    padding: 0;
+    overflow: hidden;
 }
 
-/*.el-dialog__wrapper .el-dialog .el-dialog__body .el-form .el-form-item*/
-/*.el-form-item__content .el-input{*/
-/*width: 80%;*/
-/*max-width: 371px;*/
-/*}*/
-
 .el-dialog__wrapper .el-dialog .el-dialog__body > div {
+    display: flex;
+    flex-direction: column;
     height: 100%;
     overflow: hidden;
+}
+
+.el-dialog__wrapper .el-dialog .el-dialog__body > div>.el-form{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto;
 }
 
 .el-dialog__wrapper .el-dialog .el-dialog__footer {
@@ -972,6 +983,14 @@ form input[type=submit] {
     display: none;
 }
 
+.gf-dialog .el-dialog {
+    max-height: 80%;
+}
+
+.gf-dialog .el-dialog {
+
+}
+
 /* =============================
 
     el-form 表单通用样式
@@ -983,6 +1002,10 @@ form input[type=submit] {
 
 .el-form .line {
     display: flex;
+}
+
+.el-form .line .el-form-item{
+    width: 100%;
 }
 
 .el-form .el-form-item--small .el-form-item__label,
@@ -998,8 +1021,11 @@ form input[type=submit] {
 .el-form .el-form-item .el-form-item__content input {
     height: 28px;
     line-height: 28px;
-    border-color: #EAEDF1;
     border-radius: 2px;
+}
+
+.el-form .el-form-item:not(.is-error) .el-form-item__content input {
+    border-color: #EAEDF1;
 }
 
 .el-form .el-form-item .el-form-item__content .el-textarea__inner {

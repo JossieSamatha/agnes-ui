@@ -17,11 +17,10 @@
         },
         mounted : function() {
             this.myChart = this.echarts.init(this.$el);
-            var option = this.moduleObj;
+            const option = this.moduleObj;
             this.myChart.setOption(option);
-            var _that = this;
-            window.addEventListener('resize', function () {
-                _that.myChart.resize();
+            window.addEventListener('resize', () => {
+                this.myChart.resize();
             });
         }
     }

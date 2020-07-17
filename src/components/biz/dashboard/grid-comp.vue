@@ -18,12 +18,12 @@
         },
         computed:{
             gridOption(){
-                var newGridOption = {};
+                let newGridOption = {};
                 newGridOption = JSON.parse(this.moduleObj.gridOption);
                 if(typeof(this.moduleObj.columnDefs) == 'object'){
                     this.$set(newGridOption,'columnDefs',this.moduleObj.columnDefs);
                 }else{
-                    var columnDefs = JSON.parse(this.moduleObj.columnDefs);
+                    const columnDefs = JSON.parse(this.moduleObj.columnDefs);
                     this.$set(newGridOption,'columnDefs',columnDefs);
                 }
 

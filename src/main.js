@@ -24,6 +24,7 @@ import './assets/css/component.css';
 import './assets/css/agnes.css';
 import './assets/css/dash-board.css';
 
+
 Vue.use(ElementUI);
 Vue.use(echarts);
 Vue.prototype.echarts = echarts;

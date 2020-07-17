@@ -96,10 +96,9 @@ export default {
         }
     },
     mounted() {
-        var saveThis = this;
-        saveThis.getRowHeight();
-        window.addEventListener('resize', function () {
-            saveThis.getRowHeight();
+        this.getRowHeight();
+        window.addEventListener('resize', () => {
+            this.getRowHeight();
         });
     },
     watch: {
@@ -118,7 +117,7 @@ export default {
         // 获取父元素高度计算行高
         getRowHeight(){
             if(this.$refs.gridLayout){
-                var boardHeight = this.$refs.gridLayout.$el.clientHeight;
+                const boardHeight = this.$refs.gridLayout.$el.clientHeight;
                 this.boardUnitHeight = (boardHeight-this.gridMargin[1]*(this.rowNum+1)) / this.rowNum;
             }
         },
@@ -140,7 +139,7 @@ export default {
             this.$nextTick(function () {
                 // 兼容IE
                 if(document.createEvent) {
-                    var event = document.createEvent("HTMLEvents");
+                    let event = document.createEvent("HTMLEvents");
                     event.initEvent("resize", true, true);
                     window.dispatchEvent(event);
                 } else if(document.createEventObject) {

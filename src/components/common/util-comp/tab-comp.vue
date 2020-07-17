@@ -28,14 +28,13 @@
             }
         },
         created() {
-            var _that = this;
-            this.objData.forEach(function (item) {
-                _that.$set(item, 'loaded', false);
+            this.objData.forEach((item) => {
+                this.$set(item, 'loaded', false);
             });
-            if (_that.showTabs.length > 0) {
-                this.objData[_that.showTabs[0].index].loaded = true;
-                this.activeName = _that.showTabs[0].name;
-                this.$emit('activeName', _that.showTabs[0].name);
+            if (this.showTabs.length > 0) {
+                this.objData[this.showTabs[0].index].loaded = true;
+                this.activeName = this.showTabs[0].name;
+                this.$emit('activeName', this.showTabs[0].name);
             }
         },
         methods: {

@@ -26,14 +26,14 @@
         methods: {
             init : function() {
                 this.pieChart = this.echarts.init(this.$el);
-                var legendName=[], valueSum = 0;
-                var colorSet = this.colorSet;
+                let legendName=[], valueSum = 0;
+                const colorSet = this.colorSet;
                 this.chartData.forEach(function (item) {
                     legendName.push(item.name);
                     valueSum += item.value;
                 });
 
-                var title = {
+                const title = {
                     zlevel: 0,
                     text: valueSum+'个',
                     rich: {
@@ -45,11 +45,11 @@
                     top: 'center',
                     left: 'center',
                 };
-                var tooltip ={
+                const tooltip ={
                     trigger: 'item',
                     formatter: "{a} <br/>{b} : {c} ({d}%)"
                 };
-                var graphic = {
+                const graphic = {
                     type:'text',
                     left:'center',
                     top:'center',
@@ -61,7 +61,7 @@
                         height:30
                     }
                 };
-                var legend={
+                const legend={
                     orient: 'horizontal',
                     icon : 'circle',
                     x: 'center',
@@ -70,7 +70,7 @@
                     itemGap: 20,
                     data: legendName
                 };
-                var series=[
+                const series=[
                     {
                         type: 'pie',
                         radius: ['40%', '60%'],
@@ -97,11 +97,11 @@
                         data:this.chartData,
                     }
                 ];
-                var grid = {
+                const grid = {
                     y: 35,
                     y2: 35
                 };
-                var option={
+                const option={
                     legend:legend,
                     title:title,
                     tooltip:tooltip,
@@ -111,16 +111,15 @@
                 }
                 this.pieChart.setOption(option);
                 this.pieChart.resize();
-                var _that = this;
-                window.addEventListener('resize', function () {
-                    _that.pieChart.resize()
+                window.addEventListener('resize', () => {
+                    this.pieChart.resize()
                 });
             }
         },
         watch: {
             chartData: {
                 handler: function(newVal) {
-                    var valueSum = 0,legendName=[];
+                    let valueSum = 0,legendName=[];
                     newVal.forEach(function (item) {
                         legendName.push(item.name);
                         valueSum += item.value;

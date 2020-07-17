@@ -1,0 +1,736 @@
+/*============================
+
+      little-case样式
+
+==============================*/
+.little-case-page {
+    height: 100%;
+}
+
+.little-case-page .option-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    padding: 0 10px;
+}
+
+.little-case-page .option-panel button {
+    padding: 0 15px;
+    margin-left: 0;
+    line-height: 18px;
+}
+
+.little-case-page .option-panel .alterRadioBtn
+.el-radio-button__orig-radio:checked + .el-radio-button__inner {
+    background-color: #476DBE;
+    border-color: #476DBE;
+    box-shadow: -1px 0 0 0 #476DBE;
+}
+
+.little-case-page .option-panel .alterRadioBtn
+.el-radio-button:not(.is-active) .el-radio-button__inner:hover {
+    color: #476DBE;
+}
+
+.little-case-page .option-panel button.el-button--primary {
+    color: #476DBE;
+    border: 1px solid #476DBE;
+    background: #fff;
+}
+
+.little-case-page .option-panel button.el-button--primary.is-disabled {
+    color: #a0cfff;
+    border-color: #a0cfff;
+}
+
+.little-case-page .option-panel .searchInput {
+    width: 200px;
+}
+
+.little-case-page .option-panel .searchInput input {
+    height: 26px;
+    line-height: 26px;
+    font-size: 12px;
+    color: #666;
+    border-radius: 3px;
+    border-color: #eaeaea;
+}
+
+.little-case-page .option-panel .searchInput .el-input__icon {
+    line-height: 26px;
+}
+
+.little-case-page .option-panel .textbtn {
+    color: #476DBE;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 10px;
+    border: 1px solid #476DBE;
+    border-radius: 3px;
+    padding: 0 5px;
+    line-height: 18px;
+}
+
+/*============================
+
+      tab样式
+
+==============================*/
+
+#app .gf-dop .litteCase .el-tabs.normal-tab {
+    width: 100%;
+    height: calc(100% - 20px);
+}
+
+#app .gf-dop .litteCase .el-tabs.normal-tab > .el-tabs__header
+.el-tabs__nav {
+    border-radius: 0px;
+}
+
+#app .gf-dop .litteCase .el-tabs.el-tabs.normal-tab .el-tabs__header
+.el-tabs__item {
+    width: 90px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+    padding: 0;
+    text-align: center;
+    background: #fff;
+}
+
+#app .gf-dop .litteCase .el-tabs.el-tabs.normal-tab .el-tabs__header
+.el-tabs__item.is-active {
+    position: relative;
+    color: #476DBE;
+    border-bottom: none;
+}
+
+#app .gf-dop .litteCase .el-tabs.el-tabs.normal-tab .el-tabs__header
+.el-tabs__item.is-active::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: -1px;
+    width: 100%;
+    height: 2px;
+    background: #476DBE;
+}
+
+#app .gf-dop .litteCase .el-tabs.normal-tab .el-tabs__content {
+    border-radius: 0;
+    height: calc(100% - 30px);
+    padding-top: 10px;
+}
+
+#app .gf-dop .litteCase .el-tabs.normal-tab .el-tabs__content
+.ag-theme-blue .ag-root,
+.litteCase .el-tabs.normal-tab .el-tabs__content
+.ag-theme-blue .ag-header {
+    border: none;
+}
+
+#app .gf-dop .litteCase .el-tabs.normal-tab .el-tabs__content
+.gf-grid-pagination-bar {
+    border: none;
+}
+
+/*============================
+
+      checkbox样式
+
+==============================*/
+
+.litteCase .el-checkbox.is-checked:not(.is-disabled) .el-checkbox__label {
+    color: #476DBE;
+}
+
+.litteCase .el-checkbox .el-checkbox__label {
+    font-size: 12px;
+    padding-left: 5px;
+}
+
+.litteCase .el-checkbox + .el-checkbox {
+    margin-left: 0;
+}
+
+.litteCase .el-checkbox__inner {
+    width: 12px;
+    height: 12px;
+    border: 1px solid #C7C7C7;
+    border-radius: 2px;
+}
+
+.litteCase .el-checkbox__input.is-checked:not(.is-disabled) .el-checkbox__inner {
+    background: #476DBE;
+    border: 1px solid #476DBE;
+    font-weight: bold;
+}
+
+.litteCase .el-checkbox__input.is-indeterminate .el-checkbox__inner::before {
+    transform: scale(.7);
+}
+
+.litteCase .el-checkbox__input.is-checked .el-checkbox__inner::after {
+    border-width: 2px;
+    height: 9px;
+    top: -2px;
+    width: 3px;
+    left: 3px;
+}
+
+/*============================
+
+      流程看板样式
+
+==============================*/
+.litteCase.workFlowModule {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.litteCase.workFlowModule > section {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.litteCase.workFlowModule > section>.content {
+    flex: 1;
+    height: 100%;
+    overflow: scroll;
+}
+
+.litteCase.workFlowModule > section>.content::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+.litteCase.workFlowModule > section>.content:hover::-webkit-scrollbar-thumb {
+    background: rgba(135, 141, 153, .3);
+}
+
+.litteCase.workFlowModule > section.commonTaskSection {
+    width: 250px;
+    height: 100%;
+    margin-right: 10px;
+    border-right: 1px solid #EAEDF1;
+}
+
+.litteCase.workFlowModule > section.commonTaskSection > span {
+    color: #333;
+    line-height: 32px;
+    padding: 0 10px;
+}
+
+.litteCase.workFlowModule > section.commonTaskSection > .stageItem {
+    height: calc(100% - 30px);
+    margin: 0;
+    padding-right: 10px;
+    overflow-y: scroll;
+}
+
+.litteCase.workFlowModule > section.commonTaskSection > .stageItem::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+.litteCase.workFlowModule > section.commonTaskSection > .stageItem:hover::-webkit-scrollbar-thumb {
+    background: rgba(135, 141, 153, .3);;
+}
+
+.litteCase.workFlowModule > section.commonTaskSection > .stageItem
+.stageItemContent {
+    max-height: calc(100% - 20px);
+}
+
+.litteCase.workFlowModule > section.taskSection > .option-panel > span {
+    color: #333;
+    font-size: 14px;
+}
+
+.litteCase.workFlowModule > section.taskSection {
+    width: calc(100% - 250px);
+    flex: 1;
+}
+
+.litteCase.workFlowModule .stage-container {
+    display: flex;
+    min-height: calc(50% - 5px);
+}
+
+.litteCase.workFlowModule .stage-container + .stage-container {
+    margin-top: 10px;
+}
+
+.litteCase.workFlowModule .stage-container .stageList {
+    display: flex;
+    flex-direction: row;
+    white-space: nowrap;
+    padding-bottom: 15px;
+}
+
+.litteCase.workFlowModule .stageItem.addBtn {
+    width: 150px;
+    height: 44px;
+}
+
+.litteCase.workFlowModule .stageItem {
+    flex: 0 0 auto;
+    width: 250px;
+    margin-right: 25px;
+}
+
+.litteCase.workFlowModule .commonTaskSection .stage-container .stageItem {
+    margin-right: 0;
+}
+
+.litteCase.workFlowModule .processGhost,
+.litteCase.workFlowModule .stageGhost {
+    box-shadow: 0 0 10px #476DBE;
+}
+
+.litteCase.workFlowModule .stageItem .stageItemTitle {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 44px;
+    color: #fff;
+    background: #585c73;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+.litteCase.workFlowModule .processList .process-item {
+    border: 1px solid #eaeaea;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+.litteCase.workFlowModule .processList .process-item + .process-item {
+    margin-top: 10px;
+}
+
+.litteCase.workFlowModule .process-item .process-item-title {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    color: #000;
+    margin-bottom: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.litteCase.workFlowModule .process-item.stepGroup .process-item-title {
+    color: #333;
+}
+
+.litteCase.workFlowModule .stage-container.ableChoosed .stageItem .stageItemTitle {
+    color: #fff;
+    background: #FF9900;
+}
+
+.litteCase.workFlowModule .stageItem.addBtn .stageItemTitle {
+    color: #666;
+    background: #E8EAEF;
+    justify-content: center;
+}
+
+.litteCase.workFlowModule .stageItem .stageItemTitle::after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    right: -36px;
+    top: 0px;
+    border: 22px solid transparent;
+    border-left: 14px solid #585c73;
+}
+
+.litteCase.workFlowModule .stage-container.ableChoosed .stageItem
+.stageItemTitle::after {
+    display: none;
+}
+
+.litteCase.workFlowModule .stageItem.addBtn
+.stageItemTitle::after {
+    border-left-color: #E8EAEF;
+}
+
+.litteCase.workFlowModule .process-item .process-item-title .proDragBar,
+.litteCase.workFlowModule .stageItem .stageItemTitle .dragBar {
+    cursor: move;
+    margin-right: 20px;
+    transform: rotate(90deg);
+}
+
+.litteCase.workFlowModule .process-item .process-item-title .proDragBar {
+    margin-right: 5px;
+    color: #476DBE;
+}
+
+.litteCase.workFlowModule .process-item.stepGroup .process-item-title .proDragBar {
+    color: #666;
+}
+
+.litteCase.workFlowModule .stageItem.addBtn .stageItemTitle .el-icon-plus {
+    margin-right: 20px;
+}
+
+.litteCase.workFlowModule .process-item .process-item-title>.title,
+.litteCase.workFlowModule .stageItem .stageItemTitle > span.title {
+    display: flex;
+    position: relative;
+    flex: 1;
+    align-items: center;
+    margin-left: 5px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.litteCase.workFlowModule .process-item .process-item-title > span.title .edit.is-disabled,
+.litteCase.workFlowModule .stageItem .stageItemTitle > span.title .edit.is-disabled {
+    display: none;
+}
+
+.litteCase.workFlowModule .process-item .process-item-title:hover > span.title .edit.is-disabled,
+.litteCase.workFlowModule .stageItem .stageItemTitle:hover > span.title .edit.is-disabled {
+    display: block;
+}
+
+.litteCase.workFlowModule .process-item .process-item-title > span.title .edit > i,
+.litteCase.workFlowModule .stageItem .stageItemTitle > span.title .edit > i {
+    line-height: 20px;
+    margin-left: 3px;
+    cursor: pointer;
+}
+
+.litteCase.workFlowModule .process-item .process-item-title > span.title .edit > .el-icon-plus,
+.litteCase.workFlowModule .stageItem .stageItemTitle > span.title .edit > .el-icon-plus {
+    font-weight: bold;
+}
+
+.litteCase.workFlowModule .process-item .process-item-title > span.title .edit > .fa.fa-edit,
+.litteCase.workFlowModule .stageItem .stageItemTitle > span.title .edit > .fa.fa-edit {
+    display: none;
+}
+
+.litteCase.workFlowModule .process-item .process-item-title:hover > span.title .edit > .fa.fa-edit,
+.litteCase.workFlowModule .process-item .process-item-title:hover > span.title .edit > .fa.fa-trash-o,
+.litteCase.workFlowModule .stageItem .stageItemTitle:hover > span.title .edit > .fa.fa-edit,
+.litteCase.workFlowModule .stageItem .stageItemTitle:hover > span.title .edit > .fa.fa-trash-o {
+    display: inline;
+}
+
+.litteCase.workFlowModule .process-item .process-item-title>.title > .title-input,
+.litteCase.workFlowModule .stageItem .stageItemTitle > span.title > .title-input {
+    flex: 1;
+}
+
+.litteCase.workFlowModule .process-item .process-item-title>.title > .title-input > input,
+.litteCase.workFlowModule .stageItem .stageItemTitle > .title > .title-input > input {
+    height: 20px;
+    line-height: 20px;
+    border-radius: 2px;
+    padding: 0 25px 0 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.litteCase.workFlowModule .process-item .process-item-title > span.title > .title-input .el-input__icon,
+.litteCase.workFlowModule .stageItem .stageItemTitle > span.title > .title-input .el-input__icon {
+    line-height: 20px;
+}
+
+.litteCase.workFlowModule .process-item .process-item-title>.title > .title-input.is-disabled > input,
+.litteCase.workFlowModule .stageItem .stageItemTitle > span.title > .title-input.is-disabled > input {
+    font-size: 14px;
+    color: inherit;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.litteCase.workFlowModule .process-item .process-item-title>.title > .title-input.is-disabled > input {
+    font-weight: bold;
+}
+
+.litteCase.workFlowModule .process-item.stepGroup .process-item-title>.title > .title-input.is-disabled > input {
+    font-weight: normal;
+}
+
+.litteCase.workFlowModule .stageItem .stageItemContent {
+    position: relative;
+    width: 100%;
+    background: #fff;
+}
+
+.litteCase.workFlowModule .stageItem .stepList {
+    background: #fff;
+}
+
+.litteCase.workFlowModule .process-item.stepGroup .stepList {
+    background: #f2f2f2;
+}
+
+.litteCase.workFlowModule .stepComp {
+    position: relative;
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid #eaeaea;
+    color: #666;
+    background: #fff;
+    margin-top: 5px;
+    cursor: move;
+}
+
+.litteCase.workFlowModule .stepComp > i.stepIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 35px;
+    height: 40px;
+}
+
+.litteCase.workFlowModule .stepComp > i.stepIcon>svg {
+    width: 25px;
+    height: 25px;
+}
+
+.litteCase.workFlowModule .stepComp > i.stepIcon.person>svg {
+    width: 25px;
+    height: 22px;
+    fill: #666;
+}
+
+.litteCase.workFlowModule .stepComp > i.stepIcon.indicator>svg {
+    width: 30px;
+    height: 30px;
+    fill: #DB713E;
+}
+
+.litteCase.workFlowModule .stepComp > i.stepIcon.robot>svg {
+    fill: #67c23a;
+}
+
+.litteCase.workFlowModule .stepComp > i.stepIcon.process>svg {
+    fill: #476DBE;
+}
+
+
+.litteCase.workFlowModule .stepComp > span.name {
+    padding: 0 40px;
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.litteCase.workFlowModule .stageItem .stepList .stepGroup {
+    background: #f2f2f2;
+    margin: 10px 0;
+}
+
+.litteCase.workFlowModule .stepComp .edit {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    font-size: 14px;
+    color: #476DBE;
+}
+
+.litteCase.workFlowModule .process-item .process-item-title:hover > span.title .edit > .fa.fa-edit{
+    color: #476DBE;
+}
+
+.litteCase.workFlowModule .stepComp .edit > i {
+    margin-left: 3px;
+    cursor: pointer;
+}
+
+.litteCase.workFlowModule .process-item .process-item-title:hover > span.title .edit > .fa.fa-trash-o,
+.litteCase.workFlowModule .stepComp .edit > i.fa.fa-trash-o {
+    color: #F5222E;
+}
+
+.litteCase.workFlowModule .stepComp:hover .edit {
+    display: block;
+}
+
+.litteCase.workFlowModule .stepGhost {
+    font-weight: bold;
+    color: #476DBE;
+    box-shadow: 0 0 10px #476DBE;
+}
+
+.litteCase.workFlowModule .stageItem .stageItemContent .addTask {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    bottom: 0;
+    color: #666;
+    background: #f2f2f2;
+    padding: 0 10px;
+    margin-top: 5px;
+}
+
+.litteCase.workFlowModule .stageItem .stageAdd .stepType {
+    display: none;
+    position: absolute;
+    left: -30px;
+    top: 30px;
+    width: 238px;
+    height: 40px;
+    padding: 0 5px;
+    z-index: 10;
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 5px;
+}
+
+.litteCase.workFlowModule .stageItem .stageAdd {
+    position: relative;
+}
+
+.litteCase.workFlowModule .stageItem .stageAdd:hover .stepType {
+    display: flex;
+}
+
+
+.litteCase.workFlowModule .stageItem .stageAdd .stepType::before{
+    content: "\f106";
+    font-family: "fontawesome";
+    display: block;
+    position: absolute;
+    top: -14px;
+    left: 31px;
+    color: #ccc;
+}
+
+.litteCase.workFlowModule .stageItem .stageAdd .stepType>li{
+    flex: 1;
+    line-height: 40px;
+    text-align: center;
+    color: #666;
+}
+
+.litteCase.workFlowModule .stageItem .stageAdd .stepType>li>svg {
+    width: 100%;
+    height: 100%;
+    padding: 8px;
+    fill: #666;
+}
+
+.litteCase.workFlowModule .stageItem .stageAdd .stepType>li.group{
+    font-size: 12px;
+}
+
+.litteCase.workFlowModule .stageItem .stageAdd .stepType>li:hover{
+    color: #476DBE;
+    background: #ECEDEF;
+}
+
+.litteCase.workFlowModule .stageItem .stageAdd .stepType>li:hover>svg{
+    fill: #476DBE;
+}
+
+.litteCase.workFlowModule .stageItem .stageItemContent .addTask>span {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.litteCase.workFlowModule .stageItem .stageItemContent .addTask>span:hover,
+.litteCase.workFlowModule .stageItem .stageItemContent .addTask>span:hover>i {
+    color: #476DBE;
+    font-weight: bold;
+}
+
+.litteCase.workFlowModule .stageItem .stageItemContent .addTask>span+span {
+    margin-left: 10px;
+}
+
+.litteCase.workFlowModule .stageItem .stageItemContent .addTask > i {
+    margin-right: 5px;
+}
+
+.stepDetailDrawer .el-drawer__body,
+.stepDetailDrawer .formPage.stepDetail,
+.stepDetailDrawer .formPage.stepDetail .el-form {
+    height: 100%;
+}
+
+.stepDetailDrawer .formPage.stepDetail .el-form {
+    overflow-y: auto;
+}
+
+.stepDetailDrawer .formPage.stepDetail .el-form::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+.stepDetailDrawer .formPage.stepDetail .el-form:hover::-webkit-scrollbar-thumb {
+    background: rgba(135, 141, 153, .3);
+}
+
+.stepDetail .nodeSetContainer {
+    margin-top: 5px;
+}
+
+.stepDetail.gf-cur-dialog .el-form-item__content .el-input,
+.stepDetail.gf-cur-dialog .el-form-item__content .el-select,
+.stepDetail .nodeSetContainer {
+    max-width: 500px;
+}
+
+.stepDetail .nodeSetContainer .nodeSet + .nodeSet {
+    margin-top: 5px;
+}
+
+.stepDetail .nodeSetContainer .nodeSet > .nodeName {
+    display: inline-block;
+    width: 100px;
+    font-size: 14px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}
+
+.stepDetail .nodeSetContainer .nodeSet > .el-select {
+    width: calc(50% - 55px);
+    margin-left: 5px;
+}
+
+.stepDetail .el-card .el-card__body .el-form {
+    padding: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
