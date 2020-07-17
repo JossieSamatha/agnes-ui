@@ -17,6 +17,7 @@
                      node-key="id"
                      show-checkbox
                      default-expand-all
+                     :expand-on-click-node="false"
                      @check="handleNodeCheck"
                      :filter-node-method="filterNode"
             style="border: 1px solid #eee;border-radius: 0;overflow-y: auto;height: 97%;margin-top:4px">

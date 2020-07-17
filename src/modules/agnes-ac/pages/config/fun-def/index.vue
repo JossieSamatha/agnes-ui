@@ -1,7 +1,7 @@
 <template>
     <div>
         <gf-grid ref="grid" grid-no="agnes-fun-type" @row-double-click="showModel">
-            <template slot="right-before">
+            <template slot="left">
                 <gf-button @click="addModel" size="mini">添加</gf-button>
             </template>
         </gf-grid>
@@ -24,7 +24,7 @@
                     FunTypeDlg,
                     {
                         args: {row, mode, actionOk},
-                        width: '70%',
+                        width: '50%',
                         title: this.$dialog.formatTitle('函数', mode),
                     }
                 );
