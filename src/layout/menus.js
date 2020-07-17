@@ -10,7 +10,7 @@ export function toColumn(menus) {
         }else{
             //二级菜单 columns
             let columns = new Array();
-            let defaultColumns = {code:'default', title:'默认分组', menus:new Array()};
+            let defaultColumns = {code:'default', title:first.resName, menus:new Array()};
             for(let j=0;j<first.children.length;j++){
                 let second = first.children[j];
                 if(!second.children || second.children.length==0){

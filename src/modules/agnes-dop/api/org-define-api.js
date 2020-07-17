@@ -14,4 +14,7 @@ export default {
     checkOrg(form){
         return request.post(`/agnes-dop/v1/dop/org/check`,{dopEeExternalOrg:form});
     },
+    getOrgList(form){
+        return request.post(`/agnes-dop/v1/dop/org/all`,{dopEeExternalOrg:form});
+    },
 };
