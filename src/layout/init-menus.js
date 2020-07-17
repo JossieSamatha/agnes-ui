@@ -9,7 +9,7 @@ function initMenus(menus) {
             menuname: colnums.title,
             children: []
         }
-        if(colnums.columns !== null){
+        if(colnums.columns){
             colnums.columns.forEach(menuss=>{
                 var colnum = {
                     menuid: index++,
@@ -17,7 +17,7 @@ function initMenus(menus) {
                     menuname: menuss.title,
                     children: []
                 }
-                if(menuss.menus!==null){
+                if(menuss.menus){
                     menuss.menus.forEach(data=>{
                         colnum.children.push({
                             menuid: index++,

@@ -30,12 +30,18 @@ module.exports = {
                 }
             },
             '/api/': {
-                target: 'http://172.18.16.195:9000',
+                // target: 'http://172.18.16.195:9000',
+                target: 'http://agnes.dev.hexinfo.cn:8200/api',
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {
                     '^/api/': '/'
                 }
+            },
+            '/dop-kpi/': {
+                target: 'http://172.18.21.212:9000',
+                ws: true,
+                changeOrigin: true,
             }
         }
     },

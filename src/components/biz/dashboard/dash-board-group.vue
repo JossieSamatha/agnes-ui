@@ -102,7 +102,7 @@
 
             // 面板grid -- 单元拖动结束
             gridUnitDragAdd(changeData) {
-                var changeIndex = this.movedUnitId;
+                const changeIndex = this.movedUnitId;
                 this.$set(this.boardDataObj,changeIndex,changeData);
             },
 

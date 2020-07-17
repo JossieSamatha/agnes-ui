@@ -1,4 +1,4 @@
-var guestInfo = [
+const guestInfo = [
     {label:'客户名称', value:'XXXXXXXXX银行'},
     {label:'客户类型', value:'商业银行'},
     {label:'组织机构代码', value:'XXXXXXXXX'},
@@ -9,7 +9,7 @@ var guestInfo = [
     {label:'客户属性', value:'XXXXXXXXX'},
 ];
 
-var gridLayoutType = [
+const gridLayoutType = [
     {"x":0,"y":0,"w":2,"h":2,"i":"2020040900"},
     {"x":2,"y":0,"w":2,"h":2,"i":"2020040901"},
     {"x":4,"y":0,"w":4,"h":2,"i":"2020040902"},
@@ -21,7 +21,7 @@ var gridLayoutType = [
     {"x":6,"y":4,"w":2,"h":2,"i":"2020040908"}
 ];
 
-var gridLayoutType2 = [
+const gridLayoutType2 = [
     {"x":0,"y":0,"w":2,"h":2,"i":"09040011"},
     {"x":2,"y":0,"w":6,"h":4,"i":"09040012"},
     {"x":0,"y":2,"w":2,"h":4,"i":"09040013"},
@@ -29,7 +29,7 @@ var gridLayoutType2 = [
     {"x":4,"y":4,"w":2,"h":2,"i":"09040015"},
     {"x":6,"y":4,"w":2,"h":2,"i":"09040016"}];
 
-var gridLayoutType3 = [
+const gridLayoutType3 = [
     {"x":0,"y":0,"w":4,"h":6,"i":"2020001"},
     {"x":6,"y":0,"w":2,"h":4,"i":"2020002"},
     {"x":4,"y":0,"w":2,"h":4,"i":"2020003"},
@@ -37,7 +37,7 @@ var gridLayoutType3 = [
     {"x":4,"y":4,"w":2,"h":2,"i":"2020005"}
 ]
 
-var boardArrDefault = [
+const boardArrDefault = [
     {
         boardId: '202004001',
         boardData: gridLayoutType
@@ -47,14 +47,14 @@ var boardArrDefault = [
     },
 ];
 
-var boardArrDefine = [
+const boardArrDefine = [
     {
         boardId: '202004003',
         boardData: gridLayoutType3
     },
 ];
 
-var columnDefs2 = [
+const columnDefs2 = [
     {headerName: '任务名称', field: 'taskName'},
     {headerName: "任务阶段", field: "taskStep"},
     {headerName: "任务开始时间", field: "startTime", hide: true},
@@ -76,7 +76,7 @@ var columnDefs2 = [
         }
     },
 ];
-var todoCol = [
+const todoCol = [
     {headerName: '任务类型', field: 'taskType'},
     {headerName: "当前任务", field: "currentTask"},
     {
@@ -93,7 +93,7 @@ var todoCol = [
         }
     },
 ];
-var todoRowData = [
+const todoRowData = [
     {
         taskType: '产品信息审批子流程',
         currentTask: '产品新增申请'
@@ -110,7 +110,7 @@ var todoRowData = [
         taskType: '账户销户流程',
         currentTask: '账户复核通过'
     }];
-var rowData2 = [
+const rowData2 = [
     {
         taskName: '专户产品清算',
         taskStep: '参数更新',
@@ -219,7 +219,7 @@ var rowData2 = [
         proName: '资产管理计划',
         proNo: 'CJ10007'
     }];
-var gridOptionObj = {
+const gridOptionObj = {
     columnDefs: [],
     rowData: [],
     ext: {
@@ -228,7 +228,7 @@ var gridOptionObj = {
         checkboxColumn: 0, //是否显示checkbox列,
     }
 };
-var boardStyleArr = [
+const boardStyleArr = [
     {id:'0', label:'快速联系',
         type: 'rapid-contact-form',
         data: {

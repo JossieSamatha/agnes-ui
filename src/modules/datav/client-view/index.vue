@@ -70,8 +70,8 @@
 
             // 面板grid -- 新增单元
             addUnitGrid() {
-                var newUnitId = this.$caseUtils.randomString(6);
-                var newUnitObj = {
+                const newUnitId = this.$caseUtils.randomString(6);
+                const newUnitObj = {
                     "x": 0,
                     "y": 0,
                     "w": 2,
@@ -95,7 +95,7 @@
                 }else if(editType == 'layout'){
                     this.isGridDefine = false;
                     this.$set(this.$refs.gridContainer, 'isGridDefine', false);
-                    var newdDefineBoard = {
+                    const newdDefineBoard = {
                         boardId: this.$caseUtils.randomString(9),
                         boardData: this.$refs.gridContainer.gridLayout.boardData
                     };
@@ -116,10 +116,10 @@
                 let boardData = gridLayout.boardData;
                 let boardStyleArr = this.$refs.gridContainer.boardStyleArr;
                 let gridDataArr = {};
-                for(var i=0; i<boardData.length; i++){
+                for(let i=0; i<boardData.length; i++){
                     if(boardStyleArr[i]){
-                        var objArr = [boardStyleArr[i]];
-                        var gridLayoutObj = boardData[i];
+                        const objArr = [boardStyleArr[i]];
+                        const gridLayoutObj = boardData[i];
                         gridDataArr[gridLayoutObj.i] = objArr;
                     }
                 }
@@ -137,7 +137,7 @@
                 this.$nextTick(function () {
                     // 兼容IE
                     if(document.createEvent) {
-                        var event = document.createEvent("HTMLEvents");
+                        let event = document.createEvent("HTMLEvents");
                         event.initEvent("resize", true, true);
                         window.dispatchEvent(event);
                     } else if(document.createEventObject) {

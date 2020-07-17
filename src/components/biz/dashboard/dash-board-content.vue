@@ -74,7 +74,7 @@
             },
             // 面板grid -- 单元开始拖动
             gridUnitDragStart(){
-                var movedUnitId = this.draggableId;
+                const movedUnitId = this.draggableId;
                 this.$emit('gridUnitDragStart', movedUnitId);
             },
             // 面板grid -- 单元拖动结束
@@ -87,7 +87,7 @@
                     if(evt.from.className.indexOf('menuContent') == -1) {
                         newArr.splice(1,1);
                     } else {
-                        var changeData = newArr.splice(0,1);
+                        const changeData = newArr.splice(0,1);
                         this.$emit('gridUnitDragAdd', changeData);
                     }
                 }

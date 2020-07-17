@@ -43,11 +43,11 @@
             }
         },
         mounted(){
-            var boardData = this.gridLayout.boardData;
-            for(var i=0; i<boardData.length; i++){
+            const boardData = this.gridLayout.boardData;
+            for(let i=0; i<boardData.length; i++){
                 if(this.boardStyleArr[i]){
-                    var objArr = [this.boardStyleArr[i]];
-                    var gridLayoutObj = boardData[i];
+                    const objArr = [this.boardStyleArr[i]];
+                    const gridLayoutObj = boardData[i];
                     this.$set(this.gridDataArr, gridLayoutObj.i, objArr);
                 }
             }
@@ -60,8 +60,8 @@
 
             gridDataArr:{
                 handler: function (val) {
-                    var leftData = [];
-                    var unitObjIds = [];
+                    let leftData = [];
+                    let unitObjIds = [];
                     this.$utils.forEach(val,function (obj) {
                         if(obj[0] && obj[0].id){
                             unitObjIds.push(obj[0].id);
