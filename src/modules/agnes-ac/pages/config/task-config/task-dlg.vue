@@ -95,9 +95,9 @@
                                 placeholder="请选择">
                                 <el-option
                                     v-for="item in caseOptions"
-                                    :key="item.taskId"
-                                    :label="item.taskName"
-                                    :value="item.taskId+''">
+                                    :key="item.caseDefId"
+                                    :label="item.caseDefName"
+                                    :value="item.caseDefId">
                                 </el-option>
                             </el-select>
                         </el-col>
@@ -166,7 +166,7 @@
 </template>
 
 <script>
-import CaseDlg from "../model-def/index";
+import CaseDlg from "../case-def/little-case/step-detail";
 
 export default {
     props: {
@@ -215,6 +215,10 @@ export default {
         if (this.mode === "edit" && typeof (this.row.bizTag) === 'string') {
             var arr = JSON.parse(this.row.bizTag);
             this.row.bizTag = arr;
+            
+        }
+        if(this.row.bizParam!=null){
+            this.checked=true;
         }
         Object.assign(this.form, this.row);
     },
@@ -226,8 +230,8 @@ export default {
                 const options = resp.data;
                 this.taskOptions = options.task;
                 this.caseOptions = options.case;
-                // let map = {"taskName":"临时任务","taskId":"0"}
-                // this.caseOptions.push(map);
+                let map = {"caseDefName":"临时任务","caseDefId":"0"}
+                this.caseOptions.push(map);
                 this.bizParamOptions = options.param;
                 this.userOptions = options.user;
             } catch (reason) {
@@ -262,7 +266,7 @@ export default {
                 });
         },
         showCase() {
-            this.showDlg('view', {}, this.onAddCase.bind(this));
+            this.showDlg('view', this.form.caseId, this.onAddCase.bind(this));
         },
         addCase() {
             this.showDlg('add', {}, this.onAddCase.bind(this));
