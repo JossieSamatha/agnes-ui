@@ -618,15 +618,15 @@
     border-right: none;
 }
 
-.gf-ag-grid.ag-theme-balham .ag-cell .el-button.blueCell {
+.gf-ag-grid.ag-theme-balham .ag-cell .el-button.grid-cell-op-link {
     color: #476DBE;
 }
 
-.gf-ag-grid.ag-theme-balham .ag-cell .el-button.redCell {
+.gf-ag-grid.ag-theme-balham .ag-cell .el-button.grid-cell-op-link.red-cell {
     color: #ff0000;
 }
 
-.gf-ag-grid.ag-theme-balham .ag-cell .el-button.greyCell {
+.gf-ag-grid.ag-theme-balham .ag-cell .el-button.grid-cell-op-link.grey-cell {
     color: #999;
 }
 

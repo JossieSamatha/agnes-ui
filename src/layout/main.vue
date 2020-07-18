@@ -4,7 +4,7 @@
             <img :src="require('../assets/img/logo-white.png')" alt="logo" class="gf-app-logo">
         </template>
         <template slot="menu">
-            <el-select class="studioType" v-model="studioType" :popper-append-to-body="false"
+            <el-select class="studio-type" v-model="studioType" :popper-append-to-body="false"
                        @change="studioTypeChange">
                 <el-option value="appMenus" label="应用模式（APP STUDIO）"></el-option>
                 <el-option value="adminMenus" label="管理模式（DEV STUDIO）"></el-option>
