@@ -1,9 +1,16 @@
-import pages from "./client-view/index";
+import clientView from "./client-view/index.vue";
 
-// 定义 Loading 对象
+var pages = [{
+    id: "datav.client.view",
+    title: "客户服务360视图",
+    component: clientView,
+    closeable: true
+}
+];
+
 const datav = {
     load: function (Gfui) {
-        Gfui.use(pages);
+        Gfui.views(pages);
     }
 };
 

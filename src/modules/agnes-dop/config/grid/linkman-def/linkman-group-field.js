@@ -9,10 +9,10 @@ export default {
     ],
     rowSelection: 'multiple',
     ext: {
-        fetchUrl: "/agnes-dop/v1/config/linkman/all",
+        fetchUrl: "/agnes-dop/v1/dop/linkman/all",
         fetchMethod: 'get',
         pagingMode: false, //不分页
-        checkboxColumn: 2, //是否显示checkbox列,
+        checkboxColumn: 2, //是否显示checkbox列
         enableExportLocal: true,
         autoFitColumnMode: 1,
     }

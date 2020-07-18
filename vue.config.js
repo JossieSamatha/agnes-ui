@@ -29,14 +29,6 @@ module.exports = {
                     '^/api/agnes-ac': '/'
                 }
             },
-            '/api/agnes-dop': {
-                target: 'http://127.0.0.1:9007',
-                ws: true,
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/api/agnes-dop': '/'
-                }
-            },
             '/api/': {
                 // target: 'http://172.18.16.195:9000',
                 target: 'http://agnes.dev.hexinfo.cn:8200/api',
