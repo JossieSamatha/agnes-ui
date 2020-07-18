@@ -14,7 +14,7 @@ export default {
     ],
     ext: {
         pagingMode: false, //不分页
-        checkboxColumn: 0, //是否显示checkbox列,
+        checkboxColumn: 0, //是否显示checkbox列
         enableExportLocal: false,
         autoFitColumnMode: 1,
     }

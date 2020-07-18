@@ -184,7 +184,7 @@
                 if (!value) {
                     callback();
                 } else {
-                    const reg = /^[a-z][a-z0-9]{5,19}/;
+                    const reg = /^[a-z][a-z0-9]{5,19}$/;
                     const ding = reg.test(value);
                     if (!ding) {
                         callback(new Error("字母开头,6-20个数字或字母"));

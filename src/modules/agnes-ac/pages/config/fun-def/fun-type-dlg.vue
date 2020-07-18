@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-form :model="form.reFunDef" :disabled="mode==='view'" ref="form" :rules="rules" label-width="85px"
-                 style="padding: 10px" >
+                 style="padding: 10px">
             <el-form-item label="函数名称" prop="fnName">
                 <gf-input type="text" v-model="form.reFunDef.fnName" :max-byte-len="64"/>
             </el-form-item>
@@ -58,7 +58,7 @@
             <el-form-item label="函数描述" prop="fnDesc">
                 <gf-input type="textarea" v-model="form.reFunDef.fnDesc"
                           resize="none" :max-byte-len="128"
-                          :autosize="{minRows: 2, maxRows: 6}" />
+                          :autosize="{minRows: 2, maxRows: 6}"/>
             </el-form-item>
         </el-form>
         <dialog-footer :on-save="save" style="margin-top: 30px"></dialog-footer>

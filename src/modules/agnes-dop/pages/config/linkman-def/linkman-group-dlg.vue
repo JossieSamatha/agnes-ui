@@ -38,7 +38,7 @@
                         linkmanGroupId: ''
                     },
                     dopReLinkmans: [],
-                    isCheck:''
+                    isCheck:false
                 },
                 rules: {
                     'linkmanGroupName': [{required: true, message: "请输入分组名称"}],
@@ -55,10 +55,10 @@
                 if (!ok) {
                     return;
                 }
-                this.form.isCheck = ""
+                this.form.isCheck = false
                 try {
                     if (this.form.dopReLinkmanGroup.linkmanGroupName !== this.row.linkmanGroupName) {
-                        this.form.isCheck = "true";
+                        this.form.isCheck = true;
                     }
                     const p = this.$api.linkmanApi.saveLinkManGroup(this.form);
                     await this.$app.blockingApp(p);
