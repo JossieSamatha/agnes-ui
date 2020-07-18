@@ -23,7 +23,7 @@ function buildOpCol(width, buttons) {
         colId: "#op", headerName: "操作",
         cellRenderer: "OpCellRender",
         suppressSizeToFit: true,
-        pinned: "right",
+        pinned: "left",
         width: width,
         cellRenderParams: {
             opButtons: opButtons
