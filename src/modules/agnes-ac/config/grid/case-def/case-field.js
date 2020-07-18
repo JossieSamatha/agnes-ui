@@ -1,19 +1,20 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'editCaseDef', title: '编辑', cellClass: 'blueCell'},
-    {key: 'deleteCaseDef', title: '删除', cellClass: 'redCell'},
+    {key: 'editCaseDef', title: '编辑'},
+    {key: 'deleteCaseDef', title: '删除', cellClass: 'red-cell'},
+    {key: 'cancelCaseDef', title: '取消', cellClass: 'grey-cell'},
 ];
 
 export default {
     columnDefs: [
+        column.buildOpCol(120, colButtons),
         {headerName: "case编码", field: "caseDefKey"},
         {headerName: "case名称", field: "caseDefName"},
         {headerName: "case版本", field: "versionId"},
         {headerName: "是否发布", field: "caseStatus" ,formatType: 'dict', dictType: 'LC_CASE_PUBLISH'},
         column.colCrtUser,
         column.colCrtTm,
-        column.buildOpCol(120, colButtons)
     ],
     ext: {
         fetchUrl: "/agnes-ac/v1/ac/case/def/list",

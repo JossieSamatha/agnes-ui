@@ -1,5 +1,5 @@
 <template>
-    <div class="formPage">
+    <div class="form-page">
         <el-form ref="stepInfoForm" :model="stepInfo" label-width="85px">
             <el-form-item label="任务名称" prop="stepName">
                 <gf-input v-model.trim="stepInfo.stepName"/>
@@ -87,16 +87,12 @@
                     <gf-input v-model.trim="stepInfo.stepFormInfo.caseStepDef.execScheduler"  placeholder="* * * * * ?"  @click.native="openCron" style="width: 50%"/>
                 </el-form-item>
             </el-form-item>
-            <el-form-item label="" prop="">
-                <el-checkbox v-model="warningNotice">预警通知</el-checkbox>
-                <el-form-item v-if="warningNotice">
-                    <el-form-item label="告警方式">
-                        <remindDef ref="warningRemind" :remindProps="stepInfo.stepFormInfo.warningList"></remindDef>
-                    </el-form-item>
-                </el-form-item>
-
+            <el-form-item label="预警通知" prop="warningList">
+                <el-checkbox v-model="warningNotice">
+                    <el-button type="text" :disabled="!warningNotice" @click="openRemindDlg(stepInfo.warningList)">告警方式配置</el-button>
+                </el-checkbox>
             </el-form-item>
-            <el-form-item label="" prop="">
+            <el-form-item label="超时通知">
                 <el-checkbox v-model="timeoutNotice">超时通知</el-checkbox>
                 <el-form-item v-if="timeoutNotice">
                     <el-form-item label="告警方式">
@@ -214,15 +210,32 @@
                 },
                 exceptionList: [],
                 finishtList: [],
-                timeoutList: [],
-                warningList: [],
                 failRuleTableData: {},
                 successRuleTableData: {},
                 activeRuleTableData: {},
-            }
+            },
+            timeoutList: [],
+            warningList: [{
+                remindUser: '',
+                remindCc: '',
+                remindBcc: '',
+                remindTitle: '',
+                remindContent: '',
+                remindMode: '',
+                stepNoticeType: '2'
+            },{
+                remindUser: '哈哈',
+                remindContent: '提醒哈哈',
+                stepNoticeType: '3'
+            },{
+                remindUser: '',
+                remindContent: '',
+                stepNoticeType: '4'
+            }],
         };
     }
     import CronDef from "./cron-def";
+    import RemindDef from './remind-def'
     export default {
         name: "stepInfo",
         props: {
@@ -282,12 +295,24 @@
                     {
                         args: {cornObj, action},
                         width: '530px',
-                        title: this.$dialog.formatTitle('编辑执行频率'),
+                        title: this.$dialog.formatTitle('执行频率', "edit"),
                     }
                 );
             },
             setExecScheduler(cron) {
                 this.stepInfo.stepFormInfo.caseStepDef.execScheduler=cron;
+            },
+
+            // 告警方式配置，打开弹框
+            openRemindDlg(remindProp){
+                this.$nav.showDialog(
+                    RemindDef,
+                    {
+                        args: {remindProp},
+                        width: '530px',
+                        title: this.$dialog.formatTitle('告警方式配置',"edit"),
+                    }
+                );
             },
 
             resetFormFields() {

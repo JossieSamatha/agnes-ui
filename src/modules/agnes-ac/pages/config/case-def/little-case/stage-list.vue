@@ -1,11 +1,11 @@
 <template>
     <div class="stage-container" ref="stageContainer">
-        <draggable class="stageList" :list="stageList" :options="stageOption">
+        <draggable class="stage-list" :list="stageList" :options="stageOption">
             <stageDef v-for="(stage, stageIndex) in stageList" :key="stage.defId"
                       :stage.sync="stage" :stageList.sync="stageList" :stageIndex="stageIndex"
                       :stageType.sync="stageType" :stepType.sync="stepType">
                 <template slot="stageSlot">
-                    <draggable tag="ul" class="processList" :list="stage.children" :group="{name: 'step'}" :sort="true">
+                    <draggable tag="ul" class="process-list" :list="stage.children" :group="{name: 'step'}" :sort="true">
                         <template v-for="(stageItem, stageItemIndex) in stage.children">
                             <stepDef :key="stageItem.stepCode" v-if="stageItem.defType == 'step' && curOptional(stageItem.optional)"
                                      :step.sync="stageItem" :stepList.sync="stage.children" :stepIndex="stageItemIndex"
@@ -19,8 +19,8 @@
                 </template>
             </stageDef>
         </draggable>
-        <div class="stageItem addBtn" @click="addStage">
-            <div class="stageItemTitle">
+        <div class="stage-item add-btn" @click="addStage">
+            <div class="stage-item-title">
                 <i class="el-icon-plus"></i>
                 <span class="title">stage</span>
             </div>
@@ -49,7 +49,7 @@
         data() {
             return {
                 taskInfoDialog,
-                stageOption: {handle: '.dragBar', group: {name: 'stage'}, ghostClass: 'stageGhost'},
+                stageOption: {handle: '.drag-bar', group: {name: 'stage'}, ghostClass: 'stage-ghost'},
                 groupOption: {group: {name: 'step'}, ghostClass: 'stepGhost'},
                 stepOption: {group: {name: 'step'}, ghostClass: 'stepGhost'}
             }

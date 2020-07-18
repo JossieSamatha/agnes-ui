@@ -44,8 +44,7 @@
     .dialog-footer-bar {
         text-align: center;
         border-top: solid 1px #eee;
-        padding-top: 15px;
-        padding-bottom: 10px;
+        padding: 10px 0 0;
     }
 
     .el-dialog .dialog-footer-bar.footer > button {

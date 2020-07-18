@@ -2,7 +2,7 @@
     <div class="datav_client_view" ref="datav_client_view">
         <div class="topPanel">
             <div class="optionPanel">
-                <el-input class="searchInput" v-model="clientValue" clearable placeholder="客户搜索" suffix-icon="el-icon-search">
+                <el-input class="search-input" v-model="clientValue" clearable placeholder="客户搜索" suffix-icon="el-icon-search">
                 </el-input>
                 <div>
                     <span class="boardeEdit" v-if="!isGridEdit && !isGridDefine" @click="boardEdit">配置看板</span>

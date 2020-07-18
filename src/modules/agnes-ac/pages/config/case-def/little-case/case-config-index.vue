@@ -7,16 +7,16 @@
                 <el-button type="primary" size="small" @click="saveCase">保存</el-button>
             </div>
         </div>
-        <div class="litteCase workFlowModule">
-            <section class="commonTaskSection" v-if="workflowType === 'ableChoosed'">
+        <div class="little-case work-flow-module">
+            <section class="common-task-section" v-if="workflowType === 'ableChoosed'">
                 <span>case公共可选任务</span>
                 <actionDef>
                     <template slot="steps">
-                        <draggable class="stepList" :list="caseModelData.actions" :options="actionOption">
+                        <draggable class="step-list" :list="caseModelData.actions" :options="actionOption">
                             <stepDef v-for="(action, actionIndex) in caseModelData.actions" :key="action.stepCode"
                                      :step="{actionIndex: actionIndex,...action}" :stepIndex="actionIndex"></stepDef>
                         </draggable>
-                        <div class="addTask" @click="addAction(caseModelData, 'actions')">
+                        <div class="add-task" @click="addAction(caseModelData, 'actions')">
                             <i class="el-icon-plus"></i>
                             <span>添加任务</span>
                         </div>
@@ -27,7 +27,7 @@
                 <div class="option-panel">
                     <span>阶段层级任务</span>
                     <span>
-                <el-radio-group class="alterRadioBtn" v-model="workflowType" size="small">
+                <el-radio-group class="alter-radio-btn" v-model="workflowType" size="small">
                   <el-radio-button label="lifeRecycle">生命周期</el-radio-button>
                   <el-radio-button label="ableChoosed">可选任务</el-radio-button>
                 </el-radio-group>
@@ -37,18 +37,18 @@
                     <template v-if="workflowType === 'lifeRecycle'">
                         <stageList class="lifeRecycle" :stageList="caseModelData.stages" stageType="stages"
                                    stepType="steps"></stageList>
-                        <stageList class="ableChoosed" :stageList="caseModelData.optionalStages" stageType="optionalStages"
+                        <stageList class="able-choosed" :stageList="caseModelData.optionalStages" stageType="optionalStages"
                                    stepType="steps"></stageList>
                     </template>
                     <template v-if="workflowType === 'ableChoosed'">
-                        <stageList class="lifeRecycle" :stageList="caseModelData.stages" stageType="stages"
+                        <stageList class="lifeRecyclstagee" :stageList="caseModelData.stages" stageType="stages"
                                    stepType="optionalSteps"></stageList>
-                        <stageList class="ableChoosed" :stageList="caseModelData.optionalStages" stageType="optionalStages"
+                        <stageList class="able-choosed" :stageList="caseModelData.optionalStages" stageType="optionalStages"
                                    stepType="optionalSteps"></stageList>
                     </template>
                 </div>
             </section>
-            <el-drawer class="stepDetailDrawer"
+            <el-drawer class="step-detail-drawer"
                        ref="stepDetailDrawer"
                        :withHeader="false"
                        :show-close="false"
@@ -56,7 +56,7 @@
                        :destroy-on-close="true"
                        direction="rtl"
                        size="850px">
-                <stepDetail class="stepDetail" v-bind="stepDetailProps" @saveStepInfo="saveStepInfo"></stepDetail>
+                <stepDetail class="step-detail" v-bind="stepDetailProps" @saveStepInfo="saveStepInfo"></stepDetail>
             </el-drawer>
         </div>
     </div>

@@ -1,6 +1,6 @@
 <template>
-    <div class="stepComp">
-        <i class="stepIcon" :class="iconTypeObj" v-html="lcImg[iconTypeObj]"></i>
+    <div class="step-comp">
+        <i class="step-icon" :class="iconTypeObj" v-html="lcImg[iconTypeObj]"></i>
         <span class="name" :title="step.stepName">{{step.stepName}}</span>
         <span class="edit">
             <i class="fa fa-edit" @click="editTaskInfo"></i>
