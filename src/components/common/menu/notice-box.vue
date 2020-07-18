@@ -6,7 +6,7 @@
             :before-close="handleClose">
         <div class="slotCanve">
             <div class="top">
-                <el-input class="searchInput" placeholder="请选择输入内容..." suffix-icon="el-icon-search" v-model="messageParam">
+                <el-input class="search-input" placeholder="请选择输入内容..." suffix-icon="el-icon-search" v-model="messageParam">
                 </el-input>
                 <li class="refreshIcon el-icon-refresh" title="刷新"></li>
             </div>

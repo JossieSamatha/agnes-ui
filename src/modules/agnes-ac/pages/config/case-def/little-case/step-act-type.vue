@@ -1,5 +1,5 @@
 <template>
-    <ul class="stepType">
+    <ul class="step-type">
         <li v-for="stepType in stepTypeOption"
             :key="stepType.id"
             :class="stepType.type"

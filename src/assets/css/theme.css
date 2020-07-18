@@ -1008,9 +1008,16 @@ form input[type=submit] {
     width: 100%;
 }
 
-.el-form .el-form-item--small .el-form-item__label,
-.el-form .el-form-item--small .el-form-item__content {
+.el-form .el-form-item .el-form-item__label,
+.el-form .el-form-item .el-form-item__content,
+.el-form .el-form-item .el-form-item__content .el-radio,
+.el-form .el-form-item .el-form-item__content .el-checkbox,
+.el-form .el-form-item .el-form-item__content .el-input__icon {
     line-height: 28px;
+}
+
+.el-form .el-form-item .el-form-item__content .el-button--text {
+    padding: 0;
 }
 
 .el-form .el-form-item .el-form-item__label {
@@ -1055,7 +1062,7 @@ form input[type=submit] {
     padding: 5px;
 }
 
-.el-form .el-form-item .el-form-item__content .el-button {
+.el-form .el-form-item .el-form-item__content .el-button:not(.el-button--text) {
     padding: 4px 10px;
     color: #476DBE;
     border-color: #476DBE;
@@ -1123,7 +1130,8 @@ form input[type=submit] {
 }
 
 .actionPanel .el-button.is-disabled,
-.actionPanel .el-button.is-disabled:focus, .el-button.is-disabled:hover {
+.actionPanel .el-button.is-disabled:focus,
+.actionPanel .el-button.is-disabled:hover {
     color: #CCCCCC;
     border-color: #EAEDF1;
     background-color: #F6F6F6;
@@ -1836,8 +1844,8 @@ form input[type=submit] {
 
 .el-checkbox__input.is-checked:not(.is-disabled) .el-checkbox__inner,
 .el-checkbox__input.is-indeterminate:not(.is-disabled) .el-checkbox__inner {
-    background: #476DBE;
-    border: 1px solid #476DBE;
+    /*background: #476DBE;*/
+    /*border: 1px solid #476DBE;*/
     font-weight: bold;
 }
 

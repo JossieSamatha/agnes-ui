@@ -21,14 +21,14 @@
     line-height: 18px;
 }
 
-.little-case-page .option-panel .alterRadioBtn
+.little-case-page .option-panel .alter-radio-btn
 .el-radio-button__orig-radio:checked + .el-radio-button__inner {
     background-color: #476DBE;
     border-color: #476DBE;
     box-shadow: -1px 0 0 0 #476DBE;
 }
 
-.little-case-page .option-panel .alterRadioBtn
+.little-case-page .option-panel .alter-radio-btn
 .el-radio-button:not(.is-active) .el-radio-button__inner:hover {
     color: #476DBE;
 }
@@ -44,11 +44,11 @@
     border-color: #a0cfff;
 }
 
-.little-case-page .option-panel .searchInput {
+.little-case-page .option-panel .search-input {
     width: 200px;
 }
 
-.little-case-page .option-panel .searchInput input {
+.little-case-page .option-panel .search-input input {
     height: 26px;
     line-height: 26px;
     font-size: 12px;
@@ -57,7 +57,7 @@
     border-color: #eaeaea;
 }
 
-.little-case-page .option-panel .searchInput .el-input__icon {
+.little-case-page .option-panel .search-input .el-input__icon {
     line-height: 26px;
 }
 
@@ -79,17 +79,17 @@
 
 ==============================*/
 
-#app .gf-dop .litteCase .el-tabs.normal-tab {
+#app .gf-dop .little-case .el-tabs.normal-tab {
     width: 100%;
     height: calc(100% - 20px);
 }
 
-#app .gf-dop .litteCase .el-tabs.normal-tab > .el-tabs__header
+#app .gf-dop .little-case .el-tabs.normal-tab > .el-tabs__header
 .el-tabs__nav {
     border-radius: 0px;
 }
 
-#app .gf-dop .litteCase .el-tabs.el-tabs.normal-tab .el-tabs__header
+#app .gf-dop .little-case .el-tabs.el-tabs.normal-tab .el-tabs__header
 .el-tabs__item {
     width: 90px;
     height: 30px;
@@ -100,14 +100,14 @@
     background: #fff;
 }
 
-#app .gf-dop .litteCase .el-tabs.el-tabs.normal-tab .el-tabs__header
+#app .gf-dop .little-case .el-tabs.el-tabs.normal-tab .el-tabs__header
 .el-tabs__item.is-active {
     position: relative;
     color: #476DBE;
     border-bottom: none;
 }
 
-#app .gf-dop .litteCase .el-tabs.el-tabs.normal-tab .el-tabs__header
+#app .gf-dop .little-case .el-tabs.el-tabs.normal-tab .el-tabs__header
 .el-tabs__item.is-active::before {
     content: '';
     display: block;
@@ -119,20 +119,20 @@
     background: #476DBE;
 }
 
-#app .gf-dop .litteCase .el-tabs.normal-tab .el-tabs__content {
+#app .gf-dop .little-case .el-tabs.normal-tab .el-tabs__content {
     border-radius: 0;
     height: calc(100% - 30px);
     padding-top: 10px;
 }
 
-#app .gf-dop .litteCase .el-tabs.normal-tab .el-tabs__content
+#app .gf-dop .little-case .el-tabs.normal-tab .el-tabs__content
 .ag-theme-blue .ag-root,
-.litteCase .el-tabs.normal-tab .el-tabs__content
+.little-case .el-tabs.normal-tab .el-tabs__content
 .ag-theme-blue .ag-header {
     border: none;
 }
 
-#app .gf-dop .litteCase .el-tabs.normal-tab .el-tabs__content
+#app .gf-dop .little-case .el-tabs.normal-tab .el-tabs__content
 .gf-grid-pagination-bar {
     border: none;
 }
@@ -143,37 +143,38 @@
 
 ==============================*/
 
-.litteCase .el-checkbox.is-checked:not(.is-disabled) .el-checkbox__label {
-    color: #476DBE;
+.little-case .el-checkbox.is-checked:not(.is-disabled) .el-checkbox__label {
+    /*color: #476DBE;*/
+    color: #409EFF;
 }
 
-.litteCase .el-checkbox .el-checkbox__label {
-    font-size: 12px;
+.little-case .el-checkbox .el-checkbox__label {
+    font-size: 14px;
     padding-left: 5px;
 }
 
-.litteCase .el-checkbox + .el-checkbox {
+.little-case .el-checkbox + .el-checkbox {
     margin-left: 0;
 }
 
-.litteCase .el-checkbox__inner {
+.little-case .el-checkbox__inner {
     width: 12px;
     height: 12px;
     border: 1px solid #C7C7C7;
     border-radius: 2px;
 }
 
-.litteCase .el-checkbox__input.is-checked:not(.is-disabled) .el-checkbox__inner {
-    background: #476DBE;
-    border: 1px solid #476DBE;
+.little-case .el-checkbox__input.is-checked:not(.is-disabled) .el-checkbox__inner {
+    /*background: #476DBE;*/
+    /*border: 1px solid #476DBE;*/
     font-weight: bold;
 }
 
-.litteCase .el-checkbox__input.is-indeterminate .el-checkbox__inner::before {
+.little-case .el-checkbox__input.is-indeterminate .el-checkbox__inner::before {
     transform: scale(.7);
 }
 
-.litteCase .el-checkbox__input.is-checked .el-checkbox__inner::after {
+.little-case .el-checkbox__input.is-checked .el-checkbox__inner::after {
     border-width: 2px;
     height: 9px;
     top: -2px;
@@ -186,112 +187,111 @@
       流程看板样式
 
 ==============================*/
-.litteCase.workFlowModule {
+.little-case.work-flow-module {
     display: flex;
     flex-direction: row;
     height: 100%;
 }
 
-.litteCase.workFlowModule > section {
+.little-case.work-flow-module > section {
     display: flex;
     flex-direction: column;
     height: 100%;
 }
 
-.litteCase.workFlowModule > section>.content {
+.little-case.work-flow-module > section>.content {
     flex: 1;
     height: 100%;
     overflow: scroll;
 }
 
-.litteCase.workFlowModule > section>.content::-webkit-scrollbar-thumb {
+.little-case.work-flow-module > section>.content::-webkit-scrollbar-thumb {
     background: transparent;
 }
 
-.litteCase.workFlowModule > section>.content:hover::-webkit-scrollbar-thumb {
+.little-case.work-flow-module > section>.content:hover::-webkit-scrollbar-thumb {
     background: rgba(135, 141, 153, .3);
 }
 
-.litteCase.workFlowModule > section.commonTaskSection {
+.little-case.work-flow-module > section.common-task-section {
     width: 250px;
     height: 100%;
     margin-right: 10px;
     border-right: 1px solid #EAEDF1;
 }
 
-.litteCase.workFlowModule > section.commonTaskSection > span {
+.little-case.work-flow-module > section.common-task-section > span {
     color: #333;
     line-height: 32px;
     padding: 0 10px;
 }
 
-.litteCase.workFlowModule > section.commonTaskSection > .stageItem {
+.little-case.work-flow-module > section.common-task-section > .stage-item {
     height: calc(100% - 30px);
     margin: 0;
     padding-right: 10px;
     overflow-y: scroll;
 }
 
-.litteCase.workFlowModule > section.commonTaskSection > .stageItem::-webkit-scrollbar-thumb {
+.little-case.work-flow-module > section.common-task-section > .stage-item::-webkit-scrollbar-thumb {
     background: transparent;
 }
 
-.litteCase.workFlowModule > section.commonTaskSection > .stageItem:hover::-webkit-scrollbar-thumb {
+.little-case.work-flow-module > section.common-task-section > .stage-item:hover::-webkit-scrollbar-thumb {
     background: rgba(135, 141, 153, .3);;
 }
 
-.litteCase.workFlowModule > section.commonTaskSection > .stageItem
-.stageItemContent {
+.little-case.work-flow-module > section.common-task-section > .stage-item
+.stage-item-content {
     max-height: calc(100% - 20px);
 }
 
-.litteCase.workFlowModule > section.taskSection > .option-panel > span {
+.little-case.work-flow-module > section.taskSection > .option-panel > span {
     color: #333;
     font-size: 14px;
 }
 
-.litteCase.workFlowModule > section.taskSection {
+.little-case.work-flow-module > section.taskSection {
     width: calc(100% - 250px);
     flex: 1;
 }
 
-.litteCase.workFlowModule .stage-container {
+.little-case.work-flow-module .stage-container {
     display: flex;
     min-height: calc(50% - 5px);
 }
 
-.litteCase.workFlowModule .stage-container + .stage-container {
+.little-case.work-flow-module .stage-container + .stage-container {
     margin-top: 10px;
 }
 
-.litteCase.workFlowModule .stage-container .stageList {
+.little-case.work-flow-module .stage-container .stage-list {
     display: flex;
     flex-direction: row;
     white-space: nowrap;
     padding-bottom: 15px;
 }
 
-.litteCase.workFlowModule .stageItem.addBtn {
+.little-case.work-flow-module .stage-item.add-btn {
     width: 150px;
     height: 44px;
 }
 
-.litteCase.workFlowModule .stageItem {
+.little-case.work-flow-module .stage-item {
     flex: 0 0 auto;
     width: 250px;
     margin-right: 25px;
 }
 
-.litteCase.workFlowModule .commonTaskSection .stage-container .stageItem {
+.little-case.work-flow-module .common-task-section .stage-container .stage-item {
     margin-right: 0;
 }
 
-.litteCase.workFlowModule .processGhost,
-.litteCase.workFlowModule .stageGhost {
+.little-case.work-flow-module .stage-ghost {
     box-shadow: 0 0 10px #476DBE;
 }
 
-.litteCase.workFlowModule .stageItem .stageItemTitle {
+.little-case.work-flow-module .stage-item .stage-item-title {
     display: flex;
     align-items: center;
     position: relative;
@@ -303,17 +303,17 @@
     cursor: pointer;
 }
 
-.litteCase.workFlowModule .processList .process-item {
+.little-case.work-flow-module .process-list .process-item {
     border: 1px solid #eaeaea;
     padding: 5px;
     margin-top: 5px;
 }
 
-.litteCase.workFlowModule .processList .process-item + .process-item {
+.little-case.work-flow-module .process-list .process-item + .process-item {
     margin-top: 10px;
 }
 
-.litteCase.workFlowModule .process-item .process-item-title {
+.little-case.work-flow-module .process-item .process-item-title {
     display: flex;
     align-items: center;
     position: relative;
@@ -324,22 +324,22 @@
     cursor: pointer;
 }
 
-.litteCase.workFlowModule .process-item.stepGroup .process-item-title {
+.little-case.work-flow-module .process-item.step-group .process-item-title {
     color: #333;
 }
 
-.litteCase.workFlowModule .stage-container.ableChoosed .stageItem .stageItemTitle {
+.little-case.work-flow-module .stage-container.able-choosed .stage-item .stage-item-title {
     color: #fff;
     background: #FF9900;
 }
 
-.litteCase.workFlowModule .stageItem.addBtn .stageItemTitle {
+.little-case.work-flow-module .stage-item.add-btn .stage-item-title {
     color: #666;
     background: #E8EAEF;
     justify-content: center;
 }
 
-.litteCase.workFlowModule .stageItem .stageItemTitle::after {
+.little-case.work-flow-module .stage-item .stage-item-title::after {
     content: '';
     display: block;
     position: absolute;
@@ -351,38 +351,37 @@
     border-left: 14px solid #585c73;
 }
 
-.litteCase.workFlowModule .stage-container.ableChoosed .stageItem
-.stageItemTitle::after {
+.little-case.work-flow-module .stage-container.able-choosed .stage-item
+.stage-item-title::after {
     display: none;
 }
 
-.litteCase.workFlowModule .stageItem.addBtn
-.stageItemTitle::after {
+.little-case.work-flow-module .stage-item.add-btn .stage-item-title::after {
     border-left-color: #E8EAEF;
 }
 
-.litteCase.workFlowModule .process-item .process-item-title .proDragBar,
-.litteCase.workFlowModule .stageItem .stageItemTitle .dragBar {
+.little-case.work-flow-module .process-item .process-item-title .drag-bar,
+.little-case.work-flow-module .stage-item .stage-item-title .drag-bar {
     cursor: move;
     margin-right: 20px;
     transform: rotate(90deg);
 }
 
-.litteCase.workFlowModule .process-item .process-item-title .proDragBar {
+.little-case.work-flow-module .process-item .process-item-title .drag-bar {
     margin-right: 5px;
     color: #476DBE;
 }
 
-.litteCase.workFlowModule .process-item.stepGroup .process-item-title .proDragBar {
+.little-case.work-flow-module .process-item.step-group .process-item-title .drag-bar {
     color: #666;
 }
 
-.litteCase.workFlowModule .stageItem.addBtn .stageItemTitle .el-icon-plus {
+.little-case.work-flow-module .stage-item.add-btn .stage-item-title .el-icon-plus {
     margin-right: 20px;
 }
 
-.litteCase.workFlowModule .process-item .process-item-title>.title,
-.litteCase.workFlowModule .stageItem .stageItemTitle > span.title {
+.little-case.work-flow-module .process-item .process-item-title>.title,
+.little-case.work-flow-module .stage-item .stage-item-title > span.title {
     display: flex;
     position: relative;
     flex: 1;
@@ -392,47 +391,48 @@
     text-overflow: ellipsis;
 }
 
-.litteCase.workFlowModule .process-item .process-item-title > span.title .edit.is-disabled,
-.litteCase.workFlowModule .stageItem .stageItemTitle > span.title .edit.is-disabled {
+.little-case.work-flow-module .process-item .process-item-title > span.title .edit.is-disabled,
+.little-case.work-flow-module .stage-item .stage-item-title > span.title .edit.is-disabled {
     display: none;
 }
 
-.litteCase.workFlowModule .process-item .process-item-title:hover > span.title .edit.is-disabled,
-.litteCase.workFlowModule .stageItem .stageItemTitle:hover > span.title .edit.is-disabled {
+.little-case.work-flow-module .process-item .process-item-title:hover > span.title .edit.is-disabled,
+.little-case.work-flow-module .stage-item .stage-item-title:hover > span.title .edit.is-disabled {
     display: block;
 }
 
-.litteCase.workFlowModule .process-item .process-item-title > span.title .edit > i,
-.litteCase.workFlowModule .stageItem .stageItemTitle > span.title .edit > i {
+.little-case.work-flow-module .process-item .process-item-title > span.title .edit > i,
+.little-case.work-flow-module .stage-item .stage-item-title > span.title .edit > i {
+    font-size: 16px;
     line-height: 20px;
     margin-left: 3px;
     cursor: pointer;
 }
 
-.litteCase.workFlowModule .process-item .process-item-title > span.title .edit > .el-icon-plus,
-.litteCase.workFlowModule .stageItem .stageItemTitle > span.title .edit > .el-icon-plus {
+.little-case.work-flow-module .process-item .process-item-title > span.title .edit > .el-icon-plus,
+.little-case.work-flow-module .stage-item .stage-item-title > span.title .edit > .el-icon-plus {
     font-weight: bold;
 }
 
-.litteCase.workFlowModule .process-item .process-item-title > span.title .edit > .fa.fa-edit,
-.litteCase.workFlowModule .stageItem .stageItemTitle > span.title .edit > .fa.fa-edit {
+.little-case.work-flow-module .process-item .process-item-title > span.title .edit > .fa.fa-edit,
+.little-case.work-flow-module .stage-item .stage-item-title > span.title .edit > .fa.fa-edit {
     display: none;
 }
 
-.litteCase.workFlowModule .process-item .process-item-title:hover > span.title .edit > .fa.fa-edit,
-.litteCase.workFlowModule .process-item .process-item-title:hover > span.title .edit > .fa.fa-trash-o,
-.litteCase.workFlowModule .stageItem .stageItemTitle:hover > span.title .edit > .fa.fa-edit,
-.litteCase.workFlowModule .stageItem .stageItemTitle:hover > span.title .edit > .fa.fa-trash-o {
+.little-case.work-flow-module .process-item .process-item-title:hover > span.title .edit > .fa.fa-edit,
+.little-case.work-flow-module .process-item .process-item-title:hover > span.title .edit > .fa.fa-trash-o,
+.little-case.work-flow-module .stage-item .stage-item-title:hover > span.title .edit > .fa.fa-edit,
+.little-case.work-flow-module .stage-item .stage-item-title:hover > span.title .edit > .fa.fa-trash-o {
     display: inline;
 }
 
-.litteCase.workFlowModule .process-item .process-item-title>.title > .title-input,
-.litteCase.workFlowModule .stageItem .stageItemTitle > span.title > .title-input {
+.little-case.work-flow-module .process-item .process-item-title>.title > .title-input,
+.little-case.work-flow-module .stage-item .stage-item-title > span.title > .title-input {
     flex: 1;
 }
 
-.litteCase.workFlowModule .process-item .process-item-title>.title > .title-input > input,
-.litteCase.workFlowModule .stageItem .stageItemTitle > .title > .title-input > input {
+.little-case.work-flow-module .process-item .process-item-title>.title > .title-input > input,
+.little-case.work-flow-module .stage-item .stage-item-title > .title > .title-input > input {
     height: 20px;
     line-height: 20px;
     border-radius: 2px;
@@ -441,13 +441,13 @@
     text-overflow: ellipsis;
 }
 
-.litteCase.workFlowModule .process-item .process-item-title > span.title > .title-input .el-input__icon,
-.litteCase.workFlowModule .stageItem .stageItemTitle > span.title > .title-input .el-input__icon {
+.little-case.work-flow-module .process-item .process-item-title > span.title > .title-input .el-input__icon,
+.little-case.work-flow-module .stage-item .stage-item-title > span.title > .title-input .el-input__icon {
     line-height: 20px;
 }
 
-.litteCase.workFlowModule .process-item .process-item-title>.title > .title-input.is-disabled > input,
-.litteCase.workFlowModule .stageItem .stageItemTitle > span.title > .title-input.is-disabled > input {
+.little-case.work-flow-module .process-item .process-item-title>.title > .title-input.is-disabled > input,
+.little-case.work-flow-module .stage-item .stage-item-title > span.title > .title-input.is-disabled > input {
     font-size: 14px;
     color: inherit;
     background: transparent;
@@ -456,29 +456,29 @@
     cursor: pointer;
 }
 
-.litteCase.workFlowModule .process-item .process-item-title>.title > .title-input.is-disabled > input {
+.little-case.work-flow-module .process-item .process-item-title>.title > .title-input.is-disabled > input {
     font-weight: bold;
 }
 
-.litteCase.workFlowModule .process-item.stepGroup .process-item-title>.title > .title-input.is-disabled > input {
+.little-case.work-flow-module .process-item.step-group .process-item-title>.title > .title-input.is-disabled > input {
     font-weight: normal;
 }
 
-.litteCase.workFlowModule .stageItem .stageItemContent {
+.little-case.work-flow-module .stage-item .stage-item-content {
     position: relative;
     width: 100%;
     background: #fff;
 }
 
-.litteCase.workFlowModule .stageItem .stepList {
+.little-case.work-flow-module .stage-item .step-list {
     background: #fff;
 }
 
-.litteCase.workFlowModule .process-item.stepGroup .stepList {
+.little-case.work-flow-module .process-item.step-group .step-list {
     background: #f2f2f2;
 }
 
-.litteCase.workFlowModule .stepComp {
+.little-case.work-flow-module .step-comp {
     position: relative;
     height: 40px;
     line-height: 40px;
@@ -489,7 +489,7 @@
     cursor: move;
 }
 
-.litteCase.workFlowModule .stepComp > i.stepIcon {
+.little-case.work-flow-module .step-comp > i.step-icon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -500,33 +500,33 @@
     height: 40px;
 }
 
-.litteCase.workFlowModule .stepComp > i.stepIcon>svg {
+.little-case.work-flow-module .step-comp > i.step-icon>svg {
     width: 25px;
     height: 25px;
 }
 
-.litteCase.workFlowModule .stepComp > i.stepIcon.person>svg {
+.little-case.work-flow-module .step-comp > i.step-icon.person>svg {
     width: 25px;
     height: 22px;
     fill: #666;
 }
 
-.litteCase.workFlowModule .stepComp > i.stepIcon.indicator>svg {
+.little-case.work-flow-module .step-comp > i.step-icon.indicator>svg {
     width: 30px;
     height: 30px;
     fill: #DB713E;
 }
 
-.litteCase.workFlowModule .stepComp > i.stepIcon.robot>svg {
+.little-case.work-flow-module .step-comp > i.step-icon.robot>svg {
     fill: #67c23a;
 }
 
-.litteCase.workFlowModule .stepComp > i.stepIcon.process>svg {
+.little-case.work-flow-module .step-comp > i.step-icon.process>svg {
     fill: #476DBE;
 }
 
 
-.litteCase.workFlowModule .stepComp > span.name {
+.little-case.work-flow-module .step-comp > span.name {
     padding: 0 40px;
     display: inline-block;
     width: 100%;
@@ -534,12 +534,12 @@
     text-overflow: ellipsis;
 }
 
-.litteCase.workFlowModule .stageItem .stepList .stepGroup {
+.little-case.work-flow-module .stage-item .step-list .step-group {
     background: #f2f2f2;
     margin: 10px 0;
 }
 
-.litteCase.workFlowModule .stepComp .edit {
+.little-case.work-flow-module .step-comp .edit {
     display: none;
     position: absolute;
     top: 0;
@@ -548,31 +548,31 @@
     color: #476DBE;
 }
 
-.litteCase.workFlowModule .process-item .process-item-title:hover > span.title .edit > .fa.fa-edit{
+.little-case.work-flow-module .process-item .process-item-title:hover > span.title .edit > .fa.fa-edit{
     color: #476DBE;
 }
 
-.litteCase.workFlowModule .stepComp .edit > i {
+.little-case.work-flow-module .step-comp .edit > i {
     margin-left: 3px;
     cursor: pointer;
 }
 
-.litteCase.workFlowModule .process-item .process-item-title:hover > span.title .edit > .fa.fa-trash-o,
-.litteCase.workFlowModule .stepComp .edit > i.fa.fa-trash-o {
+.little-case.work-flow-module .process-item .process-item-title:hover > span.title .edit > .fa.fa-trash-o,
+.little-case.work-flow-module .step-comp .edit > i.fa.fa-trash-o {
     color: #F5222E;
 }
 
-.litteCase.workFlowModule .stepComp:hover .edit {
+.little-case.work-flow-module .step-comp:hover .edit {
     display: block;
 }
 
-.litteCase.workFlowModule .stepGhost {
+.little-case.work-flow-module .stepGhost {
     font-weight: bold;
     color: #476DBE;
     box-shadow: 0 0 10px #476DBE;
 }
 
-.litteCase.workFlowModule .stageItem .stageItemContent .addTask {
+.little-case.work-flow-module .stage-item .stage-item-content .add-task {
     position: relative;
     width: 100%;
     height: 40px;
@@ -584,7 +584,7 @@
     margin-top: 5px;
 }
 
-.litteCase.workFlowModule .stageItem .stageAdd .stepType {
+.little-case.work-flow-module .stage-item .stage-add .step-type {
     display: none;
     position: absolute;
     left: -30px;
@@ -598,16 +598,16 @@
     border-radius: 5px;
 }
 
-.litteCase.workFlowModule .stageItem .stageAdd {
+.little-case.work-flow-module .stage-item .stage-add {
     position: relative;
 }
 
-.litteCase.workFlowModule .stageItem .stageAdd:hover .stepType {
+.little-case.work-flow-module .stage-item .stage-add:hover .step-type {
     display: flex;
 }
 
 
-.litteCase.workFlowModule .stageItem .stageAdd .stepType::before{
+.little-case.work-flow-module .stage-item .stage-add .step-type::before{
     content: "\f106";
     font-family: "fontawesome";
     display: block;
@@ -617,85 +617,120 @@
     color: #ccc;
 }
 
-.litteCase.workFlowModule .stageItem .stageAdd .stepType>li{
+.little-case.work-flow-module .stage-item .stage-add .step-type>li{
     flex: 1;
     line-height: 40px;
     text-align: center;
     color: #666;
 }
 
-.litteCase.workFlowModule .stageItem .stageAdd .stepType>li>svg {
+.little-case.work-flow-module .stage-item .stage-add .step-type>li>svg {
     width: 100%;
     height: 100%;
     padding: 8px;
     fill: #666;
 }
 
-.litteCase.workFlowModule .stageItem .stageAdd .stepType>li.group{
+.little-case.work-flow-module .stage-item .stage-add .step-type>li.group{
     font-size: 12px;
 }
 
-.litteCase.workFlowModule .stageItem .stageAdd .stepType>li:hover{
+.little-case.work-flow-module .stage-item .stage-add .step-type>li:hover{
     color: #476DBE;
     background: #ECEDEF;
 }
 
-.litteCase.workFlowModule .stageItem .stageAdd .stepType>li:hover>svg{
+.little-case.work-flow-module .stage-item .stage-add .step-type>li:hover>svg{
     fill: #476DBE;
 }
 
-.litteCase.workFlowModule .stageItem .stageItemContent .addTask>span {
+.little-case.work-flow-module .stage-item .stage-item-content .add-task>span {
     display: inline-block;
     cursor: pointer;
 }
 
-.litteCase.workFlowModule .stageItem .stageItemContent .addTask>span:hover,
-.litteCase.workFlowModule .stageItem .stageItemContent .addTask>span:hover>i {
+.little-case.work-flow-module .stage-item .stage-item-content .add-task>span:hover,
+.little-case.work-flow-module .stage-item .stage-item-content .add-task>span:hover>i {
     color: #476DBE;
     font-weight: bold;
 }
 
-.litteCase.workFlowModule .stageItem .stageItemContent .addTask>span+span {
+.little-case.work-flow-module .stage-item .stage-item-content .add-task>span+span {
     margin-left: 10px;
 }
 
-.litteCase.workFlowModule .stageItem .stageItemContent .addTask > i {
+.little-case.work-flow-module .stage-item .stage-item-content .add-task > i {
     margin-right: 5px;
 }
 
-.stepDetailDrawer .el-drawer__body,
-.stepDetailDrawer .formPage.stepDetail,
-.stepDetailDrawer .formPage.stepDetail .el-form {
+.step-detail-drawer .el-drawer__body,
+.step-detail-drawer .form-page.step-detail,
+.step-detail-drawer .form-page.step-detail .el-form {
     height: 100%;
 }
 
-.stepDetailDrawer .formPage.stepDetail .el-form {
+.step-detail-drawer .form-page.step-detail {
+    display: flex;
+    flex-direction: column;
+}
+
+.step-detail-drawer .form-page.step-detail .el-form {
+    flex: 1;
     overflow-y: auto;
 }
 
-.stepDetailDrawer .formPage.stepDetail .el-form::-webkit-scrollbar-thumb {
+.step-detail-drawer .form-page.step-detail .el-form {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.step-detail-drawer .form-page.step-detail .el-form::-webkit-scrollbar-thumb {
     background: transparent;
 }
 
-.stepDetailDrawer .formPage.stepDetail .el-form:hover::-webkit-scrollbar-thumb {
+.step-detail-drawer .form-page.step-detail .el-form:hover::-webkit-scrollbar-thumb {
     background: rgba(135, 141, 153, .3);
 }
 
-.stepDetail .nodeSetContainer {
+.step-detail-drawer .form-page.step-detail .form__footer {
+    background: #fff;
+    height: 55px;
+    line-height: 55px;
+    text-align: center;
+}
+
+.step-detail-drawer .form-page.step-detail .form__footer .el-button {
+    width: 75px;
+    min-width: 75px;
+    height: 25px;
+    padding: 0;
+}
+
+.step-detail-drawer .form-page.step-detail .form__footer .el-button.el-button--primary {
+    color: #fff;
+    background: #476DBE;
+    border-color: #476DBE;
+}
+
+.step-detail-drawer .form-page.step-detail .form__footer .el-button + .el-button {
+    margin-left: 3px;
+}
+
+.step-detail .node-set-container {
     margin-top: 5px;
 }
 
-.stepDetail.gf-cur-dialog .el-form-item__content .el-input,
-.stepDetail.gf-cur-dialog .el-form-item__content .el-select,
-.stepDetail .nodeSetContainer {
+.step-detail.gf-cur-dialog .el-form-item__content .el-input,
+.step-detail.gf-cur-dialog .el-form-item__content .el-select,
+.step-detail .node-set-container {
     max-width: 500px;
 }
 
-.stepDetail .nodeSetContainer .nodeSet + .nodeSet {
+.step-detail .node-set-container .node-set + .node-set {
     margin-top: 5px;
 }
 
-.stepDetail .nodeSetContainer .nodeSet > .nodeName {
+.step-detail .node-set-container .node-set > .node-name {
     display: inline-block;
     width: 100px;
     font-size: 14px;
@@ -705,17 +740,24 @@
     vertical-align: middle;
 }
 
-.stepDetail .nodeSetContainer .nodeSet > .el-select {
+.step-detail .node-set-container .node-set > .el-select {
     width: calc(50% - 55px);
     margin-left: 5px;
 }
 
-.stepDetail .el-card .el-card__body .el-form {
+.step-detail .el-card .el-card__body .el-form {
     padding: 0;
 }
 
 
+.remind-comp .tab-label>i {
+    margin-right: 3px;
+    font-weight: bold;
+}
 
+.remind-comp .tab-label>i.el-icon-finished {
+
+}
 
 
 
