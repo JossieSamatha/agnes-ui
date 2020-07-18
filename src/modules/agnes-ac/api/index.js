@@ -4,6 +4,7 @@ import taskDefineApi from './task-define-api';
 import funDefineApi from './fun-define-api'
 import workdayConfigApi from './workday-config-api';
 import caseConfigApi from './case-config-api';
+import ruleConfigApi from './rule-config-api';
 
 export default {
     modelConfigApi,
@@ -11,5 +12,6 @@ export default {
     taskDefineApi,
     funDefineApi,
     workdayConfigApi,
-    caseConfigApi
+    caseConfigApi,
+    ruleConfigApi
 };
