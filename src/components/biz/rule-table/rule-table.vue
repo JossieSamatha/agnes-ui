@@ -74,7 +74,7 @@
             </el-input>
             <p>规则配置：支持逻辑的自定义编辑，可以使用的组合表达式为：AND/OR 无大小写区分，可以整体取逻辑非的操作。</p>
         </div>
-        <el-dialog title="筛选条件配置" :visible.sync="filterConfDialog">
+        <el-dialog title="筛选条件配置" :visible.sync="filterConfDialog" :modal-append-to-body="false">
             <el-table header-row-class-name="rule-header-row"
                       header-cell-class-name="rule-header-cell"
                       row-class-name="rule-row"

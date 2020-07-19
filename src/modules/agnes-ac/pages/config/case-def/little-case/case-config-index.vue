@@ -1,12 +1,5 @@
 <template>
     <div class="little-case-page">
-        <div class="option-panel" style="margin: -16px 0px 10px;border-bottom: 2px dashed #eaeaea;">
-            <h5>编辑Case定义：{{this.caseDefInfo.caseDefName}}</h5>
-            <div>
-                <el-button type="primary" size="small" @click="cancel">取消</el-button>
-                <el-button type="primary" size="small" @click="saveCase">保存</el-button>
-            </div>
-        </div>
         <div class="little-case work-flow-module">
             <section class="common-task-section" v-if="workflowType === 'ableChoosed'">
                 <span>case公共可选任务</span>
@@ -54,9 +47,11 @@
                        :show-close="false"
                        :visible.sync="drawerVisible"
                        :destroy-on-close="true"
+                       :append-to-body="true"
+                       :modal="false"
                        direction="rtl"
                        size="850px">
-                <stepDetail class="step-detail" v-bind="stepDetailProps" @saveStepInfo="saveStepInfo"></stepDetail>
+                <stepDetail class="step-detail" v-bind="stepDetailProps" @saveStepInfo="saveStepInfo" @cancelAction="cancelAction"></stepDetail>
             </el-drawer>
         </div>
     </div>
@@ -69,13 +64,14 @@
 
     export default {
         props: {
-            caseDefInfo: {type:Object, required:false},
+            args: {type:Object, required:false},
         },
         data() {
             return {
                 workflowType: 'lifeRecycle',
                 actionOption: {group: {name: 'actionStep'}, put: false, ghostClass: 'stepGhost'},
-                caseModelData: this.caseDefInfo.caseDefBody?JSON.parse(this.caseDefInfo.caseDefBody):mockData,
+                caseDefInfo: {},
+                caseModelData: {},
                 drawerVisible: false,
                 stepDetailProps: {},
                 stepList:[]
@@ -86,20 +82,22 @@
             stepDetail
         },
         mounted() {
+            this.caseDefInfo = this.args.caseDefInfo;
+            this.caseModelData = this.caseDefInfo.caseDefBody?JSON.parse(this.caseDefInfo.caseDefBody):mockData;
             this.$app.registerCmd("openDialog", this.onShowDialog);
         },
         methods: {
-            cancel(){
-                this.$nav.closeCurrentTab(this);
+            drawerPageCancel(){
+                this.$emit("drawerPageClose");
             },
-            async saveCase(){
+            async drawerPageSave(){
                 this.caseDefInfo.caseDefBody = JSON.stringify(this.caseModelData);
                 this.caseDefInfo.caseStatus = 0;
                 try {
                     const p = this.$api.caseConfigApi.saveCaseDef(this.caseDefInfo);
                     await this.$app.blockingApp(p);
                     this.$msg.success('保存成功');
-                    this.$nav.closeCurrentTab(this);
+                    this.$emit("drawerPageClose");
                 } catch (e) {
                     this.$msg.error(e);
                 }
@@ -151,6 +149,10 @@
                 }
                 this.$refs.stepDetailDrawer.closeDrawer();
             },
+
+            cancelAction(){
+                this.$refs.stepDetailDrawer.closeDrawer();
+            }
         },
     }
 </script>

@@ -12,6 +12,7 @@ import CaseConfigIndex from "./case-def/little-case/case-config-index";
 const Loading = {
     install: function(Vue){
         Vue.component('step-act-type', stepActType);
+        Vue.component('case-config-index', CaseConfigIndex);
     },
     load: function (Gfui) {
         Gfui.componentView('agnes.config.model', ModelDef, {title: '对象类型定义'});
@@ -20,7 +21,7 @@ const Loading = {
         Gfui.componentView('agnes.define.fun', FunDef, {title: '函数类型定义'});
         Gfui.componentView('agnes.config.workday', WorkDay, {title: '工作日'});
         Gfui.componentView('agnes.config.case', CaseDef, {title: 'case定义'});
-        Gfui.componentView('agnes.config.case.step', CaseConfigIndex, {title: 'case详情配置'});
+        // Gfui.componentView('agnes.config.case.step', CaseConfigIndex, {title: 'case详情配置'});
     }
 };
 

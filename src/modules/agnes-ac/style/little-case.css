@@ -12,7 +12,7 @@
     justify-content: space-between;
     align-items: center;
     height: 40px;
-    padding: 0 10px;
+    padding: 0;
 }
 
 .little-case-page .option-panel button {
@@ -252,7 +252,7 @@
 }
 
 .little-case.work-flow-module > section.taskSection {
-    width: calc(100% - 250px);
+    width: calc(100% - 260px);
     flex: 1;
 }
 
@@ -663,6 +663,11 @@
     margin-right: 5px;
 }
 
+.el-drawer__wrapper.step-detail-drawer {
+    top: 121px;
+    bottom: 10px;
+}
+
 .step-detail-drawer .el-drawer__body,
 .step-detail-drawer .form-page.step-detail,
 .step-detail-drawer .form-page.step-detail .el-form {
@@ -694,21 +699,24 @@
 
 .step-detail-drawer .form-page.step-detail .form__footer {
     background: #fff;
-    height: 55px;
-    line-height: 55px;
-    text-align: center;
+    height: 45px;
+    line-height: 45px;
+    text-align: right;
+    border-bottom: 1px solid #EAEDF1;
+    padding: 0 20px;
 }
 
 .step-detail-drawer .form-page.step-detail .form__footer .el-button {
-    width: 75px;
-    min-width: 75px;
     height: 25px;
-    padding: 0;
+    padding: 5px 19px;
+    border-color: #E1E4E8;
+    color: #333;
+    background: transparent;
+    font-size: 14px;
 }
 
-.step-detail-drawer .form-page.step-detail .form__footer .el-button.el-button--primary {
-    color: #fff;
-    background: #476DBE;
+.step-detail-drawer .form-page.step-detail .form__footer .el-button.primary {
+    color: #476DBE;
     border-color: #476DBE;
 }
 
