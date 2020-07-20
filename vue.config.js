@@ -13,6 +13,14 @@ module.exports = {
                     '^/api/agnes-ec': '/'
                 }
             },
+            '/api/agnes-dop': {
+                target: 'http://127.0.0.1:9007',
+                ws: true,
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api/agnes-dop': '/'
+                }
+            },
             '/api/agnes-ac': {
                 target: 'http://127.0.0.1:9002',
                 ws: true,

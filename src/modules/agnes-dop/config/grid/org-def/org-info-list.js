@@ -9,7 +9,6 @@ export default {
         {headerName: "机构名称", field: "extOrgName"},
         {headerName: "机构类别", field: "orgTypeName"},
         {headerName: "机构代码", field: "extOrgCode"},
-        {headerName: "大额支付号", field: "bankNo"},
         {headerName: "机构电话", field: "extOrgPhone"},
         {headerName: "机构传真", field: "extOrgFax"},
         {headerName: "机构地址", field: "extOrgAddr"},
