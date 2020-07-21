@@ -50,8 +50,10 @@
                 this.showDlg('edit', params.data, this.onEditCaseDef.bind(this));
             },
             showCaseStep(params){
+                // 抽屉创建
                 this.$drawerPage.create({
                     width: 'calc(92% - 215px)',
+                    title: '',
                     component: 'case-config-index',
                     wrapperClosable: true,
                     args: {caseDefInfo:params.data}

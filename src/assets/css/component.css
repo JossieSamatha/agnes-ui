@@ -1038,10 +1038,18 @@
 }
 
 .gf-page-drawer .el-drawer__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 1;
     margin: 0;
     padding: 9px 20px 10px;
-    text-align: right;
     border-bottom: 1px solid #EAEDF1;
+}
+
+.gf-page-drawer .el-drawer__header .drawer-title{
+    color: #333;
+    font-size: 16px;
 }
 
 .gf-page-drawer .el-drawer__header .el-button {

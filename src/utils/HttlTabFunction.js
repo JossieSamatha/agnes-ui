@@ -5,11 +5,6 @@ function showTab(url, code, name) {
         actionUrl: url,
         ifIframe: true
     };
-
-    if (!tabObj) {
-        return false;
-    }
-
     let tabView = Object.assign({args: {data: tabObj}}, tabObj, {id: code || ''});
     let tab = this.$gfui.$app.nav.showView(tabView);
 

@@ -87,9 +87,12 @@
             this.$app.registerCmd("openStepDialog", this.onShowDialog);
         },
         methods: {
+            // 取消onCancel事件，触发抽屉关闭事件this.$emit("onClose");
             onCancel(){
                 this.$emit("onClose");
             },
+
+            // 保存onSave事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
             async onSave(){
                 this.caseDefInfo.caseDefBody = JSON.stringify(this.caseModelData);
                 this.caseDefInfo.caseStatus = 0;

@@ -304,7 +304,7 @@
     height: 44px;
     color: #fff;
     background: #585c73;
-    padding: 0 10px;
+    padding: 0 10px 0 20px;
     cursor: pointer;
 }
 
@@ -342,6 +342,18 @@
     color: #666;
     background: #E8EAEF;
     justify-content: center;
+}
+
+.little-case.work-flow-module .stage-item:not(:first-child):not(.add-btn) .stage-item-title::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 0px;
+    top: 0px;
+    border: 22px solid transparent;
+    border-left: 14px solid #fff;
 }
 
 .little-case.work-flow-module .stage-item .stage-item-title::after {
