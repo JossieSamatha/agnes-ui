@@ -27,9 +27,9 @@ export default {
         enableExportLocal: true,
         pageOptions: {
             // 分页大小
-            pageSize: 1,
+            pageSize: 10,
             // 可供选择的分页大小（下拉切换分页值）
-            pageSizes: [1, 2, 50, 100],
+            pageSizes: [10, 20, 50, 100],
             // 显示在状态栏上的页数字的个数
             pageCount: 5,
             prevText: "上一页",

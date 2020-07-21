@@ -82,7 +82,7 @@
 
             // 新增Step
             addStep(stepData){
-                this.$app.runCmd('openDialog', 'add', {}, {addType: 'stage', curStage: this.stage, stepType: this.stepType, stepData: stepData});
+                this.$app.runCmd('openStepDialog', 'add', {}, {addType: 'stage', curStage: this.stage, stepType: this.stepType, stepData: stepData});
             },
 
             // 新增group

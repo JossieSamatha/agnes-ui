@@ -5,13 +5,13 @@
                       :stage.sync="stage" :stageList.sync="stageList" :stageIndex="stageIndex"
                       :stageType.sync="stageType" :stepType.sync="stepType">
                 <template slot="stageSlot">
-                    <draggable tag="ul" class="process-list" :list="stage.children" :group="{name: 'step'}" :sort="true">
+                    <draggable tag="ul" class="process-list" v-model="stage.children" :group="{name: 'step'}" :sort="true">
                         <template v-for="(stageItem, stageItemIndex) in stage.children">
                             <stepDef :key="stageItem.stepCode" v-if="stageItem.defType == 'step' && curOptional(stageItem.optional)"
                                      :step.sync="stageItem" :stepList.sync="stage.children" :stepIndex="stageItemIndex"
                                      :stepType.sync="stepType">
                             </stepDef>
-                            <groupDef :key="stageItem.defId" v-if="stageItem.defType == 'group'"
+                            <groupDef :key="stageItem.defId" v-else
                               :group.sync="stageItem" :groupList.sync="stage.children" :groupIndex="stageItemIndex"
                               :groupType.sync="stepType"></groupDef>
                         </template>

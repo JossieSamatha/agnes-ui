@@ -44,7 +44,7 @@
         methods: {
             // 修改task信息
             editTaskInfo() {
-                this.$app.runCmd('openDialog', 'edit', this.step, {stepIndex: this.stepIndex, stepList: this.stepList});
+                this.$app.runCmd('openStepDialog', 'edit', this.step, {stepIndex: this.stepIndex, stepList: this.stepList});
             },
 
             // 删除task

@@ -15,7 +15,7 @@
             <gf-button class="primary" v-show="okButtonVisible" @click="save">{{okButtonTitle}}</gf-button>
             <gf-button v-show="cancelButtonVisible" @click="cancel" >{{cancelButtonTitle}}</gf-button>
         </div>
-        <component ref="component" :is="component" :args="args" @drawerPageClose="drawerPageClose">
+        <component ref="component" :is="component" :args="args" @onClose="onClose">
         </component>
     </el-drawer>
 </template>
@@ -90,12 +90,12 @@
         },
         methods: {
             cancel(){
-                this.$refs.component.drawerPageCancel();
+                this.$refs.component.onCancel();
             },
             save(){
-                this.$refs.component.drawerPageSave();
+                this.$refs.component.onSave();
             },
-            drawerPageClose(){
+            onClose(){
                 this.$refs['gf-page-drawer'].closeDrawer();
             },
             close(done) {

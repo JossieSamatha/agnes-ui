@@ -961,7 +961,6 @@ form input[type=submit] {
 
 .el-dialog__wrapper .el-dialog .el-dialog__header .el-dialog__title {
     font-size: 14px;
-    font-weight: bold;
     color: #333;
 }
 
@@ -1073,7 +1072,7 @@ form input[type=submit] {
 }
 
 .el-form .el-form-item .el-form-item__label {
-    color: #333;
+    color: #666;
     padding-right: 10px;
 }
 
@@ -1219,7 +1218,6 @@ form input[type=submit] {
 .gf-ag-grid.ag-theme-balham .ag-header-cell {
     border-right-color: transparent;
     color: #333;
-    font-weight: bold;
 }
 
 .gf-ag-grid.ag-theme-balham .ag-pinned-left-header,

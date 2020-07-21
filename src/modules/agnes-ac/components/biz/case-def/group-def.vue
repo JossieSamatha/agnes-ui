@@ -16,7 +16,7 @@
             </span>
         </div>
         <div class="group-item-content">
-            <draggable tag="ol" class="step-list" :list="group[groupType]" :group="{name: 'step'}" :sort="true">
+            <draggable tag="ul" class="step-list" v-model="group[groupType]" :group="{name: 'step'}" :sort="true">
                 <template v-for="(groupItem, groupItemIndex) in group[groupType]">
                     <stepDef :key="groupItem.stepCode" v-if="groupItem.defType == 'step'&& curOptional(groupItem.optional)"
                              :step.sync="groupItem" :stepList.sync="group[groupType]" :stepIndex="groupItemIndex"
@@ -109,7 +109,7 @@
 
             // 新增Step
             addStep(stepData){
-                this.$app.runCmd('openDialog', 'add', {}, {addType: 'group', curStage: this.group, stepType: this.groupType, stepData: stepData});
+                this.$app.runCmd('openStepDialog', 'add', {}, {addType: 'group', curStage: this.group, stepType: this.groupType, stepData: stepData});
             },
 
             // 新增group

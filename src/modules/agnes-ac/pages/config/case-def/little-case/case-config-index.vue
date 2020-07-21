@@ -84,27 +84,27 @@
         mounted() {
             this.caseDefInfo = this.args.caseDefInfo;
             this.caseModelData = this.caseDefInfo.caseDefBody?JSON.parse(this.caseDefInfo.caseDefBody):mockData;
-            this.$app.registerCmd("openDialog", this.onShowDialog);
+            this.$app.registerCmd("openStepDialog", this.onShowDialog);
         },
         methods: {
-            drawerPageCancel(){
-                this.$emit("drawerPageClose");
+            onCancel(){
+                this.$emit("onClose");
             },
-            async drawerPageSave(){
+            async onSave(){
                 this.caseDefInfo.caseDefBody = JSON.stringify(this.caseModelData);
                 this.caseDefInfo.caseStatus = 0;
                 try {
                     const p = this.$api.caseConfigApi.saveCaseDef(this.caseDefInfo);
                     await this.$app.blockingApp(p);
                     this.$msg.success('保存成功');
-                    this.$emit("drawerPageClose");
+                    this.$emit("onClose");
                 } catch (e) {
                     this.$msg.error(e);
                 }
             },
             // 新增action
             addAction(stage, stepType) {
-                this.$app.runCmd('openDialog', 'add', {}, {curStage: stage, stepType: stepType});
+                this.$app.runCmd('openStepDialog', 'add', {}, {curStage: stage, stepType: stepType});
             },
 
             // 打开step详情配置页

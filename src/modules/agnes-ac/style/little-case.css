@@ -21,11 +21,16 @@
     line-height: 18px;
 }
 
+
+.little-case-page .option-panel .alter-radio-btn .el-radio-button__inner {
+    padding: 6px 5px;
+}
+
 .little-case-page .option-panel .alter-radio-btn
 .el-radio-button__orig-radio:checked + .el-radio-button__inner {
-    background-color: #476DBE;
+    color: #476DBE;
     border-color: #476DBE;
-    box-shadow: -1px 0 0 0 #476DBE;
+    background-color: transparent;
 }
 
 .little-case-page .option-panel .alter-radio-btn
@@ -471,6 +476,7 @@
 }
 
 .little-case.work-flow-module .stage-item .step-list {
+    min-height: 40px;
     background: #fff;
 }
 
@@ -698,7 +704,7 @@
 }
 
 .step-detail-drawer .form-page.step-detail .form__footer {
-    background: #fff;
+    background: #ffffff;
     height: 45px;
     line-height: 45px;
     text-align: right;
@@ -716,7 +722,8 @@
 }
 
 .step-detail-drawer .form-page.step-detail .form__footer .el-button.primary {
-    color: #476DBE;
+    color: #fff;
+    background: #476DBE;
     border-color: #476DBE;
 }
 

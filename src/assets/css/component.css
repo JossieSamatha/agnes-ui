@@ -572,9 +572,9 @@
 }
 
 .gf-ag-grid.ag-theme-balham .ag-header-cell {
-    border-right-color: transparent;
     color: #333;
-    font-weight: bold;
+    font-weight: normal;
+    border-right-color: transparent;
 }
 
 .gf-ag-grid.ag-theme-balham .ag-pinned-left-header,
@@ -680,16 +680,19 @@
 }
 
 .gf-ag-grid.ag-theme-balham .ag-checkbox-input-wrapper {
+    width: 13px;
+    height: 13px;
     border: 1px solid #EAEDF1;
     box-sizing: content-box;
+    box-shadow: none;
 }
 
 .gf-ag-grid.ag-theme-balham .ag-selection-checkbox .ag-checkbox-input-wrapper::after {
     content: '';
-    top: 1px;
-    left: 5px;
+    top: 0px;
+    left: 4px;
     width: 6px;
-    height: 12px;
+    height: 11px;
 }
 
 .gf-ag-grid.ag-theme-balham .ag-selection-checkbox .ag-checkbox-input-wrapper.ag-checked::after {
@@ -1051,7 +1054,8 @@
 }
 
 .gf-page-drawer .el-drawer__header .el-button.primary {
-    color: #476DBE;
+    color: #fff;
+    background: #476DBE;
     border-color: #476DBE;
 }
 
@@ -1061,6 +1065,7 @@
 
 .gf-page-drawer .el-drawer__body {
     padding: 20px;
+    height: 100%;
 }
 
 

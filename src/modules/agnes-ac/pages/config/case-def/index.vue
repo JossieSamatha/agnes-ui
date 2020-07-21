@@ -51,7 +51,7 @@
             },
             showCaseStep(params){
                 this.$drawerPage.create({
-                    width: 'calc(92% - 220px)',
+                    width: 'calc(92% - 215px)',
                     component: 'case-config-index',
                     wrapperClosable: true,
                     args: {caseDefInfo:params.data}
