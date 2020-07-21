@@ -16,7 +16,7 @@
             </span>
         </div>
         <div class="group-item-content">
-            <draggable tag="ul" class="step-list" v-model="group[groupType]" :group="{name: 'step'}" :sort="true">
+            <ul class="step-list">
                 <template v-for="(groupItem, groupItemIndex) in group[groupType]">
                     <stepDef :key="groupItem.stepCode" v-if="groupItem.defType == 'step'&& curOptional(groupItem.optional)"
                              :step.sync="groupItem" :stepList.sync="group[groupType]" :stepIndex="groupItemIndex"
@@ -27,7 +27,7 @@
                               :groupType.sync="groupType">
                     </groupDef>
                 </template>
-            </draggable>
+            </ul>
         </div>
     </li>
 </template>
