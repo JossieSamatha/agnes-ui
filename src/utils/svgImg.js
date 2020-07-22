@@ -3,8 +3,8 @@ export default {
     helpIcon: 
         '<svg x="0px" y="0px" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500;" xml:space="preserve">' +
             '<style type="text/css">' +
-                '.st0{clip-path:url(#SVGID_2_);fill:#C1D1EB;}' +
-                '.st1{fill:#C1D1EB}' +
+                '.st0{clip-path:url(#SVGID_2_);fill:#666;}' +
+                '.st1{fill:#666}' +
             '</style>' +
             '<g>' +
                 '<g>' +
@@ -32,7 +32,7 @@ export default {
     noticeIcon: 
         '<svg x="0px" y="0px" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500;" xml:space="preserve">' +
             '<style type="text/css">' +
-                '.st0{fill:#C1D1EB;}' +
+                '.st0{fill:#666;}' +
             '</style>' +
             '<g id="XMLID_2_">' +
                 '<g id="XMLID_9_">' +

@@ -2,13 +2,13 @@
     <li class="process-item">
         <div class="process-item-title">
             <span class="title">
-                <el-input class="title-input" :title="group.defName" v-model="group.defName"
+                <el-input ref="titleInput" class="title-input" :title="group.defName" v-model="group.defName"
                           :disabled="!group.edit" size="mini" clearable
                           @keyup.enter.native="savegroupTitle" @blur="savegroupTitle"></el-input>
                 <span class="edit" :class="{'is-disabled':!group.edit}">
                     <i class="fa fa-edit" v-if="!group.edit" @click="editgroupTitle"></i>
                     <i class="fa fa-save" v-if="group.edit" @click="savegroupTitle"></i>
-                    <i class="stageAdd el-icon-plus">
+                    <i class="stage-add el-icon-plus">
                         <step-act-type @addStep="addStep" @addGroup="addGroup"></step-act-type>
                     </i>
                     <i class="fa fa-trash-o" @click="deletegroup"></i>
@@ -16,7 +16,7 @@
             </span>
         </div>
         <div class="group-item-content">
-            <draggable tag="ol" class="stepList" :list="group[groupType]" :group="{name: 'step'}" :sort="true">
+            <ul class="step-list">
                 <template v-for="(groupItem, groupItemIndex) in group[groupType]">
                     <stepDef :key="groupItem.stepCode" v-if="groupItem.defType == 'step'&& curOptional(groupItem.optional)"
                              :step.sync="groupItem" :stepList.sync="group[groupType]" :stepIndex="groupItemIndex"
@@ -27,7 +27,7 @@
                               :groupType.sync="groupType">
                     </groupDef>
                 </template>
-            </draggable>
+            </ul>
         </div>
     </li>
 </template>
@@ -80,6 +80,9 @@
                 ]
             }
         },
+        mounted(){
+            this.group.edit ? this.$refs.titleInput.focus() : false;
+        },
         methods: {
             // 当前step是否为生命周期或可选任务
             curOptional(optional){
@@ -106,7 +109,7 @@
 
             // 新增Step
             addStep(stepData){
-                this.$app.runCmd('openDialog', 'add', {}, {addType: 'group', curStage: this.group, stepType: this.groupType, stepData: stepData});
+                this.$app.runCmd('openStepDialog', 'add', {}, {addType: 'group', curStage: this.group, stepType: this.groupType, stepData: stepData});
             },
 
             // 新增group

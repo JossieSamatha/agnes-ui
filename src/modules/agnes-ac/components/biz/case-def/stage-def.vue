@@ -1,22 +1,25 @@
 <template>
-    <div class="stageItem">
-        <div class="stageItemTitle">
-            <i class="dragBar fa fa-th"></i>
+    <div class="stage-item">
+        <div class="stage-item-title">
+            <i class="drag-bar fa fa-th"></i>
             <span class="title">
-                <el-input class="title-input" :title="stage.defName" v-model="stage.defName"
+                <el-input ref="titleInput" class="title-input" :title="stage.defName" v-model="stage.defName"
                           :disabled="!stage.edit" size="mini" clearable
                           @keyup.enter.native="saveStageTitle" @blur="saveStageTitle"></el-input>
                 <span class="edit" :class="{'is-disabled':!stage.edit}">
                     <i class="fa fa-edit" v-if="!stage.edit" @click="editStageTitle"></i>
                     <i class="fa fa-save" v-if="stage.edit" @click="saveStageTitle"></i>
-                    <i class="stageAdd el-icon-plus">
-                        <step-act-type @addStep="addStep" @addGroup="addGroup"></step-act-type>
+                    <i class="stage-add el-icon-plus" @click="showActStpe">
+                        <step-act-type v-show="ifShowActType"
+                                       @addStep="addStep"
+                                       @addGroup="addGroup"
+                        ></step-act-type>
                     </i>
                     <i class="fa fa-trash-o" @click="deleteStage"></i>
                 </span>
             </span>
         </div>
-        <div class="stageItemContent">
+        <div class="stage-item-content">
             <slot name="stageSlot" ></slot>
         </div>
     </div>
@@ -46,9 +49,13 @@
                 require: true
             }
         },
-        data() {
-            return {
+        data(){
+            return  {
+                ifShowActType: false
             }
+        },
+        mounted(){
+            this.stage.edit ? this.$refs.titleInput.focus() : false;
         },
         methods: {
             // 修改Stage标题
@@ -69,9 +76,13 @@
                 }
             },
 
+            showActStpe(){
+                this.ifShowActType = true;
+            },
+
             // 新增Step
             addStep(stepData){
-                this.$app.runCmd('openDialog', 'add', {}, {addType: 'stage', curStage: this.stage, stepType: this.stepType, stepData: stepData});
+                this.$app.runCmd('openStepDialog', 'add', {}, {addType: 'stage', curStage: this.stage, stepType: this.stepType, stepData: stepData});
             },
 
             // 新增group

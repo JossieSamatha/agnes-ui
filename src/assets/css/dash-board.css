@@ -190,12 +190,12 @@
 }
 
 .datav_client_view .topPanel .optionPanel
-.searchInput {
+.search-input {
     width: 200px;
 }
 
 .datav_client_view .topPanel .optionPanel
-.searchInput input{
+.search-input input{
     height: 28px;
     line-height: 28px;
     font-size: 12px;
@@ -203,7 +203,7 @@
 }
 
 .datav_client_view .topPanel .optionPanel
-.searchInput .el-input__icon{
+.search-input .el-input__icon{
     line-height: 28px;
 }
 

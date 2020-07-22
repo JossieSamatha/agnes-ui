@@ -1,6 +1,6 @@
 <template>
-    <div class="stepComp">
-        <i class="stepIcon" :class="iconTypeObj" v-html="lcImg[iconTypeObj]"></i>
+    <div class="step-comp">
+        <i class="step-icon" :class="iconTypeObj" v-html="lcImg[iconTypeObj]"></i>
         <span class="name" :title="step.stepName">{{step.stepName}}</span>
         <span class="edit">
             <i class="fa fa-edit" @click="editTaskInfo"></i>
@@ -44,7 +44,7 @@
         methods: {
             // 修改task信息
             editTaskInfo() {
-                this.$app.runCmd('openDialog', 'edit', this.step, {stepIndex: this.stepIndex, stepList: this.stepList});
+                this.$app.runCmd('openStepDialog', 'edit', this.step, {stepIndex: this.stepIndex, stepList: this.stepList});
             },
 
             // 删除task
