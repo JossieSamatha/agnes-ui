@@ -15,7 +15,7 @@ export default {
     ],
     rowSelection: 'multiple',
     ext: {
-        fetchUrl: "/agnes-dop/v1/dop/org/type/list",    //后台查询数据的URL地址
+        fetchUrl: "/agnes-app/v1/dop/org/type/list",    //后台查询数据的URL地址
         pagingMode: false, //不分页
         checkboxColumn: 2, //是否显示checkbox列,
         enableExportLocal: false

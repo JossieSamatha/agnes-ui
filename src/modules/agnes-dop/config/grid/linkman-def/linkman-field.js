@@ -8,7 +8,7 @@ export default {
     ],
     rowSelection: 'multiple',
     ext: {
-        fetchUrl: "/agnes-dop/v1/dop/linkman/org/list",
+        fetchUrl: "/agnes-app/v1/dop/linkman/org/list",
         fetchMethod: 'get',
         pagingMode: false, //不分页
         checkboxColumn: 2, //是否显示checkbox列,
