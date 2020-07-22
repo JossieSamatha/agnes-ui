@@ -11,10 +11,13 @@
                :show-close="false"
                :before-close="close"
                :wrapperClosable="wrapperClosable">
-        <div slot="title">
-            <gf-button class="primary" v-show="okButtonVisible" @click="save">{{okButtonTitle}}</gf-button>
-            <gf-button v-show="cancelButtonVisible" @click="cancel" >{{cancelButtonTitle}}</gf-button>
-        </div>
+        <template slot="title">
+            <span class="drawer-title">{{title}}</span>
+            <span class="option-btn">
+                <gf-button class="primary" v-show="okButtonVisible" @click="save">{{okButtonTitle}}</gf-button>
+                <gf-button v-show="cancelButtonVisible" @click="cancel" >{{cancelButtonTitle}}</gf-button>
+            </span>
+        </template>
         <component ref="component" :is="component" :args="args" @onClose="onClose">
         </component>
     </el-drawer>
@@ -48,10 +51,6 @@
             appendToBody: {
                 type: Boolean,
                 default: false,
-            },
-            showClose: {
-                type: Boolean,
-                default: true,
             },
             wrapperClosable: {
                 type: Boolean,
