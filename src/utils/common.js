@@ -10,6 +10,8 @@ function randomString(len) {
     return result;
 }
 
+
+
 export default {
     randomString
 }

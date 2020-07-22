@@ -1,17 +1,11 @@
 <template>
     <gf-layout-default>
         <template slot="logo">
-            <img :src="require('../assets/img/logo-white.png')" alt="logo" class="gf-app-logo">
+            <img :src="require('../assets/img/login-logo.png')" alt="logo" class="gf-app-logo">
         </template>
-        <template slot="menu">
-            <el-select class="studio-type" v-model="studioType" :popper-append-to-body="false"
-                       @change="studioTypeChange">
-                <el-option value="appMenus" label="应用模式（APP STUDIO）"></el-option>
-                <el-option value="adminMenus" label="管理模式（DEV STUDIO）"></el-option>
-            </el-select>
-        </template>
+        <template slot="menu"><span></span></template>
         <div class="top-menu-right" slot="nav-user-before">
-            <div class="top-menu-item">
+            <div class="top-menu-item search-item">
                 <el-input class="search" placeholder="全局搜索" suffix-icon="el-icon-search" v-model="searchValue"></el-input>
             </div>
             <div class="top-menu-item">
@@ -23,9 +17,16 @@
                 </el-badge>
             </div>
         </div>
-        <template slot="sidebar-menu">
-            <gf-vertical-expand :allMenu="menus.allMenu" :markMenu="menus.markMenu">
+        <template slot="sidebar-menu" slot-scope="props">
+            <gf-vertical-expand v-show="!props.maximizeView" :allMenu="menus.allMenu" :markMenu="menus.markMenu">
             </gf-vertical-expand>
+        </template>
+        <template slot="tab-bar-left">
+            <el-select class="studio-type" v-model="studioType" :popper-append-to-body="false"
+                       @change="studioTypeChange">
+                <el-option value="appMenus" label="应用模式（APP STUDIO）"></el-option>
+                <el-option value="adminMenus" label="管理模式（DEV STUDIO）"></el-option>
+            </el-select>
         </template>
         <notice-box :noticeData="noticeData" :showDrawer="showNoticeDrawer" @noticeDrawerClose="noticeDrawerClose"></notice-box>
         <el-popover popper-class="feedbackPopover" width="300" placement="right" trigger="click" @show="handelfeedback(true)" @hide="handelfeedback(false)">

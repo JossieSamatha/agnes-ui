@@ -42,17 +42,22 @@
 
 <style>
     .dialog-footer-bar {
+        position: absolute;
         text-align: center;
-        border-top: solid 1px #eee;
-        padding-top: 15px;
-        padding-bottom: 10px;
+        right: 20px;
+        top: 10px;
     }
 
     .el-dialog .dialog-footer-bar.footer > button {
-        padding: 6px 20px;
+        padding: 8px 20px;
+    }
+
+    .el-dialog .dialog-footer-bar.footer > button+button {
+        margin-left: 3px;
     }
 
     .el-dialog .dialog-footer-bar.footer > button.el-button--primary {
+        border-color: #476DBE;
         background-color: #476DBE;
     }
 </style>

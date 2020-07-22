@@ -1,6 +1,6 @@
 <template>
-    <div class="stageItem" v-if="action">
-        <div class="stageItemContent">
+    <div class="stage-item" v-if="action">
+        <div class="stage-item-content">
             <slot name="steps"></slot>
         </div>
     </div>

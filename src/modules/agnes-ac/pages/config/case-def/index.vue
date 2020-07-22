@@ -1,6 +1,10 @@
 <template>
     <div>
-        <gf-grid @row-double-click="showCaseStep" grid-no="agnes-case-field" ref="grid">
+        <gf-grid ref="grid"
+                 grid-no="agnes-case-field"
+                 toolbar="find,refresh,more"
+                 @row-double-click="showCaseStep"
+         >
             <template slot="left">
                 <gf-button class="action-btn" @click="addCaseDef" size="mini">添加</gf-button>
                 <gf-button class="action-btn" @click="publishCaseDef" size="mini">发布</gf-button>
@@ -25,7 +29,7 @@
                     CaseDefDlg,
                     {
                         args: {row, mode, actionOk},
-                        width: '50%',
+                        width: '576px',
                         title: this.$dialog.formatTitle('case定义', mode),
                     }
                 );
@@ -46,10 +50,12 @@
                 this.showDlg('edit', params.data, this.onEditCaseDef.bind(this));
             },
             showCaseStep(params){
-                let viewId = 'agnes.config.case.step';
-                let pageView = this.$app.views.getView(viewId);
-                let tabView = Object.assign({args: {caseDefInfo:params.data}, id: viewId}, pageView);
-                this.$nav.showView(tabView);
+                this.$drawerPage.create({
+                    width: 'calc(92% - 215px)',
+                    component: 'case-config-index',
+                    wrapperClosable: true,
+                    args: {caseDefInfo:params.data}
+                })
             },
             async deleteCaseDef(params) {
                 const row = params.data;

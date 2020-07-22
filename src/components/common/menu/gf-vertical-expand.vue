@@ -82,7 +82,7 @@
         },
         computed: {
             fastMenuHeight(){
-                return this.foldFastMenu ? '40px' : '70%';
+                return this.foldFastMenu ? '45px' : '70%';
             }
         },
         methods: {
