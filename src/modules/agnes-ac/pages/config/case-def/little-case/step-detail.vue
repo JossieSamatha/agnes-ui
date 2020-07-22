@@ -9,7 +9,7 @@
                 <gf-input v-model.trim="stepInfo.stepName"/>
             </el-form-item>
             <el-form-item label="日期类型" prop="dayendDefId">
-                <el-select v-model="stepInfo.stepFormInfo.dayendDefId" placeholder="请选择">
+                <el-select v-model="stepInfo.stepFormInfo.caseStepDef.dayendDefId" placeholder="请选择">
                     <el-option
                             v-for="item in dataType"
                             :key="item.value"
@@ -50,7 +50,7 @@
                 <gf-input v-model="stepInfo.stepFormInfo.caseStepDef.stepActParam1"/>
             </el-form-item>
             <el-form-item v-if="stepInfo.stepActType === '2'" label="流程定义" prop="stepActKey">
-                <el-select v-model="stepInfo.stepFormInfo.stepActKey" placeholder="请选择">
+                <el-select v-model="stepInfo.stepFormInfo.caseStepDef.stepActKey" placeholder="请选择">
                     <el-option
                             v-for="item in flowData"
                             :key="item.value"
@@ -97,21 +97,34 @@
             </el-form-item>
             <el-form-item label="预警通知" prop="warningList">
                 <el-checkbox v-model="warningNotice">
-                    <el-button type="text" :disabled="!warningNotice" @click="openRemindDlg(stepInfo.warningList)">
-                        告警方式配置
+                    <el-button type="text" :disabled="!warningNotice" @click="openRemindDlg(stepInfo.stepFormInfo.warningList,'warningList')">
+                        预警方式配置
                     </el-button>
                 </el-checkbox>
+                <el-form-item v-if="warningNotice" label="预警时间">提前
+                    <gf-input v-model="stepInfo.stepFormInfo.caseStepDef.warningMintues" style="width: 30%"></gf-input>
+                    <el-select v-model="timeType" placeholder="请选择">
+                        <el-option
+                                v-for="item in timeTypeData"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
             </el-form-item>
             <el-form-item label="超时通知">
-                <el-checkbox v-model="timeoutNotice">超时通知</el-checkbox>
+                <el-checkbox v-model="timeoutNotice">
+                    <el-button type="text" :disabled="!timeoutNotice" @click="openRemindDlg(stepInfo.stepFormInfo.timeoutList,'timeoutList')">通知方式配置</el-button>
+                </el-checkbox>
                 <el-form-item v-if="timeoutNotice">
-                    <el-form-item label="告警方式">
-                        <remindDef :remindProps="stepInfo.stepFormInfo.timeoutList"></remindDef>
+                    <el-form-item label-width="113px"  label="服务水平承诺">
+                       <gf-el-select style="width: 20%"></gf-el-select>按照每隔
+                        <gf-input style="width: 20%"></gf-input>分钟，执行
+                        <gf-input style="width: 20%"></gf-input>次后退出
                     </el-form-item>
                     <el-form-item label="异常记录">
-                        <el-checkbox true-label="1" false-label="0"
-                                     v-model="stepInfo.stepFormInfo.caseStepDef.isRecordTimeoutError">记入异常
-                        </el-checkbox>
+                        <el-checkbox true-label="1" false-label="0" v-model="stepInfo.stepFormInfo.caseStepDef.isRecordTimeoutError" >记入异常</el-checkbox>
                     </el-form-item>
                     <el-form-item v-if="stepInfo.stepFormInfo.caseStepDef.isRecordTimeoutError === '1'">
                         <el-form-item label="异常类型">
@@ -125,8 +138,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="异常内容">
-                            <gf-input v-model="stepInfo.stepFormInfo.caseStepDef.timeoutErrorContent"
-                                      type="textarea"></gf-input>
+                            <gf-input v-model="stepInfo.stepFormInfo.caseStepDef.timeoutErrorContent"  type="textarea"></gf-input>
                         </el-form-item>
                     </el-form-item>
                 </el-form-item>
@@ -149,26 +161,20 @@
                              true-label=1 false-label=2>是否允许强制通过
                 </el-checkbox>
             </el-form-item>
-            <el-form-item label="" prop="finishtNotice">
-                <el-checkbox v-model="finishtNotice">完成通知</el-checkbox>
-                <el-form-item v-if="finishtNotice">
-                    <el-form-item label="告警方式">
-                        <remindDef :remindProps="stepInfo.stepFormInfo.finishtList"></remindDef>
-                    </el-form-item>
-                </el-form-item>
+            <el-form-item label="完成通知" prop="finishtNotice">
+                <el-checkbox v-model="finishtNotice">
+                    <el-button type="text" :disabled="!finishtNotice" @click="openRemindDlg(stepInfo.stepFormInfo.finishtList,'finishtList')">通知方式配置</el-button>
+                </el-checkbox>
             </el-form-item>
             <el-form-item label="异常规则" prop="">
                 <rule-table ref="ruleTable" :ruleTableData="stepInfo.stepFormInfo.failRuleTableData"></rule-table>
             </el-form-item>
-            <el-form-item prop="exceptionNotice">
-                <el-checkbox v-model="exceptionNotice">异常通知</el-checkbox>
-                <el-form-item label="告警方式" v-if="exceptionNotice">
-                    <remindDef :remindProps="stepInfo.stepFormInfo.exceptionList"></remindDef>
-                </el-form-item>
+            <el-form-item label="异常通知" prop="exceptionNotice">
+                <el-checkbox v-model="exceptionNotice">
+                    <el-button type="text" :disabled="!exceptionNotice" @click="openRemindDlg(stepInfo.stepFormInfo.exceptionList,'exceptionList')">通知方式配置</el-button>
+                </el-checkbox>
                 <el-form-item v-if="exceptionNotice" label="异常记录">
-                    <el-checkbox true-label="1" false-label="0"
-                                 v-model="stepInfo.stepFormInfo.caseStepDef.isRecordError">记入异常
-                    </el-checkbox>
+                    <el-checkbox true-label = "1" false-label = "0" v-model="stepInfo.stepFormInfo.caseStepDef.isRecordError" >记入异常</el-checkbox>
                 </el-form-item>
                 <el-form-item v-if="stepInfo.stepFormInfo.caseStepDef.isRecordError === '1'">
                     <el-form-item label="异常类型">
@@ -182,10 +188,13 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item label="异常内容">
-                        <gf-input v-model="stepInfo.stepFormInfo.caseStepDef.errorContent" type="textarea"></gf-input>
+                        <gf-input v-model="stepInfo.stepFormInfo.caseStepDef.errorContent"  type="textarea"></gf-input>
                     </el-form-item>
                 </el-form-item>
 
+            </el-form-item>
+            <el-form-item label="加入待办">
+                <el-checkbox v-model="stepInfo.stepFormInfo.caseStepDef.isTodo" true-label = "1" false-label = "0"></el-checkbox>
             </el-form-item>
         </el-form>
     </div>
@@ -220,31 +229,17 @@
                     isRecordTimeoutError: '',
                     timeoutErrorType: '',
                     timeoutErrorContent: '',
+                    isTodo:'1',
+                    warningMintues:''
                 },
                 exceptionList: [],
                 finishtList: [],
+                timeoutList: [],
+                warningList: [],
                 failRuleTableData: {},
                 successRuleTableData: {},
                 activeRuleTableData: {},
             },
-            timeoutList: [],
-            warningList: [{
-                remindUser: '',
-                remindCc: '',
-                remindBcc: '',
-                remindTitle: '',
-                remindContent: '',
-                remindMode: '',
-                stepNoticeType: '2'
-            }, {
-                remindUser: '哈哈',
-                remindContent: '提醒哈哈',
-                stepNoticeType: '3'
-            }, {
-                remindUser: '',
-                remindContent: '',
-                stepNoticeType: '4'
-            }],
         };
     }
 
@@ -277,6 +272,7 @@
                 forcePass: false,
                 dayChecked: false,
                 activeTerm: '1',
+                timeType: '1',
                 flowData: [{
                     value: '1001',
                     label: '分TA流程'
@@ -287,6 +283,7 @@
                 dataType: [{value: ' 2001', label: '业务日期'}, {value: ' 2002', label: '系统日期'}],
                 kpiData: [{value: ' 3001', label: 'FA指标'}, {value: ' 3002', label: 'TA指标'}],
                 errorTypeData: [{value: ' 4001', label: '业务异常'}, {value: ' 4002', label: '系统异常'}],
+                timeTypeData: [{value: '1', label: '分钟'}, {value: '2', label: '小时'}, {value: '3', label: '天'}],
             }
         },
         mounted() {
@@ -318,17 +315,26 @@
                 this.stepInfo.stepFormInfo.caseStepDef.execScheduler = cron;
             },
 
+            async showRemind(remindProp,remindSort){
+                this.stepInfo.stepFormInfo[remindSort] = remindProp;
+            },
             // 告警方式配置，打开弹框
-            openRemindDlg(remindProp) {
+            openRemindDlg(remindProp,remindSort) {
+                this.showRemindDlg(remindProp,remindSort, this.showRemind.bind(this));
+            },
+
+            showRemindDlg(remindProp,remindSort, actionOk) {
                 this.$nav.showDialog(
                     RemindDef,
                     {
-                        args: {remindProp},
+                        args: {remindProp,remindSort, actionOk},
                         width: '530px',
-                        title: this.$dialog.formatTitle('告警方式配置', "edit"),
+                        title: this.$dialog.formatTitle('通知方式配置',"edit"),
                     }
                 );
             },
+
+
 
             resetFormFields() {
                 if (this.$refs.stepInfoForm) {
@@ -352,6 +358,10 @@
                 }
                 let activeRuleTableData = this.stepInfo.stepFormInfo.activeRuleTableData
                 this.activeTerm = Object.keys(activeRuleTableData).length === 0 ? '1' : '2'
+                this.warningNotice = this.stepInfo.stepFormInfo.warningList.length !== 0;
+                this.timeoutNotice = this.stepInfo.stepFormInfo.timeoutList.length !== 0;
+                this.finishtNotice = this.stepInfo.stepFormInfo.finishtList.length !== 0;
+                this.exceptionNotice = this.stepInfo.stepFormInfo.exceptionList.length !== 0;
                 let startDay = this.stepInfo.stepFormInfo.caseStepDef.startDay;
                 let endDay = this.stepInfo.stepFormInfo.caseStepDef.endDay;
                 this.dayChecked = !!(startDay || endDay)
@@ -359,6 +369,11 @@
 
             // 保存表单数据
             saveForm() {
+                if(this.timeType === '2'){
+                    this.stepInfo.stepFormInfo.caseStepDef.warningMintues =   this.stepInfo.stepFormInfo.caseStepDef.warningMintues * 60
+                }else if (this.timeType === '3'){
+                    this.stepInfo.stepFormInfo.caseStepDef.warningMintues =   this.stepInfo.stepFormInfo.caseStepDef.warningMintues * 60 * 24
+                }
                 this.stepInfo.stepFormInfo.caseStepDef.stepActType = this.stepInfo.stepActType;
                 this.stepInfo.stepFormInfo.caseStepDef.stepName = this.stepInfo.stepName;
                 this.$emit('saveStepInfo', {optionType: this.optionType, stepInfo: this.stepInfo, taskArgs: this.args});

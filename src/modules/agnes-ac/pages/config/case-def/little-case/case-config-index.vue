@@ -94,8 +94,11 @@
 
             // 保存onSave事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
             async onSave(){
-                this.caseDefInfo.caseDefBody = JSON.stringify(this.caseModelData);
-                this.caseDefInfo.caseStatus = 0;
+                this.caseDefInfo.caseDefBody = JSON.stringify(this.caseModelData)
+                if(this.caseDefInfo.caseStatus !== '2'){
+                    this.caseDefInfo.caseStatus = '2'
+                    this.caseDefInfo.caseDefId = ''
+                }
                 try {
                     const p = this.$api.caseConfigApi.saveCaseDef(this.caseDefInfo);
                     await this.$app.blockingApp(p);

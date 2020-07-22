@@ -37,28 +37,27 @@
         remindBcc: '',
         remindTitle: '',
         remindContent: '',
-        remindMode: '',
-        stepNoticeType: '2'
+        remindMode: '2',
     };
 
     let messageObj = {
         remindUser: '',
         remindContent: '',
-        stepNoticeType: '3'
+        remindMode: '3',
     };
 
     let wechatObj = {
         remindUser: '',
         remindContent: '',
-        stepNoticeType: '4'
+        remindMode: '4',
     };
 
     export default {
         name: 'remindDef',
         props: {
-            remindProps: {
-                type: Array,
-            },
+            remindSort:{
+                type: String,},
+            actionOk: Function
         },
         data() {
             return {
@@ -70,7 +69,7 @@
         mounted() {
             if (this.args.remindProp && this.args.remindProp.length > 0) {
                 this.args.remindProp.forEach((propItem)=>{
-                    const itemIndex = parseInt(propItem.stepNoticeType) - 2;
+                    const itemIndex = parseInt(propItem.remindMode) - 2;
                     this.remindData.splice(itemIndex, 1, propItem);
                 });
             }
@@ -79,7 +78,7 @@
             // 当前信息是否补充完整
             ifFill(remindItem, remindIndex) {
                 let unFill = false;
-                if (remindIndex == 0) {
+                if (remindIndex === 0) {
                     unFill = !(remindItem.remindTitle && remindItem.remindUser && remindItem.remindContent);
                 } else {
                     unFill = !(remindItem.remindUser && remindItem.remindContent);
@@ -95,7 +94,10 @@
                     this.remindData = this.remindData.filter((remindItem) => {
                         return remindItem.fillFlag
                     });
-                    this.$dialog.close(this, 'ok');
+                    if (this.actionOk) {
+                        await this.actionOk(this.remindData,this.remindSort);
+                    }
+                    this.$dialog.close(this);
                 }
             }
         }

@@ -83,7 +83,6 @@
                         return;
                     }else{
                         row.caseStatus = '1';
-                        row.versionId = row.versionId +1;
                     }
                     if(!row.caseDefBody){
                         this.$msg.warning("请先配置CASE步骤再发布")
