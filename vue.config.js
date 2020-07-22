@@ -18,7 +18,7 @@ module.exports = {
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/api/agnes-dop': '/'
+                    '^/api/agnes-ac': '/'
                 }
             },
             '/api/agnes-app': {
