@@ -27,7 +27,6 @@
         <el-main style="height: 100%;padding-top: 0px;padding-bottom: 0px">
             <gf-grid grid-no="agnes-org-list" ref="grid" @row-double-click="listShowOrg" quick-text-max-width="300px" height="100%"  @grid-ready="onReady">
                 <template slot="left">
-                    <gf-button @click="listDeleteOrg">删除</gf-button>
                     <gf-button @click="addLinkMan">添加联系人</gf-button>
                 </template>
             </gf-grid>
@@ -86,19 +85,17 @@
                 );
 
             },
-            async listDeleteOrg(){
-                const row = this.$refs.grid.getSelectedRows();
+            async listDeleteOrg(params){
+                const row = params.data;
                 const ok = await this.$msg.ask(`确认删除所选择的机构吗, 是否继续?`);
                 if (ok) {
                     const ids = [];
                     this.expandKeys=this.$refs.tree.getCheckedKeys();
-                    row.forEach(item=>{
-                        ids.push(item.extOrgId);
-                        let index = this.expandKeys.indexOf(item.id);
-                        if (index > -1) {
-                            this.expandKeys.splice(index, 1);
-                        }
-                    });
+                    let index = this.expandKeys.indexOf(row.id);
+                    if (index > -1) {
+                        this.expandKeys.splice(index, 1);
+                    }
+                    ids.push(row.extOrgId);
                     // 调后台删除接口
                     // 删除成功，调取回调函数
                     try {
@@ -163,7 +160,7 @@
             addOrg() {
                 let nodeInfo = this.$refs.tree.getCurrentNode(true);
                 if(!nodeInfo){
-                    nodeInfo={id:"root",label:"机构树"};
+                    nodeInfo={id:"root",label:"机构树",extOrgNameShort:'机构树'};
                 }
                 this.showDlg('add', nodeInfo, this.onAddOrg.bind(this));
             },
