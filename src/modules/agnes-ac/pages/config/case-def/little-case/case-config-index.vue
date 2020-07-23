@@ -83,7 +83,7 @@
         },
         mounted() {
             this.caseDefInfo = this.args.caseDefInfo;
-            this.caseModelData = this.caseDefInfo.caseDefBody?JSON.parse(this.caseDefInfo.caseDefBody):mockData;
+            this.caseModelData = this.caseDefInfo.caseDefBody?JSON.parse(this.caseDefInfo.caseDefBody):this.$utils.deepClone(mockData);
             this.$app.registerCmd("openStepDialog", this.onShowDialog);
         },
         methods: {
@@ -94,8 +94,11 @@
 
             // 保存onSave事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
             async onSave(){
-                this.caseDefInfo.caseDefBody = JSON.stringify(this.caseModelData);
-                this.caseDefInfo.caseStatus = 0;
+                this.caseDefInfo.caseDefBody = JSON.stringify(this.caseModelData)
+                if(this.caseDefInfo.caseStatus !== '2'){
+                    this.caseDefInfo.caseStatus = '2'
+                    this.caseDefInfo.caseDefId = ''
+                }
                 try {
                     const p = this.$api.caseConfigApi.saveCaseDef(this.caseDefInfo);
                     await this.$app.blockingApp(p);
