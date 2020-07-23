@@ -31,27 +31,6 @@
 </template>
 
 <script>
-    let mailObj = {
-        remindUser: '',
-        remindCc: '',
-        remindBcc: '',
-        remindTitle: '',
-        remindContent: '',
-        remindMode: '2',
-    };
-
-    let messageObj = {
-        remindUser: '',
-        remindContent: '',
-        remindMode: '3',
-    };
-
-    let wechatObj = {
-        remindUser: '',
-        remindContent: '',
-        remindMode: '4',
-    };
-
     export default {
         name: 'remindDef',
         props: {
@@ -61,10 +40,32 @@
         },
         data() {
             return {
+                mailObj:{
+                    remindUser: '',
+                    remindCc: '',
+                    remindBcc: '',
+                    remindTitle: '',
+                    remindContent: '',
+                    remindMode: '2',
+                },
+                messageObj: {
+                    remindUser: '',
+                    remindContent: '',
+                    remindMode: '3',
+                },
+                wechatObj: {
+                    remindUser: '',
+                    remindContent: '',
+                    remindMode: '4',
+                },
                 remindType: [{key: 'mail', label: '邮件'}, {key: 'message', label: '短信'}, {key: 'wechat', label: '微信'}],
                 args: this.$attrs,
-                remindData: JSON.parse(JSON.stringify([mailObj, messageObj, wechatObj])),
+                remindData: [],
+
             }
+        },
+        created() {
+            this.remindData = JSON.parse(JSON.stringify([this.mailObj, this.messageObj, this.wechatObj]));
         },
         mounted() {
             if (this.args.remindProp && this.args.remindProp.length > 0) {

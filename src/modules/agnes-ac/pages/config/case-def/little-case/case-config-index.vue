@@ -83,7 +83,7 @@
         },
         mounted() {
             this.caseDefInfo = this.args.caseDefInfo;
-            this.caseModelData = this.caseDefInfo.caseDefBody?JSON.parse(this.caseDefInfo.caseDefBody):mockData;
+            this.caseModelData = this.caseDefInfo.caseDefBody?JSON.parse(this.caseDefInfo.caseDefBody):this.$utils.deepClone(mockData);
             this.$app.registerCmd("openStepDialog", this.onShowDialog);
         },
         methods: {
