@@ -5,7 +5,7 @@
                   row-class-name="rule-row"
                   cell-class-name="rule-cell"
                   :class="ruleTableCheck?'validate':''"
-                  :data="ruleTableData.tableData"
+                  :data="ruleTableData.ruleList"
                   :max-height="tableMaxHeight"
                   border stripe
                   style="width: 100%"
@@ -121,7 +121,7 @@
                 require: true,
                 default: function () {
                     return {
-                        tableData: [],
+                        ruleList: [],
                         judgeScript: ''
                     }
                 }
@@ -154,12 +154,12 @@
         methods: {
             // ruleTag计数规则
             getRuleTag(){
-                if(!this.ruleTableData.tableData || this.ruleTableData.tableData.length == 0){
-                    this.$set(this.ruleTableData, 'tableData', []);
+                if(!this.ruleTableData.ruleList || this.ruleTableData.ruleList.length == 0){
+                    this.$set(this.ruleTableData, 'ruleList', []);
                     return 'A';
                 }
-                let tableData = this.ruleTableData.tableData;
-                let lastLabel = tableData[tableData.length-1].ruleTag;
+                let ruleList = this.ruleTableData.ruleList;
+                let lastLabel = ruleList[ruleList.length-1].ruleTag;
                 let lastLetter = lastLabel.substr(lastLabel.length-1,1);
                 let labelIndex = this.labelOrder.indexOf(lastLetter)+1;
                 if(labelIndex>=26){
@@ -190,7 +190,7 @@
                     ruleSign: '',
                     ruleValue: '',
                 };
-                this.ruleTableData.tableData.push(newRuleObj);
+                this.ruleTableData.ruleList.push(newRuleObj);
             },
 
             // 编辑筛选条件
@@ -241,7 +241,7 @@
                 });
                 if(validate){
                     this.filterConfCheck = false;
-                    this.ruleTableData.tableData[this.editRowIndex].ruleParam = JSON.stringify(this.filterConfFormData);
+                    this.ruleTableData.ruleList[this.editRowIndex].ruleParam = JSON.stringify(this.filterConfFormData);
                     this.filterConfDialog = false;
                 }else{
                     this.filterConfCheck = true;
@@ -251,18 +251,18 @@
 
             // 删除行
             deleteRuleRow(rowIndex){
-                this.ruleTableData.tableData.splice(rowIndex, 1);
+                this.ruleTableData.ruleList.splice(rowIndex, 1);
             },
 
             // 表格必填校验
             validator(filedArr){
                 let validate = true;
-                let tableData = this.ruleTableData.tableData;
+                let ruleList = this.ruleTableData.ruleList;
                 this.mustFillField = filedArr;
-                for(let i=0; i<tableData.length; i++){
+                for(let i=0; i<ruleList.length; i++){
                     if(!validate) break;
                     for(let j=0; j<filedArr.length; j++){
-                        if(!tableData[i][filedArr[j]]){
+                        if(!ruleList[i][filedArr[j]]){
                             validate = false;
                             break;
                         }

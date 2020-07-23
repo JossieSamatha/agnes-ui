@@ -31,46 +31,46 @@
 </template>
 
 <script>
-    let mailObj = {
-        remindUser: '',
-        remindCc: '',
-        remindBcc: '',
-        remindTitle: '',
-        remindContent: '',
-        remindMode: '',
-        stepNoticeType: '2'
-    };
-
-    let messageObj = {
-        remindUser: '',
-        remindContent: '',
-        stepNoticeType: '3'
-    };
-
-    let wechatObj = {
-        remindUser: '',
-        remindContent: '',
-        stepNoticeType: '4'
-    };
-
     export default {
         name: 'remindDef',
         props: {
-            remindProps: {
-                type: Array,
-            },
+            remindSort:{
+                type: String,},
+            actionOk: Function
         },
         data() {
             return {
+                mailObj:{
+                    remindUser: '',
+                    remindCc: '',
+                    remindBcc: '',
+                    remindTitle: '',
+                    remindContent: '',
+                    remindMode: '2',
+                },
+                messageObj: {
+                    remindUser: '',
+                    remindContent: '',
+                    remindMode: '3',
+                },
+                wechatObj: {
+                    remindUser: '',
+                    remindContent: '',
+                    remindMode: '4',
+                },
                 remindType: [{key: 'mail', label: '邮件'}, {key: 'message', label: '短信'}, {key: 'wechat', label: '微信'}],
                 args: this.$attrs,
-                remindData: JSON.parse(JSON.stringify([mailObj, messageObj, wechatObj])),
+                remindData: [],
+
             }
+        },
+        created() {
+            this.remindData = JSON.parse(JSON.stringify([this.mailObj, this.messageObj, this.wechatObj]));
         },
         mounted() {
             if (this.args.remindProp && this.args.remindProp.length > 0) {
                 this.args.remindProp.forEach((propItem)=>{
-                    const itemIndex = parseInt(propItem.stepNoticeType) - 2;
+                    const itemIndex = parseInt(propItem.remindMode) - 2;
                     this.remindData.splice(itemIndex, 1, propItem);
                 });
             }
@@ -79,7 +79,7 @@
             // 当前信息是否补充完整
             ifFill(remindItem, remindIndex) {
                 let unFill = false;
-                if (remindIndex == 0) {
+                if (remindIndex === 0) {
                     unFill = !(remindItem.remindTitle && remindItem.remindUser && remindItem.remindContent);
                 } else {
                     unFill = !(remindItem.remindUser && remindItem.remindContent);
@@ -95,7 +95,10 @@
                     this.remindData = this.remindData.filter((remindItem) => {
                         return remindItem.fillFlag
                     });
-                    this.$dialog.close(this, 'ok');
+                    if (this.actionOk) {
+                        await this.actionOk(this.remindData,this.remindSort);
+                    }
+                    this.$dialog.close(this);
                 }
             }
         }

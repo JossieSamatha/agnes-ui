@@ -24,7 +24,7 @@
                     } else {
                         const p = _that.$api.caseConfigApi.checkCaseDefKey(this.form.caseDefKey);
                         p.then(function (resp) {
-                            if (resp.data===1 && _that.mode === 'add') {
+                            if (resp.data && _that.mode === 'add') {
                                 callback(new Error("该CASE编码已存在！"));
                             } else {
                                 callback();
