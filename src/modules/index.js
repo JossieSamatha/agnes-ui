@@ -1,9 +1,8 @@
 import agnesAc from "./agnes-ac/index";
 import agnesDop from "./agnes-dop/index"
 import dataV from "./datav/index";
-import agnesAcnt from "./agnes-ec/index";
-import agnesEc from "./agnes-acnt/index";
-
+import agnesEc from "./agnes-ec/index";
+import agnesAcnt from "./agnes-acnt/index";
 const Loading = {
     load: function (Gfui) {
         Gfui.use(agnesAc);
