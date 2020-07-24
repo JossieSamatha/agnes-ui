@@ -108,8 +108,8 @@
                 </el-form-item>
 
             </el-form>
-            <dialog-footer :on-save="save"></dialog-footer>
-            <gf-button @click="test">test</gf-button>
+            <dialog-footer :ok-button-visible="mode !== 'view'" :on-save="save" :on-cancel="cancel"></dialog-footer>
+
         </el-scrollbar>
 
     </div>
@@ -153,7 +153,7 @@ import GFCron from "./GFCron";
                         fieldMapping: []
                     },
                     ruleTableData: {
-                        tableData:[],
+                        ruleList:[],
                         judgeScript:''
                     }
                 },
@@ -277,20 +277,33 @@ import GFCron from "./GFCron";
                 try {
                     if(this.form.eventDef.eventRule){
                         const resp = await this.$api.ruleConfigApi.getRuleDetailList(this.form.eventDef.eventRule);
-                        this.form.ruleTableData.tableData = resp.data;
+                        this.form.ruleTableData.ruleList = resp.data;
                     }
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
             },
 
-            async test() {
-                this.$msg.alert("created:"+this.form.eventMsg.fieldMapping);
-                this.form.eventMsg.fieldMapping = JSON.parse(this.form.eventMsg.fieldMapping);
-            },
             async save() {
                 const ok = await this.$refs['form'].validate();
                 if (!ok) {
+                    return;
+                }
+
+                //消息对象必填项校验
+                let validateGetValueParam = true;
+                if(this.form.eventMsg.getValueParam && this.form.eventMsg.getValueParam.forEach){
+                    this.form.eventMsg.getValueParam.forEach(function (rowInfo) {
+                        if(rowInfo.mustFill === '1' && !rowInfo.fieldValue){
+                            validateGetValueParam = false;
+                        }
+                    });
+                }
+                if(!validateGetValueParam){
+                    this.$message({
+                        message: '请补充完整[参数设置]必填项',
+                        type: 'warning'
+                    });
                     return;
                 }
 
@@ -329,6 +342,9 @@ import GFCron from "./GFCron";
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
+            },
+            cancel(){
+                this.$nav.closeCurrentTab();
             },
             onNoEndChange (){
 
@@ -381,26 +397,7 @@ import GFCron from "./GFCron";
                 this.form.eventMsg.funcId = '';
                 this.form.eventMsg.getValueParam = [];
             }
-            // // 保存筛选条件
-            // savefilterConf(){
-            //     let validate = true;
-            //     this.form.eventMsg.fieldMapping.forEach(function (rowInfo) {
-            //         if(rowInfo.mustFill === 'true' && !rowInfo.fieldValue){
-            //             validate = false;
-            //         }
-            //     });
-            //     if(validate){
-            //         this.filterConfCheck = false;
-            //         this.ruleTableData.tableData[this.editRowIndex].ruleParam = JSON.stringify(this.filterConfFormData);
-            //         this.filterConfDialog = false;
-            //     }else{
-            //         this.filterConfCheck = true;
-            //         this.$message({
-            //             message: '请补充完整必填项',
-            //             type: 'warning'
-            //         });
-            //     }
-            // },
+
 
         }
     }
