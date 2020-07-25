@@ -24,6 +24,7 @@
     "element-ui": "^2.13.0",
     "font-awesome": "^4.7.0",
     "lodash": "^4.17.15",
+    "pinyin-match": "^1.1.1",
     "vue": "^2.6.11",
     "vue-grid-layout": "^2.3.7",
     "vuedraggable": "^2.23.2",
