@@ -56,8 +56,12 @@
             return {
                 svgImg: this.$svgImg,
                 appMenus: {},
-                adminMenus: {},
-                menus:{},
+                adminMenus: {
+                    allMenu: {
+                        children: []
+                    }
+                },
+                menus: {},
                 noticeData: noticeData,
                 studioType: 'appMenus',
                 searchValue: '',
@@ -133,10 +137,8 @@
             },
             studioTypeChange(val) {
                 if(val === 'appMenus'){
-                    this.showView('aicm.studio.web');
                     this.menus = this.appMenus;
                 }else{
-                    this.showView('aicm.nuxeo.web');
                     this.menus = this.adminMenus;
                 }
             },

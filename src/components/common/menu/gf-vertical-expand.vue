@@ -116,7 +116,9 @@
             },
 
             closeSideMenu(){
-                this.showSideMenu = false;
+                if (this.showSideMenu) {
+                    this.showSideMenu = false;
+                }
             },
 
             markMenuChange(data){
