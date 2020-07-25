@@ -408,9 +408,9 @@
                 caseDef.stages[0].children[0].stepName = defName;
                 let stepFormInfo = this.$utils.deepClone(this.staticData.caseDef.stages[0].children[0].stepFormInfo);
                 Object.keys(stepFormInfo).forEach((key) => {
-                    if(key === 'caseStepDef'){
+                    if (key === 'caseStepDef') {
                         this.keyToValue(stepFormInfo.caseStepDef, 'step_');
-                    }else{
+                    } else {
                         stepFormInfo[key] = this.detailForm[key] || stepFormInfo[key];
                     }
                 })
@@ -418,16 +418,16 @@
                 return {reTaskDef: kpiTaskDef, caseDefId: this.row.caseDefId, caseDefBody: caseDef};
             },
 
-            reDataTransfer(){
-                if(this.mode && this.mode !== 'add'){
+            reDataTransfer() {
+                if (this.mode && this.mode !== 'add') {
                     let kpiTaskDef = this.$utils.deepClone(this.row.reTaskDef);
                     this.reKeyToValue(kpiTaskDef, 'task_');
                     let caseDefBody = JSON.parse(this.row.caseDefBody);
                     let stepFormInfo = this.$utils.deepClone(caseDefBody.stages[0].children[0].stepFormInfo);
                     Object.keys(stepFormInfo).forEach((key) => {
-                        if(key === 'caseStepDef'){
+                        if (key === 'caseStepDef') {
                             this.reKeyToValue(stepFormInfo.caseStepDef, 'step_');
-                        }else{
+                        } else {
                             this.detailForm[key] = stepFormInfo[key] || this.detailForm[key];
                         }
                     })
@@ -444,33 +444,31 @@
                 }
             },
 
-            keyToValue(obj, type){
+            keyToValue(obj, type) {
                 Object.keys(obj).forEach((key) => {
                     const extraKeyArr = ['startTime', 'endTime', 'execMode', 'execScheduler'];
-                    switch (extraKeyArr.indexOf(key)) {
-                        case -1:
-                            obj[key] = this.detailForm[key] || obj[key];
-                            break
-                        default: obj[key] = this.detailForm[type+key] || obj[key];
+                    if (extraKeyArr.indexOf(key) === -1) {
+                        obj[key] = this.detailForm[key] || obj[key];
+                    } else {
+                        obj[key] = this.detailForm[type + key] || obj[key];
                     }
                 });
             },
 
-            reKeyToValue(obj, type){
+            reKeyToValue(obj, type) {
                 Object.keys(obj).forEach((key) => {
                     const extraKeyArr = ['startTime', 'endTime', 'execMode', 'execScheduler'];
-                    switch (extraKeyArr.indexOf(key)) {
-                        case -1:
-                            this.detailForm[key] = obj[key] || this.detailForm[key];
-                            break
-                        default: this.detailForm[type+key] = obj[key] || this.detailForm[key];
+                    if (extraKeyArr.indexOf(key) === -1) {
+                        this.detailForm[key] = obj[key] || this.detailForm[key];
+                    } else {
+                        this.detailForm[type + key] = obj[key] || this.detailForm[key];
                     }
                 });
             }
         },
 
         watch: {
-            'startAllTime' (val) {
+            'startAllTime'(val) {
                 if (val) {
                     this.detailForm.task_endTime = '9999-12-31'
                 } else {
