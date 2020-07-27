@@ -86,7 +86,7 @@
 
 ============================*/
 
-.datav_client_view .el-card.moduleCard {
+.datav_client_view .el-card.module-card {
     border-radius: 0 4px 4px 4px;
     border: none;
     box-shadow: none;
@@ -94,36 +94,36 @@
     transition: .3s;
 }
 
-.datav_client_view .el-card.moduleCard:hover,
-.datav_client_view .el-card.moduleCard:focus {
+.datav_client_view .el-card.module-card:hover,
+.datav_client_view .el-card.module-card:focus {
     box-shadow:0px 0px 6px 0px rgba(0, 0, 0, 0.06);
 }
 
-.datav_client_view .el-card.moduleCard .el-card__body{
+.datav_client_view .el-card.module-card .el-card__body{
     padding: 5px 5px 5px 10px;
 }
 
-/*moduleCard头部样式*/
-.datav_client_view .el-card.moduleCard .el-card__header {
+/*module-card头部样式*/
+.datav_client_view .el-card.module-card .el-card__header {
     position: relative;
     padding: 5px 0;
     font-weight: bold;
     border-bottom: none;
 }
 
-.datav_client_view .indexPage .el-card.moduleCard .el-card__header {
+.datav_client_view .indexPage .el-card.module-card .el-card__header {
     padding: 5px 10px;
     border-bottom: 1px solid #EAEAEA;
 }
 
-.datav_client_view .el-card.moduleCard .el-card__header .clearfix>span {
+.datav_client_view .el-card.module-card .el-card__header .clearfix>span {
     position: relative;
     margin-left: 10px;
     font-size: 14px;
     color: #333;
 }
 
-.datav_client_view .el-card.moduleCard .el-card__header .clearfix>span:before{
+.datav_client_view .el-card.module-card .el-card__header .clearfix>span:before{
     display: block;
     position: absolute;
     content: '';
@@ -134,12 +134,63 @@
     top: 2px;
 }
 
-.datav_client_view .el-card.moduleCard .el-card__header .headOption{
+.datav_client_view .el-card.module-card .el-card__header .headOption{
     position: absolute;
     right: 0;
     top: 0;
     height: 100%;
     line-height: 28px;
+}
+
+.datav_client_view .el-card.module-card .el-calendar {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__header{
+    padding: 0;
+}
+
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__header
+.el-calendar__title {
+    white-space: nowrap;
+}
+
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__header
+.el-calendar__button-group {
+    width: calc(100% - 25px);
+    max-width: 215px;
+    margin-left: 5px;
+}
+
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__header
+.el-calendar__button-group .el-button-group {
+    display: flex;
+    width: 100%;
+}
+
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__header
+.el-calendar__button-group .el-button-group>.el-button{
+    flex: 1;
+    padding: 7px 0;
+}
+
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__body{
+    height: calc(100% - 30px);
+    padding: 0 1px;
+}
+
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
+.el-calendar-table thead th {
+    padding: 3px 0;
+}
+
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
+.el-calendar-table .el-calendar-day {
+    height: auto;
+    padding: 15% 0;
+    text-align: center;
 }
 
 /* =============================
@@ -412,28 +463,28 @@
 }
 
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
-.menuContent .el-card.moduleCard {
+.menuContent .el-card.module-card {
     height: 100%;
     margin-bottom: 0;
 }
 
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
-.menuContent .el-card.moduleCard .el-card__header .clearfix{
+.menuContent .el-card.module-card .el-card__header .clearfix{
     padding: 0;
 }
 
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
-.menuContent .el-card.moduleCard .el-card__header .clearfix::before{
+.menuContent .el-card.module-card .el-card__header .clearfix::before{
     display: none;
 }
 
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
-.menuContent .el-card.moduleCard .el-card__body>.content {
+.menuContent .el-card.module-card .el-card__body>.content {
     height: 100%;
 }
 
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
-.menuContent .el-card.moduleCard .el-card__body {
+.menuContent .el-card.module-card .el-card__body {
     height: calc(100% - 31px);
 }
 
