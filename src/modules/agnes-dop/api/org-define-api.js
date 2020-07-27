@@ -6,15 +6,15 @@ export default {
         return request.post(`/agnes-app/v1/dop/org/list`);
     },
     saveOrg(form){
-        return request.post(`/agnes-app/v1/dop/org/save`, {dopEeExternalOrg: form});
+        return request.post(`/agnes-app/v1/dop/org/save`,{dopEeExternalOrg:form});
     },
     deleteOrg(extOrgIds) {
-        return request.post("/agnes-app/v1/dop/org/delete", {ids: extOrgIds});
+        return request.post("/agnes-app/v1/dop/org/delete", {ids:extOrgIds});
     },
     checkOrg(form){
-        return request.post(`/agnes-app/v1/dop/org/check`, {dopEeExternalOrg: form});
+        return request.post(`/agnes-app/v1/dop/org/check`,{dopEeExternalOrg:form});
     },
     getOrgList(form){
-        return request.post(`/agnes-app/v1/dop/org/all`, {dopEeExternalOrg: form});
+        return request.post(`/agnes-app/v1/dop/org/all`,{dopEeExternalOrg:form});
     },
 };

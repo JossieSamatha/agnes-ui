@@ -64,13 +64,15 @@
 
     export default {
         props: {
-            args: {type:Object, required:false},
+            caseDefInfo: {
+                type: Object,
+                required: false
+            },
         },
         data() {
             return {
                 workflowType: 'lifeRecycle',
                 actionOption: {group: {name: 'actionStep'}, put: false, ghostClass: 'stepGhost'},
-                caseDefInfo: {},
                 caseModelData: {},
                 drawerVisible: false,
                 stepDetailProps: {},

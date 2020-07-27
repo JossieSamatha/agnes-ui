@@ -56,8 +56,12 @@
             return {
                 svgImg: this.$svgImg,
                 appMenus: {},
-                adminMenus: {},
-                menus:{},
+                adminMenus: {
+                    allMenu: {
+                        children: []
+                    }
+                },
+                menus: {},
                 noticeData: noticeData,
                 studioType: 'appMenus',
                 searchValue: '',
@@ -126,17 +130,16 @@
                 });
             },
             showMain() {
-                let viewId = 'datav.client.view';
+                // let viewId = 'datav.client.view';
+                let viewId = 'agnes.kpi.task.def';
                 let pageView = this.$app.views.getView(viewId);
                 let tabView = Object.assign({args: {}, id: viewId}, pageView);
                 this.$nav.showView(tabView);
             },
             studioTypeChange(val) {
                 if(val === 'appMenus'){
-                    this.showView('aicm.studio.web');
                     this.menus = this.appMenus;
                 }else{
-                    this.showView('aicm.nuxeo.web');
                     this.menus = this.adminMenus;
                 }
             },

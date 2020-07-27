@@ -1,5 +1,5 @@
 <template>
-    <el-form ref="form" :model="form"  :disabled="mode==='view'" :rules="rules" label-width="110px"  style="margin-left: 15%;" class="taskDefForm">
+    <el-form ref="form" :model="form"  :disabled="mode==='view'" :rules="rules" label-width="110px"  style="margin-left: 15%;" class="task-def-form">
         <el-form-item label="任务名称" prop="taskName">
             <gf-input v-model.trim="form.taskName"  placeholder="任务名称" style="width: 50%"/>
         </el-form-item>

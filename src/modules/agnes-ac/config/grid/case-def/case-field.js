@@ -21,7 +21,7 @@ export default {
     ext: {
         fetchUrl: "/agnes-ac/v1/ac/case/def/list",
         fetchMethod: 'get',
-        pagingMode: true, //不分页
+        pagingMode: true, //是否分页
         checkboxColumn: 1, //是否显示checkbox列,
         autoFitColumnMode: 1,
         enableExportLocal: true,

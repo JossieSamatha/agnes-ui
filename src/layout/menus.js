@@ -14,7 +14,12 @@ export function toColumn(menus) {
             for(let j=0;j<first.children.length;j++){
                 let second = first.children[j];
                 if(!second.children || second.children.length==0){
-                    defaultColumns.menus.push({code:second.resCode, title:second.resName, view:second.resCode});
+                    defaultColumns.menus.push({
+                        code: second.resCode,
+                        title: second.resName,
+                        view: second.resCode,
+                        actionUrl: second.actionUrl
+                    });
                     continue;
 
                 }
