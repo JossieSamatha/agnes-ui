@@ -20,48 +20,48 @@
 
 /*=====================================
 
-        任务配置表单 -- taskDefForm
+        任务配置表单 -- task-def-form
 
 =======================================*/
-.el-form.taskDefForm {
+.el-form.task-def-form {
     padding: 0;
     width: 850px;
 }
 
-.el-form.taskDefForm .el-rate{
+.el-form.task-def-form .el-rate{
     height: 28px;
     line-height: 26px;
 }
 
-.el-form.taskDefForm .el-rate .el-rate__item {
+.el-form.task-def-form .el-rate .el-rate__item {
     line-height: 1;
 }
 
-.el-form.taskDefForm .el-rate .el-rate__icon {
+.el-form.task-def-form .el-rate .el-rate__icon {
     font-size: 20px;
 }
 
-.el-form.taskDefForm .multiple-select {
+.el-form.task-def-form .multiple-select {
     width: 100%;
 }
 
-.el-form.taskDefForm .multiple-select .el-select__tags {
+.el-form.task-def-form .multiple-select .el-select__tags {
     display: flex;
     flex-wrap: nowrap;
     overflow: hidden;
 }
 
-.el-form.taskDefForm .multiple-select .el-select__tags>span {
+.el-form.task-def-form .multiple-select .el-select__tags>span {
     display: flex;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
-.el-form.taskDefForm .multiple-select .el-select__tags>input {
+.el-form.task-def-form .multiple-select .el-select__tags>input {
     min-width: 30px;
 }
 
-.el-form.taskDefForm .el-date-editor.el-input {
+.el-form.task-def-form .el-date-editor.el-input {
     min-width: 235px;
 }
