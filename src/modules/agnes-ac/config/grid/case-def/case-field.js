@@ -2,8 +2,7 @@ import column from "../../../../../config/column"
 
 const colButtons = [
     {key: 'editCaseDef', title: '编辑'},
-    {key: 'deleteCaseDef', title: '删除', cellClass: 'red-cell'},
-    {key: 'cancelCaseDef', title: '取消', cellClass: 'grey-cell'},
+    {key: 'deleteCaseDef', title: '删除', cellClass: 'red-cell'}
 ];
 
 export default {

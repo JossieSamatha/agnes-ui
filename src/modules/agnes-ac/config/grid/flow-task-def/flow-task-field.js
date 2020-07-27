@@ -1,6 +1,11 @@
-
+import column from "../../../../../config/column"
+const colButtons = [
+    {key: 'editCaseDef', title: '编辑'},
+    {key: 'deleteCaseDef', title: '删除', cellClass: 'red-cell'}
+];
 export default {
     columnDefs: [
+        column.buildOpCol(120, colButtons),
         {headerName: "任务名称", field: "reTaskDef.taskName"},
         {headerName: "业务场景", field: "reTaskDef.bizType"},
         {headerName: "业务标签", field: "reTaskDef.bizTag"},

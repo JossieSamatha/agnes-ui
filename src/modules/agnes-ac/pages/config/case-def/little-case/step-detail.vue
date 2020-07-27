@@ -4,19 +4,9 @@
             <el-button class="primary" @click="saveForm">保存</el-button>
             <el-button @click="cancelForm">取消</el-button>
         </div>
-        <el-form ref="stepInfoForm" :model="caseStepDef" label-width="85px">
+        <el-form ref="stepInfoForm"  class="task-def-form" :model="caseStepDef" label-width="100px">
             <el-form-item label="任务名称" prop="stepName">
                 <gf-input v-model.trim="stepInfo.stepName"/>
-            </el-form-item>
-            <el-form-item label="日期类型" prop="dayendDefId">
-                <el-select v-model="caseStepDef.dayendDefId" placeholder="请选择">
-                    <el-option
-                            v-for="item in dataType"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                    </el-option>
-                </el-select>
             </el-form-item>
             <el-form-item label="任务等级" prop="stepLevel">
                 <el-rate
@@ -27,11 +17,52 @@
                 >
                 </el-rate>
             </el-form-item>
-            <el-form-item label="任务索引" prop="stepCode">
+            <el-form-item label="任务编号" prop="stepCode">
                 <gf-input v-model="caseStepDef.stepCode"/>
             </el-form-item>
-            <el-form-item label="责任人" prop="stepActOwner">
+            <el-form-item label="业务场景" prop="bizType">
+                <gf-dict filterable clearable v-model="bizType" dict-type="EC_BIZ_TYPE"/>
+            </el-form-item>
+            <el-form-item label="业务标签" prop="bizTag">
+                <el-select class="multiple-select" v-model="bizTagArr"
+                           multiple filterable clearable
+                           allow-create
+                           default-first-option placeholder="请选择">
+                    <gf-filter-option
+                            v-for="item in bizTagOption"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </gf-filter-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="任务说明" prop="stepRemark">
+                <gf-input v-model="caseStepDef.stepRemark" type="textarea"></gf-input>
+            </el-form-item>
+            <el-form-item label="参与人员" prop="stepActOwner">
                 <gf-input v-model="caseStepDef.stepActOwner"/>
+            </el-form-item>
+            <el-form-item label="执行时间" prop="">
+                <div class="line none-shrink">
+                    <gf-input v-model="caseStepDef.startDay" v-if="dayChecked===true"></gf-input>
+                    <span v-if="dayChecked===true" style="margin: 0 5px">日</span>
+                    <el-form-item prop="startTime">
+                        <el-time-picker v-model="caseStepDef.startTime"
+                                placeholder="任意时间点"
+                                value-format="HH:mm">
+                        </el-time-picker>
+                    </el-form-item>
+                    <span style="margin: 0 10px">~</span>
+                    <gf-input v-model="caseStepDef.endDay" v-if="dayChecked===true"></gf-input>
+                    <span v-if="dayChecked===true" style="margin: 0 5px">日</span>
+                    <el-form-item prop="endTime">
+                        <el-time-picker v-model="caseStepDef.endTime"
+                                placeholder="任意时间点"
+                                value-format="HH:mm">
+                        </el-time-picker>
+                    </el-form-item>
+                    <el-checkbox v-model="dayChecked" style="margin-left: 5px">跨日</el-checkbox>
+                </div>
             </el-form-item>
             <el-form-item label="任务类型" prop="stepActType">
                 <gf-dict v-model="stepInfo.stepActType" dictType="AC_STEP_ACT_TYPE"></gf-dict>
@@ -65,136 +96,148 @@
             <el-form-item v-if="stepInfo.stepActType === '3'" label="确认人" prop="stepActParam1">
                 <gf-input v-model="caseStepDef.stepActParam1"></gf-input>
             </el-form-item>
-            <el-form-item label="执行时间" prop="">
-                <gf-input v-model="caseStepDef.startDay" style="width: 10%"
-                          v-if="dayChecked===true"></gf-input>
-                <span v-if="dayChecked===true">日</span>
-                <el-time-picker
-                        style="width: 20%"
-                        v-model="caseStepDef.startTime"
-                        placeholder="任意时间点"
-                        value-format="HH:mm">
-                </el-time-picker>
-                ~
-                <gf-input v-model="caseStepDef.endDay" style="width: 10%"
-                          v-if="dayChecked===true"></gf-input>
-                <span v-if="dayChecked===true">日</span>
-                <el-time-picker
-                        style="width: 20%"
-                        v-model="caseStepDef.endTime"
-                        placeholder="任意时间点"
-                        value-format="HH:mm">
-                </el-time-picker>
-                <el-checkbox v-model="dayChecked">跨日</el-checkbox>
+            <el-form-item label="指标执行频率">
+                <gf-input v-model.trim="caseStepDef.execScheduler" placeholder="* * * * * ?"
+                              @click.native="openCron" style="width: 235px"/>
             </el-form-item>
-            <el-form-item label="执行策略" v-if="stepInfo.stepActType === '1'" prop="">
-                <el-radio v-model="caseStepDef.execMode" label="1">仅执行一次</el-radio>
-                <el-radio v-model="caseStepDef.execMode" label="2">重复执行</el-radio>
-                <el-form-item label="执行频率">
-                    <gf-input v-model.trim="caseStepDef.execScheduler" placeholder="* * * * * ?"
-                              @click.native="openCron" style="width: 50%"/>
-                </el-form-item>
+            <el-form-item label="任务控制参数">
+                <gf-strbool-checkbox v-model="caseStepDef.isTodo">是否进入待办</gf-strbool-checkbox>
+                <gf-strbool-checkbox v-model="caseStepDef.forcePass">是否允许人工强制通过</gf-strbool-checkbox>
             </el-form-item>
-            <el-form-item label="预警通知" prop="warningList">
-                <el-checkbox v-model="warningNotice">
-                    <el-button type="text" :disabled="!warningNotice" @click="openRemindDlg(stepInfo.stepFormInfo.warningRemind,'warningRemind')">
-                        预警方式配置
-                    </el-button>
-                </el-checkbox>
-                <el-form-item v-if="warningNotice" label="预警时间">提前
-                    <gf-input v-model="caseStepDef.warningMintues" style="width: 30%"></gf-input>
-                    <el-select v-model="timeType" placeholder="请选择">
-                        <el-option
-                                v-for="item in timeTypeData"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
+            <el-form-item label="消息通知参数">
+                <el-checkbox-group v-model="msgInformParam">
+                    <el-checkbox v-for="msgInform in msgInformOp"
+                                 :key="msgInform.value"
+                                 :label="msgInform.value">
+                        {{msgInform.label}}
+                    </el-checkbox>
+                </el-checkbox-group>
             </el-form-item>
-            <el-form-item label="超时通知">
-                <el-checkbox v-model="timeoutNotice">
-                    <el-button type="text" :disabled="!timeoutNotice" @click="openRemindDlg(stepInfo.stepFormInfo.timeoutRemind,'timeoutRemind')">通知方式配置</el-button>
-                </el-checkbox>
-                <el-form-item v-if="timeoutNotice">
-                    <el-form-item label-width="113px"  label="服务水平承诺">
-                       <gf-el-select style="width: 20%"></gf-el-select>按照每隔
-                        <gf-input style="width: 20%"></gf-input>分钟，执行
-                        <gf-input style="width: 20%"></gf-input>次后退出
-                    </el-form-item>
-                    <el-form-item label="异常记录">
-                        <el-checkbox true-label="1" false-label="0" v-model="caseStepDef.isRecordTimeoutError" >记入异常</el-checkbox>
-                    </el-form-item>
-                    <el-form-item v-if="caseStepDef.isRecordTimeoutError === '1'">
-                        <el-form-item label="异常类型">
-                            <el-select v-model="caseStepDef.timeoutErrorType" placeholder="请选择">
-                                <el-option
-                                        v-for="item in errorTypeData"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item label="异常内容">
-                            <gf-input v-model="caseStepDef.timeoutErrorContent"  type="textarea"></gf-input>
-                        </el-form-item>
-                    </el-form-item>
-                </el-form-item>
+            <el-form-item v-if="msgInformParam.length>0">
+                <el-tabs type="card" style="height: 290px;">
+                    <el-tab-pane v-for="(msgInformItem, msgInformIndex) in msgInformParam" :key="msgInformIndex"
+                                 :name="msgInformIndex+''">
+                        <span class="tab-label" slot="label">
+                            <span>{{msgInformOp[msgInformItem].label}}</span>
+                        </span>
+                        <el-form size="small" label-width="100px" v-show="msgInformItem == '0'">
+                            <el-form-item label="提前通知配置">
+                                <el-button type="text" @click="openRemindDlg(stepInfo.stepFormInfo.warningRemind,'warningRemind')">
+                                    点击配置通知方式
+                                </el-button>
+                            </el-form-item>
+                            <el-form-item label="预警时间">提前
+                                <gf-input v-model="caseStepDef.warningMintues" style="width: 30%"></gf-input>
+                                <el-select v-model="timeType" placeholder="请选择">
+                                    <el-option
+                                            v-for="item in timeTypeData"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-form>
+                        <el-form size="small" label-width="100px" v-show="msgInformItem == '1'">
+                            <el-form-item label="完成通知配置">
+                                <el-button type="text" @click="openRemindDlg(stepInfo.stepFormInfo.finishRemind,'finishRemind')">
+                                    点击配置通知方式
+                                </el-button>
+                            </el-form-item>
+                        </el-form>
+                        <el-form size="small" label-width="100px" v-show="msgInformItem == '2'">
+                            <el-form-item label="超时通知配置">
+                                <el-button type="text" @click="openRemindDlg(stepInfo.stepFormInfo.timeoutRemind,'timeoutRemind')">
+                                    点击配置通知方式
+                                </el-button>
+                            </el-form-item>
+                            <el-form-item label-width="113px"  label="服务水平承诺">
+                                <gf-el-select style="width: 20%"></gf-el-select>按照每隔
+                                <gf-input style="width: 20%"></gf-input>分钟，执行
+                                <gf-input style="width: 20%"></gf-input>次后退出
+                            </el-form-item>
+                            <el-form-item label="异常记录">
+                                <gf-strbool-checkbox v-model="caseStepDef.isRecordTimeoutError">记入异常</gf-strbool-checkbox>
+                            </el-form-item>
+                            <el-form-item v-if="caseStepDef.isRecordTimeoutError === '1'">
+                                <el-form-item label="异常类型">
+                                    <el-select v-model="caseStepDef.timeoutErrorType" placeholder="请选择">
+                                        <el-option
+                                                v-for="item in errorTypeData"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+                                <el-form-item label="异常内容">
+                                    <gf-input v-model="caseStepDef.timeoutErrorContent"  type="textarea"></gf-input>
+                                </el-form-item>
+                            </el-form-item>
+                        </el-form>
+                        <el-form size="small" label-width="100px" v-show="msgInformItem == '3'">
+                            <el-form-item label="异常通知配置">
+                                <el-button type="text" @click="openRemindDlg(stepInfo.stepFormInfo.exceptionRemind,'exceptionRemind')">
+                                    点击配置通知方式
+                                </el-button>
+                            </el-form-item>
+                            <el-form-item label="异常记录">
+                                <gf-strbool-checkbox v-model="caseStepDef.isRecordError">记入异常</gf-strbool-checkbox>
+                            </el-form-item>
+                            <el-form-item v-if="caseStepDef.isRecordError === '1'">
+                                <el-form-item label="异常类型">
+                                    <el-select v-model="caseStepDef.errorType" placeholder="请选择">
+                                        <el-option
+                                                v-for="item in errorTypeData"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+                                <el-form-item label="异常内容">
+                                    <gf-input v-model="caseStepDef.errorContent"  type="textarea"></gf-input>
+                                </el-form-item>
+                            </el-form-item>
+                        </el-form>
+                    </el-tab-pane>
+                </el-tabs>
             </el-form-item>
-            <el-form-item label="任务说明" prop="stepRemark">
-                <gf-input v-model="caseStepDef.stepRemark" type="textarea"></gf-input>
+            <el-form-item label="激活条件">
+                <el-radio-group v-model="activeTerm">
+                    <el-radio v-for="activeItem in activeConfOp"
+                              :key="activeItem.value"
+                              :label="activeItem.value">
+                        {{activeItem.label}}
+                    </el-radio>
+                </el-radio-group>
             </el-form-item>
-            <el-form-item label="激活条件" prop="">
-                <el-radio v-model="activeTerm" label="1">随CASE启动</el-radio>
-                <el-radio v-model="activeTerm" label="2">条件触发</el-radio>
-            </el-form-item>
-            <el-form-item label="激活规则" v-if="activeTerm === '2'" prop="">
+            <el-form-item v-if="activeTerm == '2'">
                 <rule-table ref="ruleTable" :ruleTableData="stepInfo.stepFormInfo.activeRuleTableData"></rule-table>
             </el-form-item>
-            <el-form-item label="完成规则" prop="">
+            <el-form-item label="完成规则">
+                <el-radio-group v-model="succeedRule">
+                    <el-radio v-for="ruleType in ruleTypeOp"
+                              :key="ruleType.value"
+                              :label="ruleType.value">
+                        {{ruleType.label}}
+                    </el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item v-if="succeedRule == '1'">
                 <rule-table ref="ruleTable" :ruleTableData="stepInfo.stepFormInfo.successRuleTableData"></rule-table>
             </el-form-item>
-            <el-form-item label="" prop="">
-                <el-checkbox v-model="caseStepDef.forcePass"
-                             true-label=1 false-label=2>是否允许强制通过
-                </el-checkbox>
+            <el-form-item label="异常规则">
+                <el-radio-group v-model="abnormalRule">
+                    <el-radio v-for="ruleType in ruleTypeOp"
+                              :key="ruleType.value"
+                              :label="ruleType.value">
+                        {{ruleType.label}}
+                    </el-radio>
+                </el-radio-group>
             </el-form-item>
-            <el-form-item label="完成通知" prop="finishtNotice">
-                <el-checkbox v-model="finishtNotice">
-                    <el-button type="text" :disabled="!finishtNotice" @click="openRemindDlg(stepInfo.stepFormInfo.finishRemind,'finishRemind')">通知方式配置</el-button>
-                </el-checkbox>
-            </el-form-item>
-            <el-form-item label="异常规则" prop="">
+            <el-form-item v-if="abnormalRule == '1'">
                 <rule-table ref="ruleTable" :ruleTableData="stepInfo.stepFormInfo.failRuleTableData"></rule-table>
-            </el-form-item>
-            <el-form-item label="异常通知" prop="exceptionNotice">
-                <el-checkbox v-model="exceptionNotice">
-                    <el-button type="text" :disabled="!exceptionNotice" @click="openRemindDlg(stepInfo.stepFormInfo.exceptionRemind,'exceptionRemind')">通知方式配置</el-button>
-                </el-checkbox>
-                <el-form-item v-if="exceptionNotice" label="异常记录">
-                    <el-checkbox true-label = "1" false-label = "0" v-model="caseStepDef.isRecordError" >记入异常</el-checkbox>
-                </el-form-item>
-                <el-form-item v-if="caseStepDef.isRecordError === '1'">
-                    <el-form-item label="异常类型">
-                        <el-select v-model="caseStepDef.errorType" placeholder="请选择">
-                            <el-option
-                                    v-for="item in errorTypeData"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="异常内容">
-                        <gf-input v-model="caseStepDef.errorContent"  type="textarea"></gf-input>
-                    </el-form-item>
-                </el-form-item>
-
-            </el-form-item>
-            <el-form-item label="加入待办">
-                <el-checkbox v-model="caseStepDef.isTodo" true-label = "1" false-label = "0"></el-checkbox>
             </el-form-item>
         </el-form>
     </div>
@@ -267,7 +310,6 @@
                 max: 3,
                 warningNotice: false,
                 timeoutNotice: false,
-                finishtNotice: false,
                 exceptionNotice: false,
                 forcePass: false,
                 dayChecked: false,
@@ -284,6 +326,22 @@
                 kpiData: [{value: ' 3001', label: 'FA指标'}, {value: ' 3002', label: 'TA指标'}],
                 errorTypeData: [{value: ' 4001', label: '业务异常'}, {value: ' 4002', label: '系统异常'}],
                 timeTypeData: [{value: '1', label: '分钟'}, {value: '2', label: '小时'}, {value: '3', label: '天'}],
+                // 业务场景
+                bizType: '',
+                // 消息配置类型类型选项
+                msgInformParam: [],
+                msgInformOp: [{label: '提前通知', value: '0'}, {label: '完成通知', value: '1'}, {label: '超时通知', value: '2'},
+                    {label: '异常通知', value: '3'}, {label: '系统内部消息', value: '4'}],
+                msgInfoStr: ['warningRemind', 'finishRemind', 'timeoutRemind', 'exceptionRemind'],
+                // 业务标签
+                bizTagArr: [],
+                bizTagOption: [],        // 业务类型下拉
+                // 规则选择类型选项
+                ruleTypeOp: [{label: '默认完成规则', value: '0'}, {label: '自定义完成规则', value: '1'}],
+                // 激活条件类型选项
+                activeConfOp: [{label: '随case启动', value: '1'}, {label: '条件触发', value: '2'}],
+                succeedRule: '0',
+                abnormalRule: '0',
             }
         },
         computed:{
@@ -292,11 +350,19 @@
             },
         },
         mounted() {
-            this.$nextTick(function () {
+            this.$nextTick(() => {
                 this.onCreateForm();
                 if (this.optionType != 'add') {
                     this.onLoadForm();
                 }
+                console.log("this.msgInfoStr", this.msgInfoStr);
+                this.msgInfoStr.forEach((strItem, index)=>{
+                    console.log("this.msgInformParam", this.msgInformParam);
+                    console.log(`this.stepInfo.stepFormInfo${strItem}`, this.stepInfo.stepFormInfo[strItem]);
+                    if(this.stepInfo.stepFormInfo[strItem] && this.stepInfo.stepFormInfo[strItem].length>0){
+                        this.msgInformParam.push(index+'');
+                    }
+                });
             });
         },
         methods: {
