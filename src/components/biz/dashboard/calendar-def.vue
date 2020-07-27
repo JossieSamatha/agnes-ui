@@ -1,15 +1,15 @@
 <template>
-    <el-calendar v-model="calendarVal">
+    <el-calendar v-model="moduleObj.calendarVal" :first-day-of-week="7">
     </el-calendar>
 </template>
 
 <script>
     export default {
         props: {
-            calendarVal: {
-                type: String,
-                default: new Date()
-            },
+            moduleObj: {
+                type: Object,
+                required: true
+            }
         }
     }
 </script>
