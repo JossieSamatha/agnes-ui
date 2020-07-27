@@ -26,6 +26,7 @@
 
 <script>
     import AcntInfo from "./acnt-info-dlg"
+    import RateInfo from "./rate-info-dlg"
     export default {
         name: "rate-def-dlg",
         props: {
@@ -68,7 +69,7 @@
                 this.showDlg(this.getAcntValue.bind(this),AcntInfo,'账户信息');
             },
              chooseRate() {
-                this.showDlg(this.getRateValue.bind(this),AcntInfo,'利率方案');
+                this.showDlg(this.getRateValue.bind(this),RateInfo,'利率方案');
             },
             showDlg(actionOk,Tab,title) {
                 this.$nav.showDialog(

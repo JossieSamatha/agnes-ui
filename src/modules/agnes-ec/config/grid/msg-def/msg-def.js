@@ -2,7 +2,7 @@ import column from "../../../../../config/column"
 
 const colButtons = [
     {key: 'editModel', title: '编辑'},
-    {key: 'deleteModel', title: '删除'},
+    {key: 'deleteModel', title: '删除',cellClass:'red-cell'},
 ];
 
 export default {
