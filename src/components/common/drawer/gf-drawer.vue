@@ -2,7 +2,6 @@
     <el-drawer class="gf-page-drawer" ref="gf-page-drawer"
                :class="className"
                :visible.sync="visible"
-               :title="title"
                :with-header="widthHeader"
                :direction="direction"
                :size="width"
@@ -12,13 +11,13 @@
                :before-close="close"
                :wrapperClosable="wrapperClosable">
         <template slot="title">
-            <span class="drawer-title">{{title}}</span>
+            <span class="drawer-title">{{drawerTitle}}</span>
             <span class="option-btn">
                 <gf-button class="primary" v-show="okButtonVisible" @click="save">{{okButtonTitle}}</gf-button>
                 <gf-button v-show="cancelButtonVisible" @click="cancel" >{{cancelButtonTitle}}</gf-button>
             </span>
         </template>
-        <component ref="component" :is="component" :args="args" @onClose="onClose">
+        <component ref="component" :is="component" v-bind="args" @onClose="onClose">
         </component>
     </el-drawer>
 </template>
@@ -32,7 +31,7 @@
             },
             // 标题
             title: {
-                type: String,
+                type: Array,
             },
             // 是否显示title
             widthHeader: {
@@ -84,7 +83,18 @@
         },
         data() {
             return {
-                visible: true
+                visible: true,
+                modeArr: {add: '新增', edit: '编辑', view: '查看'}
+            }
+        },
+        computed: {
+            drawerTitle(){
+                if(!this.title) return '';
+                if(this.title.length>1){
+                    return this.title[0] + '-' + this.modeArr[this.title[1]];
+                }else{
+                    return this.title[0];
+                }
             }
         },
         methods: {

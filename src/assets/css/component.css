@@ -361,9 +361,16 @@
     line-height: 1;
 }
 
-.el-radio, .el-checkbox {
-    line-height: 32px;
+.el-radio,
+.el-checkbox {
+    line-height: 28px;
     margin-right: 10px;
+}
+
+.el-form .el-form-item .el-form-item__content .el-radio,
+.el-form .el-form-item .el-form-item__content .el-radio__inner,
+.el-form .el-form-item .el-form-item__content .el-radio__input {
+    line-height: 28px;
 }
 
 .el-radio .el-radio__label,
@@ -817,6 +824,10 @@
     text-align: right;
 }
 
+.ag-grid-box .gf-grid-status-bar .el-pagination .gf-grid-status-button{
+    display: none;
+}
+
 .ag-grid-box .gf-grid-status-bar .el-pagination button,
 .ag-grid-box .gf-grid-status-bar .el-pagination span:not([class*=suffix]) {
     font-size: 12px;
@@ -828,12 +839,8 @@
     padding-right: 0;
 }
 
-.ag-grid-box .gf-grid-status-bar .el-pagination .el-pagination__total::after {
-    content: '，';
-}
-
 .ag-grid-box .gf-grid-status-bar .el-pagination .el-pagination__sizes::before {
-    content: '显示';
+    content: '，显示';
 }
 
 .ag-grid-box .gf-grid-status-bar .el-pagination .el-pagination__sizes {
@@ -1074,6 +1081,7 @@
 .gf-page-drawer .el-drawer__body {
     padding: 20px;
     height: 100%;
+    overflow-y: auto;
 }
 
 

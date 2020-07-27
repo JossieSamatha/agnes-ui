@@ -130,7 +130,8 @@
                 });
             },
             showMain() {
-                let viewId = 'datav.client.view';
+                // let viewId = 'datav.client.view';
+                let viewId = 'agnes.kpi.task.def';
                 let pageView = this.$app.views.getView(viewId);
                 let tabView = Object.assign({args: {}, id: viewId}, pageView);
                 this.$nav.showView(tabView);
