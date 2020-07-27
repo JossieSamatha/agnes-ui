@@ -22,7 +22,7 @@ const Loading = {
         Gfui.componentView('agnes.define.fun', FunDef, {title: '函数类型定义'});
         Gfui.componentView('agnes.config.workday', WorkDay, {title: '工作日'});
         Gfui.componentView('agnes.config.case', CaseDef, {title: 'case定义'});
-        Gfui.componentView('agnes.kpi.task.def', KpiTaskDef, {title: '指标任务配置'});
+        Gfui.componentView('agnes.app.business.kpiconf', KpiTaskDef, {title: '指标任务配置'});
     }
 };
 
