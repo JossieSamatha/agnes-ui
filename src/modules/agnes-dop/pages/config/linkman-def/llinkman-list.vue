@@ -2,9 +2,9 @@
     <gf-grid grid-no="agnes-linkman-field" ref="grid" quick-text-max-width="300px"
               :query-args="queryArgs" height="100%" @row-double-click="showLinkman">
         <template slot="left">
-            <gf-button @click="addLinkMan">新增</gf-button>
-            <gf-button @click="editLinkMan">修改</gf-button>
-            <gf-button @click="deleteLinkMan" size="mini">删除</gf-button>
+            <gf-button class="action-btn" @click="addLinkMan" size="mini">新增</gf-button>
+            <gf-button class="action-btn" @click="editLinkMan" size="mini">修改</gf-button>
+            <gf-button class="action-btn" @click="deleteLinkMan" size="mini">删除</gf-button>
         </template>
     </gf-grid>
 </template>

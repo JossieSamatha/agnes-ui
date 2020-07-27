@@ -16,9 +16,9 @@
         </el-aside>
         <el-container style="height: 100%">
             <el-header height="40px" class="el-border" style="line-height:40px;">
-                <gf-button @click="addLinkMnaGroups">新建组</gf-button>
-                <gf-button @click="editLinkMnaGroups">修改组</gf-button>
-                <gf-button @click="deleteLinkMnaGroups">删除组</gf-button>
+                <gf-button class="action-btn" @click="addLinkMnaGroups" size="mini">新建组</gf-button>
+                <gf-button class="action-btn" @click="editLinkMnaGroups" size="mini">修改组</gf-button>
+                <gf-button class="action-btn" @click="deleteLinkMnaGroups" size="mini">删除组</gf-button>
             </el-header>
             <el-container style="height: calc(100% - 40px)">
                 <el-aside width="150px" class="el-border" style="height: 100%;overflow-y: auto">
