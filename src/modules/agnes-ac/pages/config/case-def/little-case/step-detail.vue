@@ -8,6 +8,9 @@
             <el-form-item label="任务名称" prop="stepName">
                 <gf-input v-model.trim="stepInfo.stepName"/>
             </el-form-item>
+            <el-form-item label="基准日期" prop="dayendDefId">
+                <gf-dict v-model="caseStepDef.dayendDefId" dict-type="AGNES_BASE_DATE"></gf-dict>
+            </el-form-item>
             <el-form-item label="任务等级" prop="stepLevel">
                 <el-rate
                         v-model="caseStepDef.stepLevel"
@@ -65,9 +68,9 @@
                 </div>
             </el-form-item>
             <el-form-item label="任务类型" prop="stepActType">
-                <gf-dict v-model="stepInfo.stepActType" dictType="AC_STEP_ACT_TYPE"></gf-dict>
+                <gf-dict v-model="stepInfo.stepActType" dictType="AGNES_CASE_STEPTYPE"></gf-dict>
             </el-form-item>
-            <el-form-item v-if="stepInfo.stepActType === '1'" label="指标" prop="stepActKey">
+            <el-form-item v-if="stepInfo.stepActType === '01'" label="指标" prop="stepActKey">
                 <el-select v-model="caseStepDef.stepActKey" placeholder="请选择">
                     <el-option
                             v-for="item in kpiData"
@@ -77,10 +80,10 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item v-if="stepInfo.stepActType === '1'" label="指标参数" prop="stepActParam1">
+            <el-form-item v-if="stepInfo.stepActType === '01'" label="指标参数" prop="stepActParam1">
                 <gf-input v-model="caseStepDef.stepActParam1"/>
             </el-form-item>
-            <el-form-item v-if="stepInfo.stepActType === '2'" label="流程定义" prop="stepActKey">
+            <el-form-item v-if="stepInfo.stepActType === '03'" label="流程定义" prop="stepActKey">
                 <el-select v-model="caseStepDef.stepActKey" placeholder="请选择">
                     <el-option
                             v-for="item in flowData"
@@ -90,10 +93,10 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item v-if="stepInfo.stepActType === '3'" label="确认事项" prop="stepActKey">
+            <el-form-item v-if="stepInfo.stepActType === '00'" label="确认事项" prop="stepActKey">
                 <gf-input v-model="caseStepDef.stepActKey"/>
             </el-form-item>
-            <el-form-item v-if="stepInfo.stepActType === '3'" label="确认人" prop="stepActParam1">
+            <el-form-item v-if="stepInfo.stepActType === '00'" label="确认人" prop="stepActParam1">
                 <gf-input v-model="caseStepDef.stepActParam1"></gf-input>
             </el-form-item>
             <el-form-item label="指标执行频率">
@@ -316,6 +319,7 @@
                 dayChecked: false,
                 activeTerm: '1',
                 timeType: '1',
+                caseSteptype: [],
                 flowData: [{
                     value: '1001',
                     label: '分TA流程'
@@ -449,7 +453,7 @@
             // 取消修改表单数据
             cancelForm() {
                 this.$emit("cancelAction");
-            }
+            },
         },
     }
 </script>
