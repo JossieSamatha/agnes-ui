@@ -152,7 +152,8 @@
                                 </el-button>
                             </el-form-item>
                             <el-form-item label-width="113px"  label="服务水平承诺">
-                                <gf-el-select style="width: 20%"></gf-el-select>按照每隔
+                                <gf-input style="width: 20%"></gf-input>按照每隔
+<!--                                <gf-el-select  style="width: 20%"></gf-el-select>按照每隔-->
                                 <gf-input style="width: 20%"></gf-input>分钟，执行
                                 <gf-input style="width: 20%"></gf-input>次后退出
                             </el-form-item>
@@ -263,7 +264,7 @@
                     startTime: '',
                     endDay: '',
                     endTime: '',
-                    execScheduler: '',
+                    execScheduler: '* * * * * ?',
                     stepRemark: '',
                     forcePass: '',
                     isRecordError: '',
@@ -355,10 +356,7 @@
                 if (this.optionType != 'add') {
                     this.onLoadForm();
                 }
-                console.log("this.msgInfoStr", this.msgInfoStr);
                 this.msgInfoStr.forEach((strItem, index)=>{
-                    console.log("this.msgInformParam", this.msgInformParam);
-                    console.log(`this.stepInfo.stepFormInfo${strItem}`, this.stepInfo.stepFormInfo[strItem]);
                     if(this.stepInfo.stepFormInfo[strItem] && this.stepInfo.stepFormInfo[strItem].length>0){
                         this.msgInformParam.push(index+'');
                     }
@@ -404,8 +402,6 @@
                     }
                 );
             },
-
-
 
             resetFormFields() {
                 if (this.$refs.stepInfoForm) {
