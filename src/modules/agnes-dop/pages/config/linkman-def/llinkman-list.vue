@@ -3,8 +3,6 @@
               :query-args="queryArgs" height="100%" @row-double-click="showLinkman">
         <template slot="left">
             <gf-button class="action-btn" @click="addLinkMan" size="mini">新增</gf-button>
-            <gf-button class="action-btn" @click="editLinkMan" size="mini">修改</gf-button>
-            <gf-button class="action-btn" @click="deleteLinkMan" size="mini">删除</gf-button>
         </template>
     </gf-grid>
 </template>
@@ -54,7 +52,7 @@
                     linkManBaseDlg,
                     {
                         args: {row, mode, actionOk},
-                        width: '55%',
+                        width: '50%%',
                         title: this.$dialog.formatTitle('联系人信息', mode),
                     }
                 );
@@ -83,7 +81,7 @@
             async deleteLinkMan() {
                 let rows= this.$refs.grid.getSelectedRows();
                 if(rows.length===0){
-                    this.$msg.warning("请至少选中一条记录!");
+                    this.$msg.warning("请选中一条记录!");
                     return
                 }
                 rows.forEach(row=>{
