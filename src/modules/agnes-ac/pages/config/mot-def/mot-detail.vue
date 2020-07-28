@@ -269,6 +269,7 @@
 </template>
 
 <script>
+    import loadsh from 'lodash';
     import ExecTimeEdit from "./exec-time";
     import staticData from './dataFormat'
     import initData from './initData'
@@ -293,7 +294,7 @@
                 curExecScheduler: '',    // 当前频率对象字段
                 msgInformParam: [],      // 消息通知参数类型数组
                 startAllTime: '0',       // 是否永久有效
-                bizTagOption: [],        // 业务类型下拉
+                bizTagOption: [{label: '产品', value: '0'}, {label: '成立', value: '1'},{label: '清算', value: '2'}],        // 业务类型下拉
                 // 规则选择类型选项
                 ruleTypeOp: [{label: '默认完成规则', value: '0'}, {label: '自定义完成规则', value: '1'}],
                 // 消息配置类型类型选项
@@ -370,7 +371,7 @@
                 }
                 try {
                     let resData = this.dataTransfer();
-                    const p = this.$api.kpiTaskApi.saveTask(resData);
+                    const p = this.$api.motConfigApi.saveTask(resData);
                     await this.$app.blockingApp(p);
                     if (this.actionOk) {
                         await this.actionOk();
@@ -437,10 +438,16 @@
                     if (this.detailForm.bizTag) {
                         this.detailForm.bizTagArr = this.detailForm.bizTag.split(",");
                     }
-                    let item = this.detailForm.bizTag.split(",");
-                    for (let i = 0; i < item.length; i++) {
-                        this.bizTagOption.push({value: item[i], label: item[i]});
+                    if(!loadsh.isEmpty(this.detailForm.successRuleTableData)){
+                        this.succeedRule ='1'
                     }
+                    if(!loadsh.isEmpty(this.detailForm.failRuleTableData)){
+                        this.abnormalRule ='1'
+                    }
+                    // let item = this.detailForm.bizTag.split(",");
+                    // for (let i = 0; i < item.length; i++) {
+                    //     this.bizTagOption.push({value: item[i], label: item[i]});
+                    // }
                 }
             },
 

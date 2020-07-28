@@ -6,6 +6,7 @@ import funDefineApi from './fun-define-api'
 import workdayConfigApi from './workday-config-api';
 import caseConfigApi from './case-config-api';
 import ruleConfigApi from './rule-config-api';
+import motConfigApi from './mot-config-api';
 
 export default {
     modelConfigApi,
@@ -15,5 +16,6 @@ export default {
     funDefineApi,
     workdayConfigApi,
     caseConfigApi,
-    ruleConfigApi
+    ruleConfigApi,
+    motConfigApi
 };

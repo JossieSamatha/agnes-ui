@@ -1,6 +1,6 @@
 <template>
     <gf-grid ref="grid"
-             grid-no="agnes-kpi-task"
+             grid-no="agnes-mot-field"
              quick-text-max-width="300px"
              height="100%"
              @row-double-click="showTask">
@@ -25,7 +25,7 @@
                 }
                 this.$drawerPage.create({
                     width: 'calc(92% - 215px)',
-                    title: ['任务类型编辑',mode],
+                    title: ['MOT任务编辑',mode],
                     component: MotDetail,
                     args: {row, mode, actionOk}
                 });
@@ -67,15 +67,15 @@
                 if (!ok) {
                     return
                 }
-                // try {
-                //     let sendInfo = this.checkData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName);
-                //     rowData.caseDefJson = sendInfo;
-                //     const p = this.$api.caseConfigApi.publishCaseDef(rowData);
-                //     await this.$app.blockingApp(p);
-                //     this.reloadData();
-                // } catch (reason) {
-                //     this.$msg.error(reason);
-                // }
+                try {
+                    let sendInfo = this.checkData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName);
+                    rowData.caseDefJson = sendInfo;
+                    const p = this.$api.caseConfigApi.publishCaseDef(rowData);
+                    await this.$app.blockingApp(p);
+                    this.reloadData();
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
             },
 
             //切除数据层级
