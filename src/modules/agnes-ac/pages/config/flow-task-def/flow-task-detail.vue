@@ -11,7 +11,14 @@
             <gf-dict filterable clearable v-model="detailForm.bizType" dict-type="AGNES_BIZ_CASE"/>
         </el-form-item>
         <el-form-item label="业务标签" prop="bizTag">
-            <gf-dict multiple v-model = "detailForm.bizTagArr" dict-type="AGNES_BIZ_TAG"></gf-dict>
+            <el-select v-model="detailForm.bizTagArr" placeholder="请选择" filterable clearable multiple>
+                <gf-filter-option
+                        v-for="item in bizTagOption"
+                        :key="item.dictId"
+                        :label="item.dictName"
+                        :value="item.dictId">
+                </gf-filter-option>
+            </el-select>
         </el-form-item>
         <el-form-item label="运行周期" prop="startTimeStr">
             <div class="line none-shrink">
@@ -105,12 +112,14 @@
                     execScheduler: [
                         {required: true, message: '任务创建频率必填', trigger: 'blur'},
                     ]
-                }
+                },
+                bizTagOption:[]
             }
         },
         mounted() {
             Object.assign(this.detailForm, this.row);
             this.onLoadForm();
+            this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
         },
         methods: {
             openCron() {
@@ -158,11 +167,13 @@
                 }
             },
             onLoadForm(){
-                if (this.detailForm.endTime && this.detailForm.endTime.toString().startsWith('9999-12-31')) {
-                    this.startAllTime = true;
-                }
-                if (this.detailForm.bizTag) {
-                    this.detailForm.bizTagArr = this.detailForm.bizTag.split(",");
+                if (this.mode && this.mode !== 'add') {
+                    if (this.detailForm.endTime && this.detailForm.endTime.toString().startsWith('9999-12-31')) {
+                        this.startAllTime = true;
+                    }
+                    if (this.detailForm.bizTag) {
+                        this.detailForm.bizTagArr = this.detailForm.bizTag.split(",");
+                    }
                 }
             },
         },

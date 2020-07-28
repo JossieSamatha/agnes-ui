@@ -9,7 +9,14 @@ export default {
         column.buildOpCol(120, colButtons),
         {headerName: "任务名称", field: "reTaskDef.taskName"},
         {headerName: "业务场景", field: "reTaskDef.bizType",formatType: 'dict', dictType: 'AGNES_BIZ_CASE'},
-        {headerName: "业务标签", field: "reTaskDef.bizTag",},
+        {headerName: "业务标签", field: "reTaskDef.bizTag",
+            valueFormatter: function (params) {
+                let IdArr = params.value.split(',');
+                return IdArr.map(IdItem=>{
+                    return window.$gfui.$app.dict.getDictItem('AGNES_BIZ_TAG',IdItem).dictName;
+                }).join(',');
+            },
+        },
         {headerName: "业务类型", field: "reTaskDef.taskType" ,formatType: 'dict', dictType: 'AGNES_TASK_TYPE'},
         {headerName: "状态", field: "reTaskDef.taskStatus",formatType: 'dict', dictType: 'AC_TASK_CASE_STATUS'},
         {headerName: "创建时间", field: "reTaskDef.crtTs"},
@@ -18,7 +25,7 @@ export default {
     headerHeight: 40,
     rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-ac/v1/ac/flow/task/case/list?taskType=02",
+        fetchUrl: "/agnes-ac/v1/ac/kpi/task/case/list?taskType=02",
         fetchMethod: 'get',
         pagingMode: true, //不分页
         checkboxColumn: 1, //是否显示checkbox列,
