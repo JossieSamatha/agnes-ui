@@ -1,23 +1,24 @@
 import column from "../../../../../config/column"
 const colButtons = [
-    {key: 'editCaseDef', title: '编辑'},
-    {key: 'deleteCaseDef', title: '删除', cellClass: 'red-cell'}
+    {key: 'updateFlowTask', title: '编辑'},
+    {key: 'deleteFlowTask', title: '删除', cellClass: 'red-cell'},
+    {key: 'reviewFlowTask', title: '复核'}
 ];
 export default {
     columnDefs: [
         column.buildOpCol(120, colButtons),
         {headerName: "任务名称", field: "reTaskDef.taskName"},
-        {headerName: "业务场景", field: "reTaskDef.bizType"},
-        {headerName: "业务标签", field: "reTaskDef.bizTag"},
-        {headerName: "业务类型", field: "reTaskDef.taskType"},
-        {headerName: "状态", field: "reTaskDef.taskStatus"},
+        {headerName: "业务场景", field: "reTaskDef.bizType",formatType: 'dict', dictType: 'AGNES_BIZ_CASE'},
+        {headerName: "业务标签", field: "reTaskDef.bizTag",},
+        {headerName: "业务类型", field: "reTaskDef.taskType" ,formatType: 'dict', dictType: 'AGNES_TASK_TYPE'},
+        {headerName: "状态", field: "reTaskDef.taskStatus",formatType: 'dict', dictType: 'AC_TASK_CASE_STATUS'},
         {headerName: "创建时间", field: "reTaskDef.crtTs"},
         {headerName: "创建人", field: "reTaskDef.crtUser"}
     ],
     headerHeight: 40,
     rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-ac/v1/ac/kpi/task/case/list?taskType=1",
+        fetchUrl: "/agnes-ac/v1/ac/flow/task/case/list?taskType=02",
         fetchMethod: 'get',
         pagingMode: true, //不分页
         checkboxColumn: 1, //是否显示checkbox列,

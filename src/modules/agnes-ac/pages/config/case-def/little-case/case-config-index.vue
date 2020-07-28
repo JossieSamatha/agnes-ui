@@ -63,14 +63,14 @@
     import mockData from './mockData'
 
     export default {
-        props: {
-            mode: {
-                type: String,
-                default: 'add'
-            },
-            rowData: Object,
-            actionOk: Function
-        },
+props: {
+    mode: {
+        type: String,
+        default: 'add'
+    },
+    row: Object,
+    actionOk: Function
+},
         data() {
             return {
                 workflowType: 'lifeRecycle',
@@ -86,11 +86,7 @@
             stepDetail
         },
         mounted() {
-            if(this.mode === 'add'){
-                this.caseModelData = this.$utils.deepClone(mockData);
-            }else{
-                this.caseModelData = this.rowData.caseDefInfo.caseDefBody?JSON.parse(this.rowData.caseDefInfo.caseDefBody) : this.$utils.deepClone(mockData) ;
-            }
+            this.caseModelData = this.row.caseDefInfo.caseDefBody?JSON.parse(this.row.caseDefInfo.caseDefBody) : this.$utils.deepClone(mockData) ;
             this.$app.registerCmd("openStepDialog", this.onShowDialog);
         },
         methods: {
@@ -101,13 +97,9 @@
 
             // 保存onSave事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
             async onSave(){
-                this.caseDefInfo.caseDefBody = JSON.stringify(this.caseModelData)
-                if(this.caseDefInfo.caseStatus !== '2'){
-                    this.caseDefInfo.caseStatus = '2'
-                    this.caseDefInfo.caseDefId = ''
-                }
+                this.row.caseDefInfo.caseDefBody = JSON.stringify(this.caseModelData)
                 try {
-                    const p = this.$api.caseConfigApi.saveCaseDef(this.caseDefInfo);
+                    const p = this.$api.flowTaskApi.saveTask(this.row.caseDefInfo);
                     await this.$app.blockingApp(p);
                     this.$msg.success('保存成功');
                     this.$emit("onClose");

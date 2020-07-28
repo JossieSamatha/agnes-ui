@@ -1,5 +1,5 @@
 <template>
-    <el-form ref="taskDefForm" class="taskDefForm" :model="detailForm"
+    <el-form ref="taskDefForm" class="taskDefForm" :model="detailForm" :disabled="mode==='view'"
              :rules="detailFormRules" label-width="110px">
         <el-form-item label="任务名称" prop="taskName">
             <gf-input v-model.trim="detailForm.taskName" placeholder="任务名称"/>
@@ -8,23 +8,10 @@
             <gf-input v-model.trim="detailForm.caseKey" placeholder="任务编号"/>
         </el-form-item>
         <el-form-item label="业务场景" prop="bizType">
-            <gf-dict filterable clearable v-model="detailForm.bizType" dict-type="EC_BIZ_TYPE"/>
+            <gf-dict filterable clearable v-model="detailForm.bizType" dict-type="AGNES_BIZ_CASE"/>
         </el-form-item>
         <el-form-item label="业务标签" prop="bizTag">
-            <el-select class="multiple-select" v-model="detailForm.bizTagArr"
-                       multiple filterable clearable
-                       allow-create
-                       default-first-option placeholder="请选择">
-                <gf-filter-option
-                        v-for="item in bizTagOption"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </gf-filter-option>
-            </el-select>
-        </el-form-item>
-        <el-form-item label="任务说明" prop="stepRemark">
-            <gf-input type="textarea" v-model.trim="detailForm.stepRemark" placeholder="任务说明"/>
+            <gf-dict multiple v-model = "detailForm.bizTagArr" dict-type="AGNES_BIZ_TAG"></gf-dict>
         </el-form-item>
         <el-form-item label="运行周期" prop="startTimeStr">
             <div class="line none-shrink">
@@ -55,13 +42,11 @@
                 <el-radio label="2">事件触发执行</el-radio>
             </el-radio-group>
         </el-form-item>
-        <template v-if="detailForm.execMode===1">
-            <el-form-item label="任务创建频率" prop="execScheduler">
-                <gf-input v-model.trim="detailForm.execScheduler" placeholder="* * * * * ?"
-                          @click.native="openCron" style="width: 50%"/>
-            </el-form-item>
-        </template>
-        <el-form-item label="事件选择" v-if="detailForm.execMode===2">
+        <el-form-item v-if="detailForm.execMode==='1'" label="任务创建频率" prop="execScheduler">
+            <gf-input v-model.trim="detailForm.execScheduler" placeholder="* * * * * ?"
+                      @click.native="openCron" style="width: 50%"/>
+        </el-form-item>
+        <el-form-item label="事件选择" v-if="detailForm.execMode==='2'">
             <el-select v-model="detailForm.eventId" placeholder="请选择" filterable clearable>
                 <gf-filter-option
                         v-for="item in detailForm.eventOptions"
@@ -75,18 +60,23 @@
 </template>
 
 <script>
-    import ExecTimeEdit from "./exec-time";
+    import CronDef from "../case-def/little-case/cron-def";
 
     export default {
         name: "task-define",
         props: {
+            mode: {
+                type: String,
+                default: 'add'
+            },
+            row: Object,
+            actionOk: Function
         },
         data() {
             return {
-                detailForm: {},
+                detailForm: {execScheduler:'* * * * * ?'},
                 dayChecked: false,  // 跨日
                 startAllTime: '0',       // 是否永久有效
-                bizTagOption: [],        // 业务类型下拉
                 // 规则选择类型选项
                 ruleTypeOp: [{label: '默认完成规则', value: '0'}, {label: '自定义完成规则', value: '1'}],
                 // 消息配置类型类型选项
@@ -119,21 +109,20 @@
             }
         },
         mounted() {
+            Object.assign(this.detailForm, this.row);
+            this.onLoadForm();
         },
         methods: {
             openCron() {
                 this.showDlg(this.detailForm.execScheduler, this.setExecScheduler.bind(this));
             },
-            showDlg(data, action) {
-                if (this.mode === 'view') {
-                    return;
-                }
+            showDlg(cornObj, action) {
                 this.$nav.showDialog(
-                    ExecTimeEdit,
+                    CronDef,
                     {
-                        args: {data, action},
+                        args: {cornObj, action},
                         width: '530px',
-                        title: this.$dialog.formatTitle('编辑执行频率'),
+                        title: this.$dialog.formatTitle('执行频率', "edit"),
                     }
                 );
             },
@@ -147,13 +136,17 @@
 
             // 保存onSave事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
             async onSave() {
-                const ok = await this.$refs['detailForm'].validate();
+                const ok = await this.$refs['taskDefForm'].validate();
                 if (!ok) {
                     return;
                 }
                 try {
-                    let resData = this.dataTransfer();
-                    const p = this.$api.kpiTaskApi.saveTask(resData);
+                    this.detailForm.bizTag = this.detailForm.bizTagArr.join(",");
+                    let resData = this.detailForm;
+                    if(this.mode === 'add'){
+                        resData.taskType = '02';
+                    }
+                    const p = this.$api.flowTaskApi.saveTask({reTaskDef:resData});
                     await this.$app.blockingApp(p);
                     if (this.actionOk) {
                         await this.actionOk();
@@ -164,7 +157,17 @@
                     this.$msg.error(reason);
                 }
             },
+            onLoadForm(){
+                if (this.detailForm.endTime && this.detailForm.endTime.toString().startsWith('9999-12-31')) {
+                    this.startAllTime = true;
+                }
+                if (this.detailForm.bizTag) {
+                    this.detailForm.bizTagArr = this.detailForm.bizTag.split(",");
+                }
+            },
         },
+
+
 
         watch: {
             'startAllTime' (val) {
