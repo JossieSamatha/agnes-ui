@@ -1,6 +1,7 @@
 import KpiDef from "./kpi-def/index";
 import ServiceRespLevelConf from "./service-resp-level-conf/index";
 import TaskTodo from "./task-todo/index";
+
 const Loading = {
     load: function (Gfui) {
         Gfui.componentView('agnes.kpi.def', KpiDef, {title: '指标任务详情'});
