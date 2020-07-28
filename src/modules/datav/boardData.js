@@ -22,12 +22,12 @@ const gridLayoutType = [
 ];
 
 const gridLayoutType2 = [
-    {"x": 0, "y": 0, "w": 2, "h": 2, "i": "09040011"},
-    {"x": 2, "y": 0, "w": 6, "h": 4, "i": "09040012"},
-    {"x": 0, "y": 2, "w": 2, "h": 4, "i": "09040013"},
-    {"x": 2, "y": 4, "w": 2, "h": 2, "i": "09040014"},
-    {"x": 4, "y": 4, "w": 2, "h": 2, "i": "09040015"},
-    {"x": 6, "y": 4, "w": 2, "h": 2, "i": "09040016"}];
+    {"x": 0, "y": 0, "w": 4, "h": 3, "i": "09040011"},
+    {"x": 4, "y": 0, "w": 4, "h": 3, "i": "09040012"},
+    {"x": 8, "y": 0, "w": 4, "h": 3, "i": "09040013"},
+    {"x": 0, "y": 3, "w": 4, "h": 3, "i": "09040014"},
+    {"x": 4, "y": 3, "w": 4, "h": 3, "i": "09040015"},
+    {"x": 8, "y": 3, "w": 4, "h": 3, "i": "09040016"}];
 
 const gridLayoutType3 = [
     {"x": 0, "y": 0, "w": 4, "h": 6, "i": "2020001"},
@@ -137,7 +137,6 @@ const scheduleData = [
 const abnormalCol = [
     {headerName: '异常事项', field: 'abnormal'}
 ];
-
 const abnormalData = [
     {abnormal: 'XXX任务已超时，需尽快处理'},
     {abnormal: 'XXX任务已超时，需尽快处理'},
@@ -152,10 +151,10 @@ const abnormalData = [
     {abnormal: 'XXX任务已超时，需尽快处理'},
     {abnormal: 'XXX任务已超时，需尽快处理'},
 ];
-const riskCol = [
-    {headerName: '异常事项', field: 'abnormal'}
-];
 
+const riskCol = [
+    {headerName: '风险事项', field: 'abnormal'}
+];
 const riskData = [
     {abnormal: 'XXX任务已超时，导致划款失败'},
     {abnormal: 'XXX任务已超时，导致划款失败'},
@@ -170,6 +169,42 @@ const riskData = [
     {abnormal: 'XXX任务已超时，导致划款失败'},
     {abnormal: 'XXX任务已超时，导致划款失败'},
 ];
+
+const contractCol = [
+    {headerName: '机构', field: 'dep'},
+    {headerName: '联系人', field: 'conPer'},
+    {headerName: '联系方式', field: 'conTel'}
+];
+const contractData = [
+    {dep: '工商',conPer: '张三',conTel: '12390000000'},
+    {dep: '中国银行',conPer: '李四',conTel: '12390000000'},
+    {dep: '农商',conPer: '王五',conTel: '12390000000'},
+    {dep: '建行',conPer: '张三',conTel: '12390000000'},
+    {dep: '工商',conPer: '张三',conTel: '12390000000'},
+    {dep: '工商',conPer: '张三',conTel: '12390000000'},
+    {dep: '中国银行',conPer: '赵柳',conTel: '12390000000'},
+    {dep: '工商',conPer: '张三',conTel: '12390000000'},
+    {dep: '浦发',conPer: '张三',conTel: '12390000000'},
+];
+
+const channelCol = [
+    {headerName: '渠道信息', field: 'channel'}
+];
+const channelData = [
+    {channel: '瑜伽TA'},
+    {channel: '创新TA'},
+    {channel: 'XXXXFA'},
+    {channel: 'XXXXFA'},
+    {channel: '瑜伽TA'},
+    {channel: '创新TA'},
+    {channel: 'XXXXFA'},
+    {channel: 'XXXXFA'},
+    {channel: '瑜伽TA'},
+    {channel: '创新TA'},
+    {channel: 'XXXXFA'},
+    {channel: 'XXXXFA'}
+];
+
 const rowData2 = [
     {
         taskName: '专户产品清算',
@@ -478,6 +513,57 @@ const boardStyleArr = [
     },
 ];
 
+const boardStyleDep = [
+    {
+        id: '0', label: '运营日历',
+        type: 'calendar-def',
+        data: {
+            calendarVal: ''
+        },
+        img: 'unit01'
+    },
+    {
+        id: '1', label: '今日排班',
+        type: 'grid-comp',
+        data: {
+            columnDefs: scheduleCol,
+            rowData: JSON.stringify(scheduleData),
+            gridOption: JSON.stringify(gridOptionObj)
+        },
+        img: 'unit05'
+    },
+    {
+        id: '2', label: '外部联系人',
+        type: 'grid-comp',
+        data: {
+            columnDefs: contractCol,
+            rowData: JSON.stringify(contractData),
+            gridOption: JSON.stringify(gridOptionObj)
+        },
+        img: 'unit05'
+    },
+    {
+        id: '3', label: '产品信息',
+        type: 'grid-comp',
+        data: {
+            columnDefs: columnDefs2,
+            rowData: JSON.stringify(rowData2),
+            gridOption: JSON.stringify(gridOptionObj)
+        },
+        img: 'unit03'
+    },
+    {
+        id: '4', label: '渠道信息',
+        type: 'grid-comp',
+        data: {
+            columnDefs: channelCol,
+            rowData: JSON.stringify(channelData),
+            gridOption: JSON.stringify(gridOptionObj)
+        },
+        img: 'unit05'
+    }
+];
+
 export default {
     guestInfo: guestInfo,
     gridLayoutType: gridLayoutType,
@@ -490,5 +576,6 @@ export default {
     todoRowData: todoRowData,
     rowData2: rowData2,
     gridOptionObj: gridOptionObj,
-    boardStyleArr: boardStyleArr
+    boardStyleArr: boardStyleArr,
+    boardStyleDep: boardStyleDep
 }

@@ -21,15 +21,18 @@
 <script>
     import boardData from '../boardData';
     export default {
+        props:{
+            pageId: String
+        },
         data() {
             return {
                 boardData: boardData,
-                boardStyleArr: boardData.boardStyleArr,   // 面板类型总数据，
+                boardStyleArr: [],   // 面板类型总数据，
                 isGridEdit: false,                        // 面板当前是否编辑
                 isGridDefine: false,                      // 面板当前是否编辑
                 // 面板gird信息
                 ifLayoutReady: false,                     // 面板是否加载完成
-                gridLayout: JSON.parse(JSON.stringify(boardData.boardArrDefault[0])), // 面板表格布局数据
+                gridLayout: {}, // 面板表格布局数据
                 gridDataArr:{},         // 面板表格数据
                 boardUnitHeight: 0,     // 面板初始单元高度
                 gridBoardObj: JSON.parse(JSON.stringify(boardData.boardArrDefault[0])),     // 当前选择面板对象
@@ -41,6 +44,14 @@
                 elChooseContentShow: false,                    // 条形面板是否显示
                 dragDisabled: true,
             }
+        },
+        beforeMount(){
+            this.gridLayout = this.pageId === 'client' ?
+                this.$utils.deepClone(boardData.boardArrDefault[0]) :
+                this.$utils.deepClone(boardData.boardArrDefault[1]);
+            this.boardStyleArr = this.pageId === 'client' ?
+                boardData.boardStyleArr : boardData.boardStyleDep;
+
         },
         mounted(){
             const boardData = this.gridLayout.boardData;

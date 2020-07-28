@@ -63,14 +63,14 @@
     import mockData from './mockData'
 
     export default {
-props: {
-    mode: {
-        type: String,
-        default: 'add'
-    },
-    rowData: Object,
-    actionOk: Function
-},
+        props: {
+            mode: {
+                type: String,
+                default: 'add'
+            },
+            rowData: Object,
+            actionOk: Function
+        },
         data() {
             return {
                 workflowType: 'lifeRecycle',
@@ -86,8 +86,11 @@ props: {
             stepDetail
         },
         mounted() {
-            this.caseDefInfo = this.args.caseDefInfo;
-            this.caseModelData = this.caseDefInfo.caseDefBody?JSON.parse(this.caseDefInfo.caseDefBody):this.$utils.deepClone(mockData);
+            if(this.mode === 'add'){
+                this.caseModelData = this.$utils.deepClone(mockData);
+            }else{
+                this.caseModelData = this.rowData.caseDefInfo.caseDefBody?JSON.parse(this.rowData.caseDefInfo.caseDefBody) : this.$utils.deepClone(mockData) ;
+            }
             this.$app.registerCmd("openStepDialog", this.onShowDialog);
         },
         methods: {
