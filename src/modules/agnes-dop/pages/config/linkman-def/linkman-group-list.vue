@@ -49,7 +49,7 @@
                     GroupFieldDLg,
                     {
                         args: {row, mode, actionOk},
-                        width: '600px',
+                        width: '50%',
                         title: this.$dialog.formatTitle('联系人分组', mode),
                     }
                 );
