@@ -42,10 +42,6 @@
             'grid-container': gridContainer,
             'board-choose': boardChoose
         },
-        mounted(){
-            console.log('this.pageId',this.pageId)
-
-        },
         methods: {
             // 配置看板 -- 点击展开弹窗 -- 查询自定义面板数据
             boardEdit(){
