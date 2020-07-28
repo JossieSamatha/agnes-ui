@@ -3,7 +3,7 @@ import column from "../../../../../config/column"
 const colButtons = [
     {key: 'editKpiTask', title: '编辑'},
     {key: 'deleteKpiTask', title: '删除', cellClass: 'red-cell'},
-    // {key: 'publishKpiTask', title: '发布'},
+    {key: 'checkMotTask', title: '复核'},
 ];
 
 export default {
