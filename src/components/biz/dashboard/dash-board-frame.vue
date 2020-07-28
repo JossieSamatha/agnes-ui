@@ -52,7 +52,7 @@ export default {
         },
         colNum: {
             type: Number,
-            default: 8
+            default: 12
         },
         rowNum:{
             type: Number,

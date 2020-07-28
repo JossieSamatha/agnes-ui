@@ -19,7 +19,7 @@
 </template>
 
 <script>
-    import boardData from '../boardData';
+    import boardData from '../board-data';
     export default {
         data() {
             return {

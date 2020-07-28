@@ -102,8 +102,9 @@
             recursionData(nowData,steps){
                 for(let i=0;i<nowData.length;i++){
                     if(nowData[i].defType==='step'){
-                        let currentData = nowData[i]
-                        currentData.stepType = currentData.stepActType;
+                        let currentData = nowData[i];
+                        currentData.autoActive = true;
+                        currentData['@stepType'] = currentData.stepActType;
                         currentData.defName = currentData.stepName;
                         delete currentData.stepName;
                         delete currentData.stepCode;
