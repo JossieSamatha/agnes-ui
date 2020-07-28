@@ -1,6 +1,6 @@
 <template>
     <el-form ref="taskDefForm" class="taskDefForm" :model="detailForm" :disabled="mode==='view'"
-             :rules="detailFormRules" label-width="110px">
+             :rules="detailFormRules" label-width="110px" style="max-width: 850px">
         <el-form-item label="任务名称" prop="taskName">
             <gf-input v-model.trim="detailForm.taskName" placeholder="任务名称"/>
         </el-form-item>
@@ -36,10 +36,10 @@
                             v-model="detailForm.endTime"
                             type="date"
                             value-format="yyyy-MM-dd"
-                            placeholder="结束日期" :disabled="startAllTime === '1'">
+                            placeholder="结束日期" :disabled="startAllTime">
                     </el-date-picker>
                 </el-form-item>
-                <gf-strbool-checkbox v-model="startAllTime" style="margin-left: 10px">永久有效</gf-strbool-checkbox>
+                <el-checkbox v-model="startAllTime" style="margin-left: 10px">永久有效</el-checkbox>
             </div>
         </el-form-item>
         <el-form-item label="启动方式" prop="execMode">
@@ -83,7 +83,7 @@
             return {
                 detailForm: {execScheduler:'* * * * * ?'},
                 dayChecked: false,  // 跨日
-                startAllTime: '0',       // 是否永久有效
+                startAllTime: false,       // 是否永久有效
                 // 规则选择类型选项
                 ruleTypeOp: [{label: '默认完成规则', value: '0'}, {label: '自定义完成规则', value: '1'}],
                 // 消息配置类型类型选项

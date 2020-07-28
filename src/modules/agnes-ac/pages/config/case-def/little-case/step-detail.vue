@@ -29,13 +29,12 @@
             <el-form-item label="业务标签" prop="bizTag">
                 <el-select class="multiple-select" v-model="bizTagArr"
                            multiple filterable clearable
-                           allow-create
                            default-first-option placeholder="请选择">
                     <gf-filter-option
                             v-for="item in bizTagOption"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
+                            :key="item.dictId"
+                            :label="item.dictName"
+                            :value="item.dictId">
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
@@ -340,7 +339,7 @@
                 msgInfoStr: ['warningRemind', 'finishRemind', 'timeoutRemind', 'exceptionRemind'],
                 // 业务标签
                 bizTagArr: [],
-                bizTagOption: [],        // 业务类型下拉
+                bizTagOption: this.$app.dict.getDictItems("AGNES_BIZ_TAG"),        // 业务类型下拉
                 // 规则选择类型选项
                 ruleTypeOp: [{label: '默认完成规则', value: '0'}, {label: '自定义完成规则', value: '1'}],
                 // 激活条件类型选项
@@ -365,6 +364,7 @@
                         this.msgInformParam.push(index+'');
                     }
                 });
+
             });
         },
         methods: {
@@ -427,11 +427,15 @@
                         this.stepInfo[key] = this.formObj[key];
                     }
                 }
-                let activeRuleTableData = this.stepInfo.stepFormInfo.activeRuleTableData
-                this.activeTerm = Object.keys(activeRuleTableData).length === 0 ? '1' : '2'
+                let activeRuleTableData = this.stepInfo.stepFormInfo.activeRuleTableData.ruleList || [];
+                let successRuleTableData = this.stepInfo.stepFormInfo.successRuleTableData.ruleList || [];
+                let failRuleTableData = this.stepInfo.stepFormInfo.failRuleTableData.ruleList || [];
+                this.activeTerm = activeRuleTableData.length <= 0 ? '1' : '2'
+                this.succeedRule = successRuleTableData.length <= 0 ? '0' : '1'
+                this.abnormalRule = failRuleTableData.length <= 0 ? '0' : '1'
                 this.warningNotice = this.stepInfo.stepFormInfo.warningRemind.length !== 0;
                 this.timeoutNotice = this.stepInfo.stepFormInfo.timeoutRemind.length !== 0;
-                this.finishtNotice = this.stepInfo.stepFormInfo.finishtRemind.length !== 0;
+                // this.finishtNotice = this.stepInfo.stepFormInfo.finishtRemind.length !== 0;
                 this.exceptionNotice = this.stepInfo.stepFormInfo.exceptionRemind.length !== 0;
                 let startDay = this.caseStepDef.startDay;
                 let endDay = this.caseStepDef.endDay;
