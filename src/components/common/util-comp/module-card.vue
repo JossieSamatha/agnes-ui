@@ -1,5 +1,5 @@
 <template>
-    <el-card class="moduleCard" :shadow="shadow">
+    <el-card class="module-card" :shadow="shadow">
         <div slot="header" class="clearfix" v-if="title!=''">
             <span>{{title}}</span>
             <slot name="headOption"></slot>

@@ -32,7 +32,7 @@ export default {
 
     // caseStepDef
     stepName: '',   // 任务名称
-    stepActType: '1',
+    stepActType: '01',
     stepLevel: 0,   // 任务等级
     stepCode: '',   // 任务编号
     stepTag: '',    // 业务标签
@@ -45,7 +45,8 @@ export default {
     step_execMode: '2',       // 指标执行频率 --默认重复执行
     step_execScheduler: '* * * * * ? *',   // 指标执行频率 -- 串串
     stepActKey: '',      // 指标
-    stepActOwner: '',    // 通知人
+    stepActOwner: '',    // 通知人id
+    stepActOwnerName: '',    // 通知人姓名
     isTodo: '0',          // 是否进入待办
     forcePass: '0',       // 是否允许人工强制通过
     isRecordError: '',          // 异常通知 -- 是否记入异常
@@ -67,11 +68,9 @@ export default {
     //
     standardOptions: [{label: '工作日', value: '0'}, {label: '自然日', value: '1'}],
     // 指标选择下拉
-    kpiOptions: [{label: '申赎资金对比监控指标', value: '0'}, {label: 'FA指标', value: '1'}, {label: 'TA指标', value: '2'},
-        {label: '产品指标', value: '3'}, {label: '成立指标', value: '4'}],
+    kpiOptions:[],
     // 人员列表
-    personList: [{label: '张三', value: '0'}, {label: '李四', value: '1'}, {label: '王五', value: '2'},
-        {label: '赵柳', value: '3'}, {label: '陆琪', value: '4'}],
+    personList:[],
 
     // 指标下拉
     kpiData: [{value: ' 3001', label: 'FA指标'}, {value: ' 3002', label: 'TA指标'}],
