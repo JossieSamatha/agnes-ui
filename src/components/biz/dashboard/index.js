@@ -6,6 +6,7 @@ import chartComp from './chart-comp'
 import gridComp from './grid-comp'
 import formComp from './form-comp'
 import pieChart from './pie-chart'
+import calendarDef from './calendar-def'
 
 const Loading = {
     install: function (Vue) {
@@ -17,6 +18,7 @@ const Loading = {
         Vue.component('grid-comp', gridComp);
         Vue.component('form-comp', formComp);
         Vue.component('pie-chart', pieChart);
+        Vue.component('calendar-def', calendarDef);
     }
 };
 

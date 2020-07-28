@@ -18,7 +18,7 @@
                 </el-select>
             </el-form-item>
         </el-form>
-        <dialog-footer :ok-button-visible="mode !== 'view'" style="margin-top: 17%" :on-save="onSave" ok-button-title="确定"></dialog-footer>
+        <dialog-footer :ok-button-visible="mode !== 'view'" :on-save="onSave" ok-button-title="确定"></dialog-footer>
     </div>
 </template>
 

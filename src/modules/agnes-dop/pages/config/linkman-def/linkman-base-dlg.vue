@@ -11,7 +11,8 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="所属机构" prop="extOrgId">
-                        <el-select v-model="form.dopReLinkman.extOrgId" placeholder="请选择" style="width: 100%">
+                        <el-select v-model="form.dopReLinkman.extOrgId" placeholder="请选择" style="width: 100%"
+                                   filterable>
                             <el-option
                                     v-for="item in options"
                                     :key="item.value"
@@ -113,7 +114,7 @@
             </el-row>
 
         </el-form>
-        <dialog-footer :ok-button="mode !== 'view'" :on-save="onSave" ok-button-title="确定"></dialog-footer>
+        <dialog-footer :ok-button-visible="mode !== 'view'" :on-save="onSave" ok-button-title="确定"></dialog-footer>
     </div>
 </template>
 

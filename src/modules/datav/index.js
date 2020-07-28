@@ -2,7 +2,7 @@ import clientView from "./client-view/index.vue";
 
 var pages = [{
     id: "datav.client.view",
-    title: "客户服务360视图",
+    title: "首页",
     component: clientView,
     closeable: true
 }

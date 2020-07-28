@@ -62,7 +62,7 @@
                 if(this.boardFrameObj.boardColNum){
                     return parseInt(this.boardFrameObj.boardColNum);
                 }else{
-                    return 8;
+                    return 12;
                 }
             },
             boardRowNum(){

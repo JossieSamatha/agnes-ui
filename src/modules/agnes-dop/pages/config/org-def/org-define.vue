@@ -141,10 +141,28 @@
             }else {
                 this.form.parentExtOrgId=this.row.id;
             }
-            this.form.parentExtOrgName=this.row.extOrgNameShort;
+            this.getParentExtOrgName(this.form.parentExtOrgId);
             this.getOrgTypeOptions();
         },
         methods: {
+            async getParentExtOrgName(parentExtOrgId){
+                try {
+                    const resp = await this.$api.orgDefineApi.getOrgList();
+                    let orgList = resp.data;
+                    let that = this;
+                    orgList.forEach(item=>{
+                        if(item.extOrgId === parentExtOrgId){
+                            that.form.parentExtOrgName=item.extOrgNameShort;
+                            return;
+                        }
+                    });
+                    if(that.form.parentExtOrgName===''){
+                        that.form.parentExtOrgName='机构树';
+                    }
+                }catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
             async getOrgTypeOptions(){
                 try {
                     const resp = await this.$api.orgTypeApi.getOrgTypeList();

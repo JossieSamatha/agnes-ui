@@ -2,8 +2,7 @@
     <div>
         <gf-grid @row-double-click="showOrgType" grid-no="agnes-org-type-list" ref="grid">
             <template slot="left">
-                <gf-button @click="addOrgType" size="mini">添加</gf-button>
-                <gf-button @click="deleteOrgType" size="mini">删除</gf-button>
+                <gf-button @click="addOrgType" class="action-btn">添加</gf-button>
             </template>
         </gf-grid>
     </div>
@@ -47,13 +46,14 @@
             editOrgType(params) {
                 this.showDlg('edit', params.data, this.onEditOrgType.bind(this));
             },
-            async deleteOrgType() {
-                const row = this.$refs.grid.getSelectedRows();
+            async deleteOrgType(params) {
+                const row = params.data;
                 const ok = await this.$msg.ask(`确认删除选中的机构类型吗, 是否继续?`);
                 if (!ok) {
                     return
                 }
-                const orgTypeIds=this.lodash.map(row,'orgTypeId');
+                const orgTypeIds=[];
+                orgTypeIds.push(row.orgTypeId);
                 try {
                     const p = this.$api.orgTypeApi.deleteOrgType(orgTypeIds);
                     await this.$app.blockingApp(p);

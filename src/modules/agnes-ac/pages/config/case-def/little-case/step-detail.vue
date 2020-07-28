@@ -4,7 +4,7 @@
             <el-button class="primary" @click="saveForm">保存</el-button>
             <el-button @click="cancelForm">取消</el-button>
         </div>
-        <el-form ref="stepInfoForm" :model="stepInfo" label-width="85px">
+        <el-form ref="stepInfoForm" :model="caseStepDef" label-width="85px">
             <el-form-item label="任务名称" prop="stepName">
                 <gf-input v-model.trim="stepInfo.stepName"/>
             </el-form-item>

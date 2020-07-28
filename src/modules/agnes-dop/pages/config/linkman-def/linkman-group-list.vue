@@ -1,8 +1,8 @@
 <template>
     <gf-grid grid-no="agnes-linkman-group" ref="grid" quick-text-max-width="300px"
              @grid-ready="onReady">
-        <template slot="right-before">
-            <gf-button @click="addField">添加</gf-button>
+        <template slot="left">
+            <gf-button class="action-btn" @click="addField" size="mini">添加</gf-button>
         </template>
     </gf-grid>
 </template>
@@ -49,7 +49,7 @@
                     GroupFieldDLg,
                     {
                         args: {row, mode, actionOk},
-                        width: '600px',
+                        width: '50%',
                         title: this.$dialog.formatTitle('联系人分组', mode),
                     }
                 );
