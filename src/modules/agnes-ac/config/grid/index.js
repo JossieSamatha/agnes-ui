@@ -5,6 +5,7 @@ import TaskDef from "./task-def";
 import FunDef from "./fun-def"
 import Workday from "./workday"
 import CaseDef from "./case-def"
+import MotDef from "./mot-def"
 
 const Loading = {
     load: function (Gfui) {
@@ -15,6 +16,7 @@ const Loading = {
         Gfui.use(Task);
         Gfui.use(Workday);
         Gfui.use(CaseDef);
+        Gfui.use(MotDef);
     }
 };
 
