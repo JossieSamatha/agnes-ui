@@ -27,7 +27,8 @@
                               :groupList.sync="group[groupType]"
                               :groupIndex="groupItemIndex"
                               :groupType.sync="groupType"
-                              @click.stop="chooseActive">
+                              :chooseActive="chooseActive"
+                              @click.native.stop="chooseActive">
                     </groupDef>
                 </template>
             </ul>
@@ -65,7 +66,8 @@
             groupType: {
                 type: String,
                 require: true
-            }
+            },
+            chooseActive: Function
         },
         data() {
             return {
@@ -147,22 +149,7 @@
                     edit: true
                 };
                 this.group[this.groupType].push(group);
-            },
-
-            // 当前选择项激活
-            chooseActive(e) {
-                if(e.currentTarget.className.indexOf('active') === -1){
-                    let activeStep = document.getElementsByClassName('step-comp active');
-                    let activeProcess = document.getElementsByClassName('process-item active');
-                    activeStep.forEach((activeItem) => {
-                        activeItem.classList.remove('active');
-                    });
-                    activeProcess.forEach((activeItem) => {
-                        activeItem.classList.remove('active');
-                    });
-                    e.currentTarget.classList.add('active');
-                }
-            },
+            }
         }
     }
 </script>

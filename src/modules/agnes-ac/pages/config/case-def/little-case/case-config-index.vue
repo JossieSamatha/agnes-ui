@@ -63,14 +63,14 @@
     import mockData from './mockData'
 
     export default {
-props: {
-    mode: {
-        type: String,
-        default: 'add'
-    },
-    row: Object,
-    actionOk: Function
-},
+        props: {
+            mode: {
+                type: String,
+                default: 'add'
+            },
+            row: Object,
+            actionOk: Function
+        },
         data() {
             return {
                 workflowType: 'lifeRecycle',
