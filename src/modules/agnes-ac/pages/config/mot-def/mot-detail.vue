@@ -396,6 +396,12 @@
 
             // 数据结构转换
             dataTransfer() {
+                if(this.succeedRule==='0'){
+                    this.detailForm.successRuleTableData={}
+                }
+                if(this.abnormalRule==='0'){
+                    this.detailForm.failRuleTableData={}
+                }
                 let kpiTaskDef = this.$utils.deepClone(this.staticData.kpiTaskDef);
                 this.detailForm.bizTag = this.detailForm.bizTagArr.join(",");
                 this.keyToValue(kpiTaskDef, 'task_');
