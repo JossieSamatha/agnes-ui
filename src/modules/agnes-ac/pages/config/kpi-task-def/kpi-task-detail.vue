@@ -257,9 +257,9 @@
 
 <script>
     import ExecTimeEdit from "./exec-time";
-    import staticData from './dataFormat'
-    import initData from './initData'
-    import UserSelect from './kpi-user-select'
+    import staticData from '../../../util/dataFormat'
+    import initData from '../../../util/initData'
+    import UserSelect from '../../../components/biz/kpi-user-select'
 
     export default {
         name: "task-define",

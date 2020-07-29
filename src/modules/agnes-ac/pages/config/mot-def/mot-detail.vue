@@ -112,14 +112,9 @@
             </el-select>
         </el-form-item>
         <el-form-item label="参与人员">
-            <el-select v-model="detailForm.stepActOwner" placeholder="请选择" filterable clearable>
-                <gf-filter-option
-                        v-for="item in detailForm.personList"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </gf-filter-option>
-            </el-select>
+            <gf-input type="text" v-model="detailForm.stepActOwnerName" :readonly="true" style="width: 40%">
+                <i slot="suffix" class="el-input__icon el-icon-edit-outline" @click="chooseUser"/>
+            </gf-input>
         </el-form-item>
         <el-form-item label="任务控制参数">
             <gf-strbool-checkbox v-model="detailForm.needApprove">是否需要复核</gf-strbool-checkbox>
@@ -256,8 +251,9 @@
 <script>
     import loadsh from 'lodash';
     import ExecTimeEdit from "./exec-time";
-    import staticData from './dataFormat'
-    import initData from './initData'
+    import staticData from '../../../util/dataFormat'
+    import initData from '../../../util/initData'
+    import UserSelect from "../../../components/biz/kpi-user-select";
 
     export default {
         name: "task-define",
@@ -367,7 +363,21 @@
                     this.$msg.error(reason);
                 }
             },
-
+            chooseUser(){
+                let actionOk = this.setExeUser.bind(this);
+                this.$nav.showDialog(
+                    UserSelect,
+                    {
+                        args: {actionOk},
+                        width: '600px',
+                        title: this.$dialog.formatTitle('选择用户','view'),
+                    }
+                );
+            },
+            setExeUser(userInfo){
+                this.detailForm.stepActOwnerName = userInfo.userName;
+                this.detailForm.stepActOwner = userInfo.id;
+            },
             showRemindDlg(remindSort, actionOk) {
                 this.$nav.showDialog(
                     'remind-def',
