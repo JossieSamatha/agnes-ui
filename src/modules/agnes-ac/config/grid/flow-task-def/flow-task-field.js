@@ -17,15 +17,15 @@ export default {
                 }).join(',');
             },
         },
-        {headerName: "业务类型", field: "reTaskDef.taskType" ,formatType: 'dict', dictType: 'AGNES_TASK_TYPE'},
-        {headerName: "状态", field: "reTaskDef.taskStatus",formatType: 'dict', dictType: 'AC_TASK_CASE_STATUS'},
+        {headerName: "业务类型", field: "reTaskDef.taskType" ,formatType: 'dict', dictType: 'AGNES_CASE_STEPTYPE'},
+        {headerName: "状态", field: "reTaskDef.taskStatus",formatType: 'dict', dictType: 'CASE_TASK_STATUS'},
         {headerName: "创建时间", field: "reTaskDef.crtTs"},
         {headerName: "创建人", field: "reTaskDef.crtUser"}
     ],
     headerHeight: 40,
     rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-ac/v1/ac/kpi/task/case/list?taskType=02",
+        fetchUrl: "/agnes-ac/v1/ac/flow/task/case/list?taskType=02",
         fetchMethod: 'get',
         pagingMode: true, //不分页
         checkboxColumn: 1, //是否显示checkbox列,
