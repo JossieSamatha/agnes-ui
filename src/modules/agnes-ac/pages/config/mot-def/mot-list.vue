@@ -88,7 +88,6 @@
                         this.recursionData(newCaseModelData[i].children, this.steps);
                     }
                     newCaseModelData[i].steps = this.steps;
-                    // newCaseModelData[i].children = [];
                     delete newCaseModelData[i].children
                 }
                 data.stages=newCaseModelData;

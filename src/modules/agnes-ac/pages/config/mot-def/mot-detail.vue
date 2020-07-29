@@ -435,10 +435,6 @@
                     if(!loadsh.isEmpty(this.detailForm.failRuleTableData)){
                         this.abnormalRule ='1'
                     }
-                    // let item = this.detailForm.bizTag.split(",");
-                    // for (let i = 0; i < item.length; i++) {
-                    //     this.bizTagOption.push({value: item[i], label: item[i]});
-                    // }
                 }
             },
 
