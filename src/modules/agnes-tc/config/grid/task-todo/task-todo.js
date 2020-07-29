@@ -9,7 +9,7 @@ export default {
     columnDefs: [
         {headerName: "任务名称", field: "taskName"},
         {headerName: "任务说明", field: "taskRemark"},
-        {headerName: "发起时间", field: "taskStartDt"},
+        {headerName: "发起时间", field: "taskStartTm"},
         {headerName: "参与人员", field: "participants"},
         column.buildOpCol(120, colButtons)
     ],

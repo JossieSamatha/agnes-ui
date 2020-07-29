@@ -19,7 +19,7 @@
                 const row = params.data;
                 if (row.taskType === '1') {
                     let kpiCode = row.taskKey;
-                    let bizDate = row.taskStartTime;
+                    let bizDate = row.taskStartTm;
                     // this.$nav.showDialog(
                     //     KpiDef,
                     //     {
