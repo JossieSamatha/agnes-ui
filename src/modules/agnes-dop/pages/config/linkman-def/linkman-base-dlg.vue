@@ -27,12 +27,12 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="部门" prop="linkmanDept">
-                        <gf-input type="text" v-model="form.dopReLinkman.linkmanDept"/>
+                        <gf-dict-select dict-type="AGNES_ROSTER_DEPT" v-model="form.dopReLinkman.linkmanDept"/>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="职位" prop="linkmanRoleId">
-                        <gf-input type="text" v-model="form.dopReLinkman.linkmanRoleId" :max-byte-len="32"/>
+                    <el-form-item label="岗位" prop="linkmanRoleId">
+                        <gf-dict-select dict-type="AGNES_ROSTER_POST" v-model="form.dopReLinkman.linkmanRoleId"/>
                     </el-form-item>
                 </el-col>
             </el-row>
