@@ -1,25 +1,27 @@
 import column from "../../../../../config/column"
+
 const colButtons = [
-    {key: 'editOrgType', title: '编辑'},
-    {key: 'deleteOrgType', title: '删除',cellClass:'red-cell'},
+    {key: 'editKpiTask', title: '编辑'},
+    {key: 'deleteKpiTask', title: '删除', cellClass: 'red-cell'},
+    {key: 'publishKpiTask', title: '发布'},
 ];
 
 export default {
     columnDefs: [
-        {headerName: "机构类别", field: "orgTypeName"},
-        column.colCrtUser,
-        column.colCrtTm,
-        column.colUpdUser,
-        column.colUpdTm,
-        column.buildOpCol(120, colButtons)
+        {headerName: "用户ID", field: "userId"},
+        {headerName: "用户名", field: "userName"},
+        {headerName: "所属机构", field: "orgName"},
+        {headerName: "用户状态", field: "userStatus", formatType:"dict", dictType:'GF_USER_STATUS'},
     ],
+    headerHeight: 40,
+    rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-app/v1/dop/org/type/list",    //后台查询数据的URL地址
-
-        pagingMode: true, //是否分页
+        fetchUrl: "/gf-admin/gf/user/queryUserList",
+        fetchMethod: 'post',
+        pagingMode: true, //分页
         checkboxColumn: 1, //是否显示checkbox列,
         autoFitColumnMode: 1,
-        enableExportLocal: true,
+        enableExportLocal: false,
         pageOptions: {
             // 分页大小
             pageSize: 10,
@@ -31,8 +33,7 @@ export default {
             nextText: "下一页",
             // 分页工具显示项，例如总页数、当前页、上一页、下一页、等分页功能按钮
             // 详见ElementUI分页组件
-            layout: "total, sizes, prev, pager, next, jumper"
+            layout: "total, sizes, slot, prev, pager, next"
         },
-
     }
 };
