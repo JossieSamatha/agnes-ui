@@ -1,78 +1,114 @@
 <template>
     <div>
         <gf-grid ref="grid"
-                 grid-no="agnes-case-field"
+                 grid-no="flow-task-field"
                  toolbar="find,refresh,more"
-                 @row-double-click="showCaseStep"
-         >
+                 @row-double-click="showFlowTaskDetail"
+        >
             <template slot="left">
-                <gf-button class="action-btn" @click="addCaseDef" size="mini">添加</gf-button>
-                <gf-button class="action-btn" @click="publishCaseDef" size="mini">发布</gf-button>
+                <gf-button class="action-btn" @click="addFlowTask" size="mini">新增电子流程任务</gf-button>
+                <gf-button class="action-btn" @click="confFlowNode" size="mini">配置流程任务节点</gf-button>
             </template>
         </gf-grid>
     </div>
 </template>
 
 <script>
-    import CaseDefDlg from "./case-field-dlg";
+    import FlowTaskDetail from './flow-task-detail'
     export default {
         methods: {
-            reloadData() {
-                this.$refs.grid.reloadData(true);
-            },
-            showDlg(mode, row, actionOk) {
+            showFlowTask(row, mode, actionOk){
                 if (mode !== 'add' && !row) {
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
-                this.$nav.showDialog(
-                    CaseDefDlg,
-                    {
-                        args: {row, mode, actionOk},
-                        width: '576px',
-                        title: this.$dialog.formatTitle('case定义', mode),
-                    }
-                );
-            },
-            async onAddCaseDef() {
-                await this.reloadData();
-            },
-            async onEditCaseDef() {
-                await this.reloadData();
-            },
-            addCaseDef() {
-                this.showDlg('add', {}, this.onAddCaseDef.bind(this));
-            },
-            showCaseDef(params) {
-                this.showDlg('view', params.data);
-            },
-            editCaseDef(params) {
-                this.showDlg('edit', params.data, this.onEditCaseDef.bind(this));
-            },
-            showCaseStep(params){
                 // 抽屉创建
                 this.$drawerPage.create({
                     width: 'calc(92% - 215px)',
-                    component: 'case-config-index',
-                    wrapperClosable: true,
-                    args: {caseDefInfo:params.data}
+                    title: ['电子流程任务',mode],
+                    component: FlowTaskDetail,
+                    wrapperClosable: false,
+                    args: {row, mode, actionOk}
                 })
             },
-            async deleteCaseDef(params) {
-                const row = params.data;
-                const ok = await this.$msg.ask(`确认删除case:[${row.caseDefName}]吗, 是否继续?`);
+            reloadData() {
+                this.$refs.grid.reloadData(true);
+            },
+            async onAddFlowTask() {
+                await this.reloadData();
+            },
+            async onUpdateFlowTask() {
+                await this.reloadData();
+            },
+            addFlowTask() {
+                this.showFlowTask({},'add', this.onAddFlowTask.bind(this));
+            },
+            updateFlowTask(params){
+                this.showFlowTask(params.data.reTaskDef,'edit' , this.onUpdateFlowTask.bind(this));
+            },
+            showFlowTaskDetail(params){
+                this.showFlowTask(params.data.reTaskDef,'view' , this.onUpdateFlowTask.bind(this));
+            },
+            confFlowNode(){
+                let rows = this.$refs.grid.getSelectedRows();
+                let row =[];
+                if(rows.length>0){
+                    row = rows[0];
+                }
+                this.showFlowNode({caseDefInfo:row},'add',this.onAddFlowTask.bind(this))
+            },
+            showFlowNode(row, mode, actionOk) {
+                // 抽屉创建
+                if (row.caseDefInfo.length === 0) {
+                    this.$msg.warning("请选中一条记录!");
+                    return;
+                }
+                this.$drawerPage.create({
+                    width: 'calc(92% - 215px)',
+                    title: ['流程任务节点配置'],
+                    component: 'case-config-index',
+                    args: {row, mode, actionOk}
+                })
+            },
+            async deleteFlowTask(params) {
+                const row = params.data.reTaskDef;
+                const ok = await this.$msg.ask(`确认删除任务:[${row.taskName}]吗, 是否继续?`);
                 if (!ok) {
                     return
                 }
                 try {
-                    const p = this.$api.caseConfigApi.deleteCaseDef(row.caseDefId);
+                    const p = this.$api.taskDefineApi.deleteTask(row.taskId);
                     await this.$app.blockingApp(p);
                     this.reloadData();
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
             },
-            //切除数据层级
+            async reviewFlowTask(params) {
+                const rowData = params.data;
+                if(rowData.reTaskDef.taskStatus === '2'){
+                    this.$msg.warning(`[${rowData.reTaskDef.taskName}]，已发布`);
+                    return;
+                }
+                if(!rowData.caseDefBody){
+                    this.$msg.warning(`[${rowData.reTaskDef.taskName}]，未配置流程任务节点`);
+                    return;
+                }
+                const ok = await this.$msg.ask(`确认发布任务:[${rowData.reTaskDef.taskName}]吗, 是否继续?`);
+                if (!ok) {
+                    return
+                }
+                try {
+                    let sendInfo = this.checkData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName);
+                    rowData.caseDefJson = sendInfo;
+                    const p = this.$api.caseConfigApi.publishCaseDef(rowData);
+                    await this.$app.blockingApp(p);
+                    this.reloadData();
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
+
             checkData(dataOrigin,caseDefKey,caseDefName) {
                 let data =JSON.parse(JSON.stringify(dataOrigin))
                 let newCaseModelData = data.stages;
@@ -118,37 +154,6 @@
                     }
                 }
             },
-            async publishCaseDef(){
-                let row;
-                const rows = this.$refs.grid.getSelectedRows();
-                if(rows.length>0){
-                    row = rows[0];
-                    if(row.caseStatus === '1'){
-                        this.$msg.warning("该CASE已发布")
-                        return;
-                    }else{
-                        row.caseStatus = '1';
-                    }
-                    if(!row.caseDefBody){
-                        this.$msg.warning("请先配置CASE步骤再发布")
-                        return;
-                    }
-                }else{
-                    this.$msg.warning("请选择一条数据")
-                    return;
-                }
-                try {
-                    let rowAfterCheck = JSON.parse(row.caseDefBody)
-                    let rowCaseDefBody = this.checkData(rowAfterCheck,row.caseDefKey,row.caseDefName)
-                    row.caseDefBody = JSON.stringify(rowCaseDefBody)
-                    const p = this.$api.caseConfigApi.publishCaseDef(row);
-                    await this.$app.blockingApp(p);
-                    this.$msg.success('发布成功');
-                    this.reloadData();
-                } catch (e) {
-                    this.$msg.error(e);
-                }
-            }
         }
     }
 </script>

@@ -1,9 +1,8 @@
 <template>
-    <div class="step-comp">
+    <div class="step-comp" @dblclick="editTaskInfo">
         <i class="step-icon" :class="iconTypeObj" v-html="lcImg[iconTypeObj]"></i>
         <span class="name" :title="step.stepName">{{step.stepName}}</span>
         <span class="edit">
-            <i class="fa fa-edit" @click="editTaskInfo"></i>
             <i class="fa fa-trash-o" @click="deleteTask"></i>
         </span>
     </div>
