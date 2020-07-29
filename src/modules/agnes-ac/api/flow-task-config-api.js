@@ -6,5 +6,10 @@ export default {
     },
     listTask() {
         return request.get("/agnes-ac/v1/ac/flow/task/case/list");
+    },
+    getServiceResponse() {
+        return request.post("/agnes-app/v1/tc/service/list");
     }
+
+
 };

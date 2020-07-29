@@ -5,7 +5,7 @@
             <gf-input v-model.trim="detailForm.taskName" placeholder="任务名称"/>
         </el-form-item>
         <el-form-item label="任务编号" prop="caseKey">
-            <gf-input v-model.trim="detailForm.caseKey" placeholder="任务编号"/>
+            <gf-input v-model.trim="detailForm.caseKey" :disabled="true" placeholder="任务编号"/>
         </el-form-item>
         <el-form-item label="业务场景" prop="bizType">
             <gf-dict filterable clearable v-model="detailForm.bizType" dict-type="AGNES_BIZ_CASE"/>
@@ -20,11 +20,12 @@
                 </gf-filter-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="运行周期" prop="startTimeStr">
+        <el-form-item label="运行周期" prop="startTime">
             <div class="line none-shrink">
                 <el-form-item prop="startTime">
                     <el-date-picker
                             v-model="detailForm.startTime"
+                            :picker-options="pickerOptionsStart"
                             type="date"
                             value-format="yyyy-MM-dd"
                             placeholder="开始日期">
@@ -34,6 +35,7 @@
                 <el-form-item prop="endTime">
                     <el-date-picker
                             v-model="detailForm.endTime"
+                            :picker-options="pickerOptionsEnd"
                             type="date"
                             value-format="yyyy-MM-dd"
                             placeholder="结束日期" :disabled="startAllTime">
@@ -81,7 +83,15 @@
         },
         data() {
             return {
-                detailForm: {execScheduler:'* * * * * ?'},
+                detailForm: {execScheduler:'* * * * * ?',
+                    taskName:'',
+                    caseKey:'',
+                    bizType:'',
+                    bizTagArr:'',
+                    startTime:'',
+                    endTime:'',
+                    execMode:'',
+                    eventId:''},
                 dayChecked: false,  // 跨日
                 startAllTime: false,       // 是否永久有效
                 // 规则选择类型选项
@@ -113,7 +123,26 @@
                         {required: true, message: '任务创建频率必填', trigger: 'blur'},
                     ]
                 },
-                bizTagOption:[]
+                bizTagOption:[],
+                pickerOptionsStart: {
+                    disabledDate: time => {
+                        let endDateVal = this.detailForm.endTime;
+                        if (endDateVal) {
+                            return time.getTime() > new Date(endDateVal).getTime();
+                        }
+                    }
+                },
+                pickerOptionsEnd: {
+                    disabledDate: time => {
+                        let beginDateVal = this.detailForm.startTime;
+                        if (beginDateVal) {
+                            return (
+                                time.getTime() <
+                                new Date(beginDateVal).getTime() - 24 * 60 * 60 * 1000
+                            );
+                        }
+                    }
+                },
             }
         },
         mounted() {
