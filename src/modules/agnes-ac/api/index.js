@@ -18,7 +18,6 @@ export default {
     workdayConfigApi,
     caseConfigApi,
     ruleConfigApi,
-    motConfigApi
-    ruleConfigApi,
+    motConfigApi,
     flowTaskApi
 };
