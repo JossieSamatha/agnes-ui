@@ -67,6 +67,7 @@ export default {
                     exceptionRemind: [],        // 异常通知 -- 通知方式配置
                     finishRemind: [],          // 完成通知 -- 通知方式配置
                     timeoutRemind: [],          // 超时通知 -- 通知方式配置
+                    serviceResponseId: '',      // 超时通知 -- 服务响应id
                     warningRemind: [],          // 预警通知 -- 通知方式配置
                     failRuleTableData: {},      // 异常规则
                     successRuleTableData: {},   // 完成规则
