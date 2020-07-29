@@ -13,12 +13,14 @@ export default {
         {headerName: "业务场景", field: "reTaskDef.bizType", dictType: 'AGNES_BIZ_CASE'},
         {headerName: "业务标签", field: "reTaskDef.bizTag",dictType: 'AGNES_BIZ_TAG',
             valueFormatter: function (params) {
+            if(params.value){
                 let Ids = params.value.split(',');
                 return Ids.map((dictId) => {
                     return  window.$gfui.$app.dict.getDictItem('AGNES_BIZ_TAG',dictId).dictName;
                 }).join(',');
             }
-        },
+            return "";
+        }},
         {headerName: "任务类型", field: "reTaskDef.taskType", dictType: 'AGNES_CASE_STEPTYPE'},
         {headerName: "状态", field: "reTaskDef.taskStatus", dictType: "CASE_TASK_STATUS"},
         {headerName: "创建时间", field: "reTaskDef.crtTs"},
