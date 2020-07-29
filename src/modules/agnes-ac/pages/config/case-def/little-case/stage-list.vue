@@ -7,15 +7,17 @@
                 <template slot="stageSlot">
                     <ul class="process-list">
                         <template v-for="(stageItem, stageItemIndex) in stage.children">
-                            <stepDef :key="stageItem.stepCode" v-if="stageItem.defType == 'step' && curOptional(stageItem.optional)"
+                            <stepDef :key="stageItem.stepCode"
+                                     v-if="stageItem.defType == 'step' && curOptional(stageItem.optional)"
                                      :step.sync="stageItem" :stepList.sync="stage.children" :stepIndex="stageItemIndex"
                                      :stepType.sync="stepType" @click.native.stop="chooseActive">
                             </stepDef>
-                            <groupDef :key="stageItem.defId" v-else
+                            <groupDef ref="groupDef" :key="stageItem.defId" v-else
                                       :group.sync="stageItem"
                                       :groupList.sync="stage.children"
                                       :groupIndex="stageItemIndex"
-                                      :groupType.sync="stepType" @click.stop="chooseActive"></groupDef>
+                                      :groupType.sync="stepType"
+                                      :chooseActive="chooseActive"></groupDef>
                         </template>
                     </ul>
                 </template>
@@ -58,7 +60,7 @@
         },
         methods: {
             // 当前step是否为生命周期或可选任务
-            curOptional(optional){
+            curOptional(optional) {
                 return optional === (this.stepType === 'optionalSteps');
             },
 
@@ -77,7 +79,8 @@
 
             // 当前选择项激活
             chooseActive(e) {
-                if(e.currentTarget.className.indexOf('active') === -1){
+                if (!e) return false;
+                if (e.currentTarget.className.indexOf('active') === -1) {
                     let activeStep = document.getElementsByClassName('step-comp active');
                     let activeProcess = document.getElementsByClassName('process-item active');
                     activeStep.forEach((activeItem) => {
