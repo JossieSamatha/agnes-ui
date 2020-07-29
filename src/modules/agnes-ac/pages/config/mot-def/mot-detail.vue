@@ -111,21 +111,6 @@
                 </gf-filter-option>
             </el-select>
         </el-form-item>
-<!--        <el-form-item label="选择指标">-->
-<!--            <el-select v-model="detailForm.stepActKey" placeholder="请选择" filterable clearable>-->
-<!--                <gf-filter-option-->
-<!--                        v-for="item in detailForm.kpiOptions"-->
-<!--                        :key="item.value"-->
-<!--                        :label="item.label"-->
-<!--                        :value="item.value">-->
-<!--                </gf-filter-option>-->
-<!--            </el-select>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="指标执行频率">-->
-<!--            <el-button type="text" @click="editExecTime('step_execScheduler', detailForm.step_execScheduler)">-->
-<!--                {{detailForm.step_execScheduler}}点击配置-->
-<!--            </el-button>-->
-<!--        </el-form-item>-->
         <el-form-item label="参与人员">
             <el-select v-model="detailForm.stepActOwner" placeholder="请选择" filterable clearable>
                 <gf-filter-option

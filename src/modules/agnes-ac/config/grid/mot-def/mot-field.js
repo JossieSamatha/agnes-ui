@@ -16,7 +16,6 @@ export default {
                 let text = '';
                 if(param.data.reTaskDef.bizTag){
                     let newBizTag = param.data.reTaskDef.bizTag.split(',');
-                    console.log('newBizTag',newBizTag)
                     for (let i=0;i<newBizTag.length;i++){
                         switch (newBizTag[i]) {
                             case '0':newBizTag[i] ='产品';break;
