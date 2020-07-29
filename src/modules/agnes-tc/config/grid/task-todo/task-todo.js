@@ -1,25 +1,24 @@
-import column from "../../../../../config/column"
+import column from "../../../../../config/column";
 
 const colButtons = [
-    {key: 'editLinkMan', title: '修改'},
-    {key: 'deleteLinkMan', title: '删除', cellClass: 'red-cell'},
+    {key: 'confirmTask', title: '确认'},
+    {key: 'viewTask', title: '查看'},
 ];
+
 export default {
     columnDefs: [
-        column.buildOpCol(120, colButtons),
-        {headerName: "姓名", field: "linkmanName"},
-        {headerName: "职位", field: "linkmanRoleId"},
-        {headerName: "部门", field: "linkmanDept"},
-        {headerName: "状态", field: "linkmanStatus", dictType: "DOP_LINKMAN_STATUS"},
-        {headerName: "电话", field: "linkmanPhone"}
+        {headerName: "任务名称", field: "taskName"},
+        {headerName: "任务说明", field: "taskRemark"},
+        {headerName: "发起时间", field: "taskStartTm"},
+        {headerName: "参与人员", field: "participants"},
+        column.buildOpCol(120, colButtons)
     ],
     ext: {
-        fetchUrl: "/agnes-app/v1/dop/linkman/org/list",
+        fetchUrl: "/agnes-app/v1/task/todo/list",    //后台查询数据的URL地址
         fetchMethod: 'get',
         pagingMode: true, //不分页
-        checkboxColumn: 1, //是否显示checkbox列,
+        checkboxColumn: 0, //是否显示checkbox列,
         enableExportLocal: true,
-        autoFitColumnMode: 1,
         pageOptions: {
             // 分页大小
             pageSize: 10,
@@ -33,5 +32,5 @@ export default {
             // 详见ElementUI分页组件
             layout: "total, sizes, prev, pager, next, jumper"
         },
-    },
+    }
 };

@@ -1,25 +1,27 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'editLinkMan', title: '修改'},
-    {key: 'deleteLinkMan', title: '删除', cellClass: 'red-cell'},
+    {key: 'editKpiTask', title: '编辑'},
+    {key: 'deleteKpiTask', title: '删除', cellClass: 'red-cell'},
+    {key: 'publishKpiTask', title: '发布'},
 ];
+
 export default {
     columnDefs: [
-        column.buildOpCol(120, colButtons),
-        {headerName: "姓名", field: "linkmanName"},
-        {headerName: "职位", field: "linkmanRoleId"},
-        {headerName: "部门", field: "linkmanDept"},
-        {headerName: "状态", field: "linkmanStatus", dictType: "DOP_LINKMAN_STATUS"},
-        {headerName: "电话", field: "linkmanPhone"}
+        {headerName: "用户ID", field: "userId"},
+        {headerName: "用户名", field: "userName"},
+        {headerName: "所属机构", field: "orgName"},
+        {headerName: "用户状态", field: "userStatus", formatType:"dict", dictType:'GF_USER_STATUS'},
     ],
+    headerHeight: 40,
+    rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-app/v1/dop/linkman/org/list",
-        fetchMethod: 'get',
-        pagingMode: true, //不分页
+        fetchUrl: "/gf-admin/gf/user/queryUserList",
+        fetchMethod: 'post',
+        pagingMode: true, //分页
         checkboxColumn: 1, //是否显示checkbox列,
-        enableExportLocal: true,
         autoFitColumnMode: 1,
+        enableExportLocal: false,
         pageOptions: {
             // 分页大小
             pageSize: 10,
@@ -31,7 +33,7 @@ export default {
             nextText: "下一页",
             // 分页工具显示项，例如总页数、当前页、上一页、下一页、等分页功能按钮
             // 详见ElementUI分页组件
-            layout: "total, sizes, prev, pager, next, jumper"
+            layout: "total, sizes, slot, prev, pager, next"
         },
-    },
+    }
 };

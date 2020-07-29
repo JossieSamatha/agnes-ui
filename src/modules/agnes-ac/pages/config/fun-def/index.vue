@@ -2,7 +2,7 @@
     <div>
         <gf-grid ref="grid" grid-no="agnes-fun-type" @row-double-click="showModel">
             <template slot="left">
-                <gf-button @click="addModel" size="mini">添加</gf-button>
+                <gf-button class="action-btn" @click="addModel" size="mini">添加</gf-button>
             </template>
         </gf-grid>
     </div>

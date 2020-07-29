@@ -7,6 +7,7 @@ import workdayConfigApi from './workday-config-api';
 import caseConfigApi from './case-config-api';
 import ruleConfigApi from './rule-config-api';
 import motConfigApi from './mot-config-api';
+import flowTaskApi from './flow-task-config-api';
 
 export default {
     modelConfigApi,
@@ -18,4 +19,6 @@ export default {
     caseConfigApi,
     ruleConfigApi,
     motConfigApi
+    ruleConfigApi,
+    flowTaskApi
 };

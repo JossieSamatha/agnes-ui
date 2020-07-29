@@ -6,6 +6,7 @@ import FunDef from "./fun-def"
 import Workday from "./workday"
 import CaseDef from "./case-def"
 import MotDef from "./mot-def"
+import FlowTaskField from './flow-task-def'
 
 const Loading = {
     load: function (Gfui) {
@@ -17,6 +18,7 @@ const Loading = {
         Gfui.use(Workday);
         Gfui.use(CaseDef);
         Gfui.use(MotDef);
+        Gfui.use(FlowTaskField);
     }
 };
 

@@ -1,7 +1,7 @@
 import column from "../../../../../config/column"
 const colButtons = [
     {key: 'listEditOrg', title: '编辑'},
-    {key: 'listDeleteOrg', title: '删除',cellClass:'red-cell'},
+    {key: 'deleteOrg', title: '删除',cellClass:'red-cell'},
 ];
 
 export default {
@@ -12,9 +12,11 @@ export default {
         {headerName: "机构简称", field: "extOrgNameShort"},
         {headerName: "机构全称", field: "extOrgName"},
         column.colUpdUser,
-        column.colUpdUser,
-        column.buildOpCol(120, colButtons)
+        column.colUpdTm,
+        column.buildOpCol(100, colButtons)
     ],
+    headerHeight: 40,
+    rowHeight: 37,
     ext: {
         // fetchUrl: "/agnes-app/v1/dop/org/list",    //后台查询数据的URL地址
         pagingMode: false, //不分页

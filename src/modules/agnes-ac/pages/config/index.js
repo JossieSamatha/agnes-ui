@@ -8,6 +8,7 @@ import CaseDef from "./case-def/index";
 import MotDef from "./mot-def/mot-list";
 import CaseConfigIndex from "./case-def/little-case/case-config-index";
 import KpiTaskDef from './kpi-task-def/kpi-task-list'
+import FlowTaskDef from "./flow-task-def/index";
 
 
 
@@ -27,6 +28,9 @@ const Loading = {
 
         // Gfui.componentView('agnes.config.case.step', CaseConfigIndex, {title: 'case详情配置'});
         Gfui.componentView('agnes.kpi.task.def', KpiTaskDef, {title: '指标任务配置'});
+        Gfui.componentView('agnes.app.business.flowconf', FlowTaskDef, {title: '电子流程服务'});
+        // Gfui.componentView('agnes.config.case.step', CaseConfigIndex, {title: 'case详情配置'});
+        Gfui.componentView('agnes.app.business.kpiconf', KpiTaskDef, {title: '指标任务配置'});
     }
 };
 
