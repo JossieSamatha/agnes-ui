@@ -178,12 +178,19 @@
                             </el-button>
                         </el-form-item>
                         <el-form-item label="服务水平承诺">
-                            <gf-el-select style="width: 20%"></gf-el-select>
+                            <el-select v-model="detailForm.serviceResponseId" placeholder="请选择" @change="serviceResChange">
+                                <el-option
+                                        v-for="item in serviceRes"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item>
                             按照每隔
-                            <gf-input style="width: 20%"></gf-input>
-                            分钟，执行
-                            <gf-input style="width: 20%"></gf-input>
-                            次后退出
+                            <gf-input  v-model="repeatMinutes" style="width: 20%" :disabled="true"></gf-input>分钟，执行
+                            <gf-input v-model="maxRepeatCount" style="width: 20%" :disabled="true"></gf-input>次后退出
                         </el-form-item>
                         <el-form-item label="异常记录">
                             <gf-strbool-checkbox v-model="detailForm.isRecordTimeoutError">记入异常
@@ -277,12 +284,14 @@
         },
         data() {
             return {
-                kpiOption:[],
+                serviceRes:[],
                 staticData: this.$utils.deepClone(staticData),
                 detailForm: this.$utils.deepClone(initData),
                 dayChecked: false,  // 跨日
                 succeedRule: '0',
                 abnormalRule: '0',
+                repeatMinutes: '',
+                maxRepeatCount: '',
                 curExecScheduler: '',    // 当前频率对象字段
                 msgInformParam: [],      // 消息通知参数类型数组
                 startAllTime: '0',       // 是否永久有效
@@ -349,8 +358,27 @@
         beforeMount() {
             this.reDataTransfer();
             this.getOptions();
+            this.getServiceResponse();
         },
         methods: {
+            async serviceResChange(param){
+                this.serviceRes.forEach((item)=>{
+                    if(item.value === param){
+                        this.repeatMinutes = item.repeatMinutes
+                        this.maxRepeatCount = item.maxRepeatCount
+                        return
+                    }
+                });
+            },
+            async getServiceResponse(){
+                const serviceRes = this.$api.kpiTaskApi.getServiceResponse();
+                const serviceResData = await this.$app.blockingApp(serviceRes);
+                const serviceResList = serviceResData.data;
+                serviceResList.forEach((item)=>{
+                    this.serviceRes.push({label:item.serviceResponseName,value:item.serviceResponseId,
+                        repeatMinutes:item.repeatMinutes,maxRepeatCount:item.maxRepeatCount});
+                });
+            },
             async getOptions(){
                 this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
                 const k = this.$api.kpiTaskApi.getAllKpiList();
