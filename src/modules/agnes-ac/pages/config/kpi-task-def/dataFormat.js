@@ -51,7 +51,8 @@ export default {
                         execMode: '2',       // 指标执行频率 --默认重复执行
                         execScheduler: '* * * * * ? *',   // 指标执行频率 -- 串串
                         stepActKey: '',      // 指标
-                        stepActOwner: '',    // 通知人
+                        stepActOwner: '',    // 通知人id
+                        stepActOwnerName: '',    // 通知人姓名
                         isTodo: '',          // 是否进入待办
                         forcePass: '',       // 是否允许人工强制通过
                         isRecordError: '',          // 异常通知 -- 是否记入异常

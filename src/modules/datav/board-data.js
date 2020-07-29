@@ -22,12 +22,12 @@ const gridLayoutType = [
 ];
 
 const gridLayoutType2 = [
-    {"x": 0, "y": 0, "w": 4, "h": 3, "i": "09040011"},
-    {"x": 4, "y": 0, "w": 4, "h": 3, "i": "09040012"},
-    {"x": 8, "y": 0, "w": 4, "h": 3, "i": "09040013"},
-    {"x": 0, "y": 3, "w": 4, "h": 3, "i": "09040014"},
-    {"x": 4, "y": 3, "w": 4, "h": 3, "i": "09040015"},
-    {"x": 8, "y": 3, "w": 4, "h": 3, "i": "09040016"}];
+    {"x": 0, "y": 0, "w": 2, "h": 2, "i": "09040011"},
+    {"x": 2, "y": 0, "w": 6, "h": 4, "i": "09040012"},
+    {"x": 0, "y": 2, "w": 2, "h": 4, "i": "09040013"},
+    {"x": 2, "y": 4, "w": 2, "h": 2, "i": "09040014"},
+    {"x": 4, "y": 4, "w": 2, "h": 2, "i": "09040015"},
+    {"x": 6, "y": 4, "w": 2, "h": 2, "i": "09040016"}];
 
 const gridLayoutType3 = [
     {"x": 0, "y": 0, "w": 4, "h": 6, "i": "2020001"},
@@ -107,104 +107,10 @@ const todoRowData = [
     }, {
         taskType: '补充账户申请流程',
         currentTask: '账户新增'
-    }, {
+    },{
         taskType: '账户销户流程',
         currentTask: '账户复核通过'
     }];
-const msgCol = [
-    {headerName: '消息类型', field: 'msgType'},
-    {headerName: '消息名称', field: 'msgName'}
-];
-
-const msgData = [
-    {msgType: '完成', msgName: 'XXX完成通知'},
-    {msgType: '超时', msgName: 'XXX超时通知'},
-    {msgType: '提醒', msgName: 'XXX提醒通知'}
-];
-
-const scheduleCol = [
-    {headerName: '部门', field: 'dep'},
-    {headerName: '排班类型', field: 'type'},
-    {headerName: '人员', field: 'person'}
-];
-
-const scheduleData = [
-    {dep: '运营部', type: 'TA早班录入', person: '张三'},
-    {dep: '运营部', type: 'TA早班复核', person: '李四'},
-    {dep: 'IT部', type: 'XXXXXX', person: '王五'}
-];
-
-const abnormalCol = [
-    {headerName: '异常事项', field: 'abnormal'}
-];
-const abnormalData = [
-    {abnormal: 'XXX任务已超时，需尽快处理'},
-    {abnormal: 'XXX任务已超时，需尽快处理'},
-    {abnormal: 'XXX任务已超时，需尽快处理'},
-    {abnormal: 'XXX任务已超时，需尽快处理'},
-    {abnormal: 'XXX任务已超时，需尽快处理'},
-    {abnormal: 'XXX任务已超时，需尽快处理'},
-    {abnormal: 'XXX任务已超时，需尽快处理'},
-    {abnormal: 'XXX任务已超时，需尽快处理'},
-    {abnormal: 'XXX任务已超时，需尽快处理'},
-    {abnormal: 'XXX任务已超时，需尽快处理'},
-    {abnormal: 'XXX任务已超时，需尽快处理'},
-    {abnormal: 'XXX任务已超时，需尽快处理'},
-];
-
-const riskCol = [
-    {headerName: '风险事项', field: 'abnormal'}
-];
-const riskData = [
-    {abnormal: 'XXX任务已超时，导致划款失败'},
-    {abnormal: 'XXX任务已超时，导致划款失败'},
-    {abnormal: 'XXX任务已超时，导致划款失败'},
-    {abnormal: 'XXX任务已超时，导致划款失败'},
-    {abnormal: 'XXX任务已超时，导致划款失败'},
-    {abnormal: 'XXX任务已超时，导致划款失败'},
-    {abnormal: 'XXX任务已超时，导致划款失败'},
-    {abnormal: 'XXX任务已超时，导致划款失败'},
-    {abnormal: 'XXX任务已超时，导致划款失败'},
-    {abnormal: 'XXX任务已超时，导致划款失败'},
-    {abnormal: 'XXX任务已超时，导致划款失败'},
-    {abnormal: 'XXX任务已超时，导致划款失败'},
-];
-
-const contractCol = [
-    {headerName: '机构', field: 'dep'},
-    {headerName: '联系人', field: 'conPer'},
-    {headerName: '联系方式', field: 'conTel'}
-];
-const contractData = [
-    {dep: '工商',conPer: '张三',conTel: '12390000000'},
-    {dep: '中国银行',conPer: '李四',conTel: '12390000000'},
-    {dep: '农商',conPer: '王五',conTel: '12390000000'},
-    {dep: '建行',conPer: '张三',conTel: '12390000000'},
-    {dep: '工商',conPer: '张三',conTel: '12390000000'},
-    {dep: '工商',conPer: '张三',conTel: '12390000000'},
-    {dep: '中国银行',conPer: '赵柳',conTel: '12390000000'},
-    {dep: '工商',conPer: '张三',conTel: '12390000000'},
-    {dep: '浦发',conPer: '张三',conTel: '12390000000'},
-];
-
-const channelCol = [
-    {headerName: '渠道信息', field: 'channel'}
-];
-const channelData = [
-    {channel: '瑜伽TA'},
-    {channel: '创新TA'},
-    {channel: 'XXXXFA'},
-    {channel: 'XXXXFA'},
-    {channel: '瑜伽TA'},
-    {channel: '创新TA'},
-    {channel: 'XXXXFA'},
-    {channel: 'XXXXFA'},
-    {channel: '瑜伽TA'},
-    {channel: '创新TA'},
-    {channel: 'XXXXFA'},
-    {channel: 'XXXXFA'}
-];
-
 const rowData2 = [
     {
         taskName: '专户产品清算',
@@ -324,75 +230,23 @@ const gridOptionObj = {
     }
 };
 const boardStyleArr = [
-    {
-        id: '0', label: '我的日历',
-        type: 'calendar-def',
-        data: {
-            calendarVal: ''
-        },
-        img: 'unit01'
-    },
-    {
-        id: '5', label: '我的待办',
-        type: 'grid-comp',
-        data: {
-            columnDefs: todoCol,
-            rowData: JSON.stringify(todoRowData),
-            gridOption: JSON.stringify(gridOptionObj)
-        },
-        img: 'unit05'
-    },
-    {
-        id: '6', label: '我的消息',
-        type: 'grid-comp',
-        data: {
-            columnDefs: msgCol,
-            rowData: JSON.stringify(msgData),
-            gridOption: JSON.stringify(gridOptionObj)
-        },
-        img: 'unit05'
-    },
-    {
-        id: '3', label: '今日排班',
-        type: 'grid-comp',
-        data: {
-            columnDefs: scheduleCol,
-            rowData: JSON.stringify(scheduleData),
-            gridOption: JSON.stringify(gridOptionObj)
-        },
-        img: 'unit03'
-    },
-    {
-        id: '7', label: '异常事项',
-        type: 'grid-comp',
-        data: {
-            columnDefs: abnormalCol,
-            rowData: JSON.stringify(abnormalData),
-            gridOption: JSON.stringify(gridOptionObj)
-        },
-        img: 'unit05'
-    },
-    {
-        id: '10', label: '风险事项',
-        type: 'grid-comp',
-        data: {
-            columnDefs: riskCol,
-            rowData: JSON.stringify(riskData),
-            gridOption: JSON.stringify(gridOptionObj)
-        },
-        img: 'unit05'
-    },
-    {
-        id: '1', label: '快速联系',
+    {id:'0', label:'快速联系',
         type: 'rapid-contact-form',
         data: {
             phone: '0755-23838943',
             mail: 'cust@mail.com'
         },
-        img: 'unit01'
+        img:'unit01'
     },
-    {
-        id: '2', label: '财务指标',
+    {id:'1', label:'快速联系',
+        type: 'rapid-contact-form',
+        data: {
+            phone: '0755-23838943',
+            mail: 'cust@mail.com'
+        },
+        img:'unit01'
+    },
+    {id:'2', label:'财务指标',
         type: 'chart-comp',
         data: {
             tooltip: {
@@ -401,7 +255,7 @@ const boardStyleArr = [
             xAxis: [
                 {
                     type: 'category',
-                    data: ['2018-02', '2018-07', '2018-12', '2019-05', '2019-10', '2020-03', '2020-08'],   // x轴数据
+                    data: ['2018-02','2018-07','2018-12','2019-05','2019-10','2020-03','2020-08'],   // x轴数据
                     name: '（月份）',
                     nameTextStyle: {
                         fontSize: 12
@@ -419,12 +273,12 @@ const boardStyleArr = [
             ],
             series: [{
                 type: 'line',
-                data: [30, 32, 40, 58, 68, 38, 59],
-                color: ['#476DBE'],
-                itemStyle: {
-                    normal: {
-                        color: "#476DBE",
-                        label: {
+                data: [30,32,40,58,68,38,59],
+                color:['#476DBE'],
+                itemStyle:{
+                    normal:{
+                        color:"#476DBE",
+                        label : {
                             show: true
                         }
                     }
@@ -437,11 +291,16 @@ const boardStyleArr = [
                 y2: 35
             },
         },
-        img: 'unit02'
-    },
-
-    {
-        id: '4', label: '客户信息',
+        img:'unit02'},
+    {id:'3', label:'任务列表',
+        type: 'grid-comp',
+        data: {
+            columnDefs:  columnDefs2,
+            rowData:  JSON.stringify(rowData2),
+            gridOption: JSON.stringify(gridOptionObj)
+        },
+        img:'unit03'},
+    {id:'4', label:'客户信息',
         type: 'form-comp',
         data: {
             formObj: {
@@ -458,110 +317,86 @@ const boardStyleArr = [
                     type: 'label',
                     field: 'guestName',
                     label: '客户名称'
-                }, {
+                },{
                     type: 'label',
                     field: 'guestType',
                     label: '客户类型'
-                }, {
+                },{
                     type: 'select',
                     field: 'guestAttr',
                     label: '客户属性',
                     placeholder: '请选择...',
-                    option: [{value: '0', label: '属性一'}, {value: '1', label: '属性二'}, {value: '2', label: '属性三'}],
-                }, {
+                    option: [{value:'0',label:'属性一'},{value:'1',label:'属性二'},{value:'2',label:'属性三'}],
+                },{
                     type: 'input',
                     field: 'contactWay',
                     label: '联系方式'
-                }, {
+                },{
                     type: 'radioBox',
                     field: 'ifPurchase',
                     label: '是否申购',
-                    option: [{value: '0', label: '是'}, {value: '1', label: '否'}],
-                }, {
+                    option: [{value:'0',label:'是'},{value:'1',label:'否'}],
+                },{
                     type: 'checkbox',
                     field: 'manage',
                     label: '组合经理',
-                    option: [{value: '0', label: '张三'}, {value: '1', label: '李四'}, {value: '2', label: '王五'}],
-                }, {
+                    option: [{value:'0',label:'张三'},{value:'1',label:'李四'},{value:'2',label:'王五'}],
+                },{
                     type: 'button',
                     label: '保存',
                     position: 'bottom'
                 },
             ]
         },
-        img: 'unit04'
-    },
+        img:'unit04'},
 
-    {
-        id: '8', label: '待办任务',
+    {id:'5', label:'待办任务',
         type: 'grid-comp',
         data: {
-            columnDefs: todoCol,
-            rowData: JSON.stringify(todoRowData),
+            columnDefs:  todoCol,
+            rowData:  JSON.stringify(todoRowData),
             gridOption: JSON.stringify(gridOptionObj)
         },
-        img: 'unit05'
-    },
-    {
-        id: '9', label: '快速联系',
+        img:'unit05'},
+    {id:'6', label:'待办任务',
+        type: 'grid-comp',
+        data: {
+            columnDefs:  todoCol,
+            rowData:  JSON.stringify(todoRowData),
+            gridOption: JSON.stringify(gridOptionObj)
+        },
+        img:'unit05'},
+    {id:'7', label:'待办任务',
+        type: 'grid-comp',
+        data: {
+            columnDefs:  todoCol,
+            rowData:  JSON.stringify(todoRowData),
+            gridOption: JSON.stringify(gridOptionObj)
+        },
+        img:'unit05'},
+    {id:'8', label:'待办任务',
+        type: 'grid-comp',
+        data: {
+            columnDefs:  todoCol,
+            rowData:  JSON.stringify(todoRowData),
+            gridOption: JSON.stringify(gridOptionObj)
+        },
+        img:'unit05'},
+    {id:'9', label:'快速联系',
         type: 'rapid-contact-form',
         data: {
             phone: '0755-23838943',
             mail: 'cust@mail.com'
         },
-        img: 'unit01'
-    },
-];
-
-const boardStyleDep = [
-    {
-        id: '0', label: '运营日历',
-        type: 'calendar-def',
-        data: {
-            calendarVal: ''
-        },
-        img: 'unit01'
-    },
-    {
-        id: '1', label: '今日排班',
+        img:'unit01'},
+    {id:'10', label:'待办任务',
         type: 'grid-comp',
         data: {
-            columnDefs: scheduleCol,
-            rowData: JSON.stringify(scheduleData),
+            columnDefs:  todoCol,
+            rowData:  JSON.stringify(todoRowData),
             gridOption: JSON.stringify(gridOptionObj)
         },
-        img: 'unit05'
-    },
-    {
-        id: '2', label: '外部联系人',
-        type: 'grid-comp',
-        data: {
-            columnDefs: contractCol,
-            rowData: JSON.stringify(contractData),
-            gridOption: JSON.stringify(gridOptionObj)
-        },
-        img: 'unit05'
-    },
-    {
-        id: '3', label: '产品信息',
-        type: 'grid-comp',
-        data: {
-            columnDefs: columnDefs2,
-            rowData: JSON.stringify(rowData2),
-            gridOption: JSON.stringify(gridOptionObj)
-        },
-        img: 'unit03'
-    },
-    {
-        id: '4', label: '渠道信息',
-        type: 'grid-comp',
-        data: {
-            columnDefs: channelCol,
-            rowData: JSON.stringify(channelData),
-            gridOption: JSON.stringify(gridOptionObj)
-        },
-        img: 'unit05'
-    }
+        img:'unit05'}
 ];
 
 export default {
@@ -576,6 +411,5 @@ export default {
     todoRowData: todoRowData,
     rowData2: rowData2,
     gridOptionObj: gridOptionObj,
-    boardStyleArr: boardStyleArr,
-    boardStyleDep: boardStyleDep
+    boardStyleArr: boardStyleArr
 }

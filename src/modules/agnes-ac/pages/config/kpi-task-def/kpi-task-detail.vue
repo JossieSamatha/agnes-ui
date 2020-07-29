@@ -17,18 +17,17 @@
             <gf-input v-model.trim="detailForm.caseKey" placeholder="任务编号"/>
         </el-form-item>
         <el-form-item label="业务场景" prop="bizType">
-            <gf-dict filterable clearable v-model="detailForm.bizType" dict-type="EC_BIZ_TYPE"/>
+            <gf-dict filterable clearable v-model="detailForm.bizType" dict-type="AGNES_BIZ_CASE"/>
         </el-form-item>
         <el-form-item label="业务标签" prop="bizTag">
             <el-select class="multiple-select" v-model="detailForm.bizTagArr"
-                       multiple filterable clearable
-                       allow-create
-                       default-first-option placeholder="请选择">
+                       filterable clearable multiple
+                       placeholder="请选择">
                 <gf-filter-option
                         v-for="item in bizTagOption"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
+                        :key="item.dictId"
+                        :label="item.dictName"
+                        :value="item.dictId">
                 </gf-filter-option>
             </el-select>
         </el-form-item>
@@ -58,14 +57,7 @@
             </div>
         </el-form-item>
         <el-form-item label="基准日期" prop="dayendDefId">
-            <el-select v-model="detailForm.dayendDefId" placeholder="请选择" filterable clearable>
-                <gf-filter-option
-                        v-for="item in detailForm.standardOptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </gf-filter-option>
-            </el-select>
+            <gf-dict filterable clearable v-model="detailForm.dayendDefId" dict-type="AGNES_BASE_DATE" style="width: 30%;"/>
         </el-form-item>
         <el-form-item label="执行时间" prop="step_startTime">
             <div class="line none-shrink">
@@ -89,19 +81,19 @@
         </el-form-item>
         <el-form-item label="启动方式" prop="task_execMode">
             <el-radio-group v-model="detailForm.task_execMode">
-                <el-radio label="0">执行一次</el-radio>
-                <el-radio label="1">重复执行</el-radio>
-                <el-radio label="2">事件触发执行</el-radio>
+                <el-radio label="1">执行一次</el-radio>
+                <el-radio label="2">重复执行</el-radio>
+                <el-radio label="3">事件触发执行</el-radio>
             </el-radio-group>
         </el-form-item>
-        <template v-if="detailForm.task_execMode==1">
+        <template v-if="detailForm.task_execMode==2">
             <el-form-item label="任务创建频率" prop="step_execScheduler">
                 <el-button type="text" @click="editExecTime('task_execScheduler', detailForm.task_execScheduler)">
                     {{detailForm.task_execScheduler}}点击配置
                 </el-button>
             </el-form-item>
         </template>
-        <el-form-item label="事件选择" v-if="detailForm.task_execMode==2">
+        <el-form-item label="事件选择" v-if="detailForm.task_execMode==3">
             <el-select v-model="detailForm.eventId" placeholder="请选择" filterable clearable>
                 <gf-filter-option
                         v-for="item in detailForm.eventOptions"
@@ -127,14 +119,9 @@
             </el-button>
         </el-form-item>
         <el-form-item label="通知人员">
-            <el-select v-model="detailForm.stepActOwner" placeholder="请选择" filterable clearable>
-                <gf-filter-option
-                        v-for="item in detailForm.personList"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </gf-filter-option>
-            </el-select>
+            <gf-input type="text" v-model="detailForm.stepActOwnerName" :readonly="true" style="width: 40%">
+                <i slot="suffix" class="el-input__icon el-icon-edit-outline" @click="chooseUser"/>
+            </gf-input>
         </el-form-item>
         <el-form-item label="任务控制参数">
             <gf-strbool-checkbox v-model="detailForm.needApprove">是否需要复核</gf-strbool-checkbox>
@@ -272,6 +259,7 @@
     import ExecTimeEdit from "./exec-time";
     import staticData from './dataFormat'
     import initData from './initData'
+    import UserSelect from './kpi-user-select'
 
     export default {
         name: "task-define",
@@ -285,6 +273,7 @@
         },
         data() {
             return {
+                kpiOption:[],
                 staticData: this.$utils.deepClone(staticData),
                 detailForm: this.$utils.deepClone(initData),
                 dayChecked: false,  // 跨日
@@ -335,8 +324,29 @@
         },
         beforeMount() {
             this.reDataTransfer();
+            this.getOptions();
         },
         methods: {
+            async getOptions(){
+                this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
+                const k = this.$api.kpiTaskApi.getAllKpiList();
+                const kpiR = await this.$app.blockingApp(k);
+                const kpiList = kpiR.data
+                kpiList.forEach((item)=>{
+                    this.detailForm.kpiOptions.push({label:item.kpiName,value:item.kpiCode});
+                });
+            },
+            chooseUser(){
+                let actionOk = this.setExeUser.bind(this);
+                this.$nav.showDialog(
+                    UserSelect,
+                    {
+                        args: {actionOk},
+                        width: '600px',
+                        title: this.$dialog.formatTitle('选择用户','view'),
+                    }
+                );
+            },
             editExecTime(curObj, execScheduler) {
                 this.curExecScheduler = curObj;
                 this.showDlg(execScheduler, this.setExecScheduler.bind(this));
@@ -353,6 +363,10 @@
                         title: this.$dialog.formatTitle('编辑执行频率'),
                     }
                 );
+            },
+            setExeUser(userInfo){
+                this.detailForm.stepActOwnerName = userInfo.userName;
+                this.detailForm.stepActOwner = userInfo.id;
             },
             setExecScheduler(cron) {
                 this.detailForm[this.curExecScheduler] = cron;
@@ -397,6 +411,8 @@
             dataTransfer() {
                 let kpiTaskDef = this.$utils.deepClone(this.staticData.kpiTaskDef);
                 this.detailForm.bizTag = this.detailForm.bizTagArr.join(",");
+                this.detailForm.stepCode = this.detailForm.caseKey;
+                this.detailForm.caseDefKey = this.detailForm.caseKey;
                 this.keyToValue(kpiTaskDef, 'task_');
                 let caseDef = this.$utils.deepClone(this.staticData.caseDef);
                 let defId = this.$agnesUtils.randomString(32);
@@ -436,10 +452,6 @@
                     }
                     if (this.detailForm.bizTag) {
                         this.detailForm.bizTagArr = this.detailForm.bizTag.split(",");
-                    }
-                    let item = this.detailForm.bizTag.split(",");
-                    for (let i = 0; i < item.length; i++) {
-                        this.bizTagOption.push({value: item[i], label: item[i]});
                     }
                 }
             },

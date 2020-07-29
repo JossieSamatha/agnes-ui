@@ -22,7 +22,7 @@
 </template>
 
 <script>
-    import boardData from '../boardData';
+    import boardData from '../board-data';
     import gridContainer from './grid-container';
     import boardChoose from './board-choose';
     export default {
