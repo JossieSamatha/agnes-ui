@@ -7,7 +7,6 @@
             v-html="lcImg[stepType.icon]"
             @click="addStep(stepType.id)">
         </li>
-        <li class="group" @click="addGroup">GROUP</li>
     </ul>
 </template>
 
@@ -48,11 +47,6 @@
             // 新增Step
             addStep(stepType){
                 this.$emit('addStep', stepType);
-            },
-
-            // 新增group
-            addGroup() {
-                this.$emit('addGroup');
             }
         }
     }

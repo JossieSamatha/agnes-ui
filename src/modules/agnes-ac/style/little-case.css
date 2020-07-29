@@ -308,10 +308,19 @@
     cursor: pointer;
 }
 
+.little-case.work-flow-module .stage-item.edit .stage-item-title {
+    background: #476DBE;
+}
+
 .little-case.work-flow-module .process-list .process-item {
     border: 1px solid #eaeaea;
     padding: 5px;
     margin-top: 5px;
+}
+
+.little-case.work-flow-module .process-list .process-item.active,
+.little-case.work-flow-module .step-comp.active {
+    border: 2px dashed #8ea9e0;
 }
 
 .little-case.work-flow-module .process-list .process-item + .process-item {
@@ -323,10 +332,15 @@
     align-items: center;
     position: relative;
     width: 100%;
-    color: #000;
+    color: #333;
     margin-bottom: 5px;
     padding: 5px 10px;
     cursor: pointer;
+}
+
+.little-case.work-flow-module .process-item .process-item-title.edit {
+    color: #fff;
+    background: #476DBE;
 }
 
 .little-case.work-flow-module .process-item.step-group .process-item-title {
@@ -366,6 +380,10 @@
     top: 0px;
     border: 22px solid transparent;
     border-left: 14px solid #585c73;
+}
+
+.little-case.work-flow-module .stage-item.edit .stage-item-title::after {
+    border-left-color: #476DBE;
 }
 
 .little-case.work-flow-module .stage-container.able-choosed .stage-item
@@ -408,6 +426,12 @@
     text-overflow: ellipsis;
 }
 
+.little-case.work-flow-module .stage-item .stage-item-title > span.title {
+    height: 35px;
+    margin-left: -10px;
+    padding: 0 10px;
+}
+
 .little-case.work-flow-module .process-item .process-item-title > span.title .edit.is-disabled,
 .little-case.work-flow-module .stage-item .stage-item-title > span.title .edit.is-disabled {
     display: none;
@@ -421,7 +445,7 @@
 .little-case.work-flow-module .process-item .process-item-title > span.title .edit > i,
 .little-case.work-flow-module .stage-item .stage-item-title > span.title .edit > i {
     font-size: 16px;
-    line-height: 20px;
+    line-height: 16px;
     margin-left: 3px;
     cursor: pointer;
 }
@@ -452,6 +476,7 @@
 .little-case.work-flow-module .stage-item .stage-item-title > .title > .title-input > input {
     height: 20px;
     line-height: 20px;
+    font-size: 14px;
     border-radius: 2px;
     padding: 0 25px 0 10px;
     overflow: hidden;
@@ -473,10 +498,6 @@
     cursor: pointer;
 }
 
-.little-case.work-flow-module .process-item .process-item-title>.title > .title-input.is-disabled > input {
-    font-weight: bold;
-}
-
 .little-case.work-flow-module .process-item.step-group .process-item-title>.title > .title-input.is-disabled > input {
     font-weight: normal;
 }
@@ -488,7 +509,6 @@
 }
 
 .little-case.work-flow-module .stage-item .step-list {
-    min-height: 40px;
     background: #fff;
 }
 
@@ -504,7 +524,7 @@
     color: #666;
     background: #fff;
     margin-top: 5px;
-    cursor: move;
+    cursor: pointer;
 }
 
 .little-case.work-flow-module .step-comp > i.step-icon {
@@ -562,7 +582,7 @@
     position: absolute;
     top: 0;
     right: 10px;
-    font-size: 14px;
+    font-size: 16px;
     color: #476DBE;
 }
 
@@ -575,12 +595,13 @@
     cursor: pointer;
 }
 
-.little-case.work-flow-module .process-item .process-item-title:hover > span.title .edit > .fa.fa-trash-o,
+.little-case.work-flow-module .process-item .process-item-title:not(.edit):hover > span.title .edit > .fa.fa-trash-o,
 .little-case.work-flow-module .step-comp .edit > i.fa.fa-trash-o {
     color: #F5222E;
 }
 
-.little-case.work-flow-module .step-comp:hover .edit {
+.little-case.work-flow-module .step-comp:hover .edit,
+.little-case.work-flow-module .step-comp.active .edit {
     display: block;
 }
 
@@ -590,30 +611,19 @@
     box-shadow: 0 0 10px #476DBE;
 }
 
-.little-case.work-flow-module .stage-item .stage-item-content .add-task {
-    position: relative;
-    width: 100%;
-    height: 40px;
-    line-height: 40px;
-    bottom: 0;
-    color: #666;
-    background: #f2f2f2;
-    padding: 0 10px;
-    margin-top: 5px;
-}
-
 .little-case.work-flow-module .stage-item .stage-add .step-type {
     display: none;
+    flex-wrap: wrap;
     position: absolute;
-    left: -30px;
-    top: 30px;
-    width: 238px;
-    height: 40px;
-    padding: 0 5px;
+    left: 13px;
+    top: 36px;
+    width: 132px;
+    height: 132px;
+    padding: 5px;
     z-index: 10;
-    border: 1px solid #ccc;
     background: #fff;
     border-radius: 5px;
+    box-shadow: 0 1px 7px rgba(0,0,0,.4);
 }
 
 .little-case.work-flow-module .stage-item .stage-add {
@@ -626,20 +636,31 @@
 
 
 .little-case.work-flow-module .stage-item .stage-add .step-type::before{
-    content: "\f106";
+    content: "";
     font-family: "fontawesome";
     display: block;
     position: absolute;
-    top: -14px;
+    top: -9px;
     left: 31px;
-    color: #ccc;
+    width: 0;
+    height: 0;
+    border: 5px solid transparent;
+    border-bottom-color: #fff;
 }
 
 .little-case.work-flow-module .stage-item .stage-add .step-type>li{
-    flex: 1;
-    line-height: 40px;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
     text-align: center;
     color: #666;
+    cursor: pointer;
+}
+
+.little-case.work-flow-module .stage-item .stage-add .step-type>li.group {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
 }
 
 .little-case.work-flow-module .stage-item .stage-add .step-type>li>svg {
@@ -662,22 +683,40 @@
     fill: #476DBE;
 }
 
-.little-case.work-flow-module .stage-item .stage-item-content .add-task>span {
+.little-case.work-flow-module .stage-item .add-task {
+    display: none;
+    position: relative;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    bottom: 0;
+    color: #666;
+    margin-top: 5px;
+    border: 2px dashed #eaeaea;
+    background: #f5f5f5;
+}
+
+.little-case.work-flow-module .stage-item>.add-task,
+.little-case.work-flow-module .process-item.active>.add-task {
+    display: block;
+}
+
+.little-case.work-flow-module .stage-item .add-task>span {
     display: inline-block;
+    width: 50%;
+    height: 100%;
+    text-align: center;
     cursor: pointer;
 }
 
-.little-case.work-flow-module .stage-item .stage-item-content .add-task>span:hover,
-.little-case.work-flow-module .stage-item .stage-item-content .add-task>span:hover>i {
+.little-case.work-flow-module .stage-item .add-task>span:hover,
+.little-case.work-flow-module .stage-item .add-task>span:hover>i {
     color: #476DBE;
+    background: #E9EFFB;
     font-weight: bold;
 }
 
-.little-case.work-flow-module .stage-item .stage-item-content .add-task>span+span {
-    margin-left: 10px;
-}
-
-.little-case.work-flow-module .stage-item .stage-item-content .add-task > i {
+.little-case.work-flow-module .stage-item .add-task > i {
     margin-right: 5px;
 }
 
@@ -699,6 +738,7 @@
 
 .step-detail-drawer .form-page.step-detail .el-form {
     flex: 1;
+    padding: 20px;
     overflow-y: auto;
 }
 

@@ -2,8 +2,7 @@
     <div class="datav_client_view" ref="datav_client_view">
         <div class="topPanel">
             <div class="optionPanel">
-                <el-input class="search-input" v-model="clientValue" clearable placeholder="客户搜索" suffix-icon="el-icon-search">
-                </el-input>
+                <span></span>
                 <div>
                     <span class="boardeEdit" v-if="!isGridEdit && !isGridDefine" @click="boardEdit">配置看板</span>
                     <span class="boardeEdit" v-if="isGridEdit" @click="boardEdit">切换看板</span>
@@ -12,14 +11,8 @@
                     <span class="boardeEdit" v-if="isGridDefine" @click="boardEditFinish('layout')">保存面板</span>
                 </div>
             </div>
-            <div class="content">
-                <p v-for="(info,index) in guestInfo" :key="index">
-                    <label>{{info.label}}：</label>
-                    <span>{{info.value}}</span>
-                </p>
-            </div>
         </div>
-        <grid-container ref="gridContainer"></grid-container>
+        <grid-container ref="gridContainer" :pageId="pageId"></grid-container>
         <board-choose ref="boardChoose"
                 :showDialog="boardChooseDialog"
                 @closeDialog="closeDialog"
@@ -33,6 +26,9 @@
     import gridContainer from './grid-container';
     import boardChoose from './board-choose';
     export default {
+        props:{
+            pageId: String
+        },
         data() {
             return {
                 guestInfo: boardData.guestInfo,
@@ -46,14 +42,7 @@
             'grid-container': gridContainer,
             'board-choose': boardChoose
         },
-        mounted(){
-
-        },
-        watch:{
-
-        },
         methods: {
-
             // 配置看板 -- 点击展开弹窗 -- 查询自定义面板数据
             boardEdit(){
                 this.boardChooseDialog = true;

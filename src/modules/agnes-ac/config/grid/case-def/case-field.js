@@ -2,8 +2,7 @@ import column from "../../../../../config/column"
 
 const colButtons = [
     {key: 'editCaseDef', title: '编辑'},
-    {key: 'deleteCaseDef', title: '删除', cellClass: 'red-cell'},
-    {key: 'cancelCaseDef', title: '取消', cellClass: 'grey-cell'},
+    {key: 'deleteCaseDef', title: '删除', cellClass: 'red-cell'}
 ];
 
 export default {
@@ -24,7 +23,7 @@ export default {
         pagingMode: true, //是否分页
         checkboxColumn: 1, //是否显示checkbox列,
         autoFitColumnMode: 1,
-        enableExportLocal: true,
+        enableExportLocal: true, // 是否显示下载按钮（有勾选则下载勾选项，没勾选则下载所有）
         pageOptions: {
             // 分页大小
             pageSize: 10,
