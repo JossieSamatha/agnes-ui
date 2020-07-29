@@ -1,28 +1,23 @@
-import column from "../../../../../config/column"
+import column from "../../../../../config/column";
 
 const colButtons = [
-    {key: 'editModel', title: '编辑'},
-    {key: 'deleteModel', title: '删除', cellClass: 'red-cell'},
+    {key: 'confirmTask', title: '确认'},
+    {key: 'viewTask', title: '查看'},
 ];
-const fnCode = {headerName: "函数定义编号", field: "fnCode"};
-const fnName = {headerName: "函数名", field: "fnName"};
-const fnType = {headerName: "函数类型", field: "fnType"}
-const fnDesc = {headerName: "函数描述", field: "fnDesc"}
 
 export default {
     columnDefs: [
-        column.buildOpCol(120, colButtons),
-        fnCode,
-        fnName,
-        fnType,
-        fnDesc,
+        {headerName: "任务名称", field: "taskName"},
+        {headerName: "任务说明", field: "taskRemark"},
+        {headerName: "发起时间", field: "taskStartTm"},
+        {headerName: "参与人员", field: "participants"},
+        column.buildOpCol(120, colButtons)
     ],
     ext: {
-        fetchUrl: "/agnes-ac/v1/config/fun/query/page/list",    //后台查询数据的URL地址
-        fetchMethod: 'post',
+        fetchUrl: "/agnes-app/v1/task/todo/list",    //后台查询数据的URL地址
+        fetchMethod: 'get',
         pagingMode: true, //不分页
-        checkboxColumn: 1, //是否显示checkbox列,
-        autoFitColumnMode: 1,
+        checkboxColumn: 0, //是否显示checkbox列,
         enableExportLocal: true,
         pageOptions: {
             // 分页大小
