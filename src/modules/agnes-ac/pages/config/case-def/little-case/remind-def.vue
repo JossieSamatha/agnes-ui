@@ -34,6 +34,7 @@
     export default {
         name: 'remindDef',
         props: {
+            remindProp: Array,
             remindSort:{
                 type: String,},
             actionOk: Function
@@ -68,8 +69,8 @@
             this.remindData = JSON.parse(JSON.stringify([this.mailObj, this.messageObj, this.wechatObj]));
         },
         mounted() {
-            if (this.args.remindProp && this.args.remindProp.length > 0) {
-                this.args.remindProp.forEach((propItem)=>{
+            if (this.remindProp && this.remindProp.length > 0) {
+                this.remindProp.forEach((propItem)=>{
                     const itemIndex = parseInt(propItem.remindMode) - 2;
                     this.remindData.splice(itemIndex, 1, propItem);
                 });
@@ -96,9 +97,10 @@
                         return remindItem.fillFlag
                     });
                     if (this.actionOk) {
-                        await this.actionOk(this.remindData,this.remindSort);
+                        this.actionOk(this.remindData,this.remindSort);
+                        await this.$dialog.close(this);
                     }
-                    this.$dialog.close(this);
+
                 }
             }
         }
