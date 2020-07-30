@@ -99,7 +99,7 @@
             async onSave(){
                 this.row.caseDefInfo.caseDefBody = JSON.stringify(this.caseModelData)
                 try {
-                    const p = this.$api.flowTaskApi.saveTask(this.row.caseDefInfo);
+                    const p = this.$api.flowTaskApi.saveFlowTask(this.row.caseDefInfo);
                     await this.$app.blockingApp(p);
                     this.$msg.success('保存成功');
                     this.$emit("onClose");
