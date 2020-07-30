@@ -19,18 +19,12 @@
                 const row = params.data;
                 if (row.taskType === '1') {
                     let kpiCode = row.taskKey;
-                    let bizDate = row.taskStartTm;
-                    // this.$nav.showDialog(
-                    //     KpiDef,
-                    //     {
-                    //         args: {kpiCode, bizDate},
-                    //         width: '80%',
-                    //         title: this.$dialog.formatTitle('指标任务详情')
-                    //     }
-                    // );
+                    let bizDate = row.taskStartTm.toString().substr(0, 10);
+                    let caseId = row.caseId;
+                    let stepCode = row.stepCode;
                     let pageView = this.$app.views.getView("agnes.kpi.def");
                     let tabView = Object.assign({
-                        args: {kpiCode, bizDate},
+                        args: {kpiCode, bizDate, caseId, stepCode},
                         id: "agnes.kpi.def"
                     }, pageView);
                     this.$nav.showView(tabView);
