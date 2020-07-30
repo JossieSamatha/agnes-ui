@@ -188,8 +188,6 @@
             // 取消onCancel事件，触发抽屉关闭事件this.$emit("onClose");
             async onCancel() {
                 if(this.row.isCheck){
-                    // eslint-disable-next-line no-debugger
-                    debugger
                     let resData = this.detailForm;
                     const p = this.$api.kpiTaskApi.checkTask({reTaskDef:resData,isPass:'0'});
                     await this.$app.blockingApp(p);
