@@ -17,6 +17,7 @@
                         :max="max"
                         show-text
                         :texts="texts"
+                        :colors="rateColor"
                 >
                 </el-rate>
             </el-form-item>
@@ -27,9 +28,9 @@
                 <gf-dict filterable clearable v-model="bizType" dict-type="AGNES_BIZ_CASE" :disabled="true"/>
             </el-form-item>
             <el-form-item label="业务标签" prop="bizTag">
-                <el-select class="multiple-select" v-model="bizTagArr"
+                <el-select class="multiple-select" v-model="caseStepDef.stepTag"
                            multiple filterable clearable
-                           default-first-option placeholder="请选择" :disabled="true">
+                           default-first-option placeholder="请选择">
                     <gf-filter-option
                             v-for="item in bizTagOption"
                             :key="item.dictId"
@@ -43,7 +44,7 @@
             </el-form-item>
             <el-form-item label="参与人员" prop="stepActOwner">
                 <gf-input type="text" v-model="caseStepDef.stepActOwnerName"  placeholder="请选择人员"
-                          :readonly="true" @click.native="chooseUser('owner')">
+                          :readonly="true" @click.native="chooseUser">
                 </gf-input>
             </el-form-item>
             <el-form-item label="执行时间" prop="">
@@ -96,15 +97,7 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item v-if="stepInfo.stepActType === '00'" label="确认事项" prop="stepActKey">
-                <gf-input v-model="caseStepDef.stepActKey"/>
-            </el-form-item>
-            <el-form-item v-if="stepInfo.stepActType === '00'" label="确认人" prop="stepActParam1">
-                <gf-input type="text" v-model="caseStepDef.stepActParam1Name"  placeholder="请选择人员"
-                          :readonly="true" @click.native="chooseUser('confirmor')">
-                </gf-input>
-            </el-form-item>
-            <el-form-item label="指标执行频率">
+            <el-form-item v-if="stepInfo.stepActType === '01'" label="指标执行频率">
                 <gf-input v-model.trim="caseStepDef.execScheduler" placeholder="* * * * * ?"
                               @click.native="openCron"/>
             </el-form-item>
@@ -168,8 +161,8 @@
                                             :value="item.value">
                                     </el-option>
                                 </el-select>按照每隔
-                                <gf-input v-model="repeatMinutes" style="width: 10%" :disabled="true"></gf-input>分钟，执行
-                                <gf-input v-model="maxRepeatCount" style="width: 15%" :disabled="true"></gf-input>次后退出
+                                <gf-input :value= "repeatMinutes" style="width: 10%" :disabled="true"></gf-input>分钟，执行
+                                <gf-input :value= "maxRepeatCount" style="width: 15%" :disabled="true"></gf-input>次后退出
                             </el-form-item>
                             <el-form-item label="异常记录">
                                 <gf-strbool-checkbox v-model="caseStepDef.isRecordTimeoutError">记入异常</gf-strbool-checkbox>
@@ -276,7 +269,6 @@
                     execMode: '1',
                     stepActKey: '',
                     stepActParam1: '',
-                    stepActParam1Name: '',
                     startDay: '',
                     startTime: '',
                     endDay: '',
@@ -327,9 +319,6 @@
                 stepInfo: resetForm(),
                 texts: ['普通', '重要', '非常重要'],
                 max: 3,
-                warningNotice: false,
-                timeoutNotice: false,
-                exceptionNotice: false,
                 forcePass: false,
                 dayChecked: false,
                 activeTerm: '1',
@@ -365,7 +354,8 @@
                 succeedRule: '0',
                 abnormalRule: '0',
                 repeatMinutes: '',
-                maxRepeatCount: ''
+                maxRepeatCount: '',
+                rateColor: {1: {value: '#409EFF'}, 2: {value: '#E6A23C'}, 3: {value: '#F00'}},
             }
         },
         computed:{
@@ -417,8 +407,8 @@
                     this.kpiOptions.push({label:item.kpiName,value:item.kpiCode});
                 });
             },
-            chooseUser(type){
-                let actionOk = this.setExeUser.bind(this,type);
+            chooseUser(){
+                let actionOk = this.setExeUser.bind(this);
                 this.$nav.showDialog(
                     UserSelect,
                     {
@@ -428,15 +418,9 @@
                     }
                 );
             },
-            setExeUser(type,userInfo){
-                if(type === 'owner'){
-                    this.caseStepDef.stepActOwnerName = userInfo.userName;
-                    this.caseStepDef.stepActOwner = userInfo.id;
-                }else{
-                    this.caseStepDef.stepActParam1Name = userInfo.userName;
-                    this.caseStepDef.stepActParam1 = userInfo.id;
-                }
-
+            setExeUser(userInfo){
+                this.caseStepDef.stepActOwnerName = userInfo.userName;
+                this.caseStepDef.stepActOwner = userInfo.id;
             },
             openCron() {
                 this.showDlg(this.caseStepDef.execScheduler, this.setExecScheduler.bind(this));
@@ -505,10 +489,6 @@
                 this.activeTerm = activeRuleTableData.length <= 0 ? '1' : '2'
                 this.succeedRule = successRuleTableData.length <= 0 ? '0' : '1'
                 this.abnormalRule = failRuleTableData.length <= 0 ? '0' : '1'
-                this.warningNotice = this.stepInfo.stepFormInfo.warningRemind.length !== 0;
-                this.timeoutNotice = this.stepInfo.stepFormInfo.timeoutRemind.length !== 0;
-                // this.finishtNotice = this.stepInfo.stepFormInfo.finishtRemind.length !== 0;
-                this.exceptionNotice = this.stepInfo.stepFormInfo.exceptionRemind.length !== 0;
                 let startDay = this.caseStepDef.startDay;
                 let endDay = this.caseStepDef.endDay;
                 this.dayChecked = !!(startDay || endDay)
