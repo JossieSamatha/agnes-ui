@@ -77,7 +77,7 @@
             // 发布
             async publishKpiTask(params){
                 const rowData = params.data;
-                if(rowData.reTaskDef.taskStatus === '00' || rowData.reTaskDef.taskStatus === '01' || rowData.reTaskDef.taskStatus === '04'){
+                if(rowData.reTaskDef.taskStatus === '00' || rowData.reTaskDef.taskStatus === '01' || rowData.reTaskDef.taskStatus === '04' || rowData.reTaskDef.taskStatus === '03'){
                     this.$msg.warning("该状态无法发布!");
                     return ;
                 }

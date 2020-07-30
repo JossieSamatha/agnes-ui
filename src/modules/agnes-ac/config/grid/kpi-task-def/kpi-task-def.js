@@ -30,7 +30,7 @@ export default {
     headerHeight: 40,
     rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-ac/v1/ac/kpi/task/case/list?taskType=01",    //后台查询数据的URL地址
+        fetchUrl: "/agnes-ac/v1/ac/kpi/task/case/list?taskType=1",    //后台查询数据的URL地址
         fetchMethod: 'get',
         pagingMode: true, //是否分页
         checkboxColumn: 1, //是否显示checkbox列,
