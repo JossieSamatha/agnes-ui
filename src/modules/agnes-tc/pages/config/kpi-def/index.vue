@@ -14,12 +14,12 @@
                         </el-col>
                     </el-row>
                     <el-row>
-                        <el-col :span="5">
+                        <el-col :span="8">
                             <el-form-item label="业务日期:" prop="bizDate" >
                                 {{form.bizDate}}
                             </el-form-item>
                         </el-col>
-                        <el-col :span="5">
+                        <el-col :span="8">
                             <el-form-item label="执行时间:" prop="createTime" >
                                 {{form.createTime}}
                             </el-form-item>
@@ -65,19 +65,20 @@
         props: {
             kpiCode: String,
             bizDate: String,
+            caseId:String,
+            stepCode:String,
             toolbar: {
                 default: "more"
             }
         },
         data() {
             return {
-                data:{},
                 form:{kpiName:"",createTime:"",bizDate:"",normal:0,abnormal:0,artificialCon:0},
                 charData:[],
                 colorSet:[],
                 showChar:  false,
                 jobStatus: true,
-                kpiDetail:{kpiName:""},
+                kpiDetail:{},
                 gridOptions: {
                     columnDefs: [],
                     rowData:[],
@@ -87,12 +88,14 @@
 
                     },
                 },
+                data:{q:{}}
             }
         },
         mounted() {
             let _this=this;
             this.kpiDetail.kpiCode=this.kpiCode;
             this.form.bizDate=this.bizDate;
+            this.kpiDetail.bizDate=this.bizDate;
             this.$api.kpiDefineApi.queryKpiInfoMation(this.kpiDetail).then((resp) => {
                 if(resp.status){
                     _this.form.kpiName =resp.data.kpiName;
@@ -103,25 +106,30 @@
                     _this.kpiDetail =resp.data;
                 }
             });
-            this.reloadData();
+            this.data.q =this.kpiDetail;
+            this.$api.kpiDefineApi.getKpiDetails(this.data).then((resp) => {
+                if(resp.data && resp.data.length>0){
+                    var rows=resp.data;
+                    let keys = Object.keys(rows[0]);
+                    _this.getPicData(rows,keys);
+                    var columnDefsArray=_this.getSqlGridOptions(keys);
+                    _this.gridOptions.api.setColumnDefs(_this.setColumnFiled(columnDefsArray));
+                    _this.gridOptions.api.setRowData(rows);
+                }
+            });
+            this.$api.kpiDefineApi.getKpiFields(this.kpiDetail.kpiCode).then((resp) => {
+                if(resp.data && resp.data.length>0){
+                    var columnDefsArray=_this.getKpiGridOptions(resp.data);
+                    _this.gridOptions.api.setColumnDefs(_this.setColumnFiled(columnDefsArray));
+                }
+            });
         },
         methods: {
             reloadData() {
-                let _this=this;
-                const data = {};
-                data.q =this.kpiDetail;
-                this.$api.kpiDefineApi.getKpiDetails(data).then((resp) => {
+                let _this =this;
+                this.$api.kpiDefineApi.getKpiDetails(this.data).then((resp) => {
                     if(resp.data && resp.data.length>0){
-                        var rows=resp.data;
-                        let keys = Object.keys(rows[0]);
-                        _this.getPicData(rows,keys);
-                        _this.gridOptions.api.setColumnDefs(_this.getSqlGridOptions(keys));
-                        _this.gridOptions.api.setRowData(rows);
-                    }
-                });
-                this.$api.kpiDefineApi.getKpiFields(this.kpiDetail.kpiCode).then((resp) => {
-                    if(resp.data && resp.data.length>0){
-                        _this.gridOptions.api.setColumnDefs(_this.getKpiGridOptions(resp.data));
+                        _this.gridOptions.api.setRowData(resp.data);
                     }
                 });
             },
@@ -131,18 +139,46 @@
             getKpiGridOptions(resp) {
                 return resp.map((item)=>{return {headerName: item.columnName, field: item.fieldName, cellClass: "left", suppressMovable:true}});
             },
+            setColumnFiled(columnDefsArray){
+                columnDefsArray.push({
+                    colId: "#op", headerName: "操作", cellRenderer: "OpCellRender", pinned: "right",
+                    cellRenderParams:{
+                        opButtons: [
+                            {
+                                key: "update",
+                                title: "设为人工一致",
+                                onClick: (params)=>{
+                                    params.api.execCmd("updateManul", params);
+                                }
+                            }
+                        ]
+                    }
+                });
+                return columnDefsArray;
+            },
             executeKpi(){
-
+                let _this=this;
+                this.$api.kpiDefineApi.execTask(this.caseId,this.stepCode).then((resp) => {
+                    if(resp.status){
+                        _this.$message.success(resp.message);
+                        _this.reloadData();
+                    } else{
+                        _this.$message.error(resp.message);
+                    }
+                });
             },
             getPicData(rows,keys){
-                if(keys.indexOf("KPI_STATUS")>-1){
+                let _this=this;
+                if(keys.indexOf("FACTOR_VALUE")>-1){
                     rows.map(function(item){
-                        if(item.KPI_STATUS == 0){
-                            this.form.normal++;
-                        } else if(item.KPI_STATUS == 1){
-                            this.form.abnormal++;
-                        } else{
-                            this.form.artificialCon++;
+                        if(item.FACTOR_VALUE == 1){
+                            if(keys.indexOf("MANUAL_TAG")>-1 && item.MANUAL_TAG == 1){
+                                _this.form.artificialCon++;
+                            } else{
+                                _this.form.normal++;
+                            }
+                        } else if(item.FACTOR_VALUE == 0) {
+                            _this.form.abnormal++;
                         }
                     });
                     let normal ={};
@@ -165,7 +201,11 @@
             },
             updateManul(param){
                 let _this=this;
-                this.$api.kpiDefineApi.updateReasonAndManul(param).then((resp) => {
+                const factor ={};
+                factor.kpiCode=this.kpiDetail.kpiCode;
+                factor.bizDate=new Date(this.form.bizDate);
+                factor.bizNo=param.data.BIZ_NO;
+                this.$api.kpiDefineApi.updateManul(factor).then((resp) => {
                     if(resp.status){
                         _this.reloadData();
                     }

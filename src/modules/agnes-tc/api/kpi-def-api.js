@@ -13,8 +13,12 @@ export default {
     getKpiDetail(form) {
         return request.post(`/dop-kpi/kpi/kpi/getKpiDetail`,form);
     },
-    updateReasonAndManul(form) {
-        return request.post(`/dop-kpi/kpi/dashboard/updateReasonAndManul`,form);
+    updateManul(form) {
+        return request.post(`/dop-kpi/kpi/dashboard/updateManul`,form);
     },
+
+    execTask(caseId,stepCode){
+        return request.get(`/agnes-ac/v1/ac/service/task/exec`,{params:{caseId,stepCode}});
+    }
 
 };
