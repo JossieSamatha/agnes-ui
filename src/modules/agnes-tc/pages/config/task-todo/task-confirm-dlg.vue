@@ -45,9 +45,8 @@
                 }
                 try {
                     const p = this.$api.taskTodoApi.confirmKpiTask(this.form)
-                    await this.$app.blockingApp(p);
-
-                    if (p.data) {
+                    const resp = await this.$app.blockingApp(p);
+                    if (resp.data) {
                         if (this.actionOk) {
                             await this.actionOk();
                         }
