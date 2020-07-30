@@ -5,7 +5,7 @@
              height="100%"
              @row-double-click="showTask">
         <template slot="left">
-            <gf-button class="action-btn" @click="addTask">新增</gf-button>
+            <gf-button class="action-btn" @click="addTask">添加</gf-button>
         </template>
     </gf-grid>
 </template>
