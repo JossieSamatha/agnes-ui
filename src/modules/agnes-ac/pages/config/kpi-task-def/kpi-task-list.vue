@@ -85,7 +85,7 @@
                 for (let i = 0; i < newCaseModelData.length; i++) {
                     this.steps = [];
                     if (newCaseModelData[i].children && newCaseModelData[i].children.length > 0) {
-                        this.recursionData(newCaseModelData[i].children, this.steps);
+                        this.recursionData(newCaseModelData[i].children, this.steps,caseDefKey);
                     }
                     newCaseModelData[i].steps = this.steps;
                     // newCaseModelData[i].children = [];
@@ -99,7 +99,7 @@
                 return data
             },
             //递归用函数
-            recursionData(nowData,steps){
+            recursionData(nowData,steps,caseDefKey){
                 for(let i=0;i<nowData.length;i++){
                     if(nowData[i].defType==='step'){
                         let currentData = {};
@@ -107,7 +107,7 @@
                         Object.assign(currentData, nowData[i]);
                         currentData.autoActive = true;
                         currentData.defName = currentData.stepName;
-                        currentData.defId = currentData.stepId;
+                        currentData.defId = caseDefKey;
                         let actionDef = {
                                 "automation":true,
                         };
