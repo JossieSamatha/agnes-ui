@@ -69,7 +69,7 @@
                 }
                 try {
                     let sendInfo = this.checkData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName);
-                    rowData.caseDefJson = sendInfo;
+                    rowData.caseDefJson = JSON.stringify(sendInfo);
                     const p = this.$api.caseConfigApi.publishCaseDef(rowData);
                     await this.$app.blockingApp(p);
                     this.reloadData();
@@ -102,10 +102,16 @@
             recursionData(nowData,steps){
                 for(let i=0;i<nowData.length;i++){
                     if(nowData[i].defType==='step'){
-                        let currentData = nowData[i];
+                        let currentData = {};
+                        currentData['@stepType'] = nowData[i].stepActType;
+                        Object.assign(currentData, nowData[i]);
                         currentData.autoActive = true;
-                        currentData['@stepType'] = currentData.stepActType;
                         currentData.defName = currentData.stepName;
+                        currentData.defId = currentData.stepId;
+                        let actionDef = {
+                                "automation":true,
+                        };
+                        currentData.actionDef = actionDef;
                         delete currentData.stepName;
                         delete currentData.stepCode;
                         if(currentData.stepFormInfo){
