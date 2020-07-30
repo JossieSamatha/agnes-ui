@@ -4,6 +4,9 @@ export default {
     saveTask(form) {
         return request.post("/agnes-ac/v1/ac/kpi/task/case/save", form);
     },
+    checkTask(form) {
+        return request.post("/agnes-ac/v1/ac/kpi/task/case/check-task", form);
+    },
     listTask() {
         return request.get("/agnes-ac/v1/ac/kpi/task/case/list");
     },

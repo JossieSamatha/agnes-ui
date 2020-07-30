@@ -189,8 +189,8 @@
                         </el-form-item>
                         <el-form-item>
                             按照每隔
-                            <gf-input  v-model="repeatMinutes" style="width: 20%" :disabled="true"></gf-input>分钟，执行
-                            <gf-input v-model="maxRepeatCount" style="width: 20%" :disabled="true"></gf-input>次后退出
+                            <gf-input  :value="repeatMinutes" style="width: 20%" :disabled="true"></gf-input>分钟，执行
+                            <gf-input  :value="maxRepeatCount" style="width: 20%" :disabled="true"></gf-input>次后退出
                         </el-form-item>
                         <el-form-item label="异常记录">
                             <gf-strbool-checkbox v-model="detailForm.isRecordTimeoutError">记入异常
@@ -285,8 +285,8 @@
         data() {
             return {
                 serviceRes:[],
-                staticData: this.$utils.deepClone(staticData),
-                detailForm: this.$utils.deepClone(initData),
+                staticData: staticData(),
+                detailForm: initData(),
                 dayChecked: false,  // 跨日
                 succeedRule: '0',
                 abnormalRule: '0',
@@ -424,7 +424,16 @@
                 this.detailForm[this.curExecScheduler] = cron;
             },
             // 取消onCancel事件，触发抽屉关闭事件this.$emit("onClose");
-            onCancel() {
+            async onCancel() {
+                if(this.row.isCheck){
+                    let resData = this.dataTransfer();
+                    resData.isPass = '0';
+                    const p = this.$api.kpiTaskApi.checkTask(resData);
+                    await this.$app.blockingApp(p);
+                    if (this.actionOk) {
+                        await this.actionOk();
+                    }
+                }
                 this.$emit("onClose");
             },
 
@@ -436,8 +445,14 @@
                 }
                 try {
                     let resData = this.dataTransfer();
-                    const p = this.$api.kpiTaskApi.saveTask(resData);
-                    await this.$app.blockingApp(p);
+                    if(this.row.isCheck){
+                        resData.isPass = '1';
+                        const p = this.$api.kpiTaskApi.checkTask(resData);
+                        await this.$app.blockingApp(p);
+                    }else {
+                        const p = this.$api.kpiTaskApi.saveTask(resData);
+                        await this.$app.blockingApp(p);
+                    }
                     if (this.actionOk) {
                         await this.actionOk();
                     }
