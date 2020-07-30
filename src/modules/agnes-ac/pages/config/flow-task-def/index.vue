@@ -99,7 +99,7 @@
                     return
                 }
                 try {
-                    rowData.caseDefJson = this.checkData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName);
+                    rowData.caseDefJson = JSON.stringify(this.checkData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName));
                     const p = this.$api.caseConfigApi.publishCaseDef(rowData);
                     await this.$app.blockingApp(p);
                     this.reloadData();
@@ -131,9 +131,9 @@
             recursionData(nowData,steps){
                 for(let i=0;i<nowData.length;i++){
                     if(nowData[i].defType==='step'){
-                        let currentData = nowData[i]
-                        currentData.stepType = currentData.stepActType;
-                        currentData.defName = currentData.stepName;
+                        let currentData = {};
+                        currentData['@stepType'] = nowData[i].stepActType;
+                        Object.assign(currentData, nowData[i]);
                         delete currentData.stepName;
                         delete currentData.stepCode;
                         if(currentData.stepFormInfo){
@@ -143,8 +143,10 @@
                             let sentryOut = {};
                             sentryInData.ifExpr = temporaryData.activeRuleTableData
                             sentryOut.ifExpr = temporaryData.successRuleTableData
+                            currentData.defId = temporaryData.caseStepDef.stepCode;
                             currentData.sentryIn = sentryInData
-                            currentData.sentryOut = sentryOut
+                            currentData. sentryOut= sentryOut
+                            currentData.actionDef = {'automation':true}
                         }
                         steps.push(currentData)
                         //如需改变数据，在此处修改
