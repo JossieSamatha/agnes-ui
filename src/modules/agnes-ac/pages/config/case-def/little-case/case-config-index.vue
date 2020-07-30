@@ -64,10 +64,12 @@
 
     export default {
         props: {
-            caseDefInfo: {
-                type: Object,
-                required: false
+            mode: {
+                type: String,
+                default: 'add'
             },
+            row: Object,
+            actionOk: Function
         },
         data() {
             return {
@@ -84,8 +86,7 @@
             stepDetail
         },
         mounted() {
-            this.caseDefInfo = this.args.caseDefInfo;
-            this.caseModelData = this.caseDefInfo.caseDefBody?JSON.parse(this.caseDefInfo.caseDefBody):this.$utils.deepClone(mockData);
+            this.caseModelData = this.row.caseDefInfo.caseDefBody?JSON.parse(this.row.caseDefInfo.caseDefBody) : this.$utils.deepClone(mockData) ;
             this.$app.registerCmd("openStepDialog", this.onShowDialog);
         },
         methods: {
@@ -96,13 +97,9 @@
 
             // 保存onSave事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
             async onSave(){
-                this.caseDefInfo.caseDefBody = JSON.stringify(this.caseModelData)
-                if(this.caseDefInfo.caseStatus !== '2'){
-                    this.caseDefInfo.caseStatus = '2'
-                    this.caseDefInfo.caseDefId = ''
-                }
+                this.row.caseDefInfo.caseDefBody = JSON.stringify(this.caseModelData)
                 try {
-                    const p = this.$api.caseConfigApi.saveCaseDef(this.caseDefInfo);
+                    const p = this.$api.flowTaskApi.saveTask(this.row.caseDefInfo);
                     await this.$app.blockingApp(p);
                     this.$msg.success('保存成功');
                     this.$emit("onClose");
@@ -117,6 +114,8 @@
 
             // 打开step详情配置页
             onShowDialog(optionType, dialogForm, args) {
+
+                args.bizType = this.row.caseDefInfo.reTaskDef.bizType
                 this.drawerVisible = true;
                 this.stepDetailProps = {
                     optionType: optionType,

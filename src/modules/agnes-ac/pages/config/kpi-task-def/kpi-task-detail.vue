@@ -34,13 +34,14 @@
         <el-form-item label="任务说明" prop="stepRemark">
             <gf-input type="textarea" v-model.trim="detailForm.stepRemark" placeholder="任务说明"/>
         </el-form-item>
-        <el-form-item label="运行周期" prop="startTimeStr">
+        <el-form-item label="运行周期" prop="task_startTime">
             <div class="line none-shrink">
                 <el-form-item prop="task_startTime">
                     <el-date-picker
                             v-model="detailForm.task_startTime"
                             type="date"
                             value-format="yyyy-MM-dd"
+                            :picker-options="pickerOptionsStart"
                             placeholder="开始日期">
                     </el-date-picker>
                 </el-form-item>
@@ -50,6 +51,7 @@
                             v-model="detailForm.task_endTime"
                             type="date"
                             value-format="yyyy-MM-dd"
+                            :picker-options="pickerOptionsEnd"
                             placeholder="结束日期" :disabled="startAllTime === '1'">
                     </el-date-picker>
                 </el-form-item>
@@ -64,6 +66,7 @@
                 <el-form-item prop="step_startTime">
                     <el-time-picker
                             v-model="detailForm.step_startTime"
+                            :picker-options="{selectableRange:`00:00:00-${detailForm.step_endTime ? detailForm.step_endTime + ':00' : '23:59:59'}`}"
                             placeholder="执行开始时间"
                             value-format="HH:mm">
                     </el-time-picker>
@@ -72,6 +75,7 @@
                 <el-form-item prop="step_endTime">
                     <el-time-picker
                             v-model="detailForm.step_endTime"
+                            :picker-options="{selectableRange:`${detailForm.step_startTime ? detailForm.step_startTime + ':00' : '00:00:00'}-23:59:59`}"
                             placeholder="执行结束时间"
                             value-format="HH:mm">
                     </el-time-picker>
@@ -174,12 +178,19 @@
                             </el-button>
                         </el-form-item>
                         <el-form-item label="服务水平承诺">
-                            <gf-el-select style="width: 20%"></gf-el-select>
+                            <el-select v-model="detailForm.serviceResponseId" placeholder="请选择" @change="serviceResChange">
+                                <el-option
+                                        v-for="item in serviceRes"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item>
                             按照每隔
-                            <gf-input style="width: 20%"></gf-input>
-                            分钟，执行
-                            <gf-input style="width: 20%"></gf-input>
-                            次后退出
+                            <gf-input  :value="repeatMinutes" style="width: 20%" :disabled="true"></gf-input>分钟，执行
+                            <gf-input  :value="maxRepeatCount" style="width: 20%" :disabled="true"></gf-input>次后退出
                         </el-form-item>
                         <el-form-item label="异常记录">
                             <gf-strbool-checkbox v-model="detailForm.isRecordTimeoutError">记入异常
@@ -273,12 +284,14 @@
         },
         data() {
             return {
-                kpiOption:[],
-                staticData: this.$utils.deepClone(staticData),
-                detailForm: this.$utils.deepClone(initData),
+                serviceRes:[],
+                staticData: staticData(),
+                detailForm: initData(),
                 dayChecked: false,  // 跨日
                 succeedRule: '0',
                 abnormalRule: '0',
+                repeatMinutes: '',
+                maxRepeatCount: '',
                 curExecScheduler: '',    // 当前频率对象字段
                 msgInformParam: [],      // 消息通知参数类型数组
                 startAllTime: '0',       // 是否永久有效
@@ -319,14 +332,53 @@
                     step_endTime: [
                         {required: true, message: '执行结束时间必填', trigger: 'change'},
                     ]
+                },
+
+                pickerOptionsStart: {
+                    disabledDate: time => {
+                        let endDateVal = this.detailForm.task_endTime;
+                        if (endDateVal) {
+                            return time.getTime() > new Date(endDateVal).getTime();
+                        }
+                    }
+                },
+                pickerOptionsEnd: {
+                    disabledDate: time => {
+                        let beginDateVal = this.detailForm.task_startTime;
+                        if (beginDateVal) {
+                            return (
+                                time.getTime() <
+                                new Date(beginDateVal).getTime() - 1 * 24 * 60 * 60 * 1000
+                            );
+                        }
+                    }
                 }
             }
         },
         beforeMount() {
             this.reDataTransfer();
             this.getOptions();
+            this.getServiceResponse();
         },
         methods: {
+            async serviceResChange(param){
+                this.serviceRes.forEach((item)=>{
+                    if(item.value === param){
+                        this.repeatMinutes = item.repeatMinutes
+                        this.maxRepeatCount = item.maxRepeatCount
+                        return
+                    }
+                });
+            },
+            async getServiceResponse(){
+                const serviceRes = this.$api.kpiTaskApi.getServiceResponse();
+                const serviceResData = await this.$app.blockingApp(serviceRes);
+                const serviceResList = serviceResData.data;
+                serviceResList.forEach((item)=>{
+                    this.serviceRes.push({label:item.serviceResponseName,value:item.serviceResponseId,
+                        repeatMinutes:item.repeatMinutes,maxRepeatCount:item.maxRepeatCount});
+                });
+            },
             async getOptions(){
                 this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
                 const k = this.$api.kpiTaskApi.getAllKpiList();
@@ -372,7 +424,16 @@
                 this.detailForm[this.curExecScheduler] = cron;
             },
             // 取消onCancel事件，触发抽屉关闭事件this.$emit("onClose");
-            onCancel() {
+            async onCancel() {
+                if(this.row.isCheck){
+                    let resData = this.dataTransfer();
+                    resData.isPass = '0';
+                    const p = this.$api.kpiTaskApi.checkTask(resData);
+                    await this.$app.blockingApp(p);
+                    if (this.actionOk) {
+                        await this.actionOk();
+                    }
+                }
                 this.$emit("onClose");
             },
 
@@ -384,8 +445,14 @@
                 }
                 try {
                     let resData = this.dataTransfer();
-                    const p = this.$api.kpiTaskApi.saveTask(resData);
-                    await this.$app.blockingApp(p);
+                    if(this.row.isCheck){
+                        resData.isPass = '1';
+                        const p = this.$api.kpiTaskApi.checkTask(resData);
+                        await this.$app.blockingApp(p);
+                    }else {
+                        const p = this.$api.kpiTaskApi.saveTask(resData);
+                        await this.$app.blockingApp(p);
+                    }
                     if (this.actionOk) {
                         await this.actionOk();
                     }

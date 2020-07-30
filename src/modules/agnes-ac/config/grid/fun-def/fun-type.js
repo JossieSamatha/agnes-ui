@@ -18,10 +18,11 @@ export default {
         fnDesc,
     ],
     ext: {
-        fetchUrl: "/agnes-ac/v1/config/fun/query/list",    //后台查询数据的URL地址
-        fetchMethod: 'get',
+        fetchUrl: "/agnes-ac/v1/config/fun/query/page/list",    //后台查询数据的URL地址
+        fetchMethod: 'post',
         pagingMode: true, //不分页
         checkboxColumn: 1, //是否显示checkbox列,
+        autoFitColumnMode: 1,
         enableExportLocal: true,
         pageOptions: {
             // 分页大小

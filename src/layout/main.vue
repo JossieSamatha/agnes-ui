@@ -130,10 +130,15 @@
                 });
             },
             showMain() {
-                let viewId = 'datav.client.view';
-                let pageView = this.$app.views.getView(viewId);
-                let tabView = Object.assign({args: {}, id: viewId}, pageView);
-                this.$nav.showView(tabView);
+                let clientViewId = 'datav.client.view';
+                let clientView = this.$app.views.getView(clientViewId);
+                let clientTabView = Object.assign({args: {}, id: clientViewId}, clientView);
+                this.$nav.showView(clientTabView);
+
+                let depViewId = 'datav.dep.view';
+                let depView = this.$app.views.getView(depViewId);
+                let depTabView = Object.assign({args: {}, id: depViewId}, depView);
+                this.$nav.showView(depTabView);
             },
             studioTypeChange(val) {
                 if(val === 'appMenus'){
@@ -152,15 +157,32 @@
 
             handelfeedback(ifShow) {
                 this.feedbackShow = ifShow;
+            },
+
+            async resize(){
+                // 拉伸结束后，触发窗口resize监听事件
+                await this.$nextTick(function () {
+                    // 兼容IE
+                    if(document.createEvent) {
+                        let event = document.createEvent("HTMLEvents");
+                        event.initEvent("resize", true, true);
+                        window.dispatchEvent(event);
+                    } else if(document.createEventObject) {
+                        window.fireEvent("onresize");
+                    }
+                });
             }
         },
         async mounted() {
             //加载菜单
             this.loadMenus();
-            //默认加载首页
+            //默认加载首页、部门首页
             this.showMain();
             this.$app.registerCmd('gf.changePwd', () => this.changePwd());
             this.$app.registerCmd('gf.logout', () => this.logout());
+            this.$nav.tabBar.chromeTabs.$on("activeTabChange", ()=>{
+                this.resize();
+            });
         }
     };
 </script>

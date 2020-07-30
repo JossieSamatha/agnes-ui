@@ -1,26 +1,29 @@
 <template>
-    <div class="stage-item">
-        <div class="stage-item-title">
+    <div class="stage-item" :class="{'edit':stage.edit}">
+        <div class="stage-item-title" @dblclick="editStageTitle">
             <i class="drag-bar fa fa-th"></i>
             <span class="title">
                 <el-input ref="titleInput" class="title-input" :title="stage.defName" v-model="stage.defName"
                           :disabled="!stage.edit" size="mini" clearable
                           @keyup.enter.native="saveStageTitle" @blur="saveStageTitle"></el-input>
                 <span class="edit" :class="{'is-disabled':!stage.edit}">
-                    <i class="fa fa-edit" v-if="!stage.edit" @click="editStageTitle"></i>
-                    <i class="fa fa-save" v-if="stage.edit" @click="saveStageTitle"></i>
-                    <i class="stage-add el-icon-plus" @click="showActStpe">
-                        <step-act-type v-show="ifShowActType"
-                                       @addStep="addStep"
-                                       @addGroup="addGroup"
-                        ></step-act-type>
-                    </i>
                     <i class="fa fa-trash-o" @click="deleteStage"></i>
                 </span>
             </span>
         </div>
         <div class="stage-item-content">
-            <slot name="stageSlot" ></slot>
+            <slot name="stageSlot"></slot>
+        </div>
+        <div class="add-task">
+            <span class="stage-add">
+                <i class="el-icon-plus"></i>
+                <span class="title">STEP</span>
+                <step-act-type @addStep="addStep"></step-act-type>
+            </span>
+            <span @click="addGroup">
+                <i class="el-icon-plus"></i>
+                <span class="title">GROUP</span>
+            </span>
         </div>
     </div>
 </template>
@@ -49,12 +52,10 @@
                 require: true
             }
         },
-        data(){
-            return  {
-                ifShowActType: false
-            }
-        },
         mounted(){
+            this.stage.edit ? this.$refs.titleInput.focus() : false;
+        },
+        updated(){
             this.stage.edit ? this.$refs.titleInput.focus() : false;
         },
         methods: {
@@ -76,13 +77,14 @@
                 }
             },
 
-            showActStpe(){
-                this.ifShowActType = true;
-            },
-
             // 新增Step
-            addStep(stepData){
-                this.$app.runCmd('openStepDialog', 'add', {}, {addType: 'stage', curStage: this.stage, stepType: this.stepType, stepData: stepData});
+            addStep(stepData) {
+                this.$app.runCmd('openStepDialog', 'add', {}, {
+                    addType: 'stage',
+                    curStage: this.stage,
+                    stepType: this.stepType,
+                    stepData: stepData
+                });
             },
 
             // 新增group

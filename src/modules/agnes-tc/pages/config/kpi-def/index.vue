@@ -14,12 +14,12 @@
                         </el-col>
                     </el-row>
                     <el-row>
-                        <el-col :span="5">
+                        <el-col :span="8">
                             <el-form-item label="业务日期:" prop="bizDate" >
                                 {{form.bizDate}}
                             </el-form-item>
                         </el-col>
-                        <el-col :span="5">
+                        <el-col :span="8">
                             <el-form-item label="执行时间:" prop="createTime" >
                                 {{form.createTime}}
                             </el-form-item>
@@ -44,7 +44,7 @@
                     </el-row>
                 </el-col>
                 <el-col :span="9">
-                    <pie-chart :chart-data="charData" :color-set="colorSet" style=""></pie-chart>
+                    <pie-chart v-show="showChar" :chart-data="charData" :color-set="colorSet" style=""></pie-chart>
                 </el-col>
             </el-row>
 
@@ -65,18 +65,20 @@
         props: {
             kpiCode: String,
             bizDate: String,
+            caseId:String,
+            stepCode:String,
             toolbar: {
                 default: "more"
             }
         },
         data() {
             return {
-                data:{},
                 form:{kpiName:"",createTime:"",bizDate:"",normal:0,abnormal:0,artificialCon:0},
                 charData:[],
                 colorSet:[],
-                jobStatus:true,
-                kpiDetail:{kpiName:"123"},
+                showChar:  false,
+                jobStatus: true,
+                kpiDetail:{},
                 gridOptions: {
                     columnDefs: [],
                     rowData:[],
@@ -86,12 +88,14 @@
 
                     },
                 },
+                data:{q:{}}
             }
         },
         mounted() {
             let _this=this;
-            this.kpiDetail.kpiCode="AGNES_ACCOUNT_TOCHECK";
+            this.kpiDetail.kpiCode=this.kpiCode;
             this.form.bizDate=this.bizDate;
+            this.kpiDetail.bizDate=this.bizDate;
             this.$api.kpiDefineApi.queryKpiInfoMation(this.kpiDetail).then((resp) => {
                 if(resp.status){
                     _this.form.kpiName =resp.data.kpiName;
@@ -102,64 +106,81 @@
                     _this.kpiDetail =resp.data;
                 }
             });
-            const data = {};
-            data.q =this.kpiDetail;
-            this.$api.kpiDefineApi.getKpiDetails(data).then((resp) => {
+            this.data.q =this.kpiDetail;
+            this.$api.kpiDefineApi.getKpiDetails(this.data).then((resp) => {
                 if(resp.data && resp.data.length>0){
                     var rows=resp.data;
                     let keys = Object.keys(rows[0]);
                     _this.getPicData(rows,keys);
-                    _this.gridOptions.api.setColumnDefs(_this.getSqlGridOptions(keys,false));
+                    var columnDefsArray=_this.getSqlGridOptions(keys);
+                    _this.gridOptions.api.setColumnDefs(_this.setColumnFiled(columnDefsArray));
                     _this.gridOptions.api.setRowData(rows);
                 }
             });
-            this.$api.kpiDefineApi.getKpiFields(this.kpiDetail).then((resp) => {
+            this.$api.kpiDefineApi.getKpiFields(this.kpiDetail.kpiCode).then((resp) => {
                 if(resp.data && resp.data.length>0){
-                    _this.gridOptions.api.setColumnDefs(_this.getSqlGridOptions(resp.data,true));
+                    var columnDefsArray=_this.getKpiGridOptions(resp.data);
+                    _this.gridOptions.api.setColumnDefs(_this.setColumnFiled(columnDefsArray));
                 }
             });
-
         },
         methods: {
             reloadData() {
-                this.$refs.grid.reloadData();
+                let _this =this;
+                this.$api.kpiDefineApi.getKpiDetails(this.data).then((resp) => {
+                    if(resp.data && resp.data.length>0){
+                        _this.gridOptions.api.setRowData(resp.data);
+                    }
+                });
             },
-            getSqlGridOptions(resp,flag) {
-                let columnDefsArray = [];
-                if(flag){
-                    for(var i =0;i<resp.length;i++){
-                        columnDefsArray.push({
-                            headerName: resp[i].columnName, field: resp[i].fieldName, cellClass: "left", suppressMovable:true
-                        });
-                    }
-                }else{
-                      for(var j =0;j<resp.length;j++){
-                        columnDefsArray.push({
-                            headerName: resp[j], field: resp[j], cellClass: "left", suppressMovable:true
-                        });
-                    }
-                }
+            getSqlGridOptions(resp) {
+                return resp.map((item)=>{return {headerName: item, field: item, cellClass: "left", suppressMovable:true}});
+            },
+            getKpiGridOptions(resp) {
+                return resp.map((item)=>{return {headerName: item.columnName, field: item.fieldName, cellClass: "left", suppressMovable:true}});
+            },
+            setColumnFiled(columnDefsArray){
                 columnDefsArray.push({
-                    colId: "#op", headerName: "操作", cellRenderer: "OpCellRender", pinned: "right",cellRenderParams: {
-                        opButtons: this.buildbutton()
+                    colId: "#op", headerName: "操作", cellRenderer: "OpCellRender", pinned: "right",
+                    cellRenderParams:{
+                        opButtons: [
+                            {
+                                key: "update",
+                                title: "设为人工一致",
+                                onClick: (params)=>{
+                                    params.api.execCmd("updateManul", params);
+                                }
+                            }
+                        ]
                     }
                 });
                 return columnDefsArray;
             },
             executeKpi(){
-
+                let _this=this;
+                this.$api.kpiDefineApi.execTask(this.caseId,this.stepCode).then((resp) => {
+                    if(resp.status){
+                        _this.$message.success(resp.message);
+                        _this.reloadData();
+                    } else{
+                        _this.$message.error(resp.message);
+                    }
+                });
             },
             getPicData(rows,keys){
-                if(keys.indexOf("KPI_STATUS")>-1){
-                    for(var i=0;i<rows.length;i++){
-                        if(rows[i].KPI_STATUS == 0){
-                            this.form.normal++;
-                        } else if(rows[i].KPI_STATUS == 1){
-                            this.form.abnormal++;
-                        } else{
-                            this.form.artificialCon++;
+                let _this=this;
+                if(keys.indexOf("FACTOR_VALUE")>-1){
+                    rows.map(function(item){
+                        if(item.FACTOR_VALUE == 1){
+                            if(keys.indexOf("MANUAL_TAG")>-1 && item.MANUAL_TAG == 1){
+                                _this.form.artificialCon++;
+                            } else{
+                                _this.form.normal++;
+                            }
+                        } else if(item.FACTOR_VALUE == 0) {
+                            _this.form.abnormal++;
                         }
-                    }
+                    });
                     let normal ={};
                     normal.value=this.form.normal;
                     normal.name="正常数";
@@ -175,25 +196,20 @@
                     artificialCon.name="人工一致";
                     this.colorSet.push("orange");
                     this.charData.push(artificialCon);
+                    this.showChar=true;
                 }
             },
-            buildbutton(){
-                let opButtons = [];
-                const colButtons = [
-                    {key: 'editOrgType', title: '设为人工一致'}
-                ];
-                colButtons.forEach(x => {
-                    const item = {
-                        key: x.key,
-                        title: x.title,
-                        cellClass: x.cellClass,
-                        onClick: (params) => {
-                            params.api.execCmd(x.command || x.key, params);
-                        }
-                    };
-                    opButtons.push(item);
+            updateManul(param){
+                let _this=this;
+                const factor ={};
+                factor.kpiCode=this.kpiDetail.kpiCode;
+                factor.bizDate=new Date(this.form.bizDate);
+                factor.bizNo=param.data.BIZ_NO;
+                this.$api.kpiDefineApi.updateManul(factor).then((resp) => {
+                    if(resp.status){
+                        _this.reloadData();
+                    }
                 });
-                return opButtons;
             }
         }
     }
