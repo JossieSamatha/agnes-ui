@@ -2,21 +2,24 @@ import column from "../../../../../config/column"
 const colButtons = [
     {key: 'updateFlowTask', title: '编辑'},
     {key: 'deleteFlowTask', title: '删除', cellClass: 'red-cell'},
-    {key: 'reviewFlowTask', title: '复核'}
+    {key: 'checkFlowTask', title: '审核'},
+    {key: 'publishFlowTask', title: '发布'},
 ];
 export default {
     columnDefs: [
-        column.buildOpCol(120, colButtons),
+        column.buildOpCol(160, colButtons),
         {headerName: "任务名称", field: "reTaskDef.taskName"},
         {headerName: "业务场景", field: "reTaskDef.bizType",formatType: 'dict', dictType: 'AGNES_BIZ_CASE'},
         {headerName: "业务标签", field: "reTaskDef.bizTag",
             valueFormatter: function (params) {
-                let IdArr = params.value.split(',');
-                return IdArr.map(IdItem=>{
-                    return window.$gfui.$app.dict.getDictItem('AGNES_BIZ_TAG',IdItem).dictName;
-                }).join(',');
-            },
-        },
+                if(params.value){
+                    let Ids = params.value.split(',');
+                    return Ids.map((dictId) => {
+                        return  window.$gfui.$app.dict.getDictItem('AGNES_BIZ_TAG',dictId).dictName;
+                    }).join(',');
+                }
+                return "";
+            }},
         {headerName: "业务类型", field: "reTaskDef.taskType" ,formatType: 'dict', dictType: 'AGNES_CASE_STEPTYPE'},
         {headerName: "状态", field: "reTaskDef.taskStatus",formatType: 'dict', dictType: 'CASE_TASK_STATUS'},
         {headerName: "创建时间", field: "reTaskDef.crtTs"},
@@ -25,7 +28,7 @@ export default {
     headerHeight: 40,
     rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-ac/v1/ac/flow/task/case/list?taskType=02",
+        fetchUrl: "/agnes-ac/v1/ac/flow/task/case/list?taskType=2",
         fetchMethod: 'get',
         pagingMode: true, //不分页
         checkboxColumn: 1, //是否显示checkbox列,

@@ -17,25 +17,25 @@
                 lcImg: this.$lcImg,
                 stepTypeOption: [
                     {
-                        id: '01',
+                        id: '1',
                         type: 'indicator',
                         label: '指标任务',
                         icon: 'indicator'
                     },
                     {
-                        id: '03',
+                        id: '3',
                         type: 'process',
                         label: '流程任务',
                         icon: 'process'
                     },
                     {
-                        id: '00',
+                        id: '0',
                         type: 'person',
                         label: '人工任务',
                         icon: 'person'
                     },
                     {
-                        id: '04',
+                        id: '4',
                         type: 'robot',
                         label: '机器人任务',
                         icon: 'robot'

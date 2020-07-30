@@ -3,6 +3,7 @@
         <gf-grid ref="grid"
                  grid-no="flow-task-field"
                  toolbar="find,refresh,more"
+                 quick-text-max-width="300px"
                  @row-double-click="showFlowTaskDetail"
         >
             <template slot="left">
@@ -27,11 +28,13 @@
                     width: 'calc(92% - 215px)',
                     title: ['电子流程任务',mode],
                     component: FlowTaskDetail,
-                    args: {row, mode, actionOk}
+                    args: {row, mode, actionOk},
+                    okButtonTitle: row.isCheck ? '审核' : '保存',
+                    cancelButtonTitle: row.isCheck ? '反审核' : '取消',
                 })
             },
             reloadData() {
-                this.$refs.grid.reloadData(true);
+                this.$refs.grid.reloadData();
             },
             async onAddFlowTask() {
                 await this.reloadData();
@@ -66,7 +69,7 @@
                     width: 'calc(92% - 215px)',
                     title: ['流程任务节点配置'],
                     component: 'case-config-index',
-                    args: {row, mode, actionOk}
+                    args: {row, mode, actionOk},
                 })
             },
             async deleteFlowTask(params) {
@@ -83,17 +86,29 @@
                     this.$msg.error(reason);
                 }
             },
-            async reviewFlowTask(params) {
-                const rowData = params.data;
-                if(rowData.reTaskDef.taskStatus === '2'){
-                    this.$msg.warning(`[${rowData.reTaskDef.taskName}]，已复核`);
+
+            //复核
+            checkFlowTask(params){
+                if(params.data.reTaskDef.needApprove==='1'&&params.data.reTaskDef.taskStatus==='01' || params.data.reTaskDef.needApprove==='1'&&params.data.reTaskDef.taskStatus==='04'){
+                    params.data.reTaskDef.isCheck = true;
+                    this.showFlowTask(params.data.reTaskDef,'view', this.onAddFlowTask.bind(this));
+                }else {
+                    this.$msg.warning("该状态无法审核!");
                     return;
+                }
+
+            },
+            async publishFlowTask(params) {
+                const rowData = params.data;
+                if(rowData.reTaskDef.taskStatus === '00' || rowData.reTaskDef.taskStatus === '01' || rowData.reTaskDef.taskStatus === '04'){
+                    this.$msg.warning("该状态无法发布!");
+                    return ;
                 }
                 if(!rowData.caseDefBody){
                     this.$msg.warning(`[${rowData.reTaskDef.taskName}]，未配置流程任务节点`);
                     return;
                 }
-                const ok = await this.$msg.ask(`确认复核任务:[${rowData.reTaskDef.taskName}]吗, 是否继续?`);
+                const ok = await this.$msg.ask(`确认发布任务:[${rowData.reTaskDef.taskName}]吗, 是否继续?`);
                 if (!ok) {
                     return
                 }
