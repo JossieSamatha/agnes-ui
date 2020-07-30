@@ -252,7 +252,7 @@
 </template>
 
 <script>
-    import UserSelect from '../../kpi-task-def/kpi-user-select'
+    import UserSelect from '../../../../components/biz/kpi-user-select'
     function resetForm() {
         return {
             stepName: '',

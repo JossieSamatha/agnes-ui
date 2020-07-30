@@ -17,18 +17,17 @@
             <gf-input v-model.trim="detailForm.caseKey" placeholder="任务编号"/>
         </el-form-item>
         <el-form-item label="业务场景" prop="bizType">
-            <gf-dict filterable clearable v-model="detailForm.bizType" dict-type="EC_BIZ_TYPE"/>
+            <gf-dict filterable clearable v-model="detailForm.bizType" dict-type="AGNES_BIZ_CASE"/>
         </el-form-item>
         <el-form-item label="业务标签" prop="bizTag">
             <el-select class="multiple-select" v-model="detailForm.bizTagArr"
-                       multiple filterable clearable
-                       allow-create
-                       default-first-option placeholder="请选择">
+                       filterable clearable multiple
+                       placeholder="请选择">
                 <gf-filter-option
                         v-for="item in bizTagOption"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
+                        :key="item.dictId"
+                        :label="item.dictName"
+                        :value="item.dictId">
                 </gf-filter-option>
             </el-select>
         </el-form-item>
@@ -317,8 +316,12 @@
         },
         beforeMount() {
             this.reDataTransfer();
+            this.getOptions();
         },
         methods: {
+            getOptions(){
+                this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
+            },
             editExecTime(curObj, execScheduler) {
                 this.curExecScheduler = curObj;
                 this.showDlg(execScheduler, this.setExecScheduler.bind(this));

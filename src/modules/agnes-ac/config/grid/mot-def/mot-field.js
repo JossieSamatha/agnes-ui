@@ -11,22 +11,16 @@ export default {
         column.buildOpCol(120, colButtons),
         {headerName: "任务名称", field: "reTaskDef.taskName"},
         {headerName: "业务场景", field: "reTaskDef.bizType",formatType: 'dict', dictType: 'AC_BIZ_TYPE'},
-        {headerName: "业务标签", field: "reTaskDef.bizTag",
-            valueGetter:(param)=>{
-                let text = '';
-                if(param.data.reTaskDef.bizTag){
-                    let newBizTag = param.data.reTaskDef.bizTag.split(',');
-                    for (let i=0;i<newBizTag.length;i++){
-                        switch (newBizTag[i]) {
-                            case '0':newBizTag[i] ='产品';break;
-                            case '1':newBizTag[i] ='成立';break;
-                            case '2':newBizTag[i] ='清算';break;
-                        }
-                    }
-                    text = newBizTag.join()
+        {headerName: "业务标签", field: "reTaskDef.bizTag",dictType: 'AGNES_BIZ_TAG',
+            valueFormatter: function (params) {
+                if(params.value){
+                    let Ids = params.value.split(',');
+                    return Ids.map((dictId) => {
+                        return  window.$gfui.$app.dict.getDictItem('AGNES_BIZ_TAG',dictId).dictName;
+                    }).join(',');
                 }
-                return text
-            }},
+                return "";
+        }},
         {headerName: "业务类型", field: "reTaskDef.taskType",formatType: 'dict', dictType: 'AGNES_TASK_TYPE'},
         {headerName: "状态", field: "reTaskDef.taskStatus",
             valueGetter:(param)=>{
@@ -48,7 +42,7 @@ export default {
     headerHeight: 40,
     rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-ac/v1/ac/mot/task/case/list?taskType=2",
+        fetchUrl: "/agnes-ac/v1/ac/mot/task/case/list?taskType=00",
         fetchMethod: 'get',
         pagingMode: true, //不分页
         checkboxColumn: 1, //是否显示checkbox列,
