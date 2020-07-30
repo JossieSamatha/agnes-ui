@@ -17,6 +17,7 @@
                         :max="max"
                         show-text
                         :texts="texts"
+                        :colors="rateColor"
                 >
                 </el-rate>
             </el-form-item>
@@ -24,10 +25,10 @@
                 <gf-input v-model="caseStepDef.stepCode"/>
             </el-form-item>
             <el-form-item label="业务场景" prop="bizType">
-                <gf-dict filterable clearable v-model="bizType" dict-type="EC_BIZ_TYPE"/>
+                <gf-dict filterable clearable v-model="bizType" dict-type="AGNES_BIZ_CASE" :disabled="true"/>
             </el-form-item>
             <el-form-item label="业务标签" prop="bizTag">
-                <el-select class="multiple-select" v-model="bizTagArr"
+                <el-select class="multiple-select" v-model="caseStepDef.stepTag"
                            multiple filterable clearable
                            default-first-option placeholder="请选择">
                     <gf-filter-option
@@ -42,7 +43,9 @@
                 <gf-input v-model="caseStepDef.stepRemark" type="textarea"></gf-input>
             </el-form-item>
             <el-form-item label="参与人员" prop="stepActOwner">
-                <gf-input v-model="caseStepDef.stepActOwner"/>
+                <gf-input type="text" v-model="caseStepDef.stepActOwnerName"  placeholder="请选择人员"
+                          :readonly="true" @click.native="chooseUser">
+                </gf-input>
             </el-form-item>
             <el-form-item label="执行时间" prop="">
                 <div class="line none-shrink">
@@ -50,6 +53,7 @@
                     <span v-if="dayChecked===true" style="margin: 0 5px">日</span>
                     <el-form-item prop="startTime">
                         <el-time-picker v-model="caseStepDef.startTime"
+                                        :picker-options="{selectableRange:`${caseStepDef.endTime ? caseStepDef.endTime + ':00' : '00:00:00'}-23:59:59`}"
                                 placeholder="任意时间点"
                                 value-format="HH:mm">
                         </el-time-picker>
@@ -59,6 +63,7 @@
                     <span v-if="dayChecked===true" style="margin: 0 5px">日</span>
                     <el-form-item prop="endTime">
                         <el-time-picker v-model="caseStepDef.endTime"
+                                        :picker-options="{selectableRange:`00:00:00-${caseStepDef.startTime ? caseStepDef.startTime + ':00' : '23:59:59'}`}"
                                 placeholder="任意时间点"
                                 value-format="HH:mm">
                         </el-time-picker>
@@ -67,16 +72,16 @@
                 </div>
             </el-form-item>
             <el-form-item label="任务类型" prop="stepActType">
-                <gf-dict v-model="stepInfo.stepActType" dictType="AGNES_CASE_STEPTYPE"></gf-dict>
+                <gf-dict v-model="stepInfo.stepActType" dictType="AGNES_CASE_STEPTYPE" :disabled="true"></gf-dict>
             </el-form-item>
             <el-form-item v-if="stepInfo.stepActType === '01'" label="指标" prop="stepActKey">
-                <el-select v-model="caseStepDef.stepActKey" placeholder="请选择">
-                    <el-option
-                            v-for="item in kpiData"
+                <el-select style="width: 100%" v-model="caseStepDef.stepActKey" placeholder="请选择" filterable clearable>
+                    <gf-filter-option
+                            v-for="item in kpiOptions"
                             :key="item.value"
                             :label="item.label"
                             :value="item.value">
-                    </el-option>
+                    </gf-filter-option>
                 </el-select>
             </el-form-item>
             <el-form-item v-if="stepInfo.stepActType === '01'" label="指标参数" prop="stepActParam1">
@@ -92,15 +97,9 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item v-if="stepInfo.stepActType === '00'" label="确认事项" prop="stepActKey">
-                <gf-input v-model="caseStepDef.stepActKey"/>
-            </el-form-item>
-            <el-form-item v-if="stepInfo.stepActType === '00'" label="确认人" prop="stepActParam1">
-                <gf-input v-model="caseStepDef.stepActParam1"></gf-input>
-            </el-form-item>
-            <el-form-item label="指标执行频率">
+            <el-form-item v-if="stepInfo.stepActType === '01'" label="指标执行频率">
                 <gf-input v-model.trim="caseStepDef.execScheduler" placeholder="* * * * * ?"
-                              @click.native="openCron" style="width: 235px"/>
+                              @click.native="openCron"/>
             </el-form-item>
             <el-form-item label="任务控制参数">
                 <gf-strbool-checkbox v-model="caseStepDef.isTodo">是否进入待办</gf-strbool-checkbox>
@@ -122,7 +121,7 @@
                         <span class="tab-label" slot="label">
                             <span>{{msgInformOp[msgInformItem].label}}</span>
                         </span>
-                        <el-form size="small" label-width="100px" v-show="msgInformItem == '0'">
+                        <el-form size="small" label-width="100px" v-show="msgInformItem === '0'">
                             <el-form-item label="提前通知配置">
                                 <el-button type="text" @click="openRemindDlg(stepInfo.stepFormInfo.warningRemind,'warningRemind')">
                                     点击配置通知方式
@@ -140,24 +139,30 @@
                                 </el-select>
                             </el-form-item>
                         </el-form>
-                        <el-form size="small" label-width="100px" v-show="msgInformItem == '1'">
+                        <el-form size="small" label-width="100px" v-show="msgInformItem === '1'">
                             <el-form-item label="完成通知配置">
                                 <el-button type="text" @click="openRemindDlg(stepInfo.stepFormInfo.finishRemind,'finishRemind')">
                                     点击配置通知方式
                                 </el-button>
                             </el-form-item>
                         </el-form>
-                        <el-form size="small" label-width="100px" v-show="msgInformItem == '2'">
+                        <el-form size="small" label-width="100px" v-show="msgInformItem === '2'">
                             <el-form-item label="超时通知配置">
                                 <el-button type="text" @click="openRemindDlg(stepInfo.stepFormInfo.timeoutRemind,'timeoutRemind')">
                                     点击配置通知方式
                                 </el-button>
                             </el-form-item>
                             <el-form-item label-width="113px"  label="服务水平承诺">
-                                <gf-input style="width: 20%"></gf-input>按照每隔
-<!--                                <gf-el-select  style="width: 20%"></gf-el-select>按照每隔-->
-                                <gf-input style="width: 20%"></gf-input>分钟，执行
-                                <gf-input style="width: 20%"></gf-input>次后退出
+                                <el-select style="width: 30%" v-model="stepInfo.stepFormInfo.serviceResponseId" placeholder="请选择" @change="serviceResChange">
+                                    <el-option
+                                            v-for="item in serviceRes"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>按照每隔
+                                <gf-input :value= "repeatMinutes" style="width: 10%" :disabled="true"></gf-input>分钟，执行
+                                <gf-input :value= "maxRepeatCount" style="width: 15%" :disabled="true"></gf-input>次后退出
                             </el-form-item>
                             <el-form-item label="异常记录">
                                 <gf-strbool-checkbox v-model="caseStepDef.isRecordTimeoutError">记入异常</gf-strbool-checkbox>
@@ -178,7 +183,7 @@
                                 </el-form-item>
                             </el-form-item>
                         </el-form>
-                        <el-form size="small" label-width="100px" v-show="msgInformItem == '3'">
+                        <el-form size="small" label-width="100px" v-show="msgInformItem === '3'">
                             <el-form-item label="异常通知配置">
                                 <el-button type="text" @click="openRemindDlg(stepInfo.stepFormInfo.exceptionRemind,'exceptionRemind')">
                                     点击配置通知方式
@@ -215,7 +220,7 @@
                     </el-radio>
                 </el-radio-group>
             </el-form-item>
-            <el-form-item v-if="activeTerm == '2'">
+            <el-form-item v-if="activeTerm === '2'">
                 <rule-table ref="ruleTable" :ruleTableData="stepInfo.stepFormInfo.activeRuleTableData"></rule-table>
             </el-form-item>
             <el-form-item label="完成规则">
@@ -227,7 +232,7 @@
                     </el-radio>
                 </el-radio-group>
             </el-form-item>
-            <el-form-item v-if="succeedRule == '1'">
+            <el-form-item v-if="succeedRule === '1'">
                 <rule-table ref="ruleTable" :ruleTableData="stepInfo.stepFormInfo.successRuleTableData"></rule-table>
             </el-form-item>
             <el-form-item label="异常规则">
@@ -239,7 +244,7 @@
                     </el-radio>
                 </el-radio-group>
             </el-form-item>
-            <el-form-item v-if="abnormalRule == '1'">
+            <el-form-item v-if="abnormalRule === '1'">
                 <rule-table ref="ruleTable" :ruleTableData="stepInfo.stepFormInfo.failRuleTableData"></rule-table>
             </el-form-item>
         </el-form>
@@ -247,6 +252,7 @@
 </template>
 
 <script>
+    import UserSelect from '../../kpi-task-def/kpi-user-select'
     function resetForm() {
         return {
             stepName: '',
@@ -259,6 +265,7 @@
                     stepLevel: 0,
                     stepTag: '',
                     stepActOwner: '',
+                    stepActOwnerName: '',
                     execMode: '1',
                     stepActKey: '',
                     stepActParam1: '',
@@ -279,8 +286,9 @@
                     warningMintues:''
                 },
                 exceptionRemind: [],
-                finishtRemind: [],
+                finishRemind: [],
                 timeoutRemind: [],
+                serviceResponseId: '',
                 warningRemind: [],
                 failRuleTableData: {},
                 successRuleTableData: {},
@@ -311,14 +319,13 @@
                 stepInfo: resetForm(),
                 texts: ['普通', '重要', '非常重要'],
                 max: 3,
-                warningNotice: false,
-                timeoutNotice: false,
-                exceptionNotice: false,
                 forcePass: false,
                 dayChecked: false,
                 activeTerm: '1',
                 timeType: '1',
                 caseSteptype: [],
+                kpiOptions:[],
+                serviceRes:[],
                 flowData: [{
                     value: '1001',
                     label: '分TA流程'
@@ -339,13 +346,16 @@
                 msgInfoStr: ['warningRemind', 'finishRemind', 'timeoutRemind', 'exceptionRemind'],
                 // 业务标签
                 bizTagArr: [],
-                bizTagOption: this.$app.dict.getDictItems("AGNES_BIZ_TAG"),        // 业务类型下拉
+                bizTagOption: [],        // 业务类型下拉
                 // 规则选择类型选项
                 ruleTypeOp: [{label: '默认完成规则', value: '0'}, {label: '自定义完成规则', value: '1'}],
                 // 激活条件类型选项
                 activeConfOp: [{label: '随case启动', value: '1'}, {label: '条件触发', value: '2'}],
                 succeedRule: '0',
                 abnormalRule: '0',
+                repeatMinutes: '',
+                maxRepeatCount: '',
+                rateColor: {1: {value: '#409EFF'}, 2: {value: '#E6A23C'}, 3: {value: '#F00'}},
             }
         },
         computed:{
@@ -366,8 +376,52 @@
                 });
 
             });
+            this.getKpiData();
+            this.getServiceResponse();
+            this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
         },
         methods: {
+            async serviceResChange(param){
+                this.serviceRes.forEach((item)=>{
+                    if(item.value === param){
+                        this.repeatMinutes = item.repeatMinutes
+                        this.maxRepeatCount = item.maxRepeatCount
+                        return
+                    }
+                });
+            },
+            async getServiceResponse(){
+                const serviceRes = this.$api.flowTaskApi.getServiceResponse();
+                const serviceResData = await this.$app.blockingApp(serviceRes);
+                const serviceResList = serviceResData.data;
+                serviceResList.forEach((item)=>{
+                    this.serviceRes.push({label:item.serviceResponseName,value:item.serviceResponseId,
+                        repeatMinutes:item.repeatMinutes,maxRepeatCount:item.maxRepeatCount});
+                });
+            },
+            async getKpiData(){
+                const kpi = this.$api.kpiTaskApi.getAllKpiList();
+                const kpiData = await this.$app.blockingApp(kpi);
+                const kpiList = kpiData.data
+                kpiList.forEach((item)=>{
+                    this.kpiOptions.push({label:item.kpiName,value:item.kpiCode});
+                });
+            },
+            chooseUser(){
+                let actionOk = this.setExeUser.bind(this);
+                this.$nav.showDialog(
+                    UserSelect,
+                    {
+                        args: {actionOk},
+                        width: '600px',
+                        title: this.$dialog.formatTitle('选择用户','view'),
+                    }
+                );
+            },
+            setExeUser(userInfo){
+                this.caseStepDef.stepActOwnerName = userInfo.userName;
+                this.caseStepDef.stepActOwner = userInfo.id;
+            },
             openCron() {
                 this.showDlg(this.caseStepDef.execScheduler, this.setExecScheduler.bind(this));
             },
@@ -417,6 +471,8 @@
                 this.stepInfo = resetForm();
                 this.stepInfo.stepActType = this.args.stepData;
                 this.resetFormFields();
+                this.bizType = this.args.bizType;
+                this.bizTagArr = this.args.bizTagArr;
             },
 
             onLoadForm() {
@@ -433,10 +489,6 @@
                 this.activeTerm = activeRuleTableData.length <= 0 ? '1' : '2'
                 this.succeedRule = successRuleTableData.length <= 0 ? '0' : '1'
                 this.abnormalRule = failRuleTableData.length <= 0 ? '0' : '1'
-                this.warningNotice = this.stepInfo.stepFormInfo.warningRemind.length !== 0;
-                this.timeoutNotice = this.stepInfo.stepFormInfo.timeoutRemind.length !== 0;
-                // this.finishtNotice = this.stepInfo.stepFormInfo.finishtRemind.length !== 0;
-                this.exceptionNotice = this.stepInfo.stepFormInfo.exceptionRemind.length !== 0;
                 let startDay = this.caseStepDef.startDay;
                 let endDay = this.caseStepDef.endDay;
                 this.dayChecked = !!(startDay || endDay)

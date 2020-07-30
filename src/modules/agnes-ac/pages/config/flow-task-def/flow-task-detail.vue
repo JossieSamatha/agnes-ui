@@ -5,13 +5,16 @@
             <gf-input v-model.trim="detailForm.taskName" placeholder="任务名称"/>
         </el-form-item>
         <el-form-item label="任务编号" prop="caseKey">
-            <gf-input v-model.trim="detailForm.caseKey" placeholder="任务编号"/>
+            <gf-input v-model.trim="detailForm.caseKey" :disabled="true" placeholder="任务编号"/>
+        </el-form-item>
+        <el-form-item label="流程类型" prop="flowType">
+            <gf-dict filterable clearable v-model="detailForm.flowType" dict-type="AGNES_CASE_FLOWTYPE"/>
         </el-form-item>
         <el-form-item label="业务场景" prop="bizType">
             <gf-dict filterable clearable v-model="detailForm.bizType" dict-type="AGNES_BIZ_CASE"/>
         </el-form-item>
         <el-form-item label="业务标签" prop="bizTag">
-            <el-select v-model="detailForm.bizTagArr" placeholder="请选择" filterable clearable multiple>
+            <el-select style="width: 100%" v-model="detailForm.bizTagArr" placeholder="请选择" filterable clearable multiple>
                 <gf-filter-option
                         v-for="item in bizTagOption"
                         :key="item.dictId"
@@ -20,11 +23,12 @@
                 </gf-filter-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="运行周期" prop="startTimeStr">
+        <el-form-item label="运行周期" prop="startTime">
             <div class="line none-shrink">
                 <el-form-item prop="startTime">
                     <el-date-picker
                             v-model="detailForm.startTime"
+                            :picker-options="pickerOptionsStart"
                             type="date"
                             value-format="yyyy-MM-dd"
                             placeholder="开始日期">
@@ -34,6 +38,7 @@
                 <el-form-item prop="endTime">
                     <el-date-picker
                             v-model="detailForm.endTime"
+                            :picker-options="pickerOptionsEnd"
                             type="date"
                             value-format="yyyy-MM-dd"
                             placeholder="结束日期" :disabled="startAllTime">
@@ -41,6 +46,9 @@
                 </el-form-item>
                 <el-checkbox v-model="startAllTime" style="margin-left: 10px">永久有效</el-checkbox>
             </div>
+        </el-form-item>
+        <el-form-item label="基准日期" prop="dayendDefId">
+            <gf-dict filterable clearable v-model="detailForm.dayendDefId" dict-type="AGNES_BASE_DATE"/>
         </el-form-item>
         <el-form-item label="启动方式" prop="execMode">
             <el-radio-group v-model="detailForm.execMode">
@@ -81,7 +89,17 @@
         },
         data() {
             return {
-                detailForm: {execScheduler:'* * * * * ?'},
+                detailForm: {execScheduler:'* * * * * ?',
+                    taskName:'',
+                    caseKey:'',
+                    bizType:'',
+                    bizTagArr:'',
+                    startTime:'',
+                    endTime:'',
+                    execMode:'',
+                    eventId:'',
+                    flowType:'',
+                    dayendDefId:''},
                 dayChecked: false,  // 跨日
                 startAllTime: false,       // 是否永久有效
                 // 规则选择类型选项
@@ -111,9 +129,34 @@
                     ],
                     execScheduler: [
                         {required: true, message: '任务创建频率必填', trigger: 'blur'},
+                    ],
+                    dayendDefId: [
+                        {required: true, message: '基准日期必填', trigger: 'blur'},
+                    ],
+                    flowType: [
+                        {required: true, message: '基准日期必填', trigger: 'blur'},
                     ]
                 },
-                bizTagOption:[]
+                bizTagOption:[],
+                pickerOptionsStart: {
+                    disabledDate: time => {
+                        let endDateVal = this.detailForm.endTime;
+                        if (endDateVal) {
+                            return time.getTime() > new Date(endDateVal).getTime();
+                        }
+                    }
+                },
+                pickerOptionsEnd: {
+                    disabledDate: time => {
+                        let beginDateVal = this.detailForm.startTime;
+                        if (beginDateVal) {
+                            return (
+                                time.getTime() <
+                                new Date(beginDateVal).getTime() - 24 * 60 * 60 * 1000
+                            );
+                        }
+                    }
+                },
             }
         },
         mounted() {

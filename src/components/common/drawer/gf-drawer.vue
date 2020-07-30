@@ -84,7 +84,8 @@
         data() {
             return {
                 visible: true,
-                modeArr: {add: '新增', edit: '编辑', view: '查看'}
+                modeArr: {add: '新增', edit: '编辑', view: '查看'},
+                needAsk: true
             }
         },
         computed: {
@@ -105,16 +106,27 @@
                 this.$refs.component.onSave();
             },
             onClose(){
+                this.needAsk = false;
                 this.$refs['gf-page-drawer'].closeDrawer();
             },
-            close(done) {
-                if (done && typeof (done) == 'function') {
-                    done()
-                } else {
-                    this.visible = false
+            async close(done) {
+                if(this.needAsk && this.args.mode !== 'view'){
+                    const ok = await this.$msg.ask('是否确认离开?');
+                    if (!ok) {
+                        return
+                    }
                 }
-                this.$refs.component.$destroy();
-                document.body.removeChild(this.$refs.component.$parent.$el);
+                try {
+                    if (done && typeof (done) == 'function') {
+                        done()
+                    } else {
+                        this.visible = false
+                    }
+                    this.$refs.component.$destroy();
+                    document.body.removeChild(this.$refs.component.$parent.$el);
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
             }
         },
     }
