@@ -5,6 +5,7 @@ import FunDef from "./fun-def/index"
 import WorkDay from "./workday/index";
 import stepActType from './case-def/little-case/step-act-type'
 import CaseDef from "./case-def/index";
+import MotDef from "./mot-def/mot-list";
 import CaseConfigIndex from "./case-def/little-case/case-config-index";
 import KpiTaskDef from './kpi-task-def/kpi-task-list'
 import FlowTaskDef from "./flow-task-def/index";
@@ -23,6 +24,9 @@ const Loading = {
         Gfui.componentView('agnes.define.fun', FunDef, {title: '函数类型定义'});
         Gfui.componentView('agnes.config.workday', WorkDay, {title: '工作日'});
         Gfui.componentView('agnes.config.case', CaseDef, {title: 'case定义'});
+        Gfui.componentView('agnes.config.mot', MotDef, {title: 'MOT任务配置'});
+
+        // Gfui.componentView('agnes.config.case.step', CaseConfigIndex, {title: 'case详情配置'});
         Gfui.componentView('agnes.kpi.task.def', KpiTaskDef, {title: '指标任务配置'});
         Gfui.componentView('agnes.app.business.flowconf', FlowTaskDef, {title: '电子流程服务'});
         // Gfui.componentView('agnes.config.case.step', CaseConfigIndex, {title: 'case详情配置'});

@@ -1,0 +1,88 @@
+<template>
+    <gf-grid ref="grid"
+             grid-no="agnes-mot-field"
+             quick-text-max-width="300px"
+             height="100%"
+             @row-double-click="showTask">
+        <template slot="left">
+            <gf-button class="action-btn" @click="addTask">添加</gf-button>
+        </template>
+    </gf-grid>
+</template>
+
+<script>
+    import MotDetail from "./mot-detail";
+    import {transferCaseDefData} from '../../../util/transferCaseData.js'
+
+    export default {
+        methods: {
+            reloadData() {
+                this.$refs.grid.reloadData();
+            },
+            showDrawer(mode, row, actionOk) {
+                if (mode !== 'add' && !row) {
+                    this.$msg.warning("请选中一条记录!");
+                    return;
+                }
+                this.$drawerPage.create({
+                    width: 'calc(92% - 215px)',
+                    title: ['MOT任务编辑',mode],
+                    component: MotDetail,
+                    args: {row, mode, actionOk}
+                });
+            },
+            async onAddModel() {
+                this.reloadData();
+            },
+            async onEditModel() {
+                this.reloadData();
+            },
+            addTask() {
+                this.showDrawer('add', {}, this.onAddModel.bind(this));
+            },
+            showTask(params) {
+                this.showDrawer('view', params.data);
+            },
+            editKpiTask(params) {
+                this.showDrawer('edit', params.data, this.onEditModel.bind(this));
+            },
+            async deleteKpiTask(params) {
+                const row = params.data.reTaskDef;
+                const ok = await this.$msg.ask(`确认删除任务:[${row.taskName}]吗, 是否继续?`);
+                if (!ok) {
+                    return
+                }
+                try {
+                    const p = this.$api.taskDefineApi.deleteTask(row.taskId);
+                    await this.$app.blockingApp(p);
+                    this.reloadData();
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
+
+            // 复核
+            async checkMotTask(params){
+                const rowData = params.data;
+                const ok = await this.$msg.ask(`确认复核任务:[${rowData.reTaskDef.taskName}]吗, 是否继续?`);
+                if (!ok) {
+                    return
+                }
+                try {
+                    let sendInfo = transferCaseDefData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName);
+                    rowData.caseDefJson = JSON.stringify(sendInfo);
+                    const p = this.$api.caseConfigApi.publishCaseDef(rowData);
+                    await this.$app.blockingApp(p);
+                    this.reloadData();
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
+
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>

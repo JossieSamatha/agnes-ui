@@ -6,6 +6,7 @@ import funDefineApi from './fun-define-api'
 import workdayConfigApi from './workday-config-api';
 import caseConfigApi from './case-config-api';
 import ruleConfigApi from './rule-config-api';
+import motConfigApi from './mot-config-api';
 import flowTaskApi from './flow-task-config-api';
 
 export default {
@@ -17,5 +18,6 @@ export default {
     workdayConfigApi,
     caseConfigApi,
     ruleConfigApi,
+    motConfigApi,
     flowTaskApi
 };
