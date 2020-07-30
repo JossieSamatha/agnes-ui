@@ -13,18 +13,24 @@
             <el-table-column prop="ruleTag" label="标签" width="52" align="center"></el-table-column>
             <el-table-column prop="ruletarget" label="对象">
                 <template slot-scope="scope">
-                    <el-select :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
-                                v-model="scope.row.ruleTarget"
-                                placeholder="请选择"
-                                @change="ruleTargetChange(scope.$index, scope.row)">
+                    <el-select v-if="scope.row.ruleType === 'func'" :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
+                               v-model="scope.row.ruleTarget"
+                               placeholder="请选择"
+                               @change="ruleTargetChange(scope.$index, scope.row)">
                         <el-option v-for="funItem in funArr" :key="funItem.fnCode" :label="funItem.fnName" :value="funItem.fnCode">
+                        </el-option>
+                    </el-select>
+                    <el-select v-else :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
+                               v-model="scope.row.ruleTarget"
+                               placeholder="请选择">
+                        <el-option v-for="funItem in ruleTargetOp[scope.row.ruleType]" :key="funItem.stepCode" :label="funItem.defName" :value="funItem.stepCode">
                         </el-option>
                     </el-select>
                 </template>
             </el-table-column>
             <el-table-column prop="ruleParam" label="筛选条件">
                 <template slot-scope="scope">
-                    <div class="filter-conf" :class="mustFill('ruleParam') && !jsonNull(scope.row.ruleParam) ? 'error':''">
+                    <div v-if="scope.row.ruleType === 'func'" class="filter-conf" :class="mustFill('ruleParam') && !jsonNull(scope.row.ruleParam) ? 'error':''">
                         <span class="nowrap-span" :title="scope.row.ruleParam">{{jsonNull(scope.row.ruleParam)}}</span>
                         <i class="edit-btn fa fa-edit" @click="editRuleParam(scope.$index, scope.row)"></i>
                     </div>
@@ -32,7 +38,8 @@
             </el-table-column>
             <el-table-column prop="ruleKey" label="匹配字段">
                 <template slot-scope="scope">
-                    <el-select :class="mustFill('ruleKey') && !scope.row.ruleKey ? 'error':''"
+                    <span v-if="typeof(scope.row.ruleKeyOp) === 'string'">{{scope.row.ruleKey}}</span>
+                    <el-select v-else :class="mustFill('ruleKey') && !scope.row.ruleKey ? 'error':''"
                                v-model="scope.row.ruleKey"
                                placeholder="请选择">
                         <el-option v-for="fieldItem in scope.row.ruleKeyOp" :key="fieldItem.fieldKey"
@@ -53,8 +60,16 @@
             </el-table-column>
             <el-table-column prop="ruleValue" label="匹配值">
                 <template slot-scope="scope">
-                    <el-input  :class="mustFill('ruleValue') && !scope.row.ruleValue ? 'error':''"
+                    <span v-if="scope.row.ruleType === 'step'">{{scope.row.ruleValueOp}}</span>
+                    <el-input v-else-if="typeof(scope.row.ruleValueOp) === 'string'" :class="mustFill('ruleValue') && !scope.row.ruleValue ? 'error':''"
                                v-model="scope.row.ruleValue"></el-input>
+                    <el-select v-else :class="mustFill('ruleValue') && !scope.row.ruleValue ? 'error':''"
+                               v-model="scope.row.ruleValue"
+                               placeholder="请选择">
+                        <el-option v-for="fieldItem in scope.row.ruleValueOp" :key="fieldItem.value"
+                                   :label="fieldItem.label" :value="fieldItem.value">
+                        </el-option>
+                    </el-select>
                 </template>
             </el-table-column>
             <el-table-column prop="option" label="操作" width="52" align="center">
@@ -63,7 +78,22 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-button class="rule-add-btn" size="small" @click="addRule">新增条件</el-button>
+        <el-popover popper-class="rule-table-popover"
+                placement="right"
+                title="新增条件类型"
+                width="335"
+                trigger="click">
+            <div class="conf-type">
+                <el-button size="small" @click="addRule('func')">函数对象</el-button>
+                <el-button size="small" @click="addRule('step')">case step节点</el-button>
+                <el-button size="small" @click="addRule('kpi')">指标任务</el-button>
+                <el-button size="small" @click="addRule('action')">人工任务</el-button>
+                <el-button size="small" @click="addRule('service')">服务调用任务</el-button>
+                <el-button size="small" @click="addRule('RPA')">RPA任务</el-button>
+                <el-button size="small" @click="addRule('process')">流程任务</el-button>
+            </div>
+            <el-button slot="reference" class="rule-add-btn" size="small">新增条件</el-button>
+        </el-popover>
         <div class="rule-edit-area">
             <p>规则编辑：默认组合匹配条件，如：</p>
             <el-input
@@ -126,6 +156,9 @@
                     }
                 }
             },
+            ruleTargetOp: {
+                type: Object
+            }
         },
         data() {
             return {
@@ -149,6 +182,33 @@
                 ],
                 // 筛选条件字段
                 filterConfArr: fakeData.filterConfArr,
+
+                //匹配字段类型映射
+                ruleKeyMap: {
+                    func: [],
+                    step: '节点状态',
+                    kpi: [
+                        {fieldName: '正常数', fieldKey: '01'},
+                        {fieldName: '异常数', fieldKey: '02'},
+                        {fieldName: '人工一致数', fieldKey: '03'}
+                        ],
+                    action: '确认结果',
+                    service: '服务返回参数',
+                    RPA: 'RPA执行状态',
+                    process: '流程状态',
+                },
+
+                //匹配值类型映射
+                ruleValueMap: {
+                    func: '',
+                    step: '已完成',
+                    kpi: '',
+                    action: [{label: '已确认', value: '01'}, {label: '未确认', value: '02'}],
+                    service: '',
+                    RPA: [{label: '正常', value: '01'}, {label: '异常', value: '02'}],
+                    process: [{label: '审批通过', value: '01'}, {label: '审批拒绝', value: '02'},
+                        {label: '审批作废', value: '03'}, {label: '进行中', value: '04'}],
+                }
             }
         },
         methods: {
@@ -181,14 +241,17 @@
             },
 
             // 新增规则行
-            addRule(){
+            addRule(type){
                 const newRuleObj = {
+                    ruleType: type,
                     ruleTag: this.getRuleTag(),
                     ruleTarget: '',
                     ruleParam: JSON.stringify(""),
-                    ruleKey: '',
+                    ruleKey: typeof(this.ruleKeyMap[type]) === 'string' ? this.ruleKeyMap[type] : '',
+                    ruleKeyOp: this.ruleKeyMap[type],
                     ruleSign: '',
-                    ruleValue: '',
+                    ruleValue: type === 'step' ? '已完成' : '',
+                    ruleValueOp: this.ruleValueMap[type],
                 };
                 this.ruleTableData.ruleList.push(newRuleObj);
             },
@@ -212,12 +275,14 @@
 
             // 切换对象拉下选择
             ruleTargetChange(rowIndex, rowInfo) {
-                rowInfo.ruleKey = '';
-                this.filterConfArr.forEach((filterItem) => {
-                    if(filterItem.fieldId === rowInfo.ruleTarget){
-                        rowInfo.ruleKeyOp = this.$utils.deepExtend(filterItem.modelFieldArr);
-                    }
-                });
+                if(rowInfo.ruleType === 'func'){
+                    rowInfo.ruleKey = '';
+                    this.filterConfArr.forEach((filterItem) => {
+                        if(filterItem.fieldId === rowInfo.ruleTarget){
+                            rowInfo.ruleKeyOp = this.$utils.deepExtend(filterItem.modelFieldArr);
+                        }
+                    });
+                }
             },
 
             // 获取过滤对象
@@ -271,7 +336,6 @@
                 this.ruleTableCheck = !validate;
                 return validate;
             }
-
         },
     }
 </script>

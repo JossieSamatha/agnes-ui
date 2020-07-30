@@ -27,7 +27,6 @@
                     width: 'calc(92% - 215px)',
                     title: ['电子流程任务',mode],
                     component: FlowTaskDetail,
-                    wrapperClosable: false,
                     args: {row, mode, actionOk}
                 })
             },
