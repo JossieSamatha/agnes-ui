@@ -5,7 +5,7 @@
             <gf-input v-model.trim="detailForm.taskName" placeholder="任务名称"/>
         </el-form-item>
         <el-form-item label="任务编号" prop="caseKey">
-            <gf-input v-model.trim="detailForm.caseKey" :disabled="true" placeholder="任务编号"/>
+            <gf-input v-model.trim="detailForm.caseKey" placeholder="任务编号"/>
         </el-form-item>
         <el-form-item label="流程类型" prop="flowType">
             <gf-dict filterable clearable v-model="detailForm.flowType" dict-type="AGNES_CASE_FLOWTYPE"/>
@@ -96,7 +96,7 @@
                     bizTagArr:'',
                     startTime:'',
                     endTime:'',
-                    execMode:'',
+                    execMode:'0',
                     eventId:'',
                     flowType:'',
                     dayendDefId:''},
@@ -134,7 +134,7 @@
                         {required: true, message: '基准日期必填', trigger: 'blur'},
                     ],
                     flowType: [
-                        {required: true, message: '基准日期必填', trigger: 'blur'},
+                        {required: true, message: '流程类型必填', trigger: 'blur'},
                     ]
                 },
                 bizTagOption:[],
