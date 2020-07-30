@@ -87,20 +87,19 @@
             async reviewFlowTask(params) {
                 const rowData = params.data;
                 if(rowData.reTaskDef.taskStatus === '2'){
-                    this.$msg.warning(`[${rowData.reTaskDef.taskName}]，已发布`);
+                    this.$msg.warning(`[${rowData.reTaskDef.taskName}]，已复核`);
                     return;
                 }
                 if(!rowData.caseDefBody){
                     this.$msg.warning(`[${rowData.reTaskDef.taskName}]，未配置流程任务节点`);
                     return;
                 }
-                const ok = await this.$msg.ask(`确认发布任务:[${rowData.reTaskDef.taskName}]吗, 是否继续?`);
+                const ok = await this.$msg.ask(`确认复核任务:[${rowData.reTaskDef.taskName}]吗, 是否继续?`);
                 if (!ok) {
                     return
                 }
                 try {
-                    let sendInfo = this.checkData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName);
-                    rowData.caseDefJson = sendInfo;
+                    rowData.caseDefJson = this.checkData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName);
                     const p = this.$api.caseConfigApi.publishCaseDef(rowData);
                     await this.$app.blockingApp(p);
                     this.reloadData();

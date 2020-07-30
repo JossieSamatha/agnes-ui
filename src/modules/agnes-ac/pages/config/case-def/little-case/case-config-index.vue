@@ -114,6 +114,11 @@
 
             // 打开step详情配置页
             onShowDialog(optionType, dialogForm, args) {
+
+                args.bizType = this.row.caseDefInfo.reTaskDef.bizType
+                if (this.row.caseDefInfo.reTaskDef.bizTag) {
+                    args.bizTagArr = this.row.caseDefInfo.reTaskDef.bizTag.split(",");
+                }
                 this.drawerVisible = true;
                 this.stepDetailProps = {
                     optionType: optionType,
