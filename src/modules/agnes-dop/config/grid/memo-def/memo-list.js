@@ -1,21 +1,24 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'editEventDef', title: '编辑'},
-    {key: 'deleteEventDef', title: '删除',cellClass:'red-cell'},
+    {key: 'editMemo', title: '编辑'},
+    {key: 'approveMemo', title: '复核'},
+    {key: 'deleteMemo', title: '删除', cellClass: 'red-cell'}
 ];
 
 export default {
     columnDefs: [
         column.buildOpCol(120, colButtons),
-        {headerName: "事件名称", field: "eventName"},
+        {headerName: "提醒日期", field: "memoDt"},
+        {headerName: "记录事项", field: "memoDesc",width: 120},
+        {headerName: "状态", field: "memoStatus" ,formatType: 'dict', dictType: 'DOP_MEMO_STATUS'},
         column.colCrtUser,
         column.colCrtTm
     ],
     headerHeight: 40,
     rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-ec/v1/config/event/def/list/page",
+        fetchUrl: "/agnes-app/v1/dop/memo/list/page",
         fetchMethod: 'get',
         pagingMode: true, //是否分页
         checkboxColumn: 1, //是否显示checkbox列,
