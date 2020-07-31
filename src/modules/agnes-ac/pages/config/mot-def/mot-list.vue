@@ -72,7 +72,6 @@
                     this.$msg.warning("该状态无法审核!");
                     return;
                 }
-
             },
 
             // 发布

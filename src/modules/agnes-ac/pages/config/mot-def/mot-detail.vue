@@ -370,8 +370,14 @@
                 try {
                     let resData = this.dataTransfer();
                     resData.reTaskDef.taskType = '6'
-                    const p = this.$api.motConfigApi.saveTask(resData);
-                    await this.$app.blockingApp(p);
+                    if(this.row.isCheck){
+                        resData.isPass = '1';
+                        const p = this.$api.kpiTaskApi.checkTask(resData);
+                        await this.$app.blockingApp(p);
+                    }else {
+                        const p = this.$api.motConfigApi.saveTask(resData);
+                        await this.$app.blockingApp(p);
+                    }
                     if (this.actionOk) {
                         await this.actionOk();
                     }
