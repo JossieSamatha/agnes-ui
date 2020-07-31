@@ -94,10 +94,10 @@
     transition: .3s;
 }
 
-.datav_client_view .el-card.module-card:hover,
-.datav_client_view .el-card.module-card:focus {
-    box-shadow:0px 0px 6px 0px rgba(0, 0, 0, 0.06);
-}
+/*.datav_client_view .el-card.module-card:hover,*/
+/*.datav_client_view .el-card.module-card:focus {*/
+/*    box-shadow:0px 0px 6px 0px rgba(0, 0, 0, 0.06);*/
+/*}*/
 
 .datav_client_view .el-card.module-card .el-card__body{
     padding: 5px 5px 5px 10px;
@@ -187,6 +187,12 @@
 }
 
 .datav_client_view .el-card.module-card .el-calendar .el-calendar__body
+.el-calendar-table thead {
+    border-left: 1px solid #EBEEF5;
+    border-right: 1px solid #EBEEF5;
+}
+
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
 .el-calendar-table .el-calendar-day {
     height: auto;
     padding: 15% 0;
@@ -231,6 +237,7 @@
 }
 
 .datav_client_view .topPanel {
+    height: 20px;
     margin-bottom: 5px;
 }
 
@@ -289,7 +296,7 @@
 .datav_client_view .gridContainer{
     position: relative;
     flex: 1;
-    background: #f2f2f2;
+    /*background: #f2f2f2;*/
     overflow: hidden;
 }
 
@@ -413,6 +420,7 @@
 
 .datav_client_view .vue-grid-item.cssTransforms {
     background: #fff;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.06);
 }
 
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item .menuContent {

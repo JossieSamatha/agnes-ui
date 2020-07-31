@@ -78,7 +78,8 @@
                 caseModelData: {},
                 drawerVisible: false,
                 stepDetailProps: {},
-                stepList:[]
+                stepList:[],
+                stepCodeArr: [], // 记录当前所有stepCode
             }
         },
         components: {
@@ -86,7 +87,8 @@
             stepDetail
         },
         mounted() {
-            this.caseModelData = this.row.caseDefInfo.caseDefBody?JSON.parse(this.row.caseDefInfo.caseDefBody) : this.$utils.deepClone(mockData) ;
+            this.caseModelData = this.row.caseDefInfo.caseDefBody?JSON.parse(this.row.caseDefInfo.caseDefBody) : this.$utils.deepClone(mockData);
+            this.stepCodeArr = this.caseModelData.stepCodeArr || [];
             this.$app.registerCmd("openStepDialog", this.onShowDialog);
         },
         methods: {
@@ -97,6 +99,7 @@
 
             // 保存onSave事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
             async onSave(){
+                this.caseModelData.stepCodeArr = this.stepCodeArr;
                 this.row.caseDefInfo.caseDefBody = JSON.stringify(this.caseModelData)
                 try {
                     const p = this.$api.flowTaskApi.saveFlowTask(this.row.caseDefInfo);
@@ -114,12 +117,16 @@
 
             // 打开step详情配置页
             onShowDialog(optionType, dialogForm, args) {
-
-                args.bizType = this.row.caseDefInfo.reTaskDef.bizType
+                if(optionType === 'deleteStep'){
+                    this.$utils.removeFromArray(this.stepCodeArr, dialogForm);
+                    return false;
+                }
+                args.bizType = this.row.caseDefInfo.reTaskDef.bizType;
                 this.drawerVisible = true;
                 this.stepDetailProps = {
                     optionType: optionType,
                     formObj: dialogForm,
+                    stepCodeArr: this.stepCodeArr,
                     args: args
                 }
             },
@@ -127,9 +134,10 @@
             // 保存step详情配置页数据
             saveStepInfo(stepObj){
                 // 获得表单数据
-                let stepInfoCopy = JSON.parse(JSON.stringify(stepObj.stepInfo));
+                let stepInfoCopy = this.$utils.deepClone(stepObj.stepInfo);
                 // 获得step操作list数据
                 let taskArgs = stepObj.taskArgs;
+                const stepCode = stepInfoCopy.stepFormInfo.caseStepDef.stepCode;
 
                 // 如果是新增step任务
                 if (stepObj.optionType === 'add') {
@@ -153,7 +161,11 @@
                     let taskIndex = taskArgs.stepIndex;
                     let stepList = taskArgs.stepList;
                     stepList.splice(taskIndex, 1, stepInfoCopy);
+                    if(stepInfoCopy.stepCodeChange){
+                        this.$utils.removeFromArray(this.stepCodeArr, stepCode);
+                    }
                 }
+                this.stepCodeArr.push(stepCode);
                 this.$refs.stepDetailDrawer.closeDrawer();
             },
 
