@@ -34,7 +34,7 @@ export default function () {
 
         // caseStepDef
         stepName: '',   // 任务名称
-        stepActType: '01',
+        stepActType: '1',
         stepLevel: 0,   // 任务等级
         stepCode: '',   // 任务编号
         stepTag: '',    // 业务标签

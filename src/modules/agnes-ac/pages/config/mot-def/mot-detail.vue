@@ -34,14 +34,13 @@
         <el-form-item label="任务说明" prop="stepRemark">
             <gf-input type="textarea" v-model.trim="detailForm.stepRemark" placeholder="任务说明"/>
         </el-form-item>
-        <el-form-item label="运行周期" prop="task_startTime">
+        <el-form-item label="运行周期" prop="startTimeStr">
             <div class="line none-shrink">
                 <el-form-item prop="task_startTime">
                     <el-date-picker
                             v-model="detailForm.task_startTime"
                             type="date"
                             value-format="yyyy-MM-dd"
-                            :picker-options="pickerOptionsStart"
                             placeholder="开始日期">
                     </el-date-picker>
                 </el-form-item>
@@ -51,7 +50,6 @@
                             v-model="detailForm.task_endTime"
                             type="date"
                             value-format="yyyy-MM-dd"
-                            :picker-options="pickerOptionsEnd"
                             placeholder="结束日期" :disabled="startAllTime === '1'">
                     </el-date-picker>
                 </el-form-item>
@@ -59,14 +57,20 @@
             </div>
         </el-form-item>
         <el-form-item label="基准日期" prop="dayendDefId">
-            <gf-dict filterable clearable v-model="detailForm.dayendDefId" dict-type="AGNES_BASE_DATE" style="width: 30%;"/>
+            <el-select v-model="detailForm.dayendDefId" placeholder="请选择" filterable clearable>
+                <gf-filter-option
+                        v-for="item in detailForm.standardOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                </gf-filter-option>
+            </el-select>
         </el-form-item>
         <el-form-item label="执行时间" prop="step_startTime">
             <div class="line none-shrink">
                 <el-form-item prop="step_startTime">
                     <el-time-picker
                             v-model="detailForm.step_startTime"
-                            :picker-options="{selectableRange:`00:00:00-${detailForm.step_endTime ? detailForm.step_endTime + ':00' : '23:59:59'}`}"
                             placeholder="执行开始时间"
                             value-format="HH:mm">
                     </el-time-picker>
@@ -75,7 +79,6 @@
                 <el-form-item prop="step_endTime">
                     <el-time-picker
                             v-model="detailForm.step_endTime"
-                            :picker-options="{selectableRange:`${detailForm.step_startTime ? detailForm.step_startTime + ':00' : '00:00:00'}-23:59:59`}"
                             placeholder="执行结束时间"
                             value-format="HH:mm">
                     </el-time-picker>
@@ -85,19 +88,19 @@
         </el-form-item>
         <el-form-item label="启动方式" prop="task_execMode">
             <el-radio-group v-model="detailForm.task_execMode">
-                <el-radio label="1">执行一次</el-radio>
-                <el-radio label="2">重复执行</el-radio>
-                <el-radio label="3">事件触发执行</el-radio>
+                <el-radio label="0">执行一次</el-radio>
+                <el-radio label="1">重复执行</el-radio>
+                <el-radio label="2">事件触发执行</el-radio>
             </el-radio-group>
         </el-form-item>
-        <template v-if="detailForm.task_execMode==2">
+        <template v-if="detailForm.task_execMode==1">
             <el-form-item label="任务创建频率" prop="step_execScheduler">
                 <el-button type="text" @click="editExecTime('task_execScheduler', detailForm.task_execScheduler)">
                     {{detailForm.task_execScheduler}}点击配置
                 </el-button>
             </el-form-item>
         </template>
-        <el-form-item label="事件选择" v-if="detailForm.task_execMode==3">
+        <el-form-item label="事件选择" v-if="detailForm.task_execMode==2">
             <el-select v-model="detailForm.eventId" placeholder="请选择" filterable clearable>
                 <gf-filter-option
                         v-for="item in detailForm.eventOptions"
@@ -107,22 +110,7 @@
                 </gf-filter-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="选择指标">
-            <el-select v-model="detailForm.stepActKey" placeholder="请选择" filterable clearable>
-                <gf-filter-option
-                        v-for="item in detailForm.kpiOptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </gf-filter-option>
-            </el-select>
-        </el-form-item>
-        <el-form-item label="指标执行频率">
-            <el-button type="text" @click="editExecTime('step_execScheduler', detailForm.step_execScheduler)">
-                {{detailForm.step_execScheduler}}点击配置
-            </el-button>
-        </el-form-item>
-        <el-form-item label="通知人员">
+        <el-form-item label="参与人员">
             <gf-input type="text" v-model="detailForm.stepActOwnerName" :readonly="true" style="width: 40%">
                 <i slot="suffix" class="el-input__icon el-icon-edit-outline" @click="chooseUser"/>
             </gf-input>
@@ -178,19 +166,12 @@
                             </el-button>
                         </el-form-item>
                         <el-form-item label="服务水平承诺">
-                            <el-select v-model="detailForm.serviceResponseId" placeholder="请选择" @change="serviceResChange">
-                                <el-option
-                                        v-for="item in serviceRes"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item>
+                            <gf-el-select style="width: 20%"></gf-el-select>
                             按照每隔
-                            <gf-input  :value="repeatMinutes" style="width: 20%" :disabled="true"></gf-input>分钟，执行
-                            <gf-input  :value="maxRepeatCount" style="width: 20%" :disabled="true"></gf-input>次后退出
+                            <gf-input style="width: 20%"></gf-input>
+                            分钟，执行
+                            <gf-input style="width: 20%"></gf-input>
+                            次后退出
                         </el-form-item>
                         <el-form-item label="异常记录">
                             <gf-strbool-checkbox v-model="detailForm.isRecordTimeoutError">记入异常
@@ -267,10 +248,11 @@
 </template>
 
 <script>
+    import loadsh from 'lodash';
     import ExecTimeEdit from "./exec-time";
     import staticData from '../../../util/dataFormat'
     import initData from '../../../util/initData'
-    import UserSelect from '../../../components/biz/kpi-user-select'
+    import UserSelect from "../../../components/biz/kpi-user-select";
 
     export default {
         name: "task-define",
@@ -284,18 +266,15 @@
         },
         data() {
             return {
-                serviceRes:[],
-                staticData: staticData(),
-                detailForm: initData(),
+                staticData: this.$utils.deepClone(staticData),
+                detailForm: this.$utils.deepClone(initData),
                 dayChecked: false,  // 跨日
                 succeedRule: '0',
                 abnormalRule: '0',
-                repeatMinutes: '',
-                maxRepeatCount: '',
                 curExecScheduler: '',    // 当前频率对象字段
                 msgInformParam: [],      // 消息通知参数类型数组
                 startAllTime: '0',       // 是否永久有效
-                bizTagOption: [],        // 业务类型下拉
+                bizTagOption: [{label: '产品', value: '0'}, {label: '成立', value: '1'},{label: '清算', value: '2'}],        // 业务类型下拉
                 // 规则选择类型选项
                 ruleTypeOp: [{label: '默认完成规则', value: '0'}, {label: '自定义完成规则', value: '1'}],
                 // 消息配置类型类型选项
@@ -332,72 +311,16 @@
                     step_endTime: [
                         {required: true, message: '执行结束时间必填', trigger: 'change'},
                     ]
-                },
-
-                pickerOptionsStart: {
-                    disabledDate: time => {
-                        let endDateVal = this.detailForm.task_endTime;
-                        if (endDateVal) {
-                            return time.getTime() > new Date(endDateVal).getTime();
-                        }
-                    }
-                },
-                pickerOptionsEnd: {
-                    disabledDate: time => {
-                        let beginDateVal = this.detailForm.task_startTime;
-                        if (beginDateVal) {
-                            return (
-                                time.getTime() <
-                                new Date(beginDateVal).getTime() - 1 * 24 * 60 * 60 * 1000
-                            );
-                        }
-                    }
                 }
             }
         },
         beforeMount() {
             this.reDataTransfer();
             this.getOptions();
-            this.getServiceResponse();
         },
         methods: {
-            async serviceResChange(param){
-                this.serviceRes.forEach((item)=>{
-                    if(item.value === param){
-                        this.repeatMinutes = item.repeatMinutes
-                        this.maxRepeatCount = item.maxRepeatCount
-                        return
-                    }
-                });
-            },
-            async getServiceResponse(){
-                const serviceRes = this.$api.kpiTaskApi.getServiceResponse();
-                const serviceResData = await this.$app.blockingApp(serviceRes);
-                const serviceResList = serviceResData.data;
-                serviceResList.forEach((item)=>{
-                    this.serviceRes.push({label:item.serviceResponseName,value:item.serviceResponseId,
-                        repeatMinutes:item.repeatMinutes,maxRepeatCount:item.maxRepeatCount});
-                });
-            },
-            async getOptions(){
+            getOptions(){
                 this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
-                const k = this.$api.kpiTaskApi.getAllKpiList();
-                const kpiR = await this.$app.blockingApp(k);
-                const kpiList = kpiR.data
-                kpiList.forEach((item)=>{
-                    this.detailForm.kpiOptions.push({label:item.kpiName,value:item.kpiCode});
-                });
-            },
-            chooseUser(){
-                let actionOk = this.setExeUser.bind(this);
-                this.$nav.showDialog(
-                    UserSelect,
-                    {
-                        args: {actionOk},
-                        width: '600px',
-                        title: this.$dialog.formatTitle('选择用户','view'),
-                    }
-                );
             },
             editExecTime(curObj, execScheduler) {
                 this.curExecScheduler = curObj;
@@ -416,24 +339,11 @@
                     }
                 );
             },
-            setExeUser(userInfo){
-                this.detailForm.stepActOwnerName = userInfo.userName;
-                this.detailForm.stepActOwner = userInfo.id;
-            },
             setExecScheduler(cron) {
                 this.detailForm[this.curExecScheduler] = cron;
             },
             // 取消onCancel事件，触发抽屉关闭事件this.$emit("onClose");
-            async onCancel() {
-                if(this.row.isCheck){
-                    let resData = this.dataTransfer();
-                    resData.isPass = '0';
-                    const p = this.$api.kpiTaskApi.checkTask(resData);
-                    await this.$app.blockingApp(p);
-                    if (this.actionOk) {
-                        await this.actionOk();
-                    }
-                }
+            onCancel() {
                 this.$emit("onClose");
             },
 
@@ -445,14 +355,8 @@
                 }
                 try {
                     let resData = this.dataTransfer();
-                    if(this.row.isCheck){
-                        resData.isPass = '1';
-                        const p = this.$api.kpiTaskApi.checkTask(resData);
-                        await this.$app.blockingApp(p);
-                    }else {
-                        const p = this.$api.kpiTaskApi.saveTask(resData);
-                        await this.$app.blockingApp(p);
-                    }
+                    const p = this.$api.motConfigApi.saveTask(resData);
+                    await this.$app.blockingApp(p);
                     if (this.actionOk) {
                         await this.actionOk();
                     }
@@ -462,7 +366,21 @@
                     this.$msg.error(reason);
                 }
             },
-
+            chooseUser(){
+                let actionOk = this.setExeUser.bind(this);
+                this.$nav.showDialog(
+                    UserSelect,
+                    {
+                        args: {actionOk},
+                        width: '600px',
+                        title: this.$dialog.formatTitle('选择用户','view'),
+                    }
+                );
+            },
+            setExeUser(userInfo){
+                this.detailForm.stepActOwnerName = userInfo.userName;
+                this.detailForm.stepActOwner = userInfo.id;
+            },
             showRemindDlg(remindSort, actionOk) {
                 this.$nav.showDialog(
                     'remind-def',
@@ -476,10 +394,14 @@
 
             // 数据结构转换
             dataTransfer() {
+                if(this.succeedRule==='0'){
+                    this.detailForm.successRuleTableData={}
+                }
+                if(this.abnormalRule==='0'){
+                    this.detailForm.failRuleTableData={}
+                }
                 let kpiTaskDef = this.$utils.deepClone(this.staticData.kpiTaskDef);
                 this.detailForm.bizTag = this.detailForm.bizTagArr.join(",");
-                this.detailForm.stepCode = this.detailForm.caseKey;
-                this.detailForm.caseDefKey = this.detailForm.caseKey;
                 this.keyToValue(kpiTaskDef, 'task_');
                 let caseDef = this.$utils.deepClone(this.staticData.caseDef);
                 let defId = this.$agnesUtils.randomString(32);
@@ -498,7 +420,7 @@
                     }
                 })
                 caseDef.stages[0].children[0].stepFormInfo = stepFormInfo;
-                return {reTaskDef: kpiTaskDef, caseDefId: this.row.caseDefId, caseDefBody: caseDef,versionId:this.detailForm.versionId};
+                return {reTaskDef: kpiTaskDef, caseDefId: this.row.caseDefId, caseDefBody: caseDef};
             },
 
             reDataTransfer() {
@@ -519,6 +441,12 @@
                     }
                     if (this.detailForm.bizTag) {
                         this.detailForm.bizTagArr = this.detailForm.bizTag.split(",");
+                    }
+                    if(!loadsh.isEmpty(this.detailForm.successRuleTableData)){
+                        this.succeedRule ='1'
+                    }
+                    if(!loadsh.isEmpty(this.detailForm.failRuleTableData)){
+                        this.abnormalRule ='1'
                     }
                 }
             },

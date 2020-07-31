@@ -50,11 +50,9 @@
 
             <gf-grid ref="grid" :options="gridOptions">
                 <template slot="left">
-                    <gf-button @click="executeKpi" v-show="jobStatus"  size="mini" icon="el-icon-video-play">执行</gf-button>
-                    <gf-button @click="executeKpi" v-show="!jobStatus" size="mini" icon="el-icon-refresh">重新执行</gf-button>
+                    <gf-button @click="executeKpi" size="mini">重新执行</gf-button>
                 </template>
             </gf-grid>
-            <p style="margin:20px 0">*根据不同的指标任务场景。显示相应的指标明细</p>
         </el-form>
     </div>
 </template>
@@ -77,7 +75,6 @@
                 charData:[],
                 colorSet:[],
                 showChar:  false,
-                jobStatus: true,
                 kpiDetail:{},
                 gridOptions: {
                     columnDefs: [],
@@ -88,7 +85,8 @@
 
                     },
                 },
-                data:{q:{}}
+                data:{q:{}},
+                opStatus:false
             }
         },
         mounted() {
@@ -113,14 +111,24 @@
                     let keys = Object.keys(rows[0]);
                     _this.getPicData(rows,keys);
                     var columnDefsArray=_this.getSqlGridOptions(keys);
-                    _this.gridOptions.api.setColumnDefs(_this.setColumnFiled(columnDefsArray));
+                    if(keys.indexOf("FACTOR_VALUE")>-1 && keys.indexOf("MANUAL_TAG")>-1){
+                        _this.opStatus=true;
+                        _this.gridOptions.api.setColumnDefs(_this.setColumnFiled(columnDefsArray));
+                    }else{
+                        _this.gridOptions.api.setColumnDefs(columnDefsArray);
+                    }
                     _this.gridOptions.api.setRowData(rows);
                 }
             });
             this.$api.kpiDefineApi.getKpiFields(this.kpiDetail.kpiCode).then((resp) => {
                 if(resp.data && resp.data.length>0){
                     var columnDefsArray=_this.getKpiGridOptions(resp.data);
-                    _this.gridOptions.api.setColumnDefs(_this.setColumnFiled(columnDefsArray));
+                    if(_this.opStatus){
+                        _this.gridOptions.api.setColumnDefs(_this.setColumnFiled(columnDefsArray));
+                    }else{
+                        _this.gridOptions.api.setColumnDefs(columnDefsArray);
+                    }
+
                 }
             });
         },
