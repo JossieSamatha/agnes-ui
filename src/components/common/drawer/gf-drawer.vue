@@ -98,6 +98,9 @@
                 }
             }
         },
+        mounted(){
+            this.$app.registerCmd('logoutDrawer', () => this.onClose());
+        },
         methods: {
             cancel(){
                 this.$refs.component.onCancel();
