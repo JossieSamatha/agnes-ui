@@ -74,7 +74,7 @@
             <el-form-item label="任务类型" prop="stepActType">
                 <gf-dict v-model="stepInfo.stepActType" dictType="AGNES_CASE_STEPTYPE" :disabled="true"></gf-dict>
             </el-form-item>
-            <el-form-item v-if="stepInfo.stepActType === '01'" label="指标" prop="stepActKey">
+            <el-form-item v-if="stepInfo.stepActType === '1'" label="指标" prop="stepActKey">
                 <el-select style="width: 100%" v-model="caseStepDef.stepActKey" placeholder="请选择" filterable clearable>
                     <gf-filter-option
                             v-for="item in kpiOptions"
@@ -84,10 +84,10 @@
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
-            <el-form-item v-if="stepInfo.stepActType === '01'" label="指标参数" prop="stepActParam1">
+            <el-form-item v-if="stepInfo.stepActType === '1'" label="指标参数" prop="stepActParam1">
                 <gf-input v-model="caseStepDef.stepActParam1"/>
             </el-form-item>
-            <el-form-item v-if="stepInfo.stepActType === '03'" label="流程定义" prop="stepActKey">
+            <el-form-item v-if="stepInfo.stepActType === '3'" label="流程定义" prop="stepActKey">
                 <el-select v-model="caseStepDef.stepActKey" placeholder="请选择">
                     <el-option
                             v-for="item in flowData"
@@ -97,7 +97,7 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item v-if="stepInfo.stepActType === '01'" label="指标执行频率">
+            <el-form-item v-if="stepInfo.stepActType === '1'" label="指标执行频率">
                 <gf-input v-model.trim="caseStepDef.execScheduler" placeholder="* * * * * ?"
                               @click.native="openCron"/>
             </el-form-item>
@@ -500,6 +500,15 @@
                     this.stepInfo.stepFormInfo.caseStepDef.warningMintues =   this.stepInfo.stepFormInfo.caseStepDef.warningMintues * 60
                 }else if (this.timeType === '3'){
                     this.stepInfo.stepFormInfo.caseStepDef.warningMintues =   this.stepInfo.stepFormInfo.caseStepDef.warningMintues * 60 * 24
+                }
+                if(this.succeedRule === '0'){
+                    this.stepInfo.stepFormInfo.successRuleTableData = {}
+                }
+                if(this.abnormalRule === '0'){
+                    this.stepInfo.stepFormInfo.failRuleTableData = {}
+                }
+                if(this.activeTerm === '1'){
+                    this.stepInfo.stepFormInfo.activeRuleTableData = {}
                 }
                 this.stepInfo.stepFormInfo.caseStepDef.stepActType = this.stepInfo.stepActType;
                 this.stepInfo.stepFormInfo.caseStepDef.stepName = this.stepInfo.stepName;

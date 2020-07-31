@@ -5,7 +5,7 @@
             <gf-input v-model.trim="detailForm.taskName" placeholder="任务名称"/>
         </el-form-item>
         <el-form-item label="任务编号" prop="caseKey">
-            <gf-input v-model.trim="detailForm.caseKey" :disabled="true" placeholder="任务编号"/>
+            <gf-input v-model.trim="detailForm.caseKey" placeholder="任务编号"/>
         </el-form-item>
         <el-form-item label="流程类型" prop="flowType">
             <gf-dict filterable clearable v-model="detailForm.flowType" dict-type="AGNES_CASE_FLOWTYPE"/>
@@ -49,6 +49,9 @@
         </el-form-item>
         <el-form-item label="基准日期" prop="dayendDefId">
             <gf-dict filterable clearable v-model="detailForm.dayendDefId" dict-type="AGNES_BASE_DATE"/>
+        </el-form-item>
+        <el-form-item label="控制参数">
+            <gf-strbool-checkbox v-model="detailForm.needApprove">是否需要复核</gf-strbool-checkbox>
         </el-form-item>
         <el-form-item label="启动方式" prop="execMode">
             <el-radio-group v-model="detailForm.execMode">
@@ -96,10 +99,11 @@
                     bizTagArr:'',
                     startTime:'',
                     endTime:'',
-                    execMode:'',
+                    execMode:'0',
                     eventId:'',
                     flowType:'',
-                    dayendDefId:''},
+                    dayendDefId:'',
+                    needApprove:'0'},
                 dayChecked: false,  // 跨日
                 startAllTime: false,       // 是否永久有效
                 // 规则选择类型选项
@@ -134,7 +138,7 @@
                         {required: true, message: '基准日期必填', trigger: 'blur'},
                     ],
                     flowType: [
-                        {required: true, message: '基准日期必填', trigger: 'blur'},
+                        {required: true, message: '流程类型必填', trigger: 'blur'},
                     ]
                 },
                 bizTagOption:[],
@@ -182,7 +186,15 @@
                 this.detailForm.execScheduler = cron;
             },
             // 取消onCancel事件，触发抽屉关闭事件this.$emit("onClose");
-            onCancel() {
+            async onCancel() {
+                if(this.row.isCheck){
+                    let resData = this.detailForm;
+                    const p = this.$api.kpiTaskApi.checkTask({reTaskDef:resData,isPass:'0'});
+                    await this.$app.blockingApp(p);
+                    if (this.actionOk) {
+                        await this.actionOk();
+                    }
+                }
                 this.$emit("onClose");
             },
 
@@ -196,10 +208,15 @@
                     this.detailForm.bizTag = this.detailForm.bizTagArr.join(",");
                     let resData = this.detailForm;
                     if(this.mode === 'add'){
-                        resData.taskType = '02';
+                        resData.taskType = '2';
                     }
-                    const p = this.$api.flowTaskApi.saveTask({reTaskDef:resData});
-                    await this.$app.blockingApp(p);
+                    if(this.row.isCheck){
+                        const p = this.$api.kpiTaskApi.checkTask({reTaskDef:resData,isPass:'1'});
+                        await this.$app.blockingApp(p);
+                    }else{
+                        const p = this.$api.flowTaskApi.saveFlowTask({reTaskDef:resData});
+                        await this.$app.blockingApp(p);
+                    }
                     if (this.actionOk) {
                         await this.actionOk();
                     }
