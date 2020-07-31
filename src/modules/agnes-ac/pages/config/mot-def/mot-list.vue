@@ -28,7 +28,9 @@
                     width: 'calc(92% - 215px)',
                     title: ['MOT任务编辑',mode],
                     component: MotDetail,
-                    args: {row, mode, actionOk}
+                    args: {row, mode, actionOk},
+                    okButtonTitle: row.isCheck ? '审核' : '保存',
+                    cancelButtonTitle: row.isCheck ? '反审核' : '取消',
                 });
             },
             async onAddModel() {
