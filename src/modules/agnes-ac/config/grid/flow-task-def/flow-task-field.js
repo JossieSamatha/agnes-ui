@@ -1,6 +1,6 @@
 import column from "../../../../../config/column"
 const colButtons = [
-    {key: 'updateFlowTask', title: '编辑'},
+    {key: 'updateFlowTask', title: '编辑', resId: 'dddd'},
     {key: 'deleteFlowTask', title: '删除', cellClass: 'red-cell'},
     {key: 'checkFlowTask', title: '审核'},
     {key: 'publishFlowTask', title: '发布'},

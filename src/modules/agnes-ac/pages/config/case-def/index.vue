@@ -52,7 +52,7 @@
             showCaseStep(params){
                 // 抽屉创建
                 this.$drawerPage.create({
-                    width: 'calc(92% - 215px)',
+                    width: 'calc(97% - 215px)',
                     component: 'case-config-index',
                     wrapperClosable: true,
                     args: {caseDefInfo:params.data}

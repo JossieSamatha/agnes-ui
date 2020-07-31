@@ -24,7 +24,7 @@
                     return;
                 }
                 this.$drawerPage.create({
-                    width: 'calc(92% - 215px)',
+                    width: 'calc(97% - 215px)',
                     title: ['任务类型编辑',mode],
                     component: KpiTaskDetail,
                     args: {row, mode, actionOk},

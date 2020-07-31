@@ -5,7 +5,7 @@
             <span class="title">
                 <el-input ref="titleInput" class="title-input" :title="group.defName" v-model="group.defName"
                           :disabled="!group.edit" size="mini" clearable
-                          @keyup.enter.native="savegroupTitle" @blur="savegroupTitle"></el-input>
+                          @keyup.enter.native="$event.target.blur" @blur="savegroupTitle"></el-input>
                 <span class="edit" :class="{'is-disabled':!group.edit}">
                     <i class="fa fa-trash-o" @click="deletegroup"></i>
                 </span>
@@ -116,8 +116,17 @@
             },
 
             // 保存group标题
-            savegroupTitle() {
-                this.$set(this.group, 'edit', false);
+            async savegroupTitle() {
+                if(!this.group.defName) {
+                    this.$alert('请补充完整group标题！', '提示', {
+                        confirmButtonText: '确定',
+                        callback: () => {
+                            this.$refs.titleInput.focus();
+                        }
+                    });
+                }else{
+                    this.$set(this.group, 'edit', false);
+                }
             },
 
             // 删除group
