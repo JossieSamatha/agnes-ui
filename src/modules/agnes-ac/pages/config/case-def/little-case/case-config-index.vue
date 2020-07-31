@@ -87,7 +87,8 @@
             stepDetail
         },
         mounted() {
-            this.caseModelData = this.row.caseDefInfo.caseDefBody?JSON.parse(this.row.caseDefInfo.caseDefBody) : this.$utils.deepClone(mockData) ;
+            this.caseModelData = this.row.caseDefInfo.caseDefBody?JSON.parse(this.row.caseDefInfo.caseDefBody) : this.$utils.deepClone(mockData);
+            this.stepCodeArr = this.caseModelData.stepCodeArr || [];
             this.$app.registerCmd("openStepDialog", this.onShowDialog);
         },
         methods: {
@@ -98,6 +99,7 @@
 
             // 保存onSave事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
             async onSave(){
+                this.caseModelData.stepCodeArr = this.stepCodeArr;
                 this.row.caseDefInfo.caseDefBody = JSON.stringify(this.caseModelData)
                 try {
                     const p = this.$api.flowTaskApi.saveFlowTask(this.row.caseDefInfo);
@@ -117,7 +119,6 @@
             onShowDialog(optionType, dialogForm, args) {
                 if(optionType === 'deleteStep'){
                     this.$utils.removeFromArray(this.stepCodeArr, dialogForm);
-                    console.log("step-delete", this.stepCodeArr)
                     return false;
                 }
                 args.bizType = this.row.caseDefInfo.reTaskDef.bizType;
@@ -165,7 +166,6 @@
                     }
                 }
                 this.stepCodeArr.push(stepCode);
-                console.log("step-edit", this.stepCodeArr)
                 this.$refs.stepDetailDrawer.closeDrawer();
             },
 

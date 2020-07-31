@@ -120,7 +120,7 @@
                         {required: true, message: '任务等级必填', trigger: 'blur'},
                     ],
                     caseKey: [
-                        {required: true, message: '任务编号必填', trigger: 'blur'},
+                        {validator: this.hasRepetCode, required: true, trigger: 'change'},
                     ],
                     startTime: [
                         {required: true, message: '运行周期开始时间必填', trigger: 'blur'},
@@ -169,6 +169,16 @@
             this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
         },
         methods: {
+            hasRepetCode(rule, value, callback) {
+                if (!value) {
+                    callback(new Error('任务编号必填'));
+                }else if(value.length !== 8){
+                    callback(new Error('任务编号需为8位数字'));
+                }else{
+                    callback();
+                }
+            },
+
             openCron() {
                 this.showDlg(this.detailForm.execScheduler, this.setExecScheduler.bind(this));
             },

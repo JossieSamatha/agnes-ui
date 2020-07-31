@@ -21,7 +21,7 @@
                 </el-rate>
             </el-form-item>
             <el-form-item label="任务编号" prop="stepCode">
-                <gf-input v-model="caseStepDef.stepCode" clear-regex="[^0-9]" :max-byte-len="8"
+                <gf-input v-model="caseStepDef.stepCode" clear-regex="[^0-9]" :max-byte-len="8" :min-byte-len="8"
                           placeholder="任务编号仅支持8位数字"/>
             </el-form-item>
             <el-form-item label="业务场景" prop="bizType">
