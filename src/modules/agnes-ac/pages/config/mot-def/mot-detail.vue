@@ -34,13 +34,14 @@
         <el-form-item label="任务说明" prop="stepRemark">
             <gf-input type="textarea" v-model.trim="detailForm.stepRemark" placeholder="任务说明"/>
         </el-form-item>
-        <el-form-item label="运行周期" prop="startTimeStr">
+        <el-form-item label="运行周期" prop="task_startTime">
             <div class="line none-shrink">
                 <el-form-item prop="task_startTime">
                     <el-date-picker
                             v-model="detailForm.task_startTime"
                             type="date"
                             value-format="yyyy-MM-dd"
+                            :picker-options="pickerOptionsStart"
                             placeholder="开始日期">
                     </el-date-picker>
                 </el-form-item>
@@ -50,6 +51,7 @@
                             v-model="detailForm.task_endTime"
                             type="date"
                             value-format="yyyy-MM-dd"
+                            :picker-options="pickerOptionsEnd"
                             placeholder="结束日期" :disabled="startAllTime === '1'">
                     </el-date-picker>
                 </el-form-item>
@@ -57,14 +59,7 @@
             </div>
         </el-form-item>
         <el-form-item label="基准日期" prop="dayendDefId">
-            <el-select v-model="detailForm.dayendDefId" placeholder="请选择" filterable clearable>
-                <gf-filter-option
-                        v-for="item in detailForm.standardOptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </gf-filter-option>
-            </el-select>
+            <gf-dict filterable clearable v-model="detailForm.dayendDefId" dict-type="AGNES_BASE_DATE" style="width: 30%;"/>
         </el-form-item>
         <el-form-item label="执行时间" prop="step_startTime">
             <div class="line none-shrink">
@@ -266,8 +261,8 @@
         },
         data() {
             return {
-                staticData: this.$utils.deepClone(staticData),
-                detailForm: this.$utils.deepClone(initData),
+                staticData: staticData(),
+                detailForm: initData(),
                 dayChecked: false,  // 跨日
                 succeedRule: '0',
                 abnormalRule: '0',
@@ -311,6 +306,25 @@
                     step_endTime: [
                         {required: true, message: '执行结束时间必填', trigger: 'change'},
                     ]
+                },
+                pickerOptionsStart: {
+                    disabledDate: time => {
+                        let endDateVal = this.detailForm.task_endTime;
+                        if (endDateVal) {
+                            return time.getTime() > new Date(endDateVal).getTime();
+                        }
+                    }
+                },
+                pickerOptionsEnd: {
+                    disabledDate: time => {
+                        let beginDateVal = this.detailForm.task_startTime;
+                        if (beginDateVal) {
+                            return (
+                                time.getTime() <
+                                new Date(beginDateVal).getTime() - 1 * 24 * 60 * 60 * 1000
+                            );
+                        }
+                    }
                 }
             }
         },
@@ -355,8 +369,15 @@
                 }
                 try {
                     let resData = this.dataTransfer();
-                    const p = this.$api.motConfigApi.saveTask(resData);
-                    await this.$app.blockingApp(p);
+                    resData.reTaskDef.taskType = '6'
+                    if(this.row.isCheck){
+                        resData.isPass = '1';
+                        const p = this.$api.kpiTaskApi.checkTask(resData);
+                        await this.$app.blockingApp(p);
+                    }else {
+                        const p = this.$api.motConfigApi.saveTask(resData);
+                        await this.$app.blockingApp(p);
+                    }
                     if (this.actionOk) {
                         await this.actionOk();
                     }
@@ -402,6 +423,8 @@
                 }
                 let kpiTaskDef = this.$utils.deepClone(this.staticData.kpiTaskDef);
                 this.detailForm.bizTag = this.detailForm.bizTagArr.join(",");
+                this.detailForm.stepCode = this.detailForm.caseKey;
+                this.detailForm.caseDefKey = this.detailForm.caseKey;
                 this.keyToValue(kpiTaskDef, 'task_');
                 let caseDef = this.$utils.deepClone(this.staticData.caseDef);
                 let defId = this.$agnesUtils.randomString(32);
@@ -420,7 +443,7 @@
                     }
                 })
                 caseDef.stages[0].children[0].stepFormInfo = stepFormInfo;
-                return {reTaskDef: kpiTaskDef, caseDefId: this.row.caseDefId, caseDefBody: caseDef};
+                return {reTaskDef: kpiTaskDef, caseDefId: this.row.caseDefId, caseDefBody: caseDef,versionId:this.detailForm.versionId};
             },
 
             reDataTransfer() {
