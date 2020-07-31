@@ -261,8 +261,8 @@
         },
         data() {
             return {
-                staticData: this.$utils.deepClone(staticData),
-                detailForm: this.$utils.deepClone(initData),
+                staticData: staticData(),
+                detailForm: initData(),
                 dayChecked: false,  // 跨日
                 succeedRule: '0',
                 abnormalRule: '0',
@@ -369,6 +369,7 @@
                 }
                 try {
                     let resData = this.dataTransfer();
+                    resData.reTaskDef.taskType = '6'
                     const p = this.$api.motConfigApi.saveTask(resData);
                     await this.$app.blockingApp(p);
                     if (this.actionOk) {
@@ -416,6 +417,8 @@
                 }
                 let kpiTaskDef = this.$utils.deepClone(this.staticData.kpiTaskDef);
                 this.detailForm.bizTag = this.detailForm.bizTagArr.join(",");
+                this.detailForm.stepCode = this.detailForm.caseKey;
+                this.detailForm.caseDefKey = this.detailForm.caseKey;
                 this.keyToValue(kpiTaskDef, 'task_');
                 let caseDef = this.$utils.deepClone(this.staticData.caseDef);
                 let defId = this.$agnesUtils.randomString(32);
@@ -434,7 +437,7 @@
                     }
                 })
                 caseDef.stages[0].children[0].stepFormInfo = stepFormInfo;
-                return {reTaskDef: kpiTaskDef, caseDefId: this.row.caseDefId, caseDefBody: caseDef};
+                return {reTaskDef: kpiTaskDef, caseDefId: this.row.caseDefId, caseDefBody: caseDef,versionId:this.detailForm.versionId};
             },
 
             reDataTransfer() {

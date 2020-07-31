@@ -9,7 +9,7 @@ const colButtons = [
 
 export default {
     columnDefs: [
-        column.buildOpCol(120, colButtons),
+        column.buildOpCol(160, colButtons),
         {headerName: "任务名称", field: "reTaskDef.taskName"},
         {headerName: "业务场景", field: "reTaskDef.bizType",formatType: 'dict', dictType: 'AC_BIZ_TYPE'},
         {headerName: "业务标签", field: "reTaskDef.bizTag",dictType: 'AGNES_BIZ_TAG',
@@ -43,7 +43,7 @@ export default {
     headerHeight: 40,
     rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-ac/v1/ac/mot/task/case/list?taskType=0",
+        fetchUrl: "/agnes-ac/v1/ac/mot/task/case/list?taskType=6",
         fetchMethod: 'get',
         pagingMode: true, //不分页
         checkboxColumn: 1, //是否显示checkbox列,
