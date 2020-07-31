@@ -1,6 +1,6 @@
 import column from "../../../../../config/column"
 const colButtons = [
-    {key: 'updateFlowTask', title: '编辑'},
+    {key: 'updateFlowTask', title: '编辑', resId: 'dddd'},
     {key: 'deleteFlowTask', title: '删除', cellClass: 'red-cell'},
     {key: 'checkFlowTask', title: '审核'},
     {key: 'publishFlowTask', title: '发布'},
@@ -9,6 +9,7 @@ export default {
     columnDefs: [
         column.buildOpCol(160, colButtons),
         {headerName: "任务名称", field: "reTaskDef.taskName"},
+        {headerName: "任务编号", field: "reTaskDef.caseKey"},
         {headerName: "业务场景", field: "reTaskDef.bizType",formatType: 'dict', dictType: 'AGNES_BIZ_CASE'},
         {headerName: "业务标签", field: "reTaskDef.bizTag",
             valueFormatter: function (params) {
@@ -20,7 +21,7 @@ export default {
                 }
                 return "";
             }},
-        {headerName: "业务类型", field: "reTaskDef.taskType" ,formatType: 'dict', dictType: 'AGNES_CASE_STEPTYPE'},
+        {headerName: "业务类型", field: "reTaskDef.taskType" ,formatType: 'dict', dictType: 'AGNES_TASK_TYPE'},
         {headerName: "状态", field: "reTaskDef.taskStatus",formatType: 'dict', dictType: 'CASE_TASK_STATUS'},
         {headerName: "创建时间", field: "reTaskDef.crtTs"},
         {headerName: "创建人", field: "reTaskDef.crtUser"}

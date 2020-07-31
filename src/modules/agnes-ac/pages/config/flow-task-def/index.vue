@@ -25,7 +25,7 @@
                 }
                 // 抽屉创建
                 this.$drawerPage.create({
-                    width: 'calc(92% - 215px)',
+                    width: 'calc(97% - 215px)',
                     title: ['电子流程任务',mode],
                     component: FlowTaskDetail,
                     args: {row, mode, actionOk},
@@ -66,7 +66,7 @@
                     return;
                 }
                 this.$drawerPage.create({
-                    width: 'calc(92% - 215px)',
+                    width: 'calc(97% - 215px)',
                     title: ['流程任务节点配置'],
                     component: 'case-config-index',
                     args: {row, mode, actionOk},

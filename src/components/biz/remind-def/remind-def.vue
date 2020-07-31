@@ -32,19 +32,16 @@
 
 <script>
     export default {
-        name: 'remindDef',
+        name: 'remind-def',
         props: {
-            remindSort: {
-                type: String
-            },
-            remindProp: {
-                type: Object
-            },
+            remindProp: Array,
+            remindSort:{
+                type: String,},
             actionOk: Function
         },
         data() {
             return {
-                mailObj: {
+                mailObj:{
                     remindUser: '',
                     remindCc: '',
                     remindBcc: '',
@@ -72,8 +69,8 @@
             this.remindData = JSON.parse(JSON.stringify([this.mailObj, this.messageObj, this.wechatObj]));
         },
         mounted() {
-            if (this.args.remindProp && this.args.remindProp.length > 0) {
-                this.args.remindProp.forEach((propItem) => {
+            if (this.remindProp && this.remindProp.length > 0) {
+                this.remindProp.forEach((propItem)=>{
                     const itemIndex = parseInt(propItem.remindMode) - 2;
                     this.remindData.splice(itemIndex, 1, propItem);
                 });
@@ -94,20 +91,23 @@
 
             // 保存组件信息
             async saveRemind() {
-                const ok = await this.$msg.ask(`必填项未补充完整的告警方式类型数据将会丢失, 是否继续?`);
-                if (ok) {
-                    this.remindData = this.remindData.filter((remindItem) => {
-                        return remindItem.fillFlag
-                    });
-                    if (this.actionOk) {
-                        await this.actionOk(this.remindData, this.remindSort);
+                const remindDataCopy = this.remindData.filter((remindItem) => {
+                    return remindItem.fillFlag
+                });
+                // debugger;
+                if(remindDataCopy.length === 3){
+                    this.actionOk(remindDataCopy, this.remindSort);
+                    await this.$dialog.close(this);
+                }else{
+                    const ok = await this.$msg.ask(`必填项未补充完整的告警方式类型数据将会丢失, 是否继续?`);
+                    if (ok) {
+                        if (this.actionOk) {
+                            this.actionOk(remindDataCopy,this.remindSort);
+                            await this.$dialog.close(this);
+                        }
                     }
-                    this.$dialog.close(this);
                 }
             }
         }
     }
 </script>
-<style>
-
-</style>

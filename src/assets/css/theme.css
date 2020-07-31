@@ -1356,6 +1356,7 @@ form input[type=submit] {
 
 .ag-grid-box .grid-action-panel {
     border: none;
+    padding: 0;
     padding-bottom: 1px;
 }
 

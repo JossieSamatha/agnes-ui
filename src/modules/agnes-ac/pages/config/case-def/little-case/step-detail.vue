@@ -4,25 +4,25 @@
             <el-button class="primary" @click="saveForm">保存</el-button>
             <el-button @click="cancelForm">取消</el-button>
         </div>
-        <el-form ref="stepInfoForm"  class="task-def-form" :model="caseStepDef" label-width="100px">
+        <el-form ref="stepInfoForm"  class="task-def-form" :rules="caseStepRules"
+                 :model="caseStepDef" label-width="105px">
             <el-form-item label="任务名称" prop="stepName">
-                <gf-input v-model.trim="stepInfo.stepName"/>
+                <gf-input v-model.trim="caseStepDef.stepName"/>
             </el-form-item>
             <el-form-item label="基准日期" prop="dayendDefId">
                 <gf-dict v-model="caseStepDef.dayendDefId" dict-type="AGNES_BASE_DATE"></gf-dict>
             </el-form-item>
             <el-form-item label="任务等级" prop="stepLevel">
-                <el-rate
-                        v-model="caseStepDef.stepLevel"
+                <el-rate v-model="caseStepDef.stepLevel"
                         :max="max"
                         show-text
                         :texts="texts"
-                        :colors="rateColor"
-                >
+                        :colors="rateColor">
                 </el-rate>
             </el-form-item>
             <el-form-item label="任务编号" prop="stepCode">
-                <gf-input v-model="caseStepDef.stepCode"/>
+                <gf-input v-model="caseStepDef.stepCode" clear-regex="[^0-9]" :max-byte-len="8" :min-byte-len="8"
+                          placeholder="任务编号仅支持8位数字"/>
             </el-form-item>
             <el-form-item label="业务场景" prop="bizType">
                 <gf-dict filterable clearable v-model="bizType" dict-type="AGNES_BIZ_CASE" :disabled="true"/>
@@ -47,15 +47,15 @@
                           :readonly="true" @click.native="chooseUser">
                 </gf-input>
             </el-form-item>
-            <el-form-item label="执行时间" prop="">
+            <el-form-item label="执行时间" class="is-required">
                 <div class="line none-shrink">
                     <gf-input v-model="caseStepDef.startDay" v-if="dayChecked===true"></gf-input>
                     <span v-if="dayChecked===true" style="margin: 0 5px">日</span>
                     <el-form-item prop="startTime">
                         <el-time-picker v-model="caseStepDef.startTime"
-                                        :picker-options="{selectableRange:`${caseStepDef.endTime ? caseStepDef.endTime + ':00' : '00:00:00'}-23:59:59`}"
+                                        :picker-options="{selectableRange:`00:00:00-${caseStepDef.endTime ? caseStepDef.endTime + ':00' : '23:59:59'}`}"
                                 placeholder="任意时间点"
-                                value-format="HH:mm">
+                                value-format="HH:mm" format="HH:mm">
                         </el-time-picker>
                     </el-form-item>
                     <span style="margin: 0 10px">~</span>
@@ -63,9 +63,9 @@
                     <span v-if="dayChecked===true" style="margin: 0 5px">日</span>
                     <el-form-item prop="endTime">
                         <el-time-picker v-model="caseStepDef.endTime"
-                                        :picker-options="{selectableRange:`00:00:00-${caseStepDef.startTime ? caseStepDef.startTime + ':00' : '23:59:59'}`}"
+                                        :picker-options="{selectableRange:`${caseStepDef.startTime ? caseStepDef.startTime + ':00' : '00:00:00'}-23:59:59`}"
                                 placeholder="任意时间点"
-                                value-format="HH:mm">
+                                value-format="HH:mm" format="HH:mm">
                         </el-time-picker>
                     </el-form-item>
                     <el-checkbox v-model="dayChecked" style="margin-left: 5px">跨日</el-checkbox>
@@ -262,7 +262,7 @@
             stepFormInfo: {
                 caseStepDef: {
                     dayendDefId: '',
-                    stepLevel: 0,
+                    stepLevel: 1,
                     stepTag: '',
                     stepActOwner: '',
                     stepActOwnerName: '',
@@ -294,11 +294,12 @@
                 successRuleTableData: {},
                 activeRuleTableData: {},
             },
+
         };
     }
 
     import CronDef from "./cron-def";
-    import RemindDef from './remind-def'
+    // import RemindDef from './remind-def'
 
     export default {
         name: "stepInfo",
@@ -312,11 +313,15 @@
             },
             args: {
                 type: Object
+            },
+            stepCodeArr: {
+                type: Array
             }
         },
         data() {
             return {
                 stepInfo: resetForm(),
+                initStepCode: '',
                 texts: ['普通', '重要', '非常重要'],
                 max: 3,
                 forcePass: false,
@@ -356,6 +361,29 @@
                 repeatMinutes: '',
                 maxRepeatCount: '',
                 rateColor: {1: {value: '#409EFF'}, 2: {value: '#E6A23C'}, 3: {value: '#F00'}},
+                caseStepRules: {
+                    stepName: [
+                        {required: true, message: '任务名称必填', trigger: 'blur'},
+                    ],
+                    dayendDefId: [
+                        {required: true, message: '基准日期必填', trigger: 'change'},
+                    ],
+                    stepLevel: [
+                        {required: true, message: '任务等级必填', trigger: 'change'},
+                    ],
+                    stepCode: [
+                        {validator: this.hasRepetCode, required: true, trigger: 'change'},
+                    ],
+                    startTime: [
+                        {required: true, message: '运行周期开始时间必填', trigger: 'blur'},
+                    ],
+                    endTime: [
+                        {required: true, message: '运行周期结束时间必填', trigger: 'blur'},
+                    ],
+                    execScheduler: [
+                        {required: true, message: '指标执行频率必填', trigger: 'blur'},
+                    ]
+                }
             }
         },
         computed:{
@@ -374,13 +402,24 @@
                         this.msgInformParam.push(index+'');
                     }
                 });
-
             });
             this.getKpiData();
             this.getServiceResponse();
             this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
         },
         methods: {
+            hasRepetCode(rule, value, callback) {
+                if (!value) {
+                    callback(new Error('任务编号必填'));
+                }else if(value.length !== 8){
+                    callback(new Error('任务编号需为8位数字'));
+                }else if(this.stepCodeArr.includes(value) && value !== this.initStepCode){
+                    callback(new Error('当前case中已含有相同任务编号，请勿重复'));
+                }else{
+                    callback();
+                }
+            },
+
             async serviceResChange(param){
                 this.serviceRes.forEach((item)=>{
                     if(item.value === param){
@@ -423,7 +462,8 @@
                 this.caseStepDef.stepActOwner = userInfo.id;
             },
             openCron() {
-                this.showDlg(this.caseStepDef.execScheduler, this.setExecScheduler.bind(this));
+                const execScheduler = this.caseStepDef.execScheduler ? this.caseStepDef.execScheduler : '* * * * * ?';
+                this.showDlg(execScheduler, this.setExecScheduler.bind(this));
             },
             showDlg(cornObj, action) {
                 if (this.mode === 'view') {
@@ -452,7 +492,7 @@
 
             showRemindDlg(remindProp,remindSort, actionOk) {
                 this.$nav.showDialog(
-                    RemindDef,
+                    'remind-def',
                     {
                         args: {remindProp,remindSort, actionOk},
                         width: '530px',
@@ -483,36 +523,49 @@
                         this.stepInfo[key] = this.formObj[key];
                     }
                 }
-                let activeRuleTableData = this.stepInfo.stepFormInfo.activeRuleTableData.ruleList || [];
-                let successRuleTableData = this.stepInfo.stepFormInfo.successRuleTableData.ruleList || [];
-                let failRuleTableData = this.stepInfo.stepFormInfo.failRuleTableData.ruleList || [];
+                this.initStepCode = this.stepInfo.stepFormInfo.caseStepDef.stepCode;
+                this.stepInfo.stepFormInfo.caseStepDef.stepName = this.stepInfo.stepName;
+                const activeRuleTableData = this.stepInfo.stepFormInfo.activeRuleTableData.ruleList || [];
+                const successRuleTableData = this.stepInfo.stepFormInfo.successRuleTableData.ruleList || [];
+                const failRuleTableData = this.stepInfo.stepFormInfo.failRuleTableData.ruleList || [];
                 this.activeTerm = activeRuleTableData.length <= 0 ? '1' : '2'
                 this.succeedRule = successRuleTableData.length <= 0 ? '0' : '1'
                 this.abnormalRule = failRuleTableData.length <= 0 ? '0' : '1'
-                let startDay = this.caseStepDef.startDay;
-                let endDay = this.caseStepDef.endDay;
+                const startDay = this.caseStepDef.startDay;
+                const endDay = this.caseStepDef.endDay;
                 this.dayChecked = !!(startDay || endDay)
             },
 
             // 保存表单数据
-            saveForm() {
-                if(this.timeType === '2'){
-                    this.stepInfo.stepFormInfo.caseStepDef.warningMintues =   this.stepInfo.stepFormInfo.caseStepDef.warningMintues * 60
-                }else if (this.timeType === '3'){
-                    this.stepInfo.stepFormInfo.caseStepDef.warningMintues =   this.stepInfo.stepFormInfo.caseStepDef.warningMintues * 60 * 24
-                }
-                if(this.succeedRule === '0'){
-                    this.stepInfo.stepFormInfo.successRuleTableData = {}
-                }
-                if(this.abnormalRule === '0'){
-                    this.stepInfo.stepFormInfo.failRuleTableData = {}
-                }
-                if(this.activeTerm === '1'){
-                    this.stepInfo.stepFormInfo.activeRuleTableData = {}
-                }
-                this.stepInfo.stepFormInfo.caseStepDef.stepActType = this.stepInfo.stepActType;
-                this.stepInfo.stepFormInfo.caseStepDef.stepName = this.stepInfo.stepName;
-                this.$emit('saveStepInfo', {optionType: this.optionType, stepInfo: this.stepInfo, taskArgs: this.args});
+           saveForm() {
+                this.$refs['stepInfoForm'].validate(valid=> {
+                    if (!valid) {
+                        return;
+                    }
+                    if (this.timeType === '2') {
+                        this.stepInfo.stepFormInfo.caseStepDef.warningMintues = this.stepInfo.stepFormInfo.caseStepDef.warningMintues * 60
+                    } else if (this.timeType === '3') {
+                        this.stepInfo.stepFormInfo.caseStepDef.warningMintues = this.stepInfo.stepFormInfo.caseStepDef.warningMintues * 60 * 24
+                    }
+                    if (this.succeedRule === '0') {
+                        this.stepInfo.stepFormInfo.successRuleTableData = {}
+                    }
+                    if (this.abnormalRule === '0') {
+                        this.stepInfo.stepFormInfo.failRuleTableData = {}
+                    }
+                    if (this.activeTerm === '1') {
+                        this.stepInfo.stepFormInfo.activeRuleTableData = {}
+                    }
+                    this.stepInfo.stepName = this.stepInfo.stepFormInfo.caseStepDef.stepName;
+                    this.stepInfo.stepFormInfo.caseStepDef.stepActType = this.stepInfo.stepActType;
+                    this.stepInfo.stepFormInfo.caseStepDef.stepName = this.stepInfo.stepName;
+                    this.stepInfo.stepCodeChange = this.initStepCode !== this.stepInfo.stepFormInfo.caseStepDef.stepCode;
+                    this.$emit('saveStepInfo', {
+                        optionType: this.optionType,
+                        stepInfo: this.stepInfo,
+                        taskArgs: this.args
+                    });
+                })
             },
 
             // 取消修改表单数据

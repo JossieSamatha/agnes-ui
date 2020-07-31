@@ -65,8 +65,17 @@
             },
 
             // 保存Stage标题
-            saveStageTitle() {
-                this.$set(this.stage, 'edit', false);
+            async saveStageTitle() {
+                if(!this.stage.defName){
+                    this.$alert('请补充完整stage标题！', '提示', {
+                        confirmButtonText: '确定',
+                        callback: () => {
+                            this.$refs.titleInput.focus();
+                        }
+                    });
+                }else{
+                    this.$set(this.stage, 'edit', false);
+                }
             },
 
             // 删除Stage
