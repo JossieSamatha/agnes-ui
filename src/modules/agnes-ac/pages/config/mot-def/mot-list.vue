@@ -61,10 +61,26 @@
                 }
             },
 
-            // 复核
-            async checkMotTask(params){
+            //复核
+            checkKpiTask(params){
+                if(params.data.reTaskDef.needApprove==='1'&&params.data.reTaskDef.taskStatus==='01' || params.data.reTaskDef.needApprove==='1'&&params.data.reTaskDef.taskStatus==='04'){
+                    params.data.isCheck = true;
+                    this.showDrawer('view', params.data, this.onAddModel.bind(this));
+                }else {
+                    this.$msg.warning("该状态无法审核!");
+                    return;
+                }
+
+            },
+
+            // 发布
+            async publishKpiTask(params){
                 const rowData = params.data;
-                const ok = await this.$msg.ask(`确认复核任务:[${rowData.reTaskDef.taskName}]吗, 是否继续?`);
+                if(rowData.reTaskDef.taskStatus === '00' || rowData.reTaskDef.taskStatus === '01' || rowData.reTaskDef.taskStatus === '04' || rowData.reTaskDef.taskStatus === '03'){
+                    this.$msg.warning("该状态无法发布!");
+                    return ;
+                }
+                const ok = await this.$msg.ask(`确认发布任务:[${rowData.reTaskDef.taskName}]吗, 是否继续?`);
                 if (!ok) {
                     return
                 }

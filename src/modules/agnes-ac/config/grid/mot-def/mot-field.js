@@ -3,7 +3,8 @@ import column from "../../../../../config/column"
 const colButtons = [
     {key: 'editKpiTask', title: '编辑'},
     {key: 'deleteKpiTask', title: '删除', cellClass: 'red-cell'},
-    {key: 'checkMotTask', title: '复核'},
+    {key: 'checkKpiTask', title: '审核'},
+    {key: 'publishKpiTask', title: '发布'},
 ];
 
 export default {
@@ -42,7 +43,7 @@ export default {
     headerHeight: 40,
     rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-ac/v1/ac/mot/task/case/list?taskType=00",
+        fetchUrl: "/agnes-ac/v1/ac/mot/task/case/list?taskType=0",
         fetchMethod: 'get',
         pagingMode: true, //不分页
         checkboxColumn: 1, //是否显示checkbox列,

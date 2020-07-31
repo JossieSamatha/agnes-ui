@@ -34,13 +34,14 @@
         <el-form-item label="任务说明" prop="stepRemark">
             <gf-input type="textarea" v-model.trim="detailForm.stepRemark" placeholder="任务说明"/>
         </el-form-item>
-        <el-form-item label="运行周期" prop="startTimeStr">
+        <el-form-item label="运行周期" prop="task_startTime">
             <div class="line none-shrink">
                 <el-form-item prop="task_startTime">
                     <el-date-picker
                             v-model="detailForm.task_startTime"
                             type="date"
                             value-format="yyyy-MM-dd"
+                            :picker-options="pickerOptionsStart"
                             placeholder="开始日期">
                     </el-date-picker>
                 </el-form-item>
@@ -50,6 +51,7 @@
                             v-model="detailForm.task_endTime"
                             type="date"
                             value-format="yyyy-MM-dd"
+                            :picker-options="pickerOptionsEnd"
                             placeholder="结束日期" :disabled="startAllTime === '1'">
                     </el-date-picker>
                 </el-form-item>
@@ -57,14 +59,7 @@
             </div>
         </el-form-item>
         <el-form-item label="基准日期" prop="dayendDefId">
-            <el-select v-model="detailForm.dayendDefId" placeholder="请选择" filterable clearable>
-                <gf-filter-option
-                        v-for="item in detailForm.standardOptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </gf-filter-option>
-            </el-select>
+            <gf-dict filterable clearable v-model="detailForm.dayendDefId" dict-type="AGNES_BASE_DATE" style="width: 30%;"/>
         </el-form-item>
         <el-form-item label="执行时间" prop="step_startTime">
             <div class="line none-shrink">
@@ -311,6 +306,25 @@
                     step_endTime: [
                         {required: true, message: '执行结束时间必填', trigger: 'change'},
                     ]
+                },
+                pickerOptionsStart: {
+                    disabledDate: time => {
+                        let endDateVal = this.detailForm.task_endTime;
+                        if (endDateVal) {
+                            return time.getTime() > new Date(endDateVal).getTime();
+                        }
+                    }
+                },
+                pickerOptionsEnd: {
+                    disabledDate: time => {
+                        let beginDateVal = this.detailForm.task_startTime;
+                        if (beginDateVal) {
+                            return (
+                                time.getTime() <
+                                new Date(beginDateVal).getTime() - 1 * 24 * 60 * 60 * 1000
+                            );
+                        }
+                    }
                 }
             }
         },
