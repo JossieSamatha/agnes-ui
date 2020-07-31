@@ -19,25 +19,25 @@
                     {
                         id: '1',
                         type: 'indicator',
-                        label: '指标任务',
+                        label: '监控指标任务',
                         icon: 'indicator'
                     },
                     {
                         id: '3',
                         type: 'process',
-                        label: '流程任务',
+                        label: '审批流程任务',
                         icon: 'process'
                     },
                     {
-                        id: '0',
+                        id: '6',
                         type: 'person',
-                        label: '人工任务',
+                        label: '人工MOT任务',
                         icon: 'person'
                     },
                     {
                         id: '4',
                         type: 'robot',
-                        label: '机器人任务',
+                        label: 'RPA自动任务',
                         icon: 'robot'
                     }
                 ]

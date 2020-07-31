@@ -19,7 +19,7 @@
                 const row = params.data;
                 if (row.taskType === '1') {
                     let kpiCode = row.taskKey;
-                    let bizDate = row.taskStartTm.toString().substr(0, 10);
+                    let bizDate = row.bizDt;
                     let caseId = row.caseId;
                     let stepCode = row.stepCode;
                     let pageView = this.$app.views.getView("agnes.kpi.def");

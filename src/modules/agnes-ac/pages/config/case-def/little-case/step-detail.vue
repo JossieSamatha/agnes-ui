@@ -53,7 +53,7 @@
                     <span v-if="dayChecked===true" style="margin: 0 5px">日</span>
                     <el-form-item prop="startTime">
                         <el-time-picker v-model="caseStepDef.startTime"
-                                        :picker-options="{selectableRange:`${caseStepDef.endTime ? caseStepDef.endTime + ':00' : '00:00:00'}-23:59:59`}"
+                                        :picker-options="{selectableRange:`00:00:00-${caseStepDef.endTime ? caseStepDef.endTime + ':00' : '23:59:59'}`}"
                                 placeholder="任意时间点"
                                 value-format="HH:mm" format="HH:mm">
                         </el-time-picker>
@@ -63,7 +63,7 @@
                     <span v-if="dayChecked===true" style="margin: 0 5px">日</span>
                     <el-form-item prop="endTime">
                         <el-time-picker v-model="caseStepDef.endTime"
-                                        :picker-options="{selectableRange:`00:00:00-${caseStepDef.startTime ? caseStepDef.startTime + ':00' : '23:59:59'}`}"
+                                        :picker-options="{selectableRange:`${caseStepDef.startTime ? caseStepDef.startTime + ':00' : '00:00:00'}-23:59:59`}"
                                 placeholder="任意时间点"
                                 value-format="HH:mm" format="HH:mm">
                         </el-time-picker>

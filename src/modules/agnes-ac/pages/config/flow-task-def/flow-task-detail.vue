@@ -51,7 +51,7 @@
             <gf-dict filterable clearable v-model="detailForm.dayendDefId" dict-type="AGNES_BASE_DATE"/>
         </el-form-item>
         <el-form-item label="控制参数">
-            <gf-strbool-checkbox v-model="detailForm.needApprove">是否需要复核</gf-strbool-checkbox>
+            <gf-strbool-checkbox v-model="detailForm.needApprove">是否需要审核</gf-strbool-checkbox>
         </el-form-item>
         <el-form-item label="启动方式" prop="execMode">
             <el-radio-group v-model="detailForm.execMode">
