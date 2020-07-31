@@ -299,7 +299,7 @@
     }
 
     import CronDef from "./cron-def";
-    import RemindDef from './remind-def'
+    // import RemindDef from './remind-def'
 
     export default {
         name: "stepInfo",
@@ -492,7 +492,7 @@
 
             showRemindDlg(remindProp,remindSort, actionOk) {
                 this.$nav.showDialog(
-                    RemindDef,
+                    'remind-def',
                     {
                         args: {remindProp,remindSort, actionOk},
                         width: '530px',
