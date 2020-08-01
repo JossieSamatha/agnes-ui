@@ -24,11 +24,21 @@
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
+                let isShow = true;
+                row.isCheck=false;
+                if(mode==='check'){
+                    mode='view';
+                    row.isCheck=true;
+                }
+                if(!row.isCheck && mode==='view'){
+                    isShow = false;
+                }
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
                     title: ['任务类型编辑',mode],
                     component: KpiTaskDetail,
                     args: {row, mode, actionOk},
+                    okButtonVisible:isShow,
                     okButtonTitle: row.isCheck ? '审核' : '保存',
                     cancelButtonTitle: row.isCheck ? '反审核' : '取消',
                 });
@@ -66,8 +76,7 @@
             //复核
             checkKpiTask(params){
                 if(params.data.reTaskDef.needApprove==='1'&&params.data.reTaskDef.taskStatus==='01' || params.data.reTaskDef.needApprove==='1'&&params.data.reTaskDef.taskStatus==='04'){
-                    params.data.isCheck = true;
-                    this.showDrawer('view', params.data, this.onAddModel.bind(this));
+                    this.showDrawer('check', params.data, this.onAddModel.bind(this));
                 }else {
                     this.$msg.warning("该状态无法审核!");
                     return;

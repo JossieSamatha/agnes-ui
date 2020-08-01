@@ -1,7 +1,9 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
+    {key: 'editRate', title: '编辑'},
     {key: 'deleteRate', title: '删除',cellClass:'red-cell'},
+    {key: 'checkRate', title: '复核'},
 ];
 
 export default {
@@ -16,7 +18,7 @@ export default {
         {headerName: "失效日期", field: "endDt"},
         column.colUpdUser,
         column.colUpdTm,
-        column.buildOpCol(100, colButtons)
+        column.buildOpCol(120, colButtons)
     ],
     ext: {
         fetchUrl: "/agnes-app/v1/acnt/rate/ref/list",    //后台查询数据的URL地址
