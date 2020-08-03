@@ -1,26 +1,25 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'editEventDef', title: '编辑'},
-    {key: 'deleteEventDef', title: '删除',cellClass:'red-cell'},
+    {key: 'choseUserGroup', title: '选择'},
 ];
 
 export default {
     columnDefs: [
-        column.buildOpCol(120, colButtons),
-        {headerName: "事件名称", field: "eventName"},
+        column.buildOpCol(80, colButtons),
+        {headerName: "群组名称", field: "userGroupName"},
         column.colCrtUser,
         column.colCrtTm
     ],
     headerHeight: 40,
     rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-ec/v1/config/event/def/list/page",
+        fetchUrl: "/agnes-app/v1/dop/user/group/list/all/page",
         fetchMethod: 'get',
-        pagingMode: true, //是否分页
-        checkboxColumn: 1, //是否显示checkbox列,
+        pagingMode: true, //分页
+        checkboxColumn: 0, //是否显示checkbox列,
         autoFitColumnMode: 1,
-        enableExportLocal: true,
+        enableExportLocal: false,
         pageOptions: {
             // 分页大小
             pageSize: 10,

@@ -12,6 +12,7 @@
 
 <script>
     import KpiTaskDetail from "./kpi-task-detail";
+    import {transferCaseDefData} from '../../../util/transferCaseData.js'
 
     export default {
         methods: {
@@ -23,11 +24,21 @@
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
+                let isShow = true;
+                row.isCheck=false;
+                if(mode==='check'){
+                    mode='view';
+                    row.isCheck=true;
+                }
+                if(!row.isCheck && mode==='view'){
+                    isShow = false;
+                }
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
                     title: ['任务类型编辑',mode],
                     component: KpiTaskDetail,
                     args: {row, mode, actionOk},
+                    okButtonVisible:isShow,
                     okButtonTitle: row.isCheck ? '审核' : '保存',
                     cancelButtonTitle: row.isCheck ? '反审核' : '取消',
                 });
@@ -65,8 +76,7 @@
             //复核
             checkKpiTask(params){
                 if(params.data.reTaskDef.needApprove==='1'&&params.data.reTaskDef.taskStatus==='01' || params.data.reTaskDef.needApprove==='1'&&params.data.reTaskDef.taskStatus==='04'){
-                    params.data.isCheck = true;
-                    this.showDrawer('view', params.data, this.onAddModel.bind(this));
+                    this.showDrawer('check', params.data, this.onAddModel.bind(this));
                 }else {
                     this.$msg.warning("该状态无法审核!");
                     return;
@@ -86,7 +96,7 @@
                     return
                 }
                 try {
-                    let sendInfo = this.handleData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName);
+                    let sendInfo = transferCaseDefData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName);
                     rowData.caseDefJson = JSON.stringify(sendInfo);
                     const p = this.$api.caseConfigApi.publishCaseDef(rowData);
                     await this.$app.blockingApp(p);
@@ -96,59 +106,6 @@
                 }
             },
 
-            //切除数据层级
-            handleData(dataOrigin,caseDefKey,caseDefName) {
-                let caseDef =JSON.parse(JSON.stringify(dataOrigin))
-                let newCaseModelData = caseDef.stages;
-                for (let i = 0; i < newCaseModelData.length; i++) {
-                    const steps = [];
-                    if (newCaseModelData[i].children && newCaseModelData[i].children.length > 0) {
-                        this.recursionData(newCaseModelData[i].children, steps,caseDefKey);
-                    }
-                    newCaseModelData[i].steps = steps;
-                    // newCaseModelData[i].children = [];
-                    delete newCaseModelData[i].children
-                }
-                caseDef.stages=newCaseModelData;
-                caseDef.defType='case';
-                caseDef.defId='';
-                caseDef.caseDefKey=caseDefKey;
-                caseDef.defName=caseDefName;
-                return caseDef
-            },
-            //递归用函数
-            recursionData(nowData,steps,caseDefKey){
-                for(let i=0;i<nowData.length;i++){
-                    if(nowData[i].defType==='step'){
-                        let currentData = {};
-                        currentData['@stepType'] = nowData[i].stepActType;
-                        Object.assign(currentData, nowData[i]);
-                        currentData.autoActive = true;
-                        currentData.defName = currentData.stepName;
-                        currentData.defId = caseDefKey;
-                        let actionDef = {
-                                "automation":true,
-                        };
-                        currentData.actionDef = actionDef;
-                        delete currentData.stepName;
-                        delete currentData.stepCode;
-                        if(currentData.stepFormInfo){
-                            let temporaryData = JSON.parse(JSON.stringify(currentData.stepFormInfo));
-                            delete currentData.stepFormInfo
-                            let sentryInData = {};
-                            let sentryOut = {};
-                            sentryInData.ifExpr = temporaryData.activeRuleTableData
-                            sentryOut.ifExpr = temporaryData.successRuleTableData
-                            currentData.sentryIn = sentryInData
-                            currentData.sentryOut = sentryOut
-                        }
-                        steps.push(currentData)
-                        //如需改变数据，在此处修改
-                    }else if(nowData[i].defType==='group'){
-                        this.recursionData(nowData[i].steps,steps)
-                    }
-                }
-            },
         }
     }
 </script>

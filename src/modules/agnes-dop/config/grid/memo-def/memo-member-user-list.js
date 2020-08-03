@@ -1,26 +1,27 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'editEventDef', title: '编辑'},
-    {key: 'deleteEventDef', title: '删除',cellClass:'red-cell'},
+    {key: 'choseUser', title: '选择'},
 ];
 
 export default {
     columnDefs: [
-        column.buildOpCol(120, colButtons),
-        {headerName: "事件名称", field: "eventName"},
-        column.colCrtUser,
-        column.colCrtTm
+        column.buildOpCol(80, colButtons),
+        {headerName: "用户ID", field: "userId"},
+        {headerName: "用户名", field: "userName"},
+        {headerName: "所属机构", field: "orgName"},
+        {headerName: "用户状态", field: "userStatus", formatType:"dict", dictType:'GF_USER_STATUS'},
+        {headerName: "用户简介", field: "userDesc"}
     ],
     headerHeight: 40,
     rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-ec/v1/config/event/def/list/page",
-        fetchMethod: 'get',
-        pagingMode: true, //是否分页
-        checkboxColumn: 1, //是否显示checkbox列,
+        fetchUrl: "/gf-admin/gf/user/queryUserList",
+        fetchMethod: 'post',
+        pagingMode: true, //分页
+        checkboxColumn: 0, //是否显示checkbox列,
         autoFitColumnMode: 1,
-        enableExportLocal: true,
+        enableExportLocal: false,
         pageOptions: {
             // 分页大小
             pageSize: 10,

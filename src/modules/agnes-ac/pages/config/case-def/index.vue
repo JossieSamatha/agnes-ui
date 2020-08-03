@@ -15,6 +15,7 @@
 
 <script>
     import CaseDefDlg from "./case-field-dlg";
+    import {transferCaseDefData} from '../../../util/transferCaseData.js'
     export default {
         methods: {
             reloadData() {
@@ -72,52 +73,7 @@
                     this.$msg.error(reason);
                 }
             },
-            //切除数据层级
-            checkData(dataOrigin,caseDefKey,caseDefName) {
-                let data =JSON.parse(JSON.stringify(dataOrigin))
-                let newCaseModelData = data.stages;
-                for (let i = 0; i < newCaseModelData.length; i++) {
-                    this.steps = [];
-                    if (newCaseModelData[i].children && newCaseModelData[i].children.length > 0) {
-                        this.recursionData(newCaseModelData[i].children, this.steps);
-                    }
-                    newCaseModelData[i].steps = this.steps;
-                    // newCaseModelData[i].children = [];
-                    delete newCaseModelData[i].children
-                }
-                data.stages=newCaseModelData;
-                data.defType='case';
-                data.defId='';
-                data.caseDefKey=caseDefKey;
-                data.defName=caseDefName;
-                return data
-            },
-            //递归用函数
-            recursionData(nowData,steps){
-                for(let i=0;i<nowData.length;i++){
-                    if(nowData[i].defType==='step'){
-                        let currentData = nowData[i]
-                        currentData.stepType = currentData.stepActType;
-                        currentData.defName = currentData.stepName;
-                        delete currentData.stepName;
-                        delete currentData.stepCode;
-                        if(currentData.stepFormInfo){
-                            let temporaryData = JSON.parse(JSON.stringify(currentData.stepFormInfo));
-                            delete currentData.stepFormInfo
-                            let sentryInData = {};
-                            let sentryOut = {};
-                            sentryInData.ifExpr = temporaryData.activeRuleTableData
-                            sentryOut.ifExpr = temporaryData.successRuleTableData
-                            currentData.sentryIn = sentryInData
-                            currentData.sentryOut = sentryOut
-                        }
-                        steps.push(currentData)
-                        //如需改变数据，在此处修改
-                    }else if(nowData[i].defType==='group'){
-                        this.recursionData(nowData[i].steps,steps)
-                    }
-                }
-            },
+
             async publishCaseDef(){
                 let row;
                 const rows = this.$refs.grid.getSelectedRows();
@@ -139,7 +95,7 @@
                 }
                 try {
                     let rowAfterCheck = JSON.parse(row.caseDefBody)
-                    let rowCaseDefBody = this.checkData(rowAfterCheck,row.caseDefKey,row.caseDefName)
+                    let rowCaseDefBody = transferCaseDefData(rowAfterCheck,row.caseDefKey,row.caseDefName)
                     row.caseDefBody = JSON.stringify(rowCaseDefBody)
                     const p = this.$api.caseConfigApi.publishCaseDef(row);
                     await this.$app.blockingApp(p);
