@@ -1,19 +1,21 @@
 <template>
-    <div>
-        <gf-cron ref="innerVueCron" :cornObj="cron" :data="cron" @change="onSave" @close="onCancel"></gf-cron>
+    <div class="cron-modal">
+        <i class="question el-icon-question" title="操作文档"></i>
+        <gf-cron ref="innerVueCron" :cornObj="cron" @change="onSave" @close="onCancel"></gf-cron>
+
     </div>
 </template>
 
 <script>
     export default {
-        name: "editExecTime",
+        name: "GfCronModal",
         props: {
-            data: {type: String},
+            cornObj: {type: String},
             action: Function
         },
         data() {
             return {
-                cron:this.data,
+                cron:this.cornObj,
             }
         },
         mounted() {
@@ -30,7 +32,3 @@
         },
     }
 </script>
-
-<style scoped>
-
-</style>

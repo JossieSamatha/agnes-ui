@@ -298,9 +298,6 @@
         };
     }
 
-    import CronDef from "./cron-def";
-    // import RemindDef from './remind-def'
-
     export default {
         name: "stepInfo",
         props: {
@@ -470,7 +467,7 @@
                     return;
                 }
                 this.$nav.showDialog(
-                    CronDef,
+                    'gf-cron-modal',
                     {
                         args: {cornObj, action},
                         width: '530px',

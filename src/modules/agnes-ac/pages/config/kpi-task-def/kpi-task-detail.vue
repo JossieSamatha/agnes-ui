@@ -267,7 +267,6 @@
 </template>
 
 <script>
-    import ExecTimeEdit from "./exec-time";
     import staticData from '../../../util/dataFormat'
     import initData from '../../../util/initData'
     import UserSelect from '../../../components/biz/kpi-user-select'
@@ -417,9 +416,9 @@
                     return;
                 }
                 this.$nav.showDialog(
-                    ExecTimeEdit,
+                    'gf-cron-modal',
                     {
-                        args: {data, action},
+                        args: {cornObj: data, action},
                         width: '530px',
                         title: this.$dialog.formatTitle('编辑执行频率'),
                     }

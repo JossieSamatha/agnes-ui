@@ -65,3 +65,26 @@
 .el-form.task-def-form .el-date-editor.el-input {
     min-width: 235px;
 }
+
+.cron-modal .changeContab .bottom {
+    position: absolute;
+    top: 0px;
+    right: 20px;
+    width: auto;
+    height: 40px;
+    line-height: 40px;
+    background: #fff;
+}
+
+.cron-modal .changeContab .bottom .value {
+    display: none;
+}
+
+.cron-modal .question {
+    position: absolute;
+    top: 15px;
+    right: 165px;
+    font-size: 20px;
+    color: #476Dbe;
+    cursor: pointer;
+}
