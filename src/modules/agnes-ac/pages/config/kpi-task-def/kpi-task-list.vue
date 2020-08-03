@@ -12,7 +12,7 @@
 
 <script>
     import KpiTaskDetail from "./kpi-task-detail";
-    import {transferCaseDefData} from '../../../util/transferCaseData.js'
+    // import {transferCaseDefData} from '../../../util/transferCaseData.js'
 
     export default {
         methods: {
@@ -96,13 +96,66 @@
                     return
                 }
                 try {
-                    let sendInfo = transferCaseDefData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName);
+                    let sendInfo = this.handleData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName);
                     rowData.caseDefJson = JSON.stringify(sendInfo);
                     const p = this.$api.caseConfigApi.publishCaseDef(rowData);
                     await this.$app.blockingApp(p);
                     this.reloadData();
                 } catch (reason) {
                     this.$msg.error(reason);
+                }
+            },
+            //切除数据层级
+            handleData(dataOrigin,caseDefKey,caseDefName) {
+                let caseDef =JSON.parse(JSON.stringify(dataOrigin))
+                let newCaseModelData = caseDef.stages;
+                for (let i = 0; i < newCaseModelData.length; i++) {
+                    const steps = [];
+                    if (newCaseModelData[i].children && newCaseModelData[i].children.length > 0) {
+                        this.recursionData(newCaseModelData[i].children, steps,caseDefKey);
+                    }
+                    newCaseModelData[i].steps = steps;
+                    // newCaseModelData[i].children = [];
+                    delete newCaseModelData[i].children
+                }
+                caseDef.stages=newCaseModelData;
+                caseDef.defType='case';
+                caseDef.defId='';
+                caseDef.caseDefKey=caseDefKey;
+                caseDef.defName=caseDefName;
+                return caseDef
+            },
+            //递归用函数
+            recursionData(nowData,steps,caseDefKey){
+                for(let i=0;i<nowData.length;i++){
+                    if(nowData[i].defType==='step'){
+                        let currentData = {};
+                        currentData['@stepType'] = nowData[i].stepActType;
+                        Object.assign(currentData, nowData[i]);
+                        currentData.autoActive = true;
+                        currentData.defName = currentData.stepName;
+                        currentData.defId = caseDefKey;
+                        let actionDef = {
+                            "automation":true,
+                        };
+                        currentData.actionDef = actionDef;
+                        delete currentData.stepName;
+                        delete currentData.stepCode;
+                        if(currentData.stepFormInfo){
+                            let temporaryData = JSON.parse(JSON.stringify(currentData.stepFormInfo));
+                            delete currentData.stepFormInfo
+                            let sentryInData = {};
+                            let sentryOut = {};
+                            sentryInData.ifExpr = temporaryData.activeRuleTableData
+                            sentryOut.ifExpr = temporaryData.successRuleTableData
+                            currentData.sentryIn = sentryInData
+                            currentData.sentryOut = sentryOut
+                        }
+                        steps.push(currentData)
+                        //如需改变数据，在此处修改
+                    }else if(nowData[i].defType==='group'){
+                        this.recursionData(nowData[i].steps,steps)
+                    }
                 }
             },
 
