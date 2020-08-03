@@ -133,6 +133,9 @@
             });
         },
         methods: {
+            onCancel() {
+                this.$emit("onClose");
+            },
             reloadData() {
                 let _this =this;
                 this.$api.kpiDefineApi.getKpiDetails(this.data).then((resp) => {

@@ -86,7 +86,7 @@
                     return
                 }
                 try {
-                    let sendInfo = transferCaseDefData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName);
+                    let sendInfo = transferCaseDefData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName,'list');
                     rowData.caseDefJson = JSON.stringify(sendInfo);
                     const p = this.$api.caseConfigApi.publishCaseDef(rowData);
                     await this.$app.blockingApp(p);
