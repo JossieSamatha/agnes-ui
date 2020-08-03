@@ -28,7 +28,7 @@
     @import "~@hex/gf-ui/src/lib/tabs/chrome-tabs.css";
     @import "~@hex/gf-ui/src/lib/semantic-ui-css/semantic.css";
     @import "~@hex/gf-ui/src/style/gf-ui.css";
-    @import "~@hex/gf-ui/src/style/common.css";
+    /*@import "~@hex/gf-ui/src/style/common.css";*/
     @import "~@hex/ares-ui/src/style/gf.css";
 
     html, body {
