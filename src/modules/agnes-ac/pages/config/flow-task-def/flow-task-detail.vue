@@ -51,7 +51,7 @@
             <gf-dict filterable clearable v-model="detailForm.dayendDefId" dict-type="AGNES_BASE_DATE"/>
         </el-form-item>
         <el-form-item label="控制参数">
-            <gf-strbool-checkbox v-model="detailForm.needApprove">是否需要复核</gf-strbool-checkbox>
+            <gf-strbool-checkbox v-model="detailForm.needApprove">是否需要审核</gf-strbool-checkbox>
         </el-form-item>
         <el-form-item label="启动方式" prop="execMode">
             <el-radio-group v-model="detailForm.execMode">
@@ -120,7 +120,7 @@
                         {required: true, message: '任务等级必填', trigger: 'blur'},
                     ],
                     caseKey: [
-                        {required: true, message: '任务编号必填', trigger: 'blur'},
+                        {validator: this.hasRepetCode, required: true, trigger: 'change'},
                     ],
                     startTime: [
                         {required: true, message: '运行周期开始时间必填', trigger: 'blur'},
@@ -169,6 +169,16 @@
             this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
         },
         methods: {
+            hasRepetCode(rule, value, callback) {
+                if (!value) {
+                    callback(new Error('任务编号必填'));
+                }else if(value.length !== 8){
+                    callback(new Error('任务编号需为8位数字'));
+                }else{
+                    callback();
+                }
+            },
+
             openCron() {
                 this.showDlg(this.detailForm.execScheduler, this.setExecScheduler.bind(this));
             },

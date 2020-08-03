@@ -26,7 +26,6 @@
                     inst: {
                         taskId: "",
                     },
-                    userId: "",
                     reason: ""
                 },
                 rules: {

@@ -2,8 +2,7 @@
     <div>
         <gf-grid grid-no="agnes-rate-def" ref="grid">
             <template slot="left">
-                <gf-button @click="addRate" size="mini">新增</gf-button>
-                <gf-button @click="updateStatus" size="mini">状态切换</gf-button>
+                <gf-button @click="addRate" class="action-btn">添加</gf-button>
             </template>
         </gf-grid>
     </div>
@@ -16,19 +15,6 @@
         methods: {
             reloadData() {
                 this.$refs.grid.reloadData();
-            },
-            async updateStatus(){
-                let selectRow = this.$refs.grid.getSelectedRows()[0];
-                if(!selectRow){
-                    this.$msg.warning("请选中一条记录!");
-                    return;
-                }
-                selectRow.status=selectRow.status=='0'?'1':'0';
-                selectRow.endDt = '9999-12-30 23:59:59';
-                const p = this.$api.rateDefineApi.changeStatus(selectRow);
-                await this.$app.blockingApp(p);
-                this.$msg.success('修改成功');
-                this.reloadData();
             },
             showDlg(mode, row, actionOk) {
                 this.$nav.showDialog(

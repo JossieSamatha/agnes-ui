@@ -50,7 +50,8 @@
             async deleteTask() {
                 const ok = await this.$msg.ask(`确认删除吗, 是否继续?`);
                 if (ok) {
-                    this.stepList.splice(this.stepIndex, 1)
+                    this.$app.runCmd('openStepDialog', 'deleteStep', this.step.stepFormInfo.caseStepDef.stepCode);
+                    this.stepList.splice(this.stepIndex, 1);
                 }
             }
         }

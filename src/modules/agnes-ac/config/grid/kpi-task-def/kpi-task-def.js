@@ -11,8 +11,9 @@ export default {
     columnDefs: [
         column.buildOpCol(160, colButtons),
         {headerName: "任务名称", field: "reTaskDef.taskName"},
+        {headerName: "业务编号", field: "reTaskDef.caseKey"},
         {headerName: "业务场景", field: "reTaskDef.bizType", dictType: 'AGNES_BIZ_CASE'},
-        {headerName: "业务标签", field: "reTaskDef.bizTag",dictType: 'AGNES_BIZ_TAG',
+        {headerName: "业务标签", field: "reTaskDef.bizTag",
             valueFormatter: function (params) {
             if(params.value){
                 let Ids = params.value.split(',');
@@ -22,7 +23,7 @@ export default {
             }
             return "";
         }},
-        {headerName: "任务类型", field: "reTaskDef.taskType", dictType: 'AGNES_CASE_STEPTYPE'},
+        {headerName: "任务类型", field: "reTaskDef.taskType", dictType: 'AGNES_TASK_TYPE'},
         {headerName: "状态", field: "reTaskDef.taskStatus", dictType: "CASE_TASK_STATUS"},
         {headerName: "创建时间", field: "reTaskDef.crtTs"},
         {headerName: "创建人", field: "reTaskDef.crtUser"}

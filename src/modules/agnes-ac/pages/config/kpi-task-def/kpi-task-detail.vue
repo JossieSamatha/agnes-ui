@@ -14,7 +14,7 @@
             </el-rate>
         </el-form-item>
         <el-form-item label="任务编号" prop="caseKey">
-            <gf-input v-model.trim="detailForm.caseKey" placeholder="任务编号"/>
+            <gf-input v-model.trim="detailForm.caseKey" placeholder="任务编号" :max-byte-len="8"/>
         </el-form-item>
         <el-form-item label="业务场景" prop="bizType">
             <gf-dict filterable clearable v-model="detailForm.bizType" dict-type="AGNES_BIZ_CASE"/>
@@ -309,7 +309,7 @@
                         {required: true, message: '任务等级必填', trigger: 'blur'},
                     ],
                     caseKey: [
-                        {required: true, message: '任务编号必填', trigger: 'blur'},
+                        {validator: this.hasRepetCode, required: true, trigger: 'change'},
                     ],
                     task_startTime: [
                         {required: true, message: '运行周期开始时间必填', trigger: 'blur'},
@@ -361,6 +361,15 @@
             this.getServiceResponse();
         },
         methods: {
+            hasRepetCode(rule, value, callback) {
+                if (!value) {
+                    callback(new Error('任务编号必填'));
+                }else if(value.length !== 8){
+                    callback(new Error('任务编号需为8位数字'));
+                }else{
+                    callback();
+                }
+            },
             async serviceResChange(param){
                 this.serviceRes.forEach((item)=>{
                     if(item.value === param){
@@ -498,7 +507,7 @@
                     }
                 })
                 caseDef.stages[0].children[0].stepFormInfo = stepFormInfo;
-                return {reTaskDef: kpiTaskDef, caseDefId: this.row.caseDefId, caseDefBody: caseDef,versionId:this.detailForm.versionId};
+                return {reTaskDef: kpiTaskDef, caseDefId: this.row.caseDefId, caseDefBody: JSON.stringify(caseDef),versionId:this.detailForm.versionId};
             },
 
             reDataTransfer() {

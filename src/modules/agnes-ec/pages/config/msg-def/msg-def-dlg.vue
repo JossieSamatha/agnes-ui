@@ -8,7 +8,7 @@
                 <gf-dict v-model="form.msgTopic" dict-type="AC_MSG_TOPIC" style="width: 50%"/>
             </el-form-item>
             <el-form-item label="消息对象类型" >
-                <el-select v-model="form.msgObjId" placeholder="请选择" style="width: 50%">
+                <el-select v-model="form.msgObjId" filterable placeholder="请选择" style="width: 50%">
                     <el-option
                             v-for="item in msgObjOptions"
                             :key="item.value"

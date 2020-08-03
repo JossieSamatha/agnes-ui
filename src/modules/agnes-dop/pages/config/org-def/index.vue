@@ -20,7 +20,7 @@
         <el-main style="height: 100%;padding-top: 0px;padding-bottom: 0px">
             <gf-grid grid-no="agnes-org-list" ref="grid" @row-double-click="listShowOrg" quick-text-max-width="300px" height="100%"  @grid-ready="onReady">
                 <template slot="left">
-                    <gf-button class="action-btn" @click="addOrg">新增</gf-button>
+                    <gf-button class="action-btn" @click="addOrg">添加</gf-button>
                 </template>
             </gf-grid>
         </el-main>
