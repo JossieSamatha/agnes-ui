@@ -125,7 +125,9 @@
                 })
             },
             logout: function () {
-                this.$app.runCmd('logoutDrawer');
+                if(this.$app.cmdMgr.get('logoutDrawer')){
+                    this.$app.runCmd('logoutDrawer');
+                }
                 this.$store.dispatch('logout').then(() => {
                     this.$router.push({path: '/login'});
                 });
