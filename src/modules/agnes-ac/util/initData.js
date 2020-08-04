@@ -15,7 +15,7 @@ export default function () {
         endTimeStr: '',         // 运行周期 -- 开始时间str
         task_endTime: null,          // endTime 重复名称
         standardDate: '',       // 基准日期(新增字段)
-        task_execMode: '1',          // 任务创建频率 -- 0：一次；1：重复执行；2：事件
+        task_execMode: '1',          // 任务创建频率 -- 1：一次；2：重复执行；3：事件
         task_execScheduler: '* * * * * ? *',      // 任务创建频率 -- 重复执行
         eventId: '',            // 事件Id -- 执行频率--事件
         needApprove: '0',       // 是否需要复核
@@ -65,8 +65,7 @@ export default function () {
         // rate等级颜色设置
         rateColor: {1: {value: '#409EFF'}, 2: {value: '#E6A23C'}, 3: {value: '#F00'}},
         // 事件选择下拉
-        eventOptions: [{value: "xit", label: "系统数据源"}, {value: "waibu", label: "外部数据源"},
-            {value: "ces", label: "测试数据源"}],
+        eventOptions: [],
         //
         standardOptions: [{label: '工作日', value: '0'}, {label: '自然日', value: '1'}],
         // 指标选择下拉
