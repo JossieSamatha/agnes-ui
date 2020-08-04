@@ -420,7 +420,7 @@
                     {
                         args: {cornObj: data, action},
                         width: '530px',
-                        title: this.$dialog.formatTitle('编辑执行频率'),
+                        title: this.$dialog.formatTitle('编辑执行频率', "edit"),
                     }
                 );
             },
