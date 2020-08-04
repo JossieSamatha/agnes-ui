@@ -66,6 +66,7 @@
                 <el-form-item prop="step_startTime">
                     <el-time-picker
                             v-model="detailForm.step_startTime"
+                            :picker-options=startTimeForDay
                             placeholder="执行开始时间"
                             value-format="HH:mm">
                     </el-time-picker>
@@ -74,28 +75,29 @@
                 <el-form-item prop="step_endTime">
                     <el-time-picker
                             v-model="detailForm.step_endTime"
+                            :picker-options=endTimeForDay
                             placeholder="执行结束时间"
-                            value-format="HH:mm">
+                            value-format="HH:mm" @change="endTimeChange">
                     </el-time-picker>
                 </el-form-item>
-                <gf-strbool-checkbox v-model="detailForm.dayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
+                <gf-strbool-checkbox v-model="dayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
             </div>
         </el-form-item>
-        <el-form-item label="启动方式" prop="task_execMode">
+        <el-form-item label="任务创建方式" prop="task_execMode">
             <el-radio-group v-model="detailForm.task_execMode">
-                <el-radio label="0">执行一次</el-radio>
-                <el-radio label="1">重复执行</el-radio>
-                <el-radio label="2">事件触发执行</el-radio>
+                <el-radio label="1">执行一次</el-radio>
+                <el-radio label="2">重复执行</el-radio>
+                <el-radio label="3">事件触发执行</el-radio>
             </el-radio-group>
         </el-form-item>
-        <template v-if="detailForm.task_execMode==1">
+        <template v-if="detailForm.task_execMode==2">
             <el-form-item label="任务创建频率" prop="step_execScheduler">
                 <el-button type="text" @click="editExecTime('task_execScheduler', detailForm.task_execScheduler)">
                     {{detailForm.task_execScheduler}}点击配置
                 </el-button>
             </el-form-item>
         </template>
-        <el-form-item label="事件选择" v-if="detailForm.task_execMode==2">
+        <el-form-item label="事件选择" v-if="detailForm.task_execMode==3">
             <el-select v-model="detailForm.eventId" placeholder="请选择" filterable clearable>
                 <gf-filter-option
                         v-for="item in detailForm.eventOptions"
@@ -161,12 +163,19 @@
                             </el-button>
                         </el-form-item>
                         <el-form-item label="服务水平承诺">
-                            <gf-el-select style="width: 20%"></gf-el-select>
+                            <el-select v-model="detailForm.serviceResponseId" placeholder="请选择" @change="serviceResChange">
+                                <el-option
+                                        v-for="item in serviceRes"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item>
                             按照每隔
-                            <gf-input style="width: 20%"></gf-input>
-                            分钟，执行
-                            <gf-input style="width: 20%"></gf-input>
-                            次后退出
+                            <gf-input  :value="repeatMinutes" style="width: 20%" :disabled="true"></gf-input>分钟，执行
+                            <gf-input  :value="maxRepeatCount" style="width: 20%" :disabled="true"></gf-input>次后退出
                         </el-form-item>
                         <el-form-item label="异常记录">
                             <gf-strbool-checkbox v-model="detailForm.isRecordTimeoutError">记入异常
@@ -229,7 +238,7 @@
         </el-form-item>
         <el-form-item label="异常规则">
             <el-radio-group v-model="abnormalRule">
-                <el-radio v-for="ruleType in ruleTypeOp"
+                <el-radio v-for="ruleType in ruleErrorTypeOp"
                           :key="ruleType.value"
                           :label="ruleType.value">
                     {{ruleType.label}}
@@ -244,7 +253,7 @@
 
 <script>
     import loadsh from 'lodash';
-    import ExecTimeEdit from "./exec-time";
+    import ExecTimeEdit from "../kpi-task-def/exec-time";
     import staticData from '../../../util/dataFormat'
     import initData from '../../../util/initData'
     import UserSelect from "../../../components/biz/kpi-user-select";
@@ -263,30 +272,33 @@
             return {
                 staticData: staticData(),
                 detailForm: initData(),
-                dayChecked: false,  // 跨日
+                dayChecked: '0',  // 跨日
+                endTimeForDay:null,
+                startTimeForDay:null,
                 succeedRule: '0',
                 abnormalRule: '0',
+                repeatMinutes: '',
+                maxRepeatCount: '',
                 curExecScheduler: '',    // 当前频率对象字段
+                serviceRes:[],
                 msgInformParam: [],      // 消息通知参数类型数组
                 startAllTime: '0',       // 是否永久有效
                 bizTagOption: [{label: '产品', value: '0'}, {label: '成立', value: '1'},{label: '清算', value: '2'}],        // 业务类型下拉
-                // 规则选择类型选项
-                ruleTypeOp: [{label: '默认完成规则', value: '0'}, {label: '自定义完成规则', value: '1'}],
-                // 消息配置类型类型选项
+                 // 消息配置类型类型选项
                 msgInformOp: [{label: '提前通知', value: '0'}, {label: '完成通知', value: '1'}, {label: '超时通知', value: '2'},
                     {label: '异常通知', value: '3'}, {label: '系统内部消息', value: '4'}],
+                // 规则选择类型选项
+                ruleTypeOp: [{label: '默认完成规则', value: '0'}, {label: '自定义完成规则', value: '1'}],
+                ruleErrorTypeOp: [{label: '默认异常规则', value: '0'}, {label: '自定义异常规则', value: '1'}],
                 detailFormRules: {
-                    taskName: [
-                        {required: true, message: '任务名称必填', trigger: 'blur'},
-                    ],
                     stepLevel: [
                         {required: true, message: '任务等级必填', trigger: 'blur'},
                     ],
-                    caseKey: [
-                        {required: true, message: '任务编号必填', trigger: 'blur'},
+                    taskName: [
+                        {required: true, message: '任务名称必填', trigger: 'blur'},
                     ],
-                    task_startTime: [
-                        {required: true, message: '运行周期开始时间必填', trigger: 'blur'},
+                    caseKey: [
+                        {validator: this.hasRepetCode, required: true, trigger: 'change'},
                     ],
                     task_endTime: [
                         {required: true, message: '运行周期结束时间必填', trigger: 'blur'},
@@ -303,17 +315,12 @@
                     step_startTime: [
                         {required: true, message: '执行开始时间必填', trigger: 'change'},
                     ],
+                    task_startTime: [
+                        {required: true, message: '运行周期开始时间必填', trigger: 'blur'},
+                    ],
                     step_endTime: [
                         {required: true, message: '执行结束时间必填', trigger: 'change'},
                     ]
-                },
-                pickerOptionsStart: {
-                    disabledDate: time => {
-                        let endDateVal = this.detailForm.task_endTime;
-                        if (endDateVal) {
-                            return time.getTime() > new Date(endDateVal).getTime();
-                        }
-                    }
                 },
                 pickerOptionsEnd: {
                     disabledDate: time => {
@@ -325,16 +332,60 @@
                             );
                         }
                     }
+                },
+                pickerOptionsStart: {
+                    disabledDate: time => {
+                        let endDateVal = this.detailForm.task_endTime;
+                        if (endDateVal) {
+                            return time.getTime() > new Date(endDateVal).getTime();
+                        }
+                    }
                 }
             }
         },
         beforeMount() {
+            this.startTimeForDay = {selectableRange:`00:00:00-${this.detailForm.step_endTime ? this.detailForm.step_endTime + ':00' : '23:59:59'}`};
+            this.endTimeForDay = {selectableRange:`${this.detailForm.step_startTime ? this.detailForm.step_startTime + ':00' : '00:00:00'}-23:59:59`};
             this.reDataTransfer();
             this.getOptions();
-        },
+            this.getServiceResponse();
+            },
         methods: {
-            getOptions(){
+            hasRepetCode(rule, value, callback) {
+                if (!value) {
+                    callback(new Error('任务编号必填'));
+                }else if(value.length !== 8){
+                    callback(new Error('任务编号需为8位数字'));
+                }else{
+                    callback();
+                }
+            },
+            async getOptions(){
                 this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
+                const e = this.$api.eventlDefConfigApi.getEventDefList();
+                const eventR = await this.$app.blockingApp(e);
+                const eventList = eventR.data
+                eventList.forEach((item)=>{
+                    this.detailForm.eventOptions.push({label:item.eventName,value:item.eventId});
+                });
+            },
+            async serviceResChange(param){
+                this.serviceRes.forEach((item)=>{
+                    if(item.value === param){
+                        this.repeatMinutes = item.repeatMinutes
+                        this.maxRepeatCount = item.maxRepeatCount
+                        return
+                    }
+                });
+            },
+            async getServiceResponse(){
+                const serviceRes = this.$api.kpiTaskApi.getServiceResponse();
+                const serviceResData = await this.$app.blockingApp(serviceRes);
+                const serviceResList = serviceResData.data;
+                serviceResList.forEach((item)=>{
+                    this.serviceRes.push({label:item.serviceResponseName,value:item.serviceResponseId,
+                        repeatMinutes:item.repeatMinutes,maxRepeatCount:item.maxRepeatCount});
+                });
             },
             editExecTime(curObj, execScheduler) {
                 this.curExecScheduler = curObj;
@@ -357,7 +408,16 @@
                 this.detailForm[this.curExecScheduler] = cron;
             },
             // 取消onCancel事件，触发抽屉关闭事件this.$emit("onClose");
-            onCancel() {
+            async onCancel() {
+                if(this.row.isCheck){
+                    let resData = this.dataTransfer();
+                    resData.isPass = '0';
+                    const p = this.$api.kpiTaskApi.checkTask(resData);
+                    await this.$app.blockingApp(p);
+                    if (this.actionOk) {
+                        await this.actionOk();
+                    }
+                }
                 this.$emit("onClose");
             },
 
@@ -443,7 +503,7 @@
                     }
                 })
                 caseDef.stages[0].children[0].stepFormInfo = stepFormInfo;
-                return {reTaskDef: kpiTaskDef, caseDefId: this.row.caseDefId, caseDefBody: caseDef,versionId:this.detailForm.versionId};
+                return {reTaskDef: kpiTaskDef, caseDefId: this.row.caseDefId, caseDefBody: JSON.stringify(caseDef),versionId:this.detailForm.versionId};
             },
 
             reDataTransfer() {
@@ -494,6 +554,20 @@
                         this.detailForm[type + key] = obj[key] || this.detailForm[key];
                     }
                 });
+            },
+            endTimeChange(){
+                if(this.dayChecked == '1'){
+                    this.startTimeForDay = {selectableRange:'00:00:00-23:59:59'};
+                }else {
+                    this.startTimeForDay = {selectableRange:`00:00:00-${this.detailForm.step_endTime ? this.detailForm.step_endTime + ':00' : '23:59:59'}`};
+                }
+            },
+            startTimeChange(){
+                if(this.dayChecked == '1'){
+                    this.endTimeForDay = {selectableRange:'00:00:00-23:59:59'};
+                }else {
+                    this.endTimeForDay = {selectableRange:`${this.detailForm.step_startTime ? this.detailForm.step_startTime + ':00' : '00:00:00'}-23:59:59`};
+                }
             }
         },
 
@@ -503,6 +577,28 @@
                     this.detailForm.task_endTime = '9999-12-31'
                 } else {
                     this.detailForm.task_endTime = ''
+                }
+            },
+            'detailForm.task_execMode'(val){
+                if(val === '2'){
+                    this.detailForm.eventId = '';
+                }else if(val === '3'){
+                    this.detailForm.task_execScheduler= '* * * * * ? *'
+                }else {
+                    this.detailForm.eventId = '';
+                    this.detailForm.task_execScheduler= '* * * * * ? *'
+                }
+            },
+            'dayChecked'(val){
+                if (val==='1') {
+                    this.endTimeForDay = {selectableRange:'00:00:00-23:59:59'};
+                    this.detailForm.endDay = '1';
+                    this.detailForm.startDay = '0';
+                } else {
+                    this.endTimeForDay = {selectableRange:`${this.detailForm.step_startTime ? this.detailForm.step_startTime + ':00' : '00:00:00'}-23:59:59`};
+                    this.detailForm.endDay = '';
+                    this.detailForm.startDay = '';
+                    this.detailForm.step_endTime = '';
                 }
             }
         }

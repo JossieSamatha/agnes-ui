@@ -66,24 +66,24 @@
                 <el-form-item prop="step_startTime">
                     <el-time-picker
                             v-model="detailForm.step_startTime"
-                            :picker-options="{selectableRange:`00:00:00-${detailForm.step_endTime ? detailForm.step_endTime + ':00' : '23:59:59'}`}"
+                            :picker-options=startTimeForDay
                             placeholder="执行开始时间"
-                            value-format="HH:mm">
+                            value-format="HH:mm" @change="startTimeChange">
                     </el-time-picker>
                 </el-form-item>
                 <span style="margin: 0 10px">~</span>
                 <el-form-item prop="step_endTime">
                     <el-time-picker
                             v-model="detailForm.step_endTime"
-                            :picker-options="{selectableRange:`${detailForm.step_startTime ? detailForm.step_startTime + ':00' : '00:00:00'}-23:59:59`}"
+                            :picker-options=endTimeForDay
                             placeholder="执行结束时间"
-                            value-format="HH:mm">
+                            value-format="HH:mm" @change="endTimeChange">
                     </el-time-picker>
                 </el-form-item>
-                <gf-strbool-checkbox v-model="detailForm.dayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
+                <gf-strbool-checkbox v-model="dayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
             </div>
         </el-form-item>
-        <el-form-item label="启动方式" prop="task_execMode">
+        <el-form-item label="任务创建方式" prop="task_execMode">
             <el-radio-group v-model="detailForm.task_execMode">
                 <el-radio label="1">执行一次</el-radio>
                 <el-radio label="2">重复执行</el-radio>
@@ -253,7 +253,7 @@
         </el-form-item>
         <el-form-item label="异常规则">
             <el-radio-group v-model="abnormalRule">
-                <el-radio v-for="ruleType in ruleTypeOp"
+                <el-radio v-for="ruleType in ruleErrorTypeOp"
                           :key="ruleType.value"
                           :label="ruleType.value">
                     {{ruleType.label}}
@@ -287,7 +287,9 @@
                 serviceRes:[],
                 staticData: staticData(),
                 detailForm: initData(),
-                dayChecked: false,  // 跨日
+                dayChecked: '0',  // 跨日
+                endTimeForDay:null,
+                startTimeForDay:null,
                 succeedRule: '0',
                 abnormalRule: '0',
                 repeatMinutes: '',
@@ -298,6 +300,7 @@
                 bizTagOption: [],        // 业务类型下拉
                 // 规则选择类型选项
                 ruleTypeOp: [{label: '默认完成规则', value: '0'}, {label: '自定义完成规则', value: '1'}],
+                ruleErrorTypeOp: [{label: '默认异常规则', value: '0'}, {label: '自定义异常规则', value: '1'}],
                 // 消息配置类型类型选项
                 msgInformOp: [{label: '提前通知', value: '0'}, {label: '完成通知', value: '1'}, {label: '超时通知', value: '2'},
                     {label: '异常通知', value: '3'}, {label: '系统内部消息', value: '4'}],
@@ -359,6 +362,8 @@
             this.reDataTransfer();
             this.getOptions();
             this.getServiceResponse();
+            this.startTimeForDay = {selectableRange:`00:00:00-${this.detailForm.step_endTime ? this.detailForm.step_endTime + ':00' : '23:59:59'}`};
+            this.endTimeForDay = {selectableRange:`${this.detailForm.step_startTime ? this.detailForm.step_startTime + ':00' : '00:00:00'}-23:59:59`};
         },
         methods: {
             hasRepetCode(rule, value, callback) {
@@ -390,6 +395,12 @@
             },
             async getOptions(){
                 this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
+                const e = this.$api.eventlDefConfigApi.getEventDefList();
+                const eventR = await this.$app.blockingApp(e);
+                const eventList = eventR.data
+                eventList.forEach((item)=>{
+                    this.detailForm.eventOptions.push({label:item.eventName,value:item.eventId});
+                });
                 const k = this.$api.kpiTaskApi.getAllKpiList();
                 const kpiR = await this.$app.blockingApp(k);
                 const kpiList = kpiR.data
@@ -482,7 +493,6 @@
                     }
                 );
             },
-
             // 数据结构转换
             dataTransfer() {
                 let kpiTaskDef = this.$utils.deepClone(this.staticData.kpiTaskDef);
@@ -552,6 +562,20 @@
                         this.detailForm[type + key] = obj[key] || this.detailForm[key];
                     }
                 });
+            },
+            endTimeChange(){
+                if(this.dayChecked == '1'){
+                    this.startTimeForDay = {selectableRange:'00:00:00-23:59:59'};
+                }else {
+                    this.startTimeForDay = {selectableRange:`00:00:00-${this.detailForm.step_endTime ? this.detailForm.step_endTime + ':00' : '23:59:59'}`};
+                }
+            },
+            startTimeChange(){
+                if(this.dayChecked == '1'){
+                    this.endTimeForDay = {selectableRange:'00:00:00-23:59:59'};
+                    }else {
+                    this.endTimeForDay = {selectableRange:`${this.detailForm.step_startTime ? this.detailForm.step_startTime + ':00' : '00:00:00'}-23:59:59`};
+                }
             }
         },
 
@@ -561,6 +585,28 @@
                     this.detailForm.task_endTime = '9999-12-31'
                 } else {
                     this.detailForm.task_endTime = ''
+                }
+            },
+            'detailForm.task_execMode'(val){
+                if(val === '2'){
+                    this.detailForm.eventId = '';
+                }else if(val === '3'){
+                    this.detailForm.task_execScheduler= '* * * * * ? *'
+                }else {
+                    this.detailForm.eventId = '';
+                    this.detailForm.task_execScheduler= '* * * * * ? *'
+                }
+            },
+            'dayChecked'(val){
+                if (val==='1') {
+                    this.endTimeForDay = {selectableRange:'00:00:00-23:59:59'};
+                    this.detailForm.endDay = '1';
+                    this.detailForm.startDay = '0';
+                } else {
+                    this.endTimeForDay = {selectableRange:`${this.detailForm.step_startTime ? this.detailForm.step_startTime + ':00' : '00:00:00'}-23:59:59`};
+                    this.detailForm.endDay = '';
+                    this.detailForm.startDay = '';
+                    this.detailForm.step_endTime = '';
                 }
             }
         }

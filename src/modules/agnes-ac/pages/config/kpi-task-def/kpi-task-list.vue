@@ -75,7 +75,7 @@
 
             //复核
             checkKpiTask(params){
-                if(params.data.reTaskDef.needApprove==='1'&&params.data.reTaskDef.taskStatus==='01' || params.data.reTaskDef.needApprove==='1'&&params.data.reTaskDef.taskStatus==='04'){
+                if(params.data.reTaskDef.needApprove==='1'&&params.data.reTaskDef.taskStatus.match(/01|04/)){
                     this.showDrawer('check', params.data, this.onAddModel.bind(this));
                 }else {
                     this.$msg.warning("该状态无法审核!");
@@ -87,7 +87,7 @@
             // 发布
             async publishKpiTask(params){
                 const rowData = params.data;
-                if(rowData.reTaskDef.taskStatus === '00' || rowData.reTaskDef.taskStatus === '01' || rowData.reTaskDef.taskStatus === '04' || rowData.reTaskDef.taskStatus === '03'){
+                if(rowData.reTaskDef.taskStatus.match(/00|01|03|04/)){
                     this.$msg.warning("该状态无法发布!");
                     return ;
                 }
