@@ -14,7 +14,7 @@ export default {
         column.buildOpCol(120, colButtons)
     ],
     ext: {
-        fetchUrl: "/agnes-app/v1/dop/org/type/list",    //后台查询数据的URL地址
+        fetchUrl: "/agnes-app/v1/dop/org/type/page/list",    //后台查询数据的URL地址
         pagingMode: true, //是否分页
         checkboxColumn: 1, //是否显示checkbox列,
         autoFitColumnMode: 1,
