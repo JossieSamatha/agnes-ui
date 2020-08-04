@@ -539,6 +539,9 @@
                     if (this.detailForm.bizTag) {
                         this.detailForm.bizTagArr = this.detailForm.bizTag.split(",");
                     }
+                    if(this.detailForm.endDay === '1' && this.detailForm.startDay === '0'){
+                        this.dayChecked = '1';
+                    }
                 }
             },
 
