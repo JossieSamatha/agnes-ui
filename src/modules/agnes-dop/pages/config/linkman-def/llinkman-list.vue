@@ -2,7 +2,7 @@
     <gf-grid grid-no="agnes-linkman-field" ref="grid" quick-text-max-width="300px"
               :query-args="queryArgs" height="100%" @row-double-click="showLinkman">
         <template slot="left">
-            <gf-button class="action-btn" @click="addLinkMan" size="mini">新增</gf-button>
+            <gf-button class="action-btn" @click="addLinkMan" size="mini">添加</gf-button>
         </template>
     </gf-grid>
 </template>
@@ -12,9 +12,6 @@
     export default {
         data() {
             return {
-                form:{
-                    linkManIdList:[]
-                },
                 queryArgs:{
                     'extOrgId':'',
                     'linkmanGroupId':''
@@ -71,36 +68,44 @@
                 this.showDlg('view', params.data);
             },
             editLinkMan() {
-                let rows= this.$refs.grid.getSelectedRows();
-                if(rows.length !== 1){
+                let rows = this.$refs.grid.getSelectedRows();
+                if (rows.length !== 1) {
                     this.$msg.warning("请选中一条记录!");
                     return
                 }
                 this.showDlg('edit', rows[0], this.onAddLoad.bind(this));
             },
-            async deleteLinkMan() {
-                let rows= this.$refs.grid.getSelectedRows();
-                if(rows.length===0){
-                    this.$msg.warning("请选中一条记录!");
-                    return
-                }
-                rows.forEach(row=>{
-                    this.form.linkManIdList.push(row.linkmanId)
-                })
+            // async deleteLinkMan(params) {
+            //     let rows= params.data;
+            //     this.form.linkManIdList.push(rows.linkmanId);
+            //     const ok = await this.$msg.ask(`确认删除选中的联系人吗, 是否继续?`);
+            //     if (!ok) {
+            //         return
+            //     }
+            //     try {
+            //         const p = this.$api.linkmanApi.deleteLinkMan(this.form);
+            //         await this.$app.blockingApp(p);
+            //
+            //         this.$msg.success('删除成功');
+            //         await this.reloadData();
+            //     } catch (reason) {
+            //         this.$msg.error(reason);
+            //     }
+            // },
+            async deleteLinkMan(params) {
+                const row = params.data;
                 const ok = await this.$msg.ask(`确认删除选中的联系人吗, 是否继续?`);
                 if (!ok) {
                     return
                 }
                 try {
-                    const p = this.$api.linkmanApi.deleteLinkMan(this.form);
+                    const p = this.$api.linkmanApi.deleteLinkMan(row);
                     await this.$app.blockingApp(p);
-
-                    this.$msg.success('删除成功');
-                    await this.reloadData();
+                    this.reloadData();
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
-            },
+            }
         },
     }
 </script>
