@@ -1,18 +1,18 @@
-import column from "../../../../../config/column"
+import column from "../../../../../config/column";
 
 const colButtons = [
-    {key: 'editKpiTask', title: '编辑'},
-    {key: 'deleteKpiTask', title: '删除', cellClass: 'red-cell'},
-    {key: 'checkKpiTask', title: '审核'},
-    {key: 'publishTask', title: '发布'},
+    {key: 'confirmTask', title: '复核'},
+    {key: 'viewTask', title: '作废'},
 ];
 
 export default {
     columnDefs: [
-        column.buildOpCol(160, colButtons),
-        {headerName: "任务名称", field: "reTaskDef.taskName"},
-        {headerName: "业务场景", field: "reTaskDef.bizType",formatType: 'dict', dictType: 'AGNES_BIZ_CASE'},
-        {headerName: "业务标签", field: "reTaskDef.bizTag",dictType: 'AGNES_BIZ_TAG',
+        {headerName: "任务编号", field: "taskName"},
+        {headerName: "任务名称", field: "taskStartTm"},
+        {headerName: "任务发起日期", field: "participants"},
+        {headerName: "计划完成时间", field: "participants"},
+        {headerName: "实际完成时间", field: "participants"},
+        {headerName: "业务标签", field: "participants",dictType: 'AGNES_BIZ_TAG',
             valueFormatter: function (params) {
                 if(params.value){
                     let Ids = params.value.split(',');
@@ -21,20 +21,16 @@ export default {
                     }).join(',');
                 }
                 return "";
-        }},
-        {headerName: "业务类型", field: "reTaskDef.taskType",formatType: 'dict', dictType: 'AGNES_TASK_TYPE'},
-        {headerName: "状态", field: "reTaskDef.taskStatus", dictType: "CASE_TASK_STATUS"},
-        {headerName: "创建时间", field: "reTaskDef.crtTs"},
-        {headerName: "创建人", field: "reTaskDef.crtUser"}
+            }},
+        {headerName: "业务类型", field: "participants",formatType: 'dict', dictType: 'AGNES_TASK_TYPE'},
+        {headerName: "状态", field: "participants", dictType: "CASE_TASK_STATUS"},
+        column.buildOpCol(120, colButtons)
     ],
-    headerHeight: 40,
-    rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-ac/v1/ac/mot/task/case/list?taskType=6",
+        fetchUrl: "/agnes-app/v1/task/todo/list",    //后台查询数据的URL地址
         fetchMethod: 'get',
         pagingMode: true, //不分页
-        checkboxColumn: 1, //是否显示checkbox列,
-        autoFitColumnMode: 1,
+        checkboxColumn: 0, //是否显示checkbox列,
         enableExportLocal: true,
         pageOptions: {
             // 分页大小

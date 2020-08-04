@@ -24,11 +24,21 @@
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
+                let isShow = true;
+                row.isCheck=false;
+                if(mode==='check'){
+                    mode='view';
+                    row.isCheck=true;
+                }
+                if(!row.isCheck && mode==='view'){
+                    isShow = false;
+                }
                 this.$drawerPage.create({
                     width: 'calc(92% - 215px)',
                     title: ['MOT任务编辑',mode],
                     component: MotDetail,
                     args: {row, mode, actionOk},
+                    okButtonVisible:isShow,
                     okButtonTitle: row.isCheck ? '审核' : '保存',
                     cancelButtonTitle: row.isCheck ? '反审核' : '取消',
                 });
@@ -65,9 +75,8 @@
 
             //复核
             checkKpiTask(params){
-                if(params.data.reTaskDef.needApprove==='1'&&params.data.reTaskDef.taskStatus==='01' || params.data.reTaskDef.needApprove==='1'&&params.data.reTaskDef.taskStatus==='04'){
-                    params.data.isCheck = true;
-                    this.showDrawer('view', params.data, this.onAddModel.bind(this));
+                if(params.data.reTaskDef.needApprove==='1'&&params.data.reTaskDef.taskStatus.match(/01|04/)){
+                    this.showDrawer('check', params.data, this.onAddModel.bind(this));
                 }else {
                     this.$msg.warning("该状态无法审核!");
                     return;
@@ -75,9 +84,9 @@
             },
 
             // 发布
-            async publishKpiTask(params){
+            async publishTask(params){
                 const rowData = params.data;
-                if(rowData.reTaskDef.taskStatus === '00' || rowData.reTaskDef.taskStatus === '01' || rowData.reTaskDef.taskStatus === '04' || rowData.reTaskDef.taskStatus === '03'){
+                if(rowData.reTaskDef.taskStatus.match(/00|01|03|04/)){
                     this.$msg.warning("该状态无法发布!");
                     return ;
                 }
@@ -86,7 +95,7 @@
                     return
                 }
                 try {
-                    let sendInfo = transferCaseDefData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName);
+                    let sendInfo = transferCaseDefData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName,'list');
                     rowData.caseDefJson = JSON.stringify(sendInfo);
                     const p = this.$api.caseConfigApi.publishCaseDef(rowData);
                     await this.$app.blockingApp(p);

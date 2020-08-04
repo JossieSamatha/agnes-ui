@@ -1,56 +1,47 @@
 <template>
     <div>
-        <el-form :model="form" label-width="90px" ref="form">
+        <el-form :model="form" label-width="90px" ref="form" style="height: 100%">
             <el-row>
-                <el-col :span="24"><p style="text-align: center">指标任务详情</p></el-col>
+                <el-col :span="24"><p style="text-align: center;font-size: 20px; margin-bottom: 20px">指标任务详情</p></el-col>
             </el-row>
-            <el-row>
-                <el-col :span="15">
-                    <el-row style="margin-top: 70px">
-                        <el-col :span="15">
-                            <el-form-item label="指标名称:" prop="kpiName" >
-                                {{form.kpiName}}
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="8">
-                            <el-form-item label="业务日期:" prop="bizDate" >
-                                {{form.bizDate}}
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="8">
-                            <el-form-item label="执行时间:" prop="createTime" >
-                                {{form.createTime}}
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="5">
-                            <el-form-item label="正常数:" prop="normal" >
-                                {{form.normal}}
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="5">
-                            <el-form-item label="异常数:" prop="abnormal" >
-                                {{form.abnormal}}
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="5">
-                            <el-form-item label="人工一致:" prop="artificialCon" >
-                                {{form.artificialCon}}
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                </el-col>
-                <el-col :span="9">
-                    <pie-chart v-show="showChar" :chart-data="charData" :color-set="colorSet" style=""></pie-chart>
-                </el-col>
+            <el-row :gutter="16" style="margin-bottom: 20px">
+                <e-col :span="8">
+                    <el-card class="box-card">
+                        <div slot="header" class="clearfix">
+                            <span>指标详情</span>
+                        </div>
+                        <div class="text item">
+                            <span class="first">指标名称:{{form.kpiName}}</span>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="text item" >
+                                <span class="span">业务日期:{{form.bizDate}}</span>
+                                <span class="span">执行时间:{{form.createTime}}</span>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="text item">
+                            <span class="span">正常数:{{form.normal}}</span>
+                            <span class="span">异常数:{{form.abnormal}}</span>
+                            <span class="span">人工一致:{{form.artificialCon}}</span>
+                        </div>
+                    </el-card>
+                </e-col>
+                <e-col :span="8">
+                    <el-card class="box-card">
+                        <div slot="header" class="clearfix">
+                            <span>数据图表</span>
+                        </div>
+                        <div style="text-align: center">
+                            <pie-chart v-show="showChar" :chart-data="charData" :color-set="colorSet"></pie-chart>
+                            <img v-show="!showChar" :src="require('../../../../../assets/img/no-data.png')" style="margin-top:-20px">
+                            <p v-show="!showChar" style="margin-top: 20px">未关联指标状态</p>
+                        </div>
+                    </el-card>
+                </e-col>
             </el-row>
-
-            <gf-grid ref="grid" :options="gridOptions">
+            <gf-grid ref="grid" :options="gridOptions" class="grid-class" :height="height">
                 <template slot="left">
-                    <gf-button @click="executeKpi" size="mini">重新执行</gf-button>
+                    <gf-button class="action-btn" @click="executeKpi" size="mini">重新执行</gf-button>
                 </template>
             </gf-grid>
         </el-form>
@@ -71,6 +62,7 @@
         },
         data() {
             return {
+                height: "calc(100% - 348px)",
                 form:{kpiName:"",createTime:"",bizDate:"",normal:0,abnormal:0,artificialCon:0},
                 charData:[],
                 colorSet:[],
@@ -224,5 +216,49 @@
 </script>
 
 <style scoped>
+    .box-card {
+        width: 49%;
+        float: left;
+        height: 300px;
+        margin-right: 1%;
+    }
 
+    .grid-class{
+        margin-left: -10px;
+    }
+
+    .text {
+        font-size: 16px;
+    }
+
+    .item {
+        margin-bottom: 18px;
+    }
+
+    .clearfix:before,
+    .clearfix:after {
+        display: table;
+        content: "";
+    }
+    .clearfix:after {
+        clear: both
+    }
+    .clear{
+        clear:both;
+    }
+    .span{
+        margin-top: 10px;
+        margin-bottom: 30px;
+        margin-left: 40px;
+        float: left;
+        width: 33%;
+        max-width: 180px;
+    }
+
+    .first{
+      margin-top: 25px;
+      margin-bottom: 30px;
+      margin-left: 40px;
+      float: left;
+    }
 </style>

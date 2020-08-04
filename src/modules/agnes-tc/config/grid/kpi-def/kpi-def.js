@@ -3,6 +3,8 @@ export default {
     columnDefs: [
         {headerName: "事件名称", field: "eventName"},
     ],
+    headerHeight: 40,
+    rowHeight:37,
     ext: {
         fetchUrl: "/dop-kpi/kpi/kpi/queryList",    //后台查询数据的URL地址
         fetchMethod: 'post',
