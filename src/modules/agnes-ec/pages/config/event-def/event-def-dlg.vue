@@ -26,7 +26,9 @@
                 </el-form-item>
 
                 <el-form-item label="执行频率" prop="eventDef.execScheduler" v-if="form.eventDef.execMode === '1'">
-                    <g-f-cron ref="innerVueCron" v-model="form.eventDef.execScheduler"></g-f-cron>
+                    <el-button type="text"  ref="innerVueCron" @click="editExecTime('execScheduler', form.eventDef.execScheduler)">
+                        {{form.eventDef.execScheduler}}点击配置
+                    </el-button>
                 </el-form-item>
 
                 <el-form-item label="消息类型" prop="eventDef.msgId" v-if="form.eventDef.execMode === '2'">
@@ -35,7 +37,8 @@
                 </el-form-item>
 
                 <el-form-item label="匹配规则" prop="eventMsg.getValueParam">
-                    <rule-table ref="ruleTable" :ruleTableData="form.ruleTableData" tableHeight="200" tableMaxHeight="300"></rule-table>
+                    <rule-table ref="ruleTable" :ruleTableData="form.ruleTableData" :ruleTargetOp="form.ruleTargetOp"
+                                tableHeight="200" tableMaxHeight="300"></rule-table>
                 </el-form-item>
 
                 <el-form-item label="取值函数" prop="eventMsg.funcId">
@@ -117,10 +120,9 @@
 
 <script>
 import fecha from 'element-ui/src/utils/date';
-import GFCron from "./GFCron";
+import ExecTimeEdit from "./exec-time";
 
     export default {
-        components: {GFCron},
         props: {
             mode: {
                 type: String,
@@ -155,6 +157,14 @@ import GFCron from "./GFCron";
                     ruleTableData: {
                         ruleList:[],
                         judgeScript:''
+                    },
+                    ruleTargetOp: {
+                        step: [],
+                        kpi: [],
+                        action: [],
+                        service: [],
+                        RPA: [],
+                        process: []
                     }
                 },
                 rules: {
@@ -326,9 +336,6 @@ import GFCron from "./GFCron";
 
 
                 try {
-                    if(this.form.eventDef.execMode && this.form.eventDef.execMode === "1" && this.$refs.innerVueCron.cron){
-                        this.form.eventDef.execScheduler = this.$refs.innerVueCron.cron;
-                    }
 
                     const p = this.$api.eventlDefConfigApi.saveEventDef(this.form);
                     await this.$app.blockingApp(p);
@@ -396,6 +403,25 @@ import GFCron from "./GFCron";
             onfuncIdClear(){
                 this.form.eventMsg.funcId = '';
                 this.form.eventMsg.getValueParam = [];
+            },
+            editExecTime(curObj, execScheduler) {
+                this.showDlg(execScheduler, this.setExecScheduler.bind(this));
+            },
+            setExecScheduler(cron) {
+                this.form.eventDef.execScheduler=cron;
+            },
+            showDlg(data, action) {
+                if (this.mode === 'view') {
+                    return;
+                }
+                this.$nav.showDialog(
+                    ExecTimeEdit,
+                    {
+                        args: {data, action},
+                        width: '530px',
+                        title: this.$dialog.formatTitle('编辑执行频率'),
+                    }
+                );
             }
 
 
