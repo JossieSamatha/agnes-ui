@@ -1,6 +1,6 @@
 <template>
     <div class="cron-modal">
-        <i class="question el-icon-question" title="操作文档"></i>
+        <i class="question el-icon-question" title="操作文档" @click="openHelpFile"></i>
         <gf-cron class="gf-cron-tab"
                  ref="innerVueCron"
                  :cornObj="cron"
@@ -41,6 +41,7 @@
                 </div>
             </el-tab-pane>
         </gf-cron>
+
     </div>
 </template>
 
@@ -82,10 +83,19 @@
             onCancel () {
                 this.$dialog.close(this, 'cancel');
             },
+            // 时间类型切换
             dateTypeChange(val){
                 if(val === '00'){
                     this.holidayDelay = '02';
                 }
+            },
+            // 打开帮助文档
+            openHelpFile(){
+                this.$notify({
+                    title: 'HTML 片段',
+                    dangerouslyUseHTMLString: true,
+                    message: '<strong>这是 <i>HTML</i> 片段</strong>'
+                });
             }
         },
     }
