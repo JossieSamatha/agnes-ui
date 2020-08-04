@@ -65,3 +65,68 @@
 .el-form.task-def-form .el-date-editor.el-input {
     min-width: 235px;
 }
+
+/*=====================================
+
+      search-panel 搜索面板样式调整
+
+=======================================*/
+.el-form.search-panel {
+    padding: 0;
+}
+
+.el-form.search-panel .el-form-item {
+    margin-bottom: 5px;
+    max-width: 350px;
+}
+
+.el-form.search-panel .btn-line {
+    justify-content: center;
+    padding: 5px 0;
+}
+
+.el-form.search-panel .el-form-item .el-form-item__label {
+    color: #333;
+}
+
+.el-form.search-panel .el-form-item .el-form-item__content input{
+    border-radius: 5px;
+}
+
+.el-form.search-panel .el-form-item .el-form-item__content .el-select{
+    width: 100%;
+}
+
+.el-form.search-panel .option-btn {
+    height: 28px;
+    padding: 5px 19px;
+    border-color: #E1E4E8;
+    color: #333;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.el-form.search-panel .option-btn.el-button--primary {
+    color: #fff;
+    background: #476DBE;
+    border-color: #476DBE;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
