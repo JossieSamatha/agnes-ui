@@ -14,7 +14,7 @@
             </el-rate>
         </el-form-item>
         <el-form-item label="任务编号" prop="caseKey">
-            <gf-input v-model.trim="detailForm.caseKey" placeholder="任务编号"/>
+            <gf-input v-model.trim="detailForm.caseKey" placeholder="任务编号" :max-byte-len="8"/>
         </el-form-item>
         <el-form-item label="业务场景" prop="bizType">
             <gf-dict filterable clearable v-model="detailForm.bizType" dict-type="AGNES_BIZ_CASE"/>
@@ -68,7 +68,7 @@
                             v-model="detailForm.step_startTime"
                             :picker-options=startTimeForDay
                             placeholder="执行开始时间"
-                            value-format="HH:mm">
+                            value-format="HH:mm" @change="startTimeChange">
                     </el-time-picker>
                 </el-form-item>
                 <span style="margin: 0 10px">~</span>
@@ -107,7 +107,7 @@
                 </gf-filter-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="参与人员">
+        <el-form-item label="通知人员">
             <gf-input type="text" v-model="detailForm.stepActOwnerName" :readonly="true" style="width: 40%">
                 <i slot="suffix" class="el-input__icon el-icon-edit-outline" @click="chooseUser"/>
             </gf-input>
@@ -118,6 +118,7 @@
             <gf-strbool-checkbox v-model="detailForm.forcePass">是否允许人工强制通过</gf-strbool-checkbox>
         </el-form-item>
         <el-form-item label="消息通知参数">
+            <gf-strbool-checkbox v-model="detailForm.needApprove">系统内部消息</gf-strbool-checkbox>
             <el-checkbox-group v-model="msgInformParam">
                 <el-checkbox v-for="msgInform in msgInformOp"
                              :key="msgInform.value"
@@ -270,6 +271,7 @@
         },
         data() {
             return {
+                serviceRes:[],
                 staticData: staticData(),
                 detailForm: initData(),
                 dayChecked: '0',  // 跨日
@@ -280,13 +282,13 @@
                 repeatMinutes: '',
                 maxRepeatCount: '',
                 curExecScheduler: '',    // 当前频率对象字段
-                serviceRes:[],
                 msgInformParam: [],      // 消息通知参数类型数组
                 startAllTime: '0',       // 是否永久有效
-                bizTagOption: [{label: '产品', value: '0'}, {label: '成立', value: '1'},{label: '清算', value: '2'}],        // 业务类型下拉
-                 // 消息配置类型类型选项
+                bizTagOption: [],        // 业务类型下拉
+                // 消息配置类型类型选项
                 msgInformOp: [{label: '提前通知', value: '0'}, {label: '完成通知', value: '1'}, {label: '超时通知', value: '2'},
-                    {label: '异常通知', value: '3'}, {label: '系统内部消息', value: '4'}],
+                    {label: '异常通知', value: '3'}],
+                msgInfoStr: ['warningRemind', 'finishRemind', 'timeoutRemind', 'exceptionRemind'],
                 // 规则选择类型选项
                 ruleTypeOp: [{label: '默认完成规则', value: '0'}, {label: '自定义完成规则', value: '1'}],
                 ruleErrorTypeOp: [{label: '默认异常规则', value: '0'}, {label: '自定义异常规则', value: '1'}],
@@ -349,7 +351,7 @@
             this.reDataTransfer();
             this.getOptions();
             this.getServiceResponse();
-            },
+        },
         methods: {
             hasRepetCode(rule, value, callback) {
                 if (!value) {
@@ -466,7 +468,7 @@
                 this.$nav.showDialog(
                     'remind-def',
                     {
-                        args: {remindProp: {}, remindSort, actionOk},
+                        args: {remindProp: [], remindSort, actionOk},
                         width: '530px',
                         title: this.$dialog.formatTitle('通知方式配置', "edit"),
                     }
@@ -475,12 +477,17 @@
 
             // 数据结构转换
             dataTransfer() {
+                //完成规则判断是否勾选
                 if(this.succeedRule==='0'){
                     this.detailForm.successRuleTableData={}
                 }
                 if(this.abnormalRule==='0'){
                     this.detailForm.failRuleTableData={}
                 }
+                //消息通知参数判断是否勾选
+                // if(this.msgInformParam.indexOf('0') > -1){
+                //
+                // }
                 let kpiTaskDef = this.$utils.deepClone(this.staticData.kpiTaskDef);
                 this.detailForm.bizTag = this.detailForm.bizTagArr.join(",");
                 this.detailForm.stepCode = this.detailForm.caseKey;
@@ -502,6 +509,12 @@
                         stepFormInfo[key] = this.detailForm[key] || stepFormInfo[key];
                     }
                 })
+                if (this.succeedRule === '0') {
+                    this.stepInfo.stepFormInfo.successRuleTableData = {}
+                }
+                if (this.abnormalRule === '0') {
+                    this.stepInfo.stepFormInfo.failRuleTableData = {}
+                }
                 caseDef.stages[0].children[0].stepFormInfo = stepFormInfo;
                 return {reTaskDef: kpiTaskDef, caseDefId: this.row.caseDefId, caseDefBody: JSON.stringify(caseDef),versionId:this.detailForm.versionId};
             },
@@ -534,6 +547,12 @@
                     if(this.detailForm.endDay === '1' && this.detailForm.startDay === '0'){
                         this.dayChecked = '1';
                     }
+                    //消息通知参数回显
+                    this.msgInfoStr.forEach((strItem, index)=>{
+                        if(stepFormInfo[strItem] && stepFormInfo[strItem].length>0){
+                            this.msgInformParam.push(index+'');
+                        }
+                    });
                 }
             },
 
@@ -586,19 +605,21 @@
                 if(val === '2'){
                     this.detailForm.eventId = '';
                 }else if(val === '3'){
-                    this.detailForm.task_execScheduler= '* * * * * ? *'
+                    this.detailForm.task_execScheduler= ''
                 }else {
                     this.detailForm.eventId = '';
-                    this.detailForm.task_execScheduler= '* * * * * ? *'
+                    this.detailForm.task_execScheduler= ''
                 }
             },
             'dayChecked'(val){
                 if (val==='1') {
                     this.endTimeForDay = {selectableRange:'00:00:00-23:59:59'};
+                    this.startTimeForDay = {selectableRange:'00:00:00-23:59:59'};
                     this.detailForm.endDay = '1';
                     this.detailForm.startDay = '0';
                 } else {
                     this.endTimeForDay = {selectableRange:`${this.detailForm.step_startTime ? this.detailForm.step_startTime + ':00' : '00:00:00'}-23:59:59`};
+                    this.startTimeForDay = {selectableRange:`00:00:00-${this.detailForm.step_endTime ? this.detailForm.step_endTime + ':00' : '23:59:59'}`};
                     this.detailForm.endDay = '';
                     this.detailForm.startDay = '';
                     this.detailForm.step_endTime = '';

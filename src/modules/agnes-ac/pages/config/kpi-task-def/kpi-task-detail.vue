@@ -267,6 +267,7 @@
 </template>
 
 <script>
+    import loadsh from 'lodash';
     import ExecTimeEdit from "./exec-time";
     import staticData from '../../../util/dataFormat'
     import initData from '../../../util/initData'
@@ -302,8 +303,8 @@
                 ruleTypeOp: [{label: '默认完成规则', value: '0'}, {label: '自定义完成规则', value: '1'}],
                 ruleErrorTypeOp: [{label: '默认异常规则', value: '0'}, {label: '自定义异常规则', value: '1'}],
                 // 消息配置类型类型选项
-                msgInformOp: [{label: '提前通知', value: '0'}, {label: '完成通知', value: '1'}, {label: '超时通知', value: '2'},
-                    {label: '异常通知', value: '3'}, {label: '系统内部消息', value: '4'}],
+                msgInformOp: [ {label: '提前通知', value: '0'}, {label: '完成通知', value: '1'}, {label: '超时通知', value: '2'},
+                    {label: '异常通知', value: '3'}],
                 detailFormRules: {
                     taskName: [
                         {required: true, message: '任务名称必填', trigger: 'blur'},
@@ -495,6 +496,12 @@
             },
             // 数据结构转换
             dataTransfer() {
+                if(this.succeedRule==='0'){
+                    this.detailForm.successRuleTableData={}
+                }
+                if(this.abnormalRule==='0'){
+                    this.detailForm.failRuleTableData={}
+                }
                 let kpiTaskDef = this.$utils.deepClone(this.staticData.kpiTaskDef);
                 this.detailForm.bizTag = this.detailForm.bizTagArr.join(",");
                 this.detailForm.stepCode = this.detailForm.caseKey;
@@ -539,9 +546,21 @@
                     if (this.detailForm.bizTag) {
                         this.detailForm.bizTagArr = this.detailForm.bizTag.split(",");
                     }
+                    if(!loadsh.isEmpty(this.detailForm.successRuleTableData)){
+                        this.succeedRule ='1'
+                    }
+                    if(!loadsh.isEmpty(this.detailForm.failRuleTableData)){
+                        this.abnormalRule ='1'
+                    }
                     if(this.detailForm.endDay === '1' && this.detailForm.startDay === '0'){
                         this.dayChecked = '1';
                     }
+                    //消息通知参数回显
+                    this.msgInfoStr.forEach((strItem, index)=>{
+                        if(stepFormInfo[strItem] && stepFormInfo[strItem].length>0){
+                            this.msgInformParam.push(index+'');
+                        }
+                    });
                 }
             },
 
@@ -603,10 +622,12 @@
             'dayChecked'(val){
                 if (val==='1') {
                     this.endTimeForDay = {selectableRange:'00:00:00-23:59:59'};
+                    this.startTimeForDay = {selectableRange:'00:00:00-23:59:59'};
                     this.detailForm.endDay = '1';
                     this.detailForm.startDay = '0';
                 } else {
                     this.endTimeForDay = {selectableRange:`${this.detailForm.step_startTime ? this.detailForm.step_startTime + ':00' : '00:00:00'}-23:59:59`};
+                    this.startTimeForDay = {selectableRange:`00:00:00-${this.detailForm.step_endTime ? this.detailForm.step_endTime + ':00' : '23:59:59'}`};
                     this.detailForm.endDay = '';
                     this.detailForm.startDay = '';
                     this.detailForm.step_endTime = '';
