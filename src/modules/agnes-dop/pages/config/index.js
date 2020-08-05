@@ -3,6 +3,8 @@ import OrgType from "./org-type/index";
 import Linkman from "./linkman-def/index"
 import memoDef from "./memo-def/index"
 import RosterDef from "./roster-def/index";
+import fileAnaly from "./file-analy-config/index"
+
 
 const Loading = {
     load: function (Gfui) {
@@ -11,6 +13,8 @@ const Loading = {
         Gfui.componentView('agnes.dop.linkman', Linkman, {title: '联系人维护'});
         Gfui.componentView('agnes.dop.memo', memoDef, {title: '日历维护'});
         Gfui.componentView('agnes.dop.roster', RosterDef, {title: '排班表'});
+        Gfui.componentView('dataservice.fileanaly.config', fileAnaly, {title: '文件解析配置'});
+
     }
 };
 
