@@ -63,24 +63,24 @@
         <div>
             <el-tabs v-model = "currentTab" type="border-card" editable @edit="handleTabsEdit">
                 <el-tab-pane :key="item.name" v-for="(item,index) in configInfo.configDetails" :label="item.title" :name="item.name">
-                    <el-form :model="item" v-if="currentTab === item.name">
+                    <div>
                         <el-row  v-show="configInfo.fileType !== 'xml'" >
                             <el-col :span="6">
                                 <el-form-item label="目标表名">
-                                    <gf-input v-model="item.targetTable" size="small" placeholder=""
-                                              :disabled="configInfo.execType==='02' && configInfo.fileType==='text'"></gf-input>
+                                    <el-input v-model="item.targetTable" size="small" placeholder=""
+                                              :disabled="configInfo.execType==='02' && configInfo.fileType==='text'"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="6">
                                 <el-form-item label="历史表名">
-                                    <gf-input v-model="item.targetHisTable" size="small" placeholder=""
-                                              :disabled="configInfo.execType==='02' && configInfo.fileType==='text'"></gf-input>
+                                    <el-input v-model="item.targetHisTable" size="small" placeholder=""
+                                              :disabled="configInfo.execType==='02' && configInfo.fileType==='text'"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="6">
                                 <el-form-item label="批次流水字段">
-                                    <gf-input v-model="item.batchPkIdField" size="small" placeholder=""
-                                              :disabled="configInfo.execType==='02' && configInfo.fileType==='text'"></gf-input>
+                                    <el-input v-model="item.batchPkIdField" size="small" placeholder=""
+                                              :disabled="configInfo.execType==='02' && configInfo.fileType==='text'"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -95,29 +95,29 @@
                             </el-col>
                             <el-col :span="6">
                                 <el-form-item label="分隔符标记">
-                                    <gf-input v-model="item.sepMark" size="small" placeholder="" :disabled="configInfo.fileType!=='text'"></gf-input>
+                                    <el-input v-model="item.sepMark" size="small" placeholder="" :disabled="configInfo.fileType!=='text'"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="6">
                                 <el-form-item label="源表名称" v-show="configInfo.execType==='01' && configInfo.fileType !== 'text'">
-                                    <gf-input v-model="item.sourceTable" size="small" placeholder=""></gf-input>
+                                    <el-input v-model="item.sourceTable" size="small" placeholder=""></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
                         <el-row v-show="configInfo.fileType !== 'xml'">
                             <el-col :span="6">
                                 <el-form-item label="起始行">
-                                    <gf-input v-model="item.startRow" size="small" placeholder="" :disabled="configInfo.fileType==='jdbc'"></gf-input>
+                                    <el-input v-model="item.startRow" size="small" placeholder="" :disabled="configInfo.fileType==='jdbc'"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="6">
                                 <el-form-item label="起始标记">
-                                    <gf-input v-model="item.startMark" size="small" placeholder="" :disabled="configInfo.fileType==='jdbc'"></gf-input>
+                                    <el-input v-model="item.startMark" size="small" placeholder="" :disabled="configInfo.fileType==='jdbc'"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="6">
                                 <el-form-item label="结束标记">
-                                    <gf-input v-model="item.endMark" size="small" placeholder="" :disabled="configInfo.fileType==='jdbc'"></gf-input>
+                                    <el-input v-model="item.endMark" size="small" placeholder="" :disabled="configInfo.fileType==='jdbc'"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="6">
@@ -132,15 +132,15 @@
                             <el-col :spam="24" >
                                 <el-tabs>
                                     <el-tab-pane label="导出SQL">
-                                        <gf-input type="textarea" :rows="8" placeholder="请输入导出SQL..." v-model="item.exportSql"></gf-input>
+                                        <el-input type="textarea" :rows="8" placeholder="请输入导出SQL..." v-model="item.exportSql"></el-input>
                                     </el-tab-pane>
                                     <el-tab-pane  label="导出XML"  v-if="configInfo.fileType === 'xml'">
-                                        <gf-input type="textarea" :rows="8" placeholder="请输入导出XML..." v-model="item.xmlTemplate"></gf-input>
+                                        <el-input type="textarea" :rows="8" placeholder="请输入导出XML..." v-model="item.xmlTemplate"></el-input>
                                     </el-tab-pane>
                                 </el-tabs>
                             </el-col>
                         </el-row>
-                    </el-form>
+                    </div>
                     <div  v-show="configInfo.fileType !== 'xml'"  style="width: 100%;margin-top: 17px;">
                         <div class="optionButtonGroup">
                             <span>
@@ -194,10 +194,10 @@
         <div style="margin-top: 10px;">
             <el-tabs type="border-card">
                 <el-tab-pane label="前置操作">
-                    <gf-input type="textarea" :rows="5" placeholder="请输入前置操作..." v-model="configInfo.headSql"></gf-input>
+                    <el-input type="textarea" :rows="5" placeholder="请输入前置操作..." v-model="configInfo.headSql"></el-input>
                 </el-tab-pane>
                 <el-tab-pane label="后置操作">
-                    <gf-input type="textarea" :rows="5" placeholder="请输入后置操作..." v-model="configInfo.tailSql"></gf-input>
+                    <el-input type="textarea" :rows="5" placeholder="请输入后置操作..." v-model="configInfo.tailSql"></el-input>
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -253,10 +253,10 @@
                 },
             }
         },
-        created() {
-            Object.assign(this.configInfo, this.row);
+        mounted() {
             if(this.mode==="edit" || this.mode==="view") {
-                this.configInfo = this.row;
+                Object.assign(this.configInfo, this.row);
+                this.configInfo.configDetails = JSON.parse(this.configInfo.confDetails);
                 this.currentTab =this.configInfo.configDetails.length+"";
                 this.tabIndex = this.configInfo.configDetails.length;
             }else if(this.mode==="add"){
