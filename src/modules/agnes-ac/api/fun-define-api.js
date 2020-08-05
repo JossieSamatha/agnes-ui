@@ -3,7 +3,7 @@ import request from '@hex/gf-ui/src/util/request';
 
 export default {
     queryFunList() {
-        return request.get(`/agnes-ac/v1/config/fun/query/list`);
+        return request.get(`/agnes-ac/v1/config/fun/query/list/all`);
     },
     addFunDef(form) {
         return request.post("/agnes-ac/v1/config/fun/add", form);
