@@ -229,7 +229,18 @@
                     encodingType: '',
                     headSql: '',
                     tailSql: '',
-                    configDetails: []
+                    configDetails: [{
+                        targetTable:'',
+                        targetHisTable:'',
+                        batchPkIdField:'',
+                        sepType:'',
+                        sepMark:'',
+                        sourceTable:'',
+                        startRow:'',
+                        startMark:'',
+                        endMark:'',
+                        convertType:'',
+                    }]
                 },
                 currentTab:'1',
                 tabIndex: 1,
