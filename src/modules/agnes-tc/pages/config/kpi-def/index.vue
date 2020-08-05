@@ -1,17 +1,17 @@
 <template>
     <div>
-        <el-form :model="form" label-width="90px" ref="form">
+        <el-form :model="form" label-width="90px" ref="form" style="height: 100%">
             <el-row>
                 <el-col :span="24"><p style="text-align: center;font-size: 20px; margin-bottom: 20px">指标任务详情</p></el-col>
             </el-row>
-            <el-row :gutter="16">
+            <el-row :gutter="16" style="margin-bottom: 20px">
                 <e-col :span="8">
                     <el-card class="box-card">
                         <div slot="header" class="clearfix">
                             <span>指标详情</span>
                         </div>
                         <div class="text item">
-                            <span class="span">指标名称:{{form.kpiName}}</span>
+                            <span class="first">指标名称:{{form.kpiName}}</span>
                         </div>
                         <div class="clear"></div>
                         <div class="text item" >
@@ -41,7 +41,7 @@
             </el-row>
             <gf-grid ref="grid" :options="gridOptions" class="grid-class" :height="height">
                 <template slot="left">
-                    <gf-button class="action-btn" @click="executeKpi" size="mini" style="margin-left: -4px">重新执行</gf-button>
+                    <gf-button class="action-btn" @click="executeKpi" size="mini">重新执行</gf-button>
                 </template>
             </gf-grid>
         </el-form>
@@ -62,7 +62,7 @@
         },
         data() {
             return {
-                height:"100%",
+                height: "calc(100% - 348px)",
                 form:{kpiName:"",createTime:"",bizDate:"",normal:0,abnormal:0,artificialCon:0},
                 charData:[],
                 colorSet:[],
@@ -125,9 +125,6 @@
             });
         },
         methods: {
-            onCancel() {
-                this.$emit("onClose");
-            },
             reloadData() {
                 let _this =this;
                 this.$api.kpiDefineApi.getKpiDetails(this.data).then((resp) => {
@@ -252,8 +249,16 @@
     .span{
         margin-top: 10px;
         margin-bottom: 30px;
+        margin-left: 40px;
         float: left;
         width: 33%;
         max-width: 180px;
+    }
+
+    .first{
+      margin-top: 25px;
+      margin-bottom: 30px;
+      margin-left: 40px;
+      float: left;
     }
 </style>

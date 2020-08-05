@@ -530,6 +530,9 @@
                     if(!loadsh.isEmpty(this.detailForm.failRuleTableData)){
                         this.abnormalRule ='1'
                     }
+                    if(this.detailForm.endDay === '1' && this.detailForm.startDay === '0'){
+                        this.dayChecked = '1';
+                    }
                 }
             },
 
