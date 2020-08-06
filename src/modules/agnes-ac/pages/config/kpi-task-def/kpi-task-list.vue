@@ -102,7 +102,7 @@
                 try {
                     const p = this.$api.kpiTaskApi.checkBeforePulish({taskId:rowData.reTaskDef.taskId});
                     const resp = await this.$app.blockingApp(p);
-                    if(resp.code !== '000000'){
+                    if(resp.code !== '00000000'){
                         this.$msg.warning(resp.message);
                         return ;
                     }
