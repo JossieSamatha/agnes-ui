@@ -118,7 +118,6 @@
             <gf-strbool-checkbox v-model="detailForm.forcePass">是否允许人工强制通过</gf-strbool-checkbox>
         </el-form-item>
         <el-form-item label="消息通知参数">
-            <gf-strbool-checkbox v-model="detailForm.needApprove">系统内部消息</gf-strbool-checkbox>
             <el-checkbox-group v-model="msgInformParam">
                 <el-checkbox v-for="msgInform in msgInformOp"
                              :key="msgInform.value"
@@ -135,8 +134,12 @@
                         <span>{{msgInformOp[msgInformItem].label}}</span>
                     </span>
                     <el-form size="small" label-width="100px" v-show="msgInformItem == '0'">
-                        <el-form-item label="预警时间">
-                            <span>提前</span>
+                        <el-form-item label="提前通知配置">
+                            <el-button type="text" @click="openRemindDlg(stepInfo.stepFormInfo.warningRemind,'warningRemind')">
+                                点击配置通知方式
+                            </el-button>
+                        </el-form-item>
+                        <el-form-item label="预警时间">提前
                             <gf-input v-model="detailForm.warningMintues" style="width: 30%"></gf-input>
                             <el-select v-model="detailForm.warningTimeType" placeholder="请选择">
                                 <el-option
@@ -147,20 +150,16 @@
                                 </el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="预警方式配置">
-                            <el-button type="text" size="medium" @click="showRemindDlg('warningRemind')"> 点击配置通知方式
-                            </el-button>
-                        </el-form-item>
                     </el-form>
                     <el-form size="small" label-width="100px" v-show="msgInformItem == '1'">
-                        <el-form-item label="通知方式配置">
-                            <el-button type="text" size="medium" @click="showRemindDlg('finishRemind')"> 点击配置通知方式
+                        <el-form-item label="完成通知配置">
+                            <el-button type="text" @click="openRemindDlg(stepInfo.stepFormInfo.finishRemind,'finishRemind')"> 点击配置通知方式
                             </el-button>
                         </el-form-item>
                     </el-form>
                     <el-form size="small" label-width="100px" v-show="msgInformItem == '2'">
-                        <el-form-item label="通知方式配置">
-                            <el-button type="text" size="medium" @click="showRemindDlg('timeoutRemind')"> 点击配置通知方式
+                        <el-form-item label="超时通知配置">
+                            <el-button type="text" size="medium" @click="openRemindDlg(stepInfo.stepFormInfo.timeoutRemind,'timeoutRemind')"> 点击配置通知方式
                             </el-button>
                         </el-form-item>
                         <el-form-item label="服务水平承诺">
@@ -199,8 +198,8 @@
                         </el-form-item>
                     </el-form>
                     <el-form size="small" label-width="100px" v-show="msgInformItem == '3'">
-                        <el-form-item label="通知方式配置">
-                            <el-button type="text" size="medium" @click="showRemindDlg('warningRemind')"> 点击配置通知方式
+                        <el-form-item label="异常通知配置">
+                            <el-button type="text"  @click="openRemindDlg(stepInfo.stepFormInfo.exceptionRemind,'exceptionRemind')"> 点击配置通知方式
                             </el-button>
                         </el-form-item>
                         <el-form-item label="异常记录">
@@ -464,6 +463,13 @@
                 this.detailForm.stepActOwnerName = userInfo.userName;
                 this.detailForm.stepActOwner = userInfo.id;
             },
+            async showRemind(remindProp,remindSort){
+                this.detailForm[remindSort] = remindProp;
+            },
+            // 告警方式配置，打开弹框
+            openRemindDlg(remindProp,remindSort) {
+                this.showRemindDlg(remindProp,remindSort, this.showRemind.bind(this));
+            },
             showRemindDlg(remindSort, actionOk) {
                 this.$nav.showDialog(
                     'remind-def',
@@ -485,9 +491,18 @@
                     this.detailForm.failRuleTableData={}
                 }
                 //消息通知参数判断是否勾选
-                // if(this.msgInformParam.indexOf('0') > -1){
-                //
-                // }
+                if(this.msgInformParam.indexOf('0') === -1){
+                    this.detailForm.warningRemind=[];
+                }
+                if(this.msgInformParam.indexOf('1') === -1){
+                    this.detailForm.finishRemind=[];
+                }
+                if(this.msgInformParam.indexOf('2') === -1){
+                    this.detailForm.timeoutRemind=[];
+                }
+                if(this.msgInformParam.indexOf('3') === -1){
+                    this.detailForm.exceptionRemind=[];
+                }
                 let kpiTaskDef = this.$utils.deepClone(this.staticData.kpiTaskDef);
                 this.detailForm.bizTag = this.detailForm.bizTagArr.join(",");
                 this.detailForm.stepCode = this.detailForm.caseKey;
@@ -549,7 +564,7 @@
                     }
                     //消息通知参数回显
                     this.msgInfoStr.forEach((strItem, index)=>{
-                        if(stepFormInfo[strItem] && stepFormInfo[strItem].length>0){
+                        if(this.detailForm[strItem] && this.detailForm[strItem].length>0){
                             this.msgInformParam.push(index+'');
                         }
                     });

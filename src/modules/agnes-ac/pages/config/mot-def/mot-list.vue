@@ -40,7 +40,7 @@
                 }
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
-                    title: ['MOT任务编辑',mode],
+                    title: ['MOT任务',mode],
                     component: MotDetail,
                     args: {row, mode, actionOk},
                     okButtonVisible:isShow,
@@ -101,7 +101,6 @@
                 try {
                     const p = this.$api.kpiTaskApi.checkBeforePulish({taskId:rowData.reTaskDef.taskId});
                     const resp = await this.$app.blockingApp(p);
-                    console.log(resp);
                     if(resp.code === 'taskHasWaitError'){
                         this.$msg.warning(resp.message);
                         return ;

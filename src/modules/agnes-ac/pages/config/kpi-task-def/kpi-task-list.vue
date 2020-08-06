@@ -40,7 +40,7 @@
                 }
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
-                    title: ['任务类型编辑',mode],
+                    title: ['监控指标任务配置',mode],
                     component: KpiTaskDetail,
                     args: {row, mode, actionOk},
                     okButtonVisible:isShow,
@@ -102,7 +102,6 @@
                 try {
                     const p = this.$api.kpiTaskApi.checkBeforePulish({taskId:rowData.reTaskDef.taskId});
                     const resp = await this.$app.blockingApp(p);
-                    console.log(resp);
                     if(resp.code === 'taskHasWaitError'){
                         this.$msg.warning(resp.message);
                         return ;
