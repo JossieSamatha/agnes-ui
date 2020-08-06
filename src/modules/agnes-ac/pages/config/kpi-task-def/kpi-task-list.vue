@@ -102,15 +102,9 @@
                 try {
                     const p = this.$api.kpiTaskApi.checkBeforePulish({taskId:rowData.reTaskDef.taskId});
                     const resp = await this.$app.blockingApp(p);
-                    if(resp.code === 'taskHasWaitError'){
+                    if(resp.code !== '000000'){
                         this.$msg.warning(resp.message);
                         return ;
-                    }
-                    if(resp.code === 'taskHasDoneError'){
-                        const ok = await this.$msg.ask(resp.message);
-                        if (!ok) {
-                            return
-                        }
                     }
                     await this.publishKpiTask(params);
                 } catch (reason) {
