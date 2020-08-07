@@ -7,7 +7,7 @@
                  :showType="showType"
                  @change="onSave"
                  @close="onCancel">
-            <el-tab-pane slot="extSettimg">
+            <el-tab-pane slot="extSettimg" v-if="showType.indexOf('extSetting') > -1">
                 <span slot="label">
                     <i class="el-icon-setting"></i>
                     <span class="requireStar" style="position: relative">
@@ -41,15 +41,18 @@
                 </div>
             </el-tab-pane>
         </gf-cron>
-
     </div>
 </template>
 
 <script>
+    import readMeStr from "./readMeStr";
     export default {
         name: "GfCronModal",
         props: {
-            showType: {type: String},
+            showType: {
+                type: String,
+                default: 'second,minute,hour,day,month,extSetting'
+            },
             cornObj: {type: String},
             action: Function
         },
@@ -92,9 +95,10 @@
             // 打开帮助文档
             openHelpFile(){
                 this.$notify({
-                    title: 'HTML 片段',
+                    title: 'Cron时间频率组件操作文档',
+                    customClass: 'cronHelpNotify',
                     dangerouslyUseHTMLString: true,
-                    message: '<strong>这是 <i>HTML</i> 片段</strong>'
+                    message: readMeStr(),
                 });
             }
         },

@@ -651,6 +651,14 @@
     border-color: #EAEDF1;
 }
 
+.gf-ag-grid.ag-theme-balham .ag-row.disabled-row .ag-cell {
+    color: #ccc;
+}
+
+.gf-ag-grid.ag-theme-balham .ag-row.disabled-row .ag-cell[col-id="#op"] .el-button.grid-cell-op-link{
+    display: none;
+}
+
 .gf-ag-grid.ag-theme-balham .ag-row-odd {
     background: #F6F8FA;
 }
@@ -710,6 +718,17 @@
 
 .gf-ag-grid.ag-theme-balham .el-button {
     font-weight: normal;
+}
+
+.gf-ag-grid.ag-theme-balham .ag-column-drop-horizontal {
+    background: transparent;
+    border-bottom: 1px solid #EAEDF1;
+}
+
+.gf-ag-grid.ag-theme-balham .ag-column-drop-cell {
+    color: #666;
+    border: 1px solid #ccc;
+    background: transparent;
 }
 
 
