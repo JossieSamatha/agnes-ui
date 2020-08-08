@@ -7,7 +7,7 @@
                  :showType="showType"
                  @change="onSave"
                  @close="onCancel">
-            <el-tab-pane slot="extSettimg" v-if="showType.indexOf('extSetting') > -1">
+            <el-tab-pane slot="extSetting" v-if="showType.includes('extSetting')">
                 <span slot="label">
                     <i class="el-icon-setting"></i>
                     <span class="requireStar" style="position: relative">
