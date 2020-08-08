@@ -13,8 +13,16 @@
         <template slot="title">
             <span class="drawer-title">{{drawerTitle}}</span>
             <span class="option-btn">
-                <gf-button class="primary" v-show="okButtonVisible" @click="save">{{okButtonTitle}}</gf-button>
-                <gf-button v-show="cancelButtonVisible" @click="cancel" >{{cancelButtonTitle}}</gf-button>
+                <template v-if="customOpBtn && customOpBtn.length>0">
+                    <gf-button v-for="(opBtn, opIndex) in customOpBtn"
+                               :key="opIndex"
+                               :class="opBtn.className"
+                               @click="opBtnClick(opBtn.action)">{{opBtn.title}}</gf-button>
+                </template>
+                <template v-else>
+                    <gf-button class="primary" v-show="okButtonVisible" @click="save">{{okButtonTitle}}</gf-button>
+                    <gf-button v-show="cancelButtonVisible" @click="cancel" >{{cancelButtonTitle}}</gf-button>
+                </template>
             </span>
         </template>
         <component ref="component" :is="component" v-bind="args" @onClose="onClose">
@@ -64,6 +72,9 @@
                 type: Object,
                 required: false
             },
+            customOpBtn: {   // 自定义抽屉操作按钮
+                type: Array
+            },
             cancelButtonVisible: {
                 type: Boolean,
                 default: true
@@ -111,6 +122,9 @@
             onClose(){
                 this.needAsk = false;
                 this.$refs['gf-page-drawer'].closeDrawer();
+            },
+            opBtnClick(actionName){
+                this.$refs.component[actionName]();
             },
             async close(done) {
                 if(this.needAsk && this.args.mode !== 'view'){

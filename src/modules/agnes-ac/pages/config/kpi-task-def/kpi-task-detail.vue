@@ -123,6 +123,12 @@
             </el-button>
         </el-form-item>
         <el-form-item label="通知人员">
+<!--            <gf-person-chosen ref="memberRef"-->
+<!--                              :memberRefList="memberRefList"-->
+<!--                              chosenType="user, group, roster"-->
+<!--                              rosterDate="2020-07-22"-->
+<!--                              @getMemberList="getMemberList">-->
+<!--            </gf-person-chosen>-->
             <gf-input type="text" v-model="detailForm.stepActOwnerName" :readonly="true" style="width: 40%">
                 <i slot="suffix" class="el-input__icon el-icon-edit-outline" @click="chooseUser"/>
             </gf-input>
@@ -133,6 +139,7 @@
             <gf-strbool-checkbox v-model="detailForm.forcePass">是否允许人工强制通过</gf-strbool-checkbox>
         </el-form-item>
         <el-form-item label="消息通知参数">
+            <span class="default-checked">系统内部消息</span>
             <el-checkbox-group v-model="msgInformParam">
                 <el-checkbox v-for="msgInform in msgInformOp"
                              :key="msgInform.value"
@@ -279,10 +286,14 @@
                 default: 'add'
             },
             row: Object,
-            actionOk: Function
+            actionOk: Function,
+            slotBtn: {
+                type: Object
+            }
         },
         data() {
             return {
+                memberRefList: [{"refType":"1","memberId":"ceshi20","memberDesc":"测试20"},{"refType":"1","memberId":"ceshi19","memberDesc":"测试19"},{"refType":"1","memberId":"ceshi188","memberDesc":"测试18"},{"refType":"2","memberId":"3","memberDesc":"群组-群组3"},{"refType":"2","memberId":"5","memberDesc":"群组-群组5"},{"refType":"3","memberId":"1ev192v3lzq4m","memberDesc":"排班-基金运营部-早班\n2020-07-15 18:49-19:49-TA岗"},{"refType":"3","memberId":"1ev1t312tyneu","memberDesc":"排班-基金运营部-早班\n2020-07-16 22:28-23:28-FA岗"}],
                 serviceRes:[],
                 staticData: staticData(),
                 detailForm: initData(),
@@ -302,7 +313,7 @@
                 ruleErrorTypeOp: [{label: '默认异常规则', value: '0'}, {label: '自定义异常规则', value: '1'}],
                 // 消息配置类型类型选项
                 msgInformOp: [{label: '提前通知', value: '0'}, {label: '完成通知', value: '1'}, {label: '超时通知', value: '2'},
-                    {label: '异常通知', value: '3'}, {label: '系统内部消息', value: '4'}],
+                    {label: '异常通知', value: '3'}],
                 detailFormRules: {
                     taskName: [
                         {required: true, message: '任务名称必填', trigger: 'blur'},
@@ -365,6 +376,9 @@
             this.endTimeForDay = {selectableRange:`${this.detailForm.step_startTime ? this.detailForm.step_startTime + ':00' : '00:00:00'}-23:59:59`};
         },
         methods: {
+            getMemberList(val){
+              console.log("getMemberList", val)
+            },
             hasRepetCode(rule, value, callback) {
                 if (!value) {
                     callback(new Error('任务编号必填'));

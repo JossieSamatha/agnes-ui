@@ -429,7 +429,22 @@
     font-weight: normal;
 }
 
+.default-checked {
+    position: relative;
+    padding-left: 18px;
+}
 
+.default-checked::before {
+    content: "\f046";
+    font-family: 'fontawesome';
+    position: absolute;
+    left: 0;
+    top: -2px;
+    font-size: 18px;
+    color: #409EFF;
+    margin-right: 0px;
+    line-height: 18px;
+}
 
 
 
