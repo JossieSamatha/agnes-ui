@@ -376,9 +376,6 @@
             this.endTimeForDay = {selectableRange:`${this.detailForm.step_startTime ? this.detailForm.step_startTime + ':00' : '00:00:00'}-23:59:59`};
         },
         methods: {
-            getMemberList(val){
-              console.log("getMemberList", val)
-            },
             hasRepetCode(rule, value, callback) {
                 if (!value) {
                     callback(new Error('任务编号必填'));
