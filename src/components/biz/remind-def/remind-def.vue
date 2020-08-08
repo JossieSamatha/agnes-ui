@@ -96,17 +96,16 @@
                 });
                 // debugger;
                 if(remindDataCopy.length === 3){
-                    this.actionOk(remindDataCopy, this.remindSort);
-                    await this.$dialog.close(this);
+                    await this.actionOk(remindDataCopy, this.remindSort);
                 }else{
                     const ok = await this.$msg.ask(`必填项未补充完整的告警方式类型数据将会丢失, 是否继续?`);
                     if (ok) {
                         if (this.actionOk) {
-                            this.actionOk(remindDataCopy,this.remindSort);
-                            await this.$dialog.close(this);
+                            await this.actionOk(remindDataCopy,this.remindSort);
                         }
                     }
                 }
+                this.$dialog.close(this);
             }
         }
     }

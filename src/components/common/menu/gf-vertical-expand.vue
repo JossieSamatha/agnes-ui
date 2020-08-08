@@ -85,6 +85,15 @@
                 return this.foldFastMenu ? '45px' : '70%';
             }
         },
+        watch:{
+            allMenu: {
+                handler(){
+                    this.showSideMenu = false;
+                    this.foldFastMenu = true;
+                },
+                deep: true
+            }
+        },
         methods: {
             showView: function (menu) {
                 const viewId = menu.menucode;
@@ -144,14 +153,7 @@
                         _that.editMenuCollect(setMenu, menu.children, type);
                     }
                 });
-            },
-
-            // // 点击其他地方隐藏侧边菜单
-            // sideMenuOtherClick(e){
-            //     if (e.target.className != 'left-side-container' && this.showSideMenu) {
-            //         this.closeSideMenu();
-            //     }
-            // }
+            }
         }
     }
 </script>
