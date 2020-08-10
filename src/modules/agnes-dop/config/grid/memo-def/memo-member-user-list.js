@@ -1,7 +1,7 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'choseUser', title: '选择'},
+    {key: 'choseUser', title: '选择'}
 ];
 
 export default {
@@ -13,8 +13,6 @@ export default {
         {headerName: "用户状态", field: "userStatus", formatType:"dict", dictType:'GF_USER_STATUS'},
         {headerName: "用户简介", field: "userDesc"}
     ],
-    headerHeight: 40,
-    rowHeight: 37,
     ext: {
         fetchUrl: "/gf-admin/gf/user/queryUserList",
         fetchMethod: 'post',

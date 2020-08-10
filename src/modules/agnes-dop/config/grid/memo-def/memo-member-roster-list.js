@@ -7,8 +7,8 @@ const colButtons = [
 export default {
     columnDefs: [
         column.buildOpCol(80, colButtons),
-        {headerName: "部门", field: "deptId",dictType: 'AGNES_ROSTER_DEPT'},
-        {headerName: "排班类型", field: "rosterType",dictType: 'AGNES_ROSTER_TYPE'},
+        {headerName: "部门", field: "deptId", dictType: 'AGNES_ROSTER_DEPT'},
+        {headerName: "排班类型", field: "rosterType", dictType: 'AGNES_ROSTER_TYPE'},
         {headerName: "排班日期", field: "rosterDate"},
         {headerName: "排班时间", field: "rosterTs"},
         {headerName: "姓名", field: "userName"},
@@ -17,10 +17,12 @@ export default {
         {headerName: "座机", field: "oTel"},
         {headerName: "邮箱", field: "oEmail"}
     ],
-    headerHeight: 40,
-    rowHeight: 37,
+    defaultColDef: {
+        enableRowGroup: true
+    },
+    rowGroupPanelShow: "always",
     ext: {
-        fetchUrl: "/agnes-dop/v1/dop/roster/list",    //后台查询数据的URL地址
+        fetchUrl: "/agnes-app/v1/dop/roster/list/page",    //后台查询数据的URL地址
         fetchMethod: 'get',
         pagingMode: true, //分页
         checkboxColumn: 0, //是否显示checkbox列,

@@ -65,3 +65,396 @@
 .el-form.task-def-form .el-date-editor.el-input {
     min-width: 235px;
 }
+
+/*=====================================
+
+      search-panel 搜索面板样式调整
+
+=======================================*/
+.el-form.search-panel {
+    padding: 0;
+}
+
+.el-form.search-panel .el-form-item {
+    margin-bottom: 5px;
+    max-width: 350px;
+}
+
+.el-form.search-panel .btn-line {
+    justify-content: center;
+    padding: 5px 0;
+}
+
+.el-form.search-panel .el-form-item .el-form-item__label {
+    color: #333;
+}
+
+.el-form.search-panel .el-form-item .el-form-item__content input{
+    border-radius: 5px;
+}
+
+.el-form.search-panel .el-form-item .el-form-item__content .el-select{
+    width: 100%;
+}
+
+.el-form.search-panel .option-btn {
+    height: 28px;
+    padding: 5px 19px;
+    border-color: #E1E4E8;
+    color: #333;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.el-form.search-panel .option-btn.el-button--primary {
+    color: #fff;
+    background: #476DBE;
+    border-color: #476DBE;
+}
+
+
+/*=====================================
+
+      person-chosen 人员选择组件样式
+
+=======================================*/
+.person-chosen {
+    line-height: 28px;
+}
+
+.person-chosen .list-view {
+    border: 1px solid #eaeaea;
+    border-radius: 3px;
+    padding: 5px;
+}
+
+.person-chosen .list-view .el-tag {
+    margin-right: 3px;
+}
+
+.el-dialog__wrapper .el-dialog .el-dialog__body > div.person-chosen-dialog {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 435px;
+}
+
+.person-chosen-dialog .left {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    flex: 0 0 250px;
+    margin-right: 20px;
+}
+
+.person-chosen-dialog .left .tag-title {
+    border: 2px dashed #eaeaea;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.person-chosen-dialog .left .tag-title .el-tag {
+    margin-bottom: 0;
+}
+
+.person-chosen-dialog .left .group-title>input {
+    height: 28px;
+    line-height: 28px;
+}
+
+.person-chosen-dialog .left .tag-container {
+    flex: 1;
+    height: 100%;
+    border: 2px dashed #eaeaea;
+    padding: 10px 0 10px 10px;
+    overflow-y: auto;
+}
+
+.person-chosen-dialog .left .el-tag {
+    height: auto;
+    margin: 0 5px 5px 0;
+    padding: 0 5px;
+    white-space: pre-line;
+}
+
+.person-chosen-dialog .left .el-tag .el-icon-close {
+    right: -3px;
+}
+
+.person-chosen-dialog .right {
+    flex: 1;
+}
+
+.person-chosen-dialog .right .ag-grid-box .grid-action-panel .right {
+    max-width: none!important;
+}
+
+.person-chosen-dialog .right .ag-grid-box .grid-action-panel .right .el-input{
+    width: 100%;
+}
+
+.person-chosen-dialog .ag-grid-box.paginationGrid .gf-grid-status-bar{
+    display: none;
+}
+
+.person-chosen-dialog .ag-grid-box.paginationGrid .ag-paging-panel {
+    justify-content: space-between;
+    height: 35px;
+    border-top-color: #eaeaea;
+    font-size: 12px;
+}
+
+.person-chosen-dialog .ag-grid-box.paginationGrid .ag-paging-panel .ag-paging-page-summary-panel>button {
+    background: transparent;
+    border: 1px solid #eaeaea;
+    border-radius: 3px;
+    padding: 3px 10px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+
+
+/*=====================================
+
+        cron 时间频率组件样式
+
+=======================================*/
+.changeContab .tabBody .el-row .el-select {
+    width: 100px;
+    margin: 0 3px;
+}
+
+.cron-modal .changeContab .tabBody .el-row .long .el-select {
+    width: 250px;
+}
+
+.cron-modal .changeContab .tabBody .el-row .el-input-number {
+    width: 110px;
+    margin: 0 5px;
+}
+
+.cron-modal .changeContab .bottom {
+    position: absolute;
+    top: 0px;
+    right: 20px;
+    width: auto;
+    height: 40px;
+    line-height: 40px;
+    background: #fff;
+}
+
+.cron-modal .changeContab .bottom .value {
+    display: none;
+}
+
+.cron-modal .changeContab .bottom>button {
+    padding: 5px 19px;
+}
+
+.cron-modal .changeContab .bottom>button.el-button--primary {
+    color: #fff;
+    background: #476DBE;
+    border-color: #476DBE;
+}
+
+.cron-modal .question {
+    position: absolute;
+    top: 15px;
+    right: 165px;
+    font-size: 20px;
+    color: #476Dbe;
+    cursor: pointer;
+}
+
+.cron-modal .tabBody.extSetting .el-row>span {
+    display: inline-block;
+    width: 70px;
+    text-align: right;
+    margin-right: 10px;
+}
+
+/* =============================
+
+    gf-tabs 表单通用样式
+
+   ============================= */
+.gf-cron-tab .el-tabs {
+    margin-left: 0;
+    width: calc(100% - 10px);
+    height: 100%;
+    border: none;
+}
+
+.gf-cron-tab .el-tabs .el-tabs__header.is-top{
+    margin: 0;
+    background: transparent;
+    border-bottom: 1px solid #EFF2F7;
+}
+
+.gf-cron-tab .el-tabs > .el-tabs__header .el-tabs__nav {
+    border-radius: 0px;
+}
+
+.gf-cron-tab .el-tabs .el-tabs__header .el-tabs__item {
+    width: auto;
+    min-width: 70px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+    margin: 0;
+    padding: 0 15px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #EFF2F7;
+}
+
+.gf-cron-tab .el-tabs .el-tabs__header .el-tabs__item.is-active {
+    position: relative;
+    color: #476DBE;
+    border-bottom: none;
+}
+
+.gf-cron-tab .el-tabs .el-tabs__header .el-tabs__item.is-active::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0px;
+    width: 100%;
+    height: 2px;
+    background: #476DBE;
+}
+
+.gf-cron-tab .el-tabs .el-tabs__content {
+    height: calc(100% - 30px);
+    min-height: 200px;
+    border: 1px solid #EAEDF1;
+    border-top: none;
+    border-radius: 0;
+    padding: 10px;
+}
+
+.gf-cron-tab .el-tabs .el-tabs__content .el-tab-pane {
+    height: 100%;
+}
+
+/*=====================================
+
+      search-panel 搜索面板样式调整
+
+=======================================*/
+.el-form.search-panel {
+    padding: 0;
+}
+
+.el-form.search-panel .el-form-item {
+    margin-bottom: 5px;
+    max-width: 350px;
+}
+
+.el-form.search-panel .btn-line {
+    justify-content: center;
+    padding: 5px 0;
+}
+
+.el-form.search-panel .el-form-item .el-form-item__label {
+    color: #333;
+}
+
+.el-form.search-panel .el-form-item .el-form-item__content input{
+    border-radius: 5px;
+}
+
+.el-form.search-panel .el-form-item .el-form-item__content .el-select{
+    width: 100%;
+}
+
+.el-form.search-panel .option-btn {
+    height: 28px;
+    padding: 5px 19px;
+    border-color: #E1E4E8;
+    color: #333;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.el-form.search-panel .option-btn.el-button--primary {
+    color: #fff;
+    background: #476DBE;
+    border-color: #476DBE;
+}
+
+/*=====================================
+
+      cronHelpNotify
+
+=======================================*/
+
+.el-notification.cronHelpNotify {
+    max-height: calc(100% - 28px);
+    padding: 14px 10px;
+}
+
+.el-notification.cronHelpNotify .el-notification__content {
+    height: calc(100% - 20px);
+    margin: 6px -15px;
+    padding: 0 15px;
+    overflow-y: auto;
+}
+
+.el-notification.cronHelpNotify .el-notification__content p.title{
+    color: #333;
+    line-height: 35px;
+}
+
+.el-notification.cronHelpNotify .el-notification__content p.content{
+    color: #666;
+    line-height: 24px;
+}
+
+.el-notification.cronHelpNotify .el-notification__content table{
+    width: 100%;
+}
+
+.el-notification.cronHelpNotify .el-notification__content table th,
+.el-notification.cronHelpNotify .el-notification__content table td{
+    padding: 3px 8px;
+    border: 1px solid #ccc;
+}
+
+.el-notification.cronHelpNotify .el-notification__content table th{
+    color: #333;
+    font-weight: normal;
+}
+
+.default-checked {
+    position: relative;
+    padding-left: 18px;
+}
+
+.default-checked::before {
+    content: "\f046";
+    font-family: 'fontawesome';
+    position: absolute;
+    left: 0;
+    top: -2px;
+    font-size: 18px;
+    color: #409EFF;
+    margin-right: 0px;
+    line-height: 18px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
