@@ -40,10 +40,26 @@
                 </e-col>
             </el-row>
             <gf-grid ref="grid" :options="gridOptions" class="grid-class" :height="height">
-                <template slot="left">
+                <!-- <template slot="left">
                     <gf-button class="action-btn" @click="executeKpi" size="mini">重新执行</gf-button>
-                </template>
+                </template> -->
             </gf-grid>
+            <el-row  style="marginTop:12px;marginLeft:-10px">
+                <el-col :span="24">
+                    <!-- <el-form-item label-width="0px" v-if="type==='done'" label="" prop="remark" >
+                        {{form.remark}}
+                    </el-form-item> -->
+                    <el-form-item label-width="0px"  label="" prop="remark" >
+                        <el-input
+                            :readonly="type==='done'"
+                            type="textarea"
+                            :rows="2"
+                            placeholder="请输入备注"
+                            v-model="form.remark">
+                        </el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
         </el-form>
     </div>
 </template>
@@ -56,6 +72,7 @@
             bizDate: String,
             caseId:String,
             stepCode:String,
+            type:String,
             toolbar: {
                 default: "more"
             }
@@ -125,6 +142,15 @@
             });
         },
         methods: {
+            onCancel() {
+                this.$emit("onClose");
+            },
+            onSave() { //点击重新执行的事件
+                this.executeKpi()
+            },
+            onExtendButton(){//点击强制通过的事件
+
+            },
             reloadData() {
                 let _this =this;
                 this.$api.kpiDefineApi.getKpiDetails(this.data).then((resp) => {

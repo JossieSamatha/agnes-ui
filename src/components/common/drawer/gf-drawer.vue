@@ -13,6 +13,7 @@
         <template slot="title">
             <span class="drawer-title">{{drawerTitle}}</span>
             <span class="option-btn">
+                <gf-button class="primary" v-show="extendButtonVisible" @click="extendButton">{{extendButtonTitle}}</gf-button>
                 <gf-button class="primary" v-show="okButtonVisible" @click="save">{{okButtonTitle}}</gf-button>
                 <gf-button v-show="cancelButtonVisible" @click="cancel" >{{cancelButtonTitle}}</gf-button>
             </span>
@@ -79,7 +80,15 @@
             okButtonTitle: {
                 type: String,
                 default: '保存'
-            }
+            },
+            extendButtonVisible: {
+                type: Boolean,
+                default: false
+            },
+            extendButtonTitle: {
+                type: String,
+                default: '扩展'
+            },
         },
         data() {
             return {
@@ -107,6 +116,9 @@
             },
             save(){
                 this.$refs.component.onSave();
+            },
+            extendButton(){
+                this.$refs.component.onExtendButton(); //扩展按钮点击事件
             },
             onClose(){
                 this.needAsk = false;
