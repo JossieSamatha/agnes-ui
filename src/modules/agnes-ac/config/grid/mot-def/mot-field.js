@@ -3,8 +3,8 @@ import column from "../../../../../config/column"
 const colButtons = [
     {key: 'editKpiTask', title: '编辑'},
     {key: 'deleteKpiTask', title: '删除', cellClass: 'red-cell'},
-    {key: 'checkKpiTask', title: '审核'},
-    {key: 'publishTask', title: '发布'},
+    {key: 'checkTask', title: '审核'},
+    {key: 'checkMotBeforePulish', title: '发布'},
 ];
 
 export default {
