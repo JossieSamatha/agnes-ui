@@ -5,39 +5,35 @@
                 <el-col :span="24"><p style="text-align: center;font-size: 20px; margin-bottom: 20px">指标任务详情</p></el-col>
             </el-row>
             <el-row :gutter="16" style="margin-bottom: 20px">
-                <e-col :span="8">
-                    <el-card class="box-card">
-                        <div slot="header" class="clearfix">
-                            <span>指标详情</span>
-                        </div>
-                        <div class="text item">
-                            <span class="first">指标名称:{{form.kpiName}}</span>
-                        </div>
-                        <div class="clear"></div>
-                        <div class="text item" >
-                                <span class="span">业务日期:{{form.bizDate}}</span>
-                                <span class="span">执行时间:{{form.createTime}}</span>
-                        </div>
-                        <div class="clear"></div>
-                        <div class="text item">
-                            <span class="span">正常数:{{form.normal}}</span>
-                            <span class="span">异常数:{{form.abnormal}}</span>
-                            <span class="span">人工一致:{{form.artificialCon}}</span>
-                        </div>
-                    </el-card>
-                </e-col>
-                <e-col :span="8">
-                    <el-card class="box-card">
-                        <div slot="header" class="clearfix">
-                            <span>数据图表</span>
-                        </div>
-                        <div style="text-align: center">
-                            <pie-chart v-show="showChar" :chart-data="charData" :color-set="colorSet"></pie-chart>
-                            <img v-show="!showChar" :src="require('../../../../../assets/img/no-data.png')" style="margin-top:-20px">
-                            <p v-show="!showChar" style="margin-top: 20px">未关联指标状态</p>
-                        </div>
-                    </el-card>
-                </e-col>
+                <el-card class="box-card">
+                    <div slot="header" class="clearfix">
+                        <span>指标详情</span>
+                    </div>
+                    <div class="text item">
+                        <span class="first">指标名称:{{form.kpiName}}</span>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="text item" >
+                            <span class="span">业务日期:{{form.bizDate}}</span>
+                            <span class="span">执行时间:{{form.createTime}}</span>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="text item">
+                        <span class="span">正常数:{{form.normal}}</span>
+                        <span class="span">异常数:{{form.abnormal}}</span>
+                        <span class="span">人工一致:{{form.artificialCon}}</span>
+                    </div>
+                </el-card>
+                <el-card class="box-card">
+                    <div slot="header" class="clearfix">
+                        <span>数据图表</span>
+                    </div>
+                    <div style="text-align: center">
+                        <pie-chart v-show="showChar" :chart-data="charData" :color-set="colorSet"></pie-chart>
+                        <img v-show="!showChar" :src="require('../../../../../assets/img/no-data.png')" style="margin-top:-20px">
+                        <p v-show="!showChar" style="margin-top: 20px">未关联指标状态</p>
+                    </div>
+                </el-card>
             </el-row>
             <gf-grid ref="grid" :options="gridOptions" class="grid-class" :height="height">
                 <template slot="left">
@@ -142,6 +138,11 @@
             setColumnFiled(columnDefsArray){
                 columnDefsArray.push({
                     colId: "#op", headerName: "操作", cellRenderer: "OpCellRender", pinned: "right",
+                    cellClassRules: {
+                      'invisible-cell': function(params) {
+                        return !(params.data.FACTOR_VALUE === "1" && params.data.MANUAL_TAG === "1");
+                      },
+                    },
                     cellRenderParams:{
                         opButtons: [
                             {

@@ -639,6 +639,10 @@
     color: #999;
 }
 
+.gf-ag-grid.ag-theme-balham .ag-cell.invisible-cell {
+    display: none;
+}
+
 .gf-ag-grid.ag-theme-balham .ag-cell .el-button + .el-button {
     margin-left: 5px;
 }
