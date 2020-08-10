@@ -503,7 +503,7 @@
                 this.$nav.showDialog(
                     'remind-def',
                     {
-                        args: {remindProp:[], remindSort, actionOk},
+                        args: {remindProp, remindSort, actionOk},
                         width: '530px',
                         title: this.$dialog.formatTitle('通知方式配置', "edit"),
                     }
