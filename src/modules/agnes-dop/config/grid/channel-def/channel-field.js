@@ -1,23 +1,24 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'editLinkMan', title: '修改'},
-    {key: 'deleteLinkMan', title: '删除', cellClass: 'red-cell'},
-    {key: 'editLinkMan', title: '复核'},
+    {key: 'editChannel', title: '修改'},
+    {key: 'deleteChannel', title: '删除', cellClass: 'red-cell'},
+    {key: 'approveChannel', title: '复核'},
 ];
 export default {
     columnDefs: [
         column.buildOpCol(120, colButtons),
-        {headerName: "渠道代码", field: "linkmanName"},
-        {headerName: "渠道类型", field: "linkmanRoleId"},
-        {headerName: "渠道名称", field: "linkmanDept"},
-        {headerName: "更新人", field: "linkmanRoleId"},
-        {headerName: "更新时间", field: "linkmanDept"},
+        {headerName: "渠道代码", field: "channelCode"},
+        {headerName: "渠道名称", field: "channelName"},
+        {headerName: "渠道类型", field: "channelType",formatType: 'dict', dictType: 'AGNES_DOP_CHANNEL_TYPE'},
+        {headerName: "渠道状态", field: "channelStatus",formatType: 'dict', dictType: 'AGNES_DOP_CHANNEL_STATUS'},
+        column.colCrtUser,
+        column.colCrtTm
     ],
     headerHeight: 40,
     rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-app/v1/dop/linkman/org/list",
+        fetchUrl: "/agnes-app/v1/dop/channel/list/page",
         fetchMethod: 'get',
         pagingMode: true, //不分页
         checkboxColumn: 1, //是否显示checkbox列,
