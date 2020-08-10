@@ -24,23 +24,28 @@
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
+                let cancelTitle = '取消';
+                if(mode==='view'){
+                    cancelTitle = '关闭';
+                }
                 let isShow = true;
                 row.isCheck=false;
                 if(mode==='check'){
                     mode='view';
                     row.isCheck=true;
+                    cancelTitle = '反审核';
                 }
                 if(!row.isCheck && mode==='view'){
                     isShow = false;
                 }
                 this.$drawerPage.create({
-                    width: 'calc(92% - 215px)',
-                    title: ['MOT任务编辑',mode],
+                    width: 'calc(97% - 215px)',
+                    title: ['MOT任务',mode],
                     component: MotDetail,
                     args: {row, mode, actionOk},
                     okButtonVisible:isShow,
                     okButtonTitle: row.isCheck ? '审核' : '保存',
-                    cancelButtonTitle: row.isCheck ? '反审核' : '取消',
+                    cancelButtonTitle: cancelTitle,
                 });
             },
             async onAddModel() {
@@ -74,8 +79,8 @@
             },
 
             //复核
-            checkKpiTask(params){
-                if(params.data.reTaskDef.needApprove==='1'&&params.data.reTaskDef.taskStatus.match(/01|04/)){
+            checkTask(params){
+                if(params.data.reTaskDef.taskStatus.match(/01|04/)){
                     this.showDrawer('check', params.data, this.onAddModel.bind(this));
                 }else {
                     this.$msg.warning("该状态无法审核!");
@@ -83,8 +88,7 @@
                 }
             },
 
-            // 发布
-            async publishTask(params){
+            async checkMotBeforePulish(params){
                 const rowData = params.data;
                 if(rowData.reTaskDef.taskStatus.match(/00|01|03|04/)){
                     this.$msg.warning("该状态无法发布!");
@@ -94,6 +98,22 @@
                 if (!ok) {
                     return
                 }
+                try {
+                    const p = this.$api.kpiTaskApi.checkBeforePulish({taskId:rowData.reTaskDef.taskId});
+                    const resp = await this.$app.blockingApp(p);
+                    if(resp.code !== '00000000'){
+                        this.$msg.warning(resp.message);
+                        return ;
+                    }
+                    await this.publishTask(params);
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
+
+            // 发布
+            async publishTask(params){
+                const rowData = params.data;
                 try {
                     let sendInfo = transferCaseDefData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName,'list');
                     rowData.caseDefJson = JSON.stringify(sendInfo);

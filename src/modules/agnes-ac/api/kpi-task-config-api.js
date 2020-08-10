@@ -4,6 +4,9 @@ export default {
     saveTask(form) {
         return request.post("/agnes-ac/v1/ac/kpi/task/case/save", form);
     },
+    checkBeforePulish(form) {
+        return request.post("/agnes-ac/v1/ac/kpi/task/case//check/before/pulish", form);
+    },
     checkTask(form) {
         return request.post("/agnes-ac/v1/ac/kpi/task/case/check-task", form);
     },
