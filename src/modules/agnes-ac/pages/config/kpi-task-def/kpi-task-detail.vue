@@ -286,14 +286,10 @@
                 default: 'add'
             },
             row: Object,
-            actionOk: Function,
-            slotBtn: {
-                type: Object
-            }
+            actionOk: Function
         },
         data() {
             return {
-                memberRefList: [{"refType":"1","memberId":"ceshi20","memberDesc":"测试20"},{"refType":"1","memberId":"ceshi19","memberDesc":"测试19"},{"refType":"1","memberId":"ceshi188","memberDesc":"测试18"},{"refType":"2","memberId":"3","memberDesc":"群组-群组3"},{"refType":"2","memberId":"5","memberDesc":"群组-群组5"},{"refType":"3","memberId":"1ev192v3lzq4m","memberDesc":"排班-基金运营部-早班\n2020-07-15 18:49-19:49-TA岗"},{"refType":"3","memberId":"1ev1t312tyneu","memberDesc":"排班-基金运营部-早班\n2020-07-16 22:28-23:28-FA岗"}],
                 serviceRes:[],
                 staticData: staticData(),
                 detailForm: initData(),
