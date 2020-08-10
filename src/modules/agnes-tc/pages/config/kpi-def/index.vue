@@ -5,45 +5,57 @@
                 <el-col :span="24"><p style="text-align: center;font-size: 20px; margin-bottom: 20px">指标任务详情</p></el-col>
             </el-row>
             <el-row :gutter="16" style="margin-bottom: 20px">
-                <e-col :span="8">
-                    <el-card class="box-card">
-                        <div slot="header" class="clearfix">
-                            <span>指标详情</span>
-                        </div>
-                        <div class="text item">
-                            <span class="first">指标名称:{{form.kpiName}}</span>
-                        </div>
-                        <div class="clear"></div>
-                        <div class="text item" >
-                                <span class="span">业务日期:{{form.bizDate}}</span>
-                                <span class="span">执行时间:{{form.createTime}}</span>
-                        </div>
-                        <div class="clear"></div>
-                        <div class="text item">
-                            <span class="span">正常数:{{form.normal}}</span>
-                            <span class="span">异常数:{{form.abnormal}}</span>
-                            <span class="span">人工一致:{{form.artificialCon}}</span>
-                        </div>
-                    </el-card>
-                </e-col>
-                <e-col :span="8">
-                    <el-card class="box-card">
-                        <div slot="header" class="clearfix">
-                            <span>数据图表</span>
-                        </div>
-                        <div style="text-align: center">
-                            <pie-chart v-show="showChar" :chart-data="charData" :color-set="colorSet"></pie-chart>
-                            <img v-show="!showChar" :src="require('../../../../../assets/img/no-data.png')" style="margin-top:-20px">
-                            <p v-show="!showChar" style="margin-top: 20px">未关联指标状态</p>
-                        </div>
-                    </el-card>
-                </e-col>
+                <el-card class="box-card">
+                    <div slot="header" class="clearfix">
+                        <span>指标详情</span>
+                    </div>
+                    <div class="text item">
+                        <span class="first">指标名称:{{form.kpiName}}</span>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="text item" >
+                            <span class="span">业务日期:{{form.bizDate}}</span>
+                            <span class="span">执行时间:{{form.createTime}}</span>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="text item">
+                        <span class="span">正常数:{{form.normal}}</span>
+                        <span class="span">异常数:{{form.abnormal}}</span>
+                        <span class="span">人工一致:{{form.artificialCon}}</span>
+                    </div>
+                </el-card>
+                <el-card class="box-card">
+                    <div slot="header" class="clearfix">
+                        <span>数据图表</span>
+                    </div>
+                    <div style="text-align: center">
+                        <pie-chart v-show="showChar" :chart-data="charData" :color-set="colorSet"></pie-chart>
+                        <img v-show="!showChar" :src="require('../../../../../assets/img/no-data.png')" style="margin-top:-20px">
+                        <p v-show="!showChar" style="margin-top: 20px">未关联指标状态</p>
+                    </div>
+                </el-card>
             </el-row>
             <gf-grid ref="grid" :options="gridOptions" class="grid-class" :height="height">
-                <template slot="left">
+                <!-- <template slot="left">
                     <gf-button class="action-btn" @click="executeKpi" size="mini">重新执行</gf-button>
-                </template>
+                </template> -->
             </gf-grid>
+            <el-row  style="marginTop:12px;marginLeft:-10px">
+                <el-col :span="24">
+                    <!-- <el-form-item label-width="0px" v-if="type==='done'" label="" prop="remark" >
+                        {{form.remark}}
+                    </el-form-item> -->
+                    <el-form-item label-width="0px"  label="" prop="remark" >
+                        <el-input
+                            :readonly="type==='done'"
+                            type="textarea"
+                            :rows="2"
+                            placeholder="请输入备注"
+                            v-model="form.remark">
+                        </el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
         </el-form>
     </div>
 </template>
@@ -56,6 +68,7 @@
             bizDate: String,
             caseId:String,
             stepCode:String,
+            type:String,
             toolbar: {
                 default: "more"
             }
@@ -125,6 +138,15 @@
             });
         },
         methods: {
+            onCancel() {
+                this.$emit("onClose");
+            },
+            onSave() { //点击重新执行的事件
+                this.executeKpi()
+            },
+            onExtendButton(){//点击强制通过的事件
+
+            },
             reloadData() {
                 let _this =this;
                 this.$api.kpiDefineApi.getKpiDetails(this.data).then((resp) => {
@@ -142,6 +164,11 @@
             setColumnFiled(columnDefsArray){
                 columnDefsArray.push({
                     colId: "#op", headerName: "操作", cellRenderer: "OpCellRender", pinned: "right",
+                    cellClassRules: {
+                      'invisible-cell': function(params) {
+                        return !(params.data.FACTOR_VALUE === "1" && params.data.MANUAL_TAG === "1");
+                      },
+                    },
                     cellRenderParams:{
                         opButtons: [
                             {

@@ -10,7 +10,7 @@ export default {
         {headerName: "任务编号", field: "taskName"},
         {headerName: "任务名称", field: "taskStartTm"},
         {headerName: "任务发起日期", field: "participants"},
-        {headerName: "计划完成时间", field: "participants"},
+        // {headerName: "计划完成时间", field: "participants"},
         {headerName: "实际完成时间", field: "participants"},
         {headerName: "业务标签", field: "participants",dictType: 'AGNES_BIZ_TAG',
             valueFormatter: function (params) {
@@ -26,6 +26,8 @@ export default {
         {headerName: "状态", field: "participants", dictType: "CASE_TASK_STATUS"},
         column.buildOpCol(120, colButtons)
     ],
+    headerHeight: 40,
+    rowHeight: 37,
     ext: {
         fetchUrl: "/agnes-app/v1/task/todo/list",    //后台查询数据的URL地址
         fetchMethod: 'get',
