@@ -268,7 +268,7 @@
 
 <script>
     import loadsh from 'lodash';
-    import ExecTimeEdit from "./exec-time";
+    import ExecTimeEdit from "../../../../../components/biz/exec-time";
     import staticData from '../../../util/dataFormat'
     import initData from '../../../util/initData'
     import UserSelect from '../../../components/biz/kpi-user-select'
