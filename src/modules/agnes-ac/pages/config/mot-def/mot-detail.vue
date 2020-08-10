@@ -108,6 +108,12 @@
             </el-select>
         </el-form-item>
         <el-form-item label="通知人员">
+            <!--            <gf-person-chosen ref="memberRef"-->
+            <!--                              :memberRefList="memberRefList"-->
+            <!--                              chosenType="user, group, roster"-->
+            <!--                              rosterDate="2020-07-22"-->
+            <!--                              @getMemberList="getMemberList">-->
+            <!--            </gf-person-chosen>-->
             <gf-input type="text" v-model="detailForm.stepActOwnerName" :readonly="true" style="width: 40%">
                 <i slot="suffix" class="el-input__icon el-icon-edit-outline" @click="chooseUser"/>
             </gf-input>
@@ -118,6 +124,7 @@
             <gf-strbool-checkbox v-model="detailForm.forcePass">是否允许人工强制通过</gf-strbool-checkbox>
         </el-form-item>
         <el-form-item label="消息通知参数">
+            <span class="default-checked">系统内部消息</span>
             <el-checkbox-group v-model="msgInformParam">
                 <el-checkbox v-for="msgInform in msgInformOp"
                              :key="msgInform.value"
@@ -135,7 +142,7 @@
                     </span>
                     <el-form size="small" label-width="100px" v-show="msgInformItem == '0'">
                         <el-form-item label="提前通知配置">
-                            <el-button type="text" @click="openRemindDlg(stepInfo.stepFormInfo.warningRemind,'warningRemind')">
+                            <el-button type="text" @click="openRemindDlg(detailForm.warningRemind,'warningRemind')">
                                 点击配置通知方式
                             </el-button>
                         </el-form-item>
@@ -153,13 +160,13 @@
                     </el-form>
                     <el-form size="small" label-width="100px" v-show="msgInformItem == '1'">
                         <el-form-item label="完成通知配置">
-                            <el-button type="text" @click="openRemindDlg(stepInfo.stepFormInfo.finishRemind,'finishRemind')"> 点击配置通知方式
+                            <el-button type="text" @click="openRemindDlg(detailForm.finishRemind,'finishRemind')"> 点击配置通知方式
                             </el-button>
                         </el-form-item>
                     </el-form>
                     <el-form size="small" label-width="100px" v-show="msgInformItem == '2'">
                         <el-form-item label="超时通知配置">
-                            <el-button type="text" size="medium" @click="openRemindDlg(stepInfo.stepFormInfo.timeoutRemind,'timeoutRemind')"> 点击配置通知方式
+                            <el-button type="text" @click="openRemindDlg(detailForm.timeoutRemind,'timeoutRemind')"> 点击配置通知方式
                             </el-button>
                         </el-form-item>
                         <el-form-item label="服务水平承诺">
@@ -199,7 +206,7 @@
                     </el-form>
                     <el-form size="small" label-width="100px" v-show="msgInformItem == '3'">
                         <el-form-item label="异常通知配置">
-                            <el-button type="text"  @click="openRemindDlg(stepInfo.stepFormInfo.exceptionRemind,'exceptionRemind')"> 点击配置通知方式
+                            <el-button type="text"  @click="openRemindDlg(detailForm.exceptionRemind,'exceptionRemind')"> 点击配置通知方式
                             </el-button>
                         </el-form-item>
                         <el-form-item label="异常记录">
@@ -469,7 +476,7 @@
             openRemindDlg(remindProp,remindSort) {
                 this.showRemindDlg(remindProp,remindSort, this.showRemind.bind(this));
             },
-            showRemindDlg(remindSort, actionOk) {
+            showRemindDlg(remindProp,remindSort, actionOk) {
                 this.$nav.showDialog(
                     'remind-def',
                     {
@@ -523,12 +530,6 @@
                         stepFormInfo[key] = this.detailForm[key] || stepFormInfo[key];
                     }
                 })
-                if (this.succeedRule === '0') {
-                    this.stepInfo.stepFormInfo.successRuleTableData = {}
-                }
-                if (this.abnormalRule === '0') {
-                    this.stepInfo.stepFormInfo.failRuleTableData = {}
-                }
                 caseDef.stages[0].children[0].stepFormInfo = stepFormInfo;
                 return {reTaskDef: kpiTaskDef, caseDefId: this.row.caseDefId, caseDefBody: JSON.stringify(caseDef),versionId:this.detailForm.versionId};
             },

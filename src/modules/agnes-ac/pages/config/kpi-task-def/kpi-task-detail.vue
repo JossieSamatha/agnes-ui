@@ -275,7 +275,6 @@
 
 <script>
     import loadsh from 'lodash';
-    import ExecTimeEdit from "../../../../../components/biz/exec-time";
     import staticData from '../../../util/dataFormat'
     import initData from '../../../util/initData'
     import UserSelect from '../../../components/biz/kpi-user-select'
@@ -504,7 +503,7 @@
                 this.$nav.showDialog(
                     'remind-def',
                     {
-                        args: {remindProp, remindSort, actionOk},
+                        args: {remindProp:[], remindSort, actionOk},
                         width: '530px',
                         title: this.$dialog.formatTitle('通知方式配置', "edit"),
                     }
