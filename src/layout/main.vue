@@ -125,8 +125,11 @@
                 })
             },
             logout: function () {
-                if(this.$app.cmdMgr.get('logoutDrawer')){
-                    this.$app.runCmd('logoutDrawer');
+                const drawerList = document.getElementsByClassName('gf-page-drawer');
+                if(drawerList.length > 0){
+                    drawerList.forEach(x=>{
+                        document.body.removeChild(x);
+                    });
                 }
                 this.$store.dispatch('logout').then(() => {
                     this.$router.push({path: '/login'});

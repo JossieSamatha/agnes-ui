@@ -17,8 +17,6 @@
 </template>
 
 <script>
-    import ExecTimeEdit from "../../../../../components/biz/exec-time.vue";
-
     export default {
 
         data() {
@@ -46,11 +44,11 @@
             },
             showDlg(data, action) {
                 this.$nav.showDialog(
-                    ExecTimeEdit,
+                    'gf-cron-modal',
                     {
-                        args: {data, action},
+                        args: {cornObj: data, action},
                         width: '530px',
-                        title: this.$dialog.formatTitle('编辑频率'),
+                        title: this.$dialog.formatTitle('编辑频率', "edit"),
                     }
                 );
             },

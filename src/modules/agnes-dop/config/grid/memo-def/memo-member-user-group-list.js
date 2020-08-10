@@ -11,12 +11,12 @@ export default {
         column.colCrtUser,
         column.colCrtTm
     ],
-    headerHeight: 40,
-    rowHeight: 37,
+    paginationAutoPageSize: true,
+    pagination: true,
     ext: {
-        fetchUrl: "/agnes-app/v1/dop/user/group/list/all/page",
+        fetchUrl: "/agnes-app/v1/dop/user/group/list/all",
         fetchMethod: 'get',
-        pagingMode: true, //分页
+        pagingMode: false, //分页
         checkboxColumn: 0, //是否显示checkbox列,
         autoFitColumnMode: 1,
         enableExportLocal: false,

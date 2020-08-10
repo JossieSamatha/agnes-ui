@@ -5,7 +5,7 @@
             <gf-input v-model.trim="detailForm.taskName" placeholder="任务名称"/>
         </el-form-item>
         <el-form-item label="任务编号" prop="caseKey">
-            <gf-input v-model.trim="detailForm.caseKey" placeholder="任务编号"/>
+            <gf-input v-model.trim="detailForm.caseKey" placeholder="任务编号" clear-regex="[^0-9]" :max-byte-len="8"/>
         </el-form-item>
         <el-form-item label="流程类型" prop="flowType">
             <gf-dict filterable clearable v-model="detailForm.flowType" dict-type="AGNES_CASE_FLOWTYPE"/>
@@ -78,8 +78,6 @@
 </template>
 
 <script>
-    import CronDef from "../case-def/little-case/cron-def";
-
     export default {
         name: "task-define",
         props: {
@@ -184,7 +182,7 @@
             },
             showDlg(cornObj, action) {
                 this.$nav.showDialog(
-                    CronDef,
+                    'gf-cron-modal',
                     {
                         args: {cornObj, action},
                         width: '530px',

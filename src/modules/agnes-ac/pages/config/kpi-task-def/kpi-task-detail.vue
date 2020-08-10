@@ -123,6 +123,12 @@
             </el-button>
         </el-form-item>
         <el-form-item label="通知人员">
+<!--            <gf-person-chosen ref="memberRef"-->
+<!--                              :memberRefList="memberRefList"-->
+<!--                              chosenType="user, group, roster"-->
+<!--                              rosterDate="2020-07-22"-->
+<!--                              @getMemberList="getMemberList">-->
+<!--            </gf-person-chosen>-->
             <gf-input type="text" v-model="detailForm.stepActOwnerName" :readonly="true" style="width: 40%">
                 <i slot="suffix" class="el-input__icon el-icon-edit-outline" @click="chooseUser"/>
             </gf-input>
@@ -133,6 +139,7 @@
             <gf-strbool-checkbox v-model="detailForm.forcePass">是否允许人工强制通过</gf-strbool-checkbox>
         </el-form-item>
         <el-form-item label="消息通知参数">
+            <span class="default-checked">系统内部消息</span>
             <el-checkbox-group v-model="msgInformParam">
                 <el-checkbox v-for="msgInform in msgInformOp"
                              :key="msgInform.value"
@@ -430,11 +437,11 @@
                     return;
                 }
                 this.$nav.showDialog(
-                    ExecTimeEdit,
+                    'gf-cron-modal',
                     {
-                        args: {data, action},
+                        args: {cornObj: data, action},
                         width: '530px',
-                        title: this.$dialog.formatTitle('编辑执行频率'),
+                        title: this.$dialog.formatTitle('编辑执行频率', "edit"),
                     }
                 );
             },
