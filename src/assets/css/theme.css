@@ -1970,7 +1970,7 @@ form input[type=submit] {
 }
 
 .el-tabs.el-tabs--card .el-tabs__content {
-    height: calc(100% - 30px);
+    height: calc(100% - 32px);
     border: 1px solid #EAEDF1;
     border-top: none;
     border-radius: 0;

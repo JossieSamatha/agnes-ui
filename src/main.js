@@ -15,6 +15,8 @@ import store from '@hex/ares-ui/src/store/index';
 
 import gridApi from "./api/grid-api";
 
+import lodash from 'lodash'
+
 import './utils/permission';
 import "element-ui/lib/theme-chalk/index.css";
 import "font-awesome/css/font-awesome.min.css";
@@ -28,6 +30,8 @@ import './assets/css/dash-board.css';
 Vue.use(ElementUI);
 Vue.use(echarts);
 Vue.prototype.echarts = echarts;
+
+Vue.prototype.$lodash = lodash;
 
 Vue.component('draggable', draggable);
 Vue.component('GridLayout', VueGridLayout.GridLayout);
