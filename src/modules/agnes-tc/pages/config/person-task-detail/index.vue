@@ -13,7 +13,7 @@
             </el-row>
             <el-row>
                 <el-col :span="24">
-                    <el-form-item label="业务日期:" prop="taskDate" >
+                    <el-form-item label="业务处理日期:" prop="taskDate" >
                         {{form.taskDate}}
                     </el-form-item>
                 </el-col>
@@ -27,36 +27,31 @@
             </el-row>
             <el-row>
                 <el-col :span="24">
-                    <el-form-item label="任务说明:" prop="taskInfo" >
+                    <el-form-item v-if="type==='done'" label="任务说明:" prop="taskInfo" >
                         {{form.taskInfo}}
                     </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="24">
-                    <el-form-item label="业务事件:" prop="taskMethod" >
-                        {{form.taskMethod}}
+                    <el-form-item v-if="type==='todo'" label="任务说明:" prop="taskInfo" >
+                        <el-input
+                            type="textarea"
+                            :rows="2"
+                            placeholder="请输入任务说明"
+                            v-model="form.taskInfo">
+                        </el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="24">
-                    <el-form-item label="业务场景:" prop="taskScene" >
-                        {{form.taskScene}}
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="24">
-                    <el-form-item label="完成时间:" prop="finishTime" >
-                        {{form.finishTime}}
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="24">
-                    <el-form-item label="备注:" prop="remark" >
+                    <el-form-item v-if="type==='done'" label="备注:" prop="remark" >
                         {{form.remark}}
+                    </el-form-item>
+                    <el-form-item v-if="type==='todo'" label="备注:" prop="remark" >
+                        <el-input
+                            type="textarea"
+                            :rows="2"
+                            placeholder="请输入任务说明"
+                            v-model="form.remark">
+                        </el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -72,6 +67,7 @@
             bizDate: String,
             caseId:String,
             stepCode:String,
+            type:String,
             toolbar: {
                 default: "more"
             }
@@ -83,9 +79,6 @@
                     taskDate:"2020-02-20",
                     taskTime:"23:22:22",
                     taskInfo:'测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明',
-                    taskMethod:'测试事件',
-                    taskScene:'测试场景',
-                    finishTime:"23:22:22",
                     remark:'测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明测试说明',
                 },
                 charData:[],

@@ -639,6 +639,10 @@
     color: #999;
 }
 
+.gf-ag-grid.ag-theme-balham .ag-cell.invisible-cell {
+    display: none;
+}
+
 .gf-ag-grid.ag-theme-balham .ag-cell .el-button + .el-button {
     margin-left: 5px;
 }
@@ -711,7 +715,16 @@
 .gf-ag-grid.ag-theme-balham .el-button {
     font-weight: normal;
 }
-
+/* 表格单元格背景颜色样式 */
+.red-backgoundColor {
+    background-color: red;
+}
+.yellow-backgoundColor {
+    background-color: yellow;
+}
+.gray-backgoundColor {
+    background-color: rgb(204, 204, 204);
+}
 
 /* =============================
 
