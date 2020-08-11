@@ -1,41 +1,42 @@
 <template>
-    <div>
-        <el-form class="list-body" ref="form" style="margin:60px">
-            <div>
-                <el-row class="list-row" type="flex" justify="end" :gutter="3">
-                    <el-col :span="3"><el-button @click="openChangeList" class="el-button">查看日切记录</el-button></el-col>
-                    <el-col :span="3"><el-button @click="addChangeData" type="primary" class="el-button">日切</el-button></el-col>
-                    <el-col :span="3"><el-button @click="addChangeRule" type="primary" class="el-button">日切规则</el-button></el-col>
-                </el-row>
-                <el-row class="list-row" type="flex" justify="space-between" >
-                    <el-col :span="5">
-                        <span class="data-font">上一业务日期：{{lastTaskData}}</span>
-                    </el-col>
-                    <el-col :span="5">
-                        <span class="data-font">下一业务日期：{{nextTaskData}}</span>
-                    </el-col>
-                </el-row>
-            </div>
+    <div class="box-body">
+        <el-card class="box-card" body-style="with:100%;height:100%" >
+            <el-form class="list-body" ref="form" >
+                <div>
+                    <el-row class="list-row" type="flex" justify="end" :gutter="3">
+                        <el-button size="small" @click="openChangeList" class="el-button">查看日切记录</el-button>
+                        <el-button size="small" @click="addChangeData" type="primary" class="el-button">日切</el-button>
+                        <el-button size="small" @click="addChangeRule" type="primary" class="el-button">日切规则</el-button>
+                    </el-row>
+                    <el-divider></el-divider>
+                    <el-row class="list-row" type="flex" justify="space-between" >
+                        <span class="data-font"><span class="gray-font-color">上一业务日期</span>{{lastTaskData}}</span>
+                        <span class="data-font"><span class="gray-font-color">下一业务日期</span>{{nextTaskData}}</span>
+                    </el-row>
+                </div>
 
-            <el-row class="list-row" type="flex" justify="center" >
-                <el-col :span="8" class="list-col">
-                    <span class="data-font">当前业务日期：</span>
-                    <el-date-picker
-                            v-model="nowTaskData"
-                            type="date"
-                            value-format="yyyy-MM-dd"
-                            placeholder="">
-                    </el-date-picker>
-                </el-col>
-            </el-row>
-            <el-row class="list-row" type="flex" justify="center" >
-                <el-col :span="10" class="list-col">
-                    <span class="data-font">操作人员:{{person}}</span>
-                    <span style="margin-left: 12px" class="data-font">日切时间:{{changeData}}</span>
-                </el-col>
-            </el-row>
-        </el-form>
+                <el-row class="list-row" type="flex" justify="center" >
+                    <el-col :span="24" class="list-col">
+                        <span class="data-font_large gray-font-color">当前业务日期</span>
+                        <el-date-picker
+                                v-model="nowTaskData"
+                                type="date"
+                                value-format="yyyy-MM-dd"
+                                placeholder="">
+                        </el-date-picker>
+                    </el-col>
+                </el-row>
+                <el-row class="list-row" type="flex" justify="center" >
+                    <el-col :span="24" class="list-col">
+                        <span class="data-font"><span class="gray-font-color">操作人员</span>{{person}}</span>
+                        <span style="margin-left: 50px" class="data-font"><span class="gray-font-color">操作时间</span>{{changeData}}</span>
+                    </el-col>
+                </el-row>
+            </el-form>
+    </el-card>
     </div>
+    
+
 </template>
 
 <script>
@@ -128,7 +129,7 @@
             },
             openChangeList(){
                 this.$drawerPage.create({
-                    width: 'calc(92% - 215px)',
+                    width: 'calc(97% - 215px)',
                     title: ['日切记录表'],
                     component: ChangeDataList,
                     args: {},
@@ -141,6 +142,15 @@
 </script>
 
 <style scoped>
+    .box-card{
+        width: 80%;
+        height: 90%;
+    }
+    .box-body{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
     .list-body{
         display: flex;
         flex-direction: column;
@@ -148,13 +158,20 @@
         height: 100%;
     }
     .el-button{
-        width: 126px;
+        width: 100px;
     }
     .list-row{
         margin-bottom: 12px;
     }
     .data-font{
-        font-size: 16px;
+        font-size: 14px;
+    }
+    .data-font_large{
+        font-size: 18px;
+    }
+    .gray-font-color{
+        color: #A9A9A9;
+        margin-right: 8px;
     }
     .list-col{
         display: flex;
