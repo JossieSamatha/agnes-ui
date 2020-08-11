@@ -4,7 +4,7 @@ const colButtons = [
     {key: 'editKpiTask', title: '编辑'},
     {key: 'deleteKpiTask', title: '删除', cellClass: 'red-cell'},
     {key: 'checkKpiTask', title: '审核'},
-    {key: 'publishKpiTask', title: '发布'},
+    {key: 'checkBeforePulish', title: '发布'},
 ];
 
 export default {
