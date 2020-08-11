@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-form class="list-body" ref="form">
+        <el-form class="list-body" ref="form" style="margin:60px">
             <div>
                 <el-row class="list-row" type="flex" justify="end" :gutter="3">
                     <el-col :span="3"><el-button @click="openChangeList" class="el-button">查看日切记录</el-button></el-col>
@@ -50,15 +50,16 @@
         },
         data() {
             return {
-                lastTaskData:'2019-09-09',
-                nextTaskData:'2019-09-29',
-                nowTaskData:'2019-09-19',
-                person:'张三',
-                changeData:'2019-09-19 22:22:22',
+                lastTaskData:'',
+                nextTaskData:'',
+                nowTaskData:'',
+                person:'',
+                changeData:'',
+                dayendId:'',
             }
         },
         mounted() {
-
+            this.loadChangeData();
         },
         watch: {
 
@@ -66,6 +67,21 @@
         methods: {
             reloadData() {
 
+            },
+            async loadChangeData() {
+                try {
+                    const resp = await this.$api.changeDataApi.getChangeData();
+                    let resChangeData = resp.data[0]
+                    this.lastTaskData = resChangeData.lastBizDate;
+                    this.nextTaskData = resChangeData.nextBizDate;
+                    this.nowTaskData = resChangeData.bizDate;
+                    this.person = resChangeData.updateUser;
+                    this.changeData = resChangeData.updateTs;
+                    this.dayendId = resChangeData.dayendId;
+                    // console.log('resp',resp)
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
             },
             showDlg(actionOk,type) {
                 if(type==='data'){
@@ -92,8 +108,20 @@
             async onAddChangeData() {
                 await this.reloadData();
             },
-            addChangeData() {
-                this.showDlg(this.onAddChangeData.bind(this),'data');
+            async addChangeData() {
+                if (!this.nowTaskData) {
+                    this.$message({
+                        type: 'warning',
+                        message: '请选择日切时间!'
+                    });
+                    return;
+                }
+                try {
+                    await this.$api.changeDataApi.queryChangeData(this.nowTaskData);
+                    await this.loadChangeData();
+                } catch (e) {
+                    this.$msg.error(e);
+                }
             },
             addChangeRule(){
                 this.showDlg(this.onAddChangeData.bind(this),'rule');
