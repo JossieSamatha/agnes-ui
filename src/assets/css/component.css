@@ -791,6 +791,7 @@
 .ag-grid-box .grid-action-panel .action-btn,
 .ag-grid-box .grid-action-panel .el-button-group > button {
     color: #476DBE;
+    font-size: 14px;
     border: 1px solid #476DBE;
     border-radius: 3px;
     background: transparent;
@@ -829,7 +830,7 @@
 
 .ag-grid-box .grid-action-panel .right input {
     color: #666;
-    font-size: 12px;
+    font-size: 14px;
     height: 29px;
     line-height: 29px;
     border-color: #EAEDF1;
@@ -837,6 +838,7 @@
 
 .ag-grid-box .grid-action-panel .right .el-input__suffix .el-input__icon {
     color: #666;
+    font-size: 16px;
     line-height: 29px;
 }
 
