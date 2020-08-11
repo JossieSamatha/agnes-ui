@@ -34,7 +34,7 @@
         <el-form-item label="任务说明" prop="stepRemark">
             <gf-input type="textarea" v-model.trim="detailForm.stepRemark" placeholder="任务说明"/>
         </el-form-item>
-        <el-form-item label="运行周期" prop="task_startTime">
+        <el-form-item label="运行周期配置" prop="task_startTime">
             <div class="line none-shrink">
                 <el-form-item prop="task_startTime">
                     <el-date-picker
@@ -58,10 +58,34 @@
                 <gf-strbool-checkbox v-model="startAllTime" style="margin-left: 10px">永久有效</gf-strbool-checkbox>
             </div>
         </el-form-item>
-        <el-form-item label="基准日期" prop="dayendDefId">
-            <gf-dict filterable clearable v-model="detailForm.dayendDefId" dict-type="AGNES_BASE_DATE" style="width: 30%;"/>
+<!--        <el-form-item label="基准日期" prop="dayendDefId">-->
+<!--            <gf-dict filterable clearable v-model="detailForm.dayendDefId" dict-type="AGNES_BASE_DATE" style="width: 30%;"/>-->
+<!--        </el-form-item>-->
+        <el-form-item label="创建方式选择" prop="task_execMode">
+            <el-radio-group v-model="detailForm.task_execMode">
+                <el-radio label="1">按运行周期创建一次</el-radio>
+                <el-radio label="2">按自定义频率创建</el-radio>
+                <el-radio label="3">按外部事件触发时创建</el-radio>
+            </el-radio-group>
         </el-form-item>
-        <el-form-item label="执行时间" prop="step_startTime">
+        <template v-if="detailForm.task_execMode==2">
+            <el-form-item label="创建频率配置" prop="step_execScheduler">
+                <el-button type="text" @click="editExecTime('task_execScheduler', detailForm.task_execScheduler)">
+                    {{detailForm.task_execScheduler}}点击配置
+                </el-button>
+            </el-form-item>
+        </template>
+        <el-form-item label="外部事件选择" v-if="detailForm.task_execMode==3">
+            <el-select v-model="detailForm.eventId" placeholder="请选择" filterable clearable>
+                <gf-filter-option
+                        v-for="item in detailForm.eventOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                </gf-filter-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="执行时间配置" prop="step_startTime">
             <div class="line none-shrink">
                 <el-form-item prop="step_startTime">
                     <el-time-picker
@@ -82,30 +106,6 @@
                 </el-form-item>
                 <gf-strbool-checkbox v-model="dayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
             </div>
-        </el-form-item>
-        <el-form-item label="任务创建方式" prop="task_execMode">
-            <el-radio-group v-model="detailForm.task_execMode">
-                <el-radio label="1">执行一次</el-radio>
-                <el-radio label="2">重复执行</el-radio>
-                <el-radio label="3">事件触发执行</el-radio>
-            </el-radio-group>
-        </el-form-item>
-        <template v-if="detailForm.task_execMode==2">
-            <el-form-item label="任务创建频率" prop="step_execScheduler">
-                <el-button type="text" @click="editExecTime('task_execScheduler', detailForm.task_execScheduler)">
-                    {{detailForm.task_execScheduler}}点击配置
-                </el-button>
-            </el-form-item>
-        </template>
-        <el-form-item label="事件选择" v-if="detailForm.task_execMode==3">
-            <el-select v-model="detailForm.eventId" placeholder="请选择" filterable clearable>
-                <gf-filter-option
-                        v-for="item in detailForm.eventOptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </gf-filter-option>
-            </el-select>
         </el-form-item>
         <el-form-item label="通知人员">
             <!--            <gf-person-chosen ref="memberRef"-->
@@ -310,9 +310,9 @@
                     task_endTime: [
                         {required: true, message: '运行周期结束时间必填', trigger: 'blur'},
                     ],
-                    dayendDefId: [
-                        {required: true, message: '基准日期必填', trigger: 'change'},
-                    ],
+                    // dayendDefId: [
+                    //     {required: true, message: '基准日期必填', trigger: 'change'},
+                    // ],
                     task_execMode: [
                         {required: true, message: '启动方式必填', trigger: 'blur'},
                     ],
@@ -324,6 +324,9 @@
                     ],
                     task_startTime: [
                         {required: true, message: '运行周期开始时间必填', trigger: 'blur'},
+                    ],
+                    stepRemark: [
+                        {required: true, message: '任务说明必填', trigger: 'blur'},
                     ],
                     step_endTime: [
                         {required: true, message: '执行结束时间必填', trigger: 'change'},
