@@ -6,15 +6,15 @@
 export default {
     columnDefs: [
         // column.buildOpCol(120, colButtons),
-        {headerName: "下一业务日期", field: "linkmanName"},
-        {headerName: "当前业务日期", field: "linkmanRoleId"},
-        {headerName: "上一业务日期", field: "linkmanDept"},
-        {headerName: "日切人员", field: "linkmanStatus", dictType: "DOP_LINKMAN_STATUS"},
-        {headerName: "日切时间", field: "linkmanDept"},
-        {headerName: "备注", field: "linkmanDept"},
+        {headerName: "下一业务日期", field: "nextBizDate"},
+        {headerName: "当前业务日期", field: "bizDate"},
+        {headerName: "上一业务日期", field: "lastBizDate"},
+        {headerName: "日切人员", field: "crtUser"},
+        {headerName: "日切时间", field: "crtTs"},
+        {headerName: "备注", field: "dayendRemark"},
     ],
     ext: {
-        fetchUrl: "/agnes-app/v1/dop/linkman/org/list",
+        fetchUrl: "/agnes-app/v1/dop/dayend/list",
         fetchMethod: 'get',
         pagingMode: true, //不分页
         checkboxColumn: 1, //是否显示checkbox列,
