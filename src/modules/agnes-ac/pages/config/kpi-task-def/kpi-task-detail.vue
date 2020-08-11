@@ -643,6 +643,7 @@
             'detailForm.task_execMode'(val){
                 if(val === '2'){
                     this.detailForm.eventId = '';
+                    this.detailForm.task_execScheduler= '00#01#01#* * * * * ?'
                 }else if(val === '3'){
                     this.detailForm.task_execScheduler= ''
                 }else {
