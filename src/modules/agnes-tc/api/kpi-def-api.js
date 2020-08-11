@@ -17,8 +17,8 @@ export default {
         return request.post(`/dop-kpi/kpi/dashboard/updateManul`,form);
     },
 
-    execTask(caseId,stepCode){
-        return request.get(`/agnes-ac/v1/ac/service/task/exec`,{params:{caseId,stepCode}});
+    execTask(form){
+        return request.post(`/agnes-ac/v1/ac/service/task/exec`,form);
     }
 
 };
