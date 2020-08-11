@@ -2,18 +2,12 @@
     <el-container>
         <el-container style="height: 100%">
             <el-main height="100%" style="padding-top: 0px;padding-bottom: 0px" class="el-border">
-                <!-- <ProductAuthList :reqData="reqData"></ProductAuthList> -->
                 <gf-grid grid-no="agnes-product-auth-field" ref="grid" quick-text-max-width="300px"
                         height="100%">
                 </gf-grid>
             </el-main>
         </el-container>
         <el-aside width="400px" class="el-border">
-            <!-- <el-row>
-                <div class="button-body">
-                    <gf-button class="action-btn" type="primary" size="mini">保存</gf-button>
-                </div>
-            </el-row> -->
             <el-row class="button-body">
                 <el-input v-model="filterText" size="mini" placeholder="检索机构..."
                           suffix-icon="fa fa-search"></el-input>

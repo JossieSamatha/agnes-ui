@@ -34,7 +34,7 @@
         <el-form-item label="任务说明" prop="stepRemark">
             <gf-input type="textarea" v-model.trim="detailForm.stepRemark" placeholder="任务说明"/>
         </el-form-item>
-        <el-form-item label="运行周期" prop="task_startTime">
+        <el-form-item label="运行周期配置" prop="task_startTime">
             <div class="line none-shrink">
                 <el-form-item prop="task_startTime">
                     <el-date-picker
@@ -58,10 +58,34 @@
                 <gf-strbool-checkbox v-model="startAllTime" style="margin-left: 10px">永久有效</gf-strbool-checkbox>
             </div>
         </el-form-item>
-        <el-form-item label="基准日期" prop="dayendDefId">
-            <gf-dict filterable clearable v-model="detailForm.dayendDefId" dict-type="AGNES_BASE_DATE" style="width: 30%;"/>
+<!--        <el-form-item label="基准日期" prop="dayendDefId">-->
+<!--            <gf-dict filterable clearable v-model="detailForm.dayendDefId" dict-type="AGNES_BASE_DATE" style="width: 30%;"/>-->
+<!--        </el-form-item>-->
+        <el-form-item label="创建方式选择" prop="task_execMode">
+            <el-radio-group v-model="detailForm.task_execMode">
+                <el-radio label="1">按运行周期创建一次</el-radio>
+                <el-radio label="2">按自定义频率创建</el-radio>
+                <el-radio label="3">按外部事件触发时创建</el-radio>
+            </el-radio-group>
         </el-form-item>
-        <el-form-item label="执行时间" prop="step_startTime">
+        <template v-if="detailForm.task_execMode==2">
+            <el-form-item label="创建频率配置" prop="step_execScheduler">
+                <el-button type="text" @click="editExecTime('task_execScheduler', detailForm.task_execScheduler)">
+                    {{detailForm.task_execScheduler}}点击配置
+                </el-button>
+            </el-form-item>
+        </template>
+        <el-form-item label="外部事件选择" v-if="detailForm.task_execMode==3">
+            <el-select v-model="detailForm.eventId" placeholder="请选择" filterable clearable>
+                <gf-filter-option
+                        v-for="item in detailForm.eventOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                </gf-filter-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="执行时间配置" prop="step_startTime">
             <div class="line none-shrink">
                 <el-form-item prop="step_startTime">
                     <el-time-picker
@@ -83,32 +107,8 @@
                 <gf-strbool-checkbox v-model="dayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
             </div>
         </el-form-item>
-        <el-form-item label="任务创建方式" prop="task_execMode">
-            <el-radio-group v-model="detailForm.task_execMode">
-                <el-radio label="1">执行一次</el-radio>
-                <el-radio label="2">重复执行</el-radio>
-                <el-radio label="3">事件触发执行</el-radio>
-            </el-radio-group>
-        </el-form-item>
-        <template v-if="detailForm.task_execMode==2">
-            <el-form-item label="任务创建频率" prop="step_execScheduler">
-                <el-button type="text" @click="editExecTime('task_execScheduler', detailForm.task_execScheduler)">
-                    {{detailForm.task_execScheduler}}点击配置
-                </el-button>
-            </el-form-item>
-        </template>
-        <el-form-item label="事件选择" v-if="detailForm.task_execMode==3">
-            <el-select v-model="detailForm.eventId" placeholder="请选择" filterable clearable>
-                <gf-filter-option
-                        v-for="item in detailForm.eventOptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </gf-filter-option>
-            </el-select>
-        </el-form-item>
-        <el-form-item label="选择指标">
-            <el-select v-model="detailForm.stepActKey" placeholder="请选择" filterable clearable>
+        <el-form-item label="执行逻辑选择">
+            <el-select v-model="detailForm.stepActKey" placeholder="请选择" filterable clearable style="width: 32%">
                 <gf-filter-option
                         v-for="item in detailForm.kpiOptions"
                         :key="item.value"
@@ -117,7 +117,7 @@
                 </gf-filter-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="指标执行频率">
+        <el-form-item label="执行频率配置">
             <el-button type="text" @click="editExecTime('step_execScheduler', detailForm.step_execScheduler)">
                 {{detailForm.step_execScheduler}}点击配置
             </el-button>
@@ -129,7 +129,7 @@
 <!--                              rosterDate="2020-07-22"-->
 <!--                              @getMemberList="getMemberList">-->
 <!--            </gf-person-chosen>-->
-            <gf-input type="text" v-model="detailForm.stepActOwnerName" :readonly="true" style="width: 40%">
+            <gf-input type="text" v-model="detailForm.stepActOwnerName" :readonly="true" style="width: 32%">
                 <i slot="suffix" class="el-input__icon el-icon-edit-outline" @click="chooseUser"/>
             </gf-input>
         </el-form-item>
@@ -156,8 +156,12 @@
                         <span>{{msgInformOp[msgInformItem].label}}</span>
                     </span>
                     <el-form size="small" label-width="100px" v-show="msgInformItem == '0'">
-                        <el-form-item label="预警时间">
-                            <span>提前</span>
+                        <el-form-item label="提前通知配置">
+                            <el-button type="text" @click="openRemindDlg(detailForm.warningRemind,'warningRemind')">
+                                点击配置通知方式
+                            </el-button>
+                        </el-form-item>
+                        <el-form-item label="预警时间">提前
                             <gf-input v-model="detailForm.warningMintues" style="width: 30%"></gf-input>
                             <el-select v-model="detailForm.warningTimeType" placeholder="请选择">
                                 <el-option
@@ -168,20 +172,16 @@
                                 </el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="预警方式配置">
-                            <el-button type="text" size="medium" @click="showRemindDlg('warningRemind')"> 点击配置通知方式
-                            </el-button>
-                        </el-form-item>
                     </el-form>
                     <el-form size="small" label-width="100px" v-show="msgInformItem == '1'">
-                        <el-form-item label="通知方式配置">
-                            <el-button type="text" size="medium" @click="showRemindDlg('finishRemind')"> 点击配置通知方式
+                        <el-form-item label="完成通知配置">
+                            <el-button type="text" @click="openRemindDlg(detailForm.finishRemind,'finishRemind')"> 点击配置通知方式
                             </el-button>
                         </el-form-item>
                     </el-form>
                     <el-form size="small" label-width="100px" v-show="msgInformItem == '2'">
-                        <el-form-item label="通知方式配置">
-                            <el-button type="text" size="medium" @click="showRemindDlg('timeoutRemind')"> 点击配置通知方式
+                        <el-form-item label="超时通知配置">
+                            <el-button type="text" @click="openRemindDlg(detailForm.timeoutRemind,'timeoutRemind')"> 点击配置通知方式
                             </el-button>
                         </el-form-item>
                         <el-form-item label="服务水平承诺">
@@ -220,8 +220,8 @@
                         </el-form-item>
                     </el-form>
                     <el-form size="small" label-width="100px" v-show="msgInformItem == '3'">
-                        <el-form-item label="通知方式配置">
-                            <el-button type="text" size="medium" @click="showRemindDlg('warningRemind')"> 点击配置通知方式
+                        <el-form-item label="异常通知配置">
+                            <el-button type="text"  @click="openRemindDlg(detailForm.exceptionRemind,'exceptionRemind')"> 点击配置通知方式
                             </el-button>
                         </el-form-item>
                         <el-form-item label="异常记录">
@@ -274,6 +274,7 @@
 </template>
 
 <script>
+    import loadsh from 'lodash';
     import staticData from '../../../util/dataFormat'
     import initData from '../../../util/initData'
     import UserSelect from '../../../components/biz/kpi-user-select'
@@ -304,11 +305,12 @@
                 msgInformParam: [],      // 消息通知参数类型数组
                 startAllTime: '0',       // 是否永久有效
                 bizTagOption: [],        // 业务类型下拉
+                msgInfoStr: ['warningRemind', 'finishRemind', 'timeoutRemind', 'exceptionRemind'],
                 // 规则选择类型选项
                 ruleTypeOp: [{label: '默认完成规则', value: '0'}, {label: '自定义完成规则', value: '1'}],
                 ruleErrorTypeOp: [{label: '默认异常规则', value: '0'}, {label: '自定义异常规则', value: '1'}],
                 // 消息配置类型类型选项
-                msgInformOp: [{label: '提前通知', value: '0'}, {label: '完成通知', value: '1'}, {label: '超时通知', value: '2'},
+                msgInformOp: [ {label: '提前通知', value: '0'}, {label: '完成通知', value: '1'}, {label: '超时通知', value: '2'},
                     {label: '异常通知', value: '3'}],
                 detailFormRules: {
                     taskName: [
@@ -320,15 +322,18 @@
                     caseKey: [
                         {validator: this.hasRepetCode, required: true, trigger: 'change'},
                     ],
+                    stepRemark: [
+                        {required: true, message: '任务说明必填', trigger: 'blur'},
+                    ],
                     task_startTime: [
                         {required: true, message: '运行周期开始时间必填', trigger: 'blur'},
                     ],
                     task_endTime: [
                         {required: true, message: '运行周期结束时间必填', trigger: 'blur'},
                     ],
-                    dayendDefId: [
-                        {required: true, message: '基准日期必填', trigger: 'change'},
-                    ],
+                    // dayendDefId: [
+                    //     {required: true, message: '基准日期必填', trigger: 'change'},
+                    // ],
                     task_execMode: [
                         {required: true, message: '启动方式必填', trigger: 'blur'},
                     ],
@@ -489,11 +494,19 @@
                 }
             },
 
-            showRemindDlg(remindSort, actionOk) {
+
+            async showRemind(remindProp,remindSort){
+                this.detailForm[remindSort] = remindProp;
+            },
+            // 告警方式配置，打开弹框
+            openRemindDlg(remindProp,remindSort) {
+                this.showRemindDlg(remindProp,remindSort, this.showRemind.bind(this));
+            },
+            showRemindDlg(remindProp,remindSort, actionOk) {
                 this.$nav.showDialog(
                     'remind-def',
                     {
-                        args: {remindProp: [], remindSort, actionOk},
+                        args: {remindProp, remindSort, actionOk},
                         width: '530px',
                         title: this.$dialog.formatTitle('通知方式配置', "edit"),
                     }
@@ -501,6 +514,25 @@
             },
             // 数据结构转换
             dataTransfer() {
+                if(this.succeedRule==='0'){
+                    this.detailForm.successRuleTableData={}
+                }
+                if(this.abnormalRule==='0'){
+                    this.detailForm.failRuleTableData={}
+                }
+                //消息通知参数判断是否勾选
+                if(this.msgInformParam.indexOf('0') === -1){
+                    this.detailForm.warningRemind=[];
+                }
+                if(this.msgInformParam.indexOf('1') === -1){
+                    this.detailForm.finishRemind=[];
+                }
+                if(this.msgInformParam.indexOf('2') === -1){
+                    this.detailForm.timeoutRemind=[];
+                }
+                if(this.msgInformParam.indexOf('3') === -1){
+                    this.detailForm.exceptionRemind=[];
+                }
                 let kpiTaskDef = this.$utils.deepClone(this.staticData.kpiTaskDef);
                 this.detailForm.bizTag = this.detailForm.bizTagArr.join(",");
                 this.detailForm.stepCode = this.detailForm.caseKey;
@@ -545,9 +577,21 @@
                     if (this.detailForm.bizTag) {
                         this.detailForm.bizTagArr = this.detailForm.bizTag.split(",");
                     }
+                    if(!loadsh.isEmpty(this.detailForm.successRuleTableData)){
+                        this.succeedRule ='1'
+                    }
+                    if(!loadsh.isEmpty(this.detailForm.failRuleTableData)){
+                        this.abnormalRule ='1'
+                    }
                     if(this.detailForm.endDay === '1' && this.detailForm.startDay === '0'){
                         this.dayChecked = '1';
                     }
+                    //消息通知参数回显
+                    this.msgInfoStr.forEach((strItem, index)=>{
+                        if(this.detailForm[strItem] && this.detailForm[strItem].length>0){
+                            this.msgInformParam.push(index+'');
+                        }
+                    });
                 }
             },
 
@@ -582,7 +626,7 @@
             startTimeChange(){
                 if(this.dayChecked == '1'){
                     this.endTimeForDay = {selectableRange:'00:00:00-23:59:59'};
-                    }else {
+                }else {
                     this.endTimeForDay = {selectableRange:`${this.detailForm.step_startTime ? this.detailForm.step_startTime + ':00' : '00:00:00'}-23:59:59`};
                 }
             }
@@ -600,19 +644,21 @@
                 if(val === '2'){
                     this.detailForm.eventId = '';
                 }else if(val === '3'){
-                    this.detailForm.task_execScheduler= '* * * * * ? *'
+                    this.detailForm.task_execScheduler= ''
                 }else {
                     this.detailForm.eventId = '';
-                    this.detailForm.task_execScheduler= '* * * * * ? *'
+                    this.detailForm.task_execScheduler= ''
                 }
             },
             'dayChecked'(val){
                 if (val==='1') {
                     this.endTimeForDay = {selectableRange:'00:00:00-23:59:59'};
+                    this.startTimeForDay = {selectableRange:'00:00:00-23:59:59'};
                     this.detailForm.endDay = '1';
                     this.detailForm.startDay = '0';
                 } else {
                     this.endTimeForDay = {selectableRange:`${this.detailForm.step_startTime ? this.detailForm.step_startTime + ':00' : '00:00:00'}-23:59:59`};
+                    this.startTimeForDay = {selectableRange:`00:00:00-${this.detailForm.step_endTime ? this.detailForm.step_endTime + ':00' : '23:59:59'}`};
                     this.detailForm.endDay = '';
                     this.detailForm.startDay = '';
                     this.detailForm.step_endTime = '';

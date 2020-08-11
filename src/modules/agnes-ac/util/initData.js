@@ -16,7 +16,7 @@ export default function () {
         task_endTime: null,          // endTime 重复名称
         standardDate: '',       // 基准日期(新增字段)
         task_execMode: '1',          // 任务创建频率 -- 1：一次；2：重复执行；3：事件
-        task_execScheduler: '* * * * * ? *',      // 任务创建频率 -- 重复执行
+        task_execScheduler: '',      // 任务创建频率 -- 重复执行
         eventId: '',            // 事件Id -- 执行频率--事件
         needApprove: '0',       // 是否需要复核
 
@@ -45,7 +45,7 @@ export default function () {
         step_endTime: '',         // 执行时间 -- 结束时间
         dayendDefId: '',     // 日期类型 -- 1：工作日；2：自然日；（是否保存）
         step_execMode: '2',       // 指标执行频率 --默认重复执行
-        step_execScheduler: '* * * * * ? *',   // 指标执行频率 -- 串串
+        step_execScheduler: '00#01#01#* * * * * ?',   // 指标执行频率 -- 串串
         stepActKey: '',      // 指标
         stepActOwner: '',    // 通知人id
         stepActOwnerName: '',    // 通知人姓名
