@@ -2,7 +2,7 @@ import column from "../../../../../config/column";
 
 const colButtons = [
     {key: 'checkTask', title: '复核'},
-    {key: 'cancelTask', title: '作废'},
+    {key: 'cancelTask', title: '作废', cellClass: 'red-cell'},
 ];
 
 export default {
@@ -13,7 +13,6 @@ export default {
         {headerName: "任务发起日期", field: "exeTime"},
         {headerName: "实际完成时间", field: "updateTs",
             valueFormatter: function (params) {
-                console.log(params);
                 let taskStatus = params.data.taskStatus;
                 if(taskStatus.match(/04|05/)){
                     return params.value;
@@ -29,7 +28,8 @@ export default {
         fetchUrl: "/agnes-app/v1/task/manage/list",    //后台查询数据的URL地址
         fetchMethod: 'post',
         pagingMode: true, //分页
-        checkboxColumn: 0, //是否显示checkbox列,
+        checkboxColumn: 1, //是否显示checkbox列,
+        autoFitColumnMode: 1,
         enableExportLocal: true,
         pageOptions: {
             // 分页大小

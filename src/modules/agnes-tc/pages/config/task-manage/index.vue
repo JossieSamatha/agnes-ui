@@ -1,11 +1,11 @@
 <template>
     <div>
-        <el-form class="search-panel" label-width="75px">
+        <el-form class="search-panel" label-width="100px">
             <div class="line">
                 <el-form-item label="任务名称">
                     <el-input v-model="queryArgs.taskName"></el-input>
                 </el-form-item>
-                <el-form-item label="任务发起日期">
+                <el-form-item label="任务发起日期" >
                     <el-date-picker
                             style="width:100%"
                             v-model="queryArgs.exeTime"
