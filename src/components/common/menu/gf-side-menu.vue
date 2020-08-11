@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-        <div class="speedyMenu">
+        <div class="speedyMenu" v-if="false">
             <div class="gf-menu entrance-menu">
                 <div class="gf-menu-item speedy" @click="closeSideMenu">
                     <i class="el-icon-close"></i>

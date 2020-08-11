@@ -11,6 +11,7 @@ function initMenus(menus) {
             menuid: index++,
             menucode: colnums.code,
             menuname: colnums.title,
+            menuicon: colnums.icon,
             children: []
         }
         if(colnums.columns){
@@ -19,6 +20,7 @@ function initMenus(menus) {
                     menuid: index++,
                     menucode: menuss.code,
                     menuname: menuss.title,
+                    menuicon: colnums.icon,
                     children: []
                 }
                 if(menuss.menus){
@@ -27,6 +29,7 @@ function initMenus(menus) {
                             menuid: index++,
                             menucode: data.code,
                             menuname: data.title,
+                            menuicon: colnums.icon,
                             actionUrl:data.actionUrl
                         })
                     })

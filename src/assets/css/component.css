@@ -627,6 +627,23 @@
     border-right: none;
 }
 
+.gf-ag-grid.ag-theme-balham .red-text {
+    color: #F56C6C;
+}
+
+.gf-ag-grid.ag-theme-balham .orange-text {
+    color: #E6A23C;
+}
+
+.gf-ag-grid.ag-theme-balham .green-text {
+    color: #67C23A;
+}
+
+.gf-ag-grid.ag-theme-balham .ag-cell.align-center {
+    text-align: center;
+    line-height: 36px;
+}
+
 .gf-ag-grid.ag-theme-balham .ag-cell .el-button.grid-cell-op-link {
     color: #476DBE;
 }

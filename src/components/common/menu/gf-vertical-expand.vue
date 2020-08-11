@@ -1,7 +1,7 @@
 <template>
     <div class="left-side-container" :class="ifSideMenuFlod?'fold':''" v-clickoutside="closeSideMenu">
         <div class="gf-vertical-expand" :class="ifSideMenuFlod?'fold':''">
-            <div class="gf-menu entrance-menu" @click="menuChoose(allMenu)">
+            <div v-if="false" class="gf-menu entrance-menu" @click="menuChoose(allMenu)">
                 <el-tooltip :disabled="!ifSideMenuFlod" effect="dark" :content="platFormTitle" placement="right">
                     <div class="gf-menu-item" :class="curSideMenu.menuid == 'root' ? 'active' : ''">
                         <i class="menuicon" v-html="svgImg.overviewMenuIcon"></i>
@@ -13,7 +13,8 @@
             <div class="gf-menu mark-menu">
                 <el-tooltip v-for="menu in allMenu.children" :key="menu.menuid" :disabled="!ifSideMenuFlod" effect="dark" :content="menu.menuname" placement="right">
                     <div class="gf-menu-item" :class="curSideMenu.menuid == menu.menuid ? 'active' : ''" @click="menuChoose(menu)">
-                        <i class="menuicon" v-html="svgImg.defaultMenuIcon"></i>
+                        <i class="menuicon" v-if="menu.menuicon" :class="menu.menuicon"></i>
+                        <i class="menuicon" v-else v-html="svgImg.defaultMenuIcon"></i>
                         <span class="menuname">{{menu.menuname}}</span>
                         <i class="el-icon-arrow-right"></i>
                     </div>
@@ -40,10 +41,10 @@
                 </div>
             </div>
         </div>
-        <transition name="slide-fade">
+<!--        <transition name="slide-fade">-->
             <gf-side-menu v-if="showSideMenu" :sideMenu="curSideMenu"
                           @markMenuChange="markMenuChange" @closeSideMenu="closeSideMenu"></gf-side-menu>
-        </transition>
+<!--        </transition>-->
     </div>
 </template>
 <script>

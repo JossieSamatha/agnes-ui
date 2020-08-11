@@ -348,18 +348,18 @@ form input[type=submit] {
 }
 
 .left-side-container .gf-menu .gf-menu-item > i {
-    color: #999;
+    color: #333;
     font-size: 16px;
 }
 
 .left-side-container .gf-menu .gf-menu-item i.menuicon {
     width: 16px;
     height: 16px;
-    line-height: 0;
+    line-height: 1;
 }
 
 .left-side-container .gf-menu .gf-menu-item i.menuicon > svg .st0 {
-    fill: #666;
+    fill: #333;
 }
 
 .left-side-container .gf-menu .gf-menu-item.active i.menuicon > svg .st0,
@@ -422,7 +422,7 @@ form input[type=submit] {
     height: 40px;
     line-height: 40px;
     box-shadow: 0px -3px 7px 0px rgba(0, 0, 0, 0.13);
-    transition: 2s all ease;
+    transition: 1s all ease;
 }
 
 .left-side-container .gf-menu.footer .flodBtn {
@@ -508,7 +508,7 @@ form input[type=submit] {
     position: absolute;
     top: 0;
     left: 208px;
-    min-width: 850px;
+    min-width: 350px;
     height: 100%;
     background: #fff;
     box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.1);
