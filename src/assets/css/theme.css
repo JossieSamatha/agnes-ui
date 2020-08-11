@@ -508,7 +508,7 @@ form input[type=submit] {
     position: absolute;
     top: 0;
     left: 208px;
-    min-width: 350px;
+    width: 550px;
     height: 100%;
     background: #fff;
     box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.1);
@@ -529,13 +529,13 @@ form input[type=submit] {
     display: flex;
     position: relative;
     height: 44px;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 20px;
 }
 
 .gf-side-menu > .menu-container .header > .search {
-    width: 70%;
+    width: 90%;
 }
 
 .gf-side-menu > .menu-container .header > .search input {
@@ -852,6 +852,7 @@ form input[type=submit] {
 
 .gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tab
 .chrome-tab-content .chrome-tab-title {
+    font-size: 14px;
     mask-image: none;
     flex: 0 0 auto;
     color: #C2D5FF;
@@ -1208,7 +1209,7 @@ form input[type=submit] {
 }
 
 .gf-ag-grid.ag-theme-balham .ag-header-cell-label {
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .gf-ag-grid.ag-theme-balham .ag-header-cell,
@@ -1265,7 +1266,7 @@ form input[type=submit] {
 }
 
 .gf-ag-grid.ag-theme-balham .ag-cell {
-    font-size: 12px;
+    font-size: 14px;
     color: #666;
     line-height: 21px;
     border-right: none;
@@ -1333,6 +1334,7 @@ form input[type=submit] {
 }
 
 .gf-ag-grid.ag-theme-balham .el-button {
+    font-size: 14px;
     font-weight: normal;
 }
 

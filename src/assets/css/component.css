@@ -563,7 +563,7 @@
 }
 
 .gf-ag-grid.ag-theme-balham .ag-header-cell-label {
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .gf-ag-grid.ag-theme-balham .ag-header-cell,
@@ -621,7 +621,7 @@
 }
 
 .gf-ag-grid.ag-theme-balham .ag-cell {
-    font-size: 12px;
+    font-size: 14px;
     color: #666;
     line-height: 21px;
     border-right: none;
@@ -738,6 +738,7 @@
 }
 
 .gf-ag-grid.ag-theme-balham .el-button {
+    font-size: 14px;
     font-weight: normal;
 }
 /* 表格单元格背景颜色样式 */
