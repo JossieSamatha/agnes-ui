@@ -14,10 +14,10 @@
             </el-form-item>
             <el-form-item label="任务等级" prop="stepLevel">
                 <el-rate v-model="caseStepDef.stepLevel"
-                        :max="max"
-                        show-text
-                        :texts="texts"
-                        :colors="rateColor">
+                         :max="max"
+                         show-text
+                         :texts="texts"
+                         :colors="rateColor">
                 </el-rate>
             </el-form-item>
             <el-form-item label="任务编号" prop="stepCode">
@@ -49,26 +49,22 @@
             </el-form-item>
             <el-form-item label="执行时间" class="is-required">
                 <div class="line none-shrink">
-                    <gf-input v-model="caseStepDef.startDay" v-if="dayChecked===true"></gf-input>
-                    <span v-if="dayChecked===true" style="margin: 0 5px">日</span>
                     <el-form-item prop="startTime">
                         <el-time-picker v-model="caseStepDef.startTime"
-                                        :picker-options="{selectableRange:`00:00:00-${caseStepDef.endTime ? caseStepDef.endTime + ':00' : '23:59:59'}`}"
-                                placeholder="任意时间点"
-                                value-format="HH:mm" format="HH:mm">
+                                        :picker-options=startTimeForDay
+                                        placeholder="任意时间点"
+                                        value-format="HH:mm" format="HH:mm">
                         </el-time-picker>
                     </el-form-item>
                     <span style="margin: 0 10px">~</span>
-                    <gf-input v-model="caseStepDef.endDay" v-if="dayChecked===true"></gf-input>
-                    <span v-if="dayChecked===true" style="margin: 0 5px">日</span>
                     <el-form-item prop="endTime">
                         <el-time-picker v-model="caseStepDef.endTime"
-                                        :picker-options="{selectableRange:`${caseStepDef.startTime ? caseStepDef.startTime + ':00' : '00:00:00'}-23:59:59`}"
-                                placeholder="任意时间点"
-                                value-format="HH:mm" format="HH:mm">
+                                        :picker-options=endTimeForDay
+                                        placeholder="任意时间点"
+                                        value-format="HH:mm" format="HH:mm">
                         </el-time-picker>
                     </el-form-item>
-                    <el-checkbox v-model="dayChecked" style="margin-left: 5px">跨日</el-checkbox>
+                    <gf-strbool-checkbox v-model="dayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
                 </div>
             </el-form-item>
             <el-form-item label="任务类型" prop="stepActType">
@@ -99,7 +95,7 @@
             </el-form-item>
             <el-form-item v-if="stepInfo.stepActType === '1'" label="指标执行频率">
                 <gf-input v-model.trim="caseStepDef.execScheduler" placeholder="* * * * * ?"
-                              @click.native="openCron"/>
+                          @click.native="openCron"/>
             </el-form-item>
             <el-form-item label="任务控制参数">
                 <gf-strbool-checkbox v-model="caseStepDef.isTodo">是否进入待办</gf-strbool-checkbox>
@@ -322,12 +318,14 @@
                 texts: ['普通', '重要', '非常重要'],
                 max: 3,
                 forcePass: false,
-                dayChecked: false,
+                dayChecked: '0',
                 activeTerm: '1',
                 timeType: '1',
                 caseSteptype: [],
                 kpiOptions:[],
                 serviceRes:[],
+                startTimeForDay:'',
+                endTimeForDay:'',
                 flowData: [{
                     value: '1001',
                     label: '分TA流程'
@@ -391,7 +389,7 @@
         mounted() {
             this.$nextTick(() => {
                 this.onCreateForm();
-                if (this.optionType != 'add') {
+                if (this.optionType !== 'add') {
                     this.onLoadForm();
                 }
                 this.msgInfoStr.forEach((strItem, index)=>{
@@ -530,11 +528,11 @@
                 this.abnormalRule = failRuleTableData.length <= 0 ? '0' : '1'
                 const startDay = this.caseStepDef.startDay;
                 const endDay = this.caseStepDef.endDay;
-                this.dayChecked = !!(startDay || endDay)
+                this.dayChecked = startDay || endDay ? '1': '0'
             },
 
             // 保存表单数据
-           saveForm() {
+            saveForm() {
                 this.$refs['stepInfoForm'].validate(valid=> {
                     if (!valid) {
                         return;
@@ -570,5 +568,21 @@
                 this.$emit("cancelAction");
             },
         },
+        watch: {
+            'dayChecked'(val){
+                if (val==='1') {
+                    this.endTimeForDay = {selectableRange:'00:00:00-23:59:59'};
+                    this.startTimeForDay = {selectableRange:'00:00:00-23:59:59'};
+                    this.caseStepDef.endDay = '1';
+                    this.caseStepDef.startDay = '0';
+                } else {
+                    this.endTimeForDay = {selectableRange:`${this.caseStepDef.startTime ? this.caseStepDef.startTime + ':00' : '00:00:00'}-23:59:59`};
+                    this.startTimeForDay = {selectableRange:`00:00:00-${this.caseStepDef.endTime ? this.caseStepDef.endTime + ':00' : '23:59:59'}`};
+                    this.caseStepDef.endDay = '';
+                    this.caseStepDef.startDay = '';
+                    this.caseStepDef.endTime = '';
+                }
+            }
+        }
     }
 </script>

@@ -23,14 +23,31 @@
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
+                let cancelTitle = '取消';
+                if(mode==='view'){
+                    cancelTitle = '关闭';
+                }
+                let isShow = true;
+                row.isCheck=false;
+                if(mode==='check'){
+                    mode='view';
+                    row.isCheck=true;
+                    cancelTitle = '反审核';
+                }
+                if(!row.isCheck && mode==='view'){
+                    isShow = false;
+                }
+
                 // 抽屉创建
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
                     title: ['电子流程任务',mode],
                     component: FlowTaskDetail,
                     args: {row, mode, actionOk},
+                    okButtonVisible:isShow,
                     okButtonTitle: row.isCheck ? '审核' : '保存',
-                    cancelButtonTitle: row.isCheck ? '反审核' : '取消',
+                    cancelButtonTitle: cancelTitle,
+
                 })
             },
             reloadData() {
@@ -89,9 +106,8 @@
 
             //复核
             checkFlowTask(params){
-                if(params.data.reTaskDef.needApprove==='1'&&params.data.reTaskDef.taskStatus==='01' || params.data.reTaskDef.needApprove==='1'&&params.data.reTaskDef.taskStatus==='04'){
-                    params.data.reTaskDef.isCheck = true;
-                    this.showFlowTask(params.data.reTaskDef,'view', this.onAddFlowTask.bind(this));
+                if(params.data.reTaskDef.taskStatus.match(/01|04/)){
+                    this.showFlowTask(params.data.reTaskDef,'check', this.onAddFlowTask.bind(this));
                 }else {
                     this.$msg.warning("该状态无法审核!");
                     return;
@@ -112,6 +128,21 @@
                 if (!ok) {
                     return
                 }
+                try {
+                    const p = this.$api.kpiTaskApi.checkBeforePulish({taskId:rowData.reTaskDef.taskId});
+                    const resp = await this.$app.blockingApp(p);
+                    if(resp.code !== '00000000'){
+                        this.$msg.warning(resp.message);
+                        return ;
+                    }
+                    await this.publishTask(params);
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
+
+            async publishTask(params){
+                const rowData = params.data;
                 try {
                     rowData.caseDefJson = JSON.stringify(this.checkData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName));
                     const p = this.$api.caseConfigApi.publishCaseDef(rowData);
