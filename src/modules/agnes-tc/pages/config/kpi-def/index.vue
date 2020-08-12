@@ -14,8 +14,8 @@
                     </div>
                     <div class="clear"></div>
                     <div class="text item" >
-                            <span class="span">业务日期:{{form.bizDate}}</span>
-                            <span class="span">执行时间:{{form.createTime}}</span>
+                        <span class="span">业务日期:{{form.bizDate}}</span>
+                        <span class="span">执行时间:{{form.createTime}}</span>
                     </div>
                     <div class="clear"></div>
                     <div class="text item">
@@ -47,11 +47,11 @@
                     </el-form-item> -->
                     <el-form-item label-width="0px"  label="" prop="remark" >
                         <el-input
-                            :readonly="type==='done'"
-                            type="textarea"
-                            :rows="2"
-                            placeholder="请输入备注"
-                            v-model="form.remark">
+                                :readonly="type==='done'"
+                                type="textarea"
+                                :rows="2"
+                                placeholder="请输入备注"
+                                v-model="form.reason">
                         </el-input>
                     </el-form-item>
                 </el-col>
@@ -64,11 +64,8 @@
 
     export default {
         props: {
-            kpiCode: String,
-            bizDate: String,
-            caseId:String,
-            stepCode:String,
             type:String,
+            row: Object,
             toolbar: {
                 default: "more"
             }
@@ -91,14 +88,25 @@
                     },
                 },
                 data:{q:{}},
-                opStatus:false
+                opStatus:false,
+                taskCommit: {
+                    inst: {
+                        taskId: "",
+                    },
+                    stepInfo :{
+                        reason: "",
+                        caseId: "",
+                    }
+                },
             }
         },
         mounted() {
             let _this=this;
-            this.kpiDetail.kpiCode=this.kpiCode;
-            this.form.bizDate=this.bizDate;
-            this.kpiDetail.bizDate=this.bizDate;
+            _this.taskCommit.inst.taskId = _this.row.taskId;
+            _this.taskCommit.stepInfo.caseId = _this.row.caseId;
+            this.kpiDetail.kpiCode=this.row.taskKey;
+            this.form.bizDate=this.row.bizDt;
+            this.kpiDetail.bizDate=this.row.bizDt;
             this.$api.kpiDefineApi.queryKpiInfoMation(this.kpiDetail).then((resp) => {
                 if(resp.status){
                     _this.form.kpiName =resp.data.kpiName;
@@ -144,7 +152,29 @@
             onSave() { //点击重新执行的事件
                 this.executeKpi()
             },
-            onExtendButton(){//点击强制通过的事件
+            async onExtendButton(){//点击强制通过的事件
+                if(this.row.allowManualConfirm && this.row.allowManualConfirm === '1'){
+                    this.taskCommit.stepInfo.reason = this.form.reason;
+                    this.taskCommit.stepInfo.stepStatus = "04";
+                    try {
+                        const p = this.$api.taskTodoApi.confirmKpiTask(this.taskCommit)
+                        const resp = await this.$app.blockingApp(p);
+                        if (resp.data) {
+                            if (this.actionOk) {
+                                await this.actionOk();
+                            }
+                            this.$msg.success('提交成功');
+                            this.$dialog.close(this);
+                        } else {
+                            this.$msg.warning('提交失败');
+                        }
+                    } catch (e) {
+                        this.$msg.error(e);
+                    }
+                }else{
+                    this.$msg.warning('该任务无法强制通过')
+                    return
+                }
 
             },
             reloadData() {
@@ -165,9 +195,9 @@
                 columnDefsArray.push({
                     colId: "#op", headerName: "操作", cellRenderer: "OpCellRender", pinned: "right",
                     cellClassRules: {
-                      'invisible-cell': function(params) {
-                        return !(params.data.FACTOR_VALUE === "1" && params.data.MANUAL_TAG === "1");
-                      },
+                        'invisible-cell': function(params) {
+                            return !(params.data.FACTOR_VALUE === "1" && params.data.MANUAL_TAG === "1");
+                        },
                     },
                     cellRenderParams:{
                         opButtons: [
@@ -185,7 +215,11 @@
             },
             executeKpi(){
                 let _this=this;
-                this.$api.kpiDefineApi.execTask(this.caseId,this.stepCode).then((resp) => {
+                let kpiTaskReq = {}
+                kpiTaskReq.caseId = this.row.caseId;
+                kpiTaskReq.stepCode = this.row.stepCode;
+                kpiTaskReq.bizDate = this.row.bizDt;
+                this.$api.kpiDefineApi.execTask(kpiTaskReq).then((resp) => {
                     if(resp.status){
                         _this.$message.success(resp.message);
                         _this.reloadData();
@@ -198,13 +232,13 @@
                 let _this=this;
                 if(keys.indexOf("FACTOR_VALUE")>-1){
                     rows.map(function(item){
-                        if(item.FACTOR_VALUE == 1){
-                            if(keys.indexOf("MANUAL_TAG")>-1 && item.MANUAL_TAG == 1){
+                        if(item.FACTOR_VALUE === 1){
+                            if(keys.indexOf("MANUAL_TAG")>-1 && item.MANUAL_TAG === 1){
                                 _this.form.artificialCon++;
                             } else{
                                 _this.form.normal++;
                             }
-                        } else if(item.FACTOR_VALUE == 0) {
+                        } else if(item.FACTOR_VALUE === 0) {
                             _this.form.abnormal++;
                         }
                     });
@@ -283,9 +317,9 @@
     }
 
     .first{
-      margin-top: 25px;
-      margin-bottom: 30px;
-      margin-left: 40px;
-      float: left;
+        margin-top: 25px;
+        margin-bottom: 30px;
+        margin-left: 40px;
+        float: left;
     }
 </style>
