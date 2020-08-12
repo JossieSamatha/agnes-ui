@@ -11,18 +11,10 @@ export default {
         {headerName: "任务名称", field: "taskName",headerClass: 'status-header',
             cellRenderer: (params)=>{
                 let eGui = document.createElement('div');
-                eGui.style = 'display:flex;align-items:center';
+                eGui.className = 'status-circle-cell';
                 const iNode = document.createElement("i");
-                let color = '#666';
-                if(params.data.stepStatus === '06'){
-                    color = 'red';
-                }else if(params.data.stepStatus === '05'){
-                    color = 'green'
-                }else if(params.data.stepStatus === '07'){
-                    color = 'orange'
-                }
-                iNode.style = 'margin-right:10px;margin-left:10px;color:'+color;
-                iNode.className = 'fa fa-circle';
+                const statusColor = { '05': 'green', '06': 'red', '07': 'orange'};
+                iNode.className = 'fa fa-circle ' + statusColor[params.data.stepStatus];
                 const spanNode = document.createElement("span");
                 spanNode.innerHTML = params.value + '<br/>' + params.data.taskRemark;
                 eGui.appendChild(iNode);
