@@ -42,12 +42,12 @@
             <el-form-item label="任务说明" prop="stepRemark">
                 <gf-input v-model="caseStepDef.stepRemark" type="textarea"></gf-input>
             </el-form-item>
-            <el-form-item label="参与人员" prop="stepActOwner">
+            <el-form-item label="通知人员" prop="stepActOwner">
                 <gf-input type="text" v-model="caseStepDef.stepActOwnerName"  placeholder="请选择人员"
                           :readonly="true" @click.native="chooseUser">
                 </gf-input>
             </el-form-item>
-            <el-form-item label="执行时间" class="is-required">
+            <el-form-item label="执行时间配置" class="is-required">
                 <div class="line none-shrink">
                     <el-form-item prop="startTime">
                         <el-time-picker v-model="caseStepDef.startTime"
@@ -70,7 +70,7 @@
             <el-form-item label="任务类型" prop="stepActType">
                 <gf-dict v-model="stepInfo.stepActType" dictType="AGNES_CASE_STEPTYPE" :disabled="true"></gf-dict>
             </el-form-item>
-            <el-form-item v-if="stepInfo.stepActType === '1'" label="指标" prop="stepActKey">
+            <el-form-item v-if="stepInfo.stepActType === '1'" label="执行逻辑选择" prop="stepActKey">
                 <el-select style="width: 100%" v-model="caseStepDef.stepActKey" placeholder="请选择" filterable clearable>
                     <gf-filter-option
                             v-for="item in kpiOptions"
@@ -93,7 +93,7 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item v-if="stepInfo.stepActType === '1'" label="指标执行频率">
+            <el-form-item v-if="stepInfo.stepActType === '1'" label="执行频率配置">
                 <gf-input v-model.trim="caseStepDef.execScheduler" placeholder="* * * * * ?"
                           @click.native="openCron"/>
             </el-form-item>
@@ -469,7 +469,7 @@
                     {
                         args: {cornObj, action},
                         width: '530px',
-                        title: this.$dialog.formatTitle('执行频率', "edit"),
+                        title: this.$dialog.formatTitle('执行频率配置', "edit"),
                     }
                 );
             },

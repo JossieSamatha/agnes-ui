@@ -7,7 +7,7 @@
                  @row-double-click="showFlowTaskDetail"
         >
             <template slot="left">
-                <gf-button class="action-btn" @click="addFlowTask" size="mini">新增电子流程任务</gf-button>
+                <gf-button class="action-btn" @click="addFlowTask" size="mini">添加</gf-button>
                 <gf-button class="action-btn" @click="confFlowNode" size="mini">配置流程任务节点</gf-button>
             </template>
         </gf-grid>
@@ -41,7 +41,7 @@
                 // 抽屉创建
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
-                    title: ['电子流程任务',mode],
+                    title: ['电子流程任务配置',mode],
                     component: FlowTaskDetail,
                     args: {row, mode, actionOk},
                     okButtonVisible:isShow,
@@ -147,6 +147,7 @@
                     rowData.caseDefJson = JSON.stringify(this.checkData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName));
                     const p = this.$api.caseConfigApi.publishCaseDef(rowData);
                     await this.$app.blockingApp(p);
+                    this.$msg.warning("发布成功!");
                     this.reloadData();
                 } catch (reason) {
                     this.$msg.error(reason);
