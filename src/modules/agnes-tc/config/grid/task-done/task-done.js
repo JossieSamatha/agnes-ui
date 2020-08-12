@@ -1,23 +1,30 @@
 import column from "../../../../../config/column";
 
 const colButtons = [
+    // {key: 'confirmTask', title: '确认'},
     {key: 'viewTask', title: '查看'},
 ];
 
 export default {
     columnDefs: [
         column.buildOpCol(60, colButtons),
-        {headerName: "任务名称", field: "taskName",
-            cellRenderer: function (params) {
-                if(params.value){
-                    return params.value + '<br/>' + params.data.taskRemark;
-                }
-                return "";
+        {headerName: "任务名称", field: "taskName",headerClass: 'status-header',
+            cellRenderer: (params)=>{
+                let eGui = document.createElement('div');
+                eGui.className = 'status-circle-cell';
+                const iNode = document.createElement("i");
+                const statusColor = { '05': 'green', '06': 'red', '07': 'orange'};
+                iNode.className = 'fa fa-circle ' + statusColor[params.data.stepStatus];
+                const spanNode = document.createElement("span");
+                spanNode.innerHTML = params.value + '<br/>' + params.data.taskRemark;
+                eGui.appendChild(iNode);
+                eGui.appendChild(spanNode);
+                return eGui;
             },},
         {headerName: "完成时间", field: "taskEndTm"},
         {headerName: "执行人员", field: "participants"},
         {headerName: "备注", field: "remark"},
-        {headerName: "状态", field: "stepStatus" ,formatType: 'dict', dictType: 'AGNES_TASK_STATUS'},
+        {headerName: "状态", field: "stepStatus" ,formatType: 'dict', dictType: 'AGNES_TASK_STEP_STATUS'},
     ],
     headerHeight: 40,
     rowHeight: 37,
