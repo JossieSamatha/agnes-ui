@@ -64,7 +64,7 @@
                 holidayDelay: '02'
             }
         },
-        create(){
+        created(){
             const result = this.cornObj.split("#");
             if(result.length === 1){
                 this.cron = result[0];
@@ -74,8 +74,6 @@
                 this.holidayDelay = result[2];
                 this.cron(result[3]);
             }
-        },
-        mounted() {
         },
         methods: {
             async onSave (cronValue) {

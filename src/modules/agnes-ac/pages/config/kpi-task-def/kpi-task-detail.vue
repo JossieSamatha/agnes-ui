@@ -70,13 +70,13 @@
         </el-form-item>
         <template v-if="detailForm.task_execMode==2">
             <el-form-item label="创建频率配置" prop="step_execScheduler">
-                <el-button type="text" @click="editExecTime('task_execScheduler', detailForm.task_execScheduler)">
+                <el-button type="text" @click="editExecTime('task_execScheduler', detailForm.task_execScheduler,'创建频率配置')">
                     {{detailForm.task_execScheduler}}点击配置
                 </el-button>
             </el-form-item>
         </template>
         <el-form-item label="外部事件选择" v-if="detailForm.task_execMode==3">
-            <el-select v-model="detailForm.eventId" placeholder="请选择" filterable clearable>
+            <el-select v-model="detailForm.eventId" placeholder="请选择" filterable clearable style="width: 32%">
                 <gf-filter-option
                         v-for="item in detailForm.eventOptions"
                         :key="item.value"
@@ -118,13 +118,13 @@
             </el-select>
         </el-form-item>
         <el-form-item label="执行频率配置">
-            <el-button type="text" @click="editExecTime('step_execScheduler', detailForm.step_execScheduler)">
+            <el-button type="text" @click="editExecTime('step_execScheduler', detailForm.step_execScheduler,'执行频率配置')">
                 {{detailForm.step_execScheduler}}点击配置
             </el-button>
         </el-form-item>
         <el-form-item label="通知人员">
 <!--            <gf-person-chosen ref="memberRef"-->
-<!--                              :memberRefList="memberRefList"-->
+<!--                              :memberRefList="this.memberRefList"-->
 <!--                              chosenType="user, group, roster"-->
 <!--                              rosterDate="2020-07-22"-->
 <!--                              @getMemberList="getMemberList">-->
@@ -423,6 +423,10 @@
                     this.detailForm.kpiOptions.push({label:item.kpiName,value:item.kpiCode});
                 });
             },
+            getMemberList(val){
+                this.memberRefList = val;
+                this.detailForm.stepActOwner = JSON.stringify(val);
+            },
             chooseUser(){
                 let actionOk = this.setExeUser.bind(this);
                 this.$nav.showDialog(
@@ -434,20 +438,32 @@
                     }
                 );
             },
-            editExecTime(curObj, execScheduler) {
+            editExecTime(curObj, execScheduler,title) {
                 this.curExecScheduler = curObj;
-                this.showDlg(execScheduler, this.setExecScheduler.bind(this));
+                let flag = false;
+                if(curObj === 'step_execScheduler'){
+                    flag = true;
+                }
+                this.showDlg(flag,execScheduler,title, this.setExecScheduler.bind(this));
             },
-            showDlg(data, action) {
+            showDlg(flag,data,title,  action) {
+                let defShowType = 'second,minute,hour,day,month,extSetting';
                 if (this.mode === 'view') {
                     return;
+                }
+                if(flag){
+                    defShowType = 'second,minute,extSetting'
                 }
                 this.$nav.showDialog(
                     'gf-cron-modal',
                     {
-                        args: {cornObj: data, action},
+                        args: {
+                            cornObj: data,
+                            action,
+                            showType:defShowType
+                        },
                         width: '530px',
-                        title: this.$dialog.formatTitle('编辑执行频率', "edit"),
+                        title: this.$dialog.formatTitle(title, "edit"),
                     }
                 );
             },
@@ -575,6 +591,9 @@
                             this.detailForm[key] = stepFormInfo[key] || this.detailForm[key];
                         }
                     })
+                    // if(this.detailForm.stepActOwner){
+                    //     this.memberRefList = JSON.parse(this.detailForm.stepActOwner);
+                    // }
                     if (this.detailForm.task_endTime === '9999-12-31') {
                         this.startAllTime = true;
                     }

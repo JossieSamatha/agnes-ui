@@ -23,7 +23,7 @@
                 </gf-filter-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="运行周期" prop="startTime">
+        <el-form-item label="运行周期配置" prop="startTime">
             <div class="line none-shrink">
                 <el-form-item prop="startTime">
                     <el-date-picker
@@ -47,18 +47,18 @@
                 <el-checkbox v-model="startAllTime" style="margin-left: 10px">永久有效</el-checkbox>
             </div>
         </el-form-item>
-        <el-form-item label="启动方式" prop="execMode">
+        <el-form-item label="创建方式选择" prop="execMode">
             <el-radio-group v-model="detailForm.execMode">
                 <el-radio label="1">按运行周期创建一次</el-radio>
                 <el-radio label="2">按自定义频率创建</el-radio>
                 <el-radio label="3">按外部事件触发时创建</el-radio>
             </el-radio-group>
         </el-form-item>
-        <el-form-item v-if="detailForm.execMode==='2'" label="任务创建频率" prop="execScheduler">
+        <el-form-item v-if="detailForm.execMode==='2'" label="创建频率配置" prop="execScheduler">
             <gf-input v-model.trim="detailForm.execScheduler" placeholder="* * * * * ?"
                       @click.native="openCron" style="width: 50%"/>
         </el-form-item>
-        <el-form-item label="事件选择" v-if="detailForm.execMode==='3'">
+        <el-form-item label="外部事件选择" v-if="detailForm.execMode==='3'">
             <el-select v-model="detailForm.eventId" placeholder="请选择" filterable clearable>
                 <gf-filter-option
                         v-for="item in eventOptions"
@@ -68,7 +68,7 @@
                 </gf-filter-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="控制参数">
+        <el-form-item label="任务控制参数">
             <gf-strbool-checkbox v-model="detailForm.needApprove">是否需要审核</gf-strbool-checkbox>
         </el-form-item>
     </el-form>
@@ -183,7 +183,7 @@
                     {
                         args: {cornObj, action},
                         width: '530px',
-                        title: this.$dialog.formatTitle('执行频率', "edit"),
+                        title: this.$dialog.formatTitle('创建频率配置', "edit"),
                     }
                 );
             },
