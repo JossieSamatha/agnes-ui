@@ -155,7 +155,7 @@
             async onExtendButton(){//点击强制通过的事件
                 if(this.row.allowManualConfirm && this.row.allowManualConfirm === '1'){
                     this.taskCommit.stepInfo.reason = this.form.reason;
-                    this.taskCommit.stepInfo.stepStatus = "04";
+                    this.taskCommit.stepInfo.stepStatus = "06";
                     try {
                         const p = this.$api.taskTodoApi.confirmKpiTask(this.taskCommit)
                         const resp = await this.$app.blockingApp(p);
@@ -219,6 +219,7 @@
                 kpiTaskReq.caseId = this.row.caseId;
                 kpiTaskReq.stepCode = this.row.stepCode;
                 kpiTaskReq.bizDate = this.row.bizDt;
+                kpiTaskReq.taskId = _this.row.taskId;
                 this.$api.kpiDefineApi.execTask(kpiTaskReq).then((resp) => {
                     if(resp.status){
                         _this.$message.success(resp.message);

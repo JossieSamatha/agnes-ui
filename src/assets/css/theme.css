@@ -1228,6 +1228,10 @@ form input[type=submit] {
     color: #333;
 }
 
+.gf-ag-grid.ag-theme-balham .ag-header-cell.status-header {
+    padding-left: 36px;
+}
+
 .gf-ag-grid.ag-theme-balham .ag-pinned-left-header,
 .gf-ag-grid.ag-theme-balham .ag-pinned-right-header,
 .gf-ag-grid.ag-theme-balham .ag-header-cell-resize::after {
