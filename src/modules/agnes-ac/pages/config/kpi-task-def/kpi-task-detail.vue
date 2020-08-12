@@ -123,15 +123,15 @@
             </el-button>
         </el-form-item>
         <el-form-item label="通知人员">
-<!--            <gf-person-chosen ref="memberRef"-->
-<!--                              :memberRefList="memberRefList"-->
-<!--                              chosenType="user, group, roster"-->
-<!--                              rosterDate="2020-07-22"-->
-<!--                              @getMemberList="getMemberList">-->
-<!--            </gf-person-chosen>-->
-            <gf-input type="text" v-model="detailForm.stepActOwnerName" :readonly="true" style="width: 32%">
-                <i slot="suffix" class="el-input__icon el-icon-edit-outline" @click="chooseUser"/>
-            </gf-input>
+            <gf-person-chosen ref="memberRef"
+                              :memberRefList="this.memberRefList"
+                              chosenType="user, group, roster"
+                              rosterDate="2020-07-22"
+                              @getMemberList="getMemberList">
+            </gf-person-chosen>
+<!--            <gf-input type="text" v-model="detailForm.stepActOwnerName" :readonly="true" style="width: 32%">-->
+<!--                <i slot="suffix" class="el-input__icon el-icon-edit-outline" @click="chooseUser"/>-->
+<!--            </gf-input>-->
         </el-form-item>
         <el-form-item label="任务控制参数">
             <gf-strbool-checkbox v-model="detailForm.needApprove">是否需要复核</gf-strbool-checkbox>
@@ -294,6 +294,7 @@
                 serviceRes:[],
                 staticData: staticData(),
                 detailForm: initData(),
+                memberRefList:[],//选人组件返回参数
                 dayChecked: '0',  // 跨日
                 endTimeForDay:null,
                 startTimeForDay:null,
@@ -419,6 +420,10 @@
                     this.detailForm.kpiOptions.push({label:item.kpiName,value:item.kpiCode});
                 });
             },
+            getMemberList(val){
+                this.memberRefList = val;
+                this.detailForm.stepActOwner = JSON.stringify(val);
+            },
             chooseUser(){
                 let actionOk = this.setExeUser.bind(this);
                 this.$nav.showDialog(
@@ -432,16 +437,25 @@
             },
             editExecTime(curObj, execScheduler) {
                 this.curExecScheduler = curObj;
-                this.showDlg(execScheduler, this.setExecScheduler.bind(this));
+                let flag = false;
+                if(curObj === 'step_execScheduler'){
+                    flag = true;
+                }
+                this.showDlg(flag,execScheduler, this.setExecScheduler.bind(this));
             },
-            showDlg(data, action) {
+            showDlg(flag,data, action) {
+                let defShowType = 'second,minute,hour,day,month';
                 if (this.mode === 'view') {
                     return;
+                }
+                if(flag){
+                    defShowType = 'second,minute'
                 }
                 this.$nav.showDialog(
                     'gf-cron-modal',
                     {
                         args: {cornObj: data, action},
+                        showType:defShowType,
                         width: '530px',
                         title: this.$dialog.formatTitle('编辑执行频率', "edit"),
                     }
@@ -571,6 +585,9 @@
                             this.detailForm[key] = stepFormInfo[key] || this.detailForm[key];
                         }
                     })
+                    if(this.detailForm.stepActOwner){
+                        this.memberRefList = JSON.parse(this.detailForm.stepActOwner);
+                    }
                     if (this.detailForm.task_endTime === '9999-12-31') {
                         this.startAllTime = true;
                     }
