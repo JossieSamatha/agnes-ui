@@ -40,7 +40,7 @@
                 }
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
-                    title: ['MOT任务',mode],
+                    title: ['MOT任务配置',mode],
                     component: MotDetail,
                     args: {row, mode, actionOk},
                     okButtonVisible:isShow,
@@ -119,6 +119,7 @@
                     rowData.caseDefJson = JSON.stringify(sendInfo);
                     const p = this.$api.caseConfigApi.publishCaseDef(rowData);
                     await this.$app.blockingApp(p);
+                    this.$msg.warning("发布成功!");
                     this.reloadData();
                 } catch (reason) {
                     this.$msg.error(reason);
