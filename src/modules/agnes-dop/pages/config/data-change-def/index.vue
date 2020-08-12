@@ -72,7 +72,7 @@
             async loadChangeData() {
                 try {
                     const resp = await this.$api.changeDataApi.getChangeData();
-                    let resChangeData = resp.data[0]
+                    let resChangeData = resp.data
                     this.lastTaskData = resChangeData.lastBizDate;
                     this.nextTaskData = resChangeData.nextBizDate;
                     this.nowTaskData = resChangeData.bizDate;
@@ -118,11 +118,31 @@
                     return;
                 }
                 try {
-                    await this.$api.changeDataApi.queryChangeData(this.nowTaskData);
-                    await this.loadChangeData();
+                    let judgeTaskResp = this.$api.changeDataApi.judgeTask();
+                    if(judgeTaskResp===true){
+                        this.$confirm('存在待办任务未处理完成，是否强制切换?', '提示', {
+                            confirmButtonText: '确定',
+                            cancelButtonText: '取消',
+                            type: 'warning'
+                        }).then(() => {
+                            this.changWorkDay()
+                        }).catch(() => {
+                            this.$message({
+                            type: 'info',
+                            message: '已取消'
+                            });          
+                        });
+                    }else{
+                        this.changWorkDay()
+                    }
                 } catch (e) {
                     this.$msg.error(e);
                 }
+            },
+            async changWorkDay(){
+                await this.$api.changeDataApi.queryChangeData(this.nowTaskData);
+                await this.$message({type: 'success',message: '切换成功!'});
+                await this.loadChangeData();
             },
             addChangeRule(){
                 this.showDlg(this.onAddChangeData.bind(this),'rule');
