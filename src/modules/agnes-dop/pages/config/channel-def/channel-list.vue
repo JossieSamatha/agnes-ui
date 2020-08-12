@@ -1,6 +1,7 @@
 <template>
     <gf-grid grid-no="agnes-channel-field" ref="grid" quick-text-max-width="300px"
-             height="100%" @row-double-click="showChannel">
+             height="100%" @row-double-click="showChannel"
+             :query-args="queryParam">
         <template slot="left">
             <gf-button class="action-btn" @click="addChannel" size="mini">添加</gf-button>
         </template>
@@ -14,11 +15,28 @@
         data() {
             return {
                 queryParam:{
-                    channelId :"",
-                    channelCode :"",
-                    channelName :"",
-                    channelType :"",
-                    channelStatus :""
+                    channelName: {
+                        type: "str",
+                        op: "like",
+                        value: ""
+                    },
+                    channelType: {
+                        type: "str",
+                        value: ""
+                    },
+                    channelStatus: {
+                        type: "str",
+                        value: ""
+                    },
+                    channelId: {
+                        type: "str",
+                        value: ""
+                    },
+                    channelCode: {
+                        type: "str",
+                        op: "like",
+                        value: ""
+                    }
                 }
             }
         },
