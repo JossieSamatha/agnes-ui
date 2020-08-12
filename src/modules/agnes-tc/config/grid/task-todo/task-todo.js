@@ -7,16 +7,31 @@ const colButtons = [
 
 export default {
     columnDefs: [
+        column.buildOpCol(60, colButtons,),
         {headerName: "任务名称", field: "taskName",
-        cellClassRules: {
-            'red-backgoundColor': function(params) {return params.data.taskType==='3'},//此处根据数据区分单元格背景颜色
-            'yellow-backgoundColor': function(params) {return params.data.taskType==='2'},
-            'gray-backgoundColor': function(params) {return params.data.taskType==='1'},
-        }},
-        // {headerName: "任务说明", field: "taskRemark"},
+            cellRenderer: (params)=>{
+                let eGui = document.createElement('div');
+                eGui.style = 'display:flex;align-items:center';
+                const iNode = document.createElement("i");
+                let color = '';
+                if(params.data.stepStatus.match(/02|03/)){
+                    color = 'red';
+                }else if(params.data.stepStatus === '01'){
+                    color = 'orange'
+                }else{
+                    color = 'green'
+                }
+                iNode.style = 'margin-right:5px;color:'+color;
+                iNode.className = 'fa fa-circle';
+                const spanNode = document.createElement("span");
+                spanNode.innerHTML = params.value + '<br/>' + params.data.taskRemark;
+                eGui.appendChild(iNode);
+                eGui.appendChild(spanNode);
+                return eGui;
+            }
+        },
         {headerName: "发起时间", field: "taskStartTm"},
-        {headerName: "参与人员", field: "participants"},
-        column.buildOpCol(120, colButtons)
+        {headerName: "通知人员", field: "participants"},
     ],
     headerHeight: 40,
     rowHeight: 37,
@@ -24,7 +39,8 @@ export default {
         fetchUrl: "/agnes-app/v1/task/todo/list",    //后台查询数据的URL地址
         fetchMethod: 'get',
         pagingMode: true, //不分页
-        checkboxColumn: 0, //是否显示checkbox列,
+        checkboxColumn: 1, //是否显示checkbox列,
+        autoFitColumnMode: 1,
         enableExportLocal: true,
         pageOptions: {
             // 分页大小
