@@ -15,7 +15,7 @@ export default function () {
             endTime: null,
             standardDate: '',       // 基准日期(新增字段)
             execMode: '1',          // 任务创建频率 -- 0：一次；1：重复执行；2：事件
-            execScheduler: '* * * * * ? *',      // 任务创建频率 -- 重复执行
+            execScheduler: '',      // 任务创建频率 -- 重复执行
             eventId: '',            // 事件Id -- 执行频率--事件
             needApprove: '',       // 是否需要复核
         },
@@ -51,7 +51,7 @@ export default function () {
                             endTime: '',         // 执行时间 -- 结束时间
                             dayendDefId: '',     // 日期类型 -- 1：工作日；2：自然日；（是否保存）
                             execMode: '2',       // 指标执行频率 --默认重复执行
-                            execScheduler: '* * * * * ? *',   // 指标执行频率 -- 串串
+                            execScheduler: '00#01#01#* * * * * ?',   // 指标执行频率 -- 串串
                             stepActKey: '',      // 指标
                             stepActOwner: '',    // 通知人id
                             stepActOwnerName: '',    // 通知人姓名

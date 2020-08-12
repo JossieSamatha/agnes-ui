@@ -1,22 +1,28 @@
 import column from "../../../../../config/column";
 
 const colButtons = [
-    // {key: 'confirmTask', title: '确认'},
     {key: 'viewTask', title: '查看'},
 ];
 
 export default {
     columnDefs: [
-        {headerName: "任务名称", field: "taskName"},
-        {headerName: "完成时间", field: "taskStartTm"},
+        column.buildOpCol(60, colButtons),
+        {headerName: "任务名称", field: "taskName",
+            cellRenderer: function (params) {
+                if(params.value){
+                    return params.value + '<br/>' + params.data.taskRemark;
+                }
+                return "";
+            },},
+        {headerName: "完成时间", field: "taskEndTm"},
         {headerName: "执行人员", field: "participants"},
         {headerName: "备注", field: "remark"},
-        column.buildOpCol(120, colButtons)
+        {headerName: "状态", field: "stepStatus" ,formatType: 'dict', dictType: 'AGNES_TASK_STATUS'},
     ],
     headerHeight: 40,
     rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-app/v1/task/todo/list",    //后台查询数据的URL地址
+        fetchUrl: "/agnes-app/v1/task/done/list",    //后台查询数据的URL地址
         fetchMethod: 'get',
         pagingMode: true, //不分页
         checkboxColumn: 0, //是否显示checkbox列,
