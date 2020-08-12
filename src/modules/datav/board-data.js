@@ -317,6 +317,8 @@ const rowData2 = [
 const gridOptionObj = {
     columnDefs: [],
     rowData: [],
+    headerHeight: 40,
+    rowHeight: 37,
     ext: {
         statusBar: false, //是否显示状态栏
         autoFitColumnMode: 1, //自动列宽模式：1-根据内容自适应，当有剩余宽度时再自动Fit到窗口大小， 2-根据内空自适应    3-根据窗口大小自适应

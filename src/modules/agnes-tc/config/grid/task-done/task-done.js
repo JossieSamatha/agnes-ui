@@ -1,6 +1,7 @@
 import column from "../../../../../config/column";
 
 const colButtons = [
+    // {key: 'confirmTask', title: '确认'},
     {key: 'viewTask', title: '查看'},
 ];
 

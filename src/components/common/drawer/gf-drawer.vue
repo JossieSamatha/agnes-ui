@@ -95,7 +95,7 @@
         data() {
             return {
                 visible: true,
-                modeArr: {add: '新增', edit: '编辑', view: '查看'},
+                modeArr: {add: '添加', edit: '编辑', view: '查看'},
                 needAsk: true
             }
         },
