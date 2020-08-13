@@ -60,7 +60,6 @@
                 };
                 this.reloadData();
             },
-
             async getExeTime() {
                 try {
                     const resp = this.$api.changeDataApi.getChangeData();
