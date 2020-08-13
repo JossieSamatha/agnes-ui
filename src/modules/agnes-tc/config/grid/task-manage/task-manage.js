@@ -10,15 +10,8 @@ export default {
         {headerName: "任务名称", field: "taskName"},
         {headerName: "任务类型", field: "taskType",formatType: 'dict', dictType: 'AGNES_TASK_TYPE'},
         {headerName: "任务编号", field: "taskCode"},
-        {headerName: "任务发起日期", field: "exeTime"},
-        {headerName: "实际完成时间", field: "updateTs",
-            valueFormatter: function (params) {
-                let taskStatus = params.data.taskStatus;
-                if(taskStatus.match(/05|06/)){
-                    return params.value;
-                }
-                return "";
-            }},
+        {headerName: "发起时间", field: "execStartTime"},
+        {headerName: "完成时间", field: "execEndTime"},
         {headerName: "完成状态", field: "taskStatus", dictType: "AGNES_TASK_MGR_STATUS"},
         column.buildOpCol(100, colButtons)
     ],
@@ -30,6 +23,7 @@ export default {
         pagingMode: true, //分页
         checkboxColumn: 1, //是否显示checkbox列,
         autoFitColumnMode: 1,
+        loadDataOnReady: false,
         enableExportLocal: true,
         pageOptions: {
             // 分页大小
