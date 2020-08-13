@@ -96,6 +96,7 @@
                     stepInfo :{
                         reason: "",
                         caseId: "",
+                        stepCode: ""
                     }
                 },
             }
@@ -104,6 +105,7 @@
             let _this=this;
             _this.taskCommit.inst.taskId = _this.row.taskId;
             _this.taskCommit.stepInfo.caseId = _this.row.caseId;
+            _this.taskCommit.stepInfo.stepCode = _this.row.stepCode;
             this.kpiDetail.kpiCode=this.row.taskKey;
             this.form.bizDate=this.row.bizDt;
             this.kpiDetail.bizDate=this.row.bizDt;
@@ -153,7 +155,7 @@
                 this.executeKpi()
             },
             async onExtendButton(){//点击强制通过的事件
-                if(this.row.allowManualConfirm && this.row.allowManualConfirm === '1'){
+                // if(this.row.allowManualConfirm && this.row.allowManualConfirm === '1'){
                     this.taskCommit.stepInfo.reason = this.form.reason;
                     this.taskCommit.stepInfo.stepStatus = "07";
                     try {
@@ -171,10 +173,6 @@
                     } catch (e) {
                         this.$msg.error(e);
                     }
-                }else{
-                    this.$msg.warning('该任务无法强制通过')
-                    return
-                }
 
             },
             reloadData() {
