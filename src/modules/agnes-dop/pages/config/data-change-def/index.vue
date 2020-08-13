@@ -118,9 +118,8 @@
                     return;
                 }
                 try {
-                    // this.changWorkDay(this.nowTaskData)
                     let judgeTaskResp = await this.$api.changeDataApi.judgeTask();
-                    if(judgeTaskResp===true){
+                    if(judgeTaskResp.data&&judgeTaskResp.data===true){
                         this.$confirm('存在待办任务未处理完成，是否强制切换?', '提示', {
                             confirmButtonText: '确定',
                             cancelButtonText: '取消',
