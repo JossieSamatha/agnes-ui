@@ -576,14 +576,14 @@
                             this.detailForm[key] = stepFormInfo[key] || this.detailForm[key];
                         }
                     })
-                    if(this.detailForm.stepActOwner){
-                        this.memberRefList = JSON.parse(this.detailForm.stepActOwner);
-                    }
                     if (this.detailForm.task_endTime === '9999-12-31') {
                         this.startAllTime = true;
                     }
                     if (this.detailForm.bizTag) {
                         this.detailForm.bizTagArr = this.detailForm.bizTag.split(",");
+                    }
+                    if(this.detailForm.stepActOwner){
+                        this.memberRefList = JSON.parse(this.detailForm.stepActOwner);
                     }
                     if(!loadsh.isEmpty(this.detailForm.successRuleTableData)){
                         this.succeedRule ='1'
