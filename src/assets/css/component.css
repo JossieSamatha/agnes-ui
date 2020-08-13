@@ -627,6 +627,27 @@
     border-right: none;
 }
 
+.gf-ag-grid.ag-theme-balham .ag-cell .status-circle-cell {
+    display:flex;
+    align-items:center
+}
+
+.gf-ag-grid.ag-theme-balham .ag-cell .status-circle-cell i.fa.fa-circle {
+    margin: 0 10px;
+}
+
+.gf-ag-grid.ag-theme-balham .ag-cell .status-circle-cell i.fa.fa-circle.red {
+    color: red;
+}
+
+.gf-ag-grid.ag-theme-balham .ag-cell .status-circle-cell i.fa.fa-circle.orange {
+    color: orange;
+}
+
+.gf-ag-grid.ag-theme-balham .ag-cell .status-circle-cell i.fa.fa-circle.green {
+    color: green;
+}
+
 .gf-ag-grid.ag-theme-balham .red-text {
     color: #F56C6C;
 }

@@ -8,5 +8,7 @@ export default {
     getChangeData() {
         return request.get(`/agnes-app/v1/dop/dayend/get`);
     },
-
+    judgeTask() {
+        return request.get(`/agnes-ac/v1/config/task/judge/task`);
+    },
 };
