@@ -5,6 +5,7 @@
                  ref="innerVueCron"
                  :cornObj="cron"
                  :showType="showType"
+                 :extLabel="extLabel"
                  @change="onSave"
                  @close="onCancel">
             <el-tab-pane slot="extSetting" v-if="showType.includes('extSetting')">
@@ -72,7 +73,12 @@
                 this.baseDate = result[0];
                 this.dateType = result[1];
                 this.holidayDelay = result[2];
-                this.cron(result[3]);
+                this.cron = result[3];
+            }
+        },
+        computed: {
+            extLabel(){
+                return `${this.baseDate}#${this.dateType}#${this.holidayDelay}#`
             }
         },
         methods: {
