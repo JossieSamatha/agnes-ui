@@ -63,10 +63,11 @@
 
             async getExeTime() {
                 try {
-                    const resp = await this.$api.changeDataApi.getChangeData();
-                    let resChangeData = resp.data;
+                    const resp = this.$api.changeDataApi.getChangeData();
+                    let resChangeresp = await this.$app.blockingApp(resp);
+                    let resChangeData = resChangeresp.data;
                     this.queryArgs.execStartTime = resChangeData.bizDate;
-                    this.reloadData();
+                    await this.reloadData();
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
