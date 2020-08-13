@@ -505,6 +505,7 @@
                 }
                 let kpiTaskDef = this.$utils.deepClone(this.staticData.kpiTaskDef);
                 this.detailForm.bizTag = this.detailForm.bizTagArr.join(",");
+                this.detailForm.stepActType = '6';
                 this.detailForm.stepCode = this.detailForm.caseKey;
                 this.detailForm.caseDefKey = this.detailForm.caseKey;
                 this.keyToValue(kpiTaskDef, 'task_');
@@ -514,6 +515,7 @@
                 this.detailForm.stepName = defName;
                 caseDef.stages[0].defId = defId;
                 caseDef.stages[0].children[0].stepId = defId;
+                caseDef.stages[0].children[0].stepActType = '6';
                 caseDef.stages[0].defName = defName;
                 caseDef.stages[0].children[0].stepName = defName;
                 let stepFormInfo = this.$utils.deepClone(this.staticData.caseDef.stages[0].children[0].stepFormInfo);
