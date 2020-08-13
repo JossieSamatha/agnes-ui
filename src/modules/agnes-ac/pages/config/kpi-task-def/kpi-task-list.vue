@@ -1,13 +1,21 @@
 <template>
-    <gf-grid ref="grid"
-             grid-no="agnes-kpi-task"
-             quick-text-max-width="300px"
-             height="100%"
-             @row-double-click="showTask">
-        <template slot="left">
-            <gf-button class="action-btn" @click="addTask">添加</gf-button>
-        </template>
-    </gf-grid>
+    <div>
+        <rule-table ref="ruleTable"
+                    :ruleTableData="ruleTableData"
+                    :ruleTargetOp="ruleTargetOp"
+        >
+        </rule-table>
+        <gf-grid ref="grid"
+                 grid-no="agnes-kpi-task"
+                 quick-text-max-width="300px"
+                 height="100%"
+                 @row-double-click="showTask">
+            <template slot="left">
+                <gf-button class="action-btn" @click="addTask">添加</gf-button>
+            </template>
+        </gf-grid>
+    </div>
+
 </template>
 
 <script>
@@ -15,6 +23,14 @@
     // import {transferCaseDefData} from '../../../util/transferCaseData.js'
 
     export default {
+        data(){
+            return {
+                ruleTableData: {},
+                ruleTargetOp: {
+                    object: '123132',
+                },
+            }
+        },
         methods: {
             reloadData() {
                 this.$refs.grid.reloadData();
@@ -55,7 +71,9 @@
                 this.reloadData();
             },
             addTask() {
-                this.showDrawer('add', {}, this.onAddModel.bind(this));
+                const jsonStr = this.$refs.ruleTable.jsonFormatter();
+                console.log(jsonStr);
+                // this.showDrawer('add', {}, this.onAddModel.bind(this));
             },
             showTask(params) {
                 this.showDrawer('view', params.data);
@@ -120,6 +138,7 @@
                     rowData.caseDefJson = JSON.stringify(sendInfo);
                     const p = this.$api.caseConfigApi.publishCaseDef(rowData);
                     await this.$app.blockingApp(p);
+                    this.$msg.warning("发布成功!");
                     this.reloadData();
                 } catch (reason) {
                     this.$msg.error(reason);

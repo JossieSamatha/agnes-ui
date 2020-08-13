@@ -179,22 +179,22 @@
     border-left: 14px solid #585c73;
 }
 
-.elec-process .flow-container .stage-item .el-progress {
+.define-progress.el-progress {
     display: flex;
     align-items: center;
 }
 
-.elec-process .flow-container .stage-item .el-progress .el-progress-bar {
+.define-progress.el-progress .el-progress-bar {
     padding-right: 0;
     margin-right: 0;
 }
 
-.elec-process .flow-container .stage-item .el-progress .el-progress__text {
+.define-progress.el-progress .el-progress__text {
     margin-left: 5px;
     font-size: 12px!important;
 }
 
-.elec-process .flow-container .stage-item .el-progress .el-progress__text>i {
+.define-progress.el-progress .el-progress__text>i {
     font-size: 14px!important;
 }
 
@@ -312,4 +312,23 @@
 
 .elec-process .bottom-section .exec-container .exec-ul .exec-li.nostart>i{
     color: #eee;
+}
+
+/* =============================
+
+    gf-grid 表格特殊样式
+
+   ============================= */
+.gf-ag-grid.ag-theme-balham .ag-cell .grid-cell-op-link.actionConfirm,
+.gf-ag-grid.ag-theme-balham .ag-cell .grid-cell-op-link.forcePass {
+    display: none;
+}
+.gf-ag-grid.ag-theme-balham .ag-cell.noneStatus .grid-cell-op-link.actionConfirm,
+.gf-ag-grid.ag-theme-balham .ag-cell.noneStatus .grid-cell-op-link.forcePass {
+    display: inline-block;
+}
+
+.gf-ag-grid.ag-theme-balham .ag-cell .el-button {
+    margin-right: 5px;
+    margin-left: 0!important;
 }

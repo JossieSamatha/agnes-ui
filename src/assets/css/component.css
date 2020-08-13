@@ -563,12 +563,12 @@
 }
 
 .gf-ag-grid.ag-theme-balham .ag-header-cell-label {
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .gf-ag-grid.ag-theme-balham .ag-header-cell,
 .gf-ag-grid.ag-theme-balham .ag-header-group-cell {
-    font-size: 13px;
+    font-size: 14px;
     line-height: 21px;
 }
 
@@ -621,10 +621,31 @@
 }
 
 .gf-ag-grid.ag-theme-balham .ag-cell {
-    font-size: 14px;
+    font-size: 12px;
     color: #666;
     line-height: 21px;
     border-right: none;
+}
+
+.gf-ag-grid.ag-theme-balham .ag-cell .status-circle-cell {
+    display:flex;
+    align-items:center
+}
+
+.gf-ag-grid.ag-theme-balham .ag-cell .status-circle-cell i.fa.fa-circle {
+    margin: 0 10px;
+}
+
+.gf-ag-grid.ag-theme-balham .ag-cell .status-circle-cell i.fa.fa-circle.red {
+    color: red;
+}
+
+.gf-ag-grid.ag-theme-balham .ag-cell .status-circle-cell i.fa.fa-circle.orange {
+    color: orange;
+}
+
+.gf-ag-grid.ag-theme-balham .ag-cell .status-circle-cell i.fa.fa-circle.green {
+    color: green;
 }
 
 .gf-ag-grid.ag-theme-balham .red-text {
@@ -738,7 +759,7 @@
 }
 
 .gf-ag-grid.ag-theme-balham .el-button {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: normal;
 }
 /* 表格单元格背景颜色样式 */
@@ -830,7 +851,7 @@
 
 .ag-grid-box .grid-action-panel .right input {
     color: #666;
-    font-size: 14px;
+    font-size: 13px;
     height: 29px;
     line-height: 29px;
     border-color: #EAEDF1;
@@ -1044,6 +1065,7 @@
 .rule-table .rule-cell > .cell {
     width: 100%;
     padding: 0 !important;
+    font-size: 12px;
 }
 
 .rule-table .rule-cell > .cell>span {

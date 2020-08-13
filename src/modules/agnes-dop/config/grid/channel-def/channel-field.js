@@ -19,7 +19,7 @@ export default {
     rowHeight: 37,
     ext: {
         fetchUrl: "/agnes-app/v1/dop/channel/list/page",
-        fetchMethod: 'get',
+        fetchMethod: 'post',
         pagingMode: true, //不分页
         checkboxColumn: 1, //是否显示checkbox列,
         enableExportLocal: true,

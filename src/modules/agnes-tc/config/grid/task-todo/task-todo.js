@@ -7,25 +7,19 @@ const colButtons = [
 
 export default {
     columnDefs: [
-        column.buildOpCol(60, colButtons,),
-        {headerName: "任务名称", field: "taskName",
+        column.buildOpCol(60, colButtons),
+        {headerName: "任务名称", field: "taskName", headerClass: 'status-header',
             cellRenderer: (params)=>{
                 let eGui = document.createElement('div');
-                eGui.style = 'display:flex;align-items:center';
+                eGui.className = 'status-circle-cell';
                 const iNode = document.createElement("i");
-                let color = '';
-                if(params.data.stepStatus.match(/02|03/)){
-                    color = 'red';
-                }else if(params.data.stepStatus === '01'){
-                    color = 'orange'
-                }else{
-                    color = 'green'
-                }
-                iNode.style = 'margin-right:5px;color:'+color;
-                iNode.className = 'fa fa-circle';
+                const statusColor = { '01': 'green', '02': 'orange', '03': 'red','04': 'red'};
+                iNode.className = 'fa fa-circle ' + statusColor[params.data.stepStatus];
                 const spanNode = document.createElement("span");
                 spanNode.innerHTML = params.value + '<br/>' + params.data.taskRemark;
-                eGui.appendChild(iNode);
+                if(params.data.stepStatus!== '00'){
+                    eGui.appendChild(iNode);
+                }
                 eGui.appendChild(spanNode);
                 return eGui;
             }

@@ -68,15 +68,15 @@
                 <el-radio label="3">按外部事件触发时创建</el-radio>
             </el-radio-group>
         </el-form-item>
-        <template v-if="detailForm.task_execMode===2">
+        <template v-if="detailForm.task_execMode==2">
             <el-form-item label="创建频率配置" prop="step_execScheduler">
                 <el-button type="text" @click="editExecTime('task_execScheduler', detailForm.task_execScheduler)">
                     {{detailForm.task_execScheduler}}点击配置
                 </el-button>
             </el-form-item>
         </template>
-        <el-form-item label="外部事件选择" v-if="detailForm.task_execMode===3">
-            <el-select v-model="detailForm.eventId" placeholder="请选择" filterable clearable>
+        <el-form-item label="外部事件选择" v-if="detailForm.task_execMode==3">
+            <el-select v-model="detailForm.eventId" placeholder="请选择" filterable clearable style="width: 32%">
                 <gf-filter-option
                         v-for="item in detailForm.eventOptions"
                         :key="item.value"
@@ -410,7 +410,7 @@
                     {
                         args: {cornObj: data, action},
                         width: '530px',
-                        title: this.$dialog.formatTitle('编辑执行频率', "edit"),
+                        title: this.$dialog.formatTitle('创建频率配置', "edit"),
                     }
                 );
             },
