@@ -36,15 +36,9 @@
                 </el-card>
             </el-row>
             <gf-grid ref="grid" :options="gridOptions" class="grid-class" :height="height">
-                <!-- <template slot="left">
-                    <gf-button class="action-btn" @click="executeKpi" size="mini">重新执行</gf-button>
-                </template> -->
             </gf-grid>
             <el-row  style="marginTop:12px;marginLeft:-10px">
                 <el-col :span="24">
-                    <!-- <el-form-item label-width="0px" v-if="type==='done'" label="" prop="remark" >
-                        {{form.remark}}
-                    </el-form-item> -->
                     <el-form-item label-width="0px"  label="" prop="remark" >
                         <el-input
                                 :readonly="type==='done'"
@@ -96,6 +90,7 @@
                     stepInfo :{
                         reason: "",
                         caseId: "",
+                        stepCode: ""
                     }
                 },
             }
@@ -104,6 +99,7 @@
             let _this=this;
             _this.taskCommit.inst.taskId = _this.row.taskId;
             _this.taskCommit.stepInfo.caseId = _this.row.caseId;
+            _this.taskCommit.stepInfo.stepCode = _this.row.stepCode;
             this.kpiDetail.kpiCode=this.row.taskKey;
             this.form.bizDate=this.row.bizDt;
             this.kpiDetail.bizDate=this.row.bizDt;
@@ -153,7 +149,7 @@
                 this.executeKpi()
             },
             async onExtendButton(){//点击强制通过的事件
-                if(this.row.allowManualConfirm && this.row.allowManualConfirm === '1'){
+                // if(this.row.allowManualConfirm && this.row.allowManualConfirm === '1'){
                     this.taskCommit.stepInfo.reason = this.form.reason;
                     this.taskCommit.stepInfo.stepStatus = "07";
                     try {
@@ -171,10 +167,6 @@
                     } catch (e) {
                         this.$msg.error(e);
                     }
-                }else{
-                    this.$msg.warning('该任务无法强制通过')
-                    return
-                }
 
             },
             reloadData() {

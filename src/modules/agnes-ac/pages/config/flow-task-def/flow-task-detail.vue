@@ -54,9 +54,10 @@
                 <el-radio label="3">按外部事件触发时创建</el-radio>
             </el-radio-group>
         </el-form-item>
-        <el-form-item v-if="detailForm.execMode==='2'" label="创建频率配置" prop="execScheduler">
-            <gf-input v-model.trim="detailForm.execScheduler" placeholder="* * * * * ?"
-                      @click.native="openCron" style="width: 50%"/>
+        <el-form-item label="创建频率配置" v-if="detailForm.execMode==='2'" prop="execScheduler">
+            <el-button type="text" @click="editExecTime(detailForm.execScheduler,'创建频率配置')">
+                {{detailForm.execScheduler}}点击配置
+            </el-button>
         </el-form-item>
         <el-form-item label="外部事件选择" v-if="detailForm.execMode==='3'">
             <el-select v-model="detailForm.eventId" placeholder="请选择" filterable clearable>
@@ -69,7 +70,7 @@
             </el-select>
         </el-form-item>
         <el-form-item label="任务控制参数">
-            <gf-strbool-checkbox v-model="detailForm.needApprove">是否需要审核</gf-strbool-checkbox>
+            <gf-strbool-checkbox v-model="detailForm.needApprove">是否需要复核</gf-strbool-checkbox>
         </el-form-item>
     </el-form>
 </template>
@@ -177,13 +178,19 @@
             openCron() {
                 this.showDlg(this.detailForm.execScheduler, this.setExecScheduler.bind(this));
             },
-            showDlg(cornObj, action) {
+            editExecTime( execScheduler,title) {
+                this.showDlg(execScheduler,title, this.setExecScheduler.bind(this));
+            },
+            showDlg(cornObj,title, action) {
                 this.$nav.showDialog(
                     'gf-cron-modal',
                     {
-                        args: {cornObj, action},
+                        args: {
+                            cornObj:cornObj,
+                            action
+                        },
                         width: '530px',
-                        title: this.$dialog.formatTitle('创建频率配置', "edit"),
+                        title: this.$dialog.formatTitle(title, "edit"),
                     }
                 );
             },
@@ -199,6 +206,7 @@
                     if (this.actionOk) {
                         await this.actionOk();
                     }
+                    this.$msg.success('反审核成功');
                 }
                 this.$emit("onClose");
             },
@@ -212,20 +220,23 @@
                 try {
                     this.detailForm.bizTag = this.detailForm.bizTagArr.join(",");
                     let resData = this.detailForm;
+                    let msg = '';
                     if(this.mode === 'add'){
                         resData.taskType = '2';
                     }
                     if(this.row.isCheck){
                         const p = this.$api.kpiTaskApi.checkTask({reTaskDef:resData,isPass:'1'});
                         await this.$app.blockingApp(p);
+                        msg = '审核成功';
                     }else{
                         const p = this.$api.flowTaskApi.saveFlowTask({reTaskDef:resData});
                         await this.$app.blockingApp(p);
+                        msg = '保存成功';
                     }
                     if (this.actionOk) {
                         await this.actionOk();
                     }
-                    this.$msg.success('保存成功');
+                    this.$msg.success(msg);
                     this.$emit("onClose");
                 } catch (reason) {
                     this.$msg.error(reason);

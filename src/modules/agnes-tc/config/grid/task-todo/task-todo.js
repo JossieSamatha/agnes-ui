@@ -13,13 +13,11 @@ export default {
                 let eGui = document.createElement('div');
                 eGui.className = 'status-circle-cell';
                 const iNode = document.createElement("i");
-                const statusColor = { '01': 'green', '02': 'orange', '03': 'red','04': 'red'};
+                const statusColor = { '02': 'orange', '03': 'red', '04': 'red'};
                 iNode.className = 'fa fa-circle ' + statusColor[params.data.stepStatus];
                 const spanNode = document.createElement("span");
                 spanNode.innerHTML = params.value + '<br/>' + params.data.taskRemark;
-                if(params.data.stepStatus!== '00'){
-                    eGui.appendChild(iNode);
-                }
+                eGui.appendChild(iNode);
                 eGui.appendChild(spanNode);
                 return eGui;
             }
@@ -36,6 +34,7 @@ export default {
         checkboxColumn: 1, //是否显示checkbox列,
         autoFitColumnMode: 1,
         enableExportLocal: true,
+        loadDataOnReady:false,
         pageOptions: {
             // 分页大小
             pageSize: 10,

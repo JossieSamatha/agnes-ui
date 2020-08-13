@@ -83,6 +83,7 @@
                     stepInfo :{
                         reason: "",
                         caseId: "",
+                        stepCode: ""
                     }
                 },
             }
@@ -108,8 +109,9 @@
                 }
                 this.taskCommit.inst.taskId = this.row.taskId;
                 this.taskCommit.stepInfo.caseId = this.row.caseId;
+                this.taskCommit.stepInfo.stepCode = this.row.stepCode;
                 this.taskCommit.stepInfo.reason = this.reason;
-                this.taskCommit.stepInfo.stepStatus = "04";
+                this.taskCommit.stepInfo.stepStatus = "06";
                 try {
                     const p = this.$api.taskTodoApi.confirmKpiTask(this.taskCommit)
                     const resp = await this.$app.blockingApp(p);
