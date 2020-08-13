@@ -119,7 +119,7 @@
                     rowData.caseDefJson = JSON.stringify(sendInfo);
                     const p = this.$api.caseConfigApi.publishCaseDef(rowData);
                     await this.$app.blockingApp(p);
-                    this.$msg.warning("发布成功!");
+                    this.$msg.success('发布成功');
                     this.reloadData();
                 } catch (reason) {
                     this.$msg.error(reason);
