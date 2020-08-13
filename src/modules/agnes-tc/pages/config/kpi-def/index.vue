@@ -36,15 +36,9 @@
                 </el-card>
             </el-row>
             <gf-grid ref="grid" :options="gridOptions" class="grid-class" :height="height">
-                <!-- <template slot="left">
-                    <gf-button class="action-btn" @click="executeKpi" size="mini">重新执行</gf-button>
-                </template> -->
             </gf-grid>
             <el-row  style="marginTop:12px;marginLeft:-10px">
                 <el-col :span="24">
-                    <!-- <el-form-item label-width="0px" v-if="type==='done'" label="" prop="remark" >
-                        {{form.remark}}
-                    </el-form-item> -->
                     <el-form-item label-width="0px"  label="" prop="remark" >
                         <el-input
                                 :readonly="type==='done'"
