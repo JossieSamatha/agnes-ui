@@ -14,7 +14,7 @@ export default {
         {headerName: "实际完成时间", field: "updateTs",
             valueFormatter: function (params) {
                 let taskStatus = params.data.taskStatus;
-                if(taskStatus.match(/04|05/)){
+                if(taskStatus.match(/05|06/)){
                     return params.value;
                 }
                 return "";

@@ -44,6 +44,9 @@
                 }
             }
         },
+        beforeMount() {
+            this.getExeTime();
+        },
         methods: {
             reloadData() {
                 this.$refs.grid.reloadData();
@@ -56,6 +59,17 @@
                     'taskStatus':'',
                 };
                 this.reloadData();
+            },
+
+            async getExeTime() {
+                try {
+                    const resp = await this.$api.changeDataApi.getChangeData();
+                    let resChangeData = resp.data;
+                    this.queryArgs.exeTime = resChangeData.bizDate;
+                    this.reloadData();
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
             },
             async checkTask(params){
                 const rowData = params.data;
