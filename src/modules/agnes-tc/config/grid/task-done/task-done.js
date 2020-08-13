@@ -13,10 +13,11 @@ export default {
                 let eGui = document.createElement('div');
                 eGui.className = 'status-circle-cell';
                 const iNode = document.createElement("i");
-                const statusColor = { '05': 'green', '06': 'red', '07': 'orange'};
+                const statusColor = { '06': 'green', '05': 'red', '07': 'orange'};
                 iNode.className = 'fa fa-circle ' + statusColor[params.data.stepStatus];
                 const spanNode = document.createElement("span");
                 spanNode.innerHTML = params.value + '<br/>' + params.data.taskRemark;
+
                 eGui.appendChild(iNode);
                 eGui.appendChild(spanNode);
                 return eGui;
@@ -24,7 +25,6 @@ export default {
         {headerName: "完成时间", field: "taskEndTm"},
         {headerName: "执行人员", field: "participants"},
         {headerName: "备注", field: "remark"},
-        {headerName: "状态", field: "stepStatus" ,formatType: 'dict', dictType: 'AGNES_TASK_STEP_STATUS'},
     ],
     headerHeight: 40,
     rowHeight: 37,
@@ -34,6 +34,7 @@ export default {
         pagingMode: true, //不分页
         checkboxColumn: 0, //是否显示checkbox列,
         enableExportLocal: true,
+        loadDataOnReady:false,
         pageOptions: {
             // 分页大小
             pageSize: 10,

@@ -147,7 +147,8 @@
                     rowData.caseDefJson = JSON.stringify(this.checkData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName));
                     const p = this.$api.caseConfigApi.publishCaseDef(rowData);
                     await this.$app.blockingApp(p);
-                    this.$msg.warning("发布成功!");
+                    this.$msg.success("发布成功!");
+                    this.$emit("onClose");
                     this.reloadData();
                 } catch (reason) {
                     this.$msg.error(reason);
@@ -156,6 +157,7 @@
 
             checkData(dataOrigin,caseDefKey,caseDefName) {
                 let data =JSON.parse(JSON.stringify(dataOrigin))
+                delete data.stepCodeArr
                 let newCaseModelData = data.stages;
                 for (let i = 0; i < newCaseModelData.length; i++) {
                     this.steps = [];

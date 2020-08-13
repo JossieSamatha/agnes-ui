@@ -5,7 +5,7 @@
                 <el-form-item label="任务名称">
                     <el-input v-model="queryArgs.taskName"></el-input>
                 </el-form-item>
-                <el-form-item label="完成日期">
+                <el-form-item label="完成时间">
                     <el-date-picker
                             v-model="queryArgs.taskEndTm"
                             type="date"
@@ -36,7 +36,20 @@
                 }
             }
         },
+        mounted() {
+            this.getChangeData();
+        },
         methods: {
+            async getChangeData() {
+                try {
+                    const resp = await this.$api.changeDataApi.getChangeData();
+                    let resChangeData = resp.data
+                    this.queryArgs.taskEndTm = resChangeData.bizDate;
+                    await this.$refs.grid.reloadData();
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
             reloadData() {
                 this.$refs.grid.reloadData();
             },

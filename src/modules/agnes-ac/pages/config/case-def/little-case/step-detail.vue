@@ -9,9 +9,6 @@
             <el-form-item label="任务名称" prop="stepName">
                 <gf-input v-model.trim="caseStepDef.stepName"/>
             </el-form-item>
-            <el-form-item label="基准日期" prop="dayendDefId">
-                <gf-dict v-model="caseStepDef.dayendDefId" dict-type="AGNES_BASE_DATE"></gf-dict>
-            </el-form-item>
             <el-form-item label="任务等级" prop="stepLevel">
                 <el-rate v-model="caseStepDef.stepLevel"
                          :max="max"
@@ -42,11 +39,6 @@
             <el-form-item label="任务说明" prop="stepRemark">
                 <gf-input v-model="caseStepDef.stepRemark" type="textarea"></gf-input>
             </el-form-item>
-            <el-form-item label="通知人员" prop="stepActOwner">
-                <gf-input type="text" v-model="caseStepDef.stepActOwnerName"  placeholder="请选择人员"
-                          :readonly="true" @click.native="chooseUser">
-                </gf-input>
-            </el-form-item>
             <el-form-item label="执行时间配置" class="is-required">
                 <div class="line none-shrink">
                     <el-form-item prop="startTime">
@@ -67,8 +59,13 @@
                     <gf-strbool-checkbox v-model="dayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
                 </div>
             </el-form-item>
-            <el-form-item label="任务类型" prop="stepActType">
-                <gf-dict v-model="stepInfo.stepActType" dictType="AGNES_CASE_STEPTYPE" :disabled="true"></gf-dict>
+            <el-form-item label="通知人员" prop="">
+                <gf-person-chosen ref="memberRef"
+                                  :memberRefList="this.memberRefList"
+                                  chosenType="user, group, roster"
+                                  :rosterDate="this.rosterDate"
+                                  @getMemberList="getMemberList">
+                </gf-person-chosen>
             </el-form-item>
             <el-form-item v-if="stepInfo.stepActType === '1'" label="执行逻辑选择" prop="stepActKey">
                 <el-select style="width: 100%" v-model="caseStepDef.stepActKey" placeholder="请选择" filterable clearable>
@@ -80,9 +77,6 @@
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
-            <el-form-item v-if="stepInfo.stepActType === '1'" label="指标参数" prop="stepActParam1">
-                <gf-input v-model="caseStepDef.stepActParam1"/>
-            </el-form-item>
             <el-form-item v-if="stepInfo.stepActType === '3'" label="流程定义" prop="stepActKey">
                 <el-select v-model="caseStepDef.stepActKey" placeholder="请选择">
                     <el-option
@@ -93,15 +87,17 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item v-if="stepInfo.stepActType === '1'" label="执行频率配置">
-                <gf-input v-model.trim="caseStepDef.execScheduler" placeholder="* * * * * ?"
-                          @click.native="openCron"/>
+            <el-form-item label="执行频率配置" v-if="stepInfo.stepActType === '1'" prop="execScheduler">
+                <el-button type="text" @click="editExecTime(caseStepDef.execScheduler,'执行频率配置')">
+                    {{caseStepDef.execScheduler}}点击配置
+                </el-button>
             </el-form-item>
             <el-form-item label="任务控制参数">
                 <gf-strbool-checkbox v-model="caseStepDef.isTodo">是否进入待办</gf-strbool-checkbox>
                 <gf-strbool-checkbox v-model="caseStepDef.forcePass">是否允许人工强制通过</gf-strbool-checkbox>
             </el-form-item>
             <el-form-item label="消息通知参数">
+                <span class="default-checked">系统内部消息</span>
                 <el-checkbox-group v-model="msgInformParam">
                     <el-checkbox v-for="msgInform in msgInformOp"
                                  :key="msgInform.value"
@@ -248,7 +244,7 @@
 </template>
 
 <script>
-    import UserSelect from '../../../../components/biz/kpi-user-select'
+    import dateUtils from "@hex/gf-ui/src/util/date-utils"
     function resetForm() {
         return {
             stepName: '',
@@ -261,7 +257,6 @@
                     stepLevel: 1,
                     stepTag: '',
                     stepActOwner: '',
-                    stepActOwnerName: '',
                     execMode: '1',
                     stepActKey: '',
                     stepActParam1: '',
@@ -269,7 +264,7 @@
                     startTime: '',
                     endDay: '',
                     endTime: '',
-                    execScheduler: '* * * * * ?',
+                    execScheduler: '00#01#01#* * * * * ?',
                     stepRemark: '',
                     forcePass: '',
                     isRecordError: '',
@@ -313,6 +308,8 @@
         },
         data() {
             return {
+                memberRefList:[],
+                rosterDate:'',
                 stepInfo: resetForm(),
                 initStepCode: '',
                 texts: ['普通', '重要', '非常重要'],
@@ -342,7 +339,7 @@
                 // 消息配置类型类型选项
                 msgInformParam: [],
                 msgInformOp: [{label: '提前通知', value: '0'}, {label: '完成通知', value: '1'}, {label: '超时通知', value: '2'},
-                    {label: '异常通知', value: '3'}, {label: '系统内部消息', value: '4'}],
+                    {label: '异常通知', value: '3'}],
                 msgInfoStr: ['warningRemind', 'finishRemind', 'timeoutRemind', 'exceptionRemind'],
                 // 业务标签
                 bizTagArr: [],
@@ -381,6 +378,12 @@
                 }
             }
         },
+        beforeMount(){
+            let stepActOwner = this.args.stepList[this.args.stepIndex].stepFormInfo.caseStepDef.stepActOwner;
+            if(stepActOwner){
+                this.memberRefList = JSON.parse(stepActOwner);
+            }
+        },
         computed:{
             caseStepDef(){
                 return this.stepInfo.stepFormInfo.caseStepDef;
@@ -401,8 +404,13 @@
             this.getKpiData();
             this.getServiceResponse();
             this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
+            this.rosterDate = dateUtils.formatDate(new Date(),'yyyy-mm-dd')
         },
         methods: {
+            getMemberList(val){
+                this.memberRefList = val;
+                this.stepInfo.stepFormInfo.caseStepDef.stepActOwner = JSON.stringify(val);
+            },
             hasRepetCode(rule, value, callback) {
                 if (!value) {
                     callback(new Error('任务编号必填'));
@@ -441,35 +449,23 @@
                     this.kpiOptions.push({label:item.kpiName,value:item.kpiCode});
                 });
             },
-            chooseUser(){
-                let actionOk = this.setExeUser.bind(this);
-                this.$nav.showDialog(
-                    UserSelect,
-                    {
-                        args: {actionOk},
-                        width: '600px',
-                        title: this.$dialog.formatTitle('选择用户','view'),
-                    }
-                );
+            editExecTime( execScheduler,title) {
+                this.showDlg(execScheduler,title, this.setExecScheduler.bind(this));
             },
-            setExeUser(userInfo){
-                this.caseStepDef.stepActOwnerName = userInfo.userName;
-                this.caseStepDef.stepActOwner = userInfo.id;
-            },
-            openCron() {
-                const execScheduler = this.caseStepDef.execScheduler ? this.caseStepDef.execScheduler : '* * * * * ?';
-                this.showDlg(execScheduler, this.setExecScheduler.bind(this));
-            },
-            showDlg(cornObj, action) {
+            showDlg(cornObj,title, action) {
                 if (this.mode === 'view') {
                     return;
                 }
                 this.$nav.showDialog(
                     'gf-cron-modal',
                     {
-                        args: {cornObj, action},
+                        args: {
+                            cornObj: cornObj,
+                            action,
+                            showType:'second,minute,extSetting'
+                        },
                         width: '530px',
-                        title: this.$dialog.formatTitle('执行频率配置', "edit"),
+                        title: this.$dialog.formatTitle(title, "edit"),
                     }
                 );
             },
@@ -504,7 +500,7 @@
 
             onCreateForm() {
                 this.stepInfo = resetForm();
-                this.stepInfo.stepActType = this.args.stepData;
+                this.stepInfo.stepActType = this.args.stepList[this.args.stepIndex].stepActType;
                 this.resetFormFields();
                 this.bizType = this.args.bizType;
                 this.bizTagArr = this.args.bizTagArr;
@@ -554,6 +550,7 @@
                     this.stepInfo.stepName = this.stepInfo.stepFormInfo.caseStepDef.stepName;
                     this.stepInfo.stepFormInfo.caseStepDef.stepActType = this.stepInfo.stepActType;
                     this.stepInfo.stepFormInfo.caseStepDef.stepName = this.stepInfo.stepName;
+                    this.stepInfo.stepFormInfo.caseStepDef.stepActOwner = JSON.stringify(this.memberRefList);
                     this.stepInfo.stepCodeChange = this.initStepCode !== this.stepInfo.stepFormInfo.caseStepDef.stepCode;
                     this.$emit('saveStepInfo', {
                         optionType: this.optionType,
