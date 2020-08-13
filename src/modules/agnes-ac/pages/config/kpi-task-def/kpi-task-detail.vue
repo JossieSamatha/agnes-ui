@@ -123,15 +123,12 @@
             </el-button>
         </el-form-item>
         <el-form-item label="通知人员">
-<!--            <gf-person-chosen ref="memberRef"-->
-<!--                              :memberRefList="this.memberRefList"-->
-<!--                              chosenType="user, group, roster"-->
-<!--                              rosterDate="2020-07-22"-->
-<!--                              @getMemberList="getMemberList">-->
-<!--            </gf-person-chosen>-->
-            <gf-input type="text" v-model="detailForm.stepActOwnerName" :readonly="true" style="width: 32%">
-                <i slot="suffix" class="el-input__icon el-icon-edit-outline" @click="chooseUser"/>
-            </gf-input>
+            <gf-person-chosen ref="memberRef"
+                              :memberRefList="this.memberRefList"
+                              chosenType="user, group, roster"
+                              :rosterDate="this.rosterDate"
+                              @getMemberList="getMemberList">
+            </gf-person-chosen>
         </el-form-item>
         <el-form-item label="任务控制参数">
             <gf-strbool-checkbox v-model="detailForm.needApprove">是否需要复核</gf-strbool-checkbox>
@@ -277,7 +274,7 @@
     import loadsh from 'lodash';
     import staticData from '../../../util/dataFormat'
     import initData from '../../../util/initData'
-    import UserSelect from '../../../components/biz/kpi-user-select'
+    import dateUtils from "@hex/gf-ui/src/util/date-utils"
 
     export default {
         name: "task-define",
@@ -294,7 +291,8 @@
         },
         data() {
             return {
-                memberRefList: [{"refType":"1","memberId":"ceshi20","memberDesc":"测试20"},{"refType":"1","memberId":"ceshi19","memberDesc":"测试19"},{"refType":"1","memberId":"ceshi188","memberDesc":"测试18"},{"refType":"2","memberId":"3","memberDesc":"群组-群组3"},{"refType":"2","memberId":"5","memberDesc":"群组-群组5"},{"refType":"3","memberId":"1ev192v3lzq4m","memberDesc":"排班-基金运营部-早班\n2020-07-15 18:49-19:49-TA岗"},{"refType":"3","memberId":"1ev1t312tyneu","memberDesc":"排班-基金运营部-早班\n2020-07-16 22:28-23:28-FA岗"}],
+                rosterDate:'',
+                memberRefList:[],
                 serviceRes:[],
                 staticData: staticData(),
                 detailForm: initData(),
@@ -427,17 +425,6 @@
                 this.memberRefList = val;
                 this.detailForm.stepActOwner = JSON.stringify(val);
             },
-            chooseUser(){
-                let actionOk = this.setExeUser.bind(this);
-                this.$nav.showDialog(
-                    UserSelect,
-                    {
-                        args: {actionOk},
-                        width: '600px',
-                        title: this.$dialog.formatTitle('选择用户','view'),
-                    }
-                );
-            },
             editExecTime(curObj, execScheduler,title) {
                 this.curExecScheduler = curObj;
                 let flag = false;
@@ -466,10 +453,6 @@
                         title: this.$dialog.formatTitle(title, "edit"),
                     }
                 );
-            },
-            setExeUser(userInfo){
-                this.detailForm.stepActOwnerName = userInfo.userName;
-                this.detailForm.stepActOwner = userInfo.id;
             },
             setExecScheduler(cron) {
                 this.detailForm[this.curExecScheduler] = cron;
@@ -500,14 +483,15 @@
                         resData.isPass = '1';
                         const p = this.$api.kpiTaskApi.checkTask(resData);
                         await this.$app.blockingApp(p);
+                        this.$msg.success('审核成功');
                     }else {
                         const p = this.$api.kpiTaskApi.saveTask(resData);
                         await this.$app.blockingApp(p);
+                        this.$msg.success('保存成功');
                     }
                     if (this.actionOk) {
                         await this.actionOk();
                     }
-                    this.$msg.success('保存成功');
                     this.$emit("onClose");
                 } catch (reason) {
                     this.$msg.error(reason);
@@ -579,6 +563,7 @@
             },
 
             reDataTransfer() {
+                this.rosterDate = dateUtils.getNowFormatDate();
                 if (this.mode && this.mode !== 'add') {
                     let kpiTaskDef = this.$utils.deepClone(this.row.reTaskDef);
                     this.reKeyToValue(kpiTaskDef, 'task_');
@@ -591,9 +576,9 @@
                             this.detailForm[key] = stepFormInfo[key] || this.detailForm[key];
                         }
                     })
-                    // if(this.detailForm.stepActOwner){
-                    //     this.memberRefList = JSON.parse(this.detailForm.stepActOwner);
-                    // }
+                    if(this.detailForm.stepActOwner){
+                        this.memberRefList = JSON.parse(this.detailForm.stepActOwner);
+                    }
                     if (this.detailForm.task_endTime === '9999-12-31') {
                         this.startAllTime = true;
                     }

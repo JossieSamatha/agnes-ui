@@ -58,9 +58,9 @@
                 <gf-strbool-checkbox v-model="startAllTime" style="margin-left: 10px">永久有效</gf-strbool-checkbox>
             </div>
         </el-form-item>
-<!--        <el-form-item label="基准日期" prop="dayendDefId">-->
-<!--            <gf-dict filterable clearable v-model="detailForm.dayendDefId" dict-type="AGNES_BASE_DATE" style="width: 30%;"/>-->
-<!--        </el-form-item>-->
+        <!--        <el-form-item label="基准日期" prop="dayendDefId">-->
+        <!--            <gf-dict filterable clearable v-model="detailForm.dayendDefId" dict-type="AGNES_BASE_DATE" style="width: 30%;"/>-->
+        <!--        </el-form-item>-->
         <el-form-item label="创建方式选择" prop="task_execMode">
             <el-radio-group v-model="detailForm.task_execMode">
                 <el-radio label="1">按运行周期创建一次</el-radio>
@@ -108,15 +108,12 @@
             </div>
         </el-form-item>
         <el-form-item label="通知人员">
-            <!--            <gf-person-chosen ref="memberRef"-->
-            <!--                              :memberRefList="memberRefList"-->
-            <!--                              chosenType="user, group, roster"-->
-            <!--                              rosterDate="2020-07-22"-->
-            <!--                              @getMemberList="getMemberList">-->
-            <!--            </gf-person-chosen>-->
-            <gf-input type="text" v-model="detailForm.stepActOwnerName" :readonly="true" style="width: 32%">
-                <i slot="suffix" class="el-input__icon el-icon-edit-outline" @click="chooseUser"/>
-            </gf-input>
+            <gf-person-chosen ref="memberRef"
+                              :memberRefList="this.memberRefList"
+                              chosenType="user, group, roster"
+                              :rosterDate="this.rosterDate"
+                              @getMemberList="getMemberList">
+            </gf-person-chosen>
         </el-form-item>
         <el-form-item label="任务控制参数">
             <gf-strbool-checkbox v-model="detailForm.needApprove">是否需要复核</gf-strbool-checkbox>
@@ -262,7 +259,7 @@
     import loadsh from 'lodash';
     import staticData from '../../../util/dataFormat'
     import initData from '../../../util/initData'
-    import UserSelect from "../../../components/biz/kpi-user-select";
+    import dateUtils from "@hex/gf-ui/src/util/date-utils"
 
     export default {
         name: "task-define",
@@ -276,6 +273,8 @@
         },
         data() {
             return {
+                rosterDate:'',
+                memberRefList:[],
                 serviceRes:[],
                 staticData: staticData(),
                 detailForm: initData(),
@@ -397,6 +396,10 @@
                         repeatMinutes:item.repeatMinutes,maxRepeatCount:item.maxRepeatCount});
                 });
             },
+            getMemberList(val){
+                this.memberRefList = val;
+                this.detailForm.stepActOwner = JSON.stringify(val);
+            },
             editExecTime(curObj, execScheduler) {
                 this.curExecScheduler = curObj;
                 this.showDlg(execScheduler, this.setExecScheduler.bind(this));
@@ -444,34 +447,22 @@
                         resData.isPass = '1';
                         const p = this.$api.kpiTaskApi.checkTask(resData);
                         await this.$app.blockingApp(p);
+                        this.$msg.success('审核成功');
                     }else {
                         const p = this.$api.motConfigApi.saveTask(resData);
                         await this.$app.blockingApp(p);
+                        this.$msg.success('保存成功');
                     }
                     if (this.actionOk) {
                         await this.actionOk();
                     }
-                    this.$msg.success('保存成功');
                     this.$emit("onClose");
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
             },
-            chooseUser(){
-                let actionOk = this.setExeUser.bind(this);
-                this.$nav.showDialog(
-                    UserSelect,
-                    {
-                        args: {actionOk},
-                        width: '600px',
-                        title: this.$dialog.formatTitle('选择用户','view'),
-                    }
-                );
-            },
-            setExeUser(userInfo){
-                this.detailForm.stepActOwnerName = userInfo.userName;
-                this.detailForm.stepActOwner = userInfo.id;
-            },
+
+
             async showRemind(remindProp,remindSort){
                 this.detailForm[remindSort] = remindProp;
             },
@@ -514,6 +505,7 @@
                 }
                 let kpiTaskDef = this.$utils.deepClone(this.staticData.kpiTaskDef);
                 this.detailForm.bizTag = this.detailForm.bizTagArr.join(",");
+                this.detailForm.stepActType = '6';
                 this.detailForm.stepCode = this.detailForm.caseKey;
                 this.detailForm.caseDefKey = this.detailForm.caseKey;
                 this.keyToValue(kpiTaskDef, 'task_');
@@ -523,6 +515,7 @@
                 this.detailForm.stepName = defName;
                 caseDef.stages[0].defId = defId;
                 caseDef.stages[0].children[0].stepId = defId;
+                caseDef.stages[0].children[0].stepActType = '6';
                 caseDef.stages[0].defName = defName;
                 caseDef.stages[0].children[0].stepName = defName;
                 let stepFormInfo = this.$utils.deepClone(this.staticData.caseDef.stages[0].children[0].stepFormInfo);
@@ -538,6 +531,7 @@
             },
 
             reDataTransfer() {
+                this.rosterDate = dateUtils.getNowFormatDate();
                 if (this.mode && this.mode !== 'add') {
                     let kpiTaskDef = this.$utils.deepClone(this.row.reTaskDef);
                     this.reKeyToValue(kpiTaskDef, 'task_');
@@ -550,6 +544,9 @@
                             this.detailForm[key] = stepFormInfo[key] || this.detailForm[key];
                         }
                     })
+                    if(this.detailForm.stepActOwner){
+                        this.memberRefList = JSON.parse(this.detailForm.stepActOwner);
+                    }
                     if (this.detailForm.task_endTime === '9999-12-31') {
                         this.startAllTime = true;
                     }
