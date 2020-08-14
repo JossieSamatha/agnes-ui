@@ -568,7 +568,7 @@
 
 .gf-ag-grid.ag-theme-balham .ag-header-cell,
 .gf-ag-grid.ag-theme-balham .ag-header-group-cell {
-    font-size: 13px;
+    font-size: 14px;
     line-height: 21px;
 }
 
@@ -851,7 +851,7 @@
 
 .ag-grid-box .grid-action-panel .right input {
     color: #666;
-    font-size: 14px;
+    font-size: 13px;
     height: 29px;
     line-height: 29px;
     border-color: #EAEDF1;
@@ -1065,6 +1065,7 @@
 .rule-table .rule-cell > .cell {
     width: 100%;
     padding: 0 !important;
+    font-size: 12px;
 }
 
 .rule-table .rule-cell > .cell>span {

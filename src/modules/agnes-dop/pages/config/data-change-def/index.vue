@@ -61,6 +61,7 @@
         },
         mounted() {
             this.loadChangeData();
+
         },
         watch: {
 
@@ -79,7 +80,6 @@
                     this.person = resChangeData.updateUser;
                     this.changeData = resChangeData.updateTs;
                     this.dayendId = resChangeData.dayendId;
-                    // console.log('resp',resp)
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
@@ -141,6 +141,7 @@
             },
             async changWorkDay(nowTaskData){
                 await this.$api.changeDataApi.queryChangeData(nowTaskData);
+                await this.$app.runCmd('gf.bizDateChange');
                 await this.$message({type: 'success',message: '切换成功!'});
                 await this.loadChangeData();
             },
