@@ -1,6 +1,10 @@
 <template>
     <div class="elec-process">
         <section class="top-section" :style="{height: ifTopExpand?'70px':'300px'}">
+            <div class="top left fixed">
+                <p class="section-title">任务类型</p>
+                <gf-dict clearable dict-type="AGNES_CASE_FLOWTYPE" size="mini" style="width: 200px"/>
+            </div>
             <div class="top left">
                 <p class="section-title">任务流程</p>
                 <div class="task-board">
@@ -39,7 +43,7 @@
                          :class="curStage.defId === stage.defId ? 'active' : ''"
                          @click="chooseTaskStage(stage)">
                         <div class="stage-item-title" title="stage.defName">{{stage.defName}}</div>
-                        <el-progress :percentage="stage.percentage" :status="stage.status ? stage.status : null"></el-progress>
+                        <el-progress class="define-progress" :percentage="stage.percentage" :status="stage.status ? stage.status : null"></el-progress>
                     </div>
                 </div>
                 <div class="drag-column" v-dragx="dragColumn" @bindUpdate="dragColumnUpdate" ref="dragColumn">
@@ -50,8 +54,7 @@
                         </p>
                     </div>
                     <gf-grid ref="grid" height="calc(100% - 21px)"
-                             grid-no="flow-task-field"
-                             toolbar="find,refresh,more"></gf-grid>
+                             grid-no="agnes-elec-process-field"></gf-grid>
                 </div>
             </div>
             <div class="bottom right">

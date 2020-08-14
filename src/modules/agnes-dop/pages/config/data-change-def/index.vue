@@ -61,6 +61,7 @@
         },
         mounted() {
             this.loadChangeData();
+
         },
         watch: {
 
@@ -79,7 +80,6 @@
                     this.person = resChangeData.updateUser;
                     this.changeData = resChangeData.updateTs;
                     this.dayendId = resChangeData.dayendId;
-                    // console.log('resp',resp)
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
@@ -138,7 +138,7 @@
                         //     this.$message({
                         //     type: 'info',
                         //     message: '已取消'
-                        //     });          
+                        //     });
                         // });
                     }else{
                         this.checkWorkDay(this.nowTaskData)
@@ -158,7 +158,7 @@
                     this.$message({
                     type: 'info',
                     message: '已取消'
-                    });          
+                    });
                 });
 
             },
