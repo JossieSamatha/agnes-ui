@@ -34,7 +34,6 @@ export default {
         checkboxColumn: 1, //是否显示checkbox列,
         autoFitColumnMode: 1,
         enableExportLocal: true,
-        loadDataOnReady:false,
         pageOptions: {
             // 分页大小
             pageSize: 10,
