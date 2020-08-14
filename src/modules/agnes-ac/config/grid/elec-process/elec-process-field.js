@@ -10,7 +10,7 @@ const colButtons = [
 
 export default {
     columnDefs: [
-        column.buildOpCol(180, colButtons, {
+        column.buildOpCol(200, colButtons, {
             cellClassRules:{
                 'noneStatus': (params)=>{
                     return !params.data.statusId

@@ -1209,12 +1209,12 @@ form input[type=submit] {
 }
 
 .gf-ag-grid.ag-theme-balham .ag-header-cell-label {
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .gf-ag-grid.ag-theme-balham .ag-header-cell,
 .gf-ag-grid.ag-theme-balham .ag-header-group-cell {
-    font-size: 13px;
+    font-size: 14px;
     line-height: 21px;
 }
 
@@ -1270,7 +1270,7 @@ form input[type=submit] {
 }
 
 .gf-ag-grid.ag-theme-balham .ag-cell {
-    font-size: 12px;
+    font-size: 14px;
     color: #666;
     line-height: 21px;
     border-right: none;
@@ -1338,7 +1338,7 @@ form input[type=submit] {
 }
 
 .gf-ag-grid.ag-theme-balham .el-button {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
 }
 
