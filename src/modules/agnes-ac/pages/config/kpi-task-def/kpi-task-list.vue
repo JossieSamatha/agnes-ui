@@ -72,7 +72,6 @@
             },
             addTask() {
                 const jsonStr = this.$refs.ruleTable.jsonFormatter();
-                console.log(jsonStr);
                 // this.showDrawer('add', {}, this.onAddModel.bind(this));
             },
             showTask(params) {
