@@ -61,15 +61,8 @@
                 this.reloadData();
             },
             async getExeTime() {
-                try {
-                    const resp = this.$api.changeDataApi.getChangeData();
-                    let resChangeresp = await this.$app.blockingApp(resp);
-                    let resChangeData = resChangeresp.data;
-                    this.queryArgs.execStartTime = resChangeData.bizDate;
-                    await this.reloadData();
-                } catch (reason) {
-                    this.$msg.error(reason);
-                }
+                this.queryArgs.execStartTime = window.bizDate;
+                await this.reloadData();
             },
             async checkTask(params){
                 const rowData = params.data;

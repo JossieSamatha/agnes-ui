@@ -43,14 +43,8 @@
 
         methods: {
             async getChangeData() {
-                try {
-                    const resp = await this.$api.changeDataApi.getChangeData();
-                    let resChangeData = resp.data
-                    this.queryArgs.taskStartTime = resChangeData.bizDate;
-                    await this.$refs.grid.reloadData();
-                } catch (reason) {
-                    this.$msg.error(reason);
-                }
+                this.queryArgs.taskStartTime = window.bizDate;
+                await this.reloadData();
             },
             reloadData() {
                 this.$refs.grid.reloadData();
