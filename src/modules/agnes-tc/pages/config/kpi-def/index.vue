@@ -102,6 +102,7 @@
             _this.taskCommit.stepInfo.stepCode = _this.row.stepCode;
             this.kpiDetail.kpiCode=this.row.taskKey;
             this.form.bizDate=this.row.bizDt;
+            this.form.createTime = this.row.taskStartTm
             this.kpiDetail.bizDate=this.row.bizDt;
             this.$api.kpiDefineApi.queryKpiInfoMation(this.kpiDetail).then((resp) => {
                 if(resp.status){
@@ -149,7 +150,6 @@
                 this.executeKpi()
             },
             async onExtendButton(){//点击强制通过的事件
-                // if(this.row.allowManualConfirm && this.row.allowManualConfirm === '1'){
                     this.taskCommit.stepInfo.reason = this.form.reason;
                     this.taskCommit.stepInfo.stepStatus = "07";
                     try {
@@ -286,7 +286,11 @@
     }
 
     .item {
-        margin-bottom: 18px;
+        /*margin-bottom: 18px;*/
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
     }
 
     .clearfix:before,
@@ -304,9 +308,10 @@
         margin-top: 10px;
         margin-bottom: 30px;
         margin-left: 40px;
+        margin-right: 40px;
         float: left;
-        width: 33%;
-        max-width: 180px;
+        /*width: 33%;*/
+        /*max-width: 180px;*/
     }
 
     .first{

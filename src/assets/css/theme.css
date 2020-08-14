@@ -1214,7 +1214,7 @@ form input[type=submit] {
 
 .gf-ag-grid.ag-theme-balham .ag-header-cell,
 .gf-ag-grid.ag-theme-balham .ag-header-group-cell {
-    font-size: 13px;
+    font-size: 14px;
     line-height: 21px;
 }
 
@@ -1404,7 +1404,7 @@ form input[type=submit] {
 
 .ag-grid-box .grid-action-panel .right input{
     color: #666;
-    font-size: 14px;
+    font-size: 13px;
     height: 25px;
     line-height: 25px;
     border-color: #EAEDF1;

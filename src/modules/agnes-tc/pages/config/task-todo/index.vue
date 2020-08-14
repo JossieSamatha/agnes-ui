@@ -65,16 +65,25 @@
             viewTask(params) {
                 const row = params.data;
                     if (row.taskType === '01'||row.taskType === '1') {
+                        let customOpBtn = [];
+                        if(row.allowManualConfirm && row.allowManualConfirm === '1'){
+                            customOpBtn=  [
+                                {title:'强制通过',className:'primary',action:'onExtendButton'},
+                                {title:'重新执行',className:'primary',action:'onSave'},
+                                {title:'取消',action:'onCancel'},
+                            ]
+                        }else{
+                            customOpBtn=  [
+                                {title:'重新执行',className:'primary',action:'onSave'},
+                                {title:'取消',action:'onCancel'},
+                            ]
+                        }
                         this.$drawerPage.create({
                             width: 'calc(97% - 215px)',
                             title: [row.stepName + '-办理'],
                             component: KpiDef,
                             args: {row,type:'todo'},
-                            customOpBtn:[
-                                {title:'强制通过',className:'primary',action:'onExtendButton'},
-                                {title:'重新执行',className:'primary',action:'onSave'},
-                                {title:'取消',action:'onCancel'},
-                            ],
+                            customOpBtn:customOpBtn,
                             okButtonTitle: '重新执行',
                             cancelButtonTitle: '取消',
                             extendButtonVisible:true,

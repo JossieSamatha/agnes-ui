@@ -80,14 +80,7 @@
                 this.personList = personList;
                 this.groupList = groupList;
                 this.rosterList = rosterList;
-            },
-
-            // 移除选择人员
-            removeMember(list, removeObj){
-                this.$utils.removeFromArray(this[list], removeObj);
-            },
-
-
+            }
         }
     }
 </script>
