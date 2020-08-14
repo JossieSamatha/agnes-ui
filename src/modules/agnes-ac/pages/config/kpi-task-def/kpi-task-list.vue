@@ -1,21 +1,13 @@
 <template>
-    <div>
-        <rule-table ref="ruleTable"
-                    :ruleTableData="ruleTableData"
-                    :ruleTargetOp="ruleTargetOp"
-        >
-        </rule-table>
-        <gf-grid ref="grid"
-                 grid-no="agnes-kpi-task"
-                 quick-text-max-width="300px"
-                 height="100%"
-                 @row-double-click="showTask">
-            <template slot="left">
-                <gf-button class="action-btn" @click="addTask">添加</gf-button>
-            </template>
-        </gf-grid>
-    </div>
-
+    <gf-grid ref="grid"
+             grid-no="agnes-kpi-task"
+             quick-text-max-width="300px"
+             height="100%"
+             @row-double-click="showTask">
+        <template slot="left">
+            <gf-button class="action-btn" @click="addTask">添加</gf-button>
+        </template>
+    </gf-grid>
 </template>
 
 <script>
@@ -23,14 +15,6 @@
     // import {transferCaseDefData} from '../../../util/transferCaseData.js'
 
     export default {
-        data(){
-            return {
-                ruleTableData: {},
-                ruleTargetOp: {
-                    object: '123132',
-                },
-            }
-        },
         methods: {
             reloadData() {
                 this.$refs.grid.reloadData();
@@ -71,8 +55,7 @@
                 this.reloadData();
             },
             addTask() {
-                const jsonStr = this.$refs.ruleTable.jsonFormatter();
-                // this.showDrawer('add', {}, this.onAddModel.bind(this));
+                this.showDrawer('add', {}, this.onAddModel.bind(this));
             },
             showTask(params) {
                 this.showDrawer('view', params.data);
