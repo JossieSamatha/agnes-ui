@@ -31,6 +31,9 @@
             </div>
         </section>
         <section class="bottom-section">
+            <span class="rightExpandBtn" @click="foldBottomRight">
+                <i class="menuicon" v-html="ifRightExpand?svgImg.refoldIcon:svgImg.foldIcon"></i>
+            </span>
             <div class="bottom left" id="taskContainerLeft">
                 <p class="section-title">
                     <span>流程图</span>
@@ -46,18 +49,26 @@
                         <el-progress class="define-progress" :percentage="stage.percentage" :status="stage.status ? stage.status : null"></el-progress>
                     </div>
                 </div>
-                <div class="drag-column" v-dragx="dragColumn" @bindUpdate="dragColumnUpdate" ref="dragColumn">
-                    <div class="drag-bar-line">
-                        <p>
+                <div v-show="!ifGridExpand" class="drag-bar-line">
+                    <p @click="ifGridExpand = !ifGridExpand">
+                        <i class="fa fa-caret-down"></i>
+                        <i class="fa fa-caret-up"></i>
+                    </p>
+                </div>
+                <div v-show="ifGridExpand" class="drag-column" v-dragx="dragColumn" @bindUpdate="dragColumnUpdate" ref="dragColumn">
+                    <div v-show="ifGridExpand" class="drag-bar-line">
+                        <p @click="ifGridExpand = !ifGridExpand">
                             <i class="fa fa-caret-down"></i>
                             <i class="fa fa-caret-up"></i>
                         </p>
                     </div>
-                    <gf-grid ref="grid" height="calc(100% - 21px)"
-                             grid-no="agnes-elec-process-field"></gf-grid>
+                    <gf-grid ref="grid"
+                             height="calc(100% - 21px)"
+                             grid-no="agnes-elec-process-field"
+                    ></gf-grid>
                 </div>
             </div>
-            <div class="bottom right">
+            <div class="bottom right" v-show="ifRightExpand">
                 <div class="chart-container">
                     <p class="section-title">任务进度</p>
                     <pie-chart :chart-data="executePieData" :color-set="['#476DBE','#E0E0E0']"></pie-chart>
@@ -86,6 +97,7 @@
     export default {
         data(){
             return {
+                svgImg: this.$svgImg,
                 dragColumn: {dragContainerId: "taskContainerLeft", dragDirection: 'n'},
                 bizDate: '',
                 currentTask: '',
@@ -97,14 +109,21 @@
                 taskStage: mockData().taskStage,
                 execLog: mockData().execLog,
                 ifTopExpand: true,
+                ifRightExpand: true,
+                ifGridExpand: true,
                 curTask: {},
                 curStage: {}
             }
         },
         methods: {
-            // 展开顶部栏面板
+            // 展开/收起顶部栏面板
             expandTop(){
                 this.ifTopExpand = !this.ifTopExpand;
+            },
+
+            // 展开/收起底部右侧
+            foldBottomRight(){
+                this.ifRightExpand = !this.ifRightExpand
             },
 
             // 任务流程 -- 选择

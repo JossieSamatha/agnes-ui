@@ -30,8 +30,23 @@
 }
 
 .elec-process>section.bottom-section {
+    position: relative;
     height: 100%;
     margin-top: 80px;
+}
+
+.elec-process>section.bottom-section .rightExpandBtn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.elec-process>section.bottom-section .rightExpandBtn:hover svg .st0 {
+    fill: #476Dbe;
 }
 
 .elec-process>section .section-title {
@@ -67,7 +82,7 @@
     height: 100%;
 }
 
-.elec-process>section .bottom.left>.drag-column{
+.elec-process>section .bottom.left>.drag-column {
     min-height: 320px;
 }
 
@@ -120,6 +135,11 @@
     color: #999;
     background: #fff;
     font-size: 12px;
+    cursor: pointer;
+}
+
+.elec-process>section .drag-bar-line>p:hover {
+    color: #476Dbe;
 }
 
 .elec-process .flow-container {
@@ -334,15 +354,6 @@
     gf-grid 表格特殊样式
 
    ============================= */
-.gf-ag-grid.ag-theme-balham .ag-cell .grid-cell-op-link.actionConfirm,
-.gf-ag-grid.ag-theme-balham .ag-cell .grid-cell-op-link.forcePass {
-    display: none;
-}
-.gf-ag-grid.ag-theme-balham .ag-cell.noneStatus .grid-cell-op-link.actionConfirm,
-.gf-ag-grid.ag-theme-balham .ag-cell.noneStatus .grid-cell-op-link.forcePass {
-    display: inline-block;
-}
-
 .gf-ag-grid.ag-theme-balham .ag-cell .el-button {
     margin-right: 5px;
     margin-left: 0!important;
