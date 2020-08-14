@@ -7,7 +7,7 @@
         <el-form ref="stepInfoForm"  class="task-def-form" :rules="caseStepRules"
                  :model="caseStepDef" label-width="105px">
             <el-form-item label="任务名称" prop="stepName">
-                <gf-input v-model.trim="caseStepDef.stepName" :max-byte-len="128"/>
+                <gf-input v-model.trim="caseStepDef.stepName" :max-byte-len="120"/>
             </el-form-item>
             <el-form-item label="任务等级" prop="stepLevel">
                 <el-rate v-model="caseStepDef.stepLevel"

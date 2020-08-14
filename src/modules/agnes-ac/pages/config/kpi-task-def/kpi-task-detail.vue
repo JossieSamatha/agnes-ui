@@ -2,7 +2,7 @@
     <el-form ref="taskDefForm" class="task-def-form" :model="detailForm" :disabled="mode==='view'"
              :rules="detailFormRules" label-width="110px">
         <el-form-item label="任务名称" prop="taskName">
-            <gf-input v-model.trim="detailForm.taskName" placeholder="任务名称" :max-byte-len="128"/>
+            <gf-input v-model.trim="detailForm.taskName" placeholder="任务名称" :max-byte-len="120"/>
         </el-form-item>
         <el-form-item label="任务等级" prop="stepLevel">
             <el-rate v-model="detailForm.stepLevel" show-text
@@ -14,7 +14,7 @@
             </el-rate>
         </el-form-item>
         <el-form-item label="任务编号" prop="caseKey">
-            <gf-input v-model.trim="detailForm.caseKey" placeholder="任务编号" :max-byte-len="8"/>
+            <gf-input v-model.trim="detailForm.caseKey" placeholder="任务编号" :max-byte-len="8" />
         </el-form-item>
         <el-form-item label="业务场景" prop="bizType">
             <gf-dict filterable clearable v-model="detailForm.bizType" dict-type="AGNES_BIZ_CASE"/>
