@@ -73,7 +73,7 @@
             },
             async checkTask(params){
                 const rowData = params.data;
-                if(rowData.taskStatus !== '01'){
+                if(rowData.taskStatus !== '00'){
                     this.$msg.warning("该状态无法复核!");
                     return ;
                 }
@@ -92,7 +92,7 @@
             },
             async cancelTask(params){
                 const rowData = params.data;
-                if(rowData.taskStatus.match(/04|05/)){
+                if(rowData.taskStatus.match(/06|05/)){
                     this.$msg.warning("该状态无法作废!");
                     return ;
                 }
