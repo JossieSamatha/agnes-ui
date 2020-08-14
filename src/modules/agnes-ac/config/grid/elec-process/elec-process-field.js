@@ -11,7 +11,6 @@ const colButtons = [
 export default {
     columnDefs: [
         column.buildOpCol(180, colButtons, {
-            width: 250,
             cellClassRules:{
                 'noneStatus': (params)=>{
                     return !params.data.statusId
@@ -22,7 +21,7 @@ export default {
         {headerName: "监控明细归类", field: "detailSort"},
         {headerName: "任务编号", field: "taskNo"},
         {headerName: "任务名称", field: "taskName",
-            tooltipField: 'detailSort',
+            tooltipField: 'taskName',
         },
         {headerName: "完成进度", field: "finishedRate",
             cellRenderer: 'processRenderer',

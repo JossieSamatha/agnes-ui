@@ -2,7 +2,7 @@
     <el-form ref="taskDefForm" class="taskDefForm" :model="detailForm" :disabled="mode==='view'"
              :rules="detailFormRules" label-width="110px" style="max-width: 850px">
         <el-form-item label="任务名称" prop="taskName">
-            <gf-input v-model.trim="detailForm.taskName" placeholder="任务名称"/>
+            <gf-input v-model.trim="detailForm.taskName" placeholder="任务名称" :max-byte-len="120"/>
         </el-form-item>
         <el-form-item label="任务编号" prop="caseKey">
             <gf-input v-model.trim="detailForm.caseKey" placeholder="任务编号" clear-regex="[^0-9]" :max-byte-len="8"/>

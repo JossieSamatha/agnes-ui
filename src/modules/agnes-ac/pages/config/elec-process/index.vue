@@ -1,6 +1,10 @@
 <template>
     <div class="elec-process">
         <section class="top-section" :style="{height: ifTopExpand?'70px':'300px'}">
+            <div class="top left fixed">
+                <p class="section-title">任务类型</p>
+                <gf-dict clearable dict-type="AGNES_CASE_FLOWTYPE" size="mini" style="width: 200px"/>
+            </div>
             <div class="top left">
                 <p class="section-title">任务流程</p>
                 <div class="task-board">

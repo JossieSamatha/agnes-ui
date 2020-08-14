@@ -34,10 +34,13 @@
             }
         },
         beforeMount(){
-            const memberRefList = JSON.parse(this.memberRefList);
-            this.personList = memberRefList.personList;
-            this.groupList = memberRefList.groupList;
-            this.rosterList = memberRefList.rosterList;
+            const typeArr = ['', 'personList', 'groupList', 'rosterList'];
+            this.memberRefList.forEach((memberItem)=>{
+                if(this[typeArr[memberItem.refType]]){
+                    this[typeArr[memberItem.refType]].push(memberItem);
+                }
+
+            });
         },
         components: {
             'chosen-list-view': chosenListView
@@ -49,12 +52,8 @@
         },
         computed: {
             memberList(){
-                const memberList = {
-                    personList: this.personList,
-                    groupList: this.groupList,
-                    rosterList: this.rosterList
-                };
-                return JSON.stringify(memberList);
+                const memberList =  this.personList.concat(this.groupList).concat(this.rosterList);
+                return memberList;
             }
         },
         methods: {
@@ -81,14 +80,7 @@
                 this.personList = personList;
                 this.groupList = groupList;
                 this.rosterList = rosterList;
-            },
-
-            // // 移除选择人员
-            // removeMember(list, removeObj){
-            //     this.$utils.removeFromArray(this[list], removeObj);
-            // },
-
-
+            }
         }
     }
 </script>
