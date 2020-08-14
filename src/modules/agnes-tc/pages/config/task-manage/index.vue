@@ -73,7 +73,7 @@
             },
             async checkTask(params){
                 const rowData = params.data;
-                if(rowData.taskStatus !== '01'){
+                if(rowData.taskStatus !== '00'){
                     this.$msg.warning("该状态无法复核!");
                     return ;
                 }
