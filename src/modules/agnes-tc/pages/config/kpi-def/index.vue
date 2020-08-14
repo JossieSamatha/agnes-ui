@@ -66,7 +66,7 @@
         },
         data() {
             return {
-                height: "calc(100% - 348px)",
+                height: "300px",
                 form:{kpiName:"",createTime:"",bizDate:"",normal:0,abnormal:0,artificialCon:0},
                 charData:[],
                 colorSet:[],
@@ -96,53 +96,58 @@
             }
         },
         mounted() {
-            let _this=this;
-            _this.taskCommit.inst.taskId = _this.row.taskId;
-            _this.taskCommit.stepInfo.caseId = _this.row.caseId;
-            _this.taskCommit.stepInfo.stepCode = _this.row.stepCode;
-            this.kpiDetail.kpiCode=this.row.taskKey;
-            this.form.bizDate=this.row.bizDt;
+          this.taskCommit.inst.taskId = this.row.taskId;
+          this.taskCommit.stepInfo.caseId = this.row.caseId;
+          this.taskCommit.stepInfo.stepCode = this.row.stepCode;
+          this.kpiDetail.kpiCode= this.row.taskKey;
+          this.form.bizDate= this.row.bizDt;
             this.form.createTime = this.row.taskStartTm
-            this.kpiDetail.bizDate=this.row.bizDt;
-            this.$api.kpiDefineApi.queryKpiInfoMation(this.kpiDetail).then((resp) => {
-                if(resp.status){
-                    _this.form.kpiName =resp.data.kpiName;
-                }
-            });
-            this.$api.kpiDefineApi.getKpiDetail(this.kpiDetail).then((resp) => {
-                if(resp.status){
-                    _this.kpiDetail =resp.data;
-                }
-            });
-            this.data.q =this.kpiDetail;
-            this.$api.kpiDefineApi.getKpiDetails(this.data).then((resp) => {
-                if(resp.data && resp.data.length>0){
-                    var rows=resp.data;
-                    let keys = Object.keys(rows[0]);
-                    _this.getPicData(rows,keys);
-                    var columnDefsArray=_this.getSqlGridOptions(keys);
-                    if(keys.indexOf("FACTOR_VALUE")>-1 && keys.indexOf("MANUAL_TAG")>-1){
-                        _this.opStatus=true;
-                        _this.gridOptions.api.setColumnDefs(_this.setColumnFiled(columnDefsArray));
-                    }else{
-                        _this.gridOptions.api.setColumnDefs(columnDefsArray);
-                    }
-                    _this.gridOptions.api.setRowData(rows);
-                }
-            });
-            this.$api.kpiDefineApi.getKpiFields(this.kpiDetail.kpiCode).then((resp) => {
-                if(resp.data && resp.data.length>0){
-                    var columnDefsArray=_this.getKpiGridOptions(resp.data);
-                    if(_this.opStatus){
-                        _this.gridOptions.api.setColumnDefs(_this.setColumnFiled(columnDefsArray));
-                    }else{
-                        _this.gridOptions.api.setColumnDefs(columnDefsArray);
-                    }
-
-                }
-            });
+          this.data.q.bizDate = this.row.bizDt;
+          this.init();
         },
         methods: {
+            async init(){
+              try {
+                const p = this.$api.kpiDefineApi.queryKpiInfoMation(this.kpiDetail);
+                const resp = await this.$app.blockingApp(p);
+                if(resp.status){
+                  this.form.kpiName =resp.data.kpiName;
+                }
+                const p1 = this.$api.kpiDefineApi.getKpiDetail(this.kpiDetail);
+                const resp1 = await this.$app.blockingApp(p1);
+                if(resp1.status){
+                  this.kpiDetail =resp1.data;
+                }
+                this.data.q.kpiCode =this.kpiDetail.kpiCode;
+                const p2 = this.$api.kpiDefineApi.getKpiDetails(this.data);
+                const resp2 = await this.$app.blockingApp(p2);
+                if(resp2.data && resp2.data.length>0){
+                  const rows=resp2.data;
+                  const keys = Object.keys(rows[0]);
+                  this.getPicData(rows,keys);
+                  const columnDefsArray=this.getSqlGridOptions(keys);
+                  if(keys.indexOf("STATUS")>-1){
+                    this.opStatus=true;
+                    this.gridOptions.api.setColumnDefs(this.setColumnFiled(columnDefsArray));
+                  }else{
+                    this.gridOptions.api.setColumnDefs(columnDefsArray);
+                  }
+                  this.gridOptions.api.setRowData(rows);
+                }
+                const p3 = this.$api.kpiDefineApi.getKpiFields(this.kpiDetail.kpiCode);
+                const resp3 = await this.$app.blockingApp(p3);
+                if(resp3.data && resp3.data.length>0){
+                  const columnDefsArray=this.getKpiGridOptions(resp3.data);
+                  if(this.opStatus){
+                    this.gridOptions.api.setColumnDefs(this.setColumnFiled(columnDefsArray));
+                  }else{
+                    this.gridOptions.api.setColumnDefs(columnDefsArray);
+                  }
+                }
+              } catch (reason) {
+                this.$msg.error(reason);
+              }
+            },
             onCancel() {
                 this.$emit("onClose");
             },
@@ -223,16 +228,14 @@
             },
             getPicData(rows,keys){
                 let _this=this;
-                if(keys.indexOf("FACTOR_VALUE")>-1){
+                if(keys.indexOf("STATUS")>-1){
                     rows.map(function(item){
-                        if(item.FACTOR_VALUE === 1){
-                            if(keys.indexOf("MANUAL_TAG")>-1 && item.MANUAL_TAG === 1){
-                                _this.form.artificialCon++;
-                            } else{
-                                _this.form.normal++;
-                            }
-                        } else if(item.FACTOR_VALUE === 0) {
-                            _this.form.abnormal++;
+                        if(item.STATUS === '0'){
+                          _this.form.abnormal++;
+                        } else if(item.STATUS === '1') {
+                          _this.form.artificialCon++;
+                        } else if(item.STATUS === '2'){
+                          _this.form.normal++;
                         }
                     });
                     let normal ={};
