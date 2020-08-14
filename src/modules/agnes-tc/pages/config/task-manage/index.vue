@@ -5,10 +5,10 @@
                 <el-form-item label="任务名称">
                     <el-input v-model="queryArgs.taskName"></el-input>
                 </el-form-item>
-                <el-form-item label="任务发起日期" >
+                <el-form-item label="发起时间" >
                     <el-date-picker
                             style="width:100%"
-                            v-model="queryArgs.exeTime"
+                            v-model="queryArgs.execStartTime"
                             type="date"
                             value-format="yyyy-MM-dd"
                             placeholder="">
@@ -38,11 +38,14 @@
             return {
                 queryArgs:{
                     'taskName':'',
-                    'exeTime':'',
+                    'execStartTime':'',
                     'taskType':'',
                     'taskStatus':'',
                 }
             }
+        },
+        beforeMount() {
+            this.getExeTime();
         },
         methods: {
             reloadData() {
@@ -51,11 +54,22 @@
             reSetSearch() {
                 this.queryArgs = {
                     'taskName':'',
-                    'exeTime':'',
+                    'execStartTime':'',
                     'taskType':'',
                     'taskStatus':'',
                 };
                 this.reloadData();
+            },
+            async getExeTime() {
+                try {
+                    const resp = this.$api.changeDataApi.getChangeData();
+                    let resChangeresp = await this.$app.blockingApp(resp);
+                    let resChangeData = resChangeresp.data;
+                    this.queryArgs.execStartTime = resChangeData.bizDate;
+                    await this.reloadData();
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
             },
             async checkTask(params){
                 const rowData = params.data;

@@ -21,7 +21,7 @@ export default {
                 }
                 return "";
             }},
-        {headerName: "业务类型", field: "reTaskDef.taskType" ,formatType: 'dict', dictType: 'AGNES_TASK_TYPE'},
+        {headerName: "任务类型", field: "reTaskDef.taskType" ,formatType: 'dict', dictType: 'AGNES_TASK_TYPE'},
         {headerName: "状态", field: "reTaskDef.taskStatus",formatType: 'dict', dictType: 'CASE_TASK_STATUS'},
         {headerName: "创建时间", field: "reTaskDef.crtTs"},
         {headerName: "创建人", field: "reTaskDef.crtUser"}

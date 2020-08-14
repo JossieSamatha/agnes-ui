@@ -11,7 +11,7 @@ export default {
     columnDefs: [
         column.buildOpCol(160, colButtons),
         {headerName: "任务名称", field: "reTaskDef.taskName"},
-        {headerName: "业务编号", field: "reTaskDef.caseKey"},
+        {headerName: "任务编号", field: "reTaskDef.caseKey"},
         {headerName: "业务场景", field: "reTaskDef.bizType", dictType: 'AGNES_BIZ_CASE'},
         {headerName: "业务标签", field: "reTaskDef.bizTag",
             valueFormatter: function (params) {
