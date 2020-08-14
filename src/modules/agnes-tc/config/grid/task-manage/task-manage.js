@@ -23,7 +23,6 @@ export default {
         pagingMode: true, //分页
         checkboxColumn: 1, //是否显示checkbox列,
         autoFitColumnMode: 1,
-        loadDataOnReady: false,
         enableExportLocal: true,
         pageOptions: {
             // 分页大小
