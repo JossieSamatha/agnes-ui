@@ -188,7 +188,7 @@
             async getChangeDate() {
                 try {
                     const resp = await this.$api.changeDataApi.getChangeData();
-                    const resChangeData = resp.data[0];
+                    const resChangeData = resp.data;
                     window.bizDate = resChangeData.bizDate;
                 } catch (reason) {
                     this.$msg.error(reason);
