@@ -4,9 +4,6 @@
             <el-main height="100%" style="padding-top: 0px;padding-bottom: 0px" class="el-border">
                 <gf-grid grid-no="agnes-product-auth-field" ref="grid" quick-text-max-width="300px"
                         height="100%">
-                    <!-- <template slot="left">
-                        <gf-button class="action-btn" @click="searchProduct" size="mini">查看对应产品</gf-button>
-                    </template> -->
                 </gf-grid>
             </el-main>
         </el-container>
@@ -56,7 +53,7 @@
             }
         },
         mounted() {
-            // this.loadTreeNodes();
+    
         },
         watch: {
             filterText(val) {
@@ -65,7 +62,6 @@
         },
         methods: {
             searchProduct(params){
-                // console.log('params',params)
                 this.checkPerson = params
                 //此处可将选择行的数据作为参数传回搜索产品数据接口
                 this.loadTreeNodes();
@@ -74,14 +70,13 @@
                 this.$refs.grid.reloadData();
             },
             saveAuth(){
-                let checkData = this.$refs.tree.getCheckedNodes();//获取到所有选中的树节点
-                let checkDataTranster = [];
-                for(let i=0;i<checkData.length;i++){
-                    if(loadsh.isEmpty(checkData[i].children)){
-                       checkDataTranster.push(checkData[i]); 
-                    }
-                }
-                // console.log('checkData',checkData,checkDataTranster)
+                // let checkData = this.$refs.tree.getCheckedNodes();//获取到所有选中的树节点
+                // let checkDataTranster = [];
+                // for(let i=0;i<checkData.length;i++){
+                //     if(loadsh.isEmpty(checkData[i].children)){
+                //        checkDataTranster.push(checkData[i]); 
+                //     }
+                // }
             },
             filterNode(value, data) {
                 return data.label.indexOf(value) >= 0;
