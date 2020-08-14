@@ -12,6 +12,8 @@ function buildOpCol(width, buttons, extConfig) {
             key: x.key,
             title: x.title,
             cellClass: x.cellClass,
+            disabled: x.disabled,
+            visiable: x.visiable,
             onClick: (params) => {
                 params.api.execCmd(x.command || x.key, params);
             }
