@@ -55,7 +55,7 @@
                     isShow = false;
                 }
                 this.$drawerPage.create({
-                    width: 'calc(92% - 215px)',
+                    width: 'calc(97% - 215px)',
                     title: ['产品表详情',mode],
                     component: ProductParamDetail,
                     args: {row, mode, actionOk},
