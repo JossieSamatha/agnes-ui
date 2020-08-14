@@ -67,7 +67,8 @@
                 searchValue: '',
                 showNoticeDrawer: false,
                 feedbackContent: '',
-                feedbackShow: false
+                feedbackShow: false,
+                bizDateTimer: null, // 日切日期定时器
             }
         },
         methods: {
@@ -125,12 +126,16 @@
                 })
             },
             logout: function () {
+                // 判断是否有抽屉存在，若有，移除
                 const drawerList = document.getElementsByClassName('gf-page-drawer');
                 if(drawerList.length > 0){
                     drawerList.forEach(x=>{
                         document.body.removeChild(x);
                     });
                 }
+                // 退出登录后清楚定时器
+                clearInterval(this.bizDateTimer);
+
                 this.$store.dispatch('logout').then(() => {
                     this.$router.push({path: '/login'});
                 });
@@ -177,15 +182,33 @@
                         window.fireEvent("onresize");
                     }
                 });
-            }
+            },
+
+            // 获取日切值
+            async getChangeDate() {
+                try {
+                    const resp = await this.$api.changeDataApi.getChangeData();
+                    const resChangeData = resp.data[0];
+                    window.bizDate = resChangeData.bizDate;
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
         },
         async mounted() {
             //加载菜单
             this.loadMenus();
+            // 获取日切值
+            this.getChangeDate();
+            this.bizDateTimer = setInterval(()=>{
+                this.getChangeDate();
+            }, 300000)
+
             //默认加载首页、部门首页
             this.showMain();
             this.$app.registerCmd('gf.changePwd', () => this.changePwd());
             this.$app.registerCmd('gf.logout', () => this.logout());
+            this.$app.registerCmd('gf.bizDateChange', () => this.getChangeDate());
             this.$nav.tabBar.chromeTabs.$on("activeTabChange", ()=>{
                 this.resize();
             });
