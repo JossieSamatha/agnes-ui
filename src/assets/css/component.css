@@ -665,15 +665,15 @@
     line-height: 36px;
 }
 
-.gf-ag-grid.ag-theme-balham .ag-cell .el-button.grid-cell-op-link {
+.gf-ag-grid.ag-theme-balham .ag-cell .el-button.grid-cell-op-link:not(.is-disabled) {
     color: #476DBE;
 }
 
-.gf-ag-grid.ag-theme-balham .ag-cell .el-button.grid-cell-op-link.red-cell {
+.gf-ag-grid.ag-theme-balham .ag-cell .el-button.grid-cell-op-link:not(.is-disabled).red-cell {
     color: #ff0000;
 }
 
-.gf-ag-grid.ag-theme-balham .ag-cell .el-button.grid-cell-op-link.grey-cell {
+.gf-ag-grid.ag-theme-balham .ag-cell .el-button.grid-cell-op-link:not(.is-disabled).grey-cell {
     color: #999;
 }
 

@@ -3,20 +3,24 @@ import mockData from "./mockData";
 import processRenderer from './processRenderer'
 
 const colButtons = [
-    {key: 'actionConfirm', title: '手工确认', cellClass: 'actionConfirm'},
-    {key: 'forcePass', title: '强制通过', cellClass: 'forcePass'},
+    {key: 'actionConfirm', title: '手工确认', cellClass: 'actionConfirm',visiable: (params)=>{
+        if (!params.data.statusId){
+            return true;
+        }
+        return false;
+    }},
+    {key: 'forcePass', title: '强制通过', cellClass: 'forcePass',visiable: (params)=>{
+        if (!params.data.statusId){
+            return true;
+        }
+        return false;
+    }},
     {key: 'reExecute', title: '重新执行', cellClass: 'reExecute'}
 ];
 
 export default {
     columnDefs: [
-        column.buildOpCol(200, colButtons, {
-            cellClassRules:{
-                'noneStatus': (params)=>{
-                    return !params.data.statusId
-                }
-            }
-        }),
+        column.buildOpCol(200, colButtons),
         {headerName: "状态", field: "status"},
         {headerName: "监控明细归类", field: "detailSort"},
         {headerName: "任务编号", field: "taskNo"},
@@ -24,7 +28,7 @@ export default {
             tooltipField: 'taskName',
         },
         {headerName: "完成进度", field: "finishedRate",
-            cellRenderer: 'processRenderer',
+            cellRenderer: 'processRenderer'
         },
         {headerName: "任务执行时间", field: "taskExecTime"},
         {headerName: "完成时间", field: "finishedTime"},
