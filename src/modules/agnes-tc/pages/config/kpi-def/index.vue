@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-form :model="form" label-width="90px" ref="form" style="height: 100%">
+        <el-form :model="form" label-width="90px" ref="form" style="height: 100%" :rules="remarkRule">
             <el-row>
                 <el-col :span="24"><p style="text-align: center;font-size: 20px; margin-bottom: 20px">指标任务详情</p></el-col>
             </el-row>
@@ -40,13 +40,13 @@
             <el-row  style="marginTop:12px;marginLeft:-10px">
                 <el-col :span="24">
                     <el-form-item label-width="0px"  label="" prop="remark" >
-                        <el-input
+                        <gf-input
                                 :readonly="type==='done'"
                                 type="textarea"
                                 :rows="2"
-                                placeholder="请输入备注"
-                                v-model="form.reason">
-                        </el-input>
+                                :placeholder= "placeholder"
+                                v-model="form.remark">
+                        </gf-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -67,7 +67,7 @@
         data() {
             return {
                 height: "300px",
-                form:{kpiName:"",createTime:"",bizDate:"",normal:0,abnormal:0,artificialCon:0},
+                form:{kpiName:"",createTime:"",bizDate:"",normal:0,abnormal:0,artificialCon:0,remark:''},
                 charData:[],
                 colorSet:[],
                 showChar:  false,
@@ -88,11 +88,17 @@
                         taskId: "",
                     },
                     stepInfo :{
-                        reason: "",
+                        remark: "",
                         caseId: "",
                         stepCode: ""
                     }
                 },
+                remarkRule: {
+                    remark: [
+                        {required: true, message: '备注必填'},
+                    ],
+                },
+                placeholder: "请输入备注",
             }
         },
         mounted() {
@@ -103,6 +109,9 @@
           this.form.bizDate= this.row.bizDt;
             this.form.createTime = this.row.taskStartTm
           this.data.q.bizDate = this.row.bizDt;
+            if(this.type === 'done'){
+                this.placeholder = '';
+            }
           this.init();
         },
         methods: {
@@ -155,7 +164,11 @@
                 this.executeKpi()
             },
             async onExtendButton(){//点击强制通过的事件
-                    this.taskCommit.stepInfo.reason = this.form.reason;
+                const ok = await this.$refs['remarkForm'].validate();
+                if (!ok) {
+                    return;
+                }
+                    this.taskCommit.stepInfo.remark = this.form.remark;
                     this.taskCommit.stepInfo.stepStatus = "07";
                     try {
                         const p = this.$api.taskTodoApi.confirmKpiTask(this.taskCommit)

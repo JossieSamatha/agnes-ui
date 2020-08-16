@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-form label-width="100px" ref="form" :rules="remarkRule">
+        <el-form :model="remarkForm" label-width="100px" ref="remarkForm" :rules="remarkRule">
             <el-row>
                 <el-col :span="24"><p style="text-align: center;font-size: 20px; margin-bottom: 20px">人工任务详情</p></el-col>
             </el-row>
@@ -34,16 +34,16 @@
             </el-row>
             <el-row>
                 <el-col :span="24">
-                    <el-form-item v-if="type==='done'" label="备注:" prop="remark" >
-                        {{remark}}
+                    <el-form-item v-if="type==='done'" label="备注:">
+                        {{remarkForm.remark}}
                     </el-form-item>
                     <el-form-item v-if="type==='todo'" label="备注:" prop="remark" >
-                        <el-input
+                        <gf-input
                                 type="textarea"
                                 :rows="2"
                                 placeholder="请输入任务说明"
-                                v-model="remark">
-                        </el-input>
+                                v-model="remarkForm.remark">
+                        </gf-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -63,6 +63,7 @@
         },
         data() {
             return {
+                remarkForm:{remark:''},
                 stepName:'',
                 taskRemark:'',
                 taskId:'',
@@ -73,7 +74,7 @@
                 remark: '',
                 remarkRule: {
                     remark: [
-                        {required: true, message: '备注必填', trigger: 'blur'},
+                        {required: true, message: '备注必填'},
                     ],
                 },
                 taskCommit: {
@@ -81,7 +82,7 @@
                         taskId: "",
                     },
                     stepInfo :{
-                        reason: "",
+                        remark: "",
                         caseId: "",
                         stepCode: ""
                     }
@@ -96,21 +97,21 @@
             this.taskStartTm = this.row.taskStartTm
             this.caseId = this.row.caseId
             this.stepCode = this.row.stepCode
-            this.remark = this.row.remark
+            this.remarkForm.remark = this.row.remark
         },
         methods: {
             onCancel() {
                 this.$emit("onClose");
             },
             async onSave(){
-                const ok = await this.$refs['form'].validate();
+                const ok = await this.$refs['remarkForm'].validate();
                 if (!ok) {
                     return;
                 }
                 this.taskCommit.inst.taskId = this.row.taskId;
                 this.taskCommit.stepInfo.caseId = this.row.caseId;
                 this.taskCommit.stepInfo.stepCode = this.row.stepCode;
-                this.taskCommit.stepInfo.reason = this.reason;
+                this.taskCommit.stepInfo.remark = this.remark;
                 this.taskCommit.stepInfo.stepStatus = "06";
                 try {
                     const p = this.$api.taskTodoApi.confirmKpiTask(this.taskCommit)
