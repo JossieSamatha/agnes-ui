@@ -151,6 +151,12 @@
                 for(let i=0;i<nowData.length;i++){
                     if(nowData[i].defType==='step'){
                         let currentData = {};
+                        if(nowData[i].stepActType === '1'){
+                            nowData[i].stepActType = 'action';
+                        }
+                        if(nowData[i].stepActType === '6'){
+                            nowData[i].stepActType = 'form';
+                        }
                         currentData['@stepType'] = nowData[i].stepActType;
                         Object.assign(currentData, nowData[i]);
                         currentData.autoActive = true;
