@@ -374,6 +374,9 @@
                     ],
                     execScheduler: [
                         {required: true, message: '指标执行频率必填', trigger: 'blur'},
+                    ],
+                    stepRemark: [
+                        {required: true, message: '任务说明必填', trigger: 'blur'},
                     ]
                 }
             }

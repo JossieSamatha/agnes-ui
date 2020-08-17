@@ -111,7 +111,7 @@
                 this.taskCommit.inst.taskId = this.row.taskId;
                 this.taskCommit.stepInfo.caseId = this.row.caseId;
                 this.taskCommit.stepInfo.stepCode = this.row.stepCode;
-                this.taskCommit.stepInfo.remark = this.remark;
+                this.taskCommit.stepInfo.remark = this.remarkForm.remark;
                 this.taskCommit.stepInfo.stepStatus = "06";
                 try {
                     const p = this.$api.taskTodoApi.confirmKpiTask(this.taskCommit)

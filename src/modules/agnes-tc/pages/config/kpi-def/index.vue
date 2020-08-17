@@ -107,10 +107,17 @@
           this.taskCommit.stepInfo.stepCode = this.row.stepCode;
           this.kpiDetail.kpiCode= this.row.taskKey;
           this.form.bizDate= this.row.bizDt;
-            this.form.createTime = this.row.taskStartTm
+          this.form.createTime = this.row.taskStartTm
           this.data.q.bizDate = this.row.bizDt;
             if(this.type === 'done'){
                 this.placeholder = '';
+            }
+            if(this.row.allowManualConfirm && this.row.allowManualConfirm === '1'){
+                this.remarkRule =  {remark: [
+                    {required: true, message: '备注必填'},
+                ]}
+            }else{
+                this.remarkRule = {}
             }
           this.init();
         },
@@ -164,7 +171,7 @@
                 this.executeKpi()
             },
             async onExtendButton(){//点击强制通过的事件
-                const ok = await this.$refs['remarkForm'].validate();
+                const ok = await this.$refs['form'].validate();
                 if (!ok) {
                     return;
                 }
