@@ -50,7 +50,7 @@ export default function () {
         stepActOwner: '',    // 通知人id
         stepActOwnerName: '',    // 通知人姓名
         isTodo: '0',          // 是否进入待办
-        forcePass: '0',       // 是否允许人工强制通过
+        allowManualConfirm: '0',       // 是否允许人工强制通过
         isRecordError: '',          // 异常通知 -- 是否记入异常
         errorType: '',              // 异常通知 -- 异常类型
         errorContent: '',           // 异常通知 -- 异常内容
