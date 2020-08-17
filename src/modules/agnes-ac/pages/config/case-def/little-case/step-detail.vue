@@ -374,15 +374,21 @@
                     ],
                     execScheduler: [
                         {required: true, message: '指标执行频率必填', trigger: 'blur'},
+                    ],
+                    stepRemark: [
+                        {required: true, message: '任务说明必填', trigger: 'blur'},
                     ]
                 }
             }
         },
         beforeMount(){
-            let stepActOwner = this.args.stepList[this.args.stepIndex].stepFormInfo.caseStepDef.stepActOwner;
-            if(stepActOwner){
-                this.memberRefList = JSON.parse(stepActOwner);
+            if(this.args.stepList){
+                let stepActOwner = this.args.stepList[this.args.stepIndex].stepFormInfo.caseStepDef.stepActOwner;
+                if(stepActOwner){
+                    this.memberRefList = JSON.parse(stepActOwner);
+                }
             }
+
         },
         computed:{
             caseStepDef(){
@@ -500,7 +506,7 @@
 
             onCreateForm() {
                 this.stepInfo = resetForm();
-                this.stepInfo.stepActType = this.args.stepList[this.args.stepIndex].stepActType;
+                this.stepInfo.stepActType = this.args.stepData;
                 this.resetFormFields();
                 this.bizType = this.args.bizType;
                 this.bizTagArr = this.args.bizTagArr;
