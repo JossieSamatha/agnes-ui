@@ -34,20 +34,15 @@
             }
         },
         beforeMount(){
-            const typeArr = ['', 'personList', 'groupList', 'rosterList'];
-            this.memberRefList.forEach((memberItem)=>{
-                if(this[typeArr[memberItem.refType]]){
-                    this[typeArr[memberItem.refType]].push(memberItem);
-                }
-
-            });
+            this.initPerson();
         },
         components: {
             'chosen-list-view': chosenListView
         },
         watch: {
-            memberList(val){
-                this.$emit('getMemberList', val);
+            memberRefList(val){
+                this.memberRefList = val;
+                this.initPerson();
             }
         },
         computed: {
@@ -57,6 +52,17 @@
             }
         },
         methods: {
+            initPerson(){
+                const typeArr = ['', 'personList', 'groupList', 'rosterList'];
+                this.personList = [];
+                this.groupList = [];
+                this.rosterList = [];
+                this.memberRefList.forEach((memberItem)=>{
+                    if(this[typeArr[memberItem.refType]]){
+                        this[typeArr[memberItem.refType]].push(memberItem);
+                    }
+                });
+            },
             // 打开人员选择弹窗
             chooseUser(){
                 this.$nav.showDialog(
