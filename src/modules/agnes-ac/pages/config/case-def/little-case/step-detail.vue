@@ -94,7 +94,7 @@
             </el-form-item>
             <el-form-item label="任务控制参数">
                 <gf-strbool-checkbox v-model="caseStepDef.isTodo">是否进入待办</gf-strbool-checkbox>
-                <gf-strbool-checkbox v-model="caseStepDef.forcePass">是否允许人工强制通过</gf-strbool-checkbox>
+                <gf-strbool-checkbox v-model="caseStepDef.allowManualConfirm">是否允许人工强制通过</gf-strbool-checkbox>
             </el-form-item>
             <el-form-item label="消息通知参数">
                 <span class="default-checked">系统内部消息</span>
@@ -266,7 +266,7 @@
                     endTime: '',
                     execScheduler: '00#01#01#* * * * * ?',
                     stepRemark: '',
-                    forcePass: '',
+                    allowManualConfirm: '0',
                     isRecordError: '',
                     errorType: '',
                     errorContent: '',
@@ -314,7 +314,6 @@
                 initStepCode: '',
                 texts: ['普通', '重要', '非常重要'],
                 max: 3,
-                forcePass: false,
                 dayChecked: '0',
                 activeTerm: '1',
                 timeType: '1',
