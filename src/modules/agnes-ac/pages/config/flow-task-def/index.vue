@@ -180,7 +180,13 @@
                 for(let i=0;i<nowData.length;i++){
                     if(nowData[i].defType==='step'){
                         let currentData = {};
-                        currentData['@stepType'] = nowData[i].stepActType;
+                        let stepActType = '';
+                        if(nowData[i].stepActType === '1'){
+                            stepActType = 'action'
+                        }else if(nowData[i].stepActType === '6'){
+                            stepActType = 'form'
+                        }
+                        currentData['@stepType'] = stepActType;
                         Object.assign(currentData, nowData[i]);
                         delete currentData.stepName;
                         delete currentData.stepCode;
