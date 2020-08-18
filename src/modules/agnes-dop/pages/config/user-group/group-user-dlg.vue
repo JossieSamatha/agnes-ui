@@ -11,7 +11,8 @@
                 <gf-person-chosen ref="memberRef"
                                   :memberRefList="memberRefList"
                                   chosenType="user"
-                                  :rosterDate="this.rosterDate">
+                                  :rosterDate="this.rosterDate"
+                                  @getMemberList="getMemberList">
                 </gf-person-chosen>
             </el-form-item>
         </el-form>
@@ -49,8 +50,6 @@
         },
         methods: {
             async onSave() {
-                const memberList = await this.getMemberList();
-                memberList
                 const ok = await this.$refs['form'].validate();
                 if (!ok) {
                     return;
@@ -73,28 +72,20 @@
                 const p = this.$api.userGroupApi.getUserInfos({'userGroupId':this.form.userGroupId});
                 const resp = await this.$app.blockingApp(p);
                 if(resp.data){
-                    // let userInfoList = resp.data;
-                    // userInfoList.forEach(item=>{
-                    //     this.memberRefList.push({
-                    //         'refType': '1',
-                    //         'memberId': item.userId,
-                    //         'memberDesc': item.userName
-                    //     })
-                    // });
-                    this.memberRefList = [{
-                        'refType': '1',
-                        'memberId': '01',
-                        'memberDesc': '张三'
-                    }]
+                    let userInfoList = resp.data;
+                    const chosenData = userInfoList.map(item=>{
+                        return {
+                            'refType': '1',
+                            'memberId': item.userId,
+                            'memberDesc': item.userName
+                        }
+                    });
+                    this.$refs.memberRef.initChosenData(chosenData);
                 }
             },
             getMemberList(val){
-                let memberList = this.$refs.memberRef.memberList;
-                this.form.userIds=[];
-                memberList.forEach(item=>{
-                    this.form.userIds.push(item.memberId);
-                });
-                return memberList;
+                this.memberRefList = val;
+                this.form.userIds = val.map(item=>{return item.memberId});
             },
         }
     }
