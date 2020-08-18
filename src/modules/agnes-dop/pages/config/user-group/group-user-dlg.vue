@@ -59,7 +59,7 @@
                     await this.$app.blockingApp(p);
 
                     if (this.actionOk) {
-                        await this.actionOk();
+                        await this.actionOk(this.form.userGroupId);
                     }
 
                     this.$msg.success('保存成功');

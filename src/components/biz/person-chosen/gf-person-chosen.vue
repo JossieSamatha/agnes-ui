@@ -33,6 +33,9 @@
                 rosterList: []
             }
         },
+        beforeMount(){
+            this.initChosenData(this.memberRefList);
+        },
         components: {
             'chosen-list-view': chosenListView
         },

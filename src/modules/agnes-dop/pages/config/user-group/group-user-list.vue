@@ -34,14 +34,14 @@
             reloadData() {
                 this.$refs.grid.reloadData();
             },
-            async deleteLinkMan(params) {
+            async deleteUser(params) {
                 const row = params.data;
                 const ok = await this.$msg.ask(`确认移除选中的联系人吗, 是否继续?`);
                 if (!ok) {
                     return
                 }
                 try {
-                    const p = this.$api.userGroupApi.deleteUserGroup(row);
+                    const p = this.$api.userGroupApi.deleteUser(row);
                     await this.$app.blockingApp(p);
                     this.reloadData();
                 } catch (reason) {

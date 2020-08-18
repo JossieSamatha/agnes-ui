@@ -8,7 +8,8 @@
             </el-header>
             <el-container style="height: calc(100% - 40px)">
                 <el-aside width="150px" class="el-border" style="height: 100%;overflow-y: auto">
-                    <el-tree :data="userGroups" :props="defaultProps" ref="groupTree"
+                    <el-tree :data="userGroups" ref="groupTree"
+                             default-expand-all  :props="defaultProps"
                              @node-click="handleGroupNodeClick"></el-tree>
                 </el-aside>
                 <el-main height="100%" style="padding-top: 0px;padding-bottom: 0px" class="el-border">
@@ -33,14 +34,14 @@
                 reqData: {
                     userGroupId: ''
                 },
-                userGroups: [{
-                    userGroupName: "群组管理",
-                    children: []
-                }],
                 defaultProps: {
                     children: 'children',
                     label: 'userGroupName'
                 },
+                userGroups: [{
+                    userGroupName: "群组管理",
+                    children: []
+                }],
 
             }
         },
@@ -62,8 +63,9 @@
 
                 })
             },
-            async onAddGroup() {
+            async onAddGroup(userGroupId) {
                 this.loaduserGroup();
+                this.reqData.userGroupId = userGroupId;
             },
             showGroupDlg(mode, row, actionOk) {
                 if (mode !== 'add' && !row) {
@@ -75,7 +77,7 @@
                     {
                         args: {row, mode, actionOk},
                         width: '50%',
-                        title: this.$dialog.formatTitle('联系人', mode),
+                        title: this.$dialog.formatTitle('群组', mode),
                     }
                 );
             },

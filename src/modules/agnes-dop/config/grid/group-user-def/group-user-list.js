@@ -1,7 +1,7 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'deleteField', title: '移除', cellClass: 'red-cell'},
+    {key: 'deleteUser', title: '移除', cellClass: 'red-cell'},
 ];
 export default {
     columnDefs: [
