@@ -1,5 +1,19 @@
 export default function () {
     return {
+        processList: [
+            {boardId: '01', boardName: '早上', completionPer: 1, status: 'success'},
+            {boardId: '02', boardName: '中午', completionPer: 0.8, status: 'exception'},
+            {boardId: '03', boardName: '收市', completionPer: 0.3, status: ''},
+            {boardId: '04', boardName: '晚上批处理', completionPer: 1, status: 'warning'},
+            {boardId: '05', boardName: 'D+1零点后', completionPer: 0.8, status: ''}
+        ],
+        taskStage: [
+            {defId: '01', defName: '早上', percentage: 100, status: 'success'},
+            {defId: '02', defName: '中午', percentage: 80, status: 'exception'},
+            {defId: '03', defName: '收市', percentage: 30, status: ''},
+            {defId: '04', defName: '晚上批处理', percentage: 100, status: 'warning'},
+            {defId: '05', defName: 'D+1零点后', percentage: 80, status: ''}
+        ],
         proTask: [
             {taskId: '001', taskName: 'TA批处理监控(周一~四)'},{taskId: '102', taskName: 'TA资金电子化流程'},{taskId: '1003', taskName: 'FA晚班工作监控'},
             {taskId: '101', taskName: 'TA批处理监控(周一~四)'},{taskId: '202', taskName: 'TA资金电子化流程'},{taskId: '2003', taskName: 'FA晚班工作监控'},
@@ -12,13 +26,6 @@ export default function () {
             {taskId: '801', taskName: 'TA批处理监控(周一~四)'},{taskId: '902', taskName: 'TA资金电子化流程'},{taskId: '9003', taskName: 'FA晚班工作监控'},
             {taskId: '901', taskName: 'TA批处理监控(周一~四)'},{taskId: '002', taskName: 'TA资金电子化流程'},{taskId: '0003', taskName: 'FA晚班工作监控'},
             {taskId: '1001', taskName: 'TA批处理监控(周一~四)'},{taskId: '1002', taskName: 'TA资金电子化流程'},{taskId: '10003', taskName: 'FA晚班工作监控'}
-        ],
-        taskStage: [
-            {defId: '01', defName: '早上', percentage: 100, status: 'success'},
-            {defId: '02', defName: '中午', percentage: 80, status: 'exception'},
-            {defId: '03', defName: '收市', percentage: 30, status: ''},
-            {defId: '04', defName: '晚上批处理', percentage: 100, status: 'warning'},
-            {defId: '05', defName: 'D+1零点后', percentage: 80, status: ''}
         ],
         execLog: [
             {id:'0', status: 'success', content:'【分TA】中登确认文件收到', produceTime:'2020-04-10 08:00:00'},
