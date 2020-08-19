@@ -236,27 +236,21 @@
 }
 
 .cron-modal .changeContab .bottom {
-    position: absolute;
-    top: 0px;
-    right: 20px;
-    width: auto;
-    height: 40px;
-    line-height: 40px;
-    background: #fff;
-}
-
-.cron-modal .changeContab .bottom .value {
-    display: none;
+    position: initial;
 }
 
 .cron-modal .changeContab .bottom>button {
     padding: 5px 19px;
+    position: absolute;
+    top: 13px;
+    right: 20px;
 }
 
 .cron-modal .changeContab .bottom>button.el-button--primary {
     color: #fff;
     background: #476DBE;
     border-color: #476DBE;
+    right: 88px;
 }
 
 .cron-modal .question {
@@ -445,16 +439,3 @@
     margin-right: 0px;
     line-height: 18px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

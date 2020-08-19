@@ -24,23 +24,28 @@
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
+                let cancelTitle = '取消';
+                if(mode==='view'){
+                    cancelTitle = '关闭';
+                }
                 let isShow = true;
                 row.isCheck=false;
                 if(mode==='check'){
                     mode='view';
                     row.isCheck=true;
+                    cancelTitle = '反审核';
                 }
                 if(!row.isCheck && mode==='view'){
                     isShow = false;
                 }
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
-                    title: ['任务类型编辑',mode],
+                    title: ['监控指标任务配置',mode],
                     component: KpiTaskDetail,
                     args: {row, mode, actionOk},
                     okButtonVisible:isShow,
                     okButtonTitle: row.isCheck ? '审核' : '保存',
-                    cancelButtonTitle: row.isCheck ? '反审核' : '取消',
+                    cancelButtonTitle: cancelTitle,
                 });
             },
             async onAddModel() {
@@ -75,7 +80,7 @@
 
             //复核
             checkKpiTask(params){
-                if(params.data.reTaskDef.needApprove==='1'&&params.data.reTaskDef.taskStatus.match(/01|04/)){
+                if(params.data.reTaskDef.taskStatus.match(/01|04/)){
                     this.showDrawer('check', params.data, this.onAddModel.bind(this));
                 }else {
                     this.$msg.warning("该状态无法审核!");
@@ -84,8 +89,7 @@
 
             },
 
-            // 发布
-            async publishKpiTask(params){
+            async checkBeforePulish(params){
                 const rowData = params.data;
                 if(rowData.reTaskDef.taskStatus.match(/00|01|03|04/)){
                     this.$msg.warning("该状态无法发布!");
@@ -96,10 +100,27 @@
                     return
                 }
                 try {
+                    const p = this.$api.kpiTaskApi.checkBeforePulish({taskId:rowData.reTaskDef.taskId});
+                    const resp = await this.$app.blockingApp(p);
+                    if(resp.code !== '00000000'){
+                        this.$msg.warning(resp.message);
+                        return ;
+                    }
+                    await this.publishKpiTask(params);
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
+
+            // 发布
+            async publishKpiTask(params){
+                const rowData = params.data;
+                try {
                     let sendInfo = this.handleData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName);
                     rowData.caseDefJson = JSON.stringify(sendInfo);
                     const p = this.$api.caseConfigApi.publishCaseDef(rowData);
                     await this.$app.blockingApp(p);
+                    this.$msg.success('发布成功');
                     this.reloadData();
                 } catch (reason) {
                     this.$msg.error(reason);
@@ -130,6 +151,12 @@
                 for(let i=0;i<nowData.length;i++){
                     if(nowData[i].defType==='step'){
                         let currentData = {};
+                        if(nowData[i].stepActType === '1'){
+                            nowData[i].stepActType = 'action';
+                        }
+                        if(nowData[i].stepActType === '6'){
+                            nowData[i].stepActType = 'form';
+                        }
                         currentData['@stepType'] = nowData[i].stepActType;
                         Object.assign(currentData, nowData[i]);
                         currentData.autoActive = true;

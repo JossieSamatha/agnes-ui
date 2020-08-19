@@ -4,14 +4,14 @@ const colButtons = [
     {key: 'editKpiTask', title: '编辑'},
     {key: 'deleteKpiTask', title: '删除', cellClass: 'red-cell'},
     {key: 'checkKpiTask', title: '审核'},
-    {key: 'publishKpiTask', title: '发布'},
+    {key: 'checkBeforePulish', title: '发布'},
 ];
 
 export default {
     columnDefs: [
         column.buildOpCol(160, colButtons),
         {headerName: "任务名称", field: "reTaskDef.taskName"},
-        {headerName: "业务编号", field: "reTaskDef.caseKey"},
+        {headerName: "任务编号", field: "reTaskDef.caseKey"},
         {headerName: "业务场景", field: "reTaskDef.bizType", dictType: 'AGNES_BIZ_CASE'},
         {headerName: "业务标签", field: "reTaskDef.bizTag",
             valueFormatter: function (params) {

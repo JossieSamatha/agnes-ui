@@ -1,14 +1,19 @@
+import column from "../../../../../config/column"
 
+const colButtons = [
+    {key: 'searchProduct', title: '查看'},
+];
 export default {
     columnDefs: [
+        column.buildOpCol(120, colButtons),
         {headerName: "用户姓名", field: "linkmanName"},
         {headerName: "核算员编号", field: "linkmanRoleId"},
     ],
     headerHeight: 40,
     rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-app/v1/dop/linkman/org/list",
-        fetchMethod: 'get',
+        fetchUrl: "/agnes-app/v1/dop/org/type/page/list",
+        fetchMethod: 'post',
         pagingMode: true, //不分页
         checkboxColumn: 1, //是否显示checkbox列,
         enableExportLocal: true,

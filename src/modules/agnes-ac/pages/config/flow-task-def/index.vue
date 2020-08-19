@@ -7,7 +7,7 @@
                  @row-double-click="showFlowTaskDetail"
         >
             <template slot="left">
-                <gf-button class="action-btn" @click="addFlowTask" size="mini">新增电子流程任务</gf-button>
+                <gf-button class="action-btn" @click="addFlowTask" size="mini">添加</gf-button>
                 <gf-button class="action-btn" @click="confFlowNode" size="mini">配置流程任务节点</gf-button>
             </template>
         </gf-grid>
@@ -23,14 +23,31 @@
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
+                let cancelTitle = '取消';
+                if(mode==='view'){
+                    cancelTitle = '关闭';
+                }
+                let isShow = true;
+                row.isCheck=false;
+                if(mode==='check'){
+                    mode='view';
+                    row.isCheck=true;
+                    cancelTitle = '反审核';
+                }
+                if(!row.isCheck && mode==='view'){
+                    isShow = false;
+                }
+
                 // 抽屉创建
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
-                    title: ['电子流程任务',mode],
+                    title: ['电子流程任务配置',mode],
                     component: FlowTaskDetail,
                     args: {row, mode, actionOk},
+                    okButtonVisible:isShow,
                     okButtonTitle: row.isCheck ? '审核' : '保存',
-                    cancelButtonTitle: row.isCheck ? '反审核' : '取消',
+                    cancelButtonTitle: cancelTitle,
+
                 })
             },
             reloadData() {
@@ -89,9 +106,8 @@
 
             //复核
             checkFlowTask(params){
-                if(params.data.reTaskDef.needApprove==='1'&&params.data.reTaskDef.taskStatus==='01' || params.data.reTaskDef.needApprove==='1'&&params.data.reTaskDef.taskStatus==='04'){
-                    params.data.reTaskDef.isCheck = true;
-                    this.showFlowTask(params.data.reTaskDef,'view', this.onAddFlowTask.bind(this));
+                if(params.data.reTaskDef.taskStatus.match(/01|04/)){
+                    this.showFlowTask(params.data.reTaskDef,'check', this.onAddFlowTask.bind(this));
                 }else {
                     this.$msg.warning("该状态无法审核!");
                     return;
@@ -113,9 +129,26 @@
                     return
                 }
                 try {
+                    const p = this.$api.kpiTaskApi.checkBeforePulish({taskId:rowData.reTaskDef.taskId});
+                    const resp = await this.$app.blockingApp(p);
+                    if(resp.code !== '00000000'){
+                        this.$msg.warning(resp.message);
+                        return ;
+                    }
+                    await this.publishTask(params);
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
+
+            async publishTask(params){
+                const rowData = params.data;
+                try {
                     rowData.caseDefJson = JSON.stringify(this.checkData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName));
                     const p = this.$api.caseConfigApi.publishCaseDef(rowData);
                     await this.$app.blockingApp(p);
+                    this.$msg.success("发布成功!");
+                    this.$emit("onClose");
                     this.reloadData();
                 } catch (reason) {
                     this.$msg.error(reason);
@@ -124,6 +157,7 @@
 
             checkData(dataOrigin,caseDefKey,caseDefName) {
                 let data =JSON.parse(JSON.stringify(dataOrigin))
+                delete data.stepCodeArr
                 let newCaseModelData = data.stages;
                 for (let i = 0; i < newCaseModelData.length; i++) {
                     this.steps = [];
@@ -146,7 +180,13 @@
                 for(let i=0;i<nowData.length;i++){
                     if(nowData[i].defType==='step'){
                         let currentData = {};
-                        currentData['@stepType'] = nowData[i].stepActType;
+                        let stepActType = '';
+                        if(nowData[i].stepActType === '1'){
+                            stepActType = 'action'
+                        }else if(nowData[i].stepActType === '6'){
+                            stepActType = 'form'
+                        }
+                        currentData['@stepType'] = stepActType;
                         Object.assign(currentData, nowData[i]);
                         delete currentData.stepName;
                         delete currentData.stepCode;

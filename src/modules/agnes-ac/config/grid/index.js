@@ -7,6 +7,7 @@ import Workday from "./workday"
 import CaseDef from "./case-def"
 import MotDef from "./mot-def"
 import FlowTaskField from './flow-task-def'
+import elecProcessField from './elec-process'
 
 const Loading = {
     load: function (Gfui) {
@@ -19,6 +20,7 @@ const Loading = {
         Gfui.use(CaseDef);
         Gfui.use(MotDef);
         Gfui.use(FlowTaskField);
+        Gfui.use(elecProcessField);
     }
 };
 

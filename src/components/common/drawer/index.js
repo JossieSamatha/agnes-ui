@@ -3,7 +3,7 @@ import Drawer from './gf-drawer';
 class GfPageDrawer {
     constructor(Vue) {
         this.Vue = Vue;
-        this.modeMap = {"add": '新增', 'edit': '编辑', 'view': '查看'};
+        this.modeMap = {"add": '添加', 'edit': '编辑', 'view': '查看'};
     }
 
     createByType(drawerType, options) {

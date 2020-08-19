@@ -7,16 +7,29 @@ const colButtons = [
 
 export default {
     columnDefs: [
-        {headerName: "任务名称", field: "taskName"},
-        {headerName: "完成时间", field: "taskStartTm"},
+        column.buildOpCol(60, colButtons),
+        {headerName: "任务名称", field: "taskName",headerClass: 'status-header',
+            cellRenderer: (params)=>{
+                let eGui = document.createElement('div');
+                eGui.className = 'status-circle-cell';
+                const iNode = document.createElement("i");
+                const statusColor = { '06': 'green', '05': 'red', '07': 'orange'};
+                iNode.className = 'fa fa-circle ' + statusColor[params.data.stepStatus];
+                const spanNode = document.createElement("span");
+                spanNode.innerHTML = params.value + '<br/>' + params.data.taskRemark;
+
+                eGui.appendChild(iNode);
+                eGui.appendChild(spanNode);
+                return eGui;
+            },},
+        {headerName: "完成时间", field: "taskEndTm"},
         {headerName: "执行人员", field: "participants"},
         {headerName: "备注", field: "remark"},
-        column.buildOpCol(120, colButtons)
     ],
     headerHeight: 40,
     rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-app/v1/task/todo/list",    //后台查询数据的URL地址
+        fetchUrl: "/agnes-app/v1/task/done/list",    //后台查询数据的URL地址
         fetchMethod: 'get',
         pagingMode: true, //不分页
         checkboxColumn: 0, //是否显示checkbox列,

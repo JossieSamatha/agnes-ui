@@ -1,9 +1,11 @@
 import orgDefineApi from './org-define-api';
 import orgTypeApi from './org-type-api';
 import linkmanApi from './linkman-api';
+import changeDataApi from './change-data-api';
 import memoApi from './memo-api';
 import rosterApi from './roster-api';
 import fileAnaly from './file-analy-config-api';
+import channelApi from './channel-api';
 
 export default {
     orgDefineApi,
@@ -11,5 +13,7 @@ export default {
     linkmanApi,
     memoApi,
     rosterApi,
-    fileAnaly
+    fileAnaly,
+    changeDataApi,
+    channelApi
 };

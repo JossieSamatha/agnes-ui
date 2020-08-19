@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-form :model="form" label-width="90px" ref="form" style="height: 100%">
+        <el-form :model="form" label-width="90px" ref="form" style="height: 100%" :rules="remarkRule">
             <el-row>
                 <el-col :span="24"><p style="text-align: center;font-size: 20px; margin-bottom: 20px">指标任务详情</p></el-col>
             </el-row>
@@ -14,8 +14,8 @@
                     </div>
                     <div class="clear"></div>
                     <div class="text item" >
-                            <span class="span">业务日期:{{form.bizDate}}</span>
-                            <span class="span">执行时间:{{form.createTime}}</span>
+                        <span class="span">业务日期:{{form.bizDate}}</span>
+                        <span class="span">执行时间:{{form.createTime}}</span>
                     </div>
                     <div class="clear"></div>
                     <div class="text item">
@@ -36,23 +36,17 @@
                 </el-card>
             </el-row>
             <gf-grid ref="grid" :options="gridOptions" class="grid-class" :height="height">
-                <!-- <template slot="left">
-                    <gf-button class="action-btn" @click="executeKpi" size="mini">重新执行</gf-button>
-                </template> -->
             </gf-grid>
             <el-row  style="marginTop:12px;marginLeft:-10px">
                 <el-col :span="24">
-                    <!-- <el-form-item label-width="0px" v-if="type==='done'" label="" prop="remark" >
-                        {{form.remark}}
-                    </el-form-item> -->
                     <el-form-item label-width="0px"  label="" prop="remark" >
-                        <el-input
-                            :readonly="type==='done'"
-                            type="textarea"
-                            :rows="2"
-                            placeholder="请输入备注"
-                            v-model="form.remark">
-                        </el-input>
+                        <gf-input
+                                :readonly="type==='done'"
+                                type="textarea"
+                                :rows="2"
+                                :placeholder= "placeholder"
+                                v-model="form.remark">
+                        </gf-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -64,19 +58,16 @@
 
     export default {
         props: {
-            kpiCode: String,
-            bizDate: String,
-            caseId:String,
-            stepCode:String,
             type:String,
+            row: Object,
             toolbar: {
                 default: "more"
             }
         },
         data() {
             return {
-                height: "calc(100% - 348px)",
-                form:{kpiName:"",createTime:"",bizDate:"",normal:0,abnormal:0,artificialCon:0},
+                height: "300px",
+                form:{kpiName:"",createTime:"",bizDate:"",normal:0,abnormal:0,artificialCon:0,remark:''},
                 charData:[],
                 colorSet:[],
                 showChar:  false,
@@ -91,60 +82,116 @@
                     },
                 },
                 data:{q:{}},
-                opStatus:false
+                opStatus:false,
+                taskCommit: {
+                    inst: {
+                        taskId: "",
+                    },
+                    stepInfo :{
+                        remark: "",
+                        caseId: "",
+                        stepCode: ""
+                    }
+                },
+                remarkRule: {
+                    remark: [
+                        {required: true, message: '备注必填'},
+                    ],
+                },
+                placeholder: "请输入备注",
             }
         },
         mounted() {
-            let _this=this;
-            this.kpiDetail.kpiCode=this.kpiCode;
-            this.form.bizDate=this.bizDate;
-            this.kpiDetail.bizDate=this.bizDate;
-            this.$api.kpiDefineApi.queryKpiInfoMation(this.kpiDetail).then((resp) => {
-                if(resp.status){
-                    _this.form.kpiName =resp.data.kpiName;
-                }
-            });
-            this.$api.kpiDefineApi.getKpiDetail(this.kpiDetail).then((resp) => {
-                if(resp.status){
-                    _this.kpiDetail =resp.data;
-                }
-            });
-            this.data.q =this.kpiDetail;
-            this.$api.kpiDefineApi.getKpiDetails(this.data).then((resp) => {
-                if(resp.data && resp.data.length>0){
-                    var rows=resp.data;
-                    let keys = Object.keys(rows[0]);
-                    _this.getPicData(rows,keys);
-                    var columnDefsArray=_this.getSqlGridOptions(keys);
-                    if(keys.indexOf("FACTOR_VALUE")>-1 && keys.indexOf("MANUAL_TAG")>-1){
-                        _this.opStatus=true;
-                        _this.gridOptions.api.setColumnDefs(_this.setColumnFiled(columnDefsArray));
-                    }else{
-                        _this.gridOptions.api.setColumnDefs(columnDefsArray);
-                    }
-                    _this.gridOptions.api.setRowData(rows);
-                }
-            });
-            this.$api.kpiDefineApi.getKpiFields(this.kpiDetail.kpiCode).then((resp) => {
-                if(resp.data && resp.data.length>0){
-                    var columnDefsArray=_this.getKpiGridOptions(resp.data);
-                    if(_this.opStatus){
-                        _this.gridOptions.api.setColumnDefs(_this.setColumnFiled(columnDefsArray));
-                    }else{
-                        _this.gridOptions.api.setColumnDefs(columnDefsArray);
-                    }
-
-                }
-            });
+          this.taskCommit.inst.taskId = this.row.taskId;
+          this.taskCommit.stepInfo.caseId = this.row.caseId;
+          this.taskCommit.stepInfo.stepCode = this.row.stepCode;
+          this.kpiDetail.kpiCode= this.row.taskKey;
+          this.form.bizDate= this.row.bizDt;
+          this.form.createTime = this.row.taskStartTm
+          this.data.q.bizDate = this.row.bizDt;
+            if(this.type === 'done'){
+                this.placeholder = '';
+            }
+            if(this.row.allowManualConfirm && this.row.allowManualConfirm === '1'){
+                this.remarkRule =  {remark: [
+                    {required: true, message: '备注必填'},
+                ]}
+            }else{
+                this.remarkRule = {}
+            }
+          this.init();
         },
         methods: {
+            async init(){
+              try {
+                const p = this.$api.kpiDefineApi.queryKpiInfoMation(this.kpiDetail);
+                const resp = await this.$app.blockingApp(p);
+                if(resp.status){
+                  this.form.kpiName =resp.data.kpiName;
+                }
+                const p1 = this.$api.kpiDefineApi.getKpiDetail(this.kpiDetail);
+                const resp1 = await this.$app.blockingApp(p1);
+                if(resp1.status){
+                  this.kpiDetail =resp1.data;
+                }
+                this.data.q.kpiCode =this.kpiDetail.kpiCode;
+                const p2 = this.$api.kpiDefineApi.getKpiDetails(this.data);
+                const resp2 = await this.$app.blockingApp(p2);
+                if(resp2.data && resp2.data.length>0){
+                  const rows=resp2.data;
+                  const keys = Object.keys(rows[0]);
+                  this.getPicData(rows,keys);
+                  const columnDefsArray=this.getSqlGridOptions(keys);
+                  if(keys.indexOf("STATUS")>-1){
+                    this.opStatus=true;
+                    this.gridOptions.api.setColumnDefs(this.setColumnFiled(columnDefsArray));
+                  }else{
+                    this.gridOptions.api.setColumnDefs(columnDefsArray);
+                  }
+                  this.gridOptions.api.setRowData(rows);
+                }
+                const p3 = this.$api.kpiDefineApi.getKpiFields(this.kpiDetail.kpiCode);
+                const resp3 = await this.$app.blockingApp(p3);
+                if(resp3.data && resp3.data.length>0){
+                  const columnDefsArray=this.getKpiGridOptions(resp3.data);
+                  if(this.opStatus){
+                    this.gridOptions.api.setColumnDefs(this.setColumnFiled(columnDefsArray));
+                  }else{
+                    this.gridOptions.api.setColumnDefs(columnDefsArray);
+                  }
+                }
+              } catch (reason) {
+                this.$msg.error(reason);
+              }
+            },
             onCancel() {
                 this.$emit("onClose");
             },
             onSave() { //点击重新执行的事件
                 this.executeKpi()
             },
-            onExtendButton(){//点击强制通过的事件
+            async onExtendButton(){//点击强制通过的事件
+                const ok = await this.$refs['form'].validate();
+                if (!ok) {
+                    return;
+                }
+                    this.taskCommit.stepInfo.remark = this.form.remark;
+                    this.taskCommit.stepInfo.stepStatus = "07";
+                    try {
+                        const p = this.$api.taskTodoApi.confirmKpiTask(this.taskCommit)
+                        const resp = await this.$app.blockingApp(p);
+                        if (resp.data) {
+                            if (this.actionOk) {
+                                await this.actionOk();
+                            }
+                            this.$msg.success('提交成功');
+                            this.$dialog.close(this);
+                        } else {
+                            this.$msg.warning('提交失败');
+                        }
+                    } catch (e) {
+                        this.$msg.error(e);
+                    }
 
             },
             reloadData() {
@@ -165,9 +212,9 @@
                 columnDefsArray.push({
                     colId: "#op", headerName: "操作", cellRenderer: "OpCellRender", pinned: "right",
                     cellClassRules: {
-                      'invisible-cell': function(params) {
-                        return !(params.data.FACTOR_VALUE === "1" && params.data.MANUAL_TAG === "1");
-                      },
+                        'invisible-cell': function(params) {
+                            return !(params.data.FACTOR_VALUE === "1" && params.data.MANUAL_TAG === "1");
+                        },
                     },
                     cellRenderParams:{
                         opButtons: [
@@ -185,7 +232,12 @@
             },
             executeKpi(){
                 let _this=this;
-                this.$api.kpiDefineApi.execTask(this.caseId,this.stepCode).then((resp) => {
+                let kpiTaskReq = {}
+                kpiTaskReq.caseId = this.row.caseId;
+                kpiTaskReq.stepCode = this.row.stepCode;
+                kpiTaskReq.bizDate = this.row.bizDt;
+                kpiTaskReq.taskId = _this.row.taskId;
+                this.$api.kpiDefineApi.execTask(kpiTaskReq).then((resp) => {
                     if(resp.status){
                         _this.$message.success(resp.message);
                         _this.reloadData();
@@ -196,16 +248,14 @@
             },
             getPicData(rows,keys){
                 let _this=this;
-                if(keys.indexOf("FACTOR_VALUE")>-1){
+                if(keys.indexOf("STATUS")>-1){
                     rows.map(function(item){
-                        if(item.FACTOR_VALUE == 1){
-                            if(keys.indexOf("MANUAL_TAG")>-1 && item.MANUAL_TAG == 1){
-                                _this.form.artificialCon++;
-                            } else{
-                                _this.form.normal++;
-                            }
-                        } else if(item.FACTOR_VALUE == 0) {
-                            _this.form.abnormal++;
+                        if(item.STATUS === '0'){
+                          _this.form.abnormal++;
+                        } else if(item.STATUS === '1') {
+                          _this.form.artificialCon++;
+                        } else if(item.STATUS === '2'){
+                          _this.form.normal++;
                         }
                     });
                     let normal ={};
@@ -259,7 +309,11 @@
     }
 
     .item {
-        margin-bottom: 18px;
+        /*margin-bottom: 18px;*/
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
     }
 
     .clearfix:before,
@@ -277,15 +331,16 @@
         margin-top: 10px;
         margin-bottom: 30px;
         margin-left: 40px;
+        margin-right: 40px;
         float: left;
-        width: 33%;
-        max-width: 180px;
+        /*width: 33%;*/
+        /*max-width: 180px;*/
     }
 
     .first{
-      margin-top: 25px;
-      margin-bottom: 30px;
-      margin-left: 40px;
-      float: left;
+        margin-top: 25px;
+        margin-bottom: 30px;
+        margin-left: 40px;
+        float: left;
     }
 </style>

@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-        <div class="speedyMenu">
+        <div class="speedyMenu" v-if="false">
             <div class="gf-menu entrance-menu">
                 <div class="gf-menu-item speedy" @click="closeSideMenu">
                     <i class="el-icon-close"></i>
@@ -42,6 +42,7 @@
             return {
                 searchValue: '',
                 activeMenu: '',
+                showMenu:{children:[]},
             };
         },
         props: {
@@ -61,9 +62,12 @@
                 }
             }
         },
+        mounted(){
+            this.loadShowMenu();
+        },
         computed: {
             secondMenuObj() {
-                return this.sideMenu.children.map(function (menu) {
+                return this.showMenu.children.map(function (menu) {
                     if (!menu.children) {
                         menu.children = [];
                         menu.children.push(menu);
@@ -73,6 +77,9 @@
             }
         },
         methods: {
+            loadShowMenu(){
+                this.showMenu = this.$utils.deepClone(this.sideMenu);
+            },
             showView: function (menu) {
                 const viewId = menu.menucode;
                 let tabObj = {};
@@ -107,6 +114,21 @@
                 this.$set(menu, 'collect', type);
                 this.$emit('markMenuChange', {type: type, menu: menu})
             }
+        },
+        watch: {
+            'searchValue'(val) {
+                if (val) {
+                    for(let i=0;i<this.showMenu.children.length;i++){
+                        let nowChildren = this.showMenu.children[i].children;
+                        this.showMenu.children[i].children = nowChildren.filter(item => (item.menuname).indexOf(val) > -1)
+                    }
+                } else {
+                    this.showMenu = this.$utils.deepClone(this.sideMenu);
+                }
+            },
+            'sideMenu'(val) {
+                this.showMenu = this.$utils.deepClone(val);
+            },
         }
     }
 </script>

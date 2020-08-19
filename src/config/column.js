@@ -4,7 +4,7 @@ const colUpdUser = {headerName: "更新人", field: "updateUser"};
 const colUpdTm = {headerName: "更新时间", field: "updateTs"};
 
 
-function buildOpCol(width, buttons) {
+function buildOpCol(width, buttons, extConfig) {
     let opButtons = [];
 
     buttons.forEach(x => {
@@ -12,6 +12,8 @@ function buildOpCol(width, buttons) {
             key: x.key,
             title: x.title,
             cellClass: x.cellClass,
+            disabled: x.disabled,
+            visiable: x.visiable,
             onClick: (params) => {
                 params.api.execCmd(x.command || x.key, params);
             }
@@ -19,7 +21,7 @@ function buildOpCol(width, buttons) {
         opButtons.push(item);
     });
 
-    return {
+    const basicConfig = {
         colId: "#op", headerName: "操作",
         cellRenderer: "OpCellRender",
         suppressSizeToFit: true,
@@ -29,6 +31,10 @@ function buildOpCol(width, buttons) {
             opButtons: opButtons
         }
     }
+
+    let config = {...basicConfig, ...extConfig};
+
+    return config;
 }
 
 export default {
