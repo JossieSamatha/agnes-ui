@@ -93,7 +93,7 @@
 </template>
 
 <script>
-    import mockData from "./mockData";
+    import mockData from "../mockData";
     export default {
         data(){
             return {

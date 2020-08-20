@@ -11,13 +11,21 @@
                   style="width: 100%"
                   :style="{'min-height': tableHeight+'px'}">
             <el-table-column prop="ruleTag" label="标签" width="52" align="center"></el-table-column>
-            <el-table-column prop="ruletarget" label="对象">
+            <el-table-column prop="ruleType" label="类型" width="65" align="center"></el-table-column>
+            <el-table-column prop="ruleTarget" label="对象">
                 <template slot-scope="scope">
-                    <el-select v-if="scope.row.ruleType === 'func'" :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
+                    <el-select v-if="scope.row.ruleType === 'fn'" :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
                                v-model="scope.row.ruleTarget"
                                placeholder="请选择"
                                @change="ruleTargetChange(scope.$index, scope.row)">
-                        <el-option v-for="funItem in funArr" :key="funItem.fnCode" :label="funItem.fnName" :value="funItem.fnCode">
+                        <el-option v-for="funItem in funArr" :key="funItem.fnId" :label="funItem.fnName" :value="funItem.fnId">
+                        </el-option>
+                    </el-select>
+                    <el-select v-else-if="scope.row.ruleType === 'object'" :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
+                               v-model="scope.row.ruleTarget"
+                               placeholder="请选择"
+                               @change="ruleTargetChange(scope.$index, scope.row)">
+                        <el-option v-for="funItem in ruleTargetOp[scope.row.ruleType]" :key="funItem.modelTypeId" :label="funItem.typeName" :value="funItem.modelTypeId">
                         </el-option>
                     </el-select>
                     <el-select v-else :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
@@ -30,9 +38,9 @@
             </el-table-column>
             <el-table-column prop="ruleParam" label="筛选条件">
                 <template slot-scope="scope">
-                    <div v-if="scope.row.ruleType === 'func'" class="filter-conf" :class="mustFill('ruleParam') && !jsonNull(scope.row.ruleParam) ? 'error':''">
+                    <div v-if="scope.row.ruleType === 'fn'" class="filter-conf" :class="mustFill('ruleParam') && !jsonNull(scope.row.ruleParam) ? 'error':''">
                         <span class="nowrap-span" :title="scope.row.ruleParam">{{jsonNull(scope.row.ruleParam)}}</span>
-                        <i class="edit-btn fa fa-edit" @click="editRuleParam(scope.$index, scope.row)"></i>
+                        <i class="edit-btn fa fa-edit" v-show="scope.row.ruleParam !== '无筛选条件'" @click="editRuleParam(scope.$index, scope.row)"></i>
                     </div>
                 </template>
             </el-table-column>
@@ -52,8 +60,8 @@
                 <template slot-scope="scope">
                     <el-select :class="mustFill('ruleSign') && !scope.row.ruleSign ? 'error':''"
                                v-model="scope.row.ruleSign">
-                        <el-option v-for="ruleSignItem in ruleSignOp" :key="ruleSignItem.id"
-                                :label="ruleSignItem.label" :value="ruleSignItem.id">
+                        <el-option v-for="ruleSignItem in ruleSignOp" :key="ruleSignItem.dictId"
+                                :label="ruleSignItem.dictName" :value="ruleSignItem.dictId">
                         </el-option>
                     </el-select>
                 </template>
@@ -84,13 +92,12 @@
                 width="335"
                 trigger="click">
             <div class="conf-type">
-                <el-button size="small" @click="addRule('func')">函数对象</el-button>
-                <el-button size="small" @click="addRule('step')">case step节点</el-button>
-                <el-button size="small" @click="addRule('kpi')">指标任务</el-button>
-                <el-button size="small" @click="addRule('action')">人工任务</el-button>
-                <el-button size="small" @click="addRule('service')">服务调用任务</el-button>
-                <el-button size="small" @click="addRule('RPA')">RPA任务</el-button>
-                <el-button size="small" @click="addRule('process')">流程任务</el-button>
+                <template v-for="confItem in confTypeArr">
+                    <el-button size="small"
+                               :key="confItem.dictId"
+                               v-if="confType.includes(confItem.dictId)"
+                               @click="addRule(confItem.dictId)">{{confItem.dictName}}</el-button>
+                </template>
             </div>
             <el-button slot="reference" class="rule-add-btn" size="small">新增条件</el-button>
         </el-popover>
@@ -111,7 +118,7 @@
                       cell-class-name="rule-cell"
                       border stripe
                       :class="filterConfCheck?'validate':''"
-                      style="width: calc(100% - 40px); margin: 20px auto"
+                      style="min-height: 250px; margin: 0 auto"
                       :data="filterConfFormData">
                 <el-table-column prop="fieldKey" label="标签"></el-table-column>
                 <el-table-column prop="fieldName" label="入参"></el-table-column>
@@ -146,6 +153,10 @@
                 type: String,
                 default: '500'
             },
+            confType: {
+                type: String,
+                default: 'fn, object'
+            },
             ruleTableData: {
                 type: Object,
                 require: true,
@@ -162,7 +173,8 @@
         },
         data() {
             return {
-                funArr: fakeData.funArr,   // 对象数组
+                funArr: [],   // 对象数组
+                confTypeArr: this.$app.dict.getDictItems('AGNES_RULE_TYPE'), // 业务对象数组
                 labelOrder: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
                 mustFillField: [],
                 ruleTableCheck: false,
@@ -170,22 +182,14 @@
                 editRowIndex: -1,
                 filterConfFormData: [],
                 filterConfCheck: false,
-                ruleSignOp: [
-                    { id: '1', label: '包含'},
-                    { id: '2', label: '不包含'},
-                    { id: '3', label: '等于'},
-                    { id: '4', label: '不等于'},
-                    { id: '5', label: '大于'},
-                    { id: '6', label: '小于'},
-                    { id: '7', label: '大于等于'},
-                    { id: '8', label: '小于等于'},
-                ],
+                ruleSignOp: this.$app.dict.getDictItems('AGNES_RULE_SIGN'),
                 // 筛选条件字段
-                filterConfArr: fakeData.filterConfArr,
+                filterConfArr: fakeData().filterConfArr,
 
                 //匹配字段类型映射
                 ruleKeyMap: {
-                    func: [],
+                    fn: [],
+                    object: [],
                     step: '节点状态',
                     kpi: [
                         {fieldName: '正常数', fieldKey: '01'},
@@ -200,7 +204,8 @@
 
                 //匹配值类型映射
                 ruleValueMap: {
-                    func: '',
+                    fn: '',
+                    object: '',
                     step: '已完成',
                     kpi: '',
                     action: [{label: '已确认', value: '01'}, {label: '未确认', value: '02'}],
@@ -211,7 +216,17 @@
                 }
             }
         },
+        beforeMount(){
+            this.initData();
+        },
         methods: {
+            async initData(){
+                const p = this.$api.ruleTableApi.getFnAndModelfields();
+                const resp = await this.$app.blockingApp(p);
+                if(resp.data){
+                    this.funArr = resp.data;
+                }
+            },
             // ruleTag计数规则
             getRuleTag(){
                 if(!this.ruleTableData.ruleList || this.ruleTableData.ruleList.length == 0){
@@ -230,9 +245,20 @@
                 return lastLabel;
             },
 
+            // 数组查找指定对象
+            arrFind(list, obj){
+                return this.$lodash.find(list, obj);
+            },
+
             // json非空判断
             jsonNull(jsonStr){
-                return !JSON.parse(jsonStr)? '': jsonStr
+                if(jsonStr === '无筛选条件'){
+                    return jsonStr;
+                }else if(!JSON.parse(jsonStr)){
+                    return ''
+                }else {
+                    return jsonStr;
+                }
             },
 
             // json非空判断
@@ -265,7 +291,8 @@
                 this.filterConfDialog = true;
                 this.editRowIndex = rowIndex;
                 let filterConfObj = JSON.parse(rowInfo.ruleParam);
-                this.filterConfFormData = this.getFilterObj(rowInfo.ruleTarget);
+                const targetObj = this.$lodash.find(this.funArr, { fnId: rowInfo.ruleTarget});
+                this.filterConfFormData = targetObj.fnArgsModelFields;
                 this.filterConfFormData.forEach(function (filterItem, index) {
                     if(filterItem.fieldValue){
                         filterItem.fieldValue = filterConfObj[index]&&filterConfObj[index].fieldValue ? filterConfObj[index].fieldValue : '';
@@ -275,25 +302,31 @@
 
             // 切换对象拉下选择
             ruleTargetChange(rowIndex, rowInfo) {
-                if(rowInfo.ruleType === 'func'){
-                    rowInfo.ruleKey = '';
-                    this.filterConfArr.forEach((filterItem) => {
-                        if(filterItem.fieldId === rowInfo.ruleTarget){
-                            rowInfo.ruleKeyOp = this.$utils.deepExtend(filterItem.modelFieldArr);
-                        }
-                    });
+                rowInfo.ruleKey = '';
+                if(rowInfo.ruleType === 'fn'){
+                    const targetObj = this.$lodash.find(this.funArr, { fnId: rowInfo.ruleTarget});
+                    rowInfo.ruleTargetType = targetObj.fnType;
+                    if(!targetObj.fnReturnModelFields){
+                        rowInfo.ruleKeyOp = [];
+                    }else{
+                        rowInfo.ruleKeyOp = targetObj.fnReturnModelFields;
+                    }
+                    if(!targetObj.fnArgsModelFields || targetObj.fnArgsModelFields.length === 0){
+                        rowInfo.ruleParam = '无筛选条件';
+                    }else{
+                        rowInfo.ruleParam = "\"\"";
+                    }
                 }
-            },
+                if(rowInfo.ruleType === 'object') {
+                    const targetObj = this.$lodash.find(this.ruleTargetOp.object, { modelTypeId: rowInfo.ruleTarget});
+                    rowInfo.ruleTargetType = targetObj.fnType;
+                    if(!targetObj.ReModelField){
+                        rowInfo.ruleKeyOp = [];
+                    }else{
+                        rowInfo.ruleKeyOp = targetObj.ReModelField;
+                    }
+                }
 
-            // 获取过滤对象
-            getFilterObj(fnCode) {
-                let getFilterObj = {};
-                this.filterConfArr.forEach((filterItem) => {
-                     if(filterItem.fieldId === fnCode){
-                         getFilterObj = this.$utils.deepExtend(filterItem.modelFieldArr);
-                     }
-                });
-                return getFilterObj;
             },
 
             // 保存筛选条件
@@ -335,7 +368,36 @@
                 }
                 this.ruleTableCheck = !validate;
                 return validate;
+            },
+
+            // 数据格式整理
+            jsonFormatter(){
+                const ruleList = this.ruleTableData.ruleList;
+                let rules = {};
+                ruleList.forEach( ruleItem => {
+                    const args = {};
+                    if(ruleItem.ruleParam !== '无筛选条件' && JSON.parse(ruleItem.ruleParam)) {
+                        JSON.parse(ruleItem.ruleParam).forEach(paramObj=>{
+                            args[paramObj.fieldKey] = paramObj.fieldValue;
+                        });
+                    }
+                    args.fnId = ruleItem.ruleTarget;
+                    const ruleObj = {
+                        context: {
+                            args,
+                            target: ruleItem.ruleTargetType,
+                            type: ruleItem.ruleType
+                        },
+                        expr: `${ruleItem.ruleSign}(${ruleItem.ruleKey}, \\'${ruleItem.ruleValue}\\')`
+                    }
+                    rules[ruleItem.ruleTag] = ruleObj;
+                });
+                return {
+                    expr: this.ruleTableData.judgeScript,
+                    rules
+                }
             }
+
         },
     }
 </script>
