@@ -1,7 +1,4 @@
-const Loading = {
-    install: function () {
-
-    }
+import ruleTableApi from './rule-table-api';
+export default {
+    ruleTableApi
 };
-
-export default Loading;
