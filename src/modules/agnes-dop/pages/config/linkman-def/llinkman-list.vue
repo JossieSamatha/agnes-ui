@@ -58,40 +58,18 @@
                 this.reloadData()
             },
             addLinkMan() {
-                if(!this.reqData.extOrgId){
+                if (!this.reqData.extOrgId) {
                     this.$msg.warning("请先选中机构!");
                     return
                 }
-                this.showDlg('add', {"extOrgId":this.reqData.extOrgId}, this.onAddLoad.bind(this));
+                this.showDlg('add', {"extOrgId": this.reqData.extOrgId}, this.onAddLoad.bind(this));
             },
             showLinkman(params) {
                 this.showDlg('view', params.data);
             },
-            editLinkMan() {
-                let rows = this.$refs.grid.getSelectedRows();
-                if (rows.length !== 1) {
-                    this.$msg.warning("请选中一条记录!");
-                    return
-                }
-                this.showDlg('edit', rows[0], this.onAddLoad.bind(this));
+            editLinkMan(params) {
+                this.showDlg('edit', params.data, this.onAddLoad.bind(this));
             },
-            // async deleteLinkMan(params) {
-            //     let rows= params.data;
-            //     this.form.linkManIdList.push(rows.linkmanId);
-            //     const ok = await this.$msg.ask(`确认删除选中的联系人吗, 是否继续?`);
-            //     if (!ok) {
-            //         return
-            //     }
-            //     try {
-            //         const p = this.$api.linkmanApi.deleteLinkMan(this.form);
-            //         await this.$app.blockingApp(p);
-            //
-            //         this.$msg.success('删除成功');
-            //         await this.reloadData();
-            //     } catch (reason) {
-            //         this.$msg.error(reason);
-            //     }
-            // },
             async deleteLinkMan(params) {
                 const row = params.data;
                 const ok = await this.$msg.ask(`确认删除选中的联系人吗, 是否继续?`);
