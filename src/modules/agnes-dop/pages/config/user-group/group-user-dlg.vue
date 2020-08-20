@@ -69,7 +69,7 @@
                 }
             },
             async loadUserInfos() {
-                const p = this.$api.userGroupApi.getUserInfos({'userGroupId':this.form.userGroupId});
+                const p = this.$api.userGroupApi.getUserInfos(this.form.userGroupId);
                 const resp = await this.$app.blockingApp(p);
                 if(resp.data){
                     let userInfoList = resp.data;
