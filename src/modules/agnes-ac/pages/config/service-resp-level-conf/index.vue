@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import ServiceDlg from "../../../../agnes-tc/pages/config/service-resp-level-conf/service-dlg";
+import ServiceDlg from "./service-dlg";
 
 export default {
     props: {
