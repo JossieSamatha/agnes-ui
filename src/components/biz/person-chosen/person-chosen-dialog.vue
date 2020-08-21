@@ -139,7 +139,7 @@
             choseUser(params){
                 const member = {
                     refType: '1',
-                    memberId: params.data.id,
+                    memberId: params.data.userId,
                     memberDesc: params.data.userName
                 }
                 this.personList.push(member);
