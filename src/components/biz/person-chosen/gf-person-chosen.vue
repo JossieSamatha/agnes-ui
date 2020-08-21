@@ -34,13 +34,7 @@
             }
         },
         beforeMount(){
-            const typeArr = ['', 'personList', 'groupList', 'rosterList'];
-            this.memberRefList.forEach((memberItem)=>{
-                if(this[typeArr[memberItem.refType]]){
-                    this[typeArr[memberItem.refType]].push(memberItem);
-                }
-
-            });
+            this.initChosenData(this.memberRefList);
         },
         components: {
             'chosen-list-view': chosenListView
@@ -57,6 +51,19 @@
             }
         },
         methods: {
+            // 初始化赋值
+            initChosenData(data){
+                this.personList = [];
+                this.groupList = [];
+                this.rosterList = [];
+                const typeArr = ['', 'personList', 'groupList', 'rosterList'];
+                data.forEach((memberItem)=>{
+                    if(this[typeArr[memberItem.refType]]){
+                        this[typeArr[memberItem.refType]].push(memberItem);
+                    }
+                });
+            },
+
             // 打开人员选择弹窗
             chooseUser(){
                 this.$nav.showDialog(

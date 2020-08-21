@@ -6,6 +6,8 @@ import memoApi from './memo-api';
 import rosterApi from './roster-api';
 import fileAnaly from './file-analy-config-api';
 import channelApi from './channel-api';
+import userGroupApi from './user-group-api';
+import dataPipeApi from './data-pipe-api';
 
 export default {
     orgDefineApi,
@@ -15,5 +17,7 @@ export default {
     rosterApi,
     fileAnaly,
     changeDataApi,
-    channelApi
+    channelApi,
+    userGroupApi,
+    dataPipeApi
 };

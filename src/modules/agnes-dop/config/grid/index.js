@@ -9,6 +9,8 @@ import Channel from "./channel-def"
 import MemoDef from "./memo-def"
 import RosterDef from "./roster-def"
 import FileAnaly from "./file-analy-config/index"
+import GroupUser from "./group-user-def/index"
+import DataPipe from "./data-pipe"
 
 const Loading = {
     load: function (Gfui) {
@@ -22,7 +24,9 @@ const Loading = {
         Gfui.use(ChangeData);
         Gfui.use(MemoDef);
         Gfui.use(RosterDef);
-        Gfui.use(FileAnaly)
+        Gfui.use(FileAnaly);
+        Gfui.use(GroupUser);
+        Gfui.use(DataPipe);
     }
 };
 
