@@ -385,8 +385,12 @@
       cronHelpNotify
 
 =======================================*/
+.gf-dialog.el-dialog__wrapper.cron-dialog {
+    width: calc(100% - 500px);
+}
 
 .el-notification.cronHelpNotify {
+    width: 500px;
     max-height: calc(100% - 28px);
     padding: 14px 10px;
 }
@@ -401,6 +405,11 @@
 .el-notification.cronHelpNotify .el-notification__content p.title{
     color: #333;
     line-height: 35px;
+    font-weight: bold;
+}
+
+.el-notification.cronHelpNotify .el-notification__content .mark{
+    color: blue;
 }
 
 .el-notification.cronHelpNotify .el-notification__content p.content{
@@ -416,6 +425,7 @@
 .el-notification.cronHelpNotify .el-notification__content table td{
     padding: 3px 8px;
     border: 1px solid #ccc;
+    font-size: 12px;
 }
 
 .el-notification.cronHelpNotify .el-notification__content table th{

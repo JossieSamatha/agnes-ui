@@ -99,9 +99,11 @@
             // 打开帮助文档
             openHelpFile(){
                 this.$notify({
+                    width: 400,
                     title: 'Cron时间频率组件操作文档',
                     customClass: 'cronHelpNotify',
                     dangerouslyUseHTMLString: true,
+                    duration: 0,
                     message: readMeStr(),
                 });
             }
