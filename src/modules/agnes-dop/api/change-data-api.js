@@ -11,4 +11,7 @@ export default {
     judgeTask() {
         return request.get(`/agnes-ac/v1/config/task/judge/task`);
     },
-};
+    stopTask() {
+        return request.post(`/agnes-ac/v1/config/task/dayend/delete/all-task/job`);
+    },
+}

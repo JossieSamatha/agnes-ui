@@ -120,26 +120,18 @@
                 try {
                     let judgeTaskResp = await this.$api.changeDataApi.judgeTask();
                     if(judgeTaskResp.data&&judgeTaskResp.data===true){
-                        this.$alert('存在待办任务未处理完成，不可强制切换', {
+                        this.$confirm('存在待办任务未处理完成，是否强制切换？', '提示', {
                             confirmButtonText: '确定',
-                            callback:() => {
-                                this.$message({
-                                type: 'info',
-                                message: '取消切换'
+                            cancelButtonText: '取消',
+                            type: 'warning'
+                        }).then(() => {
+                            this.stopAndChangeDay(this.nowTaskData)
+                        }).catch(() => {
+                            this.$message({
+                            type: 'info',
+                            message: '已取消'
                             });
-                        }});
-                        // this.$confirm('存在待办任务未处理完成，不可强制切换', '提示', {
-                        //     confirmButtonText: '确定',
-                        //     cancelButtonText: '取消',
-                        //     type: 'warning'
-                        // }).then(() => {
-                        //     this.checkWorkDay(this.nowTaskData)
-                        // }).catch(() => {
-                        //     this.$message({
-                        //     type: 'info',
-                        //     message: '已取消'
-                        //     });
-                        // });
+                        });
                     }else{
                         this.checkWorkDay(this.nowTaskData)
                     }
@@ -162,8 +154,25 @@
                 });
 
             },
+            async stopAndChangeDay(nowTaskData){                
+                try {
+                    let p = this.$api.changeDataApi.stopTask();
+                    let res = await this.$app.blockingApp(p);
+                    if(res.code!=='100'){
+                        await this.$api.changeDataApi.queryChangeData(nowTaskData);
+                        await this.$message({type: 'success',message: '切换成功!'});
+                        await this.loadChangeData();
+                    }else{
+                        this.$msg.error('切换失败!');
+                    }
+
+                } catch (e) {
+                    this.$msg.error(e);
+                }
+            },
             async changeWorkDay(nowTaskData){
-                await this.$api.changeDataApi.queryChangeData(nowTaskData);
+                let p = this.$api.changeDataApi.queryChangeData(nowTaskData);
+                await this.$app.blockingApp(p);
                 await this.$message({type: 'success',message: '切换成功!'});
                 await this.loadChangeData();
             },
