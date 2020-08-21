@@ -1,26 +1,11 @@
-import column from "../../../../../config/column"
 import mockData from "./mockData";
 import processRenderer from './processRenderer'
-
-const colButtons = [
-    {key: 'actionConfirm', title: '手工确认', cellClass: 'actionConfirm',visiable: (params)=>{
-        if (!params.data.statusId){
-            return true;
-        }
-        return false;
-    }},
-    {key: 'forcePass', title: '强制通过', cellClass: 'forcePass',visiable: (params)=>{
-        if (!params.data.statusId){
-            return true;
-        }
-        return false;
-    }},
-    {key: 'reExecute', title: '重新执行', cellClass: 'reExecute'}
-];
+import optionalRenderer from './optionalRenderer'
 
 export default {
     columnDefs: [
-        column.buildOpCol(200, colButtons),
+        {headerName: "操作", field: "option", width: 70,
+            cellRenderer: 'optionalRenderer'},
         {headerName: "状态", field: "status"},
         {headerName: "监控明细归类", field: "detailSort"},
         {headerName: "任务编号", field: "taskNo"},
@@ -32,11 +17,14 @@ export default {
         },
         {headerName: "任务执行时间", field: "taskExecTime"},
         {headerName: "完成时间", field: "finishedTime"},
-        {headerName: "任务类型", field: "taskType"}
+        {headerName: "任务类型", field: "taskType"},
+        {headerName: "备注", field: "remark"},
     ],
     tooltipShowDelay: 0,
     frameworkComponents: {
-        processRenderer
+        optionalRenderer,
+        processRenderer,
+
     },
     rowData: mockData(),
     headerHeight: 40,

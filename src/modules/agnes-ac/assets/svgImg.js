@@ -25,4 +25,39 @@ export default {
             '<path d="M396.821251 348.885474L191.48796 102.058859a33.06666 33.06666 0 1 1 50.858656-42.282658l205.311957 246.805282a33.045326 33.045326 0 1 1-50.837322 42.282658M779.498504 348.885474l205.333291-246.805282a33.06666 33.06666 0 1 0-50.858656-42.282658l-205.311957 246.805282a33.045326 33.045326 0 1 0 50.837322 42.282658" p-id="19478">' +
             '</path>' +
         '</svg>',
+
+    'actionConfirm':
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70.32 66.49">' +
+            '<defs>' +
+            '<style>.cls-1{fill:none;stroke:#476dbe;stroke-linecap:round;stroke-linejoin:round;stroke-width:3px;}</style>' +
+            '</defs>' +
+            '<path class="cls-1" d="M30.93,65H3.5a2,2,0,0,1-2-2V3.5a2,2,0,0,1,2-2H50.63a2,2,0,0,1,2,2V26.24"/>' +
+            '<polyline class="cls-1" points="48.12 52.36 51.17 55.42 57.45 49.14"/>' +
+            '<path class="cls-1" d="M50.13,35.38,37,58.1a3,3,0,0,0,2.58,4.48H65.83a3,3,0,0,0,2.59-4.48L55.3,35.38A3,3,0,0,0,50.13,35.38Z"/>' +
+            '<line class="cls-1" x1="10.94" y1="11.32" x2="34.86" y2="11.32"/>' +
+            '<line class="cls-1" x1="10.94" y1="21.98" x2="29.86" y2="21.98"/>' +
+            '<line class="cls-1" x1="10.94" y1="33.89" x2="23.86" y2="33.89"/>' +
+        '</svg>',
+
+    'forcePass':
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 59.94 69.69">' +
+        '<defs>' +
+        '<style>.cls-1{fill:none;stroke:#476dbe;stroke-linecap:round;stroke-linejoin:round;stroke-width:3px;}</style>' +
+        '</defs>' +
+        '<path class="cls-1" d="M56.43,68.19a2,2,0,0,0,2-2V53a2,2,0,0,0-2-2h-9V43.27a3.11,3.11,0,0,0-3.11-3.11h0a3.12,3.12,0,0,0-3.12,3.11v13l-1.94-3.37a3,3,0,0,0-4.1-1.09h0a3,3,0,0,0-1.1,4.09l6.54,11.32a2,2,0,0,0,1.74,1Z"/><circle class="cls-1" cx="29.76" cy="17.47" r="15.97"/>' +
+        '<path class="cls-1" d="M1.5,68.06c0-19.12,12.65-34.62,28.26-34.62"/>' +
+        '</svg>',
+
+    'reExecute': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 67.1 66.4">' +
+        '<defs>' +
+        '<style>.cls-1{fill:none;stroke:#476dbe;stroke-linecap:round;stroke-linejoin:round;stroke-width:3px;}.cls-2{fill:#476dbe;}</style>' +
+        '</defs>' +
+        '<rect class="cls-1" x="1.5" y="1.5" width="27.24" height="27.24" rx="1.09"/>' +
+        '<rect class="cls-1" x="37.07" y="37.66" width="27.24" height="27.24" rx="1.09"/>' +
+        '<path class="cls-1" d="M41.33,4A22.32,22.32,0,0,1,63.65,26.28"/>' +
+        '<path class="cls-2" d="M64,31.6,67,26.85a.37.37,0,0,0-.31-.57H60.57a.37.37,0,0,0-.31.57l3.08,4.75A.36.36,0,0,0,64,31.6Z"/>' +
+        '<path class="cls-1" d="M28,63.08A22.32,22.32,0,0,1,5.68,40.76"/>' +
+        '<path class="cls-2" d="M5.37,35.44,2.3,40.19a.37.37,0,0,0,.31.57H8.76a.37.37,0,0,0,.31-.57L6,35.44A.37.37,0,0,0,5.37,35.44Z"/>' +
+      '</svg>',
+
 }
