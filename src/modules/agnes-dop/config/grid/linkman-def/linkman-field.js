@@ -8,8 +8,8 @@ export default {
     columnDefs: [
         column.buildOpCol(120, colButtons),
         {headerName: "姓名", field: "linkmanName"},
-        {headerName: "职位", field: "linkmanRoleId"},
-        {headerName: "部门", field: "linkmanDept"},
+        {headerName: "岗位", field: "linkmanRoleId", dictType: "AGNES_ROSTER_POST"},
+        {headerName: "部门", field: "linkmanDept", dictType: "AGNES_ROSTER_DEPT"},
         {headerName: "状态", field: "linkmanStatus", dictType: "DOP_LINKMAN_STATUS"},
         {headerName: "电话", field: "linkmanPhone"}
     ],
