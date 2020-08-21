@@ -39,6 +39,7 @@
                     </el-form-item>
                     <el-form-item v-if="type==='todo'" label="备注:" prop="remark" >
                         <gf-input
+                                :max-byte-len="2000"
                                 type="textarea"
                                 :rows="2"
                                 placeholder="请输入任务说明"
