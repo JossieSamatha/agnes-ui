@@ -82,7 +82,7 @@
                 if (!pageView) {
                     return;
                 }
-                const tabView = Object.assign({args: ''}, pageView, {id: viewId || ''});
+                const tabView = Object.assign({args: ''}, pageView, {id: viewId});
                 this.$nav.showView(tabView);
             },
 
