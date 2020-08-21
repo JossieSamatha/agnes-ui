@@ -11,6 +11,7 @@ import KpiTaskDef from './kpi-task-def/kpi-task-list'
 import FlowTaskDef from "./flow-task-def/index";
 import ElecProcessOp from './elec-process/optional/index'
 import ElecProcessDB from './elec-process/dashboard/index'
+import ServiceRespLevelConf from "./service-resp-level-conf/index";
 
 
 const Loading = {
@@ -36,6 +37,7 @@ const Loading = {
 
         Gfui.componentView('agnes.elec.operate', ElecProcessOp, {title: '电子流程操作'});
         Gfui.componentView('agnes.elec.dashboard', ElecProcessDB, {title: '领导驾驶舱'});
+        Gfui.componentView('agnes.service.resp.level.conf', ServiceRespLevelConf, {title: '服务响应等级配置'});
     }
 };
 

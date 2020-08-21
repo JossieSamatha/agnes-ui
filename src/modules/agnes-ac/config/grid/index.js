@@ -8,6 +8,7 @@ import CaseDef from "./case-def"
 import MotDef from "./mot-def"
 import FlowTaskField from './flow-task-def'
 import elecProcessField from './elec-process'
+import ServiceRespLevelConf from "./service-resp-conf"
 
 const Loading = {
     load: function (Gfui) {
@@ -21,6 +22,7 @@ const Loading = {
         Gfui.use(MotDef);
         Gfui.use(FlowTaskField);
         Gfui.use(elecProcessField);
+        Gfui.use(ServiceRespLevelConf);
     }
 };
 

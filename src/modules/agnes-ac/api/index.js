@@ -8,6 +8,7 @@ import caseConfigApi from './case-config-api';
 import ruleConfigApi from './rule-config-api';
 import motConfigApi from './mot-config-api';
 import flowTaskApi from './flow-task-config-api';
+import ServiceConfApi from './service-conf-api';
 
 export default {
     modelConfigApi,
@@ -19,5 +20,6 @@ export default {
     caseConfigApi,
     ruleConfigApi,
     motConfigApi,
-    flowTaskApi
+    flowTaskApi,
+    ServiceConfApi
 };
