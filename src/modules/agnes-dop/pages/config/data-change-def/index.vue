@@ -120,26 +120,18 @@
                 try {
                     let judgeTaskResp = await this.$api.changeDataApi.judgeTask();
                     if(judgeTaskResp.data&&judgeTaskResp.data===true){
-                        this.$alert('存在待办任务未处理完成，不可强制切换', {
+                        this.$confirm('存在待办任务未处理完成，是否强制切换？', '提示', {
                             confirmButtonText: '确定',
-                            callback:() => {
-                                this.$message({
-                                type: 'info',
-                                message: '取消切换'
+                            cancelButtonText: '取消',
+                            type: 'warning'
+                        }).then(() => {
+                            this.checkWorkDay(this.nowTaskData)
+                        }).catch(() => {
+                            this.$message({
+                            type: 'info',
+                            message: '已取消'
                             });
-                        }});
-                        // this.$confirm('存在待办任务未处理完成，不可强制切换', '提示', {
-                        //     confirmButtonText: '确定',
-                        //     cancelButtonText: '取消',
-                        //     type: 'warning'
-                        // }).then(() => {
-                        //     this.checkWorkDay(this.nowTaskData)
-                        // }).catch(() => {
-                        //     this.$message({
-                        //     type: 'info',
-                        //     message: '已取消'
-                        //     });
-                        // });
+                        });
                     }else{
                         this.checkWorkDay(this.nowTaskData)
                     }
