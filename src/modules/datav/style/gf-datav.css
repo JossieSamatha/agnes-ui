@@ -1,0 +1,273 @@
+.datav-component .el-container {
+    height: 100%;
+}
+
+.datav-component .el-aside {
+    width: 200px!important;
+    border-right: 1px solid #eaeaea;
+    /*background: #404258;*/
+}
+
+.datav-component .el-main {
+    padding: 0px;
+}
+
+/*.datav-component .el-aside .el-tree {*/
+    /*height: 100%;*/
+    /*background:none;*/
+    /*color:#fff;*/
+    /*overflow: auto;*/
+/*}*/
+
+/*.datav-component .el-aside .el-tree .el-tree-node__content:hover {*/
+    /*background: #1c74c8;*/
+/*}*/
+
+/*.datav-component .el-aside .el-tree .el-tree-node:focus>.el-tree-node__content {*/
+    /*background: #1c74c8;*/
+/*}*/
+
+.datav-component-list {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    padding: 10px;
+    flex-flow: wrap;
+    text-align: center;
+    overflow: auto;
+}
+
+.datav-component-list .datav-component-card {
+    margin-right: 20px;
+    margin-bottom: 20px;
+    width: 280px;
+    height: 140px;
+    text-align: center;
+    background: #E8EAEF;
+    border: 3px #E8EAEF solid;
+    cursor: pointer;
+}
+
+.datav-component-list .datav-component-card:hover {
+    border: 1px #2445cb solid;
+}
+
+
+.datav-component-list .datav-component-card>.card-border {
+    height: 100%;
+    border: 2px #CACDD6 dashed;
+}
+
+.datav-component-list .datav-component-card>.new .el-button i{
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.datav-component-list .datav-component-card>.new {
+    line-height: 130px;
+}
+
+.datav-component-list .datav-component-card>.new .el-button {
+    color: #666;
+}
+
+.datav-component-list .datav-component-card .component-label {
+    margin-top: 5px;
+}
+
+.datav-component-list .datav-component-card>div {
+    height: 100%;
+}
+
+.datav-component-list .datav-component-card .card-icon,
+.datav-component-list .datav-component-card .card-label {
+    height: 50%;
+}
+
+.datav-component-list .datav-component-card .card-label {
+    line-height: 0px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.datav-component-list .datav-component-card .card-label div:first-child {
+    flex-grow: 1;
+}
+
+.datav-component-list .datav-component-card .card-label .handles {
+    flex-grow: 0;
+    text-align: right;
+    padding-right: 10px;
+    display: none;
+}
+
+.datav-component-list .datav-component-card:hover .card-label .handles {
+    display: block;
+}
+
+.datav-component-list .datav-component-card .card-label .el-button{
+    color: #333;
+}
+
+.datav-component-list .datav-component-card .card-label div:first-child .el-button {
+    font-size: 14px;
+}
+
+
+.datav-component-designer .el-container {
+    height: 100%;
+}
+
+/*.datav-component-designer .el-aside {*/
+    /*width: 200px!important;*/
+    /*border-right: 1px #000 solid;*/
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*background-color: #404258;*/
+    /*color: #fff;*/
+/*}*/
+
+/*.datav-component-designer .el-aside .title {*/
+    /*flex-grow: 0;*/
+/*}*/
+
+/*.datav-component-designer .title-label {*/
+    /*line-height: 26px;*/
+    /*padding: 0px 5px;*/
+/*}*/
+
+/*.datav-component-designer .el-aside .title>div:first-child {*/
+    /*font-weight: bold;*/
+/*}*/
+
+/*.datav-component-designer .el-aside .fields {*/
+    /*flex-grow: 1;*/
+    /*overflow: auto;*/
+/*}*/
+
+/*.datav-component-designer .el-aside .fields>div {*/
+    /*height: 100%;*/
+    /*overflow: auto;*/
+    /*background: none;*/
+/*}*/
+
+/*.datav-component-designer .el-aside .fields>div .item {*/
+    /*line-height: 26px;*/
+    /*font-size: 14px;*/
+/*}*/
+
+/*.datav-component-designer .el-aside .fields>div .item:hover {*/
+    /*cursor: pointer;*/
+    /*background: #1c74c8;*/
+/*}*/
+
+/*.datav-component-designer .el-aside .fields>div .item .el-col:first-child {*/
+    /*text-align: center;*/
+/*}*/
+
+/*.datav-component-designer .el-aside .fields>div .item .el-col:first-child i {*/
+    /*font-weight: bold;*/
+    /*font-size: 14px;*/
+/*}*/
+
+.datav-component-designer .el-main {
+    padding: 0px;
+}
+
+.datav-component-designer .chart-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.datav-component-designer .chart-list .datav-chart-type {
+    flex-grow: 0;
+    border-bottom: 1px #000 solid;
+}
+
+.datav-component-designer .chart-list .datav-chart-type .el-row:not(:first-child) .el-button {
+    padding: 0px;
+}
+
+.datav-component-designer .chart-list .datav-chart-type .el-row:not(:first-child) .el-button:hover .chart-icon {
+    background-color: #1c74c8;
+}
+
+.datav-component-designer .chart-list .datav-chart-type .el-row:not(:first-child) .el-col {
+    text-align: center;
+}
+
+.datav-component-designer .chart-list .datav-chart-attrs {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.datav-chart {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.datav-chart .datav-chart-head {
+    padding: 10px;
+    flex-grow: 0;
+}
+
+.datav-chart .datav-chart-head .row {
+    line-height: 32px;
+    height: 32px;
+    display: flex;
+    flex-direction: row;
+}
+
+.datav-chart .datav-chart-head .row:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.datav-chart .datav-chart-head .row>div:first-child {
+    flex-grow: 0;
+    width: 80px;
+    text-align: center;
+}
+
+.datav-chart .datav-chart-head .row>div:last-child {
+    flex-grow: 1;
+    border: 1px #ddd solid;
+    padding: 0px 5px;
+    border-radius: 4px;
+    line-height: 28px;
+}
+
+.datav-chart .datav-chart-head .row .el-tag:not(:last-child) {
+    margin-right: 6px;
+}
+
+.datav-chart .datav-chart-body {
+    flex-grow: 1;
+    overflow: auto;
+    border-top: 1px #ddd solid;
+}
+
+
+.datav-dataset{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.datav-dataset .el-form{
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px 20px 0px 20px;
+}
+
+.datav-dataset .gf-form-btn {
+    flex-grow: 0;
+    background: #eeeeee;
+    padding: 5px 0px;
+}
+.datav-chart .gf-form-btn{
+    flex-grow: 0;
+    background: #eeeeee;
+    padding: 5px 0px;
+}

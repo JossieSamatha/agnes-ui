@@ -9,7 +9,8 @@ export default function () {
             finishedRate: '0',
             taskExecTime: '13:00-13:30',
             finishedTime: '2020-07-23 10:00:00',
-            taskType: '人工任务'
+            taskType: '人工任务',
+            taskSubType: '1'
         },
         {
             statusId: '',
@@ -20,7 +21,8 @@ export default function () {
             finishedRate: '0',
             taskExecTime: '8:30-9:30',
             finishedTime: '',
-            taskType: '指标任务'
+            taskType: '指标任务',
+            taskSubType: '2'
         },
         {
             statusId: 'outTime',
@@ -31,7 +33,8 @@ export default function () {
             finishedRate: '50',
             taskExecTime: '8:30-9:30',
             finishedTime: '',
-            taskType: '指标任务'
+            taskType: '指标任务',
+            taskSubType: '2'
         },
         {
             statusId: 'abnormal',
@@ -42,7 +45,8 @@ export default function () {
             finishedRate: '90',
             taskExecTime: '8:30-9:30',
             finishedTime: '',
-            taskType: '指标任务'
+            taskType: '指标任务',
+            taskSubType: '3'
         },
         {
             statusId: 'finish',
@@ -53,7 +57,8 @@ export default function () {
             finishedRate: '100',
             taskExecTime: '8:30-9:30',
             finishedTime: '',
-            taskType: '指标任务'
+            taskType: '指标任务',
+            taskSubType: '3'
         },
         {
             statusId: '',
@@ -64,7 +69,8 @@ export default function () {
             finishedRate: '8:30-8:40',
             taskExecTime: '',
             finishedTime: '',
-            taskType: '指标任务'
+            taskType: '指标任务',
+            taskSubType: '3'
         },
         {
             statusId: '',
@@ -75,7 +81,8 @@ export default function () {
             finishedRate: '0',
             taskExecTime: '13:00-13:30',
             finishedTime: '',
-            taskType: '人工任务'
+            taskType: '人工任务',
+            taskSubType: '0'
         },
         {
             statusId: 'outTime',
@@ -86,7 +93,8 @@ export default function () {
             finishedRate: '50',
             taskExecTime: '8:30-9:30',
             finishedTime: '',
-            taskType: '指标任务'
+            taskType: '指标任务',
+            taskSubType: '2'
         },
         {
             statusId: 'abnormal',
@@ -97,7 +105,8 @@ export default function () {
             finishedRate: '90',
             taskExecTime: '8:30-9:30',
             finishedTime: '',
-            taskType: '指标任务'
+            taskType: '指标任务',
+            taskSubType: '3'
         },
         {
             statusId: '',
@@ -108,7 +117,8 @@ export default function () {
             finishedRate: '0',
             taskExecTime: '13:00-13:30',
             finishedTime: '',
-            taskType: '人工任务'
+            taskType: '人工任务',
+            taskSubType: '0'
         },
     ]
 }
