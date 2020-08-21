@@ -56,7 +56,10 @@
                 };
                 this.$refs.grid.reloadData();
             },
-            viewTask(params) {
+            viewTask(params){
+                this.showTask(params,this.onViewTask.bind(this));
+            },
+            showTask(params,action) {
                 const row = params.data;
                     if (row.taskType === '01'||row.taskType === '1') {
                         let customOpBtn = [];
@@ -76,7 +79,7 @@
                             width: 'calc(97% - 215px)',
                             title: [row.stepName + '-办理'],
                             component: KpiDef,
-                            args: {row,type:'todo'},
+                            args: {row,type:'todo',action},
                             customOpBtn:customOpBtn,
                             okButtonTitle: '重新执行',
                             cancelButtonTitle: '取消',
@@ -88,7 +91,7 @@
                             width: 'calc(97% - 215px)',
                             title: [row.stepName + '-办理'],
                             component: PersonTaskDetail,
-                            args: {row,type:'todo'},
+                            args: {row,type:'todo',action},
                             okButtonTitle: '提交',
                             cancelButtonTitle: '取消',
                         });

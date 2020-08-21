@@ -121,7 +121,7 @@
                             await this.actionOk();
                         }
                         this.$msg.success('提交成功');
-                        this.$dialog.close(this);
+                        this.$emit("onClose");
                     } else {
                         this.$msg.warning('提交失败');
                     }
