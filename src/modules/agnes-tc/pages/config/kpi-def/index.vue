@@ -41,6 +41,7 @@
                 <el-col :span="24">
                     <el-form-item label-width="0px"  label="" prop="remark" >
                         <gf-input
+                                :max-byte-len="2000"
                                 :readonly="type==='done'"
                                 type="textarea"
                                 :rows="2"
@@ -112,7 +113,7 @@
             if(this.type === 'done'){
                 this.placeholder = '';
             }
-            if(this.row.allowManualConfirm && this.row.allowManualConfirm === '1'){
+            if(this.row.allowManualConfirm && this.row.allowManualConfirm === '1' && this.type === 'todo'){
                 this.remarkRule =  {remark: [
                     {required: true, message: '备注必填'},
                 ]}

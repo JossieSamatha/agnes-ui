@@ -20,7 +20,7 @@ export default {
         return request.get(`/dop-kpi/kpi/kpi/getList`);
     },
     getServiceResponse() {
-        return request.post("/agnes-app/v1/tc/service/list");
+        return request.post("/agnes-ac/v1/ac/service/list");
     },
     listOptions(){
         return request.get("/agnes-ac/v1/config/exe/task/options/list");
