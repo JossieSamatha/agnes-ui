@@ -1,28 +1,29 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'editLinkMan', title: '修改'},
-    {key: 'editLinkMan', title: '复核'},
+    {key: 'editParam', title: '修改'},
+    {key: 'checkParam', title: '复核'},
 ];
 export default {
     columnDefs: [
         column.buildOpCol(120, colButtons),
-        {headerName: "业务归属", field: "linkmanName"},
-        {headerName: "参数代码", field: "linkmanRoleId"},
-        {headerName: "参数名称", field: "linkmanDept"},
-        {headerName: "参数类型", field: "linkmanStatus", dictType: "DOP_LINKMAN_STATUS"},
-        {headerName: "参数值", field: "linkmanPhone"},
-        {headerName: "更新人", field: "linkmanPhone"},
-        {headerName: "更新时间", field: "linkmanPhone"},
+        {headerName: "业务归属", field: "paramBizType"},
+        {headerName: "参数代码", field: "paramCode"},
+        {headerName: "参数名称", field: "paramName"},
+        {headerName: "参数类型", field: "paramType"},
+        {headerName: "参数值", field: "paramValue"},
+        {headerName: "更新人", field: "crtUser"},
+        {headerName: "更新时间", field: "crtTs"},
     ],
     headerHeight: 40,
     rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-app/v1/dop/linkman/org/list",
+        fetchUrl: "/agnes-app/v1/prdt/param/list/page",
         fetchMethod: 'get',
         pagingMode: true, //不分页
         checkboxColumn: 1, //是否显示checkbox列,
         enableExportLocal: true,
+        loadDataOnReady:false,
         autoFitColumnMode: 1,
         pageOptions: {
             // 分页大小

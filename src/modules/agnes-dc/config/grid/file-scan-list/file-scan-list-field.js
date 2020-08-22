@@ -1,18 +1,29 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'searchProduct', title: '查看'},
+    {key: 'showFileDetail', title: '文件明细'},
 ];
 export default {
     columnDefs: [
-        column.buildOpCol(120, colButtons),
-        {headerName: "用户姓名", field: "userName"},
-        {headerName: "核算员编号", field: "accountantCode"},
+        column.buildOpCol(80, colButtons),
+        {headerName: "规则编号", field: "scanCode"},
+        {headerName: "规则名称", field: "scanName"},
+        {headerName: "执行时间", field: "scanName"},
+        {headerName: "服务器地址", field: "serverAddress"},
+        {headerName: "服务器端口", field: "serverPort"},
+        {headerName: "扫描路径", field: "filePath"},
+        {headerName: "扫描文件", field: "fileName"},
+        {headerName: "是否需要解析", field: "status",
+        valueFormatter:function(params){
+            if(params.value==="0"){
+                return "否"
+            }else{
+                return '是'
+            }
+        }},
     ],
-    headerHeight: 40,
-    rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-app/v1/prdt/auth/user/list",
+        fetchUrl: "/agnes-app/v1/dc/file/scan/list-page",
         fetchMethod: 'get',
         pagingMode: true, //不分页
         checkboxColumn: 1, //是否显示checkbox列,

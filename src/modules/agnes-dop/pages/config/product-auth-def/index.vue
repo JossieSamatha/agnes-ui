@@ -1,3 +1,4 @@
+
 <template>
     <el-container>
         <el-container style="height: 100%">
@@ -7,15 +8,17 @@
                 </gf-grid>
             </el-main>
         </el-container>
-        <el-aside width="400px" class="el-border">
+        <el-aside width="300px" class="el-border">
             <el-row class="button-body">
-                <el-input v-model="filterText" size="mini" placeholder="检索机构..."
+                <el-input v-model="filterText" size="mini" placeholder="检索..."
                           suffix-icon="fa fa-search"></el-input>
                 <gf-button style="marginLeft:12px" @click="saveAuth" class="action-btn" type="primary" size="mini">保存</gf-button>
             </el-row>
             <el-tree ref="tree"
+                    v-loading="loading"
                     :data="treeData"
                     node-key="id"
+                    :default-checked-keys="treeCheckedData"
                     show-checkbox
                     default-expand-all
                     @node-click="handleNodeClick"
@@ -38,6 +41,8 @@
         },
         data() {
             return {
+                loading:false,
+                treeCheckedData:[],//树状结构中选中项目
                 checkPerson:{},//选中的用户信息
                 filterText: '',
                 treeData: [],
@@ -64,28 +69,48 @@
             searchProduct(params){
                 this.checkPerson = params
                 //此处可将选择行的数据作为参数传回搜索产品数据接口
-                this.loadTreeNodes();
+                this.loadTreeNodes(params.data.userId);
             },
             reloadData() {
                 this.$refs.grid.reloadData();
             },
-            saveAuth(){
-                // let checkData = this.$refs.tree.getCheckedNodes();//获取到所有选中的树节点
-                // let checkDataTranster = [];
-                // for(let i=0;i<checkData.length;i++){
-                //     if(loadsh.isEmpty(checkData[i].children)){
-                //        checkDataTranster.push(checkData[i]); 
-                //     }
-                // }
+            async saveAuth(){
+                let checkData = this.$refs.tree.getCheckedNodes();//获取到所有选中的树节点
+                let checkDataTranster = [];
+                for(let i=0;i<checkData.length;i++){
+                    if(loadsh.isEmpty(checkData[i].children)){
+                       checkDataTranster.push({'productId':checkData[i].productId,'productCode':checkData[i].productCode}); 
+                    }
+                }
+                try {
+                    await this.$api.productAuthApi.saveAuth(this.checkPerson.data.userId,checkDataTranster);
+                    await this.reloadData();
+                    this.treeData=[];
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+
             },
             filterNode(value, data) {
                 return data.label.indexOf(value) >= 0;
             },
 
-            async loadTreeNodes() {
+            async loadTreeNodes(userId) {
                 try {
-                    const resp = await this.$api.orgDefineApi.getOrgTreeNodes();
+                    this.loading = true;
+                    const resp = await this.$api.productAuthApi.searchProdutById(userId);
                     this.treeData = resp.data;
+                    this.treeCheckedData = [];
+                    for(let i =0;i<resp.data.length;i++){
+                        if(!loadsh.isEmpty(resp.data[i].children)){
+                            for(let j=0;j<resp.data[i].children.length;j++){
+                                if(resp.data[i].children[j].isChecked==='1'){
+                                    this.treeCheckedData.push(resp.data[i].children[j].id)
+                                }
+                            }
+                        }
+                    }
+                    this.loading = false;
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
