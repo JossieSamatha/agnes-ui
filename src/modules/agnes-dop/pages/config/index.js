@@ -9,7 +9,6 @@ import DataChange from "./data-change-def/index"
 import Channel from "./channel-def/channel-list"
 import memoDef from "./memo-def/index"
 import RosterDef from "./roster-def/index";
-import fileAnaly from "./file-analy-config/index"
 import DataPipeTask from "./data-pipe/index";
 
 const Loading = {
@@ -23,7 +22,6 @@ const Loading = {
         Gfui.componentView('agnes.dop.group.user', GroupUser, {title: '内部用户维护'});
         Gfui.componentView('agnes.dop.memo', memoDef, {title: '日历维护'});
         Gfui.componentView('agnes.dop.roster', RosterDef, {title: '排班表'});
-        Gfui.componentView('dataservice.fileanaly.config', fileAnaly, {title: '文件解析配置'});
         Gfui.componentView('data.pipe.task', DataPipeTask, {title: '调度配置'});
     }
 };

@@ -1,18 +1,24 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'searchProduct', title: '查看'},
+    {key: 'editFileMove', title: '修改'},
+    {key: 'deleteFileMove', title: '删除', cellClass: 'red-cell'},
+    {key: 'editFromServer', title: '从服务器配置'},
 ];
 export default {
     columnDefs: [
-        column.buildOpCol(120, colButtons),
-        {headerName: "用户姓名", field: "userName"},
-        {headerName: "核算员编号", field: "accountantCode"},
+        column.buildOpCol(180, colButtons),
+        {headerName: "规则编号", field: "copyCode"},
+        {headerName: "规则名称", field: "copyName"},
+        {headerName: "处理方式", field: "processMode"},
+        {headerName: "主服务器地址", field: "serverAddress"},
+        {headerName: "主服务器端口", field: "serverPort"},
+        {headerName: "主服务器路径", field: "filePath"},
+        {headerName: "主服务器文件", field: "fileName"},
+        // {headerName: "从服务器配置", field: "createdBy"},
     ],
-    headerHeight: 40,
-    rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-app/v1/prdt/auth/user/list",
+        fetchUrl: "/agnes-app/v1/dc/copy/conf/list",
         fetchMethod: 'get',
         pagingMode: true, //不分页
         checkboxColumn: 1, //是否显示checkbox列,
