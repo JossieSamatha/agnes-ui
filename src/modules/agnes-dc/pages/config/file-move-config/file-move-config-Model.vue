@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="move-model-body">
         <el-form ref="form" class="task-def-form" :model="form" :disabled="mode==='view'"
                 :rules="detailFormRules" label-width="0px">
             <el-form-item label="" prop="fileTable">
@@ -35,6 +35,31 @@
                                 <el-input v-model="scope.row.fileName"></el-input>
                             </template>
                         </el-table-column>
+                        <el-table-column prop="userName" label="用户名">
+                            <template slot-scope="scope">
+                                <!-- <span v-if="this.mode === 'view'">{{scope.row.userName}}</span> -->
+                                <el-input :style="!scope.row.userName ? 'border:1px solid #f00':''" v-model="scope.row.userName"></el-input>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="password" label="密码">
+                            <template slot-scope="scope">
+                                <!-- <span v-if="this.mode === 'view'">{{scope.row.password}}</span> -->
+                                <el-input :style="!scope.row.password ? 'border:1px solid #f00':''" v-model="scope.row.password"></el-input>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="varId" label="变量选择">
+                            <template slot-scope="scope">
+                                <el-select :style="!scope.row.varId||scope.row.varId.length===0? 'border:1px solid #f00':''" multiple v-model="scope.row.varId" placeholder="请选择">
+                                    <el-option 
+                                        v-for="item in variableOption"
+                                        :key="item.pkId"
+                                        :label="item.varName"
+                                        :value="item.pkId"
+                                    >
+                                    </el-option>
+                                </el-select>
+                            </template>
+                        </el-table-column>
                         <el-table-column  prop="option" label="操作" width="52" align="center">
                             <template slot-scope="scope">
                                 <span class="option-span" @click="deleteRuleRow(scope.$index)">删除</span>
@@ -50,6 +75,7 @@
 </template>
 
 <script>
+    import loadsh from 'lodash';
     export default {
         name: "file-move-detail",
         props: {
@@ -84,7 +110,7 @@
                     },
                     fields:[],
                 },
-                mustFillField: ['serverAddress','serverPort'],
+                mustFillField: ['serverAddress','serverPort','userName','password','varId'],
                 variableOption:[],
                 analyRulesOption:[],
                 curExecScheduler: '',    // 当前频率对象字段
@@ -97,6 +123,7 @@
                 const p = this.getSlaveServerList();
                 this.$app.blockingApp(p);
             }
+            this.getVarIdList();
         },
         methods: {
             // 取消onCancel事件，触发抽屉关闭事件this.$emit("onClose");
@@ -106,6 +133,11 @@
             // json非空判断
             mustFill(fieldStr){
                 return this.mustFillField.indexOf(fieldStr) !== -1;
+            },
+            async getVarIdList(){
+                const p = this.$api.fileScan.getVarIdList();
+                let res =  await this.$app.blockingApp(p);
+                this.variableOption = res.data;
             },
             // 新增服务行
             addRule(){
@@ -138,7 +170,7 @@
                 if(this.form.fields){
                     for(let i =0;i<this.form.fields.length;i++){
                         for (let key in this.form.fields[i]) {
-                            if(this.mustFillField.indexOf(key) !== -1 && !this.form.fields[i][key]){
+                            if(this.mustFillField.indexOf(key) !== -1 && loadsh.isEmpty(this.form.fields[i][key])){
                                 validate = false;
                             }
                         }
@@ -161,7 +193,7 @@
                         await this.actionOk(this.form, this.row);
                     }
                     this.$msg.success('保存成功');
-                    this.$emit("onClose");
+                    this.$dialog.close(this, 'ok'); 
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
@@ -175,4 +207,8 @@
     .not-block{
         border-color: #f00;
     }
+    /* .move-model-body{
+        width: 800px;
+        overflow: scroll;
+    } */
 </style>>
