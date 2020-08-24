@@ -1,80 +1,87 @@
 <template>
-    <div class="template-board-container">
-        <section ref="boardContainer" class="container" @dropover.prevent
-            :style="{'background-image': getImgPath(datavConf.bgImage)}">
-            <vue-drag-resize v-for="(comp, index) in datavComps"
-                 :key="index"
-                 :w="comp.width"
-                 :h="comp.height"
-                 :x="comp.left"
-                 :y="comp.top"
-                 :parentW="listWidth"
-                 :parentH="listHeight"
-                 :parentLimitation="true"
-                 :axis="comp.axis"
-                 :isActive="comp.active"
-                 :isDraggable="comp.draggable"
-                 :isResizable="comp.resizable"
-                 :aspectRatio="comp.aspectRatio"
-                 :z="comp.zIndex"
-                 @activated="activateEv(index)"
-                 @deactivated="deactivateEv(index)"
-                 @dragging="changePosition($event, index)"
-                 @resizing="changeSize($event, index)">
-                <i class="optionIcon fa fa-close" @click="deleteComp(comp)"></i>
-                <i class="optionIcon fa fa-copy" @click="copyComp(comp)"></i>
-                <component :is="comp.compType" :compOption="comp"></component>
-            </vue-drag-resize>
-        </section>
-    </div>
+    <vue-drag-resize ref="dragResize"
+                     :w="position.width"
+                     :h="position.height"
+                     :x="position.left"
+                     :y="position.top"
+                     :axis="position.axis"
+                     :isActive="isActive"
+                     :isDraggable="position.draggable"
+                     :isResizable="position.resizable"
+                     :aspectRatio="position.aspectRatio"
+                     :z="position.zIndex"
+                     :parentW="listWidth"
+                     :parentH="listHeight"
+                     :parentLimitation="true"
+                     contentClass="box-shaddow"
+                     @activated="activateEv(index)"
+                     @deactivated="deactivateEv(index)"
+                     @dragging="changePosition($event, index)"
+                     @resizing="changeSize($event, index)">
+        <i class="optionIcon fa fa-close" @click="deleteComp(compId)"></i>
+        <i class="optionIcon fa fa-copy" @click="copyComp(compId)"></i>
+        <slot name="drag-size-content"></slot>
+    </vue-drag-resize>
 </template>
-
 <script>
     export default {
         props: {
-            datavConf: {
-                type: Object,
+            compId: {
+                type: String,
                 require: true
-            }
+            },
+            compName: {
+                type: String,
+                require: true
+            },
+            isActive: {
+                type: Boolean,
+                require: true
+            },
+            position: {
+                type: Object,
+                default: function () {
+                    return {
+                        width: 200,
+                        height: 150,
+                        positionX: 10,
+                        positionY: 10,
+                        draggable: true,
+                        resizable: true,
+                        axis: 'both',
+                        aspectRatio: false,
+                        zIndex: 1,
+                    }
+                }
+            },
+            optional: {
+                type: Object
+            },
         },
         data(){
             return {
                 listWidth: 0,
                 listHeight: 0,
-                dragOptions: {
-                    group: {name: 'compGroup'}
-                },
 
             }
         },
-
         mounted() {
-            this.$app.registerCmd('addComp', this.addComp);
-            this.$app.registerCmd('compDataChange', this.compDataChange);
-            var _that = this;
-            this.$nextTick(function () {
-                let listEl = _that.$refs.boardContainer;
-                _that.listWidth = listEl.clientWidth;
-                _that.listHeight = listEl.clientHeight;
+            this.$nextTick( ()=> {
+                let listEl = this.$refs.dragResize.parentElement;
+                this.listWidth = listEl.clientWidth;
+                this.listHeight = listEl.clientHeight;
                 window.addEventListener('resize', ()=>{
-                    _that.listWidth = listEl.clientWidth;
-                    _that.listHeight = listEl.clientHeight;
+                    this.listWidth = listEl.clientWidth;
+                    this.listHeight = listEl.clientHeight;
                 })
             });
         },
-
         computed: {
             datavComps() {
                 return this.$store.state.dataVTemplate.datavComps
             }
         },
-
         methods: {
-            getImgPath(imgName){
-                let urlStr = require('../../assets/datav-comp/'+imgName+'.jpg');
-                return  'url('+urlStr+')';
-            },
-
             activateEv(index) {
                 this.$store.dispatch('dataVTemplate/setActive', {id: index});
             },

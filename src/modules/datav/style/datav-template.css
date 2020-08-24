@@ -276,6 +276,8 @@
 }
 
 .template-edit-page>.header .header-item input {
+    height: 30px;
+    line-height: 30px;
     color: #fff;
     background-color: #262626;
     border-color: #262626;

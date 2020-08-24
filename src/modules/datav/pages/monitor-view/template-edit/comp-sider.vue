@@ -96,7 +96,7 @@
                 this.compPanelShow = true;
             },
             getImgPath(imgName){
-                return require('../../assets/datav-comp/'+imgName);
+                return require('../../../assets/datav-comp/'+imgName);
             },
 
             compDragStart(){

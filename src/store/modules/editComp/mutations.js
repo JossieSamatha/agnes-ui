@@ -1,4 +1,11 @@
 export default {
+
+    initStateData: (state, boardContent)=>{
+        Object.keys(state).forEach((key)=>{
+            state[key] = boardContent[key]
+        })
+    },
+
     // 配置当前选中组件数据
     setActiveComp: (state, compInfo)=> {
         Object.keys(state).forEach((key) => {
