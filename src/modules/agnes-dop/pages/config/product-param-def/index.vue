@@ -36,8 +36,11 @@
                 filterText: '',
                 treeData: [],
                 reqData: {
-                    extOrgId: '',
-                    linkmanGroupId: ''
+                    productId: '',
+                    productCode:'',
+                    productName:'',
+                    productStatus:'',
+                    productType:'',
                 },
                 defaultProps: {
                     children: 'children',
@@ -64,7 +67,7 @@
 
             async loadTreeNodes() {
                 try {
-                    const resp = await this.$api.orgDefineApi.getOrgTreeNodes();
+                    const resp = await this.$api.productParamApi.searchProdutTree();
                     this.treeData = resp.data;
                 } catch (reason) {
                     this.$msg.error(reason);
@@ -72,9 +75,15 @@
             },
 
             handleNodeClick(data) {
-                this.reqData.extOrgId='';
-                if (data.extOrgId) {
-                    this.reqData.extOrgId = data.extOrgId
+                this.reqData= {
+                    productId: '',
+                    productCode:'',
+                    productName:'',
+                    productStatus:'',
+                    productType:'',
+                };
+                if (data.productId) {
+                    this.reqData = data
                 }
             },
         },

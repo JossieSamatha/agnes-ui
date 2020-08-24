@@ -141,16 +141,16 @@
                 });
             },
             showMain() {
-                // let clientViewId = 'datav.client.view';
-                let clientViewId = 'datav.dataV.dashboard';
+                let clientViewId = 'datav.client.view';
+                // let clientViewId = 'datav.dataV.dashboard';
                 let clientView = this.$app.views.getView(clientViewId);
                 let clientTabView = Object.assign({args: {}, id: clientViewId}, clientView);
                 this.$nav.showView(clientTabView);
 
-                // let depViewId = 'datav.dep.view';
-                // let depView = this.$app.views.getView(depViewId);
-                // let depTabView = Object.assign({args: {}, id: depViewId}, depView);
-                // this.$nav.showView(depTabView);
+                let depViewId = 'datav.dep.view';
+                let depView = this.$app.views.getView(depViewId);
+                let depTabView = Object.assign({args: {}, id: depViewId}, depView);
+                this.$nav.showView(depTabView);
             },
             studioTypeChange(val) {
                 if(val === 'appMenus'){

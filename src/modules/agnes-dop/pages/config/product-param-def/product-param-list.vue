@@ -8,7 +8,8 @@
 </template>
 
 <script>
-    import ProductParamDetail from "./product-param-detail.vue"
+    import ProductParamDetail from "./product-param-detail.vue";
+    import loadsh from 'lodash';
     export default {
         data() {
             return {
@@ -16,8 +17,7 @@
                     linkManIdList:[]
                 },
                 queryArgs:{
-                    'extOrgId':'',
-                    'linkmanGroupId':''
+                    'productId':'',
                 }
             }
         },
@@ -28,7 +28,15 @@
             }
         },
         watch: {
-
+            reqData:{
+                handler() {
+                    if (this.reqData.productId) {
+                        this.queryArgs.productId = this.reqData.productId;
+                        this.reloadData();
+                    }
+                },
+                deep:true
+            }
         },
         methods: {
             reloadData() {
@@ -37,20 +45,31 @@
             async onAddModel() {
                 this.reloadData();
             },
+            async onEditModel() {
+                this.reloadData();
+            },
+            async onViewModel() {
+                this.reloadData();
+            },
             addProParam() {
+                if(loadsh.isEmpty(this.reqData.productId)){
+                    this.$msg.warning("请选择产品");
+                    return;  
+                }
                 this.showDrawer('add', {}, this.onAddModel.bind(this));
             },
-            showDrawer(mode, row, actionOk) {
+            editParam(param) {
+                this.showDrawer('edit', param.data, this.onEditModel.bind(this));
+            },
+            checkParam(param) {
+                this.showDrawer('check', param.data, this.onViewModel.bind(this));
+            },
+            showDrawer(mode,row, actionOk) {
                 if (mode !== 'add' && !row) {
                     this.$msg.warning("请选中一条记录!");
-                    return;
+                    return;   
                 }
                 let isShow = true;
-                // row.isCheck=false;
-                // if(mode==='check'){
-                //     mode='view';
-                //     row.isCheck=true;
-                // }
                 if(mode==='view'){
                     isShow = false;
                 }
@@ -58,9 +77,9 @@
                     width: 'calc(97% - 215px)',
                     title: ['产品表详情',mode],
                     component: ProductParamDetail,
-                    args: {row, mode, actionOk},
+                    args: {row, productData:this.reqData, mode, actionOk},
                     okButtonVisible:isShow,
-                    okButtonTitle: '保存',
+                    okButtonTitle: mode==='check'?'复核':'保存',
                     cancelButtonTitle: '取消',
                 });
             },
