@@ -178,6 +178,7 @@
                 }
                     this.taskCommit.stepInfo.remark = this.form.remark;
                     this.taskCommit.stepInfo.stepStatus = "07";
+                    this.taskCommit.stepInfo.jobId = this.row.jobId;
                     try {
                         const p = this.$api.taskTodoApi.confirmKpiTask(this.taskCommit)
                         const resp = await this.$app.blockingApp(p);
