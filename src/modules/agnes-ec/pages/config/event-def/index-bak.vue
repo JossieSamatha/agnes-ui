@@ -77,20 +77,18 @@
             async onAddEventDef() {
                 this.reloadData();
             },
-            async onEditEventDef() {
+            async onEditModel() {
                 this.reloadData();
             },
             addEventDef() {
-                // this.showTab('agnes.config.event.add','add', {}, this.onAddEventDef.bind(this));
-                this.showDrawer({},'add', this.onAddEventDef.bind(this));
+                this.showTab('agnes.config.event.add','add', {}, this.onAddEventDef.bind(this));
             },
             showEventDef(params) {
-                // this.showTab('agnes.config.event.edit','view', params.data);
-                this.showDrawer(params.data,'view' , this.onEditEventDef.bind(this));
+                this.showTab('agnes.config.event.edit','view', params.data);
             },
             editEventDef(params) {
-                // this.showTab('agnes.config.event.edit','edit', params.data, this.onEditModel.bind(this));
-                this.showDrawer(params.data,'edit' , this.onEditEventDef.bind(this));
+                this.showTab('agnes.config.event.edit','edit', params.data, this.onEditModel.bind(this));
+
             },
             async deleteEventDef(params) {
                 const row = params.data;
@@ -108,25 +106,21 @@
                 }
             },
             async approveEventDef(params) {
-
-                if(params.data.eventStatus.match(/0|1/)){
-                    this.showDrawer(params.data,'check', this.onAddEventDef.bind(this));
-                }else {
-                    this.$msg.warning("该状态无法审核!");
-                    return;
+                const row = params.data;
+                const ok = await this.$msg.ask(`确认复核事件定义:[${row.eventName}]吗, 是否继续?`);
+                if (!ok) {
+                    return
+                }
+                try {
+                    const p = this.$api.eventlDefConfigApi.approveEventDef(row.eventId);
+                    await this.$app.blockingApp(p);
+                    this.reloadData();
+                } catch (reason) {
+                    this.$msg.error(reason);
                 }
             },
             async publishEventDef(params) {
                 const row = params.data;
-                if(params.data.execMode !== "1"){
-                    this.$msg.warning("执行方式为消息监听，无需发布!");
-                    return;
-                }
-                if(params.data.eventStatus.match(/0|2/)){
-                    this.$msg.warning("该状态无法发布!");
-                    return;
-                }
-
                 const ok = await this.$msg.ask(`确认发布事件定义:[${row.eventName}]吗, 是否继续?`);
                 if (!ok) {
                     return
