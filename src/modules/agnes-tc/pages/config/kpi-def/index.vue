@@ -214,7 +214,7 @@
                     colId: "#op", headerName: "操作", cellRenderer: "OpCellRender", pinned: "right",
                     cellClassRules: {
                         'invisible-cell': function(params) {
-                            return !(params.data.FACTOR_VALUE === "1" && params.data.MANUAL_TAG === "1");
+                            return !(params.data.FACTOR_VALUE === "0" && params.data.MANUAL_TAG === "0");
                         },
                     },
                     cellRenderParams:{
@@ -282,8 +282,11 @@
                 const factor ={};
                 factor.kpiCode=this.kpiDetail.kpiCode;
                 factor.bizDate=new Date(this.form.bizDate);
-                factor.bizNo=param.data.BIZ_NO;
-                this.$api.kpiDefineApi.updateManul(factor).then((resp) => {
+                factor.bizKey=param.data.PRODUCT_CODE;
+                const factors =[];
+                factors.push(factor);
+                const params ={"factors":factors,"remarks":""};
+                this.$api.kpiDefineApi.updateManul(params).then((resp) => {
                     if(resp.status){
                         _this.reloadData();
                     }
