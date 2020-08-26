@@ -120,7 +120,7 @@
                     this.$msg.warning("该状态无法发布!");
                     return ;
                 }
-                if(!rowData.caseDefBody){
+                if(!rowData.caseDefBody || JSON.parse(rowData.caseDefBody).stepCodeArr.length===0){
                     this.$msg.warning(`[${rowData.reTaskDef.taskName}]，未配置流程任务节点`);
                     return;
                 }

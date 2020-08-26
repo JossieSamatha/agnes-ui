@@ -39,6 +39,7 @@
                     </el-form-item>
                     <el-form-item v-if="type==='todo'" label="备注:" prop="remark" >
                         <gf-input
+                                :max-byte-len="2000"
                                 type="textarea"
                                 :rows="2"
                                 placeholder="请输入任务说明"
@@ -113,6 +114,7 @@
                 this.taskCommit.stepInfo.stepCode = this.row.stepCode;
                 this.taskCommit.stepInfo.remark = this.remarkForm.remark;
                 this.taskCommit.stepInfo.stepStatus = "06";
+                this.taskCommit.stepInfo.jobId = this.row.jobId;
                 try {
                     const p = this.$api.taskTodoApi.confirmKpiTask(this.taskCommit)
                     const resp = await this.$app.blockingApp(p);
