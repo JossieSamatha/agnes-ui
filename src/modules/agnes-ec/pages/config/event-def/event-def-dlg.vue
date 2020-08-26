@@ -1,6 +1,5 @@
 <template>
     <div>
-<!--        <el-scrollbar wrap-style="max-height: 90%;" wrap-class="el-scrollbar__wrap">-->
         <el-scrollbar style="height:100%;overflow-x: hidden;" wrap-class="el-scrollbar__wrap">
 
             <el-form :model="form" :disabled="mode==='view'" ref="form" :rules="rules" label-width="95px"
@@ -19,7 +18,7 @@
                 </el-form-item>
 
                 <el-form-item label="执行方式" prop="eventDef.execMode">
-                    <el-radio-group v-model="form.eventDef.execMode">
+                    <el-radio-group v-model="form.eventDef.execMode" @change="onExecModeChange">
                         <el-radio :label="'1'">重复执行</el-radio>
                         <el-radio :label="'2'">消息监听</el-radio>
                     </el-radio-group>
@@ -32,87 +31,29 @@
                 </el-form-item>
 
                 <el-form-item label="消息类型" prop="eventDef.msgId" v-if="form.eventDef.execMode === '2'">
-                    <gf-el-select v-model="form.eventDef.msgId" controller="msgDefineApi" method-name="queryMsgList"
-                                  value-field="msgId" label-field="msgName"/>
-                </el-form-item>
+<!--                    <gf-el-select v-model="form.eventDef.msgId" controller="msgDefineApi" method-name="queryMsgList"-->
+<!--                                  value-field="msgId" label-field="msgName" />-->
 
-                <el-form-item label="匹配规则" prop="eventMsg.getValueParam">
-                    <rule-table ref="ruleTable" :ruleTableData="form.ruleTableData" :ruleTargetOp="form.ruleTargetOp"
-                                tableHeight="200" tableMaxHeight="300"></rule-table>
-                </el-form-item>
-
-                <el-form-item label="取值函数" prop="eventMsg.funcId">
-                    <el-select v-model="form.eventMsg.funcId" clearable filterable placeholder="请选择" style="width: 100%;"
-                               @change="onfuncIdChange" @clear="onfuncIdClear">
+                    <el-select v-model="form.eventDef.msgId" clearable filterable placeholder="请选择" style="width: 100%;"
+                               @change="onMsgDefChange"
+                               @clear="onMsgDefClear"
+                    >
                         <el-option
-                                v-for="item in funcList"
-                                :key="item.fnId"
-                                :label="item.fnName"
-                                :value="item.fnId">
-                        </el-option>
-                    </el-select>
-
-                </el-form-item>
-
-                <el-form-item label="参数设置" prop="eventMsg.getValueParam">
-                    <el-table
-                            max-height="250"
-                            style="width: calc(100% - 40px); margin: 20px auto"
-                            :data="this.form.eventMsg.getValueParam">
-                        <el-table-column prop="fieldKey" label="英文"></el-table-column>
-                        <el-table-column prop="fieldName" label="中文"></el-table-column>
-                        <el-table-column prop="mustFill" label="是否必填">
-                            <template slot-scope="scope">
-                                {{scope.row.mustFill === '1' ? '是' : '否'}}
-                            </template>
-                        </el-table-column>
-                        <el-table-column prop="fieldValue" label="设置">
-                            <template slot-scope="scope">
-                                <el-input :class="scope.row.mustFill === 'true' && !scope.row.fieldValue ? 'error': ''" v-model="scope.row.fieldValue"></el-input>
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                </el-form-item>
-
-                <el-form-item label="消息对象类型"  prop="eventMsg.modelTypeId">
-<!--                    <gf-el-select v-model="form.eventMsg.modelTypeId" controller="modelConfigApi" method-name="getModelTypeList"-->
-<!--                                  value-field="modelTypeId" label-field="typeName"/>-->
-
-
-                    <el-select v-model="form.eventMsg.modelTypeId" clearable filterable placeholder="请选择" style="width: 100%;"
-                        @change="onModelTypeIdChange" @clear="onModelTypeIdClear">
-                        <el-option
-                                v-for="item in modelTypeList"
-                                :key="item.modelTypeId"
-                                :label="item.typeName"
-                                :value="item.modelTypeId">
+                                v-for="item in msgDefList"
+                                :key="item.msgId"
+                                :label="item.msgName"
+                                :value="item.msgId">
                         </el-option>
                     </el-select>
                 </el-form-item>
 
-                <el-form-item label="消息对象" prop="eventMsg.fieldMapping">
-                    <el-table
-                              max-height="250"
-                              style="width: calc(100% - 40px); margin: 20px auto"
-                              :data="this.form.eventMsg.fieldMapping">
-                        <el-table-column prop="fieldKey" label="英文"></el-table-column>
-                        <el-table-column prop="fieldName" label="中文"></el-table-column>
-                        <el-table-column prop="mustFill" label="是否必填">
-                            <template slot-scope="scope">
-                                {{scope.row.mustFill === '1' ? '是' : '否'}}
-                            </template>
-                        </el-table-column>
-                        <el-table-column prop="fieldValue" label="设置">
-                            <template slot-scope="scope">
-                                <el-input :class="scope.row.mustFill === 'true' && !scope.row.fieldValue ? 'error': ''" v-model="scope.row.fieldValue"></el-input>
-                            </template>
-                        </el-table-column>
-                    </el-table>
+                <el-form-item label="匹配规则" prop="ruleTableData">
+                    <rule-table ref="ruleTable" :ruleTableData="form.ruleTableData" :ruleTargetOp="ruleTargetOp"
+                                tableHeight="200" tableMaxHeight="300" ></rule-table>
                 </el-form-item>
 
             </el-form>
-            <dialog-footer :ok-button-visible="mode !== 'view'" :on-save="save" :on-cancel="cancel"></dialog-footer>
-
+<!--            <dialog-footer :ok-button-visible="mode !== 'view'" :on-save="save" :on-cancel="cancel"></dialog-footer>-->
         </el-scrollbar>
 
     </div>
@@ -120,7 +61,6 @@
 
 <script>
 import fecha from 'element-ui/src/utils/date';
-import ExecTimeEdit from "./exec-time";
 
     export default {
         props: {
@@ -132,6 +72,32 @@ import ExecTimeEdit from "./exec-time";
             actionOk: Function
         },
         data() {
+            var checkDateRange = async (rule, value, callback) => {
+                if (!this.form.eventDef.startTime || !this.form.eventDef.endTime) {
+                    callback(new Error('请填写执行区间！'));
+                }
+            };
+            var checkExecScheduler = async (rule, value, callback) => {
+                if (this.form.eventDef.execMode === "1" && !this.form.eventDef.execScheduler) {
+                    callback(new Error('请配置执行频率！'));
+                }
+            };
+            var checkMsgId = async (rule, value, callback) => {
+                if (this.form.eventDef.execMode === "2" && !this.form.eventDef.msgId) {
+                    callback(new Error('请配置消息类型！'));
+                }
+            };
+            // var checkRuleTableData = async (rule, value, callback) => {
+            //     if(!this.ruleTableData
+            //         || !this.ruleTableData.ruleList
+            //         || this.ruleTableData.ruleList.length === 0){
+            //         callback(new Error('请配置匹配规则！'));
+            //     }
+            //     if(!this.ruleTableData.judgeScript){
+            //         callback(new Error('请配置规则判断逻辑表达式！'));
+            //     }
+            // };
+
             return {
                 form: {
                     eventDef: {
@@ -144,6 +110,8 @@ import ExecTimeEdit from "./exec-time";
                         msgId: '',
                         mqGroup: 'default',
                         eventRule: '',
+                        eventStatus: '',
+                        jobId:'',
                         dateRange: '',
                         noEnd : ''
                     },
@@ -156,23 +124,31 @@ import ExecTimeEdit from "./exec-time";
                     },
                     ruleTableData: {
                         ruleList:[],
-                        judgeScript:''
-                    },
-                    ruleTargetOp: {
-                        step: [],
-                        kpi: [],
-                        action: [],
-                        service: [],
-                        RPA: [],
-                        process: []
+                        judgeScript:'',
+                        ruleBody:'',
+                        ruleId:'',
                     }
                 },
                 rules: {
                     'eventDef.eventName': [{required: true, message: "请输入事件名称"}],
+                    'eventDef.execMode': [{required: true, message: "请选择执行方式"}],
+                    'eventDef.dateRange': [
+                        { required: true, message: '请填写执行区间', trigger: 'change' },
+                        { validator: checkDateRange, trigger: 'blur' }
+                    ],
+                    'eventDef.execScheduler': [{ validator: checkExecScheduler, trigger: 'blur' }],
+                    'eventDef.msgId': [{ validator: checkMsgId, trigger: 'blur' }]
+                    // 'ruleTableData': [{ validator: checkRuleTableData, trigger: 'blur' }]
                 },
                 // ruleTableData: {},
+                msgDefList:{},
+                ruleTargetOp: {
+                    object: [{
+                    }]
+                },
+
                 modelTypeList:{},
-                funcList:{}
+                funcList:{},
             }
         },
         beforeMount() {
@@ -181,19 +157,20 @@ import ExecTimeEdit from "./exec-time";
 
             this.initEventDlg();
         },
-        beforeUpdate() {
-            //消息对象JSON转换
-            if(this.form.eventMsg.fieldMapping){
-                 this.form.eventMsg.fieldMapping= JSON.parse(this.form.eventMsg.fieldMapping);
-            }
 
-            if(this.form.eventMsg.getValueParam){
-                this.form.eventMsg.getValueParam= JSON.parse(this.form.eventMsg.getValueParam);
-            }
-
-        },
+            // beforeUpdate() {
+        //     //消息对象JSON转换
+        //     if(this.form.eventMsg.fieldMapping){
+        //          this.form.eventMsg.fieldMapping= JSON.parse(this.form.eventMsg.fieldMapping);
+        //     }
+        //
+        //     if(this.form.eventMsg.getValueParam){
+        //         this.form.eventMsg.getValueParam= JSON.parse(this.form.eventMsg.getValueParam);
+        //     }
+        //
+        // },
         methods: {
-            initEventDlg(){
+            async initEventDlg(){
                 this.$set( this.form.eventDef, 'dateRange', [this.form.eventDef.startTime,this.form.eventDef.endTime] );
                 if(this.form.eventDef.endTime && this.form.eventDef.endTime === "9999-12-31"){
                     this.form.eventDef.noEnd = true;
@@ -206,9 +183,27 @@ import ExecTimeEdit from "./exec-time";
 
                 this.fetchRuleDef();
                 this.fetchRuleDetail();
-                this.fetchModelType();
-                this.fetchFunc();
+                this.fetchMsgDefList();
 
+                // this.fetchRuleTargetOp();
+
+                // this.fetchRuleTargetOp();
+                // this.fetchModelType();
+                // this.fetchFunc();
+            },
+
+
+            async fetchMsgDefList() {
+                try {
+                    const resp = await this.$api.msgDefineApi.queryMsgList();
+                    this.msgDefList = resp.data;
+                    await this.fetchRuleTargetOp();
+
+                    // await this.fetchRuleDef();
+                    // await this.fetchRuleDetail();
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
             },
             async fetchEventMsg() {
                 try {
@@ -220,64 +215,15 @@ import ExecTimeEdit from "./exec-time";
                     this.$msg.error(reason);
                 }
             },
-            async fetchModelType() {
-                try {
-                    const resp = await this.$api.modelConfigApi.getModelTypeList();
-                    this.modelTypeList = resp.data;
-                } catch (reason) {
-                    this.$msg.error(reason);
-                }
-            },
-            async fetchFields() {
-                try {
-                    const resp = await this.$api.modelConfigApi.getModelFieldList(this.form.eventMsg.modelTypeId);
-
-                    let rows = [];
-                    resp.data.forEach(function (rowInfo) {
-                        if(rowInfo.fieldType === '01'){
-                            rows.push(rowInfo);
-                        }
-                    });
-                    this.form.eventMsg.fieldMapping = rows;
-                    // this.form.eventMsg.fieldMapping = resp.data;
-                } catch (reason) {
-                    this.$msg.error(reason);
-                }
-            },
-            async fetchFunc() {
-                try {
-                    const resp = await this.$api.funDefineApi.queryFunList();
-                    this.funcList = resp.data;
-                } catch (reason) {
-                    this.$msg.error(reason);
-                }
-            },
-            async fetchFunModelFields() {
-                try {
-                    if(this.form.eventMsg.funcId){
-                        const funResp = await this.$api.funDefineApi.getByFnId(this.form.eventMsg.funcId);
-                        if(funResp.data.fnArgs){
-                            const resp = await this.$api.modelConfigApi.getModelFieldList(funResp.data.fnArgs);
-
-                            let rows = [];
-                            resp.data.forEach(function (rowInfo) {
-                                if(rowInfo.fieldType === '01'){
-                                    rows.push(rowInfo);
-                                }
-                            });
-                            this.form.eventMsg.getValueParam = rows;
-                        }
-                    }
-                } catch (reason) {
-                    this.$msg.error(reason);
-                }
-            },
 
             async fetchRuleDef() {
                 try {
                     if(this.form.eventDef.eventRule){
                         const resp = await this.$api.ruleConfigApi.getRuleDef(this.form.eventDef.eventRule);
                         this.form.ruleTableData.judgeScript = resp.data.judgeScript;
+                        this.form.ruleTableData.ruleBody = resp.data.ruleBody;
+                        this.form.ruleTableData.ruleId = resp.data.ruleId;
+
                     }
                 } catch (reason) {
                     this.$msg.error(reason);
@@ -288,70 +234,111 @@ import ExecTimeEdit from "./exec-time";
                     if(this.form.eventDef.eventRule){
                         const resp = await this.$api.ruleConfigApi.getRuleDetailList(this.form.eventDef.eventRule);
                         this.form.ruleTableData.ruleList = resp.data;
+                        // this.form.ruleTableData.ruleList.forEach(item=>{
+                        //     if(item.ruleParam){
+                        //         item.ruleParam= JSON.parse(item.ruleParam);
+                        //     }
+                        // });
                     }
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
             },
+            async fetchModelAndFieldById(modelTypeId) {
+                try {
+                    const resp = await this.$api.modelConfigApi.getModelAndFieldById(modelTypeId);
+                    this.ruleTargetOp.object = [];
+                    resp.data.fnType ="mail";
+                    this.ruleTargetOp.object.push(resp.data);
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
 
-            async save() {
+            async onSave() {
                 const ok = await this.$refs['form'].validate();
                 if (!ok) {
                     return;
                 }
 
-                //消息对象必填项校验
-                let validateGetValueParam = true;
-                if(this.form.eventMsg.getValueParam && this.form.eventMsg.getValueParam.forEach){
-                    this.form.eventMsg.getValueParam.forEach(function (rowInfo) {
-                        if(rowInfo.mustFill === '1' && !rowInfo.fieldValue){
-                            validateGetValueParam = false;
-                        }
-                    });
-                }
-                if(!validateGetValueParam){
-                    this.$message({
-                        message: '请补充完整[参数设置]必填项',
-                        type: 'warning'
-                    });
-                    return;
-                }
-
-                //消息对象必填项校验
-                let validate = true;
-                if(this.form.eventMsg.fieldMapping && this.form.eventMsg.fieldMapping.forEach){
-                    this.form.eventMsg.fieldMapping.forEach(function (rowInfo) {
-                        if(rowInfo.mustFill === '1' && !rowInfo.fieldValue){
-                            validate = false;
-                        }
-                    });
-                }
-                if(!validate){
-                    this.$message({
-                        message: '请补充完整[消息对象]必填项',
-                        type: 'warning'
-                    });
-                    return;
-                }
-
-
                 try {
+                    let msg = '';
+                    if(this.row.isCheck){
+                        const p = this.$api.eventlDefConfigApi.approveEventDef(this.form.eventDef.eventId,"1");
+                        await this.$app.blockingApp(p);
+                        msg = '审核成功';
+                    }else{
 
-                    const p = this.$api.eventlDefConfigApi.saveEventDef(this.form);
-                    await this.$app.blockingApp(p);
+                        // 定义需要校验的列数组，数组内容为列filed值
+                        const validatefieldArr = ['ruleTarget', 'ruleParam', 'ruleKey', 'ruleSign', 'ruleValue'];
+                        const validator = this.$refs.ruleTable.validator(validatefieldArr);
+                        if(!validator){
+                            // 验证失败
+                            // this.$msg.error("请填写匹配规则");
+                            return;
+                        }
+
+                        if(!this.form.ruleTableData
+                            || !this.form.ruleTableData.ruleList
+                            || this.form.ruleTableData.ruleList.length === 0){
+                            this.$msg.error("请填写匹配规则");
+                            return;
+                        }
+                        if(!this.form.ruleTableData.judgeScript){
+                            this.$msg.error("请配置规则判断逻辑表达式");
+                            return;
+                        }
+
+                        // 获取规则表格整理后的json对象串
+                        const outputJson = this.$refs.ruleTable.jsonFormatter();
+                        if(!outputJson){
+                            this.$msg.error("规则JSON不能为空");
+                        }
+                        this.form.ruleTableData.ruleBody = outputJson;
+
+                        const p = this.$api.eventlDefConfigApi.saveEventDef(this.form);
+                        await this.$app.blockingApp(p);
+                        msg = '保存成功';
+                    }
 
                     if (this.actionOk) {
                         await this.actionOk(this.form, this.row);
                     }
-                    this.$msg.success('保存成功');
+                    this.$msg.success(msg);
+                    this.$emit("onClose");
                     // this.$dialog.close(this);
-                    this.$nav.closeCurrentTab();
+                    // this.$nav.closeCurrentTab();
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
             },
-            cancel(){
-                this.$nav.closeCurrentTab();
+
+            async onCancel() {
+                if(this.row.isCheck){
+                    const p = this.$api.eventlDefConfigApi.approveEventDef(this.form.eventDef.eventId,"0");
+                    await this.$app.blockingApp(p);
+                    if (this.actionOk) {
+                        await this.actionOk();
+                    }
+                    this.$msg.success('反审核成功');
+                }
+                this.$emit("onClose");
+            },
+            showDlg(data, action) {
+                this.$nav.showDialog(
+                    'gf-cron-modal',
+                    {
+                        args: {cornObj: data, action},
+                        width: '530px',
+                        title: this.$dialog.formatTitle('编辑频率', "edit"),
+                    }
+                );
+            },
+            setExecScheduler(cron) {
+                this.form.eventDef.execScheduler=cron;
+            },
+            editExecTime(execScheduler) {
+                this.showDlg(execScheduler, this.setExecScheduler.bind(this));
             },
             onNoEndChange (){
 
@@ -383,47 +370,69 @@ import ExecTimeEdit from "./exec-time";
                     this.form.eventDef.endTime = this.form.eventDef.dateRange[1];
                 }
             },
-            onModelTypeIdChange(){
-                if (this.form.eventMsg.modelTypeId) {
-                    const p = this.fetchFields();
-                    this.$app.blockingApp(p);
-                }
-
-            },
-            onfuncIdChange(){
-                if (this.form.eventMsg.funcId) {
-                    const p = this.fetchFunModelFields();
-                    this.$app.blockingApp(p);
-                }
-            },
-            onModelTypeIdClear(){
-                this.form.eventMsg.modelTypeId = '';
-                this.form.eventMsg.fieldMapping = [];
-            },
-            onfuncIdClear(){
-                this.form.eventMsg.funcId = '';
-                this.form.eventMsg.getValueParam = [];
-            },
-            editExecTime(curObj, execScheduler) {
-                this.showDlg(execScheduler, this.setExecScheduler.bind(this));
-            },
-            setExecScheduler(cron) {
-                this.form.eventDef.execScheduler=cron;
-            },
-            showDlg(data, action) {
-                if (this.mode === 'view') {
-                    return;
-                }
-                this.$nav.showDialog(
-                    ExecTimeEdit,
-                    {
-                        args: {data, action},
-                        width: '530px',
-                        title: this.$dialog.formatTitle('编辑执行频率'),
+            async fetchRuleTargetOp(){
+                try {
+                    let msgIdParam = this.form.eventDef.msgId;
+                    let msgObjId;
+                    this.msgDefList.forEach((item)=>{
+                        if(item.msgId === msgIdParam){
+                            msgObjId = item.msgObjId;
+                        }
+                    });
+                    // alert("msgObjId:"+msgObjId);
+                    if (msgObjId) {
+                        // const p = this.fetchModelAndFieldById(msgObjId);
+                        // this.$app.blockingApp(p);
+                        const resp = await this.$api.modelConfigApi.getModelAndFieldById(msgObjId);
+                        this.ruleTargetOp.object = [];
+                        resp.data.fnType ="mail";
+                        this.ruleTargetOp.object.push(resp.data);
+                        this.$refs.ruleTable.setRuleTargetOp(this.ruleTargetOp);
+                    }else{
+                        this.ruleTargetOp.object = [];
                     }
-                );
-            }
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
+            onMsgDefChange(param){
+                let msgObjId;
+                this.msgDefList.forEach((item)=>{
+                    if(item.msgId === param){
+                        msgObjId = item.msgObjId;
+                    }
+                });
+                // alert("param:"+param+" msgObjId:"+msgObjId);
+                if (msgObjId) {
+                    const p = this.fetchModelAndFieldById(msgObjId);
+                    this.$app.blockingApp(p);
+                }else{
+                    this.ruleTargetOp.object = [];
+                }
 
+                this.clearRuleListObject();
+            },
+            clearRuleListObject(){
+                //消息类型变化，清空规则表中已有的类型为对象的行
+                let arr = this.form.ruleTableData.ruleList;
+                for (var i = 0; i < arr.length; i++) {
+                    if (arr[i].ruleType === "object") {
+                        arr.splice(i, 1);
+                        i--;
+                    }
+                }
+            },
+            onMsgDefClear(){
+                this.form.eventDef.msgId = "";
+                this.clearRuleListObject();
+            },
+            onExecModeChange(param){
+                if(param === "1"){
+                    this.onMsgDefClear();
+                }else if(param === "2"){
+                    this.form.eventDef.execScheduler = "";
+                }
+            }
 
         }
     }
