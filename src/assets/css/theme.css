@@ -722,6 +722,10 @@ form input[type=submit] {
     box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.1);
 }
 
+.gf-layout-default-content-tabs .gf-tab-bar .gf-tab-view{
+    padding: 10px;
+}
+
 .gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs {
     position: fixed;
     left: 0;
@@ -1338,7 +1342,7 @@ form input[type=submit] {
 }
 
 .gf-ag-grid.ag-theme-balham .el-button {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: normal;
 }
 

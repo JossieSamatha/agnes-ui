@@ -27,8 +27,6 @@ export default {
 
     },
     rowData: mockData(),
-    headerHeight: 40,
-    rowHeight: 37,
     ext: {
         // fetchUrl: "/agnes-ac/v1/ac/case/def/list",
         // fetchMethod: 'get',

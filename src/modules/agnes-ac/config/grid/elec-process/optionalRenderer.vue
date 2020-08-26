@@ -86,9 +86,14 @@
 
     .optional-cell .svgSpan {
         display: inline-block;
-        width: 18px;
-        height: 18px;
+        width: 16px;
+        height: 16px;
         cursor: pointer;
+    }
+
+    .optional-cell .svgSpan>>>svg {
+        width: 100%;
+        height: 100%;
     }
 
     .optional-cell>span+span {
