@@ -215,7 +215,7 @@
                     colId: "#op", headerName: "操作", cellRenderer: "OpCellRender", pinned: "right",
                     cellClassRules: {
                         'invisible-cell': function(params) {
-                            return !(params.data.FACTOR_VALUE === "0" && params.data.MANUAL_TAG === "0");
+                            return !(params.data.STATUS === "0");
                         },
                     },
                     cellRenderParams:{

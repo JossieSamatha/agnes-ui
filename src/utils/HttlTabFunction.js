@@ -10,7 +10,7 @@ function showTab(url, code, name) {
         };
         tabView = Object.assign({args: {data: tabObj}}, tabObj, {id: code || ''});
     }else{
-        tabObj = this.$app.views.getView(url.viewId);
+        tabObj = this.$gfui.$app.views.getView(url.viewId);
         tabView = Object.assign({args: {data: url}}, tabObj, {id: code || ''});
     }
     let tab = this.$gfui.$app.nav.showView(tabView);
