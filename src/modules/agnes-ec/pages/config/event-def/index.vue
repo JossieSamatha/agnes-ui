@@ -16,6 +16,39 @@
             reloadData() {
                 this.$refs.grid.reloadData();
             },
+            showDrawer(row, mode, actionOk){
+                if (mode !== 'add' && !row) {
+                    this.$msg.warning("请选中一条记录!");
+                    return;
+                }
+                let cancelTitle = '取消';
+                if(mode==='view'){
+                    cancelTitle = '关闭';
+                }
+                let isShow = true;
+                row.isCheck=false;
+                if(mode==='check'){
+                    mode='view';
+                    row.isCheck=true;
+                    cancelTitle = '反审核';
+                }
+                if(!row.isCheck && mode==='view'){
+                    isShow = false;
+                }
+
+                // 抽屉创建
+                this.$drawerPage.create({
+                    width: 'calc(97% - 215px)',
+                    title: ['事件定义配置',mode],
+                    component: EventDefDlg,
+                    args: {row, mode, actionOk},
+                    okButtonVisible:isShow,
+                    okButtonTitle: row.isCheck ? '审核' : '保存',
+                    cancelButtonTitle: cancelTitle,
+
+                })
+            },
+
             showDlg(mode, row, actionOk) {
                 if (mode !== 'add' && !row) {
                     this.$msg.warning("请选中一条记录!");
@@ -44,21 +77,20 @@
             async onAddEventDef() {
                 this.reloadData();
             },
-            async onEditModel() {
+            async onEditEventDef() {
                 this.reloadData();
             },
             addEventDef() {
-                this.showTab('agnes.config.event.add','add', {}, this.onAddEventDef.bind(this));
-                // this.showDlg('add', {}, this.onAddEventDef.bind(this));
+                // this.showTab('agnes.config.event.add','add', {}, this.onAddEventDef.bind(this));
+                this.showDrawer({},'add', this.onAddEventDef.bind(this));
             },
             showEventDef(params) {
-                // this.showDlg('view', params.data);
-                this.showTab('agnes.config.event.edit','view', params.data);
+                // this.showTab('agnes.config.event.edit','view', params.data);
+                this.showDrawer(params.data,'view' , this.onEditEventDef.bind(this));
             },
             editEventDef(params) {
-                // this.showDlg('edit', params.data, this.onEditModel.bind(this));
-                this.showTab('agnes.config.event.edit','edit', params.data, this.onEditModel.bind(this));
-
+                // this.showTab('agnes.config.event.edit','edit', params.data, this.onEditModel.bind(this));
+                this.showDrawer(params.data,'edit' , this.onEditEventDef.bind(this));
             },
             async deleteEventDef(params) {
                 const row = params.data;
@@ -69,11 +101,46 @@
                 try {
                     const p = this.$api.eventlDefConfigApi.deleteEventDef(row.eventId);
                     await this.$app.blockingApp(p);
+                    this.$msg.success("删除成功!");
+                    this.reloadData();
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
+            async approveEventDef(params) {
+
+                if(params.data.eventStatus.match(/0|1/)){
+                    this.showDrawer(params.data,'check', this.onAddEventDef.bind(this));
+                }else {
+                    this.$msg.warning("该状态无法审核!");
+                    return;
+                }
+            },
+            async publishEventDef(params) {
+                const row = params.data;
+                if(params.data.execMode !== "1"){
+                    this.$msg.warning("执行方式为消息监听，无需发布!");
+                    return;
+                }
+                if(params.data.eventStatus.match(/0|2/)){
+                    this.$msg.warning("该状态无法发布!");
+                    return;
+                }
+
+                const ok = await this.$msg.ask(`确认发布事件定义:[${row.eventName}]吗, 是否继续?`);
+                if (!ok) {
+                    return
+                }
+                try {
+                    const p = this.$api.eventlDefConfigApi.publishEventDef(row.eventId);
+                    await this.$app.blockingApp(p);
+                    this.$msg.success("发布成功!");
                     this.reloadData();
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
             }
+
         }
     }
 </script>

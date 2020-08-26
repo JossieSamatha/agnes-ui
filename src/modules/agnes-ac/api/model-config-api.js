@@ -13,5 +13,8 @@ export default {
     },
     deleteModel(modelTypeId) {
         return request.post("/agnes-ac/v1/config/model/delete", null, {params: {modelTypeId}});
+    },
+    getModelAndFieldById(modelTypeId) {
+        return request.get("/agnes-ac/v1/config/model/type/and/field", {params: {modelTypeId}});
     }
 };
