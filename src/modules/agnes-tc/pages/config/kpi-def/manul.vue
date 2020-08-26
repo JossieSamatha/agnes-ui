@@ -60,7 +60,6 @@
                   this.kpiDetail =resp1.data;
                 }
                 this.query.q.kpiCode =this.kpiDetail.kpiCode;
-                this.query.q.kpiCode =this.kpiDetail.kpiCode;
                 this.query.q.status = "0";
                 const p2 = this.$api.kpiDefineApi.getKpiDetails(this.query);
                 const resp2 = await this.$app.blockingApp(p2);
@@ -118,5 +117,4 @@
 </script>
 
 <style scoped>
-
 </style>
