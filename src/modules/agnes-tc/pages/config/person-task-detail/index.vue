@@ -60,7 +60,8 @@
             row: Object,
             toolbar: {
                 default: "more"
-            }
+            },
+            actionOk: Function
         },
         data() {
             return {

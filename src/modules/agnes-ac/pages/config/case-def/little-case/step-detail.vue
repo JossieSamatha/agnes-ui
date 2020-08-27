@@ -244,7 +244,6 @@
 </template>
 
 <script>
-    import dateUtils from "@hex/gf-ui/src/util/date-utils"
     function resetForm() {
         return {
             stepName: '',
@@ -409,7 +408,7 @@
             this.getKpiData();
             this.getServiceResponse();
             this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
-            this.rosterDate = dateUtils.formatDate(new Date(),'yyyy-mm-dd')
+            this.rosterDate = window.bizDate
         },
         methods: {
             getMemberList(val){
