@@ -259,7 +259,6 @@
     import loadsh from 'lodash';
     import staticData from '../../../util/dataFormat'
     import initData from '../../../util/initData'
-    import dateUtils from "@hex/gf-ui/src/util/date-utils"
 
     export default {
         name: "task-define",
@@ -531,7 +530,7 @@
             },
 
             reDataTransfer() {
-                this.rosterDate = dateUtils.getNowFormatDate();
+                this.rosterDate = window.bizDate;
                 if (this.mode && this.mode !== 'add') {
                     let kpiTaskDef = this.$utils.deepClone(this.row.reTaskDef);
                     this.reKeyToValue(kpiTaskDef, 'task_');

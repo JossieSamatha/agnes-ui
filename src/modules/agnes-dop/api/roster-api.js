@@ -2,8 +2,8 @@ import request from '@hex/gf-ui/src/util/request';
 
 
 export default {
-    getUserList(form) {
-        return request.post("/gf-admin/gf/user/queryUserList", {form});
+    getUserList(rosterId) {
+        return request.get("/agnes-app/v1/dop/roster/user", {params: {rosterId}});
     },
 
     saveRoster(form) {

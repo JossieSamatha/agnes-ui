@@ -57,9 +57,11 @@
                     return
                 }
                 try {
-                    const p = this.$api.dataPipeApi.deleteTask(row);
-                    await this.$app.blockingApp(p);
-                    this.reloadData();
+                  const ids = [];
+                  ids.push(row.taskId)
+                  const p = this.$api.dataPipeApi.deleteTask({ids});
+                  await this.$app.blockingApp(p);
+                  this.reloadData();
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
