@@ -1,6 +1,6 @@
 <template>
     <el-container>
-        <el-aside width="200px" class="el-border">
+        <!-- <el-aside width="200px" class="el-border">
             <el-row>
                 <el-input v-model="filterText" size="mini" placeholder="检索机构..."
                           suffix-icon="fa fa-search"></el-input>
@@ -13,12 +13,12 @@
                      :filter-node-method="filterNode"
                      style="border: 1px solid #eee;border-radius: 0;overflow-y: auto;height: 97%;margin-top:4px">
             </el-tree>
-        </el-aside>
-        <el-container style="height: 100%">
-            <el-main height="100%" style="padding-top: 0px;padding-bottom: 0px" class="el-border">
-                <ProductList :reqData="reqData"></ProductList>
-            </el-main>
-        </el-container>
+        </el-aside> -->
+        <!-- <el-container style="height: 100%"> -->
+            <!-- <el-main height="100%" style="padding-top: 0px;padding-bottom: 0px" class="el-border"> -->
+                <ProductList></ProductList>
+            <!-- </el-main> -->
+        <!-- </el-container> -->
     </el-container>
 </template>
 
