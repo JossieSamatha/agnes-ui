@@ -12,8 +12,7 @@ const colButtons = [
         }
     },
     {key: 'editTask', title: '编辑'},
-    {key: 'deleteTask', title: '删除', cellClass: 'red-cell'},
-    {key: 'startTask', title: ''}
+    {key: 'deleteTask', title: '删除', cellClass: 'red-cell'}
 ];
 export default {
     columnDefs: [

@@ -59,7 +59,7 @@
             viewTask(params){
                 this.showTask(params,this.onViewTask.bind(this));
             },
-            showTask(params,action) {
+            showTask(params,actionOk) {
                 const row = params.data;
                     if (row.taskType === '01'||row.taskType === '1') {
                         let customOpBtn = [];
@@ -79,7 +79,7 @@
                             width: 'calc(97% - 215px)',
                             title: [row.stepName + '-办理'],
                             component: KpiDef,
-                            args: {row,type:'todo',action},
+                            args: {row,type:'todo',actionOk},
                             customOpBtn:customOpBtn,
                             okButtonTitle: '重新执行',
                             cancelButtonTitle: '取消',
@@ -91,7 +91,7 @@
                             width: 'calc(97% - 215px)',
                             title: [row.stepName + '-办理'],
                             component: PersonTaskDetail,
-                            args: {row,type:'todo',action},
+                            args: {row,type:'todo',actionOk},
                             okButtonTitle: '提交',
                             cancelButtonTitle: '取消',
                         });
