@@ -28,15 +28,12 @@
                         value-format="HH:mm">
                 </el-time-picker>
             </el-form-item>
-            <el-form-item label="姓名" prop="userId">
-                <el-select v-model="form.userId" placeholder="请选择">
-                    <el-option
-                            v-for="item in options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                    </el-option>
-                </el-select>
+            <el-form-item label="姓名" prop="userName">
+                <gf-person-chosen ref="memberRef"
+                                  :memberRefList="memberRefList"
+                                  chosenType="user"
+                                  @getMemberList="getMemberList">
+                </gf-person-chosen>
             </el-form-item>
             <el-form-item label="岗位" prop="roleId">
                 <gf-dict-select dict-type="AGNES_ROSTER_POST" v-model="form.roleId"/>
@@ -50,19 +47,18 @@
     export default {
         data() {
             return {
-                options: [],
+                memberRefList: [],
                 form: {
                     deptId: "",
                     rosterType: "",
                     rosterDate: "",
                     rosterTs: "",
-                    userName: "",
                     roleId: "",
-                    userId: "",
-                },
 
+                },
+                rosterId: "",
                 rules: {
-                    'userId': [{required: true, message: "请选择员工姓名"}],
+                    'memberRefList': [{required: true, message: "请选择员工姓名"}],
                     'deptId': [{required: true, message: "请选择部门"}],
                     'rosterType': [{required: true, message: "请选择排班类型"}],
                     'rosterTs': [{required: true, message: "请选择排班时间"}],
@@ -82,28 +78,54 @@
 
         beforeMount() {
             this.transferTime()
-            this.getOptions();
         },
 
         methods: {
-            transferTime() {
+
+            async loadUserInfos() {
+                const p = this.$api.userGroupApi.getUserInfos({'userGroupId':this.form.userGroupId});
+                const resp = await this.$app.blockingApp(p);
+                if(resp.data){
+                    let userInfoList = resp.data;
+                    const chosenData = userInfoList.map(item=>{
+                        return {
+                            'refType': '1',
+                            'memberId': item.userId,
+                            'memberDesc': item.userName
+                        }
+                    });
+                    // 初始赋值，调用initChosenData方法传入
+                    this.$refs.memberRef.initChosenData(chosenData);
+                }
+            },
+// 人员选择数组变化回调事件，返回参数为最新选择人员数组
+            getMemberList(newChosenData){
+                this.memberRefList = newChosenData;
+                this.form.userIds = newChosenData.map(item=>{return item.memberId});
+            },
+            async transferTime() {
                 Object.assign(this.form, this.row);
                 if (this.form.rosterTs && typeof (this.form.rosterTs) == 'string') {
                     this.form.rosterTs = this.form.rosterTs.split('-')
                 }
-            },
+                if (this.form.rosterId!=null){
+                    const resp = await this.$api.rosterApi.getUserList(this.form.rosterId);
+                    if(resp.data){
+                        let userInfoList = resp.data;
+                        const chosenData = userInfoList.map(item=>{
+                            return {
+                                'refType': '1',
+                                'memberId': item.userId,
+                                'memberDesc': item.userName,
+                            }
+                        });
+                        // 初始赋值，调用initChosenData方法传入
+                        this.$refs.memberRef.initChosenData(chosenData);
+                    }
 
-            async getOptions() {
-                try {
-                    const resp = await this.$api.rosterApi.getUserList();
-                    let userList = resp.data.data;
-                    userList.forEach(item => {
-                        let option = {value: item.userId, label: item.userName};
-                        this.options.push(option);
-                    });
-                } catch (reason) {
-                    this.$msg.error(reason);
                 }
+
+
             },
 
             async onSave() {

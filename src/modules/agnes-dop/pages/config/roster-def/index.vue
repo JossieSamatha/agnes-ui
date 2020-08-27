@@ -10,6 +10,7 @@
 
 <script>
     import RosterTypeDlg from "./roster-type-dlg";
+    import RosterList from "./roster-list";
 
     export default {
         methods: {
@@ -27,7 +28,7 @@
                     {
                         args: {row, mode, actionOk},
                         width: '50%',
-                        title: this.$dialog.formatTitle('值班信息', mode),
+                        title: this.$dialog.formatTitle('排班信息', mode),
                     }
                 );
             },
@@ -42,7 +43,19 @@
             addRoster() {
                 this.showDlg('add', {}, this.onAddRoster.bind(this));
             },
-
+            personnel(param) {
+                this.showDrawer('check', param.data, this.onEditRoster.bind(this));
+            },
+            showDrawer(mode,row, actionOk) {
+                this.$drawerPage.create({
+                    width: 'calc(97% - 215px)',
+                    title: ['值班人员','view'],
+                    component: RosterList,
+                    args: {row, mode, actionOk},
+                    okButtonVisible:false,
+                    cancelButtonTitle: '取消',
+                });
+            },
             showRoster(params) {
                 this.showDlg('view', params.data);
             },
