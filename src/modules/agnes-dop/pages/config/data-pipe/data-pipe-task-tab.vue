@@ -1,17 +1,18 @@
 <template style="height: 100%">
     <el-container style="height: 100%">
         <el-header height="150px" style="width: 100%">
-            <el-form :model="form" label-width="100px" ref="form" style="height: 100%" :rules="rule">
-                <el-form-item label="任务名称" prop="taskName">
-                    <gf-input type="text" v-model="form.taskName"></gf-input>
-                </el-form-item>
-                <el-form-item label="任务代码" prop="taskCode">
-                    <gf-input type="text" v-model="form.taskCode"></gf-input>
-                </el-form-item>
-                <el-form-item label="任务执行频率" prop="exeCron">
-                    <el-button type="text" @click="openCron">
-                        {{form.exeCron}}点击配置
-                    </el-button>
+            <el-form :model="form" label-width="100px" ref="form" style="height: 100%" :rules="rule"
+                     :disabled="mode==='view'">
+              <el-form-item label="任务名称" prop="taskName">
+                <gf-input type="text" v-model="form.taskName"></gf-input>
+              </el-form-item>
+              <el-form-item label="任务代码" prop="taskCode">
+                <gf-input type="text" v-model="form.taskCode"></gf-input>
+              </el-form-item>
+              <el-form-item label="任务执行频率" prop="exeCron">
+                <el-button type="text" @click="openCron">
+                  {{ form.exeCron }}点击配置
+                </el-button>
                 </el-form-item>
             </el-form>
         </el-header>
@@ -21,13 +22,15 @@
                     <el-col style="text-align:right;line-height: 28px;color: #666;padding-right: 10px;font-size: 14px;width: 100px;margin-left: 10px">
                         任务步骤
                     </el-col>
-                    <el-col style="height: 100%;width:calc(100% - 130px);padding: 0px">
-                        <gf-grid grid-no="data-pipe-task-field" ref="grid" :options="gridOptions" class="grid-class" height="100%">
-                            <template slot="left">
-                                <gf-button class="action-btn" @click="add" size="mini">添加</gf-button>
-                            </template>
-                        </gf-grid>
-                    </el-col>
+                  <el-col style="height: 100%;width:calc(100% - 130px);padding: 0px">
+                    <gf-grid grid-no="data-pipe-task-field" ref="grid" :options="gridOptions" class="grid-class"
+                             height="100%"
+                             @grid-ready="onElecGridReady">
+                      <template slot="left">
+                        <gf-button v-if="mode!=='view'" class="action-btn" @click="add" size="mini">添加</gf-button>
+                      </template>
+                    </gf-grid>
+                  </el-col>
                 </el-row>
             </div>
         </el-main>
@@ -133,21 +136,27 @@
                 );
             },
 
-            setExecScheduler(cron) {
-                this.form.exeCron = cron;
-            },
-            onCancel() {
-                this.$emit("onClose");
-            },
-            async onSave() {
-                const ok = await this.$refs['form'].validate();
-                if (!ok) {
-                    return;
-                }
-                this.form.dopETLReTaskStepList = this.gridOptions.api.getRenderedNodes().map(node=> {
-                    return node.data;
-                })
-                if(this.form.dopETLReTaskStepList===null || this.form.dopETLReTaskStepList.length===0 ){
+          setExecScheduler(cron) {
+            this.form.exeCron = cron;
+          },
+          onCancel() {
+            this.$emit("onClose");
+          },
+          onElecGridReady() {
+            if (this.mode === 'view') {
+              this.$refs.grid.gridController.columnApi.setColumnsVisible(['option'], false)
+            }
+          },
+
+          async onSave() {
+            const ok = await this.$refs['form'].validate();
+            if (!ok) {
+              return;
+            }
+            this.form.dopETLReTaskStepList = this.gridOptions.api.getRenderedNodes().map(node => {
+              return node.data;
+            })
+            if (this.form.dopETLReTaskStepList === null || this.form.dopETLReTaskStepList.length === 0) {
                     this.$msg.warning('任务步骤不能为空');
                     return ;
                 }
@@ -162,8 +171,8 @@
                     if (this.actionOk) {
                         await this.actionOk();  // 传入的结束回调事件
                     }
-                    this.$msg.success('保存成功');
-                    this.$emit("onClose");
+                  this.$msg.success('添加成功');
+                  this.$emit("onClose");
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
