@@ -117,7 +117,20 @@
                     {color: '#52C41C', label: '已完成'}, ]
             }
         },
+        created(){
+            const flowTypeDicts = this.$app.dict.getDictItems("AGNES_CASE_FLOWTYPE");
+            if(flowTypeDicts.length>0 && flowTypeDicts[0].dictId){
+                this.getFLowbyType(flowTypeDicts[0].dictId);
+            }
+            this.bizDate = window.bizDate;
+        },
         methods: {
+            // 初始化加载流程类型
+            async getFLowbyType(firstFlowType){
+                const flowDataRes = this.$api.elecProcessApi.getTaskByType({"flowType": firstFlowType});
+                const flowDataList = await this.$app.blockingApp(flowDataRes);
+                console.log('flowDataList',flowDataList);
+            },
 
             // 展开/收起底部右侧
             foldBottomRight(){
