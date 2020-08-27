@@ -3,19 +3,27 @@ import column from "../../../../../config/column"
 const colButtons = [
     {key: 'editEventDef', title: '编辑'},
     {key: 'deleteEventDef', title: '删除',cellClass:'red-cell'},
+    {key: 'approveEventDef', title: '复核'},
+    {key: 'publishEventDef', title: '发布'}
 ];
 
 export default {
     columnDefs: [
-        column.buildOpCol(120, colButtons),
+        column.buildOpCol(160, colButtons),
         {headerName: "事件名称", field: "eventName"},
+        {headerName: "执行开始日期", field: "startTime"},
+        {headerName: "执行结束日期", field: "endTime"},
+        {headerName: "执行方式", field: "execMode" ,formatType: 'dict', dictType: 'AGNES_EC_EVENT_EXEC_MODE'},
+        {headerName: "状态", field: "eventStatus" ,formatType: 'dict', dictType: 'AGNES_EC_EVENT_STATUS'},
         column.colCrtUser,
-        column.colCrtTm
+        column.colCrtTm,
+        column.colUpdUser,
+        column.colUpdTm
     ],
     headerHeight: 40,
     rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-ec/v1/config/event/def/list/page",
+        fetchUrl: "/agnes-ac/v1/ec/event/def/list/page",
         fetchMethod: 'get',
         pagingMode: true, //是否分页
         checkboxColumn: 1, //是否显示checkbox列,

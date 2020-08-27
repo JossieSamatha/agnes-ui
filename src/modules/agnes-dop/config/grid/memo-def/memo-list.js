@@ -2,8 +2,8 @@ import column from "../../../../../config/column"
 
 const colButtons = [
     {key: 'editMemo', title: '编辑'},
-    {key: 'approveMemo', title: '复核'},
-    {key: 'deleteMemo', title: '删除', cellClass: 'red-cell'}
+    {key: 'deleteMemo', title: '删除', cellClass: 'red-cell'},
+    {key: 'approveMemo', title: '复核'}
 ];
 
 export default {
