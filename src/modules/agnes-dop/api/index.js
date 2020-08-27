@@ -9,6 +9,7 @@ import productAuthApi from './product-auth-api';
 import productParamApi from './product-param-api';
 import userGroupApi from './user-group-api';
 import dataPipeApi from './data-pipe-api';
+import productApi from './product-api';
 
 export default {
     orgDefineApi,
@@ -21,5 +22,6 @@ export default {
     productAuthApi,
     productParamApi,
     userGroupApi,
-    dataPipeApi
+    dataPipeApi,
+    productApi
 };
