@@ -59,7 +59,7 @@
 
             // 面板grid -- 新增单元
             addUnitGrid() {
-                const newUnitId = this.$caseUtils.randomString(6);
+                const newUnitId = this.$agnesAcUtils.randomString(6);
                 const newUnitObj = {
                     "x": 0,
                     "y": 0,
@@ -85,7 +85,7 @@
                     this.isGridDefine = false;
                     this.$set(this.$refs.gridContainer, 'isGridDefine', false);
                     const newdDefineBoard = {
-                        boardId: this.$caseUtils.randomString(9),
+                        boardId: this.$agnesAcUtils.randomString(9),
                         boardData: this.$refs.gridContainer.gridLayout.boardData
                     };
                     this.$refs.boardChoose.boardArrDefine.push(newdDefineBoard);

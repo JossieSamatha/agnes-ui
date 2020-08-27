@@ -1,5 +1,9 @@
 <template>
-    <el-progress class="define-progress" :percentage="percentage" show-text :status="status" style="width: 150px" :title="`${percentage}%`">
+    <el-progress class="define-progress"
+                 :percentage="percentage"
+                 show-text
+                 :color="statusColor"
+                 style="width: 150px" :title="`${percentage}%`">
     </el-progress>
 </template>
 
@@ -9,16 +13,17 @@
             return {
                 percentage: 0,
                 status: '',
+                statusColor: ''
             }
         },
         beforeMount(){
-            this.percentage = parseInt(this.params.value);
-            const statusDict = {
-                finish: 'success',
-                abnormal: 'warning',
-                outTime: 'exception'
+            this.percentage = parseInt(this.params.value)*100;
+            this.statusColor = this.$agnesAcUtils.getStepStatusMap();
+        },
+        methods: {
+            getStatusColor(){
+                return this.$lodash.find(this.stepStatus, {dictId: this.params.stepStatus});
             }
-            this.status = statusDict[this.params.data.statusId] || null;
         }
     }
 </script>

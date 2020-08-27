@@ -3,8 +3,14 @@
         <section class="top-section">
             <div class="flowType">
                 <p class="section-label">流程类型</p>
-                <gf-dict class="flow-type-select" clearable dict-type="AGNES_CASE_FLOWTYPE" size="mini" style="width: 175px;margin-right: 12px;"/>
-                <el-radio-group class="task-board" v-model="currentTask" size="mini" @change="chooseTask">
+                <gf-dict class="flow-type-select"
+                         clearable
+                         dict-type="AGNES_CASE_FLOWTYPE"
+                         size="mini"
+                         v-model="flowType"
+                         @change="flowTypeChange"
+                         style="width: 175px;margin-right: 12px;"/>
+                <el-radio-group class="task-board" v-model="choosedTaskId" size="mini" @change="chooseTask">
                     <el-radio v-for="task in proTask" :key="task.taskId" :label="task.taskId" :title="task.taskName" border>
                         <i :class="task.icon"></i>
                         <span>{{task.taskName}}</span>
@@ -19,7 +25,10 @@
                                 align="center"
                                 :clearable="false"
                                 value-format="yyyy-MM-dd"
-                                placeholder="选择日期"  style="width: 175px">
+                                placeholder="选择日期"
+                                style="width: 175px"
+                                @change="bizDateChange"
+                >
                 </el-date-picker>
                 <i class="el-icon-refresh" title="全部刷新"></i>
             </div>
@@ -31,12 +40,12 @@
             <div class="bottom left" id="taskContainerLeft">
                 <div class="section-title">
                     <span>流程图</span>
-                    <span v-if="curTask.taskName"> -- {{curTask.taskName}}</span>
+                    <span v-if="currentTaskObj.taskName"> -- {{currentTaskObj.taskName}}</span>
                     <div class="flow-legend" :style="{right: ifRightExpand?'0':'35px'}">
-                        <span v-for="legend in legendType" :key="legend.label">
+                        <span v-for="status in stepStatus" :key="status.dictId">
                             <i class="fa fa-circle"
-                               :style="{color: legend.color}"
-                            ></i>{{legend.label}}
+                               :style="{color: status.color}"
+                            ></i>{{status.dictName}}
                         </span>
                     </div>
                 </div>
@@ -47,8 +56,17 @@
                          :key="stage.defId"
                          :class="curStage.defId === stage.defId ? 'active' : ''"
                          @click="chooseTaskStage(stage)">
-                        <div class="stage-item-title" title="stage.defName">{{stage.defName}}</div>
-                        <el-progress class="define-progress" :percentage="stage.percentage" :status="stage.status ? stage.status : null"></el-progress>
+                        <div>
+                            <el-progress
+                                    class="define-progress"
+                                    type="circle"
+                                    :percentage="parseInt(stage.percentage)"
+                                    :color="getStatusObj(stage.status).color"
+                                    :width="56"
+                                    :stroke-width="6"
+                            ></el-progress>
+                            <div class="stage-item-title" title="stage.defName">{{stage.defName}}</div>
+                        </div>
                     </div>
                     <div class="drag-bar-line">
                         <p @click="ifGridExpand = !ifGridExpand">
@@ -97,39 +115,94 @@
                 lcImg: this.$lcImg,
                 dragColumn: {dragContainerId: "taskContainerLeft", dragDirection: 's'},
                 bizDate: '',
-                currentTask: '',
-                proTask: mockData().proTask,
+                flowType: '',
+                currentTaskObj: {},
+                choosedTaskId: '',
+                proTask: [],
                 executePieData: [
                     {name: '完成', value: 5},
                     {name: '未完成', value: 40}
                 ],
-                taskStage: mockData().taskStage,
+                taskStage: [],
                 execLog: mockData().execLog,
-                ifTopExpand: true,
-                ifRightExpand: true,
+                ifRightExpand: false,
                 ifGridExpand: true,
-                curTask: {},
                 curStage: {},
-                legendType: [{color: '#DFE1E5', label: '未执行'},
-                    {color: '#4A8EF0', label: '执行中'},
-                    {color: '#FAAE14', label: '异常'},
-                    {color: '#F5222E', label: '超时'},
-                    {color: '#52C41C', label: '已完成'}, ]
+                stepStatus: []
             }
         },
         created(){
+            this.stepStatus = this.$agnesAcUtils.getStepStatusMap();
+            // 默认系统业务日期
+            this.bizDate = window.bizDate;
+            // 默认加载首个流程类型流程数据
             const flowTypeDicts = this.$app.dict.getDictItems("AGNES_CASE_FLOWTYPE");
             if(flowTypeDicts.length>0 && flowTypeDicts[0].dictId){
+                this.flowType = flowTypeDicts[0].dictId;
                 this.getFLowbyType(flowTypeDicts[0].dictId);
             }
-            this.bizDate = window.bizDate;
         },
         methods: {
-            // 初始化加载流程类型
+            // 根据流程类型加载对应流程数据
             async getFLowbyType(firstFlowType){
                 const flowDataRes = this.$api.elecProcessApi.getTaskByType({"flowType": firstFlowType});
                 const flowDataList = await this.$app.blockingApp(flowDataRes);
-                console.log('flowDataList',flowDataList);
+                if(flowDataList.data && flowDataList.data.length>0){
+                    this.proTask = flowDataList.data;
+                    // 默认加载第一项流程数据
+                    this.choosedTaskId = this.proTask[0].taskId;
+                    this.currentTaskObj = this.proTask[0];
+                    this.getFLowDetail(this.proTask[0].taskId, this.bizDate);
+                }else{
+                    this.proTask = [];
+                    this.taskStage = [];
+                }
+            },
+
+            // 根据流程id及业务日期加载流程信息{"taskId":"","bizDate":""}
+            async getFLowDetail(taskId, bizDate){
+                const flowDetailRes = this.$api.elecProcessApi.getExecProcessDetail({taskId, bizDate});
+                const flowDetailStr = await this.$app.blockingApp(flowDetailRes);
+                if(flowDetailStr.data){
+                    const flowDetailParse = this.$utils.fromJson(flowDetailStr.data);
+                    if(flowDetailParse && flowDetailParse.stages.length>0){
+                        this.taskStage = flowDetailParse.stages;
+                        this.curStage = flowDetailParse.stages[0];
+                        this.setGridData(flowDetailParse.stages[0].ruCaseStepList);
+                    }else{
+                        this.taskStage = [];
+                    }
+                }
+
+            },
+
+            // 流程类型切换
+            flowTypeChange(val){
+                this.getFLowbyType(val);
+            },
+
+            // 任务流程 -- 选择
+            chooseTask(taskId){
+                this.getFLowDetail(taskId, this.bizDate);
+                this.currentTaskObj = this.$lodash.find(this.proTask, {taskId});
+                this.choosedTaskId = taskId;
+            },
+
+            // 任务流程 -- 指定stage -- 选择
+            chooseTaskStage(stage){
+                this.curStage = stage;
+                this.setGridData(stage.ruCaseStepList);
+            },
+
+            // 表格数据塞入
+            setGridData(data){
+                this.$refs.elecGrid.setRowData(data);
+                this.$refs.elecGrid.gridController.columnApi.columnController.autoSizeFitColumns();
+            },
+
+            // 业务日期切换
+            bizDateChange(val){
+                this.getFLowDetail(this.choosedTaskId, val);
             },
 
             // 展开/收起底部右侧
@@ -141,17 +214,6 @@
                     }
                 });
 
-            },
-
-            // 任务流程 -- 选择
-            chooseTask(val){
-                const curTask =  this.$lodash.find(this.proTask, {taskId: val})
-                this.curTask = curTask;
-            },
-
-            // 任务流程 -- 指定stage -- 选择
-            chooseTaskStage(stage){
-                this.curStage = stage;
             },
 
             // 纵向拉伸宽度问题处理

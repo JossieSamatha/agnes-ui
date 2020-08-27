@@ -313,6 +313,16 @@
     transform: rotate(-45deg);
 }
 
+.elec-process .define-progress.el-progress--circle .el-progress__text{
+    font-size: 12px;
+    transform: scale(.8);
+    top: calc(50% - 5px);
+}
+
+.elec-process .define-progress .el-progress__text{
+    font-size: 12px!important;
+}
+
 .elec-process .flow-container .stage-item .stage-item-title::after {
     content: '';
     display: block;

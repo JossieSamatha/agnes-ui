@@ -42,10 +42,10 @@
         },
         computed: {
             actionShow(){
-                return this.params.data.taskType === '人工任务';
+                return this.params.data.stepActType === '6';
             },
             indexSetShow(){
-                return this.params.data.taskType === '指标任务';
+                return this.params.data.stepActType === '1';
             }
         },
         methods: {
