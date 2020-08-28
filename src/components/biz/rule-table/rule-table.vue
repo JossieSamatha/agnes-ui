@@ -344,6 +344,12 @@
                     }else{
                         rowInfo.ruleParam = !ifInit ? "\"\"" : rowInfo.ruleParam;
                     }
+
+                    if(targetObj.fnType === 'sql'){
+                        rowInfo.bizParamDb = targetObj.bizParamDb;
+                        rowInfo.bizParamSql = targetObj.bizParamSql;
+                    }
+
                 }
                 if(rowInfo.ruleType === 'object') {
                     if(optionData){
@@ -352,7 +358,9 @@
                         targetObj = this.$lodash.find(this.ruleTargetOp.object, { modelTypeId: rowInfo.ruleTarget});
                     }
 
-                    rowInfo.ruleTargetType = targetObj.fnType;
+                    if(targetObj.fnType){
+                        rowInfo.ruleTargetType = targetObj.fnType;
+                    }
                     if(!targetObj.reModelField){
                         rowInfo.ruleKeyOp = [];
                     }else{
@@ -414,14 +422,22 @@
                             args[paramObj.fieldKey] = paramObj.fieldValue;
                         });
                     }
-                    args.fnId = ruleItem.ruleTarget;
+
+                    if(ruleItem.ruleType === 'fn'){
+                        args.fnId = ruleItem.ruleTarget;
+                        if(ruleItem.ruleTargetType === 'sql'){
+                            args.dsId = ruleItem.bizParamDb;
+                            args.sql = ruleItem.bizParamSql;
+                        }
+                    }
+
                     const ruleObj = {
                         context: {
                             args,
                             target: ruleItem.ruleTargetType,
                             type: ruleItem.ruleType
                         },
-                        expr: `${ruleItem.ruleSign}(${ruleItem.ruleKey}, \\'${ruleItem.ruleValue}\\')`
+                        expr: `${ruleItem.ruleSign}(${ruleItem.ruleKey}, "${ruleItem.ruleValue}")`
                     }
                     rules[ruleItem.ruleTag] = ruleObj;
                 });
