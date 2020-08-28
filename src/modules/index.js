@@ -5,6 +5,7 @@ import agnesEc from "./agnes-ec/index";
 import agnesTc from "./agnes-tc/index";
 import agnesDc from "./agnes-dc/index";
 import agnesAcnt from "./agnes-acnt/index";
+import agnesRemind from "./agnes-remind/index";
 const Loading = {
     load: function (Gfui) {
         Gfui.use(agnesAc);
@@ -14,6 +15,7 @@ const Loading = {
         Gfui.use(dataV);
         Gfui.use(agnesTc);
         Gfui.use(agnesDc);
+        Gfui.use(agnesRemind);
     }
 };
 
