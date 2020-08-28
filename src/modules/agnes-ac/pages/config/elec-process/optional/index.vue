@@ -239,20 +239,20 @@
 
             // 重新执行
             reExecute(params){
-                const rowData = params.data;
-                let kpiTaskReq = {}
+              const rowData = params.data;
+              let kpiTaskReq = {}
               kpiTaskReq.caseId = rowData.caseId;
               kpiTaskReq.stepCode = rowData.stepCode;
-                kpiTaskReq.bizDate = this.bizDate;
-                kpiTaskReq.taskId = rowData.stepId;
-                this.$api.kpiDefineApi.execTask(kpiTaskReq).then((resp) => {
-                    if(resp.status){
-                        this.$message.success(resp.message);
-                        this.reloadData();
-                    } else{
-                        this.$message.error(resp.message);
-                    }
-                });
+              kpiTaskReq.bizDate = this.bizDate;
+              kpiTaskReq.taskId = rowData.stepId;
+              this.$api.kpiDefineApi.execTask(kpiTaskReq).then((resp) => {
+                if (resp.status) {
+                  this.$message.success(resp.message);
+                  this.reloadData();
+                } else {
+                  this.$message.error(resp.message);
+                }
+              });
             },
 
             // 手工确认
@@ -267,6 +267,7 @@
               taskCommit.stepInfo.stepStatus = "06";
               taskCommit.stepInfo.jobId = params.data.jobId;
               taskCommit.inst.taskId = params.data.taskId;
+              taskCommit.stepInfo.stepCode = params.data.stepCode;
               try {
                 const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
                 const resp = await this.$app.blockingApp(p);
@@ -296,7 +297,8 @@
               taskCommit.stepInfo.remark = params.data.remark;
               taskCommit.stepInfo.stepStatus = "07";
               taskCommit.stepInfo.jobId = params.data.jobId;
-              taskCommit.stepInfo.jobId = params.data.jobId;
+              taskCommit.inst.taskId = params.data.taskId;
+              taskCommit.stepInfo.stepCode = params.data.stepCode;
               try {
                 const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
                 const resp = await this.$app.blockingApp(p);
