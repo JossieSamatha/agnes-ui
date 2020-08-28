@@ -379,12 +379,12 @@ form input[type=submit] {
 .left-side-container .gf-menu .gf-menu-item .menuicon {
     width: 16px;
     height: 16px;
-    margin-right: 10px;
     cursor: pointer;
 }
 
 .left-side-container .gf-menu .gf-menu-item > span {
     flex: 1;
+    margin-left: 10px;
 }
 
 .gf-vertical-expand.fold .gf-menu .gf-menu-item > span.menuname,
@@ -720,6 +720,10 @@ form input[type=submit] {
     background: #fff;
     border-radius: 3px;
     box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.1);
+}
+
+.gf-layout-default-content-tabs .gf-tab-bar .gf-tab-view{
+    padding: 10px;
 }
 
 .gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs {
@@ -1209,7 +1213,7 @@ form input[type=submit] {
 }
 
 .gf-ag-grid.ag-theme-balham .ag-header-cell-label {
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .gf-ag-grid.ag-theme-balham .ag-header-cell,
@@ -1270,7 +1274,7 @@ form input[type=submit] {
 }
 
 .gf-ag-grid.ag-theme-balham .ag-cell {
-    font-size: 14px;
+    font-size: 12px;
     color: #666;
     line-height: 21px;
     border-right: none;
@@ -1338,7 +1342,7 @@ form input[type=submit] {
 }
 
 .gf-ag-grid.ag-theme-balham .el-button {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: normal;
 }
 
