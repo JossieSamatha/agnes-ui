@@ -161,19 +161,22 @@
 
             // 根据流程id及业务日期加载流程信息{"taskId":"","bizDate":""}
             async getFLowDetail(taskId, bizDate){
+              try {
                 const flowDetailRes = this.$api.elecProcessApi.getExecProcessDetail({taskId, bizDate});
                 const flowDetailStr = await this.$app.blockingApp(flowDetailRes);
-                if(flowDetailStr.data){
-                    const flowDetailParse = this.$utils.fromJson(flowDetailStr.data);
-                    if(flowDetailParse && flowDetailParse.stages.length>0){
-                        this.taskStage = flowDetailParse.stages;
-                        this.curStage = flowDetailParse.stages[0];
-                        this.setGridData(flowDetailParse.stages[0].ruCaseStepList);
-                    }else{
-                        this.taskStage = [];
-                    }
+                if (flowDetailStr.data) {
+                  const flowDetailParse = this.$utils.fromJson(flowDetailStr.data);
+                  if (flowDetailParse && flowDetailParse.stages.length > 0) {
+                    this.taskStage = flowDetailParse.stages;
+                    this.curStage = flowDetailParse.stages[0];
+                    this.setGridData(flowDetailParse.stages[0].ruCaseStepList);
+                  } else {
+                    this.taskStage = [];
+                  }
                 }
-
+              } catch (e) {
+                this.$msg.error(e);
+              }
             },
 
             // 流程类型切换
@@ -238,8 +241,8 @@
             reExecute(params){
                 const rowData = params.data;
                 let kpiTaskReq = {}
-                kpiTaskReq.caseId = this.choosedTaskId;
-                kpiTaskReq.stepCode = rowData.stepCode;
+              kpiTaskReq.caseId = rowData.caseId;
+              kpiTaskReq.stepCode = rowData.stepCode;
                 kpiTaskReq.bizDate = this.bizDate;
                 kpiTaskReq.taskId = rowData.stepId;
                 this.$api.kpiDefineApi.execTask(kpiTaskReq).then((resp) => {
@@ -253,23 +256,27 @@
             },
 
             // 手工确认
-            async actionConfirm(params){
-                let taskCommit = {
-                    stepInfo: {}
-                };
-                taskCommit.stepInfo.remark = params.data.remark;
-                taskCommit.stepInfo.stepStatus = "06";
-                taskCommit.stepInfo.jobId = params.data.stepCode;
-                try {
-                    const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
-                    const resp = await this.$app.blockingApp(p);
-                    if (resp.data) {
-                        if (this.actionOk) {
-                            await this.actionOk();
-                        }
-                        this.$msg.success('提交成功');
-                        this.$emit("onClose");
-                    } else {
+            async actionConfirm(params) {
+              let taskCommit = {
+                stepInfo: {},
+                inst: {
+                  taskId: "",
+                },
+              };
+              taskCommit.stepInfo.remark = params.data.remark;
+              taskCommit.stepInfo.stepStatus = "06";
+              taskCommit.stepInfo.jobId = params.data.jobId;
+              taskCommit.inst.taskId = params.data.taskId;
+              try {
+                const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
+                const resp = await this.$app.blockingApp(p);
+                if (resp.data) {
+                  if (this.actionOk) {
+                    await this.actionOk();
+                  }
+                  this.$msg.success('提交成功');
+                  this.$emit("onClose");
+                } else {
                         this.$msg.warning('提交失败');
                     }
                 } catch (e) {
@@ -278,23 +285,28 @@
             },
 
             // 强制通过
-            async forcePass(params){
-                let taskCommit = {
-                    stepInfo: {}
-                };
-                taskCommit.stepInfo.remark = params.data.remark;
-                taskCommit.stepInfo.stepStatus = "07";
-                taskCommit.stepInfo.jobId = params.data.stepCode;
-                try {
-                    const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
-                    const resp = await this.$app.blockingApp(p);
-                    if (resp.data) {
-                        if (this.actionOk) {
-                            await this.actionOk();
-                        }
-                        this.$msg.success('提交成功');
-                        this.$emit("onClose");
-                    } else {
+            async forcePass(params) {
+              let taskCommit = {
+                stepInfo: {},
+                inst: {
+                  taskId: "",
+                },
+              };
+
+              taskCommit.stepInfo.remark = params.data.remark;
+              taskCommit.stepInfo.stepStatus = "07";
+              taskCommit.stepInfo.jobId = params.data.jobId;
+              taskCommit.stepInfo.jobId = params.data.jobId;
+              try {
+                const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
+                const resp = await this.$app.blockingApp(p);
+                if (resp.data) {
+                  if (this.actionOk) {
+                    await this.actionOk();
+                  }
+                  this.$msg.success('提交成功');
+                  this.$emit("onClose");
+                } else {
                         this.$msg.warning('提交失败');
                     }
                 } catch (e) {

@@ -4,20 +4,25 @@ import dateUtil from '@hex/gf-ui/src/util/date-utils'
 
 export default {
     columnDefs: [
-        {headerName: "操作", field: "option", width: 70,
-            cellRenderer: 'optionalRenderer'},
+        {
+            headerName: "操作", field: "option", width: 70,
+            cellRenderer: 'optionalRenderer'
+        },
         {headerName: "状态", field: "stepStatus", dictType: 'AGNES_TASK_STEP_STATUS'},
-        {headerName: "监控明细归类", field: "stepRemark"},
+        {headerName: "监控明细归类", field: "detailSort"},
         {headerName: "任务编号", field: "stepCode"},
-        {headerName: "任务名称", field: "stepName",
+        {
+            headerName: "任务名称", field: "stepName",
             tooltipField: 'stepName',
         },
-        {headerName: "完成进度", field: "finishedRate",
+        {
+            headerName: "完成进度", field: "finishedRate",
             cellRenderer: 'processRenderer',
             minWidth: '160',
             suppressSizeToFit: true,
         },
-        {headerName: "任务执行时间", field: "execStartTime",
+        {
+            headerName: "任务执行时间", field: "execStartTime",
             cellRenderer: (params)=>{
                 let formatDate = '';
                 if(params.data.execStartTime){
