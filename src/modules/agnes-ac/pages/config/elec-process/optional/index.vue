@@ -228,6 +228,78 @@
                 }else{
                     execItem.expand = '';
                 }
+            },
+
+            getStatusObj(statusId){
+                return this.$lodash.find(this.stepStatus, {dictId: statusId});
+            },
+
+            // 重新执行
+            reExecute(params){
+                const rowData = params.data;
+                let kpiTaskReq = {}
+                kpiTaskReq.caseId = this.choosedTaskId;
+                kpiTaskReq.stepCode = rowData.stepCode;
+                kpiTaskReq.bizDate = this.bizDate;
+                kpiTaskReq.taskId = rowData.stepId;
+                this.$api.kpiDefineApi.execTask(kpiTaskReq).then((resp) => {
+                    if(resp.status){
+                        this.$message.success(resp.message);
+                        this.reloadData();
+                    } else{
+                        this.$message.error(resp.message);
+                    }
+                });
+            },
+
+            // 手工确认
+            async actionConfirm(params){
+                let taskCommit = {
+                    stepInfo: {}
+                };
+                taskCommit.stepInfo.remark = params.data.remark;
+                taskCommit.stepInfo.stepStatus = "06";
+                taskCommit.stepInfo.jobId = params.data.stepCode;
+                try {
+                    const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
+                    const resp = await this.$app.blockingApp(p);
+                    if (resp.data) {
+                        if (this.actionOk) {
+                            await this.actionOk();
+                        }
+                        this.$msg.success('提交成功');
+                        this.$emit("onClose");
+                    } else {
+                        this.$msg.warning('提交失败');
+                    }
+                } catch (e) {
+                    this.$msg.error(e);
+                }
+            },
+
+            // 强制通过
+            async forcePass(params){
+                let taskCommit = {
+                    stepInfo: {}
+                };
+                taskCommit.stepInfo.remark = params.data.remark;
+                taskCommit.stepInfo.stepStatus = "07";
+                taskCommit.stepInfo.jobId = params.data.stepCode;
+                try {
+                    const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
+                    const resp = await this.$app.blockingApp(p);
+                    if (resp.data) {
+                        if (this.actionOk) {
+                            await this.actionOk();
+                        }
+                        this.$msg.success('提交成功');
+                        this.$emit("onClose");
+                    } else {
+                        this.$msg.warning('提交失败');
+                    }
+                } catch (e) {
+                    this.$msg.error(e);
+                }
             }
         }
     }
