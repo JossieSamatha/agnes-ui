@@ -8,7 +8,7 @@ const colButtons = [
 ];
 export default {
     columnDefs: [
-        column.buildOpCol(80, colButtons),
+        column.buildOpCol(120, colButtons),
         {headerName: "规则编号", field: "scanCode"},
         {headerName: "规则名称", field: "scanName"},
         {headerName: "传输方式", field: "transMode",formatType: 'dict', dictType: 'AGNES_DC_TRANS_MODE'},

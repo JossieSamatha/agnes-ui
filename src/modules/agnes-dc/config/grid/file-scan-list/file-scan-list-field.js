@@ -10,7 +10,7 @@ export default {
         {headerName: "规则名称", field: "scanName"},
         {headerName: "执行时间", field: "scanName"},
         {headerName: "服务器地址", field: "serverAddress"},
-        {headerName: "服务器端口", field: "serverPort"},
+        // {headerName: "服务器端口", field: "serverPort"},
         {headerName: "扫描路径", field: "filePath"},
         {headerName: "扫描文件", field: "fileName"},
         {headerName: "是否需要解析", field: "status",
@@ -23,7 +23,7 @@ export default {
         }},
     ],
     ext: {
-        fetchUrl: "/agnes-app/v1/dc/file/scan/list-page",
+        fetchUrl: "/agnes-app/v1/dc/file/scan/log/list-page",
         fetchMethod: 'get',
         pagingMode: true, //不分页
         checkboxColumn: 1, //是否显示checkbox列,
