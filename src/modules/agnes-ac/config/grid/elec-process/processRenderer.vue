@@ -17,7 +17,7 @@
             }
         },
         beforeMount(){
-            this.percentage = parseInt(this.params.value)*100;
+            this.percentage = parseFloat(this.params.value)*100;
             this.statusColor = this.$agnesAcUtils.getStepStatusMap();
         },
         methods: {

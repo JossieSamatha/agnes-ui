@@ -147,10 +147,10 @@
                 let clientTabView = Object.assign({args: {}, id: clientViewId}, clientView);
                 this.$nav.showView(clientTabView);
 
-                // let depViewId = 'datav.dep.view';
-                // let depView = this.$app.views.getView(depViewId);
-                // let depTabView = Object.assign({args: {}, id: depViewId}, depView);
-                // this.$nav.showView(depTabView);
+                let depViewId = 'datav.dep.view';
+                let depView = this.$app.views.getView(depViewId);
+                let depTabView = Object.assign({args: {}, id: depViewId}, depView);
+                this.$nav.showView(depTabView);
             },
             studioTypeChange(val) {
                 if(val === 'appMenus'){

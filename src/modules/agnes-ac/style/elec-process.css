@@ -267,11 +267,6 @@
     white-space: nowrap;
 }
 
-.elec-process .flow-container .stage-item.active .define-progress {
-    border-radius: 50%;
-    box-shadow: 0px 0px 9px 2px rgba(71,109,190,.3);
-}
-
 .elec-process .flow-container .stage-item.active .stage-item-title {
     color: #476Dbe;
     font-weight: bold;
@@ -397,6 +392,18 @@
 .gf-ag-grid.ag-theme-balham .ag-cell .el-button {
     margin-right: 5px;
     margin-left: 0 !important;
+}
+
+.lcSvg.theme-color .cls-1 {
+    fill: #476dbe;
+}
+
+.optional-cell .el-button.is-disabled .svgSpan {
+    cursor: not-allowed;
+}
+
+.optional-cell .el-button.is-disabled .svgSpan svg.lcSvg .cls-1 {
+    fill: #C0C4CC;
 }
 
 .lcSvg.theme-color .cls-1 {

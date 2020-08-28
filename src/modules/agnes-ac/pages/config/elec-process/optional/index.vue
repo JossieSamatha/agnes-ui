@@ -57,11 +57,10 @@
                          :class="curStage.defId === stage.defId ? 'active' : ''"
                          @click="chooseTaskStage(stage)">
                         <div>
-                            <el-progress
-                                    class="define-progress"
+                            <el-progress class="define-progress"
                                     type="circle"
-                                    :percentage="parseInt(stage.percentage)"
-                                    :color="getStatusObj(stage.status).color"
+                                    :percentage="getPercentage(stage.percentage)"
+                                    :color="getStatusColor(stage.status)"
                                     :width="56"
                                     :stroke-width="6"
                             ></el-progress>
@@ -233,8 +232,13 @@
                 }
             },
 
-            getStatusObj(statusId){
-                return this.$lodash.find(this.stepStatus, {dictId: statusId});
+            getPercentage(percentage){
+                return parseFloat(percentage)*100;
+            },
+
+            getStatusColor(statusId){
+                const color = this.$lodash.find(this.stepStatus, {dictId: statusId}).color;
+                return color;
             },
 
             // 重新执行

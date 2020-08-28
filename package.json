@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@hex/ares-ui": "^5.0.3",
-    "@hex/gf-ui": "^5.0.9",
+    "@hex/gf-ui": "^5.0.10",
     "core-js": "^3.6.4",
     "echarts": "^4.8.0",
     "element-ui": "^2.13.0",
