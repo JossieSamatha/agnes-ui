@@ -12,7 +12,7 @@
             actionType: "",
             attrs: {},
             automation: false,
-            stepCode: this.$caseUtils.randomString(6),
+            stepCode: this.$agnesAcUtils.randomString(6),
             defType: "action"
         }
     }

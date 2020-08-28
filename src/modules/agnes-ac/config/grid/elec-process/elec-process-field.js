@@ -1,23 +1,44 @@
-import mockData from "./mockData";
 import processRenderer from './processRenderer'
 import optionalRenderer from './optionalRenderer'
+import dateUtil from '@hex/gf-ui/src/util/date-utils'
 
 export default {
     columnDefs: [
-        {headerName: "操作", field: "option", width: 70,
-            cellRenderer: 'optionalRenderer'},
-        {headerName: "状态", field: "status"},
+        {
+            headerName: "操作", field: "option", width: 70,
+            cellRenderer: 'optionalRenderer'
+        },
+        {headerName: "状态", field: "stepStatus", dictType: 'AGNES_TASK_STEP_STATUS'},
         {headerName: "监控明细归类", field: "detailSort"},
-        {headerName: "任务编号", field: "taskNo"},
-        {headerName: "任务名称", field: "taskName",
-            tooltipField: 'taskName',
+        {headerName: "任务编号", field: "stepCode"},
+        {
+            headerName: "任务名称", field: "stepName",
+            tooltipField: 'stepName',
         },
-        {headerName: "完成进度", field: "finishedRate",
-            cellRenderer: 'processRenderer'
+        {
+            headerName: "完成进度", field: "finishedRate",
+            cellRenderer: 'processRenderer',
+            minWidth: '160',
+            suppressSizeToFit: true,
         },
-        {headerName: "任务执行时间", field: "taskExecTime"},
-        {headerName: "完成时间", field: "finishedTime"},
-        {headerName: "任务类型", field: "taskType"},
+        {
+            headerName: "任务执行时间", field: "execStartTime",
+            cellRenderer: (params)=>{
+                let formatDate = '';
+                if(params.data.execStartTime){
+                    formatDate = dateUtil.formatDate(params.data.execStartTime, 'yyyy-MM-dd');
+                }
+                return formatDate;
+            }},
+        {headerName: "完成时间", field: "execEndTime",
+            cellRenderer: (params)=>{
+                let formatDate = '';
+                if(params.data.execEndTime) {
+                    formatDate = dateUtil.formatDate(params.data.execEndTime, 'yyyy-MM-dd')
+                }
+                return formatDate;
+            }},
+        {headerName: "任务类型", field: "stepActType", dictType: 'AGNES_CASE_STEPTYPE'},
         {headerName: "备注", field: "remark"},
     ],
     tooltipShowDelay: 0,
@@ -26,9 +47,7 @@ export default {
         processRenderer,
 
     },
-    rowData: mockData(),
-    headerHeight: 40,
-    rowHeight: 37,
+    rowData: [],
     ext: {
         // fetchUrl: "/agnes-ac/v1/ac/case/def/list",
         // fetchMethod: 'get',
