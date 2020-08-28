@@ -248,7 +248,7 @@
               kpiTaskReq.caseId = rowData.caseId;
               kpiTaskReq.stepCode = rowData.stepCode;
               kpiTaskReq.bizDate = this.bizDate;
-              kpiTaskReq.taskId = rowData.stepId;
+              kpiTaskReq.taskId = rowData.taskId;
               this.$api.kpiDefineApi.execTask(kpiTaskReq).then((resp) => {
                 if (resp.status) {
                   this.$message.success(resp.message);
