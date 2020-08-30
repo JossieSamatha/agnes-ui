@@ -65,8 +65,9 @@
             },
             isDisabled(){
                 const type = this.params.data.stepActType === '1';
-                const stepStatus = this.params.data.stepStatus;
-                return (type && (stepStatus === '01' || stepStatus === '06' || stepStatus === '07'))
+              const artificial = this.params.data.stepActType === '6';
+              const stepStatus = this.params.data.stepStatus;
+              return ((type && (stepStatus === '01' || stepStatus === '06' || stepStatus === '07')) || (artificial && (stepStatus === '06' || stepStatus === '07')))
             }
         },
         methods: {
