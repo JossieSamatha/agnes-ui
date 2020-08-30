@@ -70,7 +70,8 @@
               return ((type && (stepStatus === '01' || stepStatus === '06' || stepStatus === '07')) || (artificial && (stepStatus === '06' || stepStatus === '07')))
             }
         },
-        methods: {
+
+      methods: {
             popoverClick(actionType){
                 this.remark = this.params.data.remark;
                 this.popoverVisible = true;
