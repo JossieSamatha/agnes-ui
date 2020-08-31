@@ -2,7 +2,7 @@
     <div>
         <gf-grid @row-double-click="showEventDef" grid-no="agnes-event-def" ref="grid">
             <template slot="left">
-                <gf-button @click="addEventDef" size="mini">添加</gf-button>
+                <gf-button class="action-btn" @click="addEventDef" size="mini">添加</gf-button>
             </template>
         </gf-grid>
     </div>

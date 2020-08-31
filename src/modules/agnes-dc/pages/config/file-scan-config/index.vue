@@ -56,7 +56,7 @@ import FileScanConfigDetail from './file-scan-config-detail'
                 this.updateFileMove(params,'0');
             },
             async updateFileMove(params,status){
-                const p = this.$api.fileScan.updateStatus(params.data.scanId,status);
+                const p = this.$api.fileScan.updateFileMove(params.data.scanId,status);
                 await this.$app.blockingApp(p);
                 this.reloadData();
             },
