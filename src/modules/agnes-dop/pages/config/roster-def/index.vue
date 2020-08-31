@@ -66,7 +66,7 @@
 
             async deleteRoster(params) {
                 const row = params.data;
-                const ok = await this.$msg.ask(`确认删除员工:[${row.userName}]的值班信息吗, 是否继续?`);
+                const ok = await this.$msg.ask(`确认删除选中值班信息?`);
                 if (!ok) {
                     return
                 }

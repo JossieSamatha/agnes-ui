@@ -1,9 +1,9 @@
-import caseUtils from "./common.js";
+import commonUtil from "./common.js";
 
 // 定义 Loading 对象
 const Loading = {
     install: function (Vue) {
-        Vue.prototype.$caseUtils = caseUtils;
+        Vue.prototype.$agnesAcUtils = commonUtil;
     }
 };
 // 导出

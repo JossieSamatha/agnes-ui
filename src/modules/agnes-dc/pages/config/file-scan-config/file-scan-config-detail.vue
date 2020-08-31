@@ -59,9 +59,9 @@
                        placeholder="请选择">
                 <gf-filter-option
                         v-for="item in analyRulesOption"
-                        :key="item.dictId"
-                        :label="item.dictName"
-                        :value="item.dictId">
+                        :key="item.pkId"
+                        :label="item.ifName"
+                        :value="item.pkId">
                 </gf-filter-option>
             </el-select>
         </el-form-item>
@@ -121,9 +121,9 @@
                     baseDate: [
                         {required: true, message: '基准日期必填', trigger: 'change'},
                     ],
-                    varId:[
-                        {required: true, message: '变量选择必填', trigger: 'blur'},
-                    ],
+                    // varId:[
+                    //     {required: true, message: '变量选择必填', trigger: 'blur'},
+                    // ],
                     userName:[
                         {required: true, message: '用户名必填', trigger: 'blur'},
                     ],
@@ -139,6 +139,7 @@
                 this.addExecScheduler();
             }
             this.getVarIdList();
+            this.getAnalyRulesOption();
         },
         methods: {
             // 取消onCancel事件，触发抽屉关闭事件this.$emit("onClose");
@@ -158,6 +159,14 @@
                 const p = this.$api.fileScan.getVarIdList();
                 let res =  await this.$app.blockingApp(p);
                 this.variableOption = res.data;
+            },
+            async getAnalyRulesOption(){
+                const p = this.$api.fileScan.queryRuleConfigList();
+                let res =  await this.$app.blockingApp(p);
+                 res.data.forEach(item=>{
+                     let analy = {"pkId":item.pkId,"ifName":item.ifName}
+                     this.analyRulesOption.push(analy);
+                 });
             },
             // 保存onSave事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
             async onSave() {
