@@ -116,7 +116,7 @@
             },
             async publishFlowTask(params) {
                 const rowData = params.data;
-                if(rowData.reTaskDef.taskStatus.match(/00|01|04/)){
+                if(rowData.reTaskDef.taskStatus.match(/00|01|04|03/)){
                     this.$msg.warning("该状态无法发布!");
                     return ;
                 }
