@@ -14,7 +14,7 @@ export default {
         {headerName: "产品种类", field: "productClass", dictType: "AGNES_PRODUCT_CLASS"},
         {headerName: "产品类型", field: "productType", dictType: "AGNES_PRODUCT_TYPE"},
         {headerName: "产品阶段", field: "productStage",dictType: "AGNES_PRODUCT_STAGE"},
-        {headerName: "当前状态", field: "productStatus"},
+        {headerName: "当前状态", field: "productStatus",dictType:'AGNES_PRODUCT_STATUS'},
         {headerName: "成立日期", field: "startDate"},
         {headerName: "基金托管人", field: "productCustodian"},
         {headerName: "基金托管人(境外)", field: "productCustodianOverseas"},
@@ -38,6 +38,7 @@ export default {
     ],
     headerHeight: 40,
     rowHeight: 37,
+    // rowSelection: 'multiple',
     ext: {
         fetchUrl: "/agnes-app/v1/prdt/info/list/page",
         fetchMethod: 'post',
