@@ -31,9 +31,9 @@
                        placeholder="请选择">
                 <gf-filter-option
                         v-for="item in variableOption"
-                        :key="item.dictId"
-                        :label="item.dictName"
-                        :value="item.dictId">
+                        :key="item.pkId"
+                        :label="item.varName"
+                        :value="item.pkId">
                 </gf-filter-option>
             </el-select>
         </el-form-item>
@@ -77,6 +77,32 @@
                             <el-input v-model="scope.row.fileName"></el-input>
                         </template>
                     </el-table-column>
+                    <el-table-column prop="userName" label="用户名">
+                        <template slot-scope="scope">
+                            <!-- <span v-if="this.mode === 'view'">{{scope.row.userName}}</span> -->
+                            <el-input :style="!scope.row.userName ? 'border:1px solid #f00':''" v-model="scope.row.userName"></el-input>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="password" label="密码">
+                        <template slot-scope="scope">
+                            <!-- <span v-if="this.mode === 'view'">{{scope.row.password}}</span> -->
+                            <el-input :style="!scope.row.password ? 'border:1px solid #f00':''" v-model="scope.row.password"></el-input>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="varId" label="变量选择">
+                        <template slot-scope="scope">
+                            <el-select :style="!scope.row.varId||scope.row.varId.length===0? 'border:1px solid #f00':''" multiple v-model="scope.row.varId" placeholder="请选择">
+                                <el-option 
+                                    v-for="item in variableOption"
+                                    :key="item.pkId"
+                                    :label="item.varName"
+                                    :value="item.pkId"
+                                >
+                                </el-option>
+                            </el-select>
+                        </template>
+                    </el-table-column>
+
                     <el-table-column  prop="option" label="操作" width="52" align="center">
                         <template slot-scope="scope">
                             <span class="option-span" @click="deleteRuleRow(scope.$index)">删除</span>
@@ -101,6 +127,7 @@
 </template>
 
 <script>
+    import loadsh from 'lodash';
     export default {
         name: "file-move-detail",
         props: {
@@ -135,7 +162,7 @@
                     },
                     fields:[],
                 },
-                mustFillField: ['serverAddress','serverPort'],
+                mustFillField: ['serverAddress','serverPort','userName','password','varId'],
                 variableOption:[],
                 analyRulesOption:[],
                 curExecScheduler: '',    // 当前频率对象字段
@@ -246,7 +273,7 @@
                 if(this.form.fields){
                     for(let i =0;i<this.form.fields.length;i++){
                         for (let key in this.form.fields[i]) {
-                            if(this.mustFillField.indexOf(key) !== -1 && !this.form.fields[i][key]){
+                            if(this.mustFillField.indexOf(key) !== -1 && loadsh.isEmpty(this.form.fields[i][key])){
                                 validate = false;
                             }
                         }

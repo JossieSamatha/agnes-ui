@@ -6,7 +6,7 @@ const colButtons = [
 ];
 export default {
     columnDefs: [
-        column.buildOpCol(120, colButtons),
+        column.buildOpCol(120, colButtons, {field: 'option'}),
         {headerName: "序号", field: "id", valueGetter: params => params.node.rowIndex + 1},
         {headerName: "当前操作", field: "confName"},
         {headerName: "使用状态", field: "status", dictType: 'DATA_PIPE_TASK_STATUS'},

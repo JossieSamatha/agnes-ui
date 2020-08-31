@@ -3,21 +3,28 @@ import request from '@hex/gf-ui/src/util/request';
 
 export default {
     getEventDefList() {
-        return request.get(`/agnes-ec/v1/config/event/def/list`);
+        return request.get(`/agnes-ac/v1/ec/event/def/list`);
     },
     getEventMsg(eventId) {
-        return request.get("/agnes-ec/v1/config/event/msg", {params: {eventId}});
+        return request.get("/agnes-ac/v1/ec/event/msg", {params: {eventId}});
     },
     saveEventDef(form) {
-        return request.post("/agnes-ec/v1/config/event/save", form);
+        return request.post("/agnes-ac/v1/ec/event/save", form);
     },
     deleteEventDef(eventId) {
-        return request.post("/agnes-ec/v1/config/event/delete", null, {params: {eventId}});
+        return request.post("/agnes-ac/v1/ec/event/delete", null, {params: {eventId}});
     },
 
+    approveEventDef(eventId,eventStatus) {
+        return request.post("/agnes-ac/v1/ec/event/approve", null, {params: {eventId,eventStatus}});
+    },
+
+    publishEventDef(eventId) {
+        return request.post("/agnes-ac/v1/ec/event/publish", null, {params: {eventId}});
+    },
     msgSelectList(params) {
         return request({
-            url: '/agnes-ec/v1/config/msg/list',
+            url: '/agnes-ac/v1/ec/msg/list',
             method: 'get',
             params
         })

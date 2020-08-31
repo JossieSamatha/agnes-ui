@@ -106,10 +106,11 @@
             <el-input
                     type="textarea"
                     :rows="1"
-                    placeholder="A AND B AND C"
+                    placeholder="A && B && C"
                     v-model="ruleTableData.judgeScript">
             </el-input>
-            <p>规则配置：支持逻辑的自定义编辑，可以使用的组合表达式为：AND/OR 无大小写区分，可以整体取逻辑非的操作。</p>
+            <p>规则配置：支持逻辑的自定义编辑，可以使用的组合表达式为：&& 或 ||，可以整体取逻辑非的操作。</p>
+            <!--            <p>规则配置：支持逻辑的自定义编辑，可以使用的组合表达式为：&&/|| 无大小写区分，可以整体取逻辑非的操作。</p>-->
         </div>
         <el-dialog title="筛选条件配置" :visible.sync="filterConfDialog" :modal-append-to-body="false">
             <el-table header-row-class-name="rule-header-row"
@@ -168,7 +169,19 @@
                 }
             },
             ruleTargetOp: {
-                type: Object
+                type: Object,
+                default: function () {
+                    return {
+                        func: [],
+                        object: [],
+                        step: [],
+                        kpi: [],
+                        action: [],
+                        service: [],
+                        RPA: [],
+                        process: [],
+                    }
+                }
             }
         },
         data() {
@@ -220,11 +233,16 @@
             this.initData();
         },
         methods: {
+            setRuleTargetOp(optionData) {
+                this.initRuleList(optionData);
+            },
+
             async initData(){
                 const p = this.$api.ruleTableApi.getFnAndModelfields();
                 const resp = await this.$app.blockingApp(p);
                 if(resp.data){
                     this.funArr = resp.data;
+                    this.initRuleList();
                 }
             },
             // ruleTag计数规则
@@ -282,6 +300,12 @@
                 this.ruleTableData.ruleList.push(newRuleObj);
             },
 
+            initRuleList(optionData){
+                this.ruleTableData.ruleList.forEach( (ruleInfo, ruleIndex)=> {
+                    this.ruleTargetChange(ruleIndex, ruleInfo, true, optionData);
+                })
+            },
+
             // 编辑筛选条件
             editRuleParam(rowIndex, rowInfo){
                 if(!rowInfo.ruleTarget){
@@ -293,18 +317,22 @@
                 let filterConfObj = JSON.parse(rowInfo.ruleParam);
                 const targetObj = this.$lodash.find(this.funArr, { fnId: rowInfo.ruleTarget});
                 this.filterConfFormData = targetObj.fnArgsModelFields;
-                this.filterConfFormData.forEach(function (filterItem, index) {
+                this.filterConfFormData.forEach((filterItem, index) => {
                     if(filterItem.fieldValue){
                         filterItem.fieldValue = filterConfObj[index]&&filterConfObj[index].fieldValue ? filterConfObj[index].fieldValue : '';
+                    }else{
+                        this.$set(filterItem, 'fieldValue', filterConfObj[index].fieldValue);
                     }
                 });
             },
 
             // 切换对象拉下选择
-            ruleTargetChange(rowIndex, rowInfo) {
-                rowInfo.ruleKey = '';
+            ruleTargetChange(rowIndex, rowInfo, ifInit, optionData) {
+                rowInfo.ruleKey = !ifInit ? '' : rowInfo.ruleKey;
+                rowInfo.ruleValueOp = this.ruleValueMap[rowInfo.ruleType];
+                let targetObj = {};
                 if(rowInfo.ruleType === 'fn'){
-                    const targetObj = this.$lodash.find(this.funArr, { fnId: rowInfo.ruleTarget});
+                    targetObj = this.$lodash.find(this.funArr, { fnId: rowInfo.ruleTarget});
                     rowInfo.ruleTargetType = targetObj.fnType;
                     if(!targetObj.fnReturnModelFields){
                         rowInfo.ruleKeyOp = [];
@@ -314,16 +342,29 @@
                     if(!targetObj.fnArgsModelFields || targetObj.fnArgsModelFields.length === 0){
                         rowInfo.ruleParam = '无筛选条件';
                     }else{
-                        rowInfo.ruleParam = "\"\"";
+                        rowInfo.ruleParam = !ifInit ? "\"\"" : rowInfo.ruleParam;
                     }
+
+                    if(targetObj.fnType === 'sql'){
+                        rowInfo.bizParamDb = targetObj.bizParamDb;
+                        rowInfo.bizParamSql = targetObj.bizParamSql;
+                    }
+
                 }
                 if(rowInfo.ruleType === 'object') {
-                    const targetObj = this.$lodash.find(this.ruleTargetOp.object, { modelTypeId: rowInfo.ruleTarget});
-                    rowInfo.ruleTargetType = targetObj.fnType;
-                    if(!targetObj.ReModelField){
+                    if(optionData){
+                        targetObj = this.$lodash.find(optionData.object, { modelTypeId: rowInfo.ruleTarget});
+                    }else{
+                        targetObj = this.$lodash.find(this.ruleTargetOp.object, { modelTypeId: rowInfo.ruleTarget});
+                    }
+
+                    if(targetObj.fnType){
+                        rowInfo.ruleTargetType = targetObj.fnType;
+                    }
+                    if(!targetObj.reModelField){
                         rowInfo.ruleKeyOp = [];
                     }else{
-                        rowInfo.ruleKeyOp = targetObj.ReModelField;
+                        rowInfo.ruleKeyOp = targetObj.reModelField;
                     }
                 }
 
@@ -381,14 +422,22 @@
                             args[paramObj.fieldKey] = paramObj.fieldValue;
                         });
                     }
-                    args.fnId = ruleItem.ruleTarget;
+
+                    if(ruleItem.ruleType === 'fn'){
+                        args.fnId = ruleItem.ruleTarget;
+                        if(ruleItem.ruleTargetType === 'sql'){
+                            args.dsId = ruleItem.bizParamDb;
+                            args.sql = ruleItem.bizParamSql;
+                        }
+                    }
+
                     const ruleObj = {
                         context: {
                             args,
                             target: ruleItem.ruleTargetType,
                             type: ruleItem.ruleType
                         },
-                        expr: `${ruleItem.ruleSign}(${ruleItem.ruleKey}, \\'${ruleItem.ruleValue}\\')`
+                        expr: `${ruleItem.ruleSign}(${ruleItem.ruleKey}, "${ruleItem.ruleValue}")`
                     }
                     rules[ruleItem.ruleTag] = ruleObj;
                 });

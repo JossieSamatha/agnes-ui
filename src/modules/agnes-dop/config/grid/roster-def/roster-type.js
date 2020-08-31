@@ -2,8 +2,8 @@ import column from "../../../../../config/column"
 
 const colButtons = [
     {key: 'editRoster', title: '编辑'},
+    {key: 'personnel', title: '人员'},
     {key: 'deleteRoster', title: '删除', cellClass: 'red-cell'},
-
 ];
 
 export default {
@@ -12,11 +12,7 @@ export default {
         {headerName: "排班类型", field: "rosterType", dictType: 'AGNES_ROSTER_TYPE'},
         {headerName: "排班日期", field: "rosterDate"},
         {headerName: "排班时间", field: "rosterTs"},
-        {headerName: "姓名", field: "userName"},
         {headerName: "岗位", field: "roleId", dictType: 'AGNES_ROSTER_POST'},
-        {headerName: "手机", field: "mobileNo"},
-        {headerName: "座机", field: "oTel"},
-        {headerName: "邮箱", field: "oEmail"},
         column.buildOpCol(120, colButtons)
     ],
     headerHeight: 40,

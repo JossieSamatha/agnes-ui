@@ -67,7 +67,7 @@
             // 新增stage
             addStage() {
                 let newStage = {
-                    defId: this.$caseUtils.randomString(6),
+                    defId: this.$agnesAcUtils.randomString(6),
                     defName: '',
                     defType: 'stage',
                     optional: this.stageType === 'stages',

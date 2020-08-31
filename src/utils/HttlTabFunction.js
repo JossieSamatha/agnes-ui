@@ -1,11 +1,18 @@
 function showTab(url, code, name) {
-    let tabObj = {
-        id: code,
-        title: name,
-        actionUrl: url,
-        ifIframe: true
-    };
-    let tabView = Object.assign({args: {data: tabObj}}, tabObj, {id: code || ''});
+    let tabObj;
+    let tabView;
+    if(typeof url == "string"){
+        tabObj = {
+            id: code,
+            title: name,
+            actionUrl: url,
+            ifIframe: true
+        };
+        tabView = Object.assign({args: {data: tabObj}}, tabObj, {id: code || ''});
+    }else{
+        tabObj = this.$gfui.$app.views.getView(url.viewId);
+        tabView = Object.assign({args: {data: url}}, tabObj, {id: code || ''});
+    }
     let tab = this.$gfui.$app.nav.showView(tabView);
 
     return tab;

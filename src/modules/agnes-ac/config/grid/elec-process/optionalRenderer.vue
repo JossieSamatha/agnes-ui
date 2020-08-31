@@ -15,13 +15,29 @@
                 <el-button class="op-btn primary" size="mini" @click="confirmRemark">保存</el-button>
             </div>
         </el-popover>
-        <el-button size="mini" type="text" v-popover:popover v-if="actionShow" @click="popoverClick('actionConfirm')" title="手工确认">
+        <el-button size="mini" type="text"
+                   v-popover:popover v-if="actionShow"
+                   @click="popoverClick('actionConfirm')"
+                   title="手工确认"
+                   :disabled="isDisabled"
+        >
             <span class="svgSpan" v-html="svgImg.actionConfirm"></span>
         </el-button>
-        <el-button size="mini" type="text" v-popover:popover v-if="indexSetShow" @click="popoverClick('forcePass')" title="强制通过">
+        <el-button size="mini" type="text"
+                   v-popover:popover
+                   v-if="indexSetShow"
+                   @click="popoverClick('forcePass')"
+                   title="强制通过"
+                   :disabled="isDisabled"
+        >
             <span class="svgSpan" v-html="svgImg.forcePass"></span>
         </el-button>
-        <el-button size="mini" type="text" v-if="indexSetShow" @click="reExecute('reExecute')" title="重新执行">
+        <el-button size="mini" type="text"
+                   v-if="indexSetShow"
+                   @click="reExecute('reExecute')"
+                   title="重新执行"
+                   :disabled="isDisabled"
+        >
             <span class="svgSpan" v-html="svgImg.reExecute"></span>
         </el-button>
     </div>
@@ -34,7 +50,7 @@
                 remark: '',
                 popoverVisible: false,
                 actionType: '',
-                svgImg: this.$lcImg
+                svgImg: this.$lcImg,
             }
         },
         beforeMount(){
@@ -42,13 +58,20 @@
         },
         computed: {
             actionShow(){
-                return this.params.data.taskType === '人工任务';
+                return this.params.data.stepActType === '6';
             },
             indexSetShow(){
-                return this.params.data.taskType === '指标任务';
+                return this.params.data.stepActType === '1';
+            },
+            isDisabled(){
+                const type = this.params.data.stepActType === '1';
+              const artificial = this.params.data.stepActType === '6';
+              const stepStatus = this.params.data.stepStatus;
+              return ((type && (stepStatus === '01' || stepStatus === '06' || stepStatus === '07')) || (artificial && (stepStatus === '06' || stepStatus === '07')))
             }
         },
-        methods: {
+
+      methods: {
             popoverClick(actionType){
                 this.remark = this.params.data.remark;
                 this.popoverVisible = true;
@@ -86,9 +109,14 @@
 
     .optional-cell .svgSpan {
         display: inline-block;
-        width: 18px;
-        height: 18px;
+        width: 16px;
+        height: 16px;
         cursor: pointer;
+    }
+
+    .optional-cell .svgSpan>>>svg {
+        width: 100%;
+        height: 100%;
     }
 
     .optional-cell>span+span {
