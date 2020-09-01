@@ -64,9 +64,10 @@
                 return this.params.data.stepActType === '1';
             },
             isDisabled(){
-                const type = this.params.data.stepActType === '1';
-                const stepStatus = this.params.data.stepStatus;
-                return (type && (stepStatus === '01' || stepStatus === '06' || stepStatus === '07'))
+              const kpi = this.params.data.stepActType === '1';
+              const stepStatus = this.params.data.stepStatus;
+              const artificial = this.params.data.stepActType === '6';
+              return ((kpi && (stepStatus === '01' || stepStatus === '06' || stepStatus === '07')) || (artificial && (stepStatus === '06' || stepStatus === '07')))
             }
         },
         methods: {
