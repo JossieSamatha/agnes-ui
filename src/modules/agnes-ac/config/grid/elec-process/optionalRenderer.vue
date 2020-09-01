@@ -64,14 +64,13 @@
                 return this.params.data.stepActType === '1';
             },
             isDisabled(){
-                const type = this.params.data.stepActType === '1';
-              const artificial = this.params.data.stepActType === '6';
+              const kpi = this.params.data.stepActType === '1';
               const stepStatus = this.params.data.stepStatus;
-              return ((type && (stepStatus === '01' || stepStatus === '06' || stepStatus === '07')) || (artificial && (stepStatus === '06' || stepStatus === '07')))
+              const artificial = this.params.data.stepActType === '6';
+              return ((kpi && (stepStatus === '01' || stepStatus === '06' || stepStatus === '07')) || (artificial && (stepStatus === '06' || stepStatus === '07')))
             }
         },
-
-      methods: {
+        methods: {
             popoverClick(actionType){
                 this.remark = this.params.data.remark;
                 this.popoverVisible = true;

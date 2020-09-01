@@ -9,4 +9,9 @@ export default {
     getExecProcessDetail(params) {
         return request.post("/agnes-ac/v1/ac/exec/process/detail", params);
     },
+
+    getMsgNameAndType(params) {
+        return request.post("/agnes-remind/v1/remind/msg/query/msg/name", params);
+    },
+
 };
