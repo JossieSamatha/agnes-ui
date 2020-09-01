@@ -93,7 +93,7 @@
                         <span>执行情况</span>
                         <el-checkbox-group class="execType" v-model="execTypeChecked" size="small">
                             <el-checkbox v-for="exeType in execTypeOp" :key="exeType.id" :label="exeType.id" border>
-                                <i v-html="lcImg[exeType.id]"></i><span>{{exeType.label}}</span>
+                                <i v-html="lcImg[exeType.icon]"></i><span>{{exeType.label}}</span>
                             </el-checkbox>
                         </el-checkbox-group>
                     </p>
@@ -136,9 +136,10 @@
                 curStage: {},
                 stepStatus: [],
                 freshInterval: null,
-                execTypeChecked: ['outTime', 'abnormal'],
-                execTypeOp: [{id: 'executing', label: '执行'},{id: 'finish', label: '完成'},
-                    {id: 'outTime', label: '超时'},{id: 'abnormal', label: '异常'}]
+                execTypeChecked: ['overTime', 'exception'],
+                execTypeOp: [{id: 'ahead', label: '提前', icon: 'executing'},{id: 'launch', label: '启动', icon: 'executing'},
+                    {id: 'finished', label: '完成', icon: 'finish'},
+                    {id: 'overTime', label: '超时', icon: 'outTime'},{id: 'exception', label: '异常', icon: 'abnormal'}]
             }
         },
         created() {
@@ -151,8 +152,6 @@
                 this.flowType = flowTypeDicts[0].dictId;
                 this.getFLowbyType(flowTypeDicts[0].dictId);
             }
-            this.getTaskScheduler();
-            this.getExecuteData();
             this.freshInterval = setInterval(() => {
                 this.freshFlowData();
             }, 60000);
@@ -177,7 +176,7 @@
                 }
             },
 
-            // 根据流程id及业务日期加载流程信息{"taskId":"","bizDate":""}
+            // 根据流程id及业务日期加载流程信息{"taskId":"","bizDate":""}、获取任务状态、获取执行情况
             async getFLowDetail(taskId, bizDate) {
                 try {
                     const flowDetailRes = this.$api.elecProcessApi.getExecProcessDetail({taskId, bizDate});
@@ -187,6 +186,16 @@
                         if (flowDetailParse && flowDetailParse.stages.length > 0) {
                             this.taskStage = flowDetailParse.stages;
                             this.curStage = flowDetailParse.stages[0];
+                            // 获取任务状态
+                            const allTaskNum = flowDetailParse.processCompleteNum;
+                            const targetNum = flowDetailParse.processTargetNum;
+                            const executePieData = [
+                                {name: '完成', value: targetNum},
+                                {name: '未完成', value: (allTaskNum-targetNum)}
+                            ];
+                            this.executePieData = executePieData;
+                            // 获取执行情况
+                            this.getExecuteData(flowDetailParse.taskIdList, this.execTypeChecked);
                             this.setGridData(flowDetailParse.stages[0].ruCaseStepList);
                         } else {
                             this.taskStage = [];
@@ -354,13 +363,15 @@
             },
 
             // 获取执行情况
-            getExecuteData(){
-
+            async getExecuteData(taskIds, msgType){
+                const p = this.$api.elecProcessApi.getMsgNameAndType({taskIds, msgType})
+                const resp = await this.$app.blockingApp(p);
+                if (resp.data) {
+                    resp.data
+                }
             },
 
             freshFlowData() {
-                this.getTaskScheduler();
-                this.getExecuteData();
                 this.getFLowDetail(this.choosedTaskId, this.bizDate);
             }
         }

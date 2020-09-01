@@ -358,6 +358,7 @@
 
 .elec-process .bottom-section .execType {
     float: right;
+    margin-top: 3px;
 }
 
 .elec-process .execType .el-checkbox.is-bordered {
