@@ -31,7 +31,7 @@
                                 @change="bizDateChange"
                 >
                 </el-date-picker>
-                <i class="el-icon-refresh" title="全部刷新"></i>
+                <i class="el-icon-refresh" title="全部刷新" @click="freshFlowData()"></i>
             </div>
         </section>
         <section class="bottom-section">
