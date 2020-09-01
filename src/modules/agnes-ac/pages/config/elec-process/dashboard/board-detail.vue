@@ -1,31 +1,34 @@
 <template>
     <div class="elec-process">
-        <section class="top-section" :style="{height: ifTopExpand?'70px':'300px'}">
-            <div class="top left fixed">
-                <p class="section-title">任务类型</p>
-                <gf-dict clearable dict-type="AGNES_CASE_FLOWTYPE" size="mini" style="width: 200px"/>
+        <section class="top-section">
+            <div class="flowType">
+                <p class="section-label">流程类型</p>
+                <gf-dict class="flow-type-select"
+                         clearable
+                         dict-type="AGNES_CASE_FLOWTYPE"
+                         size="mini"
+                         v-model="flowType"
+                         @change="flowTypeChange"
+                         style="width: 175px;margin-right: 12px;"/>
+                <el-radio-group class="task-board" v-model="choosedTaskId" size="mini" @change="chooseTask">
+                    <el-radio v-for="task in proTask" :key="task.taskId" :label="task.taskId" :title="task.taskName" border>
+                        <i :class="task.icon"></i>
+                        <span>{{task.taskName}}</span>
+                    </el-radio>
+                </el-radio-group>
             </div>
-            <div class="top left">
-                <p class="section-title">任务流程</p>
-                <div class="task-board">
-                    <el-radio-group v-model="currentTask" size="mini" @change="chooseTask">
-                        <el-radio v-for="task in proTask" :key="task.taskId" :label="task.taskId" :title="task.taskName" border>{{task.taskName}}</el-radio>
-                    </el-radio-group>
-                </div>
-            </div>
-            <div class="top right">
-                <p class="section-title">业务日期：</p>
-                <p class="expand-more" @click="expandTop">
-                    <span v-show="ifTopExpand">展开更多</span>
-                    <span v-show="!ifTopExpand">收起面板</span>
-                </p>
+            <div class="date-search">
+                <p class="section-label">业务日期</p>
                 <el-date-picker v-model="bizDate"
-                        type="date"
-                        size="mini"
-                        align="center"
-                        :clearable="false"
-                        value-format="yyyy-MM-dd"
-                        placeholder="选择日期">
+                                type="date"
+                                size="mini"
+                                align="center"
+                                :clearable="false"
+                                value-format="yyyy-MM-dd"
+                                placeholder="选择日期"
+                                style="width: 175px"
+                                @change="bizDateChange"
+                >
                 </el-date-picker>
                 <i class="el-icon-refresh" title="全部刷新"></i>
             </div>
@@ -35,35 +38,45 @@
                 <i class="menuicon" v-html="ifRightExpand?svgImg.refoldIcon:svgImg.foldIcon"></i>
             </span>
             <div class="bottom left" id="taskContainerLeft">
-                <p class="section-title">
+                <div class="section-title">
                     <span>流程图</span>
-                    <span v-if="curTask.taskName"> -- {{curTask.taskName}}</span>
-                </p>
-                <div class="flow-container">
+                    <span v-if="currentTaskObj.taskName"> -- {{currentTaskObj.taskName}}</span>
+                    <div class="flow-legend" :style="{right: ifRightExpand?'0':'35px'}">
+                        <span v-for="status in stepStatus" :key="status.dictId">
+                            <i class="fa fa-circle"
+                               :style="{color: status.color}"
+                            ></i>{{status.dictName}}
+                        </span>
+                    </div>
+                </div>
+                <div class="flow-container" v-dragx="dragColumn" @bindUpdate="dragColumnUpdate" ref="dragColumn"
+                     :style="{height: ifGridExpand?'135px':'100%'}">
                     <div class="stage-item"
                          v-for="stage in taskStage"
                          :key="stage.defId"
                          :class="curStage.defId === stage.defId ? 'active' : ''"
                          @click="chooseTaskStage(stage)">
-                        <div class="stage-item-title" title="stage.defName">{{stage.defName}}</div>
-                        <el-progress class="define-progress" :percentage="stage.percentage" :status="stage.status ? stage.status : null"></el-progress>
+                        <div>
+                            <el-progress class="define-progress"
+                                         type="circle"
+                                         :percentage="getPercentage(stage.percentage)"
+                                         :color="getStatusColor(stage.status)"
+                                         :width="56"
+                                         :stroke-width="6"
+                            ></el-progress>
+                            <div class="stage-item-title" title="stage.defName">{{stage.defName}}</div>
+                        </div>
                     </div>
-                </div>
-                <div v-show="!ifGridExpand" class="drag-bar-line">
-                    <p @click="ifGridExpand = !ifGridExpand">
-                        <i class="fa fa-caret-down"></i>
-                        <i class="fa fa-caret-up"></i>
-                    </p>
-                </div>
-                <div v-show="ifGridExpand" class="drag-column" v-dragx="dragColumn" @bindUpdate="dragColumnUpdate" ref="dragColumn">
-                    <div v-show="ifGridExpand" class="drag-bar-line">
+                    <div class="drag-bar-line">
                         <p @click="ifGridExpand = !ifGridExpand">
                             <i class="fa fa-caret-down"></i>
                             <i class="fa fa-caret-up"></i>
                         </p>
                     </div>
-                    <gf-grid ref="grid"
-                             height="calc(100% - 21px)"
+                </div>
+                <div v-show="ifGridExpand" class="drag-column">
+                    <gf-grid ref="elecGrid"
+                             height="100%"
                              grid-no="agnes-elec-process-field"
                     ></gf-grid>
                 </div>
@@ -71,7 +84,7 @@
             <div class="bottom right" v-show="ifRightExpand">
                 <div class="chart-container">
                     <p class="section-title">任务进度</p>
-                    <pie-chart :chart-data="executePieData" :color-set="['#476DBE','#E0E0E0']"></pie-chart>
+                    <pie-chart ref="pieChart" :chart-data="executePieData" :color-set="['#476DBE','#E0E0E0']"></pie-chart>
                 </div>
                 <div class="exec-container">
                     <p class="section-title">执行情况</p>
@@ -82,7 +95,7 @@
                             :class="[execItem.status, execItem.expand]"
                             @dblclick="expandMore(execItem)"
                         >
-                            <i class="fa fa-circle"></i>
+                            <span v-html="lcImg[execItem.status]"></span>
                             <span>{{execItem.content}}</span>
                         </li>
                     </ul>
@@ -98,43 +111,111 @@
         data(){
             return {
                 svgImg: this.$svgImg,
-                dragColumn: {dragContainerId: "taskContainerLeft", dragDirection: 'n'},
+                lcImg: this.$lcImg,
+                dragColumn: {dragContainerId: "taskContainerLeft", dragDirection: 's'},
                 bizDate: '',
-                currentTask: '',
-                proTask: mockData().proTask,
+                flowType: '',
+                currentTaskObj: {},
+                choosedTaskId: '',
+                proTask: [],
                 executePieData: [
                     {name: '完成', value: 5},
                     {name: '未完成', value: 40}
                 ],
-                taskStage: mockData().taskStage,
+                taskStage: [],
                 execLog: mockData().execLog,
-                ifTopExpand: true,
-                ifRightExpand: true,
+                ifRightExpand: false,
                 ifGridExpand: true,
-                curTask: {},
-                curStage: {}
+                curStage: {},
+                stepStatus: []
+            }
+        },
+        created(){
+            this.stepStatus = this.$agnesAcUtils.getStepStatusMap();
+            // 默认系统业务日期
+            this.bizDate = window.bizDate;
+            // 默认加载首个流程类型流程数据
+            const flowTypeDicts = this.$app.dict.getDictItems("AGNES_CASE_FLOWTYPE");
+            if(flowTypeDicts.length>0 && flowTypeDicts[0].dictId){
+                this.flowType = flowTypeDicts[0].dictId;
+                this.getFLowbyType(flowTypeDicts[0].dictId);
             }
         },
         methods: {
-            // 展开/收起顶部栏面板
-            expandTop(){
-                this.ifTopExpand = !this.ifTopExpand;
+            // 根据流程类型加载对应流程数据
+            async getFLowbyType(firstFlowType){
+                const flowDataRes = this.$api.elecProcessApi.getTaskByType({"flowType": firstFlowType});
+                const flowDataList = await this.$app.blockingApp(flowDataRes);
+                if(flowDataList.data && flowDataList.data.length>0){
+                    this.proTask = flowDataList.data;
+                    // 默认加载第一项流程数据
+                    this.choosedTaskId = this.proTask[0].taskId;
+                    this.currentTaskObj = this.proTask[0];
+                    this.getFLowDetail(this.proTask[0].taskId, this.bizDate);
+                }else{
+                    this.proTask = [];
+                    this.taskStage = [];
+                }
             },
 
-            // 展开/收起底部右侧
-            foldBottomRight(){
-                this.ifRightExpand = !this.ifRightExpand
+            // 根据流程id及业务日期加载流程信息{"taskId":"","bizDate":""}
+            async getFLowDetail(taskId, bizDate){
+                try {
+                    const flowDetailRes = this.$api.elecProcessApi.getExecProcessDetail({taskId, bizDate});
+                    const flowDetailStr = await this.$app.blockingApp(flowDetailRes);
+                    if (flowDetailStr.data) {
+                        const flowDetailParse = this.$utils.fromJson(flowDetailStr.data);
+                        if (flowDetailParse && flowDetailParse.stages.length > 0) {
+                            this.taskStage = flowDetailParse.stages;
+                            this.curStage = flowDetailParse.stages[0];
+                            this.setGridData(flowDetailParse.stages[0].ruCaseStepList);
+                        } else {
+                            this.taskStage = [];
+                        }
+                    }
+                } catch (e) {
+                    this.$msg.error(e);
+                }
+            },
+
+            // 流程类型切换
+            flowTypeChange(val){
+                this.getFLowbyType(val);
             },
 
             // 任务流程 -- 选择
-            chooseTask(val){
-                const curTask =  this.$lodash.find(this.proTask, {taskId: val})
-                this.curTask = curTask;
+            chooseTask(taskId){
+                this.getFLowDetail(taskId, this.bizDate);
+                this.currentTaskObj = this.$lodash.find(this.proTask, {taskId});
+                this.choosedTaskId = taskId;
             },
 
             // 任务流程 -- 指定stage -- 选择
             chooseTaskStage(stage){
                 this.curStage = stage;
+                this.setGridData(stage.ruCaseStepList);
+            },
+
+            // 表格数据塞入
+            setGridData(data){
+                this.$refs.elecGrid.setRowData(data);
+                this.$refs.elecGrid.gridController.columnApi.columnController.autoSizeFitColumns();
+            },
+
+            // 业务日期切换
+            bizDateChange(val){
+                this.getFLowDetail(this.choosedTaskId, val);
+            },
+
+            // 展开/收起底部右侧
+            foldBottomRight(){
+                this.ifRightExpand = !this.ifRightExpand;
+                this.$nextTick(()=>{
+                    if(this.ifRightExpand){
+                        this.$refs.pieChart.pieChart.resize()
+                    }
+                });
+
             },
 
             // 纵向拉伸宽度问题处理
@@ -148,6 +229,94 @@
                     this.$set(execItem, 'expand', 'expand');
                 }else{
                     execItem.expand = '';
+                }
+            },
+
+            getPercentage(percentage){
+                return parseFloat(percentage)*100;
+            },
+
+            getStatusColor(statusId){
+                const color = this.$lodash.find(this.stepStatus, {dictId: statusId}).color;
+                return color;
+            },
+
+            // 重新执行
+            reExecute(params){
+                const rowData = params.data;
+                let kpiTaskReq = {}
+                kpiTaskReq.caseId = rowData.caseId;
+                kpiTaskReq.stepCode = rowData.stepCode;
+                kpiTaskReq.bizDate = this.bizDate;
+                kpiTaskReq.taskId = rowData.stepId;
+                this.$api.kpiDefineApi.execTask(kpiTaskReq).then((resp) => {
+                    if (resp.status) {
+                        this.$message.success(resp.message);
+                        this.reloadData();
+                    } else {
+                        this.$message.error(resp.message);
+                    }
+                });
+            },
+
+            // 手工确认
+            async actionConfirm(params) {
+                let taskCommit = {
+                    stepInfo: {},
+                    inst: {
+                        taskId: "",
+                    },
+                };
+                taskCommit.stepInfo.remark = params.data.remark;
+                taskCommit.stepInfo.stepStatus = "06";
+                taskCommit.stepInfo.jobId = params.data.jobId;
+                taskCommit.inst.taskId = params.data.taskId;
+                taskCommit.stepInfo.stepCode = params.data.stepCode;
+                try {
+                    const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
+                    const resp = await this.$app.blockingApp(p);
+                    if (resp.data) {
+                        if (this.actionOk) {
+                            await this.actionOk();
+                        }
+                        this.$msg.success('提交成功');
+                        this.$emit("onClose");
+                    } else {
+                        this.$msg.warning('提交失败');
+                    }
+                } catch (e) {
+                    this.$msg.error(e);
+                }
+            },
+
+            // 强制通过
+            async forcePass(params) {
+                let taskCommit = {
+                    stepInfo: {},
+                    inst: {
+                        taskId: "",
+                    },
+                };
+
+                taskCommit.stepInfo.remark = params.data.remark;
+                taskCommit.stepInfo.stepStatus = "07";
+                taskCommit.stepInfo.jobId = params.data.jobId;
+                taskCommit.inst.taskId = params.data.taskId;
+                taskCommit.stepInfo.stepCode = params.data.stepCode;
+                try {
+                    const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
+                    const resp = await this.$app.blockingApp(p);
+                    if (resp.data) {
+                        if (this.actionOk) {
+                            await this.actionOk();
+                        }
+                        this.$msg.success('提交成功');
+                        this.$emit("onClose");
+                    } else {
+                        this.$msg.warning('提交失败');
+                    }
+                } catch (e) {
+                    this.$msg.error(e);
                 }
             }
         }

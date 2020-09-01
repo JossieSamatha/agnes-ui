@@ -97,6 +97,14 @@
     position: relative;
 }
 
+
+.elec-process {
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
 .elec-process > section {
     display: flex;
     padding: 10px;
@@ -132,7 +140,7 @@
 
 .elec-process > section.bottom-section .rightExpandBtn {
     position: absolute;
-    top: 10px;
+    top: 13px;
     right: 10px;
     width: 20px;
     height: 20px;
@@ -147,6 +155,7 @@
 .elec-process > section .section-title {
     position: relative;
     font-size: 12px;
+    line-height: 28px;
     margin-left: 12px;
     margin-bottom: 5px;
 }
@@ -159,7 +168,7 @@
     height: 12px;
     background: #476DBE;
     left: -10px;
-    top: 2px;
+    top: 8px;
 }
 
 .elec-process > section .bottom.left {
@@ -347,6 +356,45 @@
     height: calc(100% - 295px);
 }
 
+.elec-process .bottom-section .execType {
+    float: right;
+    margin-top: 3px;
+}
+
+.elec-process .execType .el-checkbox.is-bordered {
+    padding: 0 5px;
+    font-size: 12px;
+    height: 24px;
+    line-height: 22px;
+    margin: 0;
+    border: none;
+}
+
+.elec-process .execType .el-checkbox.is-bordered+.el-checkbox.is-bordered {
+    margin-left: 1px;
+}
+
+.elec-process .execType .el-checkbox.is-bordered .el-checkbox__input {
+    display: none;
+}
+
+.elec-process .execType .el-checkbox.is-bordered .el-checkbox__label {
+    padding-left: 0;
+}
+
+.elec-process .execType .el-checkbox.is-bordered .el-checkbox__label>i {
+    vertical-align: middle;
+}
+
+.elec-process .execType .el-checkbox.is-bordered .el-checkbox__label>i>svg {
+    width: 14px;
+    margin-right: 3px;
+}
+
+.elec-process .execType .el-checkbox:not(.is-checked) .el-checkbox__label svg.lcSvg .cls-1 {
+    fill: #ccc;
+}
+
 .elec-process .bottom-section .exec-container .exec-ul {
     height: calc(100% - 25px);
     overflow-y: auto;
@@ -376,8 +424,9 @@
 }
 
 .elec-process .bottom-section .exec-container .exec-ul .exec-li > span > svg {
-    width: 12px;
+    width: 14px;
     margin-right: 5px;
+    vertical-align: text-bottom;
 }
 
 .elec-process .bottom-section .exec-container .exec-ul .exec-li.nostart > i {
