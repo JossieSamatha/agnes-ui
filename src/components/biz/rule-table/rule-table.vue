@@ -28,6 +28,12 @@
                         <el-option v-for="funItem in ruleTargetOp[scope.row.ruleType]" :key="funItem.modelTypeId" :label="funItem.typeName" :value="funItem.modelTypeId">
                         </el-option>
                     </el-select>
+                    <el-select v-else-if="scope.row.ruleType === 'step'" :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
+                               v-model="scope.row.ruleTarget"
+                               placeholder="请选择">
+                        <el-option v-for="step in ruleTargetOp[scope.row.ruleType]" :key="step" :label="step" :value="step">
+                        </el-option>
+                    </el-select>
                     <el-select v-else :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
                                v-model="scope.row.ruleTarget"
                                placeholder="请选择">
@@ -51,17 +57,18 @@
                                v-model="scope.row.ruleKey"
                                placeholder="请选择">
                         <el-option v-for="fieldItem in scope.row.ruleKeyOp" :key="fieldItem.fieldKey"
-                                :label="fieldItem.fieldName" :value="fieldItem.fieldKey">
+                                   :label="fieldItem.fieldName" :value="fieldItem.fieldKey">
                         </el-option>
                     </el-select>
                 </template>
             </el-table-column>
             <el-table-column prop="ruleSign" label="运算符" width="115">
                 <template slot-scope="scope">
-                    <el-select :class="mustFill('ruleSign') && !scope.row.ruleSign ? 'error':''"
+                    <span v-if="scope.row.ruleType === 'step'"></span>
+                    <el-select v-else :class="mustFill('ruleSign') && !scope.row.ruleSign ? 'error':''"
                                v-model="scope.row.ruleSign">
                         <el-option v-for="ruleSignItem in ruleSignOp" :key="ruleSignItem.dictId"
-                                :label="ruleSignItem.dictName" :value="ruleSignItem.dictId">
+                                   :label="ruleSignItem.dictName" :value="ruleSignItem.dictId">
                         </el-option>
                     </el-select>
                 </template>
@@ -70,7 +77,7 @@
                 <template slot-scope="scope">
                     <span v-if="scope.row.ruleType === 'step'">{{scope.row.ruleValueOp}}</span>
                     <el-input v-else-if="typeof(scope.row.ruleValueOp) === 'string'" :class="mustFill('ruleValue') && !scope.row.ruleValue ? 'error':''"
-                               v-model="scope.row.ruleValue"></el-input>
+                              v-model="scope.row.ruleValue"></el-input>
                     <el-select v-else :class="mustFill('ruleValue') && !scope.row.ruleValue ? 'error':''"
                                v-model="scope.row.ruleValue"
                                placeholder="请选择">
@@ -80,17 +87,17 @@
                     </el-select>
                 </template>
             </el-table-column>
-            <el-table-column prop="option" label="操作" width="52" align="center">
+            <el-table-column prop="option" label="操作" width="60" align="center">
                 <template slot-scope="scope">
                     <span class="option-span" @click="deleteRuleRow(scope.$index)">删除</span>
                 </template>
             </el-table-column>
         </el-table>
         <el-popover popper-class="rule-table-popover"
-                placement="right"
-                title="新增条件类型"
-                width="335"
-                trigger="click">
+                    placement="right"
+                    title="新增条件类型"
+                    width="340"
+                    trigger="click">
             <div class="conf-type">
                 <template v-for="confItem in confTypeArr">
                     <el-button size="small"
@@ -156,7 +163,7 @@
             },
             confType: {
                 type: String,
-                default: 'fn, object'
+                default: 'fn, object, step'
             },
             ruleTableData: {
                 type: Object,
@@ -208,7 +215,7 @@
                         {fieldName: '正常数', fieldKey: '01'},
                         {fieldName: '异常数', fieldKey: '02'},
                         {fieldName: '人工一致数', fieldKey: '03'}
-                        ],
+                    ],
                     action: '确认结果',
                     service: '服务返回参数',
                     RPA: 'RPA执行状态',
@@ -301,6 +308,9 @@
             },
 
             initRuleList(optionData){
+                if(!optionData){
+                    return;
+                }
                 this.ruleTableData.ruleList.forEach( (ruleInfo, ruleIndex)=> {
                     this.ruleTargetChange(ruleIndex, ruleInfo, true, optionData);
                 })
@@ -417,7 +427,9 @@
                 let rules = {};
                 ruleList.forEach( ruleItem => {
                     const args = {};
-                    if(ruleItem.ruleParam !== '无筛选条件' && JSON.parse(ruleItem.ruleParam)) {
+                    if(ruleItem.ruleType === 'step'){
+                        args.stepCode = ruleItem.ruleTarget;
+                    }else if(ruleItem.ruleParam !== '无筛选条件' && JSON.parse(ruleItem.ruleParam)) {
                         JSON.parse(ruleItem.ruleParam).forEach(paramObj=>{
                             args[paramObj.fieldKey] = paramObj.fieldValue;
                         });
@@ -430,14 +442,25 @@
                             args.sql = ruleItem.bizParamSql;
                         }
                     }
-
-                    const ruleObj = {
-                        context: {
-                            args,
-                            target: ruleItem.ruleTargetType,
-                            type: ruleItem.ruleType
-                        },
-                        expr: `${ruleItem.ruleSign}(${ruleItem.ruleKey}, "${ruleItem.ruleValue}")`
+                    let ruleObj = {};
+                    if(ruleItem.ruleType === 'step'){
+                        ruleObj = {
+                            context: {
+                                args,
+                                target: 'step',
+                                type: 'fn'
+                            },
+                            expr: "eq(status, \"8\")"
+                        }
+                    }else{
+                        ruleObj = {
+                            context: {
+                                args,
+                                target: ruleItem.ruleTargetType,
+                                type: ruleItem.ruleType
+                            },
+                            expr: `${ruleItem.ruleSign}(${ruleItem.ruleKey}, "${ruleItem.ruleValue}")`
+                        }
                     }
                     rules[ruleItem.ruleTag] = ruleObj;
                 });
