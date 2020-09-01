@@ -126,20 +126,24 @@
                 bizDate: '',
                 flowType: '',
                 currentTaskObj: {},
-                choosedTaskId: '',
-                proTask: [],
-                executePieData: [],
-                taskStage: [],
-                execLog: mockData().execLog,
-                ifRightExpand: false,
-                ifGridExpand: true,
-                curStage: {},
-                stepStatus: [],
-                freshInterval: null,
-                execTypeChecked: ['overTime', 'exception'],
-                execTypeOp: [{id: 'ahead', label: '提前', icon: 'executing'},{id: 'launch', label: '启动', icon: 'executing'},
-                    {id: 'finished', label: '完成', icon: 'finish'},
-                    {id: 'overTime', label: '超时', icon: 'outTime'},{id: 'exception', label: '异常', icon: 'abnormal'}]
+              choosedTaskId: '',
+              proTask: [],
+              executePieData: [],
+              taskStage: [],
+              execLog: mockData().execLog,
+              ifRightExpand: false,
+              ifGridExpand: true,
+              curStage: {},
+              stepStatus: [],
+              freshInterval: null,
+              execTypeChecked: ['OVERTIME', 'EXCEPTION'],
+              execTypeOp: [{id: 'AHEAD', label: '提前', icon: 'executing'}, {
+                id: 'LAUNCH',
+                label: '启动',
+                icon: 'executing'
+              },
+                {id: 'FINISHED', label: '完成', icon: 'finish'},
+                {id: 'OVERTIME', label: '超时', icon: 'outTime'}, {id: 'EXCEPTION', label: '异常', icon: 'abnormal'}]
             }
         },
         created() {
@@ -194,8 +198,8 @@
                                 {name: '未完成', value: (allTaskNum-targetNum)}
                             ];
                             this.executePieData = executePieData;
-                            // 获取执行情况
-                            this.getExecuteData(flowDetailParse.taskIdList, this.execTypeChecked);
+                          // 获取执行情况
+                          //this.getExecuteData(flowDetailParse.taskIdList, this.execTypeChecked);
                             this.setGridData(flowDetailParse.stages[0].ruCaseStepList);
                         } else {
                             this.taskStage = [];
@@ -367,7 +371,7 @@
                 const p = this.$api.elecProcessApi.getMsgNameAndType({taskIds, msgType})
                 const resp = await this.$app.blockingApp(p);
                 if (resp.data) {
-                    resp.data
+                  this.execLog = resp.data;
                 }
             },
 
