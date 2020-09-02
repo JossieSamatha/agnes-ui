@@ -48,7 +48,7 @@ function recursionData(nowData,steps,caseDefKey,type){
                     let sentryInData = {};
                     let sentryOut = {};
                     sentryInData.ifExpr = temporaryData.activeRuleTableData
-                    sentryOut.ifExpr = temporaryData.successRuleTableData
+                    sentryOut.ifExpr = temporaryData.successRuleTableData.ruleBody
                     currentData.sentryIn = sentryInData
                     currentData.sentryOut = sentryOut
                 }
