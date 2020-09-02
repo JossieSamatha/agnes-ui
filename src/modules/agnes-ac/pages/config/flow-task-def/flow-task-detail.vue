@@ -230,7 +230,7 @@
                         msg = '审核成功';
                     }else{
                         let data = {reTaskDef:resData,
-                            caseDefId: this.detailForm.caseDefId, caseDefBody: JSON.stringify(this.detailForm.caseDefBody),versionId:this.detailForm.versionId}
+                            caseDefId: this.detailForm.caseDefId, caseDefBody: this.detailForm.caseDefBody,versionId:this.detailForm.versionId}
                         const p = this.$api.flowTaskApi.saveFlowTask(data);
                         await this.$app.blockingApp(p);
                         msg = '保存成功';
