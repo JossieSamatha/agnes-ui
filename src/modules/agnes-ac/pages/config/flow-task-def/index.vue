@@ -201,6 +201,7 @@
                             currentData.sentryIn = sentryInData
                             currentData. sentryOut= sentryOut
                             currentData.actionDef = {'automation':true}
+                            currentData.autoActive = !temporaryData.activeRuleTableData.ruleBody;
                         }
                         steps.push(currentData)
                         //如需改变数据，在此处修改
