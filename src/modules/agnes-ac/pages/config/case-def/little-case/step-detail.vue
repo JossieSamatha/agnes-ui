@@ -213,7 +213,8 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item v-if="activeTerm === '2'">
-                <rule-table ref="ruleTable" :ruleTableData="stepInfo.stepFormInfo.activeRuleTableData"></rule-table>
+                <rule-table ref="activeRuleTable" confType="fn,step" :ruleTableData="stepInfo.stepFormInfo.activeRuleTableData"
+                            :ruleTargetOp="ruleTargetOp"></rule-table>
             </el-form-item>
             <el-form-item label="完成规则">
                 <el-radio-group v-model="succeedRule">
@@ -225,7 +226,8 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item v-if="succeedRule === '1'">
-                <rule-table ref="ruleTable" :ruleTableData="stepInfo.stepFormInfo.successRuleTableData"></rule-table>
+                <rule-table ref="successRuleTable" confType="fn,step" :ruleTableData="stepInfo.stepFormInfo.successRuleTableData"
+                            :ruleTargetOp="ruleTargetOp"></rule-table>
             </el-form-item>
             <el-form-item label="异常规则">
                 <el-radio-group v-model="abnormalRule">
@@ -237,7 +239,8 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item v-if="abnormalRule === '1'">
-                <rule-table ref="ruleTable" :ruleTableData="stepInfo.stepFormInfo.failRuleTableData"></rule-table>
+                <rule-table ref="failRuleTable" confType="fn,step" :ruleTableData="stepInfo.stepFormInfo.failRuleTableData"
+                            :ruleTargetOp="ruleTargetOp"></rule-table>
             </el-form-item>
         </el-form>
     </div>
@@ -376,7 +379,10 @@
                     stepRemark: [
                         {required: true, message: '任务说明必填', trigger: 'blur'},
                     ]
-                }
+                },
+                ruleTargetOp: {
+                   step:this.stepCodeArr
+                },
             }
         },
         beforeMount(){
@@ -550,6 +556,22 @@
                     }
                     if (this.activeTerm === '1') {
                         this.stepInfo.stepFormInfo.activeRuleTableData = {}
+                    }
+
+                    if(this.stepInfo.stepFormInfo.activeRuleTableData
+                        && this.stepInfo.stepFormInfo.activeRuleTableData.ruleList){
+                        const activeRuleJson = this.$refs.activeRuleTable.jsonFormatter();
+                        this.stepInfo.stepFormInfo.activeRuleTableData.ruleBody = activeRuleJson;
+                    }
+                    if(this.stepInfo.stepFormInfo.successRuleTableData
+                        && this.stepInfo.stepFormInfo.successRuleTableData.ruleList){
+                        const successRuleJson = this.$refs.successRuleTable.jsonFormatter();
+                        this.stepInfo.stepFormInfo.successRuleTableData.ruleBody = successRuleJson;
+                    }
+                    if(this.stepInfo.stepFormInfo.failRuleTableData
+                        && this.stepInfo.stepFormInfo.failRuleTableData.ruleList){
+                        const failRuleJson = this.$refs.failRuleTable.jsonFormatter();
+                        this.stepInfo.stepFormInfo.failRuleTableData.ruleBody = failRuleJson;
                     }
                     this.stepInfo.stepName = this.stepInfo.stepFormInfo.caseStepDef.stepName;
                     this.stepInfo.stepFormInfo.caseStepDef.stepActType = this.stepInfo.stepActType;

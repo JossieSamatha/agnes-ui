@@ -31,9 +31,9 @@
                 <div class="bgContent">
                     <img class="bg-img" :src="getImgPath(activeBgImg+'.jpg')"/>
                     <el-popover popper-class="bgListPop"
-                            placement="right"
-                            title="更换大屏背景"
-                            trigger="click">
+                                placement="right"
+                                title="更换大屏背景"
+                                trigger="click">
                         <div class="bgList">
                             <div v-for="(bgImg, index) in bgImgArr" :key="index">
                                 <img class="bg-img" :src="getImgPath(bgImg+'.jpg')"/>
@@ -96,7 +96,7 @@
                 this.compPanelShow = true;
             },
             getImgPath(imgName){
-                return require('../../assets/datav-comp/'+imgName);
+                return require('../../../assets/datav-comp/'+imgName);
             },
 
             compDragStart(){
