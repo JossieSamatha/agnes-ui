@@ -15,7 +15,7 @@
                         </span>
                     </p>
                     <p class="buttonP">
-                        <el-button type="primary">编辑</el-button>
+                        <el-button type="primary" @click="editTemplate">编辑</el-button>
                         <el-button>预览</el-button>
                     </p>
                 </div>
@@ -46,7 +46,16 @@
         },
         methods: {
             getImgPath(imgName){
-                return require('../assets/datav/'+imgName);
+                if(imgName){
+                    return require('../../assets/datav/'+imgName);
+                }else{
+                    return require('../../assets/datav/template-img01.jpg');
+                }
+            },
+
+            // 打开编辑页面
+            editTemplate(){
+                this.$emit('editTemplate');
             },
 
             // 删除模板

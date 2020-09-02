@@ -19,7 +19,7 @@
 </template>
 
 <script>
-    import boardData from '../board-data';
+    import boardData from './board-data';
     export default {
         props:{
             pageId: String
@@ -101,7 +101,7 @@
             },
 
             getImgPath(imgName){
-                return require('../../../assets/img/datav/'+imgName+'.png');
+                return require('../../assets/clientView/'+imgName+'.png');
             },
 
             addUnitGrid(newUnitObj) {
