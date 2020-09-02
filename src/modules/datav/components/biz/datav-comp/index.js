@@ -3,6 +3,7 @@ import DecorateComp from "./decorate-comp";
 import GridComp from './grid-comp';
 import TextComp from "./text-comp";
 import OthersComp from "./others-comp";
+import gfDragResize from './gf-drag-resize'
 
 // 定义 Loading 对象
 const Loading = {
@@ -13,6 +14,7 @@ const Loading = {
         Vue.use(GridComp);
         Vue.use(TextComp);
         Vue.use(OthersComp);
+        Vue.component('gf-drag-resize', gfDragResize);
     }
 };
 // 导出

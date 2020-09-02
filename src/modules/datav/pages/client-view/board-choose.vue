@@ -38,7 +38,7 @@
 </template>
 
 <script>
-    import boardData from '../board-data';
+    import boardData from './board-data';
     export default {
         props: {
             showDialog: { // 面板当前是否编辑
