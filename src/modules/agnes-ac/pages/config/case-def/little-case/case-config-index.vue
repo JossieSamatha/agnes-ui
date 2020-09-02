@@ -105,6 +105,9 @@
                     const p = this.$api.flowTaskApi.saveFlowTask(this.row.caseDefInfo);
                     await this.$app.blockingApp(p);
                     this.$msg.success('保存成功');
+                    if (this.actionOk) {
+                        await this.actionOk();
+                    }
                     this.$emit("onClose");
                 } catch (e) {
                     this.$msg.error(e);
