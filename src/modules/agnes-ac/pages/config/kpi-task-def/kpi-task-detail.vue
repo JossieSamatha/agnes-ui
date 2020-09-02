@@ -253,7 +253,7 @@
             </el-radio-group>
         </el-form-item>
         <el-form-item v-if="succeedRule == '1'">
-            <rule-table ref="ruleTable" :ruleTableData="detailForm.successRuleTableData"></rule-table>
+            <rule-table ref="successRuleTable" confType="fn" :ruleTableData="detailForm.successRuleTableData"></rule-table>
         </el-form-item>
         <el-form-item label="异常规则">
             <el-radio-group v-model="abnormalRule">
@@ -265,7 +265,7 @@
             </el-radio-group>
         </el-form-item>
         <el-form-item v-if="abnormalRule == '1'">
-            <rule-table ref="ruleTable" :ruleTableData="detailForm.failRuleTableData"></rule-table>
+            <rule-table ref="failRuleTable" confType="fn" :ruleTableData="detailForm.failRuleTableData"></rule-table>
         </el-form-item>
     </el-form>
 </template>
@@ -522,6 +522,16 @@
                 }
                 if(this.abnormalRule==='0'){
                     this.detailForm.failRuleTableData={}
+                }
+                if(this.detailForm.successRuleTableData
+                    && this.detailForm.successRuleTableData.ruleList){
+                    const successRuleJson = this.$refs.successRuleTable.jsonFormatter();
+                    this.detailForm.successRuleTableData.ruleBody = successRuleJson;
+                }
+                if(this.detailForm.failRuleTableData
+                    && this.detailForm.failRuleTableData.ruleList){
+                    const failRuleJson = this.$refs.failRuleTable.jsonFormatter();
+                    this.detailForm.failRuleTableData.ruleBody = failRuleJson;
                 }
                 //消息通知参数判断是否勾选
                 if(this.msgInformParam.indexOf('0') === -1){

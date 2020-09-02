@@ -195,8 +195,8 @@
                             delete currentData.stepFormInfo
                             let sentryInData = {};
                             let sentryOut = {};
-                            sentryInData.ifExpr = temporaryData.activeRuleTableData
-                            sentryOut.ifExpr = temporaryData.successRuleTableData
+                            sentryInData.ifExpr = temporaryData.activeRuleTableData.ruleBody ?temporaryData.activeRuleTableData.ruleBody :{}
+                            sentryOut.ifExpr = temporaryData.successRuleTableData.ruleBody ? temporaryData.successRuleTableData.ruleBody :{}
                             currentData.defId = temporaryData.caseStepDef.stepCode;
                             currentData.sentryIn = sentryInData
                             currentData. sentryOut= sentryOut
