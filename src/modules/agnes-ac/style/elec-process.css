@@ -118,6 +118,8 @@
 .elec-process .top-section > div {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
 }
 
 .elec-process .top-section .section-label {
@@ -306,6 +308,15 @@
 }
 
 /* task-board样式 */
+.elec-process .top-section .task-board .flow-type,
+.elec-process .top-section .task-board .date-search{
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.elec-process .top-section .task-board .date-search{
+    margin-left: auto;
+}
 
 .elec-process .top-section .task-board.el-radio-group .el-radio {
     height: 28px;
@@ -314,6 +325,7 @@
     color: #666;
     border-color: #EAEDF1;
     margin-right: 5px;
+    margin-bottom: 5px;
     padding: 4px 10px;
     text-align: center;
     white-space: nowrap;
@@ -356,12 +368,12 @@
     height: calc(100% - 295px);
 }
 
-.elec-process .bottom-section .execType {
+.elec-process .bottom-section .exec-type {
     float: right;
     margin-top: 3px;
 }
 
-.elec-process .execType .el-checkbox.is-bordered {
+.elec-process .exec-type .el-checkbox.is-bordered {
     padding: 0 5px;
     font-size: 12px;
     height: 24px;
@@ -370,28 +382,28 @@
     border: none;
 }
 
-.elec-process .execType .el-checkbox.is-bordered+.el-checkbox.is-bordered {
+.elec-process .exec-type .el-checkbox.is-bordered+.el-checkbox.is-bordered {
     margin-left: 1px;
 }
 
-.elec-process .execType .el-checkbox.is-bordered .el-checkbox__input {
+.elec-process .exec-type .el-checkbox.is-bordered .el-checkbox__input {
     display: none;
 }
 
-.elec-process .execType .el-checkbox.is-bordered .el-checkbox__label {
+.elec-process .exec-type .el-checkbox.is-bordered .el-checkbox__label {
     padding-left: 0;
 }
 
-.elec-process .execType .el-checkbox.is-bordered .el-checkbox__label>i {
+.elec-process .exec-type .el-checkbox.is-bordered .el-checkbox__label>i {
     vertical-align: middle;
 }
 
-.elec-process .execType .el-checkbox.is-bordered .el-checkbox__label>i>svg {
+.elec-process .exec-type .el-checkbox.is-bordered .el-checkbox__label>i>svg {
     width: 14px;
     margin-right: 3px;
 }
 
-.elec-process .execType .el-checkbox:not(.is-checked) .el-checkbox__label svg.lcSvg .cls-1 {
+.elec-process .exec-type .el-checkbox:not(.is-checked) .el-checkbox__label svg.lcSvg .cls-1 {
     fill: #ccc;
 }
 

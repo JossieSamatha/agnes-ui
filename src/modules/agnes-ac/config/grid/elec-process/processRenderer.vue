@@ -2,7 +2,7 @@
     <el-progress class="define-progress"
                  :percentage="percentage"
                  show-text
-                 :color="statusColor"
+                 :color="getStatusColor"
                  style="width: 150px" :title="`${percentage}%`">
     </el-progress>
 </template>
@@ -18,11 +18,11 @@
         },
         beforeMount(){
             this.percentage = parseFloat(this.params.value)*100;
-            this.statusColor = this.$agnesAcUtils.getStepStatusMap();
         },
         methods: {
             getStatusColor(){
-                return this.$lodash.find(this.stepStatus, {dictId: this.params.stepStatus});
+                const colorSet = this.$agnesAcUtils.getStepStatusMap();
+                return colorSet.get(this.params.data.stepStatus).color;
             }
         }
     }

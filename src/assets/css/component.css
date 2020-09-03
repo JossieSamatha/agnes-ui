@@ -739,7 +739,7 @@
 .gf-ag-grid.ag-theme-balham .ag-checkbox-input-wrapper {
     width: 13px;
     height: 13px;
-    border: 1px solid #EAEDF1;
+    border: 1px solid #ccc;
     box-sizing: content-box;
     box-shadow: none;
 }
