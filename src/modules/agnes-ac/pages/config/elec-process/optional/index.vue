@@ -159,7 +159,6 @@
                 this.flowType = flowTypeDicts[0].dictId;
                 this.getFLowbyType(flowTypeDicts[0].dictId);
             }
-            this.setGridData(mockData().elecTaskStage.stages[0].ruCaseStepList);
             this.freshInterval = setInterval(() => {
                 this.freshFlowData();
             }, 60000);
