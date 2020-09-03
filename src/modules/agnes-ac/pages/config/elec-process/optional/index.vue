@@ -220,8 +220,7 @@
                         this.setGridData([]);
                     }
                 } catch (e) {
-                    console.log(e);
-                    // this.$msg.error(e);
+                    this.$msg.error(e);
                 }
             },
 
