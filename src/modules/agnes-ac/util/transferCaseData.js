@@ -47,7 +47,6 @@ function recursionData(nowData,steps,caseDefKey,type){
                     delete currentData.stepFormInfo
                     let sentryInData = {};
                     let sentryOut = {};
-                    sentryInData.ifExpr = temporaryData.activeRuleTableData
                     sentryOut.ifExpr = temporaryData.successRuleTableData.ruleBody
                     currentData.sentryIn = sentryInData
                     currentData.sentryOut = sentryOut
