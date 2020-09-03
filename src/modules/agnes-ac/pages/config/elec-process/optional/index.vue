@@ -1,38 +1,38 @@
 <template>
     <div class="elec-process">
         <section class="top-section">
-            <div class="flowType">
-                <p class="section-label">流程类型</p>
-                <gf-dict class="flow-type-select"
-                         clearable
-                         dict-type="AGNES_CASE_FLOWTYPE"
-                         size="mini"
-                         v-model="flowType"
-                         @change="flowTypeChange"
-                         style="width: 175px;margin-right: 12px;"/>
-                <el-radio-group class="task-board" v-model="choosedTaskId" size="mini" @change="chooseTask">
-                    <el-radio v-for="task in proTask" :key="task.taskId" :label="task.taskId" :title="task.taskName"
-                              border>
-                        <i :class="task.icon"></i>
-                        <span>{{task.taskName}}</span>
-                    </el-radio>
-                </el-radio-group>
-            </div>
-            <div class="date-search">
-                <p class="section-label">业务日期</p>
-                <el-date-picker v-model="bizDate"
-                                type="date"
-                                size="mini"
-                                align="center"
-                                :clearable="false"
-                                value-format="yyyy-MM-dd"
-                                placeholder="选择日期"
-                                style="width: 175px"
-                                @change="bizDateChange"
-                >
-                </el-date-picker>
-                <i class="el-icon-refresh" title="全部刷新" @click="freshFlowData()"></i>
-            </div>
+            <el-radio-group class="task-board" v-model="choosedTaskId" size="mini" @change="chooseTask">
+                <div class="flow-type">
+                    <p class="section-label">流程类型</p>
+                    <gf-dict class="flow-type-select"
+                             clearable
+                             dict-type="AGNES_CASE_FLOWTYPE"
+                             size="mini"
+                             v-model="flowType"
+                             @change="flowTypeChange"
+                             style="width: 175px;margin-right: 12px;"/>
+                </div>
+                <el-radio v-for="task in proTask" :key="task.taskId" :label="task.taskId" :title="task.taskName"
+                          border>
+                    <i :class="task.icon"></i>
+                    <span>{{task.taskName}}</span>
+                </el-radio>
+                <div class="date-search">
+                    <p class="section-label">业务日期</p>
+                    <el-date-picker v-model="bizDate"
+                                    type="date"
+                                    size="mini"
+                                    align="center"
+                                    :clearable="false"
+                                    value-format="yyyy-MM-dd"
+                                    placeholder="选择日期"
+                                    style="width: 175px"
+                                    @change="bizDateChange"
+                    >
+                    </el-date-picker>
+                    <i class="el-icon-refresh" title="全部刷新" @click="freshFlowData()"></i>
+                </div>
+            </el-radio-group>
         </section>
         <section class="bottom-section">
             <span class="rightExpandBtn" @click="foldBottomRight">
@@ -43,10 +43,10 @@
                     <span>流程图</span>
                     <span v-if="currentTaskObj.taskName"> -- {{currentTaskObj.taskName}}</span>
                     <div class="flow-legend" :style="{right: ifRightExpand?'0':'35px'}">
-                        <span v-for="status in stepStatus" :key="status.dictId">
+                        <span v-for="(status, statusColor) in stageStatus" :key="statusColor">
                             <i class="fa fa-circle"
-                               :style="{color: status.color}"
-                            ></i>{{status.dictName}}
+                               :style="{color: statusColor}"
+                            ></i>{{status}}
                         </span>
                     </div>
                 </div>
@@ -91,7 +91,7 @@
                 <div class="exec-container">
                     <p class="section-title">
                         <span>执行情况</span>
-                        <el-checkbox-group class="execType" v-model="execTypeChecked" size="small">
+                        <el-checkbox-group class="exec-type" v-model="execTypeChecked" size="small" @change="execTypeChange">
                             <el-checkbox v-for="exeType in execTypeOp" :key="exeType.id" :label="exeType.id" border>
                                 <i v-html="lcImg[exeType.icon]"></i><span>{{exeType.label}}</span>
                             </el-checkbox>
@@ -104,7 +104,7 @@
                             :class="[execItem.status, execItem.expand]"
                             @dblclick="expandMore(execItem)"
                         >
-                            <span v-html="lcImg[execItem.status]"></span>
+                            <span v-html="getExecIcon(execItem.status)"></span>
                             <span>{{execItem.content}}</span>
                         </li>
                     </ul>
@@ -126,28 +126,31 @@
                 bizDate: '',
                 flowType: '',
                 currentTaskObj: {},
-              choosedTaskId: '',
-              proTask: [],
-              executePieData: [],
-              taskStage: [],
-              execLog: mockData().execLog,
-              ifRightExpand: false,
-              ifGridExpand: true,
-              curStage: {},
-              stepStatus: [],
-              freshInterval: null,
-              execTypeChecked: ['OVERTIME', 'EXCEPTION'],
-              execTypeOp: [{id: 'AHEAD', label: '提前', icon: 'executing'}, {
-                id: 'LAUNCH',
-                label: '启动',
-                icon: 'executing'
-              },
-                {id: 'FINISHED', label: '完成', icon: 'finish'},
-                {id: 'OVERTIME', label: '超时', icon: 'outTime'}, {id: 'EXCEPTION', label: '异常', icon: 'abnormal'}]
+                  choosedTaskId: '',
+                  proTask: [],
+                  executePieData: [],
+                  taskStage: [],
+                  execLog: mockData().execLog,
+                  ifRightExpand: false,
+                  ifGridExpand: true,
+                  curStage: {},
+                  stageStatus: {
+                      '#DFE1E5': '未开始',
+                      '#4A8EF0': '执行中',
+                      '#F5222E': '已异常/已超时',
+                      '#52C41C': '已完成',
+                      '#FAAE14': '人工强制关闭',
+                  },
+                  freshInterval: null,
+                  execTypeChecked: ['OVERTIME', 'EXCEPTION'],
+                  execTypeOp: [{id: 'AHEAD', label: '提前', icon: 'executing'},
+                      {id: 'LAUNCH', label: '启动', icon: 'executing'}, {id: 'FINISHED', label: '完成', icon: 'finish'},
+                    {id: 'OVERTIME', label: '超时', icon: 'outTime'}, {id: 'EXCEPTION', label: '异常', icon: 'abnormal'}
+                  ],
+                  taskIdList: []
             }
         },
         created() {
-            this.stepStatus = this.$agnesAcUtils.getStepStatusMap();
             // 默认系统业务日期
             this.bizDate = window.bizDate;
             // 默认加载首个流程类型流程数据
@@ -156,6 +159,7 @@
                 this.flowType = flowTypeDicts[0].dictId;
                 this.getFLowbyType(flowTypeDicts[0].dictId);
             }
+            this.setGridData(mockData().elecTaskStage.stages[0].ruCaseStepList);
             this.freshInterval = setInterval(() => {
                 this.freshFlowData();
             }, 60000);
@@ -189,21 +193,31 @@
                         const flowDetailParse = this.$utils.fromJson(flowDetailStr.data);
                         if (flowDetailParse && flowDetailParse.stages.length > 0) {
                             this.taskStage = flowDetailParse.stages;
-                            this.curStage = flowDetailParse.stages[0];
+                            if(this.curStage && this.curStage.defId){
+                                this.curStage = this.$lodash.find(flowDetailParse.stages, {defId: this.curStage.defId});
+                            }else{
+                                this.curStage = flowDetailParse.stages[0];
+                            }
                             // 获取任务状态
-                            const allTaskNum = flowDetailParse.processCompleteNum;
-                            const targetNum = flowDetailParse.processTargetNum;
+                            const targetNum = flowDetailParse.processCompleteNum;
+                            const allTaskNum = flowDetailParse.processTargetNum;
                             const executePieData = [
                                 {name: '完成', value: targetNum},
                                 {name: '未完成', value: (allTaskNum-targetNum)}
                             ];
                             this.executePieData = executePieData;
                           // 获取执行情况
-                          //this.getExecuteData(flowDetailParse.taskIdList, this.execTypeChecked);
-                            this.setGridData(flowDetailParse.stages[0].ruCaseStepList);
+                            this.taskIdList = flowDetailParse.taskIdList;
+                            this.getExecuteData(flowDetailParse.taskIdList, this.execTypeChecked);
+                            this.setGridData(this.curStage.ruCaseStepList);
                         } else {
                             this.taskStage = [];
                         }
+                    }else{
+                        this.taskStage = [];
+                        this.executePieData = [];
+                        this.execLog = [];
+                        this.setGridData([]);
                     }
                 } catch (e) {
                     this.$msg.error(e);
@@ -269,8 +283,8 @@
             },
 
             getStatusColor(statusId) {
-                const color = this.$lodash.find(this.stepStatus, {dictId: statusId}).color;
-                return color;
+                const stepStatus = this.$agnesAcUtils.getStepStatusMap();
+                return stepStatus.get(statusId).color;
             },
 
             // 重新执行
@@ -368,15 +382,26 @@
 
             // 获取执行情况
             async getExecuteData(taskIds, msgType){
-                const p = this.$api.elecProcessApi.getMsgNameAndType({taskIds, msgType})
-                const resp = await this.$app.blockingApp(p);
+                const resp = this.$api.elecProcessApi.getMsgNameAndType({taskIds, msgType})
                 if (resp.data) {
                   this.execLog = resp.data;
+                }else{
+                    this.execLog = [];
                 }
+            },
+
+            // 执行情况类型切换
+            execTypeChange(val){
+                this.getExecuteData(this.taskIdList, val);
             },
 
             freshFlowData() {
                 this.getFLowDetail(this.choosedTaskId, this.bizDate);
+            },
+
+            getExecIcon(status){
+                const icon = this.$lodash.find(this.execTypeOp, {id: status}).icon;
+                return this.lcImg[icon];
             }
         }
     }

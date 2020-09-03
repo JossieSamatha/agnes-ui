@@ -1,14 +1,14 @@
 <template>
     <div class="optional-cell">
         <el-popover ref="popover"
-                placement="top-start"
-                title="备注"
-                width="300"
-                trigger="manual"
-                v-model="popoverVisible"
+                    placement="top-start"
+                    title="备注"
+                    width="300"
+                    trigger="manual"
+                    v-model="popoverVisible"
         >
             <el-input type="textarea" :rows="1" placeholder="请输入备注内容"
-                    v-model="remark">
+                      v-model="remark">
             </el-input>
             <div style="text-align: right; margin-top: 10px">
                 <el-button class="op-btn" size="mini" type="text" @click="popoverVisible = false">取消</el-button>
@@ -45,7 +45,7 @@
 
 <script>
     export default {
-        data(){
+        data() {
             return {
                 remark: '',
                 popoverVisible: false,
@@ -53,31 +53,31 @@
                 svgImg: this.$lcImg,
             }
         },
-        beforeMount(){
+        beforeMount() {
             this.remark = this.params.data.remark;
         },
         computed: {
-            actionShow(){
+            actionShow() {
                 return this.params.data.stepActType === '6';
             },
-            indexSetShow(){
+            indexSetShow() {
                 return this.params.data.stepActType === '1';
             },
-            isDisabled(){
-              const kpi = this.params.data.stepActType === '1';
-              const stepStatus = this.params.data.stepStatus;
-              const artificial = this.params.data.stepActType === '6';
-              return ((kpi && (stepStatus === '01' || stepStatus === '06' || stepStatus === '07')) || (artificial && (stepStatus === '06' || stepStatus === '07')))
+            isDisabled() {
+                const kpi = this.params.data.stepActType === '1';
+                const artificial = this.params.data.stepActType === '6';
+                const stepStatus = this.params.data.stepStatus;
+                return (!(kpi && (stepStatus === '03' || stepStatus === '04')) || (artificial && (stepStatus === '06' || stepStatus === '07')))
             }
         },
         methods: {
-            popoverClick(actionType){
+            popoverClick(actionType) {
                 this.remark = this.params.data.remark;
                 this.popoverVisible = true;
                 this.actionType = actionType;
             },
 
-            async reExecute(actionType){
+            async reExecute(actionType) {
                 this.actionType = actionType;
                 const ok = await this.$msg.ask(`是否确认重新执行`);
                 if (ok) {
@@ -86,7 +86,7 @@
             },
 
             // 备注确定 -- 保存
-            confirmRemark(){
+            confirmRemark() {
                 this.popoverVisible = false;
                 this.params.data.remark = this.remark;
                 this.params.api.refreshCells(this.params.node)
@@ -113,16 +113,16 @@
         cursor: pointer;
     }
 
-    .optional-cell .svgSpan>>>svg {
+    .optional-cell .svgSpan >>> svg {
         width: 100%;
         height: 100%;
     }
 
-    .optional-cell>span+span {
+    .optional-cell > span + span {
         margin-left: 10px;
     }
 
-    .optional-cell .svgSpan>svg {
+    .optional-cell .svgSpan > svg {
         width: 100%;
         height: 100%;
     }
