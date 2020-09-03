@@ -64,7 +64,7 @@
             </el-table-column>
             <el-table-column prop="ruleSign" label="运算符" width="115">
                 <template slot-scope="scope">
-                    <span v-if="scope.row.ruleType === 'step'"></span>
+                    <span v-if="scope.row.ruleType === 'step' || scope.row.ruleType === 'event'">等于</span>
                     <el-select v-else :class="mustFill('ruleSign') && !scope.row.ruleSign ? 'error':''"
                                v-model="scope.row.ruleSign">
                         <el-option v-for="ruleSignItem in ruleSignOp" :key="ruleSignItem.dictId"
@@ -105,6 +105,7 @@
                                v-if="confType.includes(confItem.dictId)"
                                @click="addRule(confItem.dictId)">{{confItem.dictName}}</el-button>
                 </template>
+                <el-button size="small" v-if="confType.includes('event')" @click="addRule('event')">事件触发</el-button>
             </div>
             <el-button slot="reference" class="rule-add-btn" size="small">新增条件</el-button>
         </el-popover>
@@ -117,7 +118,6 @@
                     v-model="ruleTableData.judgeScript">
             </el-input>
             <p>规则配置：支持逻辑的自定义编辑，可以使用的组合表达式为：&& 或 ||，可以整体取逻辑非的操作。</p>
-            <!--            <p>规则配置：支持逻辑的自定义编辑，可以使用的组合表达式为：&&/|| 无大小写区分，可以整体取逻辑非的操作。</p>-->
         </div>
         <el-dialog title="筛选条件配置" :visible.sync="filterConfDialog" :modal-append-to-body="false">
             <el-table header-row-class-name="rule-header-row"
@@ -150,7 +150,6 @@
 </template>
 
 <script>
-    import fakeData from './rule-table-data'
     export default {
         props: {
             tableHeight: {
@@ -163,7 +162,7 @@
             },
             confType: {
                 type: String,
-                default: 'fn, object, step'
+                default: 'fn, object, step, event'
             },
             ruleTableData: {
                 type: Object,
@@ -203,14 +202,13 @@
                 filterConfFormData: [],
                 filterConfCheck: false,
                 ruleSignOp: this.$app.dict.getDictItems('AGNES_RULE_SIGN'),
-                // 筛选条件字段
-                filterConfArr: fakeData().filterConfArr,
 
                 //匹配字段类型映射
                 ruleKeyMap: {
                     fn: [],
                     object: [],
                     step: '节点状态',
+                    event: '触发结果',
                     kpi: [
                         {fieldName: '正常数', fieldKey: '01'},
                         {fieldName: '异常数', fieldKey: '02'},
@@ -226,7 +224,8 @@
                 ruleValueMap: {
                     fn: '',
                     object: '',
-                    step: '已完成',
+                    event: '完成',
+                    step: '完成',
                     kpi: '',
                     action: [{label: '已确认', value: '01'}, {label: '未确认', value: '02'}],
                     service: '',
@@ -305,6 +304,13 @@
                     ruleValueOp: this.ruleValueMap[type],
                 };
                 this.ruleTableData.ruleList.push(newRuleObj);
+                const judgeScript = this.ruleTableData.judgeScript;
+                if(judgeScript){
+                    this.ruleTableData.judgeScript = judgeScript + ' && ' + newRuleObj.ruleTag;
+                }else{
+                    this.ruleTableData.judgeScript = newRuleObj.ruleTag;
+                }
+
             },
 
             initRuleList(optionData){
