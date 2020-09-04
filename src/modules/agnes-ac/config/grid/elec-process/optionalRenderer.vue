@@ -67,7 +67,7 @@
                 const kpi = this.params.data.stepActType === '1';
                 const artificial = this.params.data.stepActType === '6';
                 const stepStatus = this.params.data.stepStatus;
-                return (!(kpi && (stepStatus === '03' || stepStatus === '04')) || (artificial && (stepStatus === '06' || stepStatus === '07')))
+                return (!(kpi && (stepStatus === '03' || stepStatus === '04')) || (artificial && (stepStatus === '06' || stepStatus === '07' || stepStatus === '01')))
             }
         },
         methods: {
