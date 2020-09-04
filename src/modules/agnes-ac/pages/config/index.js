@@ -36,7 +36,7 @@ const Loading = {
 
 
         Gfui.componentView('agnes.elec.operate', ElecProcessOp, {title: '电子流程操作'});
-        Gfui.componentView('agnes.elec.dashboard', ElecProcessDB, {title: '领导驾驶舱'});
+        Gfui.componentView('agnes.app.monitor.leader', ElecProcessDB, {title: '领导驾驶舱'});
         Gfui.componentView('agnes.service.resp.level.conf', ServiceRespLevelConf, {title: '服务响应等级配置'});
     }
 };

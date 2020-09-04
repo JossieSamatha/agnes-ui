@@ -60,8 +60,7 @@
                     width: 'calc(97% - 215px)',
                     title: ['电子流程看板', 'view'],
                     component: boardDetail,
-                    args: {},
-                    widthHeader: false
+                    args: {}
                 });
             }
         }

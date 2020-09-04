@@ -31,7 +31,7 @@
         </div>
         <div class="content">
             <comp-sider :datavConf="datavConf" @changeBg="changeBg"></comp-sider>
-            <board-container :datavConf="datavConf" @activeComp="activeComp"></board-container>
+            <board-container :datavConf="datavConf" :optionType="optionType" @activeComp="activeComp"></board-container>
             <config-sider></config-sider>
         </div>
     </div>
@@ -43,15 +43,13 @@
     import boardContainer from './board-container';
     export default {
         props: {
-            templateObj: {
-                type: Number,
-                default: 0
+            optionType: {
+                type: String
             },
         },
         data() {
             return {
                 svgImg: this.$dataVSvg,
-                datavConf: this.$store.state.dataVTemplate.datavConf,
                 activeComp: {},
                 isPreview: true
             }
@@ -62,13 +60,13 @@
             'board-container': boardContainer
         },
         computed: {
-            datavComps() {
-                return this.$store.state.dataVTemplate.datavComps
+            datavConf(){
+                return this.$store.state.dataVTemplate.datavConf;
             }
         },
         methods: {
             getImgPath(imgName){
-                let urlStr = require('../../assets/datav-comp/'+imgName+'.jpg');
+                let urlStr = require('../../../assets/datav-comp/'+imgName+'.jpg');
                 return  'url('+urlStr+')';
             },
 

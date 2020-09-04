@@ -17,7 +17,7 @@
             </el-input>
         </div>
         <section class="template-container">
-            <div class="template-item new" @click="addTemplate">
+            <div class="template-item new" @click="addTemplate('add')">
                 <div>
                     <el-button type="text">
                         <i class="el-icon-plus"></i>
@@ -25,7 +25,11 @@
                     </el-button>
                 </div>
             </div>
-            <template-item v-for="template in templateList" :key="template.id" :templateObj="template"></template-item>
+            <template-item v-for="template in templateList"
+                           :key="template.id"
+                           :templateObj="template"
+                           @editTemplate="editTemplate"
+            ></template-item>
             <template v-if="templateList.length+1%rowNum!==0">
                 <div class="template-item" style="opacity: 0" v-for="item in rowNum-templateList.length%rowNum-1" :key="item"></div>
             </template>
@@ -66,23 +70,28 @@
             }
         },
         components:{
-           'template-item': templateItem,
-        }, 
+            'template-item': templateItem,
+        },
         mounted() {
             var that = this;
+            this.$dataVBus.$on('openEditPage', this.openEditPage);
             this.rowNum = this.getTempRowNum(document.body.offsetWidth);
             window.addEventListener('resize', function () {
                 that.rowNum = that.getTempRowNum(document.body.offsetWidth);
             });
         },
         methods: {
-            addTemplate(){
-                const viewId = 'datav.dataV.editBoard';
+            editTemplate() {
+                this.addTemplate('edit');
+            },
+
+            addTemplate(optionType){
+                const viewId = 'datav.monitor.editBoard';
                 const pageView = this.$app.views.getView(viewId);
                 if (!pageView) {
                     return;
                 }
-                const tabView = Object.assign({args: ''}, pageView, {id: viewId});
+                const tabView = Object.assign({args: {optionType}}, pageView, {id: viewId});
                 this.$nav.showView(tabView);
             },
 

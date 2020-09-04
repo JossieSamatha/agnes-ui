@@ -1,6 +1,7 @@
 import processRenderer from './processRenderer'
 import optionalRenderer from './optionalRenderer'
 import dateUtil from '@hex/gf-ui/src/util/date-utils'
+import AcUtil from '../../../util/common'
 
 export default {
     columnDefs: [
@@ -8,7 +9,23 @@ export default {
             headerName: "操作", field: "option", width: 70,
             cellRenderer: 'optionalRenderer'
         },
-        {headerName: "状态", field: "stepStatus", dictType: 'AGNES_TASK_STEP_STATUS'},
+        {headerName: "状态", field: "stepStatus", width: 95,
+            suppressSizeToFit: true,
+            dictType: 'AGNES_TASK_STEP_STATUS',
+            cellRenderer: (params)=>{
+                let eGui = document.createElement('div');
+                const iNode = document.createElement("i");
+                iNode.className = 'fa fa-circle';
+                const colorSet = AcUtil.getStepStatusMap();
+                iNode.style.color = colorSet.get(params.data.stepStatus).color;
+                iNode.style['margin-right'] = '3px';
+                const spanNode = document.createElement("span");
+                spanNode.innerHTML = params.valueFormatted;
+                eGui.appendChild(iNode);
+                eGui.appendChild(spanNode);
+                return eGui;
+            }
+        },
         {headerName: "监控明细归类", field: "detailSort"},
         {headerName: "任务编号", field: "stepCode"},
         {
@@ -57,7 +74,7 @@ export default {
         enableExportLocal: true, // 是否显示下载按钮（有勾选则下载勾选项，没勾选则下载所有）
         pageOptions: {
             // 分页大小
-            pageSize: 10,
+            pageSize: 100,
             // 可供选择的分页大小（下拉切换分页值）
             pageSizes: [10, 20, 50, 100],
             // 显示在状态栏上的页数字的个数
