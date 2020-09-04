@@ -317,6 +317,7 @@
                 taskCommit.stepInfo.jobId = params.data.jobId;
                 taskCommit.inst.taskId = params.data.taskId;
                 taskCommit.stepInfo.stepCode = params.data.stepCode;
+              taskCommit.stepInfo.bizDate = this.bizDate;
                 try {
                     const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
                     const resp = await this.$app.blockingApp(p);
@@ -348,7 +349,8 @@
                 taskCommit.stepInfo.stepStatus = "07";
                 taskCommit.stepInfo.jobId = params.data.jobId;
                 taskCommit.inst.taskId = params.data.taskId;
-                taskCommit.stepInfo.stepCode = params.data.stepCode;
+              taskCommit.stepInfo.stepCode = params.data.stepCode;
+              taskCommit.stepInfo.bizDate = this.bizDate;
                 try {
                     const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
                     const resp = await this.$app.blockingApp(p);
