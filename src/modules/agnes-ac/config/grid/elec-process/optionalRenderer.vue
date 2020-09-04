@@ -64,10 +64,16 @@
                 return this.params.data.stepActType === '1';
             },
             isDisabled() {
-                const kpi = this.params.data.stepActType === '1';
-                const artificial = this.params.data.stepActType === '6';
-                const stepStatus = this.params.data.stepStatus;
-                return (!(kpi && (stepStatus === '03' || stepStatus === '04')) || (artificial && (stepStatus === '06' || stepStatus === '07' || stepStatus === '01')))
+              const kpi = this.params.data.stepActType === '1';
+              const artificial = this.params.data.stepActType === '6';
+              const stepStatus = this.params.data.stepStatus;
+              if (kpi && (stepStatus === '03' || stepStatus === '04')) {
+                return false;
+              } else if (artificial && (stepStatus === '02' || stepStatus === '03' || stepStatus === '04')) {
+                return false;
+              } else {
+                return true;
+              }
             }
         },
         methods: {
