@@ -21,6 +21,13 @@
                         <el-option v-for="funItem in funArr" :key="funItem.fnId" :label="funItem.fnName" :value="funItem.fnId">
                         </el-option>
                     </el-select>
+                    <el-select v-else-if="scope.row.ruleType === 'event'" :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
+                               v-model="scope.row.ruleTarget"
+                               placeholder="请选择"
+                               @change="ruleTargetChange(scope.$index, scope.row)">
+                        <el-option v-for="event in eventArr" :key="event.eventId" :label="event.eventName" :value="event.eventId">
+                        </el-option>
+                    </el-select>
                     <el-select v-else-if="scope.row.ruleType === 'object'" :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
                                v-model="scope.row.ruleTarget"
                                placeholder="请选择"
@@ -64,7 +71,8 @@
             </el-table-column>
             <el-table-column prop="ruleSign" label="运算符" width="115">
                 <template slot-scope="scope">
-                    <span v-if="scope.row.ruleType === 'step'"></span>
+                    <span v-if="scope.row.ruleType === 'step'">等于</span>
+                    <span v-else-if="scope.row.ruleType === 'event'">{{scope.row.ruleSignLabel}}</span>
                     <el-select v-else :class="mustFill('ruleSign') && !scope.row.ruleSign ? 'error':''"
                                v-model="scope.row.ruleSign">
                         <el-option v-for="ruleSignItem in ruleSignOp" :key="ruleSignItem.dictId"
@@ -75,7 +83,7 @@
             </el-table-column>
             <el-table-column prop="ruleValue" label="匹配值">
                 <template slot-scope="scope">
-                    <span v-if="scope.row.ruleType === 'step'">{{scope.row.ruleValueOp}}</span>
+                    <span v-if="scope.row.ruleType === 'step' || scope.row.ruleType === 'event'">{{scope.row.ruleValueOp}}</span>
                     <el-input v-else-if="typeof(scope.row.ruleValueOp) === 'string'" :class="mustFill('ruleValue') && !scope.row.ruleValue ? 'error':''"
                               v-model="scope.row.ruleValue"></el-input>
                     <el-select v-else :class="mustFill('ruleValue') && !scope.row.ruleValue ? 'error':''"
@@ -117,7 +125,6 @@
                     v-model="ruleTableData.judgeScript">
             </el-input>
             <p>规则配置：支持逻辑的自定义编辑，可以使用的组合表达式为：&& 或 ||，可以整体取逻辑非的操作。</p>
-            <!--            <p>规则配置：支持逻辑的自定义编辑，可以使用的组合表达式为：&&/|| 无大小写区分，可以整体取逻辑非的操作。</p>-->
         </div>
         <el-dialog title="筛选条件配置" :visible.sync="filterConfDialog" :modal-append-to-body="false">
             <el-table header-row-class-name="rule-header-row"
@@ -150,7 +157,6 @@
 </template>
 
 <script>
-    import fakeData from './rule-table-data'
     export default {
         props: {
             tableHeight: {
@@ -163,7 +169,7 @@
             },
             confType: {
                 type: String,
-                default: 'fn, object, step'
+                default: 'fn, object, step, event'
             },
             ruleTableData: {
                 type: Object,
@@ -194,6 +200,7 @@
         data() {
             return {
                 funArr: [],   // 对象数组
+                eventArr: [], // 事件数组
                 confTypeArr: this.$app.dict.getDictItems('AGNES_RULE_TYPE'), // 业务对象数组
                 labelOrder: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
                 mustFillField: [],
@@ -203,14 +210,13 @@
                 filterConfFormData: [],
                 filterConfCheck: false,
                 ruleSignOp: this.$app.dict.getDictItems('AGNES_RULE_SIGN'),
-                // 筛选条件字段
-                filterConfArr: fakeData().filterConfArr,
 
                 //匹配字段类型映射
                 ruleKeyMap: {
                     fn: [],
                     object: [],
                     step: '节点状态',
+                    event: '',
                     kpi: [
                         {fieldName: '正常数', fieldKey: '01'},
                         {fieldName: '异常数', fieldKey: '02'},
@@ -226,7 +232,8 @@
                 ruleValueMap: {
                     fn: '',
                     object: '',
-                    step: '已完成',
+                    event: '',
+                    step: '完成',
                     kpi: '',
                     action: [{label: '已确认', value: '01'}, {label: '未确认', value: '02'}],
                     service: '',
@@ -245,12 +252,19 @@
             },
 
             async initData(){
-                const p = this.$api.ruleTableApi.getFnAndModelfields();
-                const resp = await this.$app.blockingApp(p);
-                if(resp.data){
-                    this.funArr = resp.data;
-                    this.initRuleList();
-                }
+                let funArrEvent = new Promise((resolve) => {
+                    this.$api.ruleTableApi.getFnAndModelfields().then(function (res) {resolve(res);})
+                });
+                let eventArrEvent = new Promise((resolve) => {
+                    this.$api.ruleTableApi.eventForRuleTable().then(function (res) {resolve(res);})
+                });
+                Promise.all([funArrEvent, eventArrEvent]).then((result) => {
+                    if(result){
+                        this.funArr = result[0].data;
+                        this.eventArr = result[1].data;
+                        this.initRuleList();
+                    }
+                })
             },
             // ruleTag计数规则
             getRuleTag(){
@@ -305,6 +319,13 @@
                     ruleValueOp: this.ruleValueMap[type],
                 };
                 this.ruleTableData.ruleList.push(newRuleObj);
+                const judgeScript = this.ruleTableData.judgeScript;
+                if(judgeScript){
+                    this.ruleTableData.judgeScript = judgeScript + ' && ' + newRuleObj.ruleTag;
+                }else{
+                    this.$set(this.ruleTableData, 'judgeScript', newRuleObj.ruleTag);
+                }
+
             },
 
             initRuleList(optionData){
@@ -324,14 +345,15 @@
                 }
                 this.filterConfDialog = true;
                 this.editRowIndex = rowIndex;
-                let filterConfObj = JSON.parse(rowInfo.ruleParam);
+                let filterConfObj = JSON.parse(rowInfo.ruleParam) || [];
                 const targetObj = this.$lodash.find(this.funArr, { fnId: rowInfo.ruleTarget});
                 this.filterConfFormData = targetObj.fnArgsModelFields;
                 this.filterConfFormData.forEach((filterItem, index) => {
                     if(filterItem.fieldValue){
                         filterItem.fieldValue = filterConfObj[index]&&filterConfObj[index].fieldValue ? filterConfObj[index].fieldValue : '';
                     }else{
-                        this.$set(filterItem, 'fieldValue', filterConfObj[index].fieldValue);
+                        const fieldValue = filterConfObj[index] ? filterConfObj[index].fieldValue : '';
+                        this.$set(filterItem, 'fieldValue', fieldValue);
                     }
                 });
             },
@@ -359,7 +381,14 @@
                         rowInfo.bizParamDb = targetObj.bizParamDb;
                         rowInfo.bizParamSql = targetObj.bizParamSql;
                     }
-
+                }
+                if(rowInfo.ruleType === 'event'){
+                    targetObj = this.$lodash.find(this.eventArr, { eventId: rowInfo.ruleTarget});
+                    rowInfo.targetObj = targetObj;
+                    rowInfo.ruleKey = targetObj.fnReturnModelField.fieldName;
+                    rowInfo.fieldKey = targetObj.fnReturnModelField.fieldKey;
+                    rowInfo.ruleSignLabel = '大于';
+                    rowInfo.ruleValueOp = '0';
                 }
                 if(rowInfo.ruleType === 'object') {
                     if(optionData){
@@ -435,6 +464,13 @@
                         });
                     }
 
+                    if(ruleItem.ruleType === 'event'){
+                        const targetObj = ruleItem.targetObj;
+                        args.dsId = targetObj.funDef.bizParamDb;
+                        args.sql = targetObj.funDef.bizParamSql;
+                        args.eventId = ruleItem.ruleTarget;
+                    }
+
                     if(ruleItem.ruleType === 'fn'){
                         args.fnId = ruleItem.ruleTarget;
                         if(ruleItem.ruleTargetType === 'sql'){
@@ -442,6 +478,7 @@
                             args.sql = ruleItem.bizParamSql;
                         }
                     }
+
                     let ruleObj = {};
                     if(ruleItem.ruleType === 'step'){
                         ruleObj = {
@@ -451,6 +488,15 @@
                                 type: 'fn'
                             },
                             expr: "eq(status, \"8\")"
+                        }
+                    }else if(ruleItem.ruleType === 'event'){
+                        ruleObj = {
+                            context: {
+                                args,
+                                target: 'sql',
+                                type: 'fn'
+                            },
+                            expr: "gt("+ruleItem.fieldKey+", \"0\")"
                         }
                     }else{
                         ruleObj = {

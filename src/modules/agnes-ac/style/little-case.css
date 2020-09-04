@@ -737,6 +737,7 @@
 }
 
 .step-detail-drawer .form-page.step-detail .el-form {
+    width: 100%;
     flex: 1;
     padding: 20px;
     overflow-y: auto;
