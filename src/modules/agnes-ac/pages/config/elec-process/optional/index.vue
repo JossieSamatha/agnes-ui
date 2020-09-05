@@ -384,27 +384,27 @@
             },
 
             // 获取执行情况
-            async getExecuteData(taskIds, msgType){
-                const resp = this.$api.elecProcessApi.getMsgNameAndType({taskIds, msgType})
-                if (resp.data) {
-                  this.execLog = resp.data;
-                }else{
-                    this.execLog = [];
-                }
-            },
+          async getExecuteData(taskIds, msgType) {
+            const resp = this.$api.elecProcessApi.getMsgNameAndType({taskIds, msgType})
+            if (resp.data) {
+              this.execLog = resp.data;
+            } else {
+              this.execLog = [];
+            }
+          },
 
-            // 执行情况类型切换
-            execTypeChange(val){
-              val;
-              //this.getExecuteData(this.taskIdList, val);
-            },
+          // 执行情况类型切换
+          execTypeChange() {
 
-            freshFlowData() {
-                this.getFLowDetail(this.choosedTaskId, this.bizDate);
-            },
+            //this.getExecuteData(this.taskIdList, val);
+          },
 
-            getExecIcon(status){
-                const icon = this.$lodash.find(this.execTypeOp, {id: status}).icon;
+          freshFlowData() {
+            this.getFLowDetail(this.choosedTaskId, this.bizDate);
+          },
+
+          getExecIcon(status) {
+            const icon = this.$lodash.find(this.execTypeOp, {id: status}).icon;
                 return this.lcImg[icon];
             }
         }
