@@ -50,17 +50,30 @@
 
             dealErr() {
                 let t = this.$refs.grid.getSelectedRows();
-                this.showDlg('edit',t[0],1, this.onAddErr.bind(this));
-
+                if (t[0].status.match(/00/)){
+                    this.showDlg('edit',t[0],1, this.onAddErr.bind(this));
+                }else {
+                    this.$msg.warning("该状态无法处理!");
+                    return;
+                }
             },
             checkErr(){
                 let t = this.$refs.grid.getSelectedRows();
-                this.showDlg('edit',t[0],2, this.onAddErr.bind(this));
-
+                if (t[0].status.match(/01/)){
+                    this.showDlg('edit',t[0],2, this.onAddErr.bind(this));
+                }else {
+                    this.$msg.warning("该状态无法处理!");
+                    return;
+                }
             },
             transferRisk(){
                 let t = this.$refs.grid.getSelectedRows();
-                this.showDlg('edit',t[0],null,this.onAddErr.bind(this),'transfer');
+                if (t[0].isRisk.match(/0/)){
+                    this.showDlg('edit',t[0],null,this.onAddErr.bind(this),'transfer');
+                }else {
+                    this.$msg.warning("该状态无法处理!");
+                    return;
+                }
             },
 
             async deleteErr(params) {

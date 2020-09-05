@@ -37,12 +37,21 @@
 
             dealRisk() {
                 let t = this.$refs.grid.getSelectedRows();
-                this.showDlg('edit',t[0],1, this.onAddRisk.bind(this));
+                if (t[0].status.match(/00/)){
+                    this.showDlg('edit',t[0],1, this.onAddRisk.bind(this));
+                }else {
+                    this.$msg.warning("该状态无法处理!");
+                    return;
+                }
             },
             checkRisk(){
                 let t = this.$refs.grid.getSelectedRows();
-                this.showDlg('ed it',t[0],2, this.onAddRisk.bind(this));
-
+                if (t[0].status.match(/01/)){
+                    this.showDlg('ed it',t[0],2, this.onAddRisk.bind(this));
+                }else {
+                    this.$msg.warning("该状态无法处理!");
+                    return;
+                }
             },
 
             async deleteRisk(params) {
