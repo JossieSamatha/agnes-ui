@@ -238,7 +238,7 @@
             </el-radio-group>
         </el-form-item>
         <el-form-item v-if="succeedRule == '1'">
-            <rule-table ref="successRuleTable" confType="fn" :ruleTableData="detailForm.successRuleTableData"></rule-table>
+            <rule-table ref="successRuleTable" confType="fn,event" :ruleTableData="detailForm.successRuleTableData"></rule-table>
         </el-form-item>
         <el-form-item label="异常规则">
             <el-radio-group v-model="abnormalRule">
@@ -250,7 +250,7 @@
             </el-radio-group>
         </el-form-item>
         <el-form-item v-if="abnormalRule == '1'">
-            <rule-table ref="failRuleTable" confType="fn" :ruleTableData="detailForm.failRuleTableData"></rule-table>
+            <rule-table ref="failRuleTable" confType="fn,event" :ruleTableData="detailForm.failRuleTableData"></rule-table>
         </el-form-item>
     </el-form>
 </template>
