@@ -50,7 +50,7 @@
                        :append-to-body="true"
                        :modal="false"
                        direction="rtl"
-                       size="850px">
+                       size="890px">
                 <stepDetail class="step-detail" v-bind="stepDetailProps" @saveStepInfo="saveStepInfo" @cancelAction="cancelAction"></stepDetail>
             </el-drawer>
         </div>

@@ -11,7 +11,7 @@
             <el-form-item label="字段类型" prop="inputType">
                 <gf-dict-select dict-type="AGNES_FIELD_TYPE" v-model="form.fieldType"/>
             </el-form-item>
-            <el-form-item label="是否必填">
+            <el-form-item label="是否必填" prop="mustFill">
                 <gf-dict-radio-group dict-type="GF_BOOL_TYPE" v-model="form.mustFill"/>
             </el-form-item>
         </el-form>

@@ -307,26 +307,28 @@
             // 手工确认
             async actionConfirm(params) {
                 let taskCommit = {
-                    stepInfo: {},
-                    inst: {
-                        taskId: "",
-                    },
+                  stepInfo: {},
+                  inst: {
+                    taskId: "",
+                  },
                 };
-                taskCommit.stepInfo.remark = params.data.remark;
-                taskCommit.stepInfo.stepStatus = "06";
-                taskCommit.stepInfo.jobId = params.data.jobId;
-                taskCommit.inst.taskId = params.data.taskId;
-                taskCommit.stepInfo.stepCode = params.data.stepCode;
-                try {
-                    const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
-                    const resp = await this.$app.blockingApp(p);
-                    if (resp.data) {
-                        if (this.actionOk) {
-                            await this.actionOk();
-                        }
-                        this.$msg.success('提交成功');
-                        this.freshFlowData(); // 刷新页面数据
-                        this.$emit("onClose");
+              taskCommit.stepInfo.remark = params.data.remark;
+              taskCommit.stepInfo.stepStatus = "06";
+              taskCommit.stepInfo.jobId = params.data.jobId;
+              taskCommit.inst.taskId = params.data.taskId;
+              taskCommit.stepInfo.stepCode = params.data.stepCode;
+              taskCommit.stepInfo.bizDate = this.bizDate;
+              taskCommit.stepInfo.caseId = params.data.caseId;
+              try {
+                const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
+                const resp = await this.$app.blockingApp(p);
+                if (resp.data) {
+                  if (this.actionOk) {
+                    await this.actionOk();
+                  }
+                  this.$msg.success('提交成功');
+                  this.freshFlowData(); // 刷新页面数据
+                  this.$emit("onClose");
                     } else {
                         this.$msg.warning('提交失败');
                     }
@@ -338,27 +340,29 @@
             // 强制通过
             async forcePass(params) {
                 let taskCommit = {
-                    stepInfo: {},
-                    inst: {
-                        taskId: "",
-                    },
+                  stepInfo: {},
+                  inst: {
+                    taskId: "",
+                  },
                 };
 
-                taskCommit.stepInfo.remark = params.data.remark;
-                taskCommit.stepInfo.stepStatus = "07";
-                taskCommit.stepInfo.jobId = params.data.jobId;
-                taskCommit.inst.taskId = params.data.taskId;
-                taskCommit.stepInfo.stepCode = params.data.stepCode;
-                try {
-                    const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
-                    const resp = await this.$app.blockingApp(p);
-                    if (resp.data) {
-                        if (this.actionOk) {
-                            await this.actionOk();
-                        }
-                        this.$msg.success('提交成功');
-                        this.freshFlowData(); // 刷新页面数据
-                        this.$emit("onClose");
+              taskCommit.stepInfo.remark = params.data.remark;
+              taskCommit.stepInfo.stepStatus = "07";
+              taskCommit.stepInfo.jobId = params.data.jobId;
+              taskCommit.inst.taskId = params.data.taskId;
+              taskCommit.stepInfo.stepCode = params.data.stepCode;
+              taskCommit.stepInfo.bizDate = this.bizDate;
+              taskCommit.stepInfo.caseId = params.data.caseId;
+              try {
+                const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
+                const resp = await this.$app.blockingApp(p);
+                if (resp.data) {
+                  if (this.actionOk) {
+                    await this.actionOk();
+                  }
+                  this.$msg.success('提交成功');
+                  this.freshFlowData(); // 刷新页面数据
+                  this.$emit("onClose");
                     } else {
                         this.$msg.warning('提交失败');
                     }

@@ -1,9 +1,8 @@
 <template>
     <div>
         <gf-grid @row-double-click="editModel" grid-no="agnes-model-type" ref="grid">
-            <template slot="right-before">
-                <gf-button @click="addModel" size="mini">添加</gf-button>
-                <gf-button @click="addModel" size="mini">删除</gf-button>
+            <template slot="left">
+                <gf-button class="action-btn" @click="addModel">添加</gf-button>
             </template>
         </gf-grid>
     </div>
