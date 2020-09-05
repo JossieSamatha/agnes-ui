@@ -207,7 +207,7 @@
                             this.executePieData = executePieData;
                           // 获取执行情况
                             this.taskIdList = flowDetailParse.taskIdList;
-                            this.getExecuteData(flowDetailParse.taskIdList, this.execTypeChecked);
+                            //this.getExecuteData(flowDetailParse.taskIdList, this.execTypeChecked);
                             this.setGridData(this.curStage.ruCaseStepList);
                         } else {
                             this.taskStage = [];
@@ -395,7 +395,7 @@
 
             // 执行情况类型切换
             execTypeChange(val){
-                this.getExecuteData(this.taskIdList, val);
+              //this.getExecuteData(this.taskIdList, val);
             },
 
             freshFlowData() {
