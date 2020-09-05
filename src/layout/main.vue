@@ -141,8 +141,7 @@
                 });
             },
             showMain() {
-                // let clientViewId = 'datav.client.view';
-                let clientViewId = 'datav.dataV.dashboard';
+                let clientViewId = 'datav.client.view';
                 let clientView = this.$app.views.getView(clientViewId);
                 let clientTabView = Object.assign({args: {}, id: clientViewId}, clientView);
                 this.$nav.showView(clientTabView);

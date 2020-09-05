@@ -6,7 +6,7 @@ const datav = {
 
     },
     load: function (Gfui) {
-        Gfui.componentView('datav.monitor.dashboard', dataVTemplate, {title: '监控大屏'});
+        Gfui.componentView('agnes.datav.config', dataVTemplate, {title: '监控大屏'});
         Gfui.componentView('datav.monitor.editBoard', dataVTemplateEdit, {title: '大屏编辑'});
     }
 };

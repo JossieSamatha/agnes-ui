@@ -116,7 +116,7 @@
             },
             async publishFlowTask(params) {
                 const rowData = params.data;
-                if(rowData.reTaskDef.taskStatus.match(/00|01|04/)){
+                if(rowData.reTaskDef.taskStatus.match(/00|01|04|03/)){
                     this.$msg.warning("该状态无法发布!");
                     return ;
                 }
@@ -195,12 +195,13 @@
                             delete currentData.stepFormInfo
                             let sentryInData = {};
                             let sentryOut = {};
-                            sentryInData.ifExpr = temporaryData.activeRuleTableData
-                            sentryOut.ifExpr = temporaryData.successRuleTableData
+                            sentryInData.ifExpr = temporaryData.activeRuleTableData.ruleBody
+                            sentryOut.ifExpr = temporaryData.successRuleTableData.ruleBody
                             currentData.defId = temporaryData.caseStepDef.stepCode;
                             currentData.sentryIn = sentryInData
                             currentData. sentryOut= sentryOut
                             currentData.actionDef = {'automation':true}
+                            currentData.autoActive = !temporaryData.activeRuleTableData.ruleBody;
                         }
                         steps.push(currentData)
                         //如需改变数据，在此处修改

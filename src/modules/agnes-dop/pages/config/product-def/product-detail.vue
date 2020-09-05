@@ -46,10 +46,10 @@
             <gf-input v-model.trim="detailForm.productAccountFirm" placeholder="基金会计事务所"/>
         </el-form-item>
         <el-form-item label="申赎交易确认天数" prop="redemptionTransConfirmDays">
-            <gf-input v-model.trim="detailForm.redemptionTransConfirmDays" placeholder="申赎交易确认天数"/>
+            <gf-input type='number' v-model.trim="detailForm.redemptionTransConfirmDays" placeholder="申赎交易确认天数"/>
         </el-form-item>
         <el-form-item label="赎回清算天数" prop="redemptionSettlementDays">
-            <gf-input v-model.trim="detailForm.redemptionSettlementDays" placeholder="赎回清算天数"/>
+            <gf-input type='number' v-model.trim="detailForm.redemptionSettlementDays" placeholder="赎回清算天数"/>
         </el-form-item>
     </el-form>
 

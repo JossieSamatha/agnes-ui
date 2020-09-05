@@ -43,6 +43,10 @@
             async onAddModel() {
                 this.reloadData();
             },
+            // clickAsync(){
+            //     const rows = this.$refs.grid.getSelectedRows();
+            //     console.log('clickAsync',rows)
+            // },
             addProduct() {
                 this.showDrawer('add', {}, this.onAddModel.bind(this));
             },

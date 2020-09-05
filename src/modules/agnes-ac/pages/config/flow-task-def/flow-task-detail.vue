@@ -229,7 +229,9 @@
                         await this.$app.blockingApp(p);
                         msg = '审核成功';
                     }else{
-                        const p = this.$api.flowTaskApi.saveFlowTask({reTaskDef:resData});
+                        let data = {reTaskDef:resData,
+                            caseDefId: this.detailForm.caseDefId, caseDefBody: this.detailForm.caseDefBody,versionId:this.detailForm.versionId}
+                        const p = this.$api.flowTaskApi.saveFlowTask(data);
                         await this.$app.blockingApp(p);
                         msg = '保存成功';
                     }
