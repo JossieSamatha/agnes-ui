@@ -26,7 +26,18 @@ export default {
                 return eGui;
             }
         },
-        {headerName: "监控明细归类", field: "detailSort"},
+        {
+            headerName: "业务标签", field: "stepTag",
+            valueFormatter: function (params) {
+                if (params.value) {
+                    let Ids = JSON.parse(params.value)
+                    return Ids.map((dictId) => {
+                        return window.$gfui.$app.dict.getDictItem('AGNES_BIZ_TAG', dictId).dictName;
+                    }).join(',');
+                }
+                return "";
+            }
+        },
         {headerName: "任务编号", field: "stepCode"},
         {
             headerName: "任务名称", field: "stepName",
@@ -38,24 +49,19 @@ export default {
             minWidth: '160',
             suppressSizeToFit: true,
         },
+        {headerName: "计划执行时间", field: "planTime"},
         {
-            headerName: "任务执行时间", field: "execStartTime",
-            cellRenderer: (params)=>{
+            headerName: "实际完成时间", field: "execEndTime",
+            cellRenderer: (params) => {
                 let formatDate = '';
-                if(params.data.execStartTime){
-                    formatDate = dateUtil.formatDate(params.data.execStartTime, 'yyyy-MM-dd');
+                if (params.data.execEndTime) {
+                    formatDate = dateUtil.formatDate(params.data.execEndTime, 'yyyy-MM-dd HH:mm:ss')
                 }
                 return formatDate;
-            }},
-        {headerName: "完成时间", field: "execEndTime",
-            cellRenderer: (params)=>{
-                let formatDate = '';
-                if(params.data.execEndTime) {
-                    formatDate = dateUtil.formatDate(params.data.execEndTime, 'yyyy-MM-dd')
-                }
-                return formatDate;
-            }},
+            }
+        },
         {headerName: "任务类型", field: "stepActType", dictType: 'AGNES_CASE_STEPTYPE'},
+        {headerName: "执行人员", field: "updateUser"},
         {headerName: "备注", field: "remark"},
     ],
     tooltipShowDelay: 0,
