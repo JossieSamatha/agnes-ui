@@ -3,7 +3,7 @@ import column from "../../../../../config/column"
 const colButtons = [
     {key: 'editEventDef', title: '编辑'},
     {key: 'deleteEventDef', title: '删除',cellClass:'red-cell'},
-    {key: 'approveEventDef', title: '复核'},
+    {key: 'approveEventDef', title: '审核'},
     {key: 'publishEventDef', title: '发布'}
 ];
 
@@ -11,6 +11,7 @@ export default {
     columnDefs: [
         column.buildOpCol(160, colButtons),
         {headerName: "事件名称", field: "eventName"},
+        {headerName: "事件代码", field: "eventCode"},
         {headerName: "执行开始日期", field: "startTime"},
         {headerName: "执行结束日期", field: "endTime"},
         {headerName: "执行方式", field: "execMode" ,formatType: 'dict', dictType: 'AGNES_EC_EVENT_EXEC_MODE'},
