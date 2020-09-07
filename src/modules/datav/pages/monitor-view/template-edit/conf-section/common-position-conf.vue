@@ -5,14 +5,14 @@
             <div class="conf-row-item">
                 <div class="row-inp">
                     <span>top</span>
-                    <el-input v-model="compData.top" @keyup="changeTop">
-                        <span v-show="activeComp" class="conf-icon" slot="append" :class="topIsLocked? 'el-icon-lock':'el-icon-unlock'" @click="toggleYLock"></span>
+                    <el-input v-model="position.top">
+                        <span v-show="compIndex" class="conf-icon" slot="append" :class="topIsLocked? 'el-icon-lock':'el-icon-unlock'" @click="toggleYLock"></span>
                     </el-input>
                 </div>
                 <div class="row-inp">
                     <span>left</span>
-                    <el-input v-model="compData.left" @keyup="changeLeft">
-                        <span v-show="activeComp" class="conf-icon" slot="append" :class="leftIsLocked? 'el-icon-lock':'el-icon-unlock'"  @click="toggleXLock"></span>
+                    <el-input v-model="position.left">
+                        <span v-show="compIndex" class="conf-icon" slot="append" :class="leftIsLocked? 'el-icon-lock':'el-icon-unlock'"  @click="toggleXLock"></span>
                     </el-input>
                 </div>
             </div>
@@ -22,11 +22,11 @@
             <div class="conf-row-item">
                 <div class="row-inp">
                     <span>width</span>
-                    <el-input v-model="compData.width" @keyup="changeWidth"></el-input>
+                    <el-input v-model="position.width"></el-input>
                 </div>
                 <div class="row-inp">
                     <span>height</span>
-                    <el-input v-model="compData.height" @keyup="changeHeight"></el-input>
+                    <el-input v-model="position.height"></el-input>
                 </div>
             </div>
         </div>
@@ -35,15 +35,15 @@
             <div class="conf-row-item switchItem">
                 <div class="row-inp">
                     <span>拉伸</span>
-                    <el-switch v-model="compData.resizable" @change="toggleResizable"></el-switch>
+                    <el-switch v-model="position.resizable" @change="toggleResizable"></el-switch>
                 </div>
                 <div class="row-inp">
                     <span>等比拉伸</span>
-                    <el-switch v-model="compData.aspectRatio" @change="toggleAspect"></el-switch>
+                    <el-switch v-model="position.aspectRatio" @change="toggleAspect"></el-switch>
                 </div>
                 <div class="row-inp">
                     <span>拖动</span>
-                    <el-switch v-model="compData.draggable" @change="toggleDraggable"></el-switch>
+                    <el-switch v-model="position.draggable" @change="toggleDraggable"></el-switch>
                 </div>
             </div>
             <div class="conf-row-item switchItem">
@@ -62,36 +62,34 @@
 
 <script>
     export default {
+        data(){
+            return this.$datavTemplateService.curComp;
+        },
+        updated(){
+            this.position
+        },
         computed: {
-            activeComp() {
-                return this.$store.getters['dataVTemplate/getActive'];
-            },
-
-            compData() {
-                return this.activeComp === null ? '' : this.$store.state.dataVTemplate.datavComps[this.activeComp];
-            },
-
             topIsLocked() {
-                if (this.activeComp === null) {
+                if (this.compIndex === null) {
                     return false;
                 }
-                return (this.compData.axis === 'x' || this.compData.axis === 'none')
+                return (this.position.axis === 'x' || this.position.axis === 'none')
             },
 
             leftIsLocked() {
-                if (this.activeComp === null) {
+                if (this.compIndex === null) {
                     return false;
                 }
-                return (this.compData.axis === 'y' ||
-                    this.compData.axis === 'none')
+                return (this.position.axis === 'y' ||
+                    this.position.axis === 'none')
             },
 
             zIndexTop: {
                 get(){
-                    if (this.activeComp === null) {
+                    if (this.compIndex === null) {
                         return 'null';
                     }else{
-                        return this.compData.zIndex === this.$store.state.dataVTemplate.datavComps.length;
+                        return this.position.zIndex === this.$store.state.dataVTemplate.datavComps.length;
                     }
                 },
                 set(v){
@@ -101,10 +99,10 @@
 
             zIndexBottom: {
                 get(){
-                    if (this.activeComp === null) {
+                    if (this.compIndex === null) {
                         return 'null';
                     }else{
-                        return this.compData.zIndex === 1;
+                        return this.position.zIndex === 1;
                     }
                 },
                 set(v){
@@ -114,61 +112,61 @@
         },
         methods: {
             toggleYLock() {
-                if (this.activeComp === null) {
+                if (this.compIndex === null) {
                     return
                 }
 
-                this.$store.dispatch('dataVTemplate/changeYLock', {id: this.activeComp});
+                this.$store.dispatch('dataVTemplate/changeYLock', {id: this.compIndex});
             },
             toggleXLock() {
-                if (this.activeComp === null) {
+                if (this.compIndex === null) {
                     return
                 }
 
-                this.$store.dispatch('dataVTemplate/changeXLock', {id: this.activeComp});
+                this.$store.dispatch('dataVTemplate/changeXLock', {id: this.compIndex});
             },
 
             toggleAspect() {
-                if (this.activeComp === null) {
+                if (this.compIndex === null) {
                     return
                 }
-                if (!this.compData.aspectRatio) {
-                    this.$store.dispatch('dataVTemplate/setAspect', {id: this.activeComp});
+                if (!this.position.aspectRatio) {
+                    this.$store.dispatch('dataVTemplate/setAspect', {id: this.compIndex});
                 } else {
-                    this.$store.dispatch('dataVTemplate/unsetAspect', {id: this.activeComp});
+                    this.$store.dispatch('dataVTemplate/unsetAspect', {id: this.compIndex});
                 }
             },
 
             toggleParentLimitation() {
-                this.$store.dispatch('dataVTemplate/toggleParentLimitation', {id: this.activeComp});
+                this.$store.dispatch('dataVTemplate/toggleParentLimitation', {id: this.compIndex});
             },
 
             toggleResizable() {
-                this.$store.dispatch('dataVTemplate/toggleResizable', {id: this.activeComp});
+                this.$store.dispatch('dataVTemplate/toggleResizable', {id: this.compIndex});
             },
 
             toggleDraggable() {
-                this.$store.dispatch('dataVTemplate/toggleDraggable', {id: this.activeComp});
+                this.$store.dispatch('dataVTemplate/toggleDraggable', {id: this.compIndex});
             },
 
             toggleSnapToGrid() {
-                this.$store.dispatch('dataVTemplate/toggleSnapToGrid', {id: this.activeComp});
+                this.$store.dispatch('dataVTemplate/toggleSnapToGrid', {id: this.compIndex});
             },
 
             toTop(val) {
                 if(val){
-                    this.$store.dispatch('dataVTemplate/changeZToTop', {id: this.activeComp});
+                    this.$store.dispatch('dataVTemplate/changeZToTop', {id: this.compIndex});
                 }else{
-                    this.$store.dispatch('dataVTemplate/changeZToBottom', {id: this.activeComp});
+                    this.$store.dispatch('dataVTemplate/changeZToBottom', {id: this.compIndex});
                 }
 
             },
 
             toBottom(val) {
                 if(!val){
-                    this.$store.dispatch('dataVTemplate/changeZToTop', {id: this.activeComp});
+                    this.$store.dispatch('dataVTemplate/changeZToTop', {id: this.compIndex});
                 }else{
-                    this.$store.dispatch('dataVTemplate/changeZToBottom', {id: this.activeComp});
+                    this.$store.dispatch('dataVTemplate/changeZToBottom', {id: this.compIndex});
                 }
 
             },
@@ -177,45 +175,45 @@
                 let top = parseInt(ev.target.value);
 
                 if (typeof top !== 'number' || isNaN(top)) {
-                    top = this.compData.top;
+                    top = this.position.top;
                     ev.target.value = top;
                     return
                 }
 
-                this.$store.dispatch('dataVTemplate/setTop', {id: this.activeComp, top: top});
+                this.$store.dispatch('dataVTemplate/setTop', {id: this.compIndex, top: top});
             },
 
             changeLeft(ev) {
                 let left = parseInt(ev.target.value);
 
                 if (typeof left !== 'number' || isNaN(left)) {
-                    left = this.compData.left;
+                    left = this.position.left;
                     ev.target.value = left;
                 }
 
-                this.$store.dispatch('dataVTemplate/setLeft', {id: this.activeComp, left: left});
+                this.$store.dispatch('dataVTemplate/setLeft', {id: this.compIndex, left: left});
             },
 
             changeWidth(ev){
                 let width = parseInt(ev.target.value);
 
                 if (typeof width !== 'number' || isNaN(width)) {
-                    width = this.compData.width;
+                    width = this.position.width;
                     ev.target.value = width;
                 }
 
-                this.$store.dispatch('dataVTemplate/setWidth', {id: this.activeComp, width: width});
+                this.$store.dispatch('dataVTemplate/setWidth', {id: this.compIndex, width: width});
             },
 
             changeHeight(ev){
                 let height = parseInt(ev.target.value);
 
                 if (typeof height !== 'number' || isNaN(height)) {
-                    height = this.compData.height;
+                    height = this.position.height;
                     ev.target.value = height;
                 }
 
-                this.$store.dispatch('dataVTemplate/setHeight', {id: this.activeComp, height: height});
+                this.$store.dispatch('dataVTemplate/setHeight', {id: this.compIndex, height: height});
             }
         }
     }

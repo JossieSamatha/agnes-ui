@@ -2,7 +2,7 @@ import clientView from "./index.vue";
 
 var pages = [{
     id: "datav.client.view",
-    title: "我的首页",
+    title: "首页",
     component: clientView,
     args: {pageId: 'client'},
     closeable: false

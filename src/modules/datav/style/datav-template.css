@@ -3,8 +3,8 @@
     dataV template页面样式
 
 ============================*/
-.template-page {
-    padding: 15px;
+.gf-layout-default-content-tabs .gf-tab-bar .gf-tab-view.template-page {
+    padding: 20px 10px;
 }
 
 .template-page .search-panel {

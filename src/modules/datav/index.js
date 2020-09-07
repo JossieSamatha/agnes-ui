@@ -1,6 +1,7 @@
 import components from "./components/index";
 import clientIndex from "./pages/client-view/index.js";
 import dataVIndex from './pages/monitor-view/index';
+import datavTemplateService from './services/datav-template-service'
 import Utils from './utils/index'
 import svgObj from "./assets/svgObj";
 
@@ -11,6 +12,7 @@ const datav = {
         Vue.use(components);
         Vue.use(Utils);
         Vue.prototype.$dataVSvg = svgObj;
+        Vue.prototype.$datavTemplateService = new datavTemplateService(Vue);
     },
     load: function (Gfui) {
         Gfui.use(clientIndex);

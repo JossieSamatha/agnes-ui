@@ -17,19 +17,15 @@
             </el-input>
         </div>
         <section class="template-container">
-            <div class="template-item new" @click="addTemplate('add')">
+            <div class="template-item new" @click="openEditPage({opType: 'add'})">
                 <div>
                     <el-button type="text">
                         <i class="el-icon-plus"></i>
-                        <div class="component-label">新建模板</div>
+                        <div class="component-label">新建大屏</div>
                     </el-button>
                 </div>
             </div>
-            <template-item v-for="template in templateList"
-                           :key="template.id"
-                           :templateObj="template"
-                           @editTemplate="editTemplate"
-            ></template-item>
+            <template-item v-for="template in templateList" :key="template.id" :templateObj="template"></template-item>
             <template v-if="templateList.length+1%rowNum!==0">
                 <div class="template-item" style="opacity: 0" v-for="item in rowNum-templateList.length%rowNum-1" :key="item"></div>
             </template>
@@ -39,6 +35,7 @@
 
 <script>
     import templateItem from './template-item';
+    import mockData from './mockDataVData';
     export default {
         data() {
             return {
@@ -60,39 +57,60 @@
                     {id: '3', value: '核算'}
                 ],
                 templateFilter: '',
-                templateList: [
-                    {id: '1001', title: '托管业务模板', tag: ['托管'], img: 'template-img01.jpg'},
-                    {id: '1002', title: '清算业务模板', tag: ['托管', '清算'], img: 'template-img02.jpg'},
-                    {id: '1003', title: '清算业务模板', img: 'template-img02.jpg'},
-                    {id: '1005', title: '清算业务模板', img: 'template-img01.jpg'},
-                    {id: '1004', title: '清算业务模板', img: 'template-img02.jpg'}
-                ]
+                templateList: mockData().dataVList,
+                defaultBoardContent: function () {
+                    return {
+                        id: this.$agnesUtils.randomString(32),
+                        title: "",
+                        label: "",
+                        type: "single",
+                        category: "month",
+                        thumbnail: "bg0",
+                        newTemplate: true,
+                        content: JSON.stringify({
+                            pageWidth: 800,
+                            bgImage: 'bg0',
+                            datavComps: []
+                        })
+                    }
+                }
             }
         },
         components:{
-            'template-item': templateItem,
+           'template-item': templateItem,
+        },
+        created(){
+            this.$dataVBus.$on('openEditPage', templateObj=>this.openEditPage(templateObj));
         },
         mounted() {
             var that = this;
-            this.$dataVBus.$on('openEditPage', this.openEditPage);
             this.rowNum = this.getTempRowNum(document.body.offsetWidth);
             window.addEventListener('resize', function () {
                 that.rowNum = that.getTempRowNum(document.body.offsetWidth);
             });
         },
         methods: {
-            editTemplate() {
-                this.addTemplate('edit');
-            },
-
-            addTemplate(optionType){
+            // 打开编辑页
+            openEditPage(params){
                 const viewId = 'datav.monitor.editBoard';
                 const pageView = this.$app.views.getView(viewId);
                 if (!pageView) {
                     return;
                 }
-                const tabView = Object.assign({args: {optionType}}, pageView, {id: viewId});
+                const dataVData = this.setTemplateState(params);
+                this.$datavTemplateService.init(dataVData);
+                const tabView = Object.assign({args: {dataVData}}, pageView, {id: viewId || ''});
                 this.$nav.showView(tabView);
+            },
+
+            setTemplateState(params){
+                const {opType, templateObj} = params;
+                let initStateData = this.defaultBoardContent();
+                if(opType === 'edit') {
+                    const list = mockData().dataVTemplate;
+                    initStateData = this.$lodash.find(list, {id: templateObj.id});
+                }
+                return initStateData;
             },
 
             // 获取每行模板个数

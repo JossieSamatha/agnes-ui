@@ -10,41 +10,6 @@
                 type: Object,
                 default: function () {
                     return {
-                        // xAxis: {
-                        //     name: '年份',
-                        //     data: ['2014', '2015', '2016', '2017', '2018', '2019']
-                        // },
-                        // yAxis: {
-                        //     name: '规模',
-                        //     data: 'value'
-                        // },
-                        // series: [
-                        //     {
-                        //         name: '规模',
-                        //         data: [1200, 2230, 1900, 2100, 3500, 4200],
-                        //         type: 'line',
-                        //         stack: 'a',
-                        //         fill: {
-                        //             show: true
-                        //         }
-                        //     },
-                        //     {
-                        //         name: '产品',
-                        //         data: [1200, 2230, 1900, 2100, 3500, 4200],
-                        //         type: 'line',
-                        //         stack: 'a',
-                        //         smooth: true
-                        //     },
-                        //     {
-                        //         name: '客户数',
-                        //         data: [1200, 2230, 1900, 2100, 3500, 4200],
-                        //         type: 'line',
-                        //         stack: 'a',
-                        //         lineStyle: {
-                        //             lineDash: [5, 5]
-                        //         }
-                        //     }
-                        // ],
                         xAxis: {
                             name: '年份',
                             nameTextStyle: {

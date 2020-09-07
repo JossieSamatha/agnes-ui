@@ -161,7 +161,8 @@
                         value: 'dv-decoration-11',
                         label: '静态大标题'
                     }],
-                justifyOptions: [{
+                justifyOptions: [
+                    {
                     value: 'flex-start',
                     label: '居左'
                 },{
@@ -171,7 +172,8 @@
                     value: 'flex-end',
                     label: '居右'
                 }],
-                alignOptions: [{
+                alignOptions: [
+                    {
                     value: 'flex-start',
                     label: '居上'
                 },{

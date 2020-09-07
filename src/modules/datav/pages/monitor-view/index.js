@@ -1,9 +1,10 @@
 import dataVTemplate from './index.vue';
 import dataVTemplateEdit from './template-edit/index';
+import gfDragResize from './template-edit/gf-drag-resize'
 
 const datav = {
-    install: function () {
-
+    install: function (Vue) {
+        Vue.component('gf-drag-resize', gfDragResize);
     },
     load: function (Gfui) {
         Gfui.componentView('agnes.datav.config', dataVTemplate, {title: '监控大屏'});

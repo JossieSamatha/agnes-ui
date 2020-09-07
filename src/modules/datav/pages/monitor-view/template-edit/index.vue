@@ -7,7 +7,7 @@
                      <span>返回</span>
                  </span>
                 <span class="header-item input">
-                    <el-input v-model="datavConf.viewName"></el-input>
+                    <el-input v-model="dataVTitle"></el-input>
                 </span>
             </div>
             <div>
@@ -17,7 +17,7 @@
                 </span>
                 <span class="header-item" @click="priviewDatav">
                     <span class="iconImg" v-html="svgImg.preview"></span>
-                    <span>切换</span>
+                    <span>预览</span>
                 </span>
                 <span class="header-item">
                     <span class="iconImg" v-html="svgImg.download"></span>
@@ -30,8 +30,8 @@
             </div>
         </div>
         <div class="content">
-            <comp-sider :datavConf="datavConf" @changeBg="changeBg"></comp-sider>
-            <board-container :datavConf="datavConf" :optionType="optionType" @activeComp="activeComp"></board-container>
+            <comp-sider></comp-sider>
+            <board-container @activeComp="activeComp"></board-container>
             <config-sider></config-sider>
         </div>
     </div>
@@ -43,15 +43,16 @@
     import boardContainer from './board-container';
     export default {
         props: {
-            optionType: {
-                type: String
-            },
+            dataVData: {
+                type: Object,
+                require: true
+            }
         },
         data() {
             return {
                 svgImg: this.$dataVSvg,
                 activeComp: {},
-                isPreview: true
+                isPreview: true,
             }
         },
         components: {
@@ -60,24 +61,14 @@
             'board-container': boardContainer
         },
         computed: {
-            datavConf(){
-                return this.$store.state.dataVTemplate.datavConf;
-            }
+            dataVTitle() {
+                return this.$datavTemplateService.dataVData.title;
+            },
         },
         methods: {
-            getImgPath(imgName){
-                let urlStr = require('../../../assets/datav-comp/'+imgName+'.jpg');
-                return  'url('+urlStr+')';
-            },
-
             backIndex() {
                 this.$nav.closeCurrentTab();
             },
-
-            changeBg(bg){
-                this.datavConf.bgImage = bg;
-            },
-
 
             priviewDatav(){
             }

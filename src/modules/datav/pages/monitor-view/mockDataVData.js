@@ -1,3 +1,13 @@
+function staticCompPosition(){
+    return {
+        axis: 'both',
+        draggable: true,
+        resizable: true,
+        aspectRatio: false,
+        zIndex: 1,
+    }
+}
+
 export default function () {
     return {
         compArr: [
@@ -59,28 +69,34 @@ export default function () {
                         icon: 'grid',
                         compName: 'static-grid',
                         label: '表格（普通）',
-                        componentMeta: {
+                        position: {
+                            ...staticCompPosition(),
                             width: 500,
                             height: 220,
-                        }
+                        },
+                        componentMeta: {}
                     }, {
                         type: 'scroll-board',
                         icon: 'scroll-board',
                         compName: 'scroll-board',
                         label: '轮播表',
-                        componentMeta: {
+                        position: {
+                            ...staticCompPosition(),
                             width: 480,
                             height: 150,
-                        }
+                        },
+                        componentMeta: {}
                     }, {
                         type: 'ct-capsule',
                         icon: 'ct-capsule',
                         compName: 'ct-capsule',
                         label: '胶囊柱图',
-                        componentMeta: {
+                        position: {
+                            ...staticCompPosition(),
                             width: 480,
                             height: 150,
-                        }
+                        },
+                        componentMeta: {}
                     }, {
                         type: 'ranking-board',
                         icon: 'rank-board',
@@ -99,9 +115,12 @@ export default function () {
                         icon: 'text',
                         compName: 'basic-text',
                         label: '文本',
-                        componentMeta: {
+                        position: {
+                            ...staticCompPosition(),
                             width: 150,
                             height: 50,
+                        },
+                        componentMeta: {
                             'font-size': '16px',
                             'fontWeight': 'normal',
                             'color': '#fff',
@@ -116,9 +135,12 @@ export default function () {
                         icon: 'roll-text',
                         compName: 'roll-text',
                         label: '滚动文本',
-                        componentMeta: {
+                        position: {
+                            ...staticCompPosition(),
                             width: 150,
                             height: 50,
+                        },
+                        componentMeta: {
                             'font-size': '16px',
                             'fontWeight': 'normal',
                             'color': '#fff',
@@ -133,9 +155,12 @@ export default function () {
                         icon: 'digital-flop',
                         compName: 'digital-flop',
                         label: '数字翻牌器',
-                        componentMeta: {
+                        position: {
+                            ...staticCompPosition(),
                             width: 150,
                             height: 50,
+                        },
+                        componentMeta: {
                             title: '标题',
                             number: 20,
                             textAlign: 'left',
@@ -178,9 +203,12 @@ export default function () {
                         icon: 'dynamic-comp',
                         compName: 'dynamic-comp',
                         label: '动态装饰',
-                        componentMeta: {
+                        position: {
+                            ...staticCompPosition(),
                             width: 200,
                             height: 80,
+                        },
+                        componentMeta: {
                             dynamicType: 'dv-decoration-3',
                             reverse: false,
                             title: '123123'
@@ -303,7 +331,11 @@ export default function () {
                                         "data": ["2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
                                         "boundaryGap": false
                                     },
-                                    "yAxis": {"data": "value", "splitLine": {"show": false}, "axisTick": {"show": false}},
+                                    "yAxis": {
+                                        "data": "value",
+                                        "splitLine": {"show": false},
+                                        "axisTick": {"show": false}
+                                    },
                                     "series": [{
                                         "name": "研发加班时长",
                                         "data": [20, 15, 10, 25, 25, 30, 20, 10, 8, 35, 30],
@@ -312,7 +344,73 @@ export default function () {
                                         "name": "人均加班时长",
                                         "data": [8, 10, 12, 10, 10, 10, 8, 8, 12, 14, 12],
                                         "type": "line"
-                                    }, {"name": "总计加班时长", "data": [28, 25, 22, 35, 35, 40, 28, 18, 20, 49, 42], "type": "line"}]
+                                    }, {
+                                        "name": "总计加班时长",
+                                        "data": [28, 25, 22, 35, 35, 40, 28, 18, 20, 49, 42],
+                                        "type": "line"
+                                    }]
+                                }
+                            },
+                        }
+                    ]
+                })
+            },
+            {
+                "id": "0f9471a72de74519886ef51d854abfe0",
+                "title": "文本-编辑器测试",
+                "label": "",
+                "type": "single",
+                category: "month",
+                thumbnail: "bg1",
+                description: "科技部周报告",
+                content: JSON.stringify({
+                    pageWidth: 800,
+                    bgImage: 'bg0',
+                    datavComps: [
+                        {
+                            compId: 'c765c6259d0e49acb56b769819d72a76',
+                            compName: 'ct-line',
+                            isActive: false,
+                            position: {
+                                width: 400,
+                                height: 250,
+                                left: 10,
+                                top: 10,
+                                axis: 'both',
+                                draggable: true,
+                                resizable: true,
+                                aspectRatio: false,
+                                zIndex: 1,
+                            },
+                            optional: {
+                                "type": "chart",
+                                "icon": "ct-line",
+                                "compName": "ct-line",
+                                "label": "折线（面积）图",
+                                "componentMeta": {
+                                    "xAxis": {
+                                        "name": "月份",
+                                        "data": ["2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+                                        "boundaryGap": false
+                                    },
+                                    "yAxis": {
+                                        "data": "value",
+                                        "splitLine": {"show": false},
+                                        "axisTick": {"show": false}
+                                    },
+                                    "series": [{
+                                        "name": "研发加班时长",
+                                        "data": [20, 15, 10, 25, 25, 30, 20, 10, 8, 35, 30],
+                                        "type": "line"
+                                    }, {
+                                        "name": "人均加班时长",
+                                        "data": [8, 10, 12, 10, 10, 10, 8, 8, 12, 14, 12],
+                                        "type": "line"
+                                    }, {
+                                        "name": "总计加班时长",
+                                        "data": [28, 25, 22, 35, 35, 40, 28, 18, 20, 49, 42],
+                                        "type": "line"
+                                    }]
                                 }
                             },
                         }

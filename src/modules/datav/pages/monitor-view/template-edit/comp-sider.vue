@@ -31,9 +31,9 @@
                 <div class="bgContent">
                     <img class="bg-img" :src="getImgPath(activeBgImg+'.jpg')"/>
                     <el-popover popper-class="bgListPop"
-                                placement="right"
-                                title="更换大屏背景"
-                                trigger="click">
+                            placement="right"
+                            title="更换大屏背景"
+                            trigger="click">
                         <div class="bgList">
                             <div v-for="(bgImg, index) in bgImgArr" :key="index">
                                 <img class="bg-img" :src="getImgPath(bgImg+'.jpg')"/>
@@ -45,11 +45,11 @@
                 </div>
                 <div>
                     <p class="title">标题</p>
-                    <el-input v-model="datavConf.viewName"></el-input>
+                    <el-input v-model="dataVTitle"></el-input>
                 </div>
                 <div>
                     <p class="title">标签</p>
-                    <el-input v-model="datavConf.tag"></el-input>
+                    <el-input v-model="dataVLabel"></el-input>
                 </div>
             </div>
         </div>
@@ -58,15 +58,12 @@
 </template>
 
 <script>
+    import mockDataVData from "../mockDataVData";
     export default {
-        props: {
-            datavConf: {
-                type: Object
-            },
-        },
         data() {
             return {
                 svgImg: this.$dataVSvg,
+                compArr: mockDataVData().compArr,
                 bgImgArr: ['bg0','bg1','bg2','bg3','bg4','bg5','bg6','bg7'],
                 bgListShow: false,
                 activeBgImg: 'bg0',
@@ -82,8 +79,21 @@
             }
         },
         computed: {
-            compArr() {
-                return this.$store.state.dataVTemplate.compArr
+            dataVTitle: {
+                get() {
+                    return this.$datavTemplateService.dataVData.title;
+                },
+                set(val){
+                    this.$datavTemplateService.setDataVAttr('title', val);
+                }
+            },
+            dataVLabel: {
+                get(){
+                    return this.$datavTemplateService.dataVData.label;
+                },
+                set(val){
+                    this.$datavTemplateService.setDataVAttr('label', val);
+                }
             }
         },
         methods: {
@@ -95,6 +105,7 @@
                 }
                 this.compPanelShow = true;
             },
+
             getImgPath(imgName){
                 return require('../../../assets/datav-comp/'+imgName);
             },
@@ -104,7 +115,7 @@
             },
 
             compDragEnd(evt){
-                this.$app.runCmd('addComp', this.curDragComp, evt , this.initialPoint);
+                this.$dataVBus.$emit('addComp', {comp: this.curDragComp, evt , initialPoint: this.initialPoint});
             },
 
             chooseComp(evt, comp){
@@ -119,7 +130,6 @@
 
             chooseBg(bg){
                 this.activeBgImg = bg;
-                this.$emit('changeBg', bg);
             }
         },
     }
