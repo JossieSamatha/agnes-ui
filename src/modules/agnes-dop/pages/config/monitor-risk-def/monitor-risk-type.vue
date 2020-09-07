@@ -68,7 +68,8 @@
                 }
                 try {
                     if (this.ui===2){
-                        await this.$api.monitorRiskApi.checkRisk("02",this.form);
+                       var risk = this.$api.monitorRiskApi.checkRisk("02",this.form);
+                        await this.$app.blockingApp(risk);
                         this.$msg.success('驳回成功');
                     }
                     if (this.actionOk){
@@ -86,10 +87,12 @@
                 }
                 try {
                     if (this.ui===1){
-                        await this.$api.monitorRiskApi.dealRisk(this.form);
+                        var dealRisk = this.$api.monitorRiskApi.dealRisk(this.form);
+                        await this.$app.blockingApp(dealRisk);
                         this.$msg.success('提交成功');
                     }else{
-                        await this.$api.monitorRiskApi.checkRisk("03",this.form);
+                        var checkRisk = this.$api.monitorRiskApi.checkRisk("03",this.form);
+                        await this.$app.blockingApp(checkRisk);
                         this.$msg.success('通过成功');
                     }
                     if (this.actionOk){

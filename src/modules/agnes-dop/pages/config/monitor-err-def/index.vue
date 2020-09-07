@@ -13,6 +13,7 @@
 <script>
     import MonitorErrType from "./monitor-err-type";
     import MonitorErrList from "./monitor-err-list";
+    import loadsh from 'lodash';
     export default {
         methods: {
 
@@ -50,6 +51,10 @@
 
             dealErr() {
                 let t = this.$refs.grid.getSelectedRows();
+                if(loadsh.isEmpty(t)){
+                    this.$msg.success("请中一条记录!");
+                    return;
+                }
                 if (t[0].status.match(/00/)){
                     this.showDlg('edit',t[0],1, this.onAddErr.bind(this));
                 }else {
@@ -59,19 +64,27 @@
             },
             checkErr(){
                 let t = this.$refs.grid.getSelectedRows();
+                if(loadsh.isEmpty(t)){
+                    this.$msg.success("请中一条记录!");
+                    return;
+                }
                 if (t[0].status.match(/01/)){
                     this.showDlg('edit',t[0],2, this.onAddErr.bind(this));
                 }else {
-                    this.$msg.warning("该状态无法处理!");
+                    this.$msg.warning("该状态无法复核!");
                     return;
                 }
             },
             transferRisk(){
                 let t = this.$refs.grid.getSelectedRows();
-                if (t[0].isRisk.match(/0/)){
+                if(loadsh.isEmpty(t)){
+                    this.$msg.success("请中一条记录!");
+                    return;
+                }
+                if (t[0].isRisk.match(/0/) && t[0].status.match(/03/)){
                     this.showDlg('edit',t[0],null,this.onAddErr.bind(this),'transfer');
                 }else {
-                    this.$msg.warning("该状态无法处理!");
+                    this.$msg.warning("该状态无法调入!");
                     return;
                 }
             },
