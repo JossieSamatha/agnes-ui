@@ -11,9 +11,9 @@
 
 <script>
     import MonitorRiskType from "./monitor-risk-type";
+    import loadsh from 'lodash';
     export default {
         methods: {
-
             reloadData() {
                 this.$refs.grid.reloadData();
             },
@@ -37,6 +37,10 @@
 
             dealRisk() {
                 let t = this.$refs.grid.getSelectedRows();
+                if(loadsh.isEmpty(t)){
+                    this.$msg.success("请选中一条记录!");
+                    return;
+                }
                 if (t[0].status.match(/00/)){
                     this.showDlg('edit',t[0],1, this.onAddRisk.bind(this));
                 }else {
@@ -46,10 +50,14 @@
             },
             checkRisk(){
                 let t = this.$refs.grid.getSelectedRows();
+                if(loadsh.isEmpty(t)){
+                    this.$msg.success("请选中一条记录!");
+                    return;
+                }
                 if (t[0].status.match(/01/)){
                     this.showDlg('ed it',t[0],2, this.onAddRisk.bind(this));
                 }else {
-                    this.$msg.warning("该状态无法处理!");
+                    this.$msg.warning("该状态无法复核!");
                     return;
                 }
             },

@@ -53,7 +53,8 @@
                 }
                 try {
                     if (this.ui===2){
-                        await this.$api.monitorErrApi.checkErr("02",this.form);
+                        var checkErr = this.$api.monitorErrApi.checkErr("02",this.form);
+                        await this.$app.blockingApp(checkErr);
                         this.$msg.success('驳回成功');
                     }
                     if (this.actionOk){
@@ -71,10 +72,12 @@
                 }
                 try {
                     if (this.ui===1){
-                        await this.$api.monitorErrApi.dealErr(this.form);
+                        var dealErr = this.$api.monitorErrApi.dealErr(this.form);
+                        await this.$app.blockingApp(dealErr);
                         this.$msg.success('提交成功');
                     }else{
-                        await this.$api.monitorErrApi.checkErr("03",this.form);
+                        var checkErr = this.$api.monitorErrApi.checkErr("03",this.form);
+                        await this.$app.blockingApp(checkErr);
                         this.$msg.success('通过成功');
                     }
                     if (this.actionOk){
