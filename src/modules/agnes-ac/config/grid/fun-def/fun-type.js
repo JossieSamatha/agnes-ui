@@ -3,19 +3,24 @@ import column from "../../../../../config/column"
 const colButtons = [
     {key: 'editModel', title: '编辑'},
     {key: 'deleteModel', title: '删除', cellClass: 'red-cell'},
+    {key: 'approveModelDef', title: '审核'},
+    {key: 'publishModelDef', title: '发布'}
 ];
-const fnCode = {headerName: "函数定义编号", field: "fnCode"};
-const fnName = {headerName: "函数名", field: "fnName"};
+const fnName = {headerName: "函数名称", field: "fnName"};
+const fnCode = {headerName: "函数编号", field: "fnCode"};
 const fnType = {headerName: "函数类型", field: "fnType"}
 const fnDesc = {headerName: "函数描述", field: "fnDesc"}
 
 export default {
     columnDefs: [
-        column.buildOpCol(120, colButtons),
-        fnCode,
+        column.buildOpCol(160, colButtons),
         fnName,
+        fnCode,
+        {headerName: "状态", field: "msgStatus" ,formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
         fnType,
         fnDesc,
+        column.colCrtUser,
+        column.colCrtTm
     ],
     ext: {
         fetchUrl: "/agnes-ac/v1/config/fun/query/page/list",    //后台查询数据的URL地址
