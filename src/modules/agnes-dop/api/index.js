@@ -10,6 +10,8 @@ import productParamApi from './product-param-api';
 import userGroupApi from './user-group-api';
 import dataPipeApi from './data-pipe-api';
 import productApi from './product-api';
+import monitorRiskApi from './monitor-risk-api';
+import monitorErrApi from './monitor-err-api';
 
 export default {
     orgDefineApi,
@@ -23,5 +25,7 @@ export default {
     productParamApi,
     userGroupApi,
     dataPipeApi,
-    productApi
+    productApi,
+    monitorRiskApi,
+    monitorErrApi
 };

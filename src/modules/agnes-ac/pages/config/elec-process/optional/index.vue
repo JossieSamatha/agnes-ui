@@ -207,7 +207,7 @@
                             this.executePieData = executePieData;
                           // 获取执行情况
                             this.taskIdList = flowDetailParse.taskIdList;
-                            this.getExecuteData(flowDetailParse.taskIdList, this.execTypeChecked);
+                            //this.getExecuteData(flowDetailParse.taskIdList, this.execTypeChecked);
                             this.setGridData(this.curStage.ruCaseStepList);
                         } else {
                             this.taskStage = [];
@@ -307,27 +307,28 @@
             // 手工确认
             async actionConfirm(params) {
                 let taskCommit = {
-                    stepInfo: {},
-                    inst: {
-                        taskId: "",
-                    },
+                  stepInfo: {},
+                  inst: {
+                    taskId: "",
+                  },
                 };
-                taskCommit.stepInfo.remark = params.data.remark;
-                taskCommit.stepInfo.stepStatus = "06";
-                taskCommit.stepInfo.jobId = params.data.jobId;
-                taskCommit.inst.taskId = params.data.taskId;
-                taskCommit.stepInfo.stepCode = params.data.stepCode;
+              taskCommit.stepInfo.remark = params.data.remark;
+              taskCommit.stepInfo.stepStatus = "06";
+              taskCommit.stepInfo.jobId = params.data.jobId;
+              taskCommit.inst.taskId = params.data.taskId;
+              taskCommit.stepInfo.stepCode = params.data.stepCode;
               taskCommit.stepInfo.bizDate = this.bizDate;
-                try {
-                    const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
-                    const resp = await this.$app.blockingApp(p);
-                    if (resp.data) {
-                        if (this.actionOk) {
-                            await this.actionOk();
-                        }
-                        this.$msg.success('提交成功');
-                        this.freshFlowData(); // 刷新页面数据
-                        this.$emit("onClose");
+              taskCommit.stepInfo.caseId = params.data.caseId;
+              try {
+                const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
+                const resp = await this.$app.blockingApp(p);
+                if (resp.data) {
+                  if (this.actionOk) {
+                    await this.actionOk();
+                  }
+                  this.$msg.success('提交成功');
+                  this.freshFlowData(); // 刷新页面数据
+                  this.$emit("onClose");
                     } else {
                         this.$msg.warning('提交失败');
                     }
@@ -339,28 +340,29 @@
             // 强制通过
             async forcePass(params) {
                 let taskCommit = {
-                    stepInfo: {},
-                    inst: {
-                        taskId: "",
-                    },
+                  stepInfo: {},
+                  inst: {
+                    taskId: "",
+                  },
                 };
 
-                taskCommit.stepInfo.remark = params.data.remark;
-                taskCommit.stepInfo.stepStatus = "07";
-                taskCommit.stepInfo.jobId = params.data.jobId;
-                taskCommit.inst.taskId = params.data.taskId;
+              taskCommit.stepInfo.remark = params.data.remark;
+              taskCommit.stepInfo.stepStatus = "07";
+              taskCommit.stepInfo.jobId = params.data.jobId;
+              taskCommit.inst.taskId = params.data.taskId;
               taskCommit.stepInfo.stepCode = params.data.stepCode;
               taskCommit.stepInfo.bizDate = this.bizDate;
-                try {
-                    const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
-                    const resp = await this.$app.blockingApp(p);
-                    if (resp.data) {
-                        if (this.actionOk) {
-                            await this.actionOk();
-                        }
-                        this.$msg.success('提交成功');
-                        this.freshFlowData(); // 刷新页面数据
-                        this.$emit("onClose");
+              taskCommit.stepInfo.caseId = params.data.caseId;
+              try {
+                const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
+                const resp = await this.$app.blockingApp(p);
+                if (resp.data) {
+                  if (this.actionOk) {
+                    await this.actionOk();
+                  }
+                  this.$msg.success('提交成功');
+                  this.freshFlowData(); // 刷新页面数据
+                  this.$emit("onClose");
                     } else {
                         this.$msg.warning('提交失败');
                     }
@@ -382,26 +384,27 @@
             },
 
             // 获取执行情况
-            async getExecuteData(taskIds, msgType){
-                const resp = this.$api.elecProcessApi.getMsgNameAndType({taskIds, msgType})
-                if (resp.data) {
-                  this.execLog = resp.data;
-                }else{
-                    this.execLog = [];
-                }
-            },
+          async getExecuteData(taskIds, msgType) {
+            const resp = this.$api.elecProcessApi.getMsgNameAndType({taskIds, msgType})
+            if (resp.data) {
+              this.execLog = resp.data;
+            } else {
+              this.execLog = [];
+            }
+          },
 
-            // 执行情况类型切换
-            execTypeChange(val){
-                this.getExecuteData(this.taskIdList, val);
-            },
+          // 执行情况类型切换
+          execTypeChange() {
 
-            freshFlowData() {
-                this.getFLowDetail(this.choosedTaskId, this.bizDate);
-            },
+            //this.getExecuteData(this.taskIdList, val);
+          },
 
-            getExecIcon(status){
-                const icon = this.$lodash.find(this.execTypeOp, {id: status}).icon;
+          freshFlowData() {
+            this.getFLowDetail(this.choosedTaskId, this.bizDate);
+          },
+
+          getExecIcon(status) {
+            const icon = this.$lodash.find(this.execTypeOp, {id: status}).icon;
                 return this.lcImg[icon];
             }
         }
