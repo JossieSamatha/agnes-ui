@@ -4,7 +4,7 @@ import dateUtil from '@hex/gf-ui/src/util/date-utils'
 import AcUtil from '../../../util/common'
 
 export default {
-    columnDefs: [
+    columnDefs:[
         {
             headerName: "操作", field: "option", width: 70, enableRowGroup: false,
             cellRenderer: 'optionalRenderer'
