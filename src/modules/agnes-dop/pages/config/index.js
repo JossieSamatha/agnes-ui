@@ -10,6 +10,8 @@ import Channel from "./channel-def/channel-list"
 import memoDef from "./memo-def/index"
 import RosterDef from "./roster-def/index";
 import DataPipeTask from "./data-pipe/index";
+import MonitorRiskDef from "./monitor-risk-def/index";
+import MonitorErrDef from "./monitor-err-def/index";
 
 const Loading = {
     load: function (Gfui) {
@@ -23,6 +25,8 @@ const Loading = {
         Gfui.componentView('agnes.dop.memo', memoDef, {title: '日历维护'});
         Gfui.componentView('agnes.dop.roster', RosterDef, {title: '排班表'});
         Gfui.componentView('data.pipe.task', DataPipeTask, {title: '调度配置'});
+        Gfui.componentView('agnes.app.monitor.risk', MonitorRiskDef, {title: '风险管理'});
+        Gfui.componentView('agnes.app.monitor.error', MonitorErrDef, {title: '异常管理'});
     }
 };
 
