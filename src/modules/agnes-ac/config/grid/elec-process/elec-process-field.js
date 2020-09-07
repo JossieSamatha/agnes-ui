@@ -12,19 +12,12 @@ export default {
         {headerName: "状态", field: "stepStatus", width: 95,
             suppressSizeToFit: true,
             dictType: 'AGNES_TASK_STEP_STATUS',
-            cellRenderer: (params)=>{
-                let eGui = document.createElement('div');
-                const iNode = document.createElement("i");
-                iNode.className = 'fa fa-circle';
+            cellStyle: function(params) {
                 const colorSet = AcUtil.getStepStatusMap();
-                iNode.style.color = colorSet.get(params.data.stepStatus).color;
-                iNode.style['margin-right'] = '3px';
-                const spanNode = document.createElement("span");
-                spanNode.innerHTML = params.valueFormatted;
-                eGui.appendChild(iNode);
-                eGui.appendChild(spanNode);
-                return eGui;
-            }
+                const color = colorSet.get(params.value).color
+                return {color: color};
+            },
+            cellClass: ['fa fa-circle', 'status-circle-cell'],
         },
         {
             headerName: "业务标签", field: "stepTag",
