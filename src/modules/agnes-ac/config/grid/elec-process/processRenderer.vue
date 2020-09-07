@@ -17,7 +17,7 @@
             }
         },
         beforeMount(){
-            this.percentage = parseFloat(this.params.value)*100;
+            this.percentage = parseInt(this.params.value*100);
         },
         methods: {
             getStatusColor(){
