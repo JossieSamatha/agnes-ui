@@ -99,7 +99,7 @@
                 }
                 const dataVData = this.setTemplateState(params);
                 this.$datavTemplateService.init(dataVData);
-                const tabView = Object.assign({args: {dataVData}}, pageView, {id: viewId || ''});
+                const tabView = Object.assign({args: {dataVData}}, pageView, {id: viewId});
                 this.$nav.showView(tabView);
             },
 
