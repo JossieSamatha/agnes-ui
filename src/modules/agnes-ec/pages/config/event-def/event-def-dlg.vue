@@ -92,7 +92,7 @@ import fecha from 'element-ui/src/utils/date';
                 }
             };
             var checkExistsEventCode = async (rule, value, callback) => {
-                const resp = await this.$api.eventlDefConfigApi.existsEventCode(this.form.eventDef.eventCode);
+                const resp = await this.$api.eventlDefConfigApi.existsEventCode(this.form.eventDef.eventCode,this.form.eventDef.eventId);
                 if(!this.form.eventDef.eventCode){
                     callback(new Error('请填写事件代码！'));
                 }else if (resp.data === true) {
