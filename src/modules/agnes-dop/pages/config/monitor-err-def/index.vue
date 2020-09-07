@@ -81,7 +81,7 @@
                     this.$msg.success("请中一条记录!");
                     return;
                 }
-                if (t[0].isRisk.match(/0/)){
+                if (t[0].isRisk.match(/0/) && t[0].status.match(/03/)){
                     this.showDlg('edit',t[0],null,this.onAddErr.bind(this),'transfer');
                 }else {
                     this.$msg.warning("该状态无法调入!");
