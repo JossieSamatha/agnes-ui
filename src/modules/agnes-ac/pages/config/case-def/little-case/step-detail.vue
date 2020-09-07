@@ -213,7 +213,7 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item v-if="activeTerm === '2'">
-                <rule-table ref="activeRuleTable" confType="fn,step" :ruleTableData="stepInfo.stepFormInfo.activeRuleTableData"
+                <rule-table ref="activeRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.activeRuleTableData"
                             :ruleTargetOp="ruleTargetOp"></rule-table>
             </el-form-item>
             <el-form-item label="完成规则">
@@ -226,7 +226,7 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item v-if="succeedRule === '1'">
-                <rule-table ref="successRuleTable" confType="fn,step" :ruleTableData="stepInfo.stepFormInfo.successRuleTableData"
+                <rule-table ref="successRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.successRuleTableData"
                             :ruleTargetOp="ruleTargetOp"></rule-table>
             </el-form-item>
             <el-form-item label="异常规则">
@@ -239,7 +239,7 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item v-if="abnormalRule === '1'">
-                <rule-table ref="failRuleTable" confType="fn,step" :ruleTableData="stepInfo.stepFormInfo.failRuleTableData"
+                <rule-table ref="failRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.failRuleTableData"
                             :ruleTargetOp="ruleTargetOp"></rule-table>
             </el-form-item>
         </el-form>
