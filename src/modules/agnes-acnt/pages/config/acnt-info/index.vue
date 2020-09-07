@@ -1,6 +1,26 @@
 <template>
     <div>
-        <gf-grid @row-double-click="editEventDef" grid-no="agnes-acnt-info" ref="grid">
+        <el-form class="search-panel" label-width="100px">
+            <div class="line">
+                <el-form-item label="账户名称">
+                    <el-input v-model="queryArgs.taskName"></el-input>
+                </el-form-item>
+                <el-form-item label="账号" >
+                    <el-input v-model="queryArgs.account"></el-input>
+                </el-form-item>
+                <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
+            </div>
+            <div class="line">
+                <el-form-item label="账户类型">
+                    <gf-dict filterable clearable v-model="queryArgs.taskType" dict-type="AGNES_TASK_TYPE" />
+                </el-form-item>
+                <el-form-item label="状态">
+                    <gf-dict filterable clearable v-model="queryArgs.taskStatus" dict-type="AGNES_TASK_MGR_STATUS"/>
+                </el-form-item>
+                <el-button @click="reSetSearch" class="option-btn">重置</el-button>
+            </div>
+        </el-form>
+        <gf-grid @row-double-click="editEventDef" :query-args="queryArgs" grid-no="agnes-acnt-info" ref="grid">
             <template slot="right-before">
 <!--                <gf-button @click="addEventDef" size="mini">添加</gf-button>-->
             </template>
@@ -13,6 +33,16 @@
     import acntInfoLinkmanRefShowDlg from "./acnt-info-linkman-ref-show-dlg";
 
     export default {
+        data() {
+            return {
+                queryArgs:{
+                    'taskName':'',
+                    'execStartTime':'',
+                    'taskType':'',
+                    'taskStatus':'',
+                }
+            }
+        },
         methods: {
             reloadData() {
                 this.$refs.grid.reloadData();
