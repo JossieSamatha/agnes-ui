@@ -1,5 +1,5 @@
 <template>
-    <div class="optional-cell">
+    <div class="optional-cell" v-if="params.data">
         <el-popover ref="popover"
                     placement="top-start"
                     title="备注"
@@ -54,7 +54,9 @@
             }
         },
         beforeMount() {
-            this.remark = this.params.data.remark;
+            if(this.params.data){
+                this.remark = this.params.data.remark;
+            }
         },
         computed: {
             actionShow() {
