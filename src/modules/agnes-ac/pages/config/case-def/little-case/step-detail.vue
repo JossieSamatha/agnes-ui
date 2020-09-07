@@ -577,7 +577,7 @@
                     this.stepInfo.stepFormInfo.caseStepDef.stepActType = this.stepInfo.stepActType;
                     this.stepInfo.stepFormInfo.caseStepDef.stepName = this.stepInfo.stepName;
                     this.stepInfo.stepFormInfo.caseStepDef.stepActOwner = JSON.stringify(this.memberRefList);
-                    this.stepInfo.stepCodeChange = this.initStepCode !== this.stepInfo.stepFormInfo.caseStepDef.stepCode;
+                    this.stepInfo.initialStepCode = this.initStepCode;
                     this.$emit('saveStepInfo', {
                         optionType: this.optionType,
                         stepInfo: this.stepInfo,
