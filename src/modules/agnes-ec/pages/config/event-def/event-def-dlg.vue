@@ -8,6 +8,10 @@
                     <gf-input type="text" v-model="form.eventDef.eventName"/>
                 </el-form-item>
 
+                <el-form-item label="事件代码" prop="eventDef.eventCode">
+                    <gf-input type="text" v-model="form.eventDef.eventCode" :max-byte-len="32"
+                              clear-regex="[^a-zA-Z\d\x00-\xff]"/>
+                </el-form-item>
 
                 <el-form-item label="执行区间" prop="eventDef.dateRange">
                     <gf-date-range-picker v-model="form.eventDef.dateRange" type="daterange"  range-separator="至"
@@ -48,7 +52,7 @@
                 </el-form-item>
 
                 <el-form-item label="匹配规则" prop="ruleTableData">
-                    <rule-table ref="ruleTable" :ruleTableData="form.ruleTableData" :ruleTargetOp="ruleTargetOp"
+                    <rule-table ref="ruleTable" confType="fn, object" :ruleTableData="form.ruleTableData" :ruleTargetOp="ruleTargetOp"
                                 tableHeight="200" tableMaxHeight="300" ></rule-table>
                 </el-form-item>
 
@@ -87,6 +91,14 @@ import fecha from 'element-ui/src/utils/date';
                     callback(new Error('请配置消息类型！'));
                 }
             };
+            var checkExistsEventCode = async (rule, value, callback) => {
+                const resp = await this.$api.eventlDefConfigApi.existsEventCode(this.form.eventDef.eventCode);
+                if(!this.form.eventDef.eventCode){
+                    callback(new Error('请填写事件代码！'));
+                }else if (resp.data === true) {
+                    callback(new Error('事件代码已存在！'));
+                }
+            };
             // var checkRuleTableData = async (rule, value, callback) => {
             //     if(!this.ruleTableData
             //         || !this.ruleTableData.ruleList
@@ -103,6 +115,7 @@ import fecha from 'element-ui/src/utils/date';
                     eventDef: {
                         eventId: '',
                         eventName: '',
+                        eventCode: '',
                         startTime: '',
                         endTime: '',
                         execMode: '1',
@@ -137,7 +150,11 @@ import fecha from 'element-ui/src/utils/date';
                         { validator: checkDateRange, trigger: 'blur' }
                     ],
                     'eventDef.execScheduler': [{ validator: checkExecScheduler, trigger: 'blur' }],
-                    'eventDef.msgId': [{ validator: checkMsgId, trigger: 'blur' }]
+                    'eventDef.msgId': [{ validator: checkMsgId, trigger: 'blur' }],
+                    'eventDef.eventCode': [
+                        { required: true, message: '请填写事件代码', trigger: 'change' },
+                        { validator: checkExistsEventCode, trigger: 'blur' }
+                    ],
                     // 'ruleTableData': [{ validator: checkRuleTableData, trigger: 'blur' }]
                 },
                 // ruleTableData: {},
