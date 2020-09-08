@@ -175,6 +175,44 @@
                 </el-date-picker>
             </el-form-item>
         </div>
+
+
+        <el-form-item v-if="detailForm.isSendOA==='1'" label="用印文件" prop="fileTable">
+            <div class="rule-table">
+                <el-table header-row-class-name="rule-header-row"
+                        header-cell-class-name="rule-header-cell"
+                        row-class-name="rule-row"
+                        cell-class-name="rule-cell"
+                        :data="fields"
+                        border stripe
+                        style="width: 100%">
+                    <el-table-column prop="OAurl" label="用印文件名">
+                        <template slot-scope="scope">
+                            <!-- <span v-if="this.mode === 'view'">{{scope.row.OAurl}}</span> -->
+                            <el-input :style="!scope.row.OAurl ? 'border:1px solid #f00':''" v-model="scope.row.OAurl"></el-input>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="OAnumber" label="份数">
+                        <template slot-scope="scope">
+                            <!-- <span v-if="this.mode === 'view'">{{scope.row.OAnumber}}</span> -->
+                            <el-input type="number" :style="!scope.row.OAnumber ? 'border:1px solid #f00':''" v-model="scope.row.OAnumber"></el-input>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="OAremark" label="备注">
+                        <template slot-scope="scope">
+                            <!-- <span v-if="this.mode === 'view'">{{scope.row.OAremark}}</span> -->
+                            <el-input v-model="scope.row.OAremark"></el-input>
+                        </template>
+                    </el-table-column>
+                    <el-table-column  prop="option" label="操作" width="52" align="center">
+                        <template slot-scope="scope">
+                            <span class="option-span" @click="deleteRuleRow(scope.$index)">删除</span>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <el-button  @click="addRule()" class="rule-add-btn" size="small">新增</el-button>
+            </div>
+        </el-form-item>
     </el-form>
 </template>
 
@@ -218,6 +256,8 @@
                     OAIsNeedStamp:'0',
                     OAPrintDT:'',
                 },
+                fields:[],
+                mustFillField: ['OAurl','OAnumber'],
                 dayChecked: '0',  // 跨日
                 endTimeForDay:null,
                 startTimeForDay:null,
@@ -253,12 +293,39 @@
                 this.$emit("onClose");
             },
 
+            // 新增服务行
+            addRule(){
+                const newFileTableObj = {
+                    OAurl: '',
+                    OAnumber: '',
+                    OAremark: '',
+                };
+                this.fields.push(newFileTableObj);
+            },
+            // 删除行
+            deleteRuleRow(rowIndex){
+                this.fields.splice(rowIndex, 1);
+            },
             // 保存onSave事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
             async onSave() {
                 this.insertApply()
                 const ok = await this.$refs['taskDefForm'].validate();
                 if (!ok) {
                     return;
+                }
+                let validate = true;
+                if(this.fields&&this.detailForm.isSendOA==='1'){
+                    for(let i =0;i<this.fields.length;i++){
+                        for (let key in this.fields[i]) {
+                            if(this.mustFillField.indexOf(key) !== -1 && loadsh.isEmpty(this.form.fields[i][key])){
+                                validate = false;
+                            }
+                        }
+                    }
+                    if(!validate){
+                        this.$msg.warning("请补充完整必填项!");
+                        return;
+                    }
                 }
                 try {
           

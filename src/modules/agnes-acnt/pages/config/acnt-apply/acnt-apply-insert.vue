@@ -1,7 +1,8 @@
 <template>
     <el-form ref="taskDefForm" class="task-def-form" :model="detailForm" :disabled="mode==='view'"
-             :rules="detailFormRules" label-width="160px">
+             :rules="detailFormRules" label-width="180px">
         <div class="title">要素信息</div>
+        <el-divider></el-divider>
         <div class="line">
             <el-form-item label="账户类型" prop="typeCode">
                 <el-select class="multiple-select" v-model="detailForm.typeCode"
@@ -126,6 +127,7 @@
             </el-form-item>
         </div>
         <div class="title">账户信息</div>
+        <el-divider></el-divider>
         <div class="line">
             <el-form-item label="账户名称" prop="acntName">
                 <gf-input v-model.trim="detailForm.acntName" placeholder="账户名称"/>
@@ -324,5 +326,8 @@
 <style scoped>
     .title{
         color: deepskyblue;
+        margin-left: 30px;
+        font-size: 16px;
+        margin-top: 20px;
     }
 </style>
