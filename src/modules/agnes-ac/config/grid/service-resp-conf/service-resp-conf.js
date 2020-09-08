@@ -1,9 +1,19 @@
 import column from "../../../../../config/column"
 const colButtons = [
     {key: 'editService', title: '编辑'},
-    {key: 'deleteService', title: '删除'},
-    {key: 'approveSeviceDef', title: '审核'},
-    {key: 'publishSeviceDef', title: '发布'}
+    {key: 'deleteService', title: '删除', cellClass: 'red-cell'},
+    {key: 'approveModelDef', title: '审核',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '02' || params.data.status === '03'){
+                result =true;
+            }
+            return result;}},
+    {key: 'publishModelDef', title: '发布',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '01' || params.data.status === '03'){
+                result =true;
+            }
+            return result;}}
 ];
 
 export default {
@@ -19,9 +29,9 @@ export default {
         column.colCrtTm
     ],
     ext: {
-        fetchUrl: "/agnes-ac/v1/ac/service/list",    //后台查询数据的URL地址
-        fetchMethod: 'get',
-        pagingMode: true, //不分页
+        fetchUrl: "/agnes-ac/v1/ac/service/page-list",    //后台查询数据的URL地址
+        fetchMethod: 'post',
+        pagingMode: true, //分页
         checkboxColumn: 1, //是否显示checkbox列,
         autoFitColumnMode: 1,
         enableExportLocal: true,

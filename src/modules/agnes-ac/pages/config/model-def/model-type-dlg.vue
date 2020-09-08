@@ -1,12 +1,12 @@
 <template>
   <div>
-    <el-form :model="form" :disabled="mode==='view'" ref="form" :rules="rules" label-width="85px"
+    <el-form :model="form" :disabled=this.isNoEdit ref="form" :rules="rules" label-width="85px"
              style="padding: 10px;">
       <el-form-item label="对象名称" prop="modelType.typeName">
         <gf-input type="text" v-model="form.modelType.typeName"/>
       </el-form-item>
-      <el-form-item label="对象编号" prop="modelType.code">
-        <gf-input v-model.trim="form.modelType.code" placeholder="对象编号" :max-byte-len="8" />
+      <el-form-item label="对象编号" prop="modelType.typeCode">
+        <gf-input v-model.trim="form.modelType.typeCode" placeholder="对象编号" :max-byte-len="8" />
       </el-form-item>
       <el-form-item label="属性编辑" prop="fileTable">
         <div class="rule-table">
@@ -60,7 +60,7 @@
         </div>
       </el-form-item>
     </el-form>
-    <dialog-footer :on-save="save"></dialog-footer>
+    <dialog-footer :on-save="save" :ok-button-title="okTitle" :ok-button-visible="mode != 'view'"></dialog-footer>
   </div>
 </template>
 
@@ -81,10 +81,15 @@ export default {
       form: {
         modelType: {
           modelTypeId: '',
-          typeName: ''
+          typeName: '',
+          typeCode:'',
+          status:'',
         },
+        isNeedCheck:false,
         fields: []
       },
+      isNoEdit:false,
+      okTitle:'保存',
       mustOption:[
         {name:'是',id:'1'},
         {name:'否',id:'0'}
@@ -92,7 +97,7 @@ export default {
       mustFillField: ['fieldKey','fieldName','inputType','mustFill'],
       rules: {
         'modelType.typeName': [{required: true, message: "对象名称必填"}],
-        'modelType.code': [{required: true, message: "对象编码必填"}],
+        'modelType.typeCode': [{required: true, message: "对象编码必填"}],
       },
     }
   },
@@ -102,6 +107,10 @@ export default {
     if (this.form.modelType.modelTypeId) {
       const p = this.fetchFields();
       this.$app.blockingApp(p);
+    }
+    if(this.mode=='view' || this.mode=='check'){
+      this.isNoEdit = true;
+      this.okTitle = '审核';
     }
   },
   methods: {
@@ -128,38 +137,59 @@ export default {
       this.form.fields.splice(rowIndex, 1);
     },
     async save() {
-      const ok = await this.$refs['form'].validate();
-      if (!ok) {
-        return;
-      }
-
-      try {
-        let validate = true;
-        if(this.form.fields){
-          for(let i =0;i<this.form.fields.length;i++){
-            for (let key in this.form.fields[i]) {
-              if(this.mustFillField.indexOf(key) !== -1 && loadsh.isEmpty(this.form.fields[i][key])){
-                validate = false;
+      if(this.mode == 'check'){
+        try {
+          const p = this.$api.modelConfigApi.changeStatus({modelType:{modelTypeId:this.form.modelType.modelTypeId,status:'02'}});
+          await this.$app.blockingApp(p);
+          this.$msg.success('审核成功');
+          this.$dialog.close(this);
+          if (this.actionOk) {
+            await this.actionOk();
+          }
+        }catch (reason) {
+          this.$msg.error(reason);
+        }
+      }else {
+        const ok = await this.$refs['form'].validate();
+        if (!ok) {
+          return;
+        }
+        try {
+          if(this.row.typeCode != this.form.modelType.typeCode){
+            this.form.isNeedCheck=true;
+          }
+          let validate = true;
+          if(this.form.fields){
+            for(let i =0;i<this.form.fields.length;i++){
+              for (let key in this.form.fields[i]) {
+                if(this.mustFillField.indexOf(key) !== -1 && loadsh.isEmpty(this.form.fields[i][key])){
+                  validate = false;
+                }
               }
             }
+            if(!validate){
+              this.$msg.warning("请补充完整必填项!");
+              return;
+            }
           }
-          if(!validate){
-            this.$msg.warning("请补充完整必填项!");
+          const p = this.$api.modelConfigApi.saveModel(this.form);
+          let resp = await this.$app.blockingApp(p);
+          if(resp.data == "0011"){
+            this.$msg.warning("该对象编号已存在!");
             return;
+          }else {
+            this.$msg.success('保存成功');
+            this.$dialog.close(this);
+            if (this.actionOk) {
+              await this.actionOk();
+            }
           }
+        } catch (reason) {
+          this.$msg.error(reason);
         }
-        const p = this.$api.modelConfigApi.saveModel(this.form);
-        await this.$app.blockingApp(p);
-
-        if (this.actionOk) {
-          await this.actionOk(this.form, this.row);
-        }
-        this.$msg.success('保存成功');
-        this.$dialog.close(this);
-      } catch (reason) {
-        this.$msg.error(reason);
       }
-    },
+
+    }
   }
 }
 </script>

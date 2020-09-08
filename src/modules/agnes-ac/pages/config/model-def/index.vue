@@ -1,6 +1,6 @@
 <template>
     <div>
-        <gf-grid @row-double-click="editModel" grid-no="agnes-model-type" ref="grid">
+        <gf-grid @row-double-click="showModel" grid-no="agnes-model-type" ref="grid">
             <template slot="left">
                 <gf-button class="action-btn" @click="addModel">添加</gf-button>
             </template>
@@ -21,12 +21,16 @@
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
+                let title = this.$dialog.formatTitle('业务对象定义', mode);
+                if(mode == 'check'){
+                    title = '业务对象定义 - 审核';
+                }
                 this.$nav.showDialog(
                     ModelTypeDlg,
                     {
                         args: {row, mode, actionOk},
                         width: '50%',
-                        title: this.$dialog.formatTitle('业务对象定义', mode),
+                        title: title,
                     }
                 );
             },
@@ -42,8 +46,21 @@
             showModel(params) {
                 this.showDlg('view', params.data);
             },
+            approveModelDef(params) {
+                this.showDlg('check', params.data, this.onEditModel.bind(this));
+            },
             editModel(params) {
                 this.showDlg('edit', params.data, this.onEditModel.bind(this));
+            },
+            async publishModelDef(params){
+                try {
+                    const p = this.$api.modelConfigApi.changeStatus({modelType:{modelTypeId:params.data.modelTypeId,status:'03'}});
+                    await this.$app.blockingApp(p);
+                    this.reloadData();
+                    this.$msg.success('发布成功');
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
             },
             async deleteModel(params) {
                 const row = params.data;
