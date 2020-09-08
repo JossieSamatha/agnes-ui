@@ -25,7 +25,7 @@
                     {
                         args: {row, mode, actionOk},
                         width: '50%',
-                        title: this.$dialog.formatTitle('函数', mode),
+                        title: this.$dialog.formatTitle('函数定义', mode),
                     }
                 );
             },

@@ -5,7 +5,7 @@
                       :stage.sync="stage" :stageList.sync="stageList" :stageIndex="stageIndex"
                       :stageType.sync="stageType" :stepType.sync="stepType">
                 <template slot="stageSlot">
-                    <ul class="process-list">
+                    <draggable tag="ul" class="process-list" :list="stage.children" :options="groupOption">
                         <template v-for="(stageItem, stageItemIndex) in stage.children">
                             <stepDef :key="stageItem.stepCode"
                                      v-if="stageItem.defType == 'step' && curOptional(stageItem.optional)"
@@ -19,7 +19,7 @@
                                       :groupType.sync="stepType"
                                       :chooseActive="chooseActive"></groupDef>
                         </template>
-                    </ul>
+                    </draggable>
                 </template>
             </stageDef>
         </draggable>

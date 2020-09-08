@@ -278,7 +278,7 @@
             },
 
             getPercentage(percentage) {
-                return parseFloat(percentage) * 100;
+                return parseInt(percentage* 100) ;
             },
 
             getStatusColor(statusId) {

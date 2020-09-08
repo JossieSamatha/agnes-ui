@@ -509,6 +509,7 @@
 }
 
 .little-case.work-flow-module .stage-item .step-list {
+    min-height: 40px;
     background: #fff;
 }
 
@@ -565,11 +566,16 @@
 
 
 .little-case.work-flow-module .step-comp > span.name {
-    padding: 0 40px;
+    padding: 0 10px 0 40px;
     display: inline-block;
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.little-case.work-flow-module .step-comp.active > span.name,
+.little-case.work-flow-module .step-comp:hover > span.name {
+    padding-right: 45px;
 }
 
 .little-case.work-flow-module .stage-item .step-list .step-group {

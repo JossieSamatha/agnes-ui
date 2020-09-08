@@ -12,7 +12,7 @@
             </span>
         </div>
         <div class="group-item-content">
-            <ul class="step-list">
+            <draggable tag="ul" class="step-list" :list="group[groupType]" :options="groupOption">
                 <template v-for="(groupItem, groupItemIndex) in group[groupType]">
                     <stepDef v-if="groupItem.defType == 'step'&& curOptional(groupItem.optional)"
                              :key="groupItem.stepCode"
@@ -31,7 +31,7 @@
                               @click.native.stop="chooseActive">
                     </groupDef>
                 </template>
-            </ul>
+            </draggable>
         </div>
         <div class="add-task">
             <span class="stage-add">

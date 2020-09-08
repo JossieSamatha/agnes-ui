@@ -26,7 +26,7 @@
                     {
                         args: {row, mode, actionOk},
                         width: '50%',
-                        title: this.$dialog.formatTitle('模型类型', mode),
+                        title: this.$dialog.formatTitle('业务对象定义', mode),
                     }
                 );
             },

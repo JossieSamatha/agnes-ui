@@ -3,17 +3,22 @@ import column from "../../../../../config/column"
 const colButtons = [
     {key: 'editModel', title: '编辑'},
     {key: 'deleteModel', title: '删除',cellClass:'red-cell'},
+    {key: 'approveModelDef', title: '审核'},
+    {key: 'publishModelDef', title: '发布'}
 ];
 
 export default {
     columnDefs: [
-        {headerName: "名称", field: "msgName"},
+        column.buildOpCol(160, colButtons),
+        {headerName: "消息名称", field: "msgName"},
+        {headerName: "消息编号", field: "msgCode"},
+        {headerName: "消息类型", field: "msgTopic",formatType: 'dict', dictType: 'AC_MSG_TOPIC' },
+        {headerName: "状态", field: "msgStatus" ,formatType: 'dict', dictType: 'AGNES_DEPLOY_STATUS'},
         column.colCrtUser,
-        column.colCrtTm,
-        column.colUpdUser,
-        column.colUpdTm,
-        column.buildOpCol(120, colButtons)
+        column.colCrtTm
     ],
+    headerHeight: 40,
+    rowHeight: 37,
     ext: {
         fetchUrl: "/agnes-ac/v1/ec/msg/page/list",    //后台查询数据的URL地址
         fetchMethod: 'get',

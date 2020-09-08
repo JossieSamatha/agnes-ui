@@ -26,7 +26,7 @@
                     {
                         args: {row, mode, actionOk},
                         width: '40%',
-                        title: this.$dialog.formatTitle('消息定义', mode),
+                        title: this.$dialog.formatTitle('消息定义配置', mode),
                     }
                 );
             },

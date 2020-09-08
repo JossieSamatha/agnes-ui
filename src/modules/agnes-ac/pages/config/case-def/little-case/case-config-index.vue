@@ -164,9 +164,12 @@
                     let taskIndex = taskArgs.stepIndex;
                     let stepList = taskArgs.stepList;
                     stepList.splice(taskIndex, 1, stepInfoCopy);
-                    if(stepInfoCopy.stepCodeChange){
-                        this.$utils.removeFromArray(this.stepCodeArr, stepCode);
-                    }
+                    this.$utils.removeFromArray(this.stepCodeArr, stepInfoCopy.initialStepCode);
+                }
+                if (stepObj.optionType === 'copy') {
+                    let taskIndex = taskArgs.stepIndex + 1;
+                    let stepList = taskArgs.stepList;
+                    stepList.splice(taskIndex, 0, stepInfoCopy);
                 }
                 this.stepCodeArr.push(stepCode);
                 this.$refs.stepDetailDrawer.closeDrawer();

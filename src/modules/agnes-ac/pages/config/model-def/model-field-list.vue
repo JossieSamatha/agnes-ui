@@ -2,7 +2,7 @@
     <gf-grid grid-no="agnes-model-field" ref="grid" quick-text-max-width="300px"
              @row-double-click="showField" @grid-ready="onReady">
         <template slot="right-before">
-            <gf-button @click="addField">新增</gf-button>
+            <gf-button @click="addField">添加</gf-button>
         </template>
     </gf-grid>
 </template>
