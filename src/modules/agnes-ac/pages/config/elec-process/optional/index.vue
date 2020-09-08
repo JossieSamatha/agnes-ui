@@ -230,6 +230,7 @@
 
             // 任务流程 -- 选择
             chooseTask(taskId) {
+                this.curStage = {};
                 this.getFLowDetail(taskId, this.bizDate);
                 this.currentTaskObj = this.$lodash.find(this.proTask, {taskId});
                 this.choosedTaskId = taskId;
