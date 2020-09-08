@@ -173,9 +173,12 @@
                             delete currentData.stepFormInfo
                             let sentryInData = {};
                             let sentryOut = {};
+                            let sentryEx = {};
                             sentryOut.ifExpr = temporaryData.successRuleTableData.ruleBody
+                            sentryEx.ifExpr = temporaryData.failRuleTableData.ruleBody
                             currentData.sentryIn = sentryInData
                             currentData.sentryOut = sentryOut
+                            currentData.sentryEx = sentryEx
                         }
                         steps.push(currentData)
                         //如需改变数据，在此处修改
