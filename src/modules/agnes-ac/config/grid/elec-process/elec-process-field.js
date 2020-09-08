@@ -4,18 +4,22 @@ import dateUtil from '@hex/gf-ui/src/util/date-utils'
 import AcUtil from '../../../util/common'
 
 export default {
-    columnDefs: [
+    columnDefs:[
         {
-            headerName: "操作", field: "option", width: 70,
+            headerName: "操作", field: "option", width: 70, enableRowGroup: false,
             cellRenderer: 'optionalRenderer'
         },
         {headerName: "状态", field: "stepStatus", width: 95,
             suppressSizeToFit: true,
             dictType: 'AGNES_TASK_STEP_STATUS',
             cellStyle: function(params) {
-                const colorSet = AcUtil.getStepStatusMap();
-                const color = colorSet.get(params.value).color
-                return {color: color};
+                if(!params.value){
+                    return {display: 'none'}
+                }else{
+                    const colorSet = AcUtil.getStepStatusMap();
+                    const color = colorSet.get(params.value).color
+                    return {color: color};
+                }
             },
             cellClass: ['fa fa-circle', 'status-circle-cell'],
         },
@@ -37,7 +41,7 @@ export default {
             tooltipField: 'stepName',
         },
         {
-            headerName: "完成进度", field: "finishedRate",
+            headerName: "完成进度", field: "finishedRate", enableRowGroup: false,
             cellRenderer: 'processRenderer',
             minWidth: '160',
             suppressSizeToFit: true,
@@ -46,42 +50,46 @@ export default {
         {
             headerName: "实际完成时间", field: "execEndTime",
             cellRenderer: (params) => {
-                let formatDate = '';
-                if (params.data.execEndTime) {
-                    formatDate = dateUtil.formatDate(params.data.execEndTime, 'yyyy-MM-dd HH:mm:ss')
+                if(!params.value){
+                    return ''
+                }else{
+                    let formatDate = '';
+                    formatDate = dateUtil.formatDate(params.value, 'yyyy-MM-dd HH:mm:ss')
+                    return formatDate;
                 }
-                return formatDate;
             }
         },
         {headerName: "任务类型", field: "stepActType", dictType: 'AGNES_CASE_STEPTYPE'},
         {headerName: "执行人员", field: "updateUser"},
-        {headerName: "备注", field: "remark"},
+        {headerName: "备注", field: "remark", enableRowGroup: false},
     ],
+    defaultColDef: {
+        enableRowGroup: true,
+        menuTabs: ['generalMenuTab', 'filterMenuTab', 'columnsMenuTab'],
+    },
+    groupUseEntireRow: true,
+    rowGroupPanelShow: "always",
+    suppressDragLeaveHidesColumns: true,
     tooltipShowDelay: 0,
     frameworkComponents: {
         optionalRenderer,
         processRenderer,
-
     },
     rowData: [],
+    onColumnRowGroupChanged: (params)=>{
+        params.api.expandAll();
+    },
     ext: {
-        // fetchUrl: "/agnes-ac/v1/ac/case/def/list",
-        // fetchMethod: 'get',
-        pagingMode: true, //是否分页
-        checkboxColumn: 1, //是否显示checkbox列,
+        pagingMode: true,
+        checkboxColumn: 1,
         autoFitColumnMode: 1,
-        enableExportLocal: true, // 是否显示下载按钮（有勾选则下载勾选项，没勾选则下载所有）
+        enableExportLocal: true,
         pageOptions: {
-            // 分页大小
             pageSize: 100,
-            // 可供选择的分页大小（下拉切换分页值）
             pageSizes: [10, 20, 50, 100],
-            // 显示在状态栏上的页数字的个数
-            pageCount: 0,
+            pageCount: 5,
             prevText: "上一页",
             nextText: "下一页",
-            // 分页工具显示项，例如总页数、当前页、上一页、下一页、等分页功能按钮
-            // 详见ElementUI分页组件
             layout: "total, sizes, prev, pager, next, jumper"
         },
     }

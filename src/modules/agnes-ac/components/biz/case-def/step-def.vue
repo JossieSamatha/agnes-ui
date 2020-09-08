@@ -3,6 +3,7 @@
         <i class="step-icon" :class="iconTypeObj" v-html="lcImg[iconTypeObj]"></i>
         <span class="name" :title="step.stepName">{{step.stepName}}</span>
         <span class="edit">
+            <i class="fa fa-copy" @click="copyTask"></i>
             <i class="fa fa-trash-o" @click="deleteTask"></i>
         </span>
     </div>
@@ -44,6 +45,14 @@
             // 修改task信息
             editTaskInfo() {
                 this.$app.runCmd('openStepDialog', 'edit', this.step, {stepIndex: this.stepIndex, stepList: this.stepList});
+            },
+
+            // 复制task信息
+            copyTask(){
+                let copyObj = this.$utils.deepClone(this.step);
+                copyObj.stepFormInfo.caseStepDef.stepCode = '';
+                copyObj.stepName += '（新）';
+                this.$app.runCmd('openStepDialog', 'copy', copyObj, {stepIndex: this.stepIndex, stepList: this.stepList});
             },
 
             // 删除task
