@@ -20,12 +20,16 @@
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
+                let title = this.$dialog.formatTitle('函数定义', mode);
+                if(mode == 'check'){
+                    title = '函数定义 - 审核';
+                }
                 this.$nav.showDialog(
                     FunTypeDlg,
                     {
                         args: {row, mode, actionOk},
                         width: '50%',
-                        title: this.$dialog.formatTitle('函数定义', mode),
+                        title: title,
                     }
                 );
             },
@@ -43,6 +47,19 @@
             },
             editModel(params) {
                 this.showDlg('edit', params.data, this.onEditModel.bind(this));
+            },
+            approveModelDef(params) {
+                this.showDlg('check', params.data, this.onEditModel.bind(this));
+            },
+            async publishModelDef(params){
+                try {
+                    const p = this.$api.funDefineApi.changeFunDefStatus({fnId:params.data.fnId,status:'03'});
+                    await this.$app.blockingApp(p);
+                    this.reloadData();
+                    this.$msg.success('发布成功');
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
             },
             async deleteModel(params) {
                 const row = params.data;

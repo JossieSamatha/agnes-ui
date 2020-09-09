@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form :model="form.reFunDef" :disabled="mode==='view'" ref="form" :rules="rules" label-width="85px"
+    <el-form :model="form.reFunDef" :disabled=this.isNoEdit ref="form" :rules="rules" label-width="85px"
              style="padding: 10px">
       <el-form-item label="函数名称" prop="fnName">
         <gf-input type="text" v-model="form.reFunDef.fnName" :max-byte-len="64"/>
@@ -71,7 +71,7 @@
                   :autosize="{minRows: 2, maxRows: 6}"/>
       </el-form-item>
     </el-form>
-    <dialog-footer :ok-button-visible="mode !== 'view'" :on-save="save" ok-button-title="保存"></dialog-footer>
+    <dialog-footer :on-save="save" :ok-button-title="okTitle" :ok-button-visible="mode != 'view'"></dialog-footer>
   </div>
 </template>
 
@@ -90,6 +90,7 @@ export default {
       form: {
         reFunDef: {
           fnName: '',
+          fnId:'',
           fnType: '',
           fnDesc: '',
           fnCode: '',
@@ -99,7 +100,10 @@ export default {
           bizParamDb: '',
           bizParamSql: ''
         },
+        isNeedCheck:false,
       },
+      isNoEdit:false,
+      okTitle:'保存',
       modelType: [],
       rules: {
         'fnName': [{required: true, message: "请输入函数名称", trigger: 'blur'}],
@@ -112,6 +116,10 @@ export default {
   beforeMount() {
     Object.assign(this.form.reFunDef, this.row);
     this.loadModelType();
+    if(this.mode=='view' || this.mode=='check'){
+      this.isNoEdit = true;
+      this.okTitle = '审核';
+    }
   },
   methods: {
     async loadModelType() {
@@ -126,31 +134,42 @@ export default {
       }
     },
     async save() {
-      const ok = await this.$refs['form'].validate();
-      if (!ok) {
-        return;
-      }
-      try {
-        if (this.form.reFunDef.fnName !== this.row.fnName ||
-            this.form.reFunDef.fnType !== this.row.fnType) {
-          const check = this.$api.funDefineApi.checkFun(this.form.reFunDef);
-          const resp = await this.$app.blockingApp(check);
-          if (resp && resp.data) {
-            const ok = await this.$msg.ask(`已存在同名函数, 是否继续?`);
-            if (!ok) {
-              return
-            }
+      if(this.mode == 'check'){
+        try {
+          const p = this.$api.funDefineApi.changeFunDefStatus({fnId:this.form.reFunDef.fnId,status:'02'});
+          await this.$app.blockingApp(p);
+          this.$msg.success('审核成功');
+          this.$dialog.close(this);
+          if (this.actionOk) {
+            await this.actionOk();
           }
+        }catch (reason) {
+          this.$msg.error(reason);
         }
-        const p = this.$api.funDefineApi.addFunDef(this.form.reFunDef);
-        await this.$app.blockingApp(p);
-        if (this.actionOk) {
-          await this.actionOk(this.form, this.row);
+      }else {
+        const ok = await this.$refs['form'].validate();
+        if (!ok) {
+          return;
         }
-        this.$msg.info('保存成功');
-        this.$dialog.close(this);
-      } catch (reason) {
-        this.$msg.error(reason);
+        try {
+          if(this.row.fnCode != this.form.reFunDef.fnCode){
+            this.form.isNeedCheck=true;
+          }
+          const p = this.$api.funDefineApi.addFunDef({reFunDef:this.form.reFunDef,isNeedCheck:this.form.isNeedCheck});
+          const resp = await this.$app.blockingApp(p);
+          if(resp.data == "0011"){
+            this.$msg.warning("该函数编号已存在!");
+            return;
+          }else {
+            if (this.actionOk) {
+              await this.actionOk();
+            }
+            this.$msg.success('保存成功');
+            this.$dialog.close(this);
+          }
+        } catch (reason) {
+          this.$msg.error(reason);
+        }
       }
     },
   },

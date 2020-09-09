@@ -3,8 +3,18 @@ import column from "../../../../../config/column"
 const colButtons = [
     {key: 'editModel', title: '编辑'},
     {key: 'deleteModel', title: '删除', cellClass: 'red-cell'},
-    {key: 'approveModelDef', title: '审核'},
-    {key: 'publishModelDef', title: '发布'}
+    {key: 'approveModelDef', title: '审核',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '02' || params.data.status === '03'){
+                result =true;
+            }
+            return result;}},
+    {key: 'publishModelDef', title: '发布',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '01' || params.data.status === '03'){
+                result =true;
+            }
+            return result;}}
 ];
 const fnName = {headerName: "函数名称", field: "fnName"};
 const fnCode = {headerName: "函数编号", field: "fnCode"};
@@ -16,7 +26,7 @@ export default {
         column.buildOpCol(160, colButtons),
         fnName,
         fnCode,
-        {headerName: "状态", field: "msgStatus" ,formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
+        {headerName: "状态", field: "status" ,formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
         fnType,
         fnDesc,
         column.colCrtUser,
