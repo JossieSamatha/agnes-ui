@@ -23,6 +23,7 @@
         <gf-grid grid-no="acnt-apply-field" :query-args="queryArgs" ref="grid">
             <template slot="left">
                 <gf-button  class="action-btn" @click="openApply">开户</gf-button>
+                <gf-button  class="action-btn" @click="submitOA">提交OA</gf-button>
             </template>
         </gf-grid>
     </div>
@@ -30,6 +31,7 @@
 
 <script>
     import AcntApplyOpen from "./acnt-apply-open";
+    import AcntApplyInsert from "./acnt-apply-insert";
     export default {
         data() {
             return {
@@ -64,10 +66,11 @@
                 }
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
-                    title: ['账户开户',mode],
+                    title: ['账户开户'],
                     component: AcntApplyOpen,
                     args: {row, mode, actionOk},
-                    okButtonVisible:mode!=='view'
+                    okButtonVisible:mode!=='view',
+                    okButtonTitle:mode==='submitOA'?'提交':'保存'
                 })
             },
             onOpenApply(){
@@ -76,45 +79,35 @@
             openApply() {
                 this.showOpenDlg('add', {}, this.onOpenApply.bind(this));
             },
-            async checkTask(params){
-                const rowData = params.data;
-                if(rowData.taskStatus !== '00'){
-                    this.$msg.warning("该状态无法复核!");
-                    return ;
-                }
-                const ok = await this.$msg.ask(`是否复核通过?`);
-                if (!ok) {
-                    return
-                }
-                try {
-                    const p = this.$api.taskManageApi.checkTask({pkId:rowData.pkId,taskId:rowData.taskId,taskStatus:'02'});
-                    await this.$app.blockingApp(p);
-                    this.$msg.success('复核成功');
-                    this.reloadData();
-                } catch (reason) {
-                    this.$msg.error(reason);
-                }
+            submitOA() {
+                //此处通过该方法获取选中的数据，调用接口批量操作
+                // let data  = this.$refs.grid.getSelectedRows();
+                
             },
-            async cancelTask(params){
-                const rowData = params.data;
-                if(rowData.taskStatus.match(/06|05/)){
-                    this.$msg.warning("该状态无法作废!");
-                    return ;
-                }
-                const ok = await this.$msg.ask(`是否作废该任务?`);
-                if (!ok) {
-                    return
-                }
-                try {
-                    const p = this.$api.taskManageApi.cancelTask(rowData);
-                    await this.$app.blockingApp(p);
-                    this.$msg.success('作废成功');
-                    this.reloadData();
-                } catch (reason) {
-                    this.$msg.error(reason);
-                }
-            }
 
+            showInsertDlg(mode, row, actionOk) {
+                if (mode !== 'add' && !row) {
+                    this.$msg.warning("请选中一条记录!");
+                    return;
+                }
+                this.$drawerPage.create({
+                    width: 'calc(97% - 215px)',
+                    title: ['添加资料'],
+                    component: AcntApplyInsert,
+                    args: {row, mode, actionOk},
+                    okButtonVisible:mode!=='view',
+                    okButtonTitle:mode==='check'?'审核':'保存'
+                })
+            },
+            onInsertApply(){
+                this.reloadData();
+            },
+            addData(params) {
+                this.showInsertDlg('add', params.data, this.onOpenApply.bind(this));
+            },
+            check(params) {
+                this.showInsertDlg('check', params.data, this.onOpenApply.bind(this));
+            },
         }
     }
 </script>

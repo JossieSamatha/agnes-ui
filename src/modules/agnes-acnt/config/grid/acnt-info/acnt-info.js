@@ -1,13 +1,17 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'queryRate', title: '查看利率'},
-    {key: 'queryLinkman', title: '查看联系人'}
+    // {key: 'queryRate', title: '查看利率'},
+    // {key: 'queryLinkman', title: '查看联系人'},
+    {key: 'changeData', title: '变更资料'},
+    {key: 'delete', title: '销户'},
+    {key: 'registration', title: '账户登记'},
+    {key: 'check', title: '复核'},
 ];
 
 export default {
     columnDefs: [
-        column.buildOpCol(150, colButtons),
+        column.buildOpCol(180, colButtons),
         {headerName: "账户名称", field: "acntName"},
         {headerName: "账号", field: "accNo"},
         {headerName: "账户类型", field: "typeName"},

@@ -1,9 +1,9 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'editType', title: '添加资料'},
-    {key: 'deleteType', title: '提交OA'},
-    {key: 'checkType', title: '复核'},
+    {key: 'addData', title: '添加资料'},
+    // {key: 'submitOA', title: '提交OA'},
+    {key: 'check', title: '复核'},
 ];
 export default {
     columnDefs: [
@@ -16,6 +16,7 @@ export default {
         column.colUpdUser,
         column.colUpdTm
     ],
+    rowSelection:'multiple',
     ext: {
         fetchUrl: "/agnes-app/v1/dc/file/scan/list-page",
         fetchMethod: 'get',

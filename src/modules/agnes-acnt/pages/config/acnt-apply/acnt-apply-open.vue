@@ -1,5 +1,5 @@
 <template>
-    <el-form ref="taskDefForm" class="task-def-form" :model="detailForm" :disabled="mode==='view'"
+    <el-form ref="taskDefForm" class="task-def-form" :model="detailForm" :disabled="mode==='view'||mode==='detele'"
              :rules="detailFormRules" label-width="160px">
         <div class="line">
             <el-form-item label="账户类型" prop="typeCode">
@@ -217,7 +217,7 @@
 </template>
 
 <script>
-    // import loadsh from 'lodash';
+    import loadsh from 'lodash';
     import AcntApplyInsert from "./acnt-apply-insert";
     export default {
         name: "apply-define",
@@ -258,24 +258,7 @@
                 },
                 fields:[],
                 mustFillField: ['OAurl','OAnumber'],
-                dayChecked: '0',  // 跨日
-                endTimeForDay:null,
-                startTimeForDay:null,
-                succeedRule: '0',
-                abnormalRule: '0',
-                repeatMinutes: '',
-                maxRepeatCount: '',
-                curExecScheduler: '',    // 当前频率对象字段
-                msgInformParam: [],      // 消息通知参数类型数组
-                startAllTime: '0',       // 是否永久有效
                 bizTagOption: [],        // 业务类型下拉
-                // 消息配置类型类型选项
-                msgInformOp: [{label: '提前通知', value: '0'}, {label: '完成通知', value: '1'}, {label: '超时通知', value: '2'},
-                    {label: '异常通知', value: '3'}],
-                msgInfoStr: ['warningRemind', 'finishRemind', 'timeoutRemind', 'exceptionRemind'],
-                // 规则选择类型选项
-                ruleTypeOp: [{label: '默认完成规则', value: '0'}, {label: '自定义完成规则', value: '1'}],
-                ruleErrorTypeOp: [{label: '默认异常规则', value: '0'}, {label: '自定义异常规则', value: '1'}],
                 detailFormRules: {
                     typeCode: [
                         {required: true, message: '账户类型必填', trigger: 'blur'},
@@ -284,7 +267,7 @@
             }
         },
         beforeMount() {
-   
+            Object.assign(this.detailForm, this.row);
         },
         methods: {
  
@@ -344,7 +327,7 @@
                 }
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
-                    title: ['账户录入',mode],
+                    title: ['账户录入'],
                     component: AcntApplyInsert,
                     args: {row, mode, actionOk},
                     okButtonVisible:mode!=='view'
