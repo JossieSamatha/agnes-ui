@@ -7,6 +7,9 @@
         <el-form-item label="任务编号" prop="caseKey">
             <gf-input v-model.trim="detailForm.caseKey" placeholder="任务编号" clear-regex="[^0-9]" :max-byte-len="8"/>
         </el-form-item>
+        <el-form-item label="任务图标" prop="taskIcon">
+            <gf-input v-model.trim="detailForm.taskIcon" placeholder="任务图标"/>
+        </el-form-item>
         <el-form-item label="流程类型" prop="flowType">
             <gf-dict filterable clearable v-model="detailForm.flowType" dict-type="AGNES_CASE_FLOWTYPE"/>
         </el-form-item>
@@ -98,7 +101,8 @@
                     execMode:'0',
                     eventId:'',
                     flowType:'',
-                    needApprove:'0'},
+                    needApprove:'0',
+                    taskIcon:''},
                 dayChecked: false,  // 跨日
                 startAllTime: false,       // 是否永久有效
                 // 规则选择类型选项

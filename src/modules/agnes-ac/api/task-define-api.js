@@ -9,5 +9,8 @@ export default {
     },
     deleteTask(taskId) {
         return request.post("/agnes-ac/v1/config/task/delete", null, {params: {taskId}});
+    },
+    queryTaskByCaseId(caseKey) {
+        return request.get("/agnes-ac/v1/config/task/field/list",{params: {caseKey}});
     }
 };

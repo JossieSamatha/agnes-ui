@@ -7,7 +7,7 @@
                 <span>{{form.taskName}}</span>
             </el-form-item>
             <el-form-item label="异常类型" prop="errType">
-                <gf-dict-select disabled="true" dict-type="AGNES_DOP_ERR_TYPE" v-model="form.errType"/>
+                <gf-dict-select :disabled="true" dict-type="AGNES_DOP_ERR_TYPE" v-model="form.errType"/>
             </el-form-item>
             <el-form-item label="异常原因" prop="errReason">
                 <span>{{form.errReason}}</span>
@@ -67,7 +67,7 @@
                     return;
                 }
                 try {
-                    var risk = this.$api.monitorErrApi.transferRisk(this.form);
+                    let risk = this.$api.monitorErrApi.transferRisk(this.form);
                     await this.$app.blockingApp(risk);
                     this.$msg.success('提交成功');
                     if (this.actionOk){
