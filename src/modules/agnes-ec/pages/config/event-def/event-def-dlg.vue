@@ -8,11 +8,12 @@
         </el-form-item>
 
         <el-form-item label="事件编号" prop="eventDef.eventCode">
-          <gf-input v-model.trim="form.eventDef.eventCode" placeholder="事件编号" :max-byte-len="8"/>
+          <gf-input v-model.trim="form.eventDef.eventCode" placeholder="事件编号" :max-byte-len="8"
+                    clear-regex="[^a-zA-Z\d\x00-\xff]"/>
         </el-form-item>
         <el-form-item label="运行周期配置" prop="eventDef.dateRange">
           <div class="line none-shrink">
-            <el-form-item prop="startTime">
+            <el-form-item prop="eventDef.startTime">
               <el-date-picker
                   v-model="form.eventDef.startTime"
                   type="date"
@@ -22,16 +23,18 @@
               </el-date-picker>
             </el-form-item>
             <span style="margin: 0 10px">~</span>
-            <el-form-item prop="endTime">
+            <el-form-item prop="eventDef.endTime">
               <el-date-picker
                   v-model="form.eventDef.endTime"
                   type="date"
                   value-format="yyyy-MM-dd"
                   :picker-options="pickerOptionsEnd"
-                  placeholder="结束日期" :disabled="form.startAllTime === '1'">
+                  placeholder="结束日期" :disabled="form.startAllTime">
               </el-date-picker>
             </el-form-item>
-            <gf-strbool-checkbox v-model="form.startAllTime" style="margin-left: 10px">永久有效</gf-strbool-checkbox>
+<!--            <gf-strbool-checkbox v-model="form.startAllTime" style="margin-left: 10px">永久有效</gf-strbool-checkbox>-->
+            <el-checkbox v-model="form.startAllTime" style="margin-left: 10px">永久有效</el-checkbox>
+
           </div>
         </el-form-item>
 
@@ -74,7 +77,7 @@
         </el-form-item>
 
         <el-form-item label="匹配规则" prop="ruleTableData">
-          <rule-table ref="ruleTable" :ruleTableData="form.ruleTableData" :ruleTargetOp="ruleTargetOp"
+          <rule-table ref="ruleTable"  confType="fn, object" :ruleTableData="form.ruleTableData" :ruleTargetOp="ruleTargetOp"
                       tableHeight="200" tableMaxHeight="300" ></rule-table>
         </el-form-item>
 
@@ -98,11 +101,6 @@ export default {
     actionOk: Function
   },
   data() {
-    var checkDateRange = async (rule, value, callback) => {
-      if (!this.form.eventDef.startTime || !this.form.eventDef.endTime) {
-        callback(new Error('请填写执行区间！'));
-      }
-    };
     var checkExecScheduler = async (rule, value, callback) => {
       if (this.form.eventDef.execMode === "1" && !this.form.eventDef.execScheduler) {
         callback(new Error('请配置执行频率！'));
@@ -111,6 +109,14 @@ export default {
     var checkMsgId = async (rule, value, callback) => {
       if (this.form.eventDef.execMode === "2" && !this.form.eventDef.msgId) {
         callback(new Error('请配置消息类型！'));
+      }
+    };
+    var checkExistsEventCode = async (rule, value, callback) => {
+      const resp = await this.$api.eventlDefConfigApi.existsEventCode(this.form.eventDef.eventCode,this.form.eventDef.eventId);
+      if(!this.form.eventDef.eventCode){
+        callback(new Error('请填写事件编号！'));
+      }else if (resp.data === true) {
+        callback(new Error('事件编号已存在！'));
       }
     };
     // var checkRuleTableData = async (rule, value, callback) => {
@@ -126,9 +132,10 @@ export default {
 
     return {
       form: {
-        startAllTime: '0',       // 是否永久有效
+        startAllTime: false,       // 是否永久有效
         eventDef: {
           eventId: '',
+          eventCode: '',
           eventName: '',
           startTime: '',
           endTime: '',
@@ -158,14 +165,23 @@ export default {
       },
       rules: {
         'eventDef.eventName': [{required: true, message: "事件名称必填"}],
-        'eventDef.execMode': [{required: true, message: "请选择执行方式"}],
-        'eventDef.eventCode':[{required: true, message: "事件编码必填"}],
-        'eventDef.dateRange': [
-          { required: true, message: '请填写执行区间', trigger: 'change' },
-          { validator: checkDateRange, trigger: 'blur' }
+        'eventDef.execMode': [{required: true, message: "执行方式必选"}],
+        // 'eventDef.dateRange': [
+        //   { required: true, message: '请填写执行区间', trigger: 'change' },
+        //   { validator: checkDateRange, trigger: 'blur' }
+        // ],
+        'eventDef.startTime': [
+          {required: true, message: '运行周期开始时间必填', trigger: 'blur'},
+        ],
+        'eventDef.endTime': [
+          {required: true, message: '运行周期结束时间必填', trigger: 'blur'},
         ],
         'eventDef.execScheduler': [{ validator: checkExecScheduler, trigger: 'blur' }],
-        'eventDef.msgId': [{ validator: checkMsgId, trigger: 'blur' }]
+        'eventDef.msgId': [{ validator: checkMsgId, trigger: 'blur' }],
+        'eventDef.eventCode': [
+          { required: true, message: '事件编号必填', trigger: 'change' },
+          { validator: checkExistsEventCode, trigger: 'blur' }
+        ]
         // 'ruleTableData': [{ validator: checkRuleTableData, trigger: 'blur' }]
       },
       pickerOptionsEnd: {
@@ -201,9 +217,19 @@ export default {
   beforeMount() {
     Object.assign(this.form.eventDef, this.row);
     Object.assign(this.form.eventMsg, this.row);
-
     this.initEventDlg();
+    // this.onLoadForm();
   },
+  watch: {
+    'form.startAllTime' (val) {
+      if (val) {
+        this.form.eventDef.endTime = '9999-12-31'
+      } else {
+        this.form.eventDef.endTime = ''
+      }
+    },
+  },
+
 
   // beforeUpdate() {
   //     //消息对象JSON转换
@@ -218,9 +244,15 @@ export default {
   // },
   methods: {
     async initEventDlg(){
-      this.$set( this.form.eventDef, 'dateRange', [this.form.eventDef.startTime,this.form.eventDef.endTime] );
-      if(this.form.eventDef.endTime && this.form.eventDef.endTime === "9999-12-31"){
-        this.form.eventDef.noEnd = true;
+      // this.$set( this.form.eventDef, 'dateRange', [this.form.eventDef.startTime,this.form.eventDef.endTime] );
+      // if(this.form.eventDef.endTime && this.form.eventDef.endTime === "9999-12-31"){
+      //   this.form.eventDef.noEnd = true;
+      // }
+
+      if (this.mode && this.mode !== 'add') {
+        if (this.form.eventDef.endTime && this.form.eventDef.endTime.toString().startsWith('9999-12-31')) {
+          this.form.startAllTime = true;
+        }
       }
 
       if (this.form.eventDef.eventId) {
@@ -238,7 +270,6 @@ export default {
       // this.fetchModelType();
       // this.fetchFunc();
     },
-
 
     async fetchMsgDefList() {
       try {
@@ -311,7 +342,7 @@ export default {
       try {
         let msg = '';
         if(this.row.isCheck){
-          const p = this.$api.eventlDefConfigApi.approveEventDef(this.form.eventDef.eventId,"1");
+          const p = this.$api.eventlDefConfigApi.approveEventDef(this.form.eventDef.eventId,"02");
           await this.$app.blockingApp(p);
           msg = '审核成功';
         }else{
@@ -362,7 +393,7 @@ export default {
 
     async onCancel() {
       if(this.row.isCheck){
-        const p = this.$api.eventlDefConfigApi.approveEventDef(this.form.eventDef.eventId,"0");
+        const p = this.$api.eventlDefConfigApi.approveEventDef(this.form.eventDef.eventId,"01");
         await this.$app.blockingApp(p);
         if (this.actionOk) {
           await this.actionOk();

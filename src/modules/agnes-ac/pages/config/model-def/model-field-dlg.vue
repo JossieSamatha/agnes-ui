@@ -8,7 +8,7 @@
       <el-form-item label="属性名称" prop="fieldName">
         <gf-input type="text" v-model="form.fieldName"/>
       </el-form-item>
-      <el-form-item label="属性类型" prop="inputType">
+      <el-form-item label="属性类型" prop="fieldType">
         <gf-dict-select dict-type="AGNES_FIELD_TYPE" v-model="form.fieldType"/>
       </el-form-item>
       <el-form-item label="是否必填" prop="mustFill">
