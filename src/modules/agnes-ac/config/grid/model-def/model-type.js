@@ -2,9 +2,19 @@ import column from "../../../../../config/column"
 
 const colButtons = [
     {key: 'editModel', title: '编辑'},
-    {key: 'deleteModel', title: '删除'},
-    {key: 'approveModelDef', title: '审核'},
-    {key: 'publishModelDef', title: '发布'}
+    {key: 'deleteModel', title: '删除', cellClass: 'red-cell'},
+    {key: 'approveModelDef', title: '审核',disabled: (params)=>{
+        let result = false;
+        if(params.data.status === '02' || params.data.status === '03'){
+            result =true;
+        }
+        return result;}},
+    {key: 'publishModelDef', title: '发布',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '01' || params.data.status === '03'){
+                result =true;
+            }
+            return result;}}
 ];
 
 export default {
@@ -19,8 +29,7 @@ export default {
     headerHeight: 40,
     rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-ac/v1/config/model/type/list",    //后台查询数据的URL地址
-        fetchMethod: 'get',
+        fetchUrl: "/agnes-ac/v1/config/model/type/page-list",    //后台查询数据的URL地址
         pagingMode: true, //是否分页
         checkboxColumn: 1, //是否显示checkbox列,
         autoFitColumnMode: 1,

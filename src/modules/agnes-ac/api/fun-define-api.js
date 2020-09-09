@@ -11,6 +11,9 @@ export default {
     deleteFunDef(fnId) {
         return request.get("/agnes-ac/v1/config/fun/delete", {params: {fnId}});
     },
+    changeFunDefStatus(form) {
+        return request.post("/agnes-ac/v1/config/fun/change-status", form);
+    },
     getByFnId(fnId) {
         return request.get("/agnes-ac/v1/config/fun/query/id", {params: {fnId}});
     },

@@ -11,6 +11,9 @@ export default {
     saveModel(form) {
         return request.post("/agnes-ac/v1/config/model/save", form);
     },
+    changeStatus(form) {
+        return request.post("/agnes-ac/v1/config/model/change-status", form);
+    },
     deleteModel(modelTypeId) {
         return request.post("/agnes-ac/v1/config/model/delete", null, {params: {modelTypeId}});
     },
