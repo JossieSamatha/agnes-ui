@@ -326,29 +326,106 @@ export default function () {
                                 "compName": "ct-line",
                                 "label": "折线（面积）图",
                                 "componentMeta": {
-                                    "xAxis": {
-                                        "name": "月份",
-                                        "data": ["2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
-                                        "boundaryGap": false
+                                    xAxis: {
+                                        name: '年份',
+                                        nameTextStyle: {
+                                            fill: '#fff',
+                                            fontSize: 12
+                                        },
+                                        data: ['2014', '2015', '2016', '2017', '2018', '2019'],
+                                        boundaryGap: false,
+                                        axisLine: {
+                                            style: {
+                                                stroke: '#fff'
+                                            }
+                                        },
+                                        axisLabel: {
+                                            style: {
+                                                fill: '#fff'
+                                            }
+                                        },
+                                        axisTick: {
+                                            show: false
+                                        }
                                     },
-                                    "yAxis": {
-                                        "data": "value",
-                                        "splitLine": {"show": false},
-                                        "axisTick": {"show": false}
+                                    yAxis: {
+                                        name: '规模',
+                                        nameTextStyle: {
+                                            fill: '#fff',
+                                            fontSize: 12
+                                        },
+                                        data: 'value',
+                                        splitLine: {
+                                            show: false
+                                        },
+                                        axisLine: {
+                                            style: {
+                                                stroke: '#fff'
+                                            }
+                                        },
+                                        axisLabel: {
+                                            style: {
+                                                fill: '#fff'
+                                            },
+                                            formatter ({ value }) {
+                                                return value.toFixed(2)
+                                            }
+                                        },
+                                        axisTick: {
+                                            show: false
+                                        },
+                                        // interval: 0.5
                                     },
-                                    "series": [{
-                                        "name": "研发加班时长",
-                                        "data": [20, 15, 10, 25, 25, 30, 20, 10, 8, 35, 30],
-                                        "type": "line"
-                                    }, {
-                                        "name": "人均加班时长",
-                                        "data": [8, 10, 12, 10, 10, 10, 8, 8, 12, 14, 12],
-                                        "type": "line"
-                                    }, {
-                                        "name": "总计加班时长",
-                                        "data": [28, 25, 22, 35, 35, 40, 28, 18, 20, 49, 42],
-                                        "type": "line"
-                                    }]
+                                    series: [
+                                        {
+                                            data: [100, 230, 100, 200, 300, 400],
+                                            type: 'line',
+                                            name: '规模',
+                                            smooth: true,
+                                            lineArea: {
+                                                show: true,
+                                                gradient: ['rgba(55, 162, 218, 0.6)', 'rgba(55, 162, 218, 0)']
+                                            },
+                                            linePoint: {
+                                                radius: 4,
+                                                style: {
+                                                    fill: '#00db95'
+                                                }
+                                            }
+                                        },
+                                        {
+                                            data: [200, 230, 900, 100, 500, 200],
+                                            type: 'line',
+                                            name: '产品',
+                                            smooth: true,
+                                            lineArea: {
+                                                show: true,
+                                                gradient: ['rgba(55, 162, 218, 0.6)', 'rgba(55, 162, 218, 0)']
+                                            },
+                                            linePoint: {
+                                                radius: 4,
+                                                style: {
+                                                    fill: '#00db95'
+                                                }
+                                            }
+                                        },
+                                        {
+                                            data: [120, 223, 190, 210, 350, 420],
+                                            type: 'line',
+                                            name: '客户数',
+                                            smooth: true,
+                                            lineArea: {
+                                                show: true,
+                                                gradient: ['rgba(55, 162, 218, 0.6)', 'rgba(55, 162, 218, 0)']
+                                            },
+                                            linePoint: {
+                                                radius: 4,
+                                                style: {
+                                                    fill: '#00db95'
+                                                }
+                                            }
+                                        }
+                                    ]
                                 }
                             },
                         }

@@ -1,12 +1,12 @@
 <template>
-    <dv-charts :option="chartOptions" width="100%" height="100%"/>
+    <dv-charts ref="lineChart" :option="chartOption" width="100%" height="100%"/>
 </template>
 
 <script>
     export default {
         name: 'ct-line',
         props: {
-            chartOptions: {
+            compOption: {
                 type: Object,
                 default: function () {
                     return {
@@ -114,6 +114,18 @@
                 }
             },
         },
-        methods: {},
+        mounted(){
+            console.log("this.compOption",this.compOption);
+        },
+        computed: {
+            chartOption(){
+                return this.compOption.optional.componentMeta;
+            }
+        },
+        methods: {
+            resizeCharts(){
+                this.$refs.lineChart.resize();
+            }
+        }
     }
 </script>
