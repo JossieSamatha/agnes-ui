@@ -7,7 +7,7 @@
                 <span>{{form.taskName}}</span>
             </el-form-item>
             <el-form-item label="异常类型" prop="errType">
-                <gf-dict-select disabled="true" dict-type="AGNES_DOP_ERR_TYPE" v-model="form.errType"/>
+                <gf-dict-select :disabled="true" dict-type="AGNES_DOP_ERR_TYPE" v-model="form.errType"/>
             </el-form-item>
             <el-form-item label="异常原因" prop="errReason">
                 <span>{{form.errReason}}</span>
@@ -27,7 +27,7 @@
                 <gf-input type="textarea" v-model="form.riskDesc"/>
             </el-form-item>
         </el-form>
-        <dialog-footer :ok-button="mode !== 'view'" :on-cancel="onBack" :on-save="onSave" :cancel-button-title="ui==1?'取消':'驳回'" :ok-button-title="ui==1?'提交':'通过'"></dialog-footer>
+        <dialog-footer :ok-button="mode !== 'view'" :on-save="onSave" cancel-button-title="取消" ok-button-title="确定"></dialog-footer>
     </div>
 </template>
 
@@ -61,39 +61,24 @@
             Object.assign(this.form, this.row);
         },
         methods: {
-            async onBack()  {
-                const ok = await this.$refs['form'].validate();
-                if (!ok) {
-                    return;
-                }
-                try {
-                    if (this.ui===2){
-                       var risk = this.$api.monitorRiskApi.checkRisk("02",this.form);
-                        await this.$app.blockingApp(risk);
-                        this.$msg.success('驳回成功');
-                    }
-                    if (this.actionOk){
-                        await this.actionOk(this.form, this.row);
-                    }
-                    this.$dialog.close(this);
-                } catch (e) {
-                    this.$msg.error(e);
-                }
-            },
             async onSave() {
                 const ok = await this.$refs['form'].validate();
                 if (!ok) {
                     return;
                 }
                 try {
-                    if (this.ui===1){
-                        var dealRisk = this.$api.monitorRiskApi.dealRisk(this.form);
+                    if (this.ui==="1"){
+                        let dealRisk = this.$api.monitorRiskApi.dealRisk(this.form);
                         await this.$app.blockingApp(dealRisk);
-                        this.$msg.success('提交成功');
-                    }else{
-                        var checkRisk = this.$api.monitorRiskApi.checkRisk("03",this.form);
+                        this.$msg.success('保存成功');
+                    }else if(this.ui==="2"){
+                        let checkRisk = this.$api.monitorRiskApi.checkRisk("02",this.form);
                         await this.$app.blockingApp(checkRisk);
-                        this.$msg.success('通过成功');
+                        this.$msg.success('审核通过');
+                    }else {
+                        let checkRisk = this.$api.monitorRiskApi.checkRisk("03",this.form);
+                        await this.$app.blockingApp(checkRisk);
+                        this.$msg.success('发布成功');
                     }
                     if (this.actionOk){
                         await this.actionOk(this.form, this.row);
