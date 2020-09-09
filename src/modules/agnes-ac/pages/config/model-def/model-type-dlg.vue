@@ -29,10 +29,10 @@
                 <el-input :style="!scope.row.fieldName ? 'border:1px solid #f00':''" v-model="scope.row.fieldName"></el-input>
               </template>
             </el-table-column>
-            <el-table-column prop="inputType" label="属性类型">
+            <el-table-column prop="fieldType" label="属性类型">
               <template slot-scope="scope">
                 <!-- <span v-if="this.mode === 'view'">{{scope.row.inputType}}</span> -->
-                <gf-dict-select :style="!scope.row.inputType ? 'border:1px solid #f00':''" dict-type="AGNES_FIELD_TYPE" v-model="scope.row.inputType"/>
+                <gf-dict-select :style="!scope.row.fieldType ? 'border:1px solid #f00':''" dict-type="AGNES_FIELD_TYPE" v-model="scope.row.fieldType"/>
               </template>
             </el-table-column>
             <el-table-column prop="mustFill" label="是否必填">
@@ -94,7 +94,7 @@ export default {
         {name:'是',id:'1'},
         {name:'否',id:'0'}
       ],
-      mustFillField: ['fieldKey','fieldName','inputType','mustFill'],
+      mustFillField: ['fieldKey','fieldName','fieldType','mustFill'],
       rules: {
         'modelType.typeName': [{required: true, message: "对象名称必填"}],
         'modelType.typeCode': [{required: true, message: "对象编码必填"}],
@@ -127,7 +127,7 @@ export default {
       const newFileTableObj = {
         fieldKey: '',
         fieldName: '',
-        inputType: '',
+        fieldType: '',
         mustFill: '',
       };
       this.form.fields.push(newFileTableObj);

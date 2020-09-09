@@ -109,7 +109,7 @@
             },
             async approveEventDef(params) {
 
-                if(params.data.eventStatus.match(/0|1/)){
+                if(params.data.eventStatus === '01' || params.data.eventStatus === '02'){
                     this.showDrawer(params.data,'check', this.onAddEventDef.bind(this));
                 }else {
                     this.$msg.warning("该状态无法审核!");
@@ -118,11 +118,7 @@
             },
             async publishEventDef(params) {
                 const row = params.data;
-                if(params.data.execMode !== "1"){
-                    this.$msg.warning("执行方式为消息监听，无需发布!");
-                    return;
-                }
-                if(params.data.eventStatus.match(/0|2/)){
+                if(params.data.eventStatus !== '02'){
                     this.$msg.warning("该状态无法发布!");
                     return;
                 }
