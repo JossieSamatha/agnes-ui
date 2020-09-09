@@ -2,8 +2,18 @@ import column from "../../../../../config/column"
 const colButtons = [
     {key: 'updateFlowTask', title: '编辑', resId: 'dddd'},
     {key: 'deleteFlowTask', title: '删除', cellClass: 'red-cell'},
-    {key: 'checkFlowTask', title: '审核'},
-    {key: 'publishFlowTask', title: '发布'},
+    {key: 'checkFlowTask', title: '审核',disabled: (params)=>{
+            let result = false;
+            if(params.data.reTaskDef.taskStatus === '00' ||params.data.reTaskDef.taskStatus === '02' || params.data.reTaskDef.taskStatus === '03'){
+                result =true;
+            }
+            return result;}},
+    {key: 'publishFlowTask', title: '发布',disabled: (params)=>{
+            let result = false;
+            if(params.data.reTaskDef.taskStatus === '00' ||params.data.reTaskDef.taskStatus === '01' || params.data.reTaskDef.taskStatus === '03'){
+                result =true;
+            }
+            return result;}},
 ];
 export default {
     columnDefs: [

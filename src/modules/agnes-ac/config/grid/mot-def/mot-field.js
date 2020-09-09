@@ -3,8 +3,18 @@ import column from "../../../../../config/column"
 const colButtons = [
     {key: 'editKpiTask', title: '编辑'},
     {key: 'deleteKpiTask', title: '删除', cellClass: 'red-cell'},
-    {key: 'checkTask', title: '审核'},
-    {key: 'checkMotBeforePulish', title: '发布'},
+    {key: 'checkTask', title: '审核',disabled: (params)=>{
+            let result = false;
+            if(params.data.reTaskDef.taskStatus === '00' ||params.data.reTaskDef.taskStatus === '02' || params.data.reTaskDef.taskStatus === '03'){
+                result =true;
+            }
+            return result;}},
+    {key: 'checkMotBeforePulish', title: '发布',disabled: (params)=>{
+            let result = false;
+            if(params.data.reTaskDef.taskStatus === '00' ||params.data.reTaskDef.taskStatus === '01' || params.data.reTaskDef.taskStatus === '03'){
+                result =true;
+            }
+            return result;}},
 ];
 
 export default {
