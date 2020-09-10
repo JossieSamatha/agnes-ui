@@ -324,7 +324,7 @@ export default {
     },
     async fetchModelAndFieldById(modelTypeId) {
       try {
-        const resp = await this.$api.modelConfigApi.getModelAndFieldById(modelTypeId);
+        const resp = await this.$api.modelConfigApi.getModelAndFieldById(modelTypeId,"02");
         this.ruleTargetOp.object = [];
         resp.data.fnType ="mail";
         this.ruleTargetOp.object.push(resp.data);
@@ -461,7 +461,7 @@ export default {
         if (msgObjId) {
           // const p = this.fetchModelAndFieldById(msgObjId);
           // this.$app.blockingApp(p);
-          const resp = await this.$api.modelConfigApi.getModelAndFieldById(msgObjId);
+          const resp = await this.$api.modelConfigApi.getModelAndFieldById(msgObjId,"02");
           this.ruleTargetOp.object = [];
           resp.data.fnType ="mail";
           this.ruleTargetOp.object.push(resp.data);
