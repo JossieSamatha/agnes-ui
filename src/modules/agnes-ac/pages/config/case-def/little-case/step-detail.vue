@@ -67,6 +67,9 @@
                                   @getMemberList="getMemberList">
                 </gf-person-chosen>
             </el-form-item>
+            <el-form-item label="任务类型" prop="stepActType">
+                <gf-dict v-model="stepInfo.stepActType" dictType="AGNES_CASE_STEPTYPE"></gf-dict>
+            </el-form-item>
             <el-form-item v-if="stepInfo.stepActType === '1'" label="执行逻辑选择" prop="stepActKey">
                 <el-select style="width: 100%" v-model="caseStepDef.stepActKey" placeholder="请选择" filterable clearable>
                     <gf-filter-option
@@ -456,7 +459,8 @@
                 const kpiData = await this.$app.blockingApp(kpi);
                 const kpiList = kpiData.data
                 kpiList.forEach((item)=>{
-                    this.kpiOptions.push({label:item.kpiName,value:item.kpiCode});
+                    let kpiName = '('+item.kpiCode+')'+ item.kpiName
+                    this.kpiOptions.push({label:kpiName,value:item.kpiCode});
                 });
             },
             editExecTime( execScheduler,title) {
@@ -605,6 +609,10 @@
                     this.caseStepDef.startDay = '';
                     this.caseStepDef.endTime = '';
                 }
+            },
+            'stepInfo.stepActType'(){
+                this.caseStepDef.stepActKey = "";
+                this.caseStepDef.execScheduler = "";
             }
         }
     }
