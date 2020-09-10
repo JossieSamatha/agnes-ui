@@ -8,6 +8,7 @@ const colButtons = [
 export default {
     columnDefs: [
         column.buildOpCol(150, colButtons),
+        { field: 'varId', cellRenderer: 'agGroupCellRenderer' },
         {headerName: "账户类型", field: "typeCode"},
         {headerName: "归属机构", field: "baseOrgId"},
         {headerName: "业务类型", field: "bizType"},
@@ -16,6 +17,28 @@ export default {
         column.colUpdUser,
         column.colUpdTm
     ],
+    masterDetail: true,
+    isRowMaster: function () {
+        return true
+        // return dataItem ? dataItem.callRecords.length > 0 : false;
+    },
+    detailCellRendererParams: {
+        detailGridOptions: {
+          columnDefs: [
+            { field: 'callId' },
+            { field: 'direction' },
+            { field: 'number', minWidth: 150 },
+            { field: 'duration', valueFormatter: "x.toLocaleString() + 's'" },
+            { field: 'switchCode', minWidth: 150 },
+          ],
+          defaultColDef: {
+            flex: 1,
+          },
+        },
+        getDetailRowData: function (params) {
+          params.successCallback(params.data.callRecords);
+        },
+    },
     rowSelection:'multiple',
     ext: {
         fetchUrl: "/agnes-app/v1/dc/file/scan/list-page",

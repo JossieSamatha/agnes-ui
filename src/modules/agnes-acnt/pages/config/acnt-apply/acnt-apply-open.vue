@@ -15,42 +15,15 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="业务类型" prop="bizType">
-                <el-select class="multiple-select" v-model="detailForm.bizType"
-                        filterable clearable
-                        placeholder="请选择">
-                    <gf-filter-option
-                            v-for="item in bizTagOption"
-                            :key="item.dictId"
-                            :label="item.dictName"
-                            :value="item.dictId">
-                    </gf-filter-option>
-                </el-select>
+                <gf-dict filterable clearable v-model="detailForm.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
             </el-form-item>
         </div>
         <div class="line">
             <el-form-item label="业务发起部门" prop="baseStartDept">
-                <el-select class="multiple-select" v-model="detailForm.baseStartDept"
-                        filterable clearable
-                        placeholder="请选择">
-                    <gf-filter-option
-                            v-for="item in bizTagOption"
-                            :key="item.dictId"
-                            :label="item.dictName"
-                            :value="item.dictId">
-                    </gf-filter-option>
-                </el-select>
+                <gf-dict filterable clearable v-model="detailForm.baseStartDept" dict-type="AGNES_ROSTER_DEPT" />
             </el-form-item>
             <el-form-item label="业务发起部门联系人" prop="baseStartDeptLinkman">
-                <el-select class="multiple-select" v-model="detailForm.baseStartDeptLinkman"
-                        filterable clearable
-                        placeholder="请选择">
-                    <gf-filter-option
-                            v-for="item in bizTagOption"
-                            :key="item.dictId"
-                            :label="item.dictName"
-                            :value="item.dictId">
-                    </gf-filter-option>
-                </el-select>
+                <gf-input v-model.trim="detailForm.baseStartDeptLinkman" placeholder="业务发起部门联系人"/>
             </el-form-item>
         </div>
         <div class="line">
@@ -58,16 +31,7 @@
                 <gf-input v-model.trim="detailForm.baseDesc" type='textarea' placeholder="业务描述" :max-len="200"/>
             </el-form-item>
             <el-form-item label="业务受理部门" prop="baseAcceptDept">
-                <el-select class="multiple-select" v-model="detailForm.baseAcceptDept"
-                        filterable clearable
-                        placeholder="请选择">
-                    <gf-filter-option
-                            v-for="item in bizTagOption"
-                            :key="item.dictId"
-                            :label="item.dictName"
-                            :value="item.dictId">
-                    </gf-filter-option>
-                </el-select>
+                <gf-dict filterable clearable v-model="detailForm.baseAcceptDept" dict-type="AGNES_ROSTER_DEPT" />
             </el-form-item>
         </div>
         <div class="line">
@@ -76,10 +40,10 @@
                         filterable clearable
                         placeholder="请选择">
                     <gf-filter-option
-                            v-for="item in bizTagOption"
-                            :key="item.dictId"
-                            :label="item.dictName"
-                            :value="item.dictId">
+                            v-for="item in groupOption"
+                            :key="item.userGroupId"
+                            :label="item.userGroupName"
+                            :value="item.userGroupId">
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
@@ -105,10 +69,10 @@
                         filterable clearable
                         placeholder="请选择">
                     <gf-filter-option
-                            v-for="item in bizTagOption"
-                            :key="item.dictId"
-                            :label="item.dictName"
-                            :value="item.dictId">
+                            v-for="item in productList"
+                            :key="item.productCode"
+                            :label="item.productCode"
+                            :value="item.productCode">
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
@@ -259,6 +223,8 @@
                 fields:[],
                 mustFillField: ['OAurl','OAnumber'],
                 bizTagOption: [],        // 业务类型下拉
+                groupOption: [],        // 群组下拉
+                productList:[],     //产品代码群组
                 detailFormRules: {
                     typeCode: [
                         {required: true, message: '账户类型必填', trigger: 'blur'},
@@ -268,8 +234,20 @@
         },
         beforeMount() {
             Object.assign(this.detailForm, this.row);
+            this.getOptionData()
         },
         methods: {
+            async getOptionData(){
+                try {
+                    let groupOption = await this.$api.userGroupApi.getAllUserGroup();
+                    this.groupOption = groupOption.data
+                    let productList = await this.$api.acntApplyApi.getProductCodeList();
+                    this.productList = productList.data
+             
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
  
             // 取消onCancel事件，触发抽屉关闭事件this.$emit("onClose");
             async onCancel() {
