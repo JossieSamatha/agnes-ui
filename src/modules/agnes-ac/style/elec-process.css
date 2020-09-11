@@ -61,10 +61,6 @@
     color: #666;
 }
 
-.elec-process-dashboard .card-container .module-card .content > p.title {
-    font-weight: bold;
-}
-
 .elec-process-dashboard .card-container .module-card.active .content > p.title,
 .elec-process-dashboard .card-container .module-card:hover .content > p.title {
     color: #333;
@@ -72,6 +68,10 @@
 
 .elec-process-dashboard .card-container .module-card .content > p.imgContainer {
     height: 40%;
+}
+
+.elec-process-dashboard .card-container .module-card .content > p.imgContainer > i {
+    font-size: 43px;
 }
 
 .elec-process-dashboard .card-container .module-card .content > p.imgContainer > i > svg {
@@ -266,6 +266,10 @@
     overflow-y: hidden;
 }
 
+.elec-process.board-detail .flow-container {
+    overflow-y: auto;
+}
+
 .elec-process .flow-container .stage-item {
     position: relative;
     text-align: center;
@@ -279,12 +283,16 @@
 }
 
 .elec-process .flow-container .stage-item.active .stage-item-title {
-    color: #476Dbe;
+    border: 2px dashed #8ea9e0;
     font-weight: bold;
 }
 
 .elec-process .flow-container .stage-item + .stage-item {
     margin-left: 96px;
+}
+
+.elec-process.board-detail .flow-container .stage-item + .stage-item {
+    margin-left: 10px;
 }
 
 .elec-process .define-progress.el-progress--circle .el-progress__text{
@@ -297,7 +305,7 @@
     font-size: 12px!important;
 }
 
-.elec-process .flow-container .stage-item + .stage-item::before {
+.elec-process:not(.board-detail) .flow-container .stage-item + .stage-item::before {
     content: '';
     width: 72px;
     height: 1px;
@@ -486,3 +494,395 @@
 .lcSvg.finish .cls-1 {
     fill: #52c41c;
 }
+
+/*=======================================
+
+
+           领导驾驶舱 -- case样式
+
+
+=========================================*/
+.gf-page-drawer.elec-dashboard-drawer .el-drawer__body {
+    padding: 5px;
+}
+
+.gf-page-drawer.elec-dashboard-drawer.full-screen {
+    top: 0;
+}
+
+.gf-page-drawer.elec-dashboard-drawer.full-screen .el-drawer{
+    width: 100%!important;
+}
+
+.gf-page-drawer.elec-dashboard-drawer.full-screen .el-drawer__header {
+    background: #476Dbe;
+}
+
+.gf-page-drawer.elec-dashboard-drawer.full-screen .el-drawer__header .drawer-title {
+    color: #fff;
+}
+
+.gf-page-drawer.elec-dashboard-drawer.full-screen .el-drawer__header .el-button {
+    border-color: #fff;
+    color: #fff;
+}
+
+.gf-page-drawer.elec-dashboard-drawer.full-screen .el-drawer__header .el-button.primary {
+    color: #476Dbe;
+    background: #fff;
+    border-color: #fff;
+}
+
+.elec-process.board-detail .full-screen-btn {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 170px;
+    top: 12px;
+    cursor: pointer;
+}
+
+.gf-page-drawer.elec-dashboard-drawer.full-screen .elec-process.board-detail
+.full-screen-btn>i>svg>path {
+    fill: #ffffff;
+}
+
+.elec-process.board-detail .stage-container {
+    display: flex;
+    min-height: calc(50% - 5px);
+}
+
+.elec-process.board-detail .stage-container + .stage-container {
+    margin-top: 10px;
+}
+
+.elec-process.board-detail .stage-container .stage-list {
+    display: flex;
+    flex-direction: row;
+    white-space: nowrap;
+    padding-bottom: 15px;
+}
+
+.elec-process.board-detail .stage-item {
+    flex: 0 0 auto;
+    width: 180px;
+    margin-right: 25px;
+}
+
+.elec-process.board-detail .stage-item .stage-item-title {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 35px;
+    color: #666;
+    border: 1px solid #E9EAED;
+    padding: 0 10px 0 20px;
+    cursor: pointer;
+}
+
+.elec-process.board-detail .stage-item:not(:first-child) .stage-item-title {
+    padding-left: 30px;
+}
+
+.elec-process.board-detail .process-list .process-item {
+    border: 1px solid #F1F1F1;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+.elec-process.board-detail .process-list>.process-item {
+    border: none;
+}
+
+.elec-process.board-detail .process-list .process-item.active,
+.elec-process.board-detail .step-comp.active {
+    border: 2px dashed #8ea9e0;
+}
+
+.elec-process.board-detail .process-list .process-item + .process-item {
+    margin-top: 10px;
+}
+
+.elec-process.board-detail .process-item .process-item-title {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    color: #333;
+    margin-bottom: 5px;
+    padding: 5px 10px 5px 0;
+    cursor: pointer;
+}
+
+.elec-process.board-detail .stage-item:not(:first-child) .stage-item-title::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: -13px;
+    top: 4px;
+    width: 24px;
+    height: 25px;
+    border-top: inherit;
+    border-right: inherit;
+    background: #fff;
+    transform: rotate(45deg);
+    z-index: 1;
+}
+
+.elec-process.board-detail .stage-item .stage-item-title::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 4px;
+    right: -13px;
+    width: 24px;
+    height: 25px;
+    border-top: inherit;
+    border-right: inherit;
+    background: #fff;
+    transform: rotate(45deg);
+}
+
+.elec-process.board-detail .stage-item.active:not(:first-child):not(.add-btn) .stage-item-title::before,
+.elec-process.board-detail .stage-item.active .stage-item-title::after {
+    top: 3px;
+    right: -14px;
+}
+
+.elec-process.board-detail .stage-item.add-btn .stage-item-title::after {
+    border-left-color: #E8EAEF;
+}
+
+.elec-process.board-detail .process-item .process-item-title>.title,
+.elec-process.board-detail .stage-item .stage-item-title > span.title {
+    display: flex;
+    position: relative;
+    flex: 1;
+    align-items: center;
+    margin-left: 5px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.elec-process.board-detail .stage-item .stage-item-title > span.title {
+    position: relative;
+    width: 100%;
+    height: 35px;
+    margin-left: -10px;
+    padding: 0 10px;
+}
+
+.elec-process.board-detail .stage-item .stage-item-title > span.title>span>.name {
+    max-width: 90px;
+    display: inline-block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    vertical-align: bottom;
+}
+
+.elec-process.board-detail .stage-item .stage-item-title > span.title>span>.num {
+    margin-left: 5px;
+}
+
+.elec-process.board-detail .stage-item .stage-item-title > span.title>span.status {
+    position: absolute;
+    top: 10px;
+    right: -10px;
+    width: 14px;
+    height: 14px;
+    z-index: 1;
+}
+
+.elec-process.board-detail .process-item .process-item-title>.title > .title-input,
+.elec-process.board-detail .stage-item .stage-item-title > span.title > .title-input {
+    flex: 1;
+}
+
+.elec-process.board-detail .process-item .process-item-title>.title > .title-input > input,
+.elec-process.board-detail .stage-item .stage-item-title > .title > .title-input > input {
+    height: 20px;
+    line-height: 20px;
+    font-size: 14px;
+    border-radius: 2px;
+    padding: 0 25px 0 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.elec-process.board-detail .process-item .process-item-title>.title > .title-input.is-disabled > input,
+.elec-process.board-detail .stage-item .stage-item-title > span.title > .title-input.is-disabled > input {
+    font-size: 12px;
+    color: inherit;
+    line-height: 35px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.elec-process.board-detail .process-item.step-group .process-item-title>.title > .title-input.is-disabled > input {
+    font-weight: normal;
+}
+
+.elec-process.board-detail .stage-item .stage-item-content {
+    position: relative;
+    width: 100%;
+    background: #fff;
+}
+
+.elec-process.board-detail .stage-item .step-list {
+    background: #fff;
+}
+
+.elec-process.board-detail .process-item.step-group .step-list {
+    background: #f2f2f2;
+}
+
+.elec-process.board-detail .step-comp {
+    position: relative;
+    height: 35px;
+    line-height: 35px;
+    border: 1px solid #F1F1F1;
+    color: #666;
+    background: #fff;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.elec-process.board-detail .step-comp> .status {
+    display: inline-block;
+    position: absolute;
+    right: 5px;
+    top: 3px;
+    width: 14px;
+    height: 14px;
+}
+
+
+.elec-process.board-detail .step-comp > i.step-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 33px;
+}
+
+.elec-process.board-detail .step-comp > i.step-icon>svg {
+    width: 22px;
+    height: 20px;
+}
+
+.elec-process.board-detail .step-comp > i.step-icon.person>svg {
+    width: 22px;
+    height: 18px;
+    fill: #666;
+}
+
+.elec-process.board-detail .step-comp > i.step-icon.indicator>svg {
+    width: 25px;
+    height: 25px;
+    fill: #DB713E;
+}
+
+.elec-process.board-detail .step-comp > i.step-icon.robot>svg {
+    fill: #67c23a;
+}
+
+.elec-process.board-detail .step-comp > i.step-icon.process>svg {
+    fill: #476DBE;
+}
+
+.elec-process.board-detail .step-comp > span.name {
+    padding: 0 20px 0 30px;
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+
+.elec-process.board-detail .stage-item .step-list .step-group {
+    background: #f2f2f2;
+    margin: 10px 0;
+}
+
+.elec-process.board-detail > section .bottom.left > .drag-column {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
+}
+
+.elec-process.board-detail > section .bottom.left > .drag-column
+.close-container {
+    position: relative;
+    flex: 1;
+    height: 100%;
+}
+
+.elec-process.board-detail > section .bottom.left > .drag-column
+.close-container:hover {
+    background: rgba(0, 0, 0, .3);
+}
+
+.elec-process.board-detail > section .bottom.left > .drag-column
+.close-container:hover .el-icon-circle-close{
+    display: block;
+}
+
+.elec-process.board-detail > section .bottom.left > .drag-column
+.close-container .el-icon-circle-close {
+    display: none;
+    position: absolute;
+    top: calc(50% - 30px);
+    left: calc(50% - 30px);
+    font-size: 60px;
+    color: #333;
+    cursor: pointer;
+}
+
+.elec-process.board-detail > section .bottom.left > .drag-column
+.close-container:hover .el-icon-circle-close:hover{
+    color: #ccc;
+}
+
+.elec-process.board-detail .drag-column .drag-container{
+    width: 100%;
+    height: 450px;
+    min-height: 300px;
+    background: #fff;
+    padding: 10px;
+    box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,10 +2,11 @@
     <div class="step-comp" @dblclick="editTaskInfo">
         <i class="step-icon" :class="iconTypeObj" v-html="lcImg[iconTypeObj]"></i>
         <span class="name" :title="step.stepName">{{step.stepName}}</span>
-        <span class="edit">
+        <span class="edit" v-if="!preview">
             <i class="fa fa-copy" @click="copyTask"></i>
             <i class="fa fa-trash-o" @click="deleteTask"></i>
         </span>
+        <span class="status" v-else-if="stepStatus"><i v-html="getStatusIcon(stepStatus).icon"></i></span>
     </div>
 </template>
 
@@ -27,7 +28,13 @@
             stepType: {
                 type: String,
                 require: true
-            }
+            },
+            preview: {
+                type: Boolean,
+                default: false
+            },
+            getStatusIcon: Function,
+            ruCaseStepList: Object
         },
         data(){
             return {
@@ -39,11 +46,18 @@
                 const iconIndex = parseInt(this.step.stepActType) - 1;
                 const iconTypeArr = ['indicator', 'process', 'person', 'robot'];
                 return iconTypeArr[iconIndex] || 'person';
+            },
+            stepStatus(){
+                const stepCode = this.step.stepFormInfo.caseStepDef.stepCode;
+                return this.ruCaseStepList[stepCode].stepStatus;
             }
         },
         methods: {
             // 修改task信息
             editTaskInfo() {
+                if(this.preview){
+                    return;
+                }
                 this.$app.runCmd('openStepDialog', 'edit', this.step, {stepIndex: this.stepIndex, stepList: this.stepList});
             },
 

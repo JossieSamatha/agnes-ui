@@ -14,7 +14,8 @@
                 </div>
                 <el-radio v-for="task in proTask" :key="task.taskId" :label="task.taskId" :title="task.taskName"
                           border>
-                    <i :class="task.icon"></i>
+                    <i v-if="task.taskIcon" :class="task.taskIcon"></i>
+                    <i v-else class="fa fa-cogs"></i>
                     <span>{{task.taskName}}</span>
                 </el-radio>
                 <div class="date-search">
@@ -115,7 +116,6 @@
 </template>
 
 <script>
-    import mockData from "../mockData";
 
     export default {
         data() {
@@ -130,7 +130,7 @@
                   proTask: [],
                   executePieData: [],
                   taskStage: [],
-                  execLog: mockData().execLog,
+                  execLog: [],
                   ifRightExpand: false,
                   ifGridExpand: true,
                   curStage: {},
@@ -186,7 +186,7 @@
             // 根据流程id及业务日期加载流程信息{"taskId":"","bizDate":""}、获取任务状态、获取执行情况
             async getFLowDetail(taskId, bizDate) {
                 try {
-                    const flowDetailRes = this.$api.elecProcessApi.getExecProcessDetail({taskId, bizDate});
+                    const flowDetailRes = this.$api.elecProcessApi.getExecProcessBrief({taskId, bizDate});
                     const flowDetailStr = await this.$app.blockingApp(flowDetailRes);
                     if (flowDetailStr.data) {
                         const flowDetailParse = this.$utils.fromJson(flowDetailStr.data);
@@ -207,10 +207,12 @@
                             this.executePieData = executePieData;
                           // 获取执行情况
                             this.taskIdList = flowDetailParse.taskIdList;
-                            //this.getExecuteData(flowDetailParse.taskIdList, this.execTypeChecked);
+                            this.getExecuteData(flowDetailParse.taskIdList, this.execTypeChecked);
                             this.setGridData(this.curStage.ruCaseStepList);
                         } else {
                             this.taskStage = [];
+                            this.executePieData = [];
+                            this.taskIdList = [];
                         }
                     }else{
                         this.taskStage = [];
@@ -395,9 +397,8 @@
           },
 
           // 执行情况类型切换
-          execTypeChange() {
-
-            //this.getExecuteData(this.taskIdList, val);
+          execTypeChange(val) {
+            this.getExecuteData(this.taskIdList, val);
           },
 
           freshFlowData() {

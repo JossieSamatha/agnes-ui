@@ -1,14 +1,9 @@
 import processRenderer from './processRenderer'
-import optionalRenderer from './optionalRenderer'
 import dateUtil from '@hex/gf-ui/src/util/date-utils'
 import AcUtil from '../../../util/common'
 
 export default {
     columnDefs:[
-        {
-            headerName: "操作", field: "option", width: 70, enableRowGroup: false,
-            cellRenderer: 'optionalRenderer'
-        },
         {headerName: "状态", field: "stepStatus", width: 95,
             suppressSizeToFit: true,
             dictType: 'AGNES_TASK_STEP_STATUS',
@@ -41,7 +36,7 @@ export default {
             tooltipField: 'stepName',
         },
         {
-            headerName: "完成进度", field: "finishedRate", enableRowGroup: false,
+            headerName: "完成进度", field: "finishedRate",
             cellRenderer: 'processRenderer',
             minWidth: '160',
             suppressSizeToFit: true,
@@ -61,25 +56,32 @@ export default {
         },
         {headerName: "任务类型", field: "stepActType", dictType: 'AGNES_CASE_STEPTYPE'},
         {headerName: "执行人员", field: "updateUser"},
-        {headerName: "备注", field: "remark", enableRowGroup: false},
+        {headerName: "备注", field: "remark"},
     ],
     defaultColDef: {
-        enableRowGroup: true,
         menuTabs: ['generalMenuTab', 'filterMenuTab', 'columnsMenuTab'],
     },
-    groupUseEntireRow: true,
-    rowGroupPanelShow: "always",
+    autoGroupColumnDef: {
+        headerName: '分组',
+        cellRendererParams: {
+            suppressCount: true,
+        },
+    },
     suppressDragLeaveHidesColumns: true,
     tooltipShowDelay: 0,
     frameworkComponents: {
-        optionalRenderer,
         processRenderer,
     },
     rowData: [],
-    groupDefaultExpanded: -1,
+    treeData: true,
+    animateRows: true,
+    groupDefaultExpanded: -1, // expand all groups by default
+    getDataPath: function (data) {
+        return data.orgHierarchy;
+    },
     ext: {
         pagingMode: true,
-        checkboxColumn: 1,
+        checkboxColumn: 0,
         autoFitColumnMode: 1,
         enableExportLocal: true,
         pageOptions: {

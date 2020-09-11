@@ -1,12 +1,14 @@
 <template>
-    <li class="process-item" ref="groupDef" @click.stop="chooseActive" :class="{'active':group.active}">
+    <li ref="groupDef" class="process-item" :class="{'active':group.active}"
+        @dblclick.stop="showTableDetail('group', group, ruCaseStepList)"
+        @click.stop="chooseActive">
         <div class="process-item-title" @dblclick="editgroupTitle" :class="{'edit':group.edit}">
-            <i class="fa fa-list-ul"></i>
+            <i class="fa fa-list-ul" v-if="!preview"></i>
             <span class="title">
                 <el-input ref="titleInput" class="title-input" :title="group.defName" v-model="group.defName"
                           :disabled="!group.edit" size="mini" clearable
                           @keyup.enter.native="$event.target.blur" @blur="savegroupTitle"></el-input>
-                <span class="edit" :class="{'is-disabled':!group.edit}">
+                <span class="edit" :class="{'is-disabled':!group.edit}" v-if="!preview">
                     <i class="fa fa-trash-o" @click="deletegroup"></i>
                 </span>
             </span>
@@ -14,12 +16,15 @@
         <div class="group-item-content">
             <draggable tag="ul" class="step-list" :list="group[groupType]" :options="groupOption">
                 <template v-for="(groupItem, groupItemIndex) in group[groupType]">
-                    <stepDef v-if="groupItem.defType == 'step'&& curOptional(groupItem.optional)"
+                    <stepDef v-if="groupItem.defType == 'step' && curOptional(groupItem.optional)"
                              :key="groupItem.stepCode"
                              :step.sync="groupItem"
                              :stepList.sync="group[groupType]"
                              :stepIndex="groupItemIndex"
                              :stepType.sync="groupType"
+                             :preview="preview"
+                             :ruCaseStepList="ruCaseStepList"
+                             :getStatusIcon="getStatusIcon"
                              @click.native.stop="chooseActive">
                     </stepDef>
                     <groupDef :key="groupItem.defId" v-else
@@ -27,13 +32,16 @@
                               :groupList.sync="group[groupType]"
                               :groupIndex="groupItemIndex"
                               :groupType.sync="groupType"
+                              :showTableDetail="showTableDetail"
+                              :ruCaseStepList="ruCaseStepList"
+                              :getStatusIcon="getStatusIcon"
                               :chooseActive="chooseActive"
-                              @click.native.stop="chooseActive">
+                              :preview="preview">
                     </groupDef>
                 </template>
             </draggable>
         </div>
-        <div class="add-task">
+        <div class="add-task" v-if="!preview">
             <span class="stage-add">
                 <i class="el-icon-plus"></i>
                 <span class="title">STEP</span>
@@ -67,11 +75,17 @@
                 type: String,
                 require: true
             },
-            chooseActive: Function
+            preview: {
+                type: Boolean,
+                default: false
+            },
+            getStatusIcon: Function,
+            showTableDetail: Function,
+            chooseActive: Function,
+            ruCaseStepList: Object
         },
         data() {
             return {
-                groupOption: {group: {name: 'step'}, ghostClass: 'stepGhost'},
                 stepType: [
                     {
                         type: 'action',
@@ -104,6 +118,15 @@
         updated() {
             this.group.edit ? this.$refs.titleInput.focus() : false;
         },
+        computed: {
+            groupOption(){
+                return {
+                    group: {name: 'step'},
+                    ghostClass: 'stepGhost',
+                    disabled: this.preview
+                }
+            }
+        },
         methods: {
             // 当前step是否为生命周期或可选任务
             curOptional(optional) {
@@ -112,6 +135,9 @@
 
             // 修改group标题
             editgroupTitle() {
+                if(this.preview){
+                    return;
+                }
                 this.$set(this.group, 'edit', true);
             },
 
