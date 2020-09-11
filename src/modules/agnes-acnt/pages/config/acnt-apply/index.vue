@@ -20,73 +20,80 @@
                 <el-button @click="reSetSearch" class="option-btn">重置</el-button>
             </div>
         </el-form>
-        <gf-grid @row-double-click="editEventDef" :query-args="queryArgs" grid-no="agnes-acnt-info" ref="grid">
-            <template slot="right-before">
-               <gf-button @click="exoprtV45" size="mini">导出v45</gf-button>
+        <gf-grid grid-no="acnt-apply-field" :query-args="queryArgs" ref="grid">
+            <template slot="left">
+                <gf-button  class="action-btn" @click="openApply">开户</gf-button>
+                <gf-button  class="action-btn" @click="submitOA">提交OA</gf-button>
             </template>
         </gf-grid>
     </div>
 </template>
 
 <script>
-    import AcntApplyOpen from "../acnt-apply/acnt-apply-open";
-    import AcntApplyInsert from "../acnt-apply/acnt-apply-insert";
-    import acntInfoRateRefShowDlg from "./acnt-info-rate-ref-show-dlg";
-    import acntInfoLinkmanRefShowDlg from "./acnt-info-linkman-ref-show-dlg";
-
+    import AcntApplySteps from "./acnt-apply-steps";
+    import AcntApplyOpen from "./acnt-apply-open";
+    import AcntApplyInsert from "./acnt-apply-insert";
     export default {
         data() {
             return {
                 queryArgs:{
                     'taskName':'',
-                    'execStartTime':'',
+                    'account':'',
                     'taskType':'',
                     'taskStatus':'',
                 }
             }
         },
+        beforeMount() {
+      
+        },
         methods: {
             reloadData() {
                 this.$refs.grid.reloadData();
             },
+            reSetSearch() {
+                this.queryArgs = {
+                    'taskName':'',
+                    'account':'',
+                    'taskType':'',
+                    'taskStatus':'',
+                };
+                this.reloadData();
+            },
             showOpenDlg(mode, row, actionOk) {
-                if (!row) {
+                if (mode !== 'add' && !row) {
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
-                let title = '账户销户';
-                if(mode==='add'){
-                    title = '变更资料';
-                }
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
-                    title: [title],
+                    title: ['账户开户'],
                     component: AcntApplyOpen,
                     args: {row, mode, actionOk},
                     okButtonVisible:mode!=='view',
-                    okButtonTitle:mode==='detele'?'提交':'保存'
+                    okButtonTitle:mode==='submitOA'?'提交':'保存'
                 })
             },
             onOpenApply(){
                 this.reloadData();
             },
-            delete(params) {
-                this.showOpenDlg('detele', params.data, this.onOpenApply.bind(this));
+            openApply() {
+                this.showOpenDlg('add', {}, this.onOpenApply.bind(this));
             },
-            changeData(params) {
-                this.showOpenDlg('add', params.data, this.onOpenApply.bind(this));
+            submitOA() {
+                //此处通过该方法获取选中的数据，调用接口批量操作
+                // let data  = this.$refs.grid.getSelectedRows();
+                
             },
-
-
 
             showInsertDlg(mode, row, actionOk) {
-                if (!row) {
+                if (mode !== 'add' && !row) {
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
-                    title: ['变更资料'],
+                    title: ['添加资料'],
                     component: AcntApplyInsert,
                     args: {row, mode, actionOk},
                     okButtonVisible:mode!=='view',
@@ -96,38 +103,28 @@
             onInsertApply(){
                 this.reloadData();
             },
-            registration(params) {
+            addData(params) {
                 this.showInsertDlg('add', params.data, this.onOpenApply.bind(this));
             },
             check(params) {
                 this.showInsertDlg('check', params.data, this.onOpenApply.bind(this));
             },
 
-
-            showDlg(dlg,title,mode, row, actionOk) {
-                if (mode !== 'add' && !row) {
-                    this.$msg.warning("请选中一条记录!");
-                    return;
-                }
-                this.$nav.showDialog(
-                    dlg,
-                    {
-                        args: {row, mode, actionOk},
-                        width: '60%',
-                        title: this.$dialog.formatTitle(title, mode),
-                    }
-                );
+            showStepsDlg(mode, row, actionOk) {
+                this.$drawerPage.create({
+                    width: '215px',
+                    title: ['流程节点'],
+                    component: AcntApplySteps,
+                    args: {row, mode, actionOk},
+                    okButtonVisible:false,
+                })
             },
-            queryRate(params) {
-                this.showDlg(acntInfoRateRefShowDlg,'利率','view', params.data);
+            onStepsApply(){
+                this.reloadData();
             },
-            queryLinkman(params) {
-                this.showDlg(acntInfoLinkmanRefShowDlg,'联系人','view', params.data);
-            }
+            showSteps() {
+                this.showStepsDlg('add', {}, this.onStepsApply.bind(this));
+            },
         }
     }
 </script>
-
-<style scoped>
-
-</style>
