@@ -1,17 +1,22 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'editChannel', title: '修改'},
+    {key: 'editChannel', title: '编辑'},
     {key: 'deleteChannel', title: '删除', cellClass: 'red-cell'},
-    {key: 'approveChannel', title: '复核'},
+    {key: 'approveChannel', title: '审核', disabled: (params)=>{
+            let result = false;
+            if(params.data.dopReChannel.channelStatus === '00' ||params.data.dopReChannel.channelStatus === '02' || params.data.dopReChannel.channelStatus === '03'){
+                result =true;
+            }
+            return result;}},
 ];
 export default {
     columnDefs: [
-        column.buildOpCol(120, colButtons),
+        column.buildOpCol(160, colButtons),
         {headerName: "渠道代码", field: "channelCode"},
         {headerName: "渠道名称", field: "channelName"},
         {headerName: "渠道类型", field: "channelType",formatType: 'dict', dictType: 'AGNES_DOP_CHANNEL_TYPE'},
-        {headerName: "渠道状态", field: "channelStatus",formatType: 'dict', dictType: 'AGNES_DOP_CHANNEL_STATUS'},
+        {headerName: "渠道状态", field: "channelStatus",formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
         column.colCrtUser,
         column.colCrtTm
     ],
@@ -20,10 +25,10 @@ export default {
     ext: {
         fetchUrl: "/agnes-app/v1/dop/channel/list/page",
         fetchMethod: 'post',
-        pagingMode: true, //不分页
+        pagingMode: true, //是否分页
         checkboxColumn: 1, //是否显示checkbox列,
-        enableExportLocal: true,
         autoFitColumnMode: 1,
+        enableExportLocal: true,
         pageOptions: {
             // 分页大小
             pageSize: 10,

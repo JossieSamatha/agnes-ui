@@ -84,7 +84,7 @@
                 }
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
-                    title: ['产品表详情',mode],
+                    title: ['产品信息',mode],
                     component: ProductDetail,
                     args: {row, mode, actionOk},
                     okButtonTitle: mode==='check'?"复核":'保存',

@@ -2,17 +2,21 @@ import column from "../../../../../config/column"
 const colButtons = [
     {key: 'editOrgType', title: '编辑'},
     {key: 'deleteOrgType', title: '删除',cellClass:'red-cell'},
+    {key: 'approveOrgType', title: '审核'},
+    {key: 'publishOrgType', title: '发布'},
 ];
 
 export default {
     columnDefs: [
-        {headerName: "机构类别", field: "orgTypeName"},
+        column.buildOpCol(160, colButtons),
+        {headerName: "机构类型代码", field: "orgTypeCode"},
+        {headerName: "机构类型名称", field: "orgTypeName"},
+        {headerName: "状态", field: "status" ,formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
         column.colCrtUser,
-        column.colCrtTm,
-        column.colUpdUser,
-        column.colUpdTm,
-        column.buildOpCol(120, colButtons)
+        column.colCrtTm
     ],
+    headerHeight: 40,
+    rowHeight: 37,
     ext: {
         fetchUrl: "/agnes-app/v1/dop/org/type/page/list",    //后台查询数据的URL地址
         pagingMode: true, //是否分页

@@ -1,15 +1,15 @@
 <template>
     <div>
-        <el-form class="fit-box" :disabled="mode==='view'" :model="form" ref="form" :rules="rules" label-width="120px"
-                 style="padding: 10px;margin-left: 20%;">
-            <el-form-item label="机构类型名称" prop="orgTypeName" style="width: 70%">
+        <el-form class="fit-box" :disabled="mode==='view'" :model="form" ref="form" :rules="rules" label-width="85px"
+                 style="padding: 10px;">
+            <el-form-item label="机构类型名称" prop="orgTypeName" >
                 <gf-input type="text" maxlength="64" v-model="form.orgTypeName"/>
             </el-form-item>
-            <el-form-item label="机构类型代码" prop="orgTypeCode" style="width: 70%">
+            <el-form-item label="机构类型代码" prop="orgTypeCode" >
                 <gf-input type="text" maxlength="32" v-model="form.orgTypeCode"/>
             </el-form-item>
         </el-form>
-        <dialog-footer :ok-button-visible="mode !== 'view'" :on-save="onSave" ok-button-title="确定"></dialog-footer>
+        <dialog-footer :ok-button-visible="mode !== 'view'" :on-save="onSave" ok-button-title="保存"></dialog-footer>
     </div>
 </template>
 

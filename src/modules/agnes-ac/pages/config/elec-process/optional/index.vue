@@ -139,7 +139,7 @@
                       '#4A8EF0': '执行中',
                       '#F5222E': '已异常/已超时',
                       '#52C41C': '已完成',
-                      '#FAAE14': '人工强制关闭',
+                      '#FAAE14': '强制关闭',
                   },
                   freshInterval: null,
                   execTypeChecked: ['OVERTIME', 'EXCEPTION'],
