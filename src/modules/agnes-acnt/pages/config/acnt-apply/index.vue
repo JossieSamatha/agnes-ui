@@ -30,6 +30,7 @@
 </template>
 
 <script>
+    import AcntApplySteps from "./acnt-apply-steps";
     import AcntApplyOpen from "./acnt-apply-open";
     import AcntApplyInsert from "./acnt-apply-insert";
     export default {
@@ -107,6 +108,22 @@
             },
             check(params) {
                 this.showInsertDlg('check', params.data, this.onOpenApply.bind(this));
+            },
+
+            showStepsDlg(mode, row, actionOk) {
+                this.$drawerPage.create({
+                    width: '215px',
+                    title: ['流程节点'],
+                    component: AcntApplySteps,
+                    args: {row, mode, actionOk},
+                    okButtonVisible:false,
+                })
+            },
+            onStepsApply(){
+                this.reloadData();
+            },
+            showSteps() {
+                this.showStepsDlg('add', {}, this.onStepsApply.bind(this));
             },
         }
     }

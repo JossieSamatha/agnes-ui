@@ -2,7 +2,7 @@ import column from "../../../../../config/column"
 
 const colButtons = [
     {key: 'addData', title: '添加资料'},
-    // {key: 'submitOA', title: '提交OA'},
+    {key: 'showSteps', title: '查看流程'},
     {key: 'check', title: '复核'},
 ];
 export default {
