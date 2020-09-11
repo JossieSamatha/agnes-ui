@@ -28,7 +28,7 @@
                         value-format="HH:mm">
                 </el-time-picker>
             </el-form-item>
-            <el-form-item label="姓名" prop="userName">
+            <el-form-item label="值班人员" prop="userName">
                 <gf-person-chosen ref="memberRef"
                                   :memberRefList="memberRefList"
                                   chosenType="user"

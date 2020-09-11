@@ -55,7 +55,7 @@
                         args: {row, mode, actionOk},
                         width: '50%',
                         closeOnClickModal: false,
-                        title: this.$dialog.formatTitle('日历维护', mode),
+                        title: this.$dialog.formatTitle('渠道表维护', mode),
                     }
                 );
             },

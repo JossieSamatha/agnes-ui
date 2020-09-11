@@ -74,7 +74,7 @@
 
         </el-form>
 
-        <dialog-footer :ok-button-visible="mode !== 'view'" :on-save="onSave" ok-button-title="确定" style="padding-bottom: 30px;"></dialog-footer>
+        <dialog-footer :ok-button-visible="mode !== 'view'" :on-save="onSave" ok-button-title="保存" style="padding-bottom: 30px;"></dialog-footer>
     </div>
 </template>
 

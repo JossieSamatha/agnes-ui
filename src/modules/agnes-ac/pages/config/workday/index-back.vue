@@ -3,7 +3,7 @@
         <el-row>
             <el-col  :span="4" style="height:100%">
                 <div  style="height:100%;border:1px solid #000">
-                    <el-button size="small">同步</el-button>
+                    <el-button size="small">同步国家法定节假日</el-button>
 
                     <div v-for="(item,index) in areaList" :key="index"
                         :v-model="queryParam.workdayAreaCode"
@@ -79,7 +79,7 @@ export default {
                 {
                     args: {row, mode, actionOk},
                     width: '50%',
-                    title: this.$dialog.formatTitle('工作日', mode),
+                    title: this.$dialog.formatTitle('工作日表维护', mode),
                 }
             );
         },
