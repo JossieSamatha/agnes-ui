@@ -180,6 +180,9 @@
                 } else {
                     this.proTask = [];
                     this.taskStage = [];
+                    this.executePieData = [];
+                    this.execLog = [];
+                    this.setGridData([]);
                 }
             },
 
@@ -227,6 +230,7 @@
 
             // 流程类型切换
             flowTypeChange(val) {
+                this.curStage = {};
                 this.getFLowbyType(val);
             },
 
