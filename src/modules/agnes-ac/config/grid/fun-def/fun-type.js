@@ -32,6 +32,8 @@ export default {
         column.colCrtUser,
         column.colCrtTm
     ],
+    headerHeight: 40,
+    rowHeight: 37,
     ext: {
         fetchUrl: "/agnes-ac/v1/config/fun/query/page/list",    //后台查询数据的URL地址
         fetchMethod: 'post',
