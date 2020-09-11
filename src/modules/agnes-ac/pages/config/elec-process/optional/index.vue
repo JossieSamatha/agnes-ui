@@ -137,9 +137,9 @@
                   stageStatus: {
                       '#DFE1E5': '未开始',
                       '#4A8EF0': '执行中',
-                      '#F5222E': '已异常/已超时',
-                      '#52C41C': '已完成',
-                      '#FAAE14': '强制关闭',
+                      '#FAAE14': '已超时',
+                      '#F5222E': '已异常/强制关闭',
+                      '#52C41C': '已完成'
                   },
                   freshInterval: null,
                   execTypeChecked: ['OVERTIME', 'EXCEPTION'],
@@ -180,6 +180,9 @@
                 } else {
                     this.proTask = [];
                     this.taskStage = [];
+                    this.executePieData = [];
+                    this.execLog = [];
+                    this.setGridData([]);
                 }
             },
 
@@ -227,6 +230,7 @@
 
             // 流程类型切换
             flowTypeChange(val) {
+                this.curStage = {};
                 this.getFLowbyType(val);
             },
 
