@@ -52,10 +52,10 @@
                         filterable clearable
                         placeholder="请选择">
                     <gf-filter-option
-                            v-for="item in bizTagOption"
-                            :key="item.dictId"
-                            :label="item.dictName"
-                            :value="item.dictId">
+                            v-for="item in OrgList"
+                            :key="item.extOrgId"
+                            :label="item.extOrgName"
+                            :value="item.extOrgId">
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
@@ -147,7 +147,7 @@
                         header-cell-class-name="rule-header-cell"
                         row-class-name="rule-row"
                         cell-class-name="rule-cell"
-                        :data="fields"
+                        :data="detailForm.fields"
                         border stripe
                         style="width: 100%">
                     <el-table-column prop="OAurl" label="用印文件名">
@@ -219,16 +219,15 @@
                     OAIsNeedAudit:'0', 
                     OAIsNeedStamp:'0',
                     OAPrintDT:'',
+                    fields:[],
                 },
-                fields:[],
                 mustFillField: ['OAurl','OAnumber'],
                 bizTagOption: [],        // 业务类型下拉
                 groupOption: [],        // 群组下拉
                 productList:[],     //产品代码群组
+                OrgList:[],         //机构列表
                 detailFormRules: {
-                    typeCode: [
-                        {required: true, message: '账户类型必填', trigger: 'blur'},
-                    ],
+                
                 },
             }
         },
@@ -243,6 +242,8 @@
                     this.groupOption = groupOption.data
                     let productList = await this.$api.acntApplyApi.getProductCodeList();
                     this.productList = productList.data
+                    let OrgList = await this.$api.orgDefineApi.getOrgList();
+                    this.OrgList = OrgList.data
              
                 } catch (reason) {
                     this.$msg.error(reason);
@@ -261,24 +262,24 @@
                     OAnumber: '',
                     OAremark: '',
                 };
-                this.fields.push(newFileTableObj);
+                this.detailForm.fields.push(newFileTableObj);
             },
             // 删除行
             deleteRuleRow(rowIndex){
-                this.fields.splice(rowIndex, 1);
+                this.detailForm.fields.splice(rowIndex, 1);
             },
             // 保存onSave事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
             async onSave() {
-                this.insertApply()
+                // this.insertApply()
                 const ok = await this.$refs['taskDefForm'].validate();
                 if (!ok) {
                     return;
                 }
                 let validate = true;
-                if(this.fields&&this.detailForm.isSendOA==='1'){
-                    for(let i =0;i<this.fields.length;i++){
-                        for (let key in this.fields[i]) {
-                            if(this.mustFillField.indexOf(key) !== -1 && loadsh.isEmpty(this.form.fields[i][key])){
+                if(this.detailForm.fields&&this.detailForm.isSendOA==='1'){
+                    for(let i =0;i<this.detailForm.fields.length;i++){
+                        for (let key in this.detailForm.fields[i]) {
+                            if(this.mustFillField.indexOf(key) !== -1 && loadsh.isEmpty(this.form.detailForm.fields[i][key])){
                                 validate = false;
                             }
                         }
@@ -289,7 +290,12 @@
                     }
                 }
                 try {
-          
+                    let form =  this.detailForm
+                    form.status = '02';
+                    const p = this.$api.acntApplyApi.saveApply(form);
+                    await this.$app.blockingApp(p);
+                    this.$msg.success('提交成功');
+
                     if (this.actionOk) {
                         await this.actionOk();
                     }
