@@ -94,9 +94,19 @@
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
+                let title = '账户开户';
+                if(mode==='check'){
+                    title = '账户审核';
+                }else if(mode==='detele'){
+                    title = '账户作废';
+                }else if(mode==='addInfo'){
+                    title = '资料准备';
+                }else if(mode==='checkFund'){
+                    title = '财务审核';
+                }
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
-                    title: ['账户开户'],
+                    title: [title],
                     component: AcntApplyOpen,
                     args: {row, mode, actionOk,isDisabled},
                     okButtonVisible:mode!=='view',
@@ -121,7 +131,7 @@
             },
 
             checkFund(params) {
-                this.showOpenDlg('check', params.data, this.onOpenApply.bind(this),true);
+                this.showOpenDlg('checkFund', params.data, this.onOpenApply.bind(this),true);
             },
             addInfo(params) {
                 this.showOpenDlg('addInfo', params.data, this.onOpenApply.bind(this),false);

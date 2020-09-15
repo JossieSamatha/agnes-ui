@@ -70,7 +70,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="基金名称" prop="productName">
-                <gf-input v-model.trim="detailForm.productName" placeholder="基金名称"/>
+                <gf-input disabled  v-model.trim="detailForm.productName" placeholder="基金名称"/>
             </el-form-item>
             <el-form-item label="提交财务流程" prop="isSendFinance">
                 <el-radio-group v-model="detailForm.isSendFinance">
@@ -243,6 +243,7 @@
                     isSendFinance:'0', 
                     acntName:'', 
                     acntShortName:'',
+                    baseOperator:this.$app.session.data.user.userName,
                     accNO:'',
                     market:'',
                     region:'',
@@ -312,8 +313,6 @@
                     detailFormRules[key] = [detailFormRulesOne]
                 }
                 this.detailFormRules = detailFormRules;
-                console.log('showcheshi',showRules,detailFormRules)
-
             },
  
             // 保存onSave事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
@@ -368,7 +367,17 @@
         },
 
         watch: {
-  
+              'detailForm.productCode'(val){
+                if(loadsh.isEmpty(val)){
+                    this.detailForm.productName=''
+                }else{
+                    for(let i=0;i<this.productList.length;i++){
+                        if(this.productList[i].productCode==val){
+                            this.detailForm.productName=this.productList[i].productName
+                        }
+                    }
+                }
+            },
         }
     }
 </script>

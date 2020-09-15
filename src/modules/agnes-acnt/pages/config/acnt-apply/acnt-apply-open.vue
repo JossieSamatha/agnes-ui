@@ -1,9 +1,9 @@
 <template>
     <el-form ref="taskDefForm" class="task-def-form" :model="detailForm" :disabled="isDisabled"
              :rules="detailFormRules" label-width="160px">
-        <div class="line">
-            <el-form-item label="账户类型" prop="typeCode">
-                <el-select class="multiple-select" v-model="detailForm.typeCode"
+        <div class="line" >
+            <el-form-item  label="账户类型" prop="typeCode">
+                <el-select :disabled="isSubDis" class="multiple-select" v-model="detailForm.typeCode"
                         filterable clearable
                         placeholder="请选择">
                     <gf-filter-option
@@ -14,29 +14,29 @@
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="业务类型" prop="bizType">
-                <gf-dict filterable clearable v-model="detailForm.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
+            <el-form-item  label="业务类型" prop="bizType">
+                <gf-dict :disabled="isSubDis" filterable clearable v-model="detailForm.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
             </el-form-item>
         </div>
         <div class="line">
             <el-form-item label="业务发起部门" prop="baseStartDept">
-                <gf-dict filterable clearable v-model="detailForm.baseStartDept" dict-type="AGNES_ROSTER_DEPT" />
+                <gf-dict :disabled="isSubDis" filterable clearable v-model="detailForm.baseStartDept" dict-type="AGNES_ROSTER_DEPT" />
             </el-form-item>
             <el-form-item label="业务发起部门联系人" prop="baseStartDeptLinkman">
-                <gf-input v-model.trim="detailForm.baseStartDeptLinkman" placeholder="业务发起部门联系人"/>
+                <gf-input :disabled="isSubDis" v-model.trim="detailForm.baseStartDeptLinkman" placeholder="业务发起部门联系人"/>
             </el-form-item>
         </div>
         <div class="line">
             <el-form-item label="业务描述" prop="baseDesc">
-                <gf-input v-model.trim="detailForm.baseDesc" type='textarea' placeholder="业务描述" :max-len="200"/>
+                <gf-input :disabled="isSubDis" v-model.trim="detailForm.baseDesc" type='textarea' placeholder="业务描述" :max-len="200"/>
             </el-form-item>
             <el-form-item label="业务受理部门" prop="baseAcceptDept">
-                <gf-dict filterable clearable v-model="detailForm.baseAcceptDept" dict-type="AGNES_ROSTER_DEPT" />
+                <gf-dict :disabled="isSubDis" filterable clearable v-model="detailForm.baseAcceptDept" dict-type="AGNES_ROSTER_DEPT" />
             </el-form-item>
         </div>
         <div class="line">
             <el-form-item label="业务受理组" prop="baseAcceptGroup">
-                <el-select class="multiple-select" v-model="detailForm.baseAcceptGroup"
+                <el-select :disabled="isSubDis" class="multiple-select" v-model="detailForm.baseAcceptGroup"
                         filterable clearable
                         placeholder="请选择">
                     <gf-filter-option
@@ -48,7 +48,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="归属机构" prop="baseOrgId">
-                <el-select class="multiple-select" v-model="detailForm.baseOrgId"
+                <el-select :disabled="isSubDis" class="multiple-select" v-model="detailForm.baseOrgId"
                         filterable clearable
                         placeholder="请选择">
                     <gf-filter-option
@@ -62,10 +62,10 @@
         </div>
         <div class="line">
             <el-form-item label="经办人" prop="baseOperator">
-                <gf-input v-model.trim="detailForm.baseOperator" placeholder="经办人"/>
+                <gf-input :disabled="isSubDis" v-model.trim="detailForm.baseOperator" placeholder="经办人"/>
             </el-form-item>
             <el-form-item label="基金代码" prop="productCode">
-                <el-select class="multiple-select" v-model="detailForm.productCode"
+                <el-select :disabled="isSubDis" class="multiple-select" v-model="detailForm.productCode"
                         filterable clearable
                         placeholder="请选择">
                     <gf-filter-option
@@ -79,10 +79,10 @@
         </div>
         <div class="line">
             <el-form-item label="基金名称" prop="productName">
-                <gf-input v-model.trim="detailForm.productName" placeholder="基金名称"/>
+                <gf-input disabled v-model.trim="detailForm.productName" placeholder="基金名称"/>
             </el-form-item>
             <el-form-item label="提交财务流程" prop="isSendFinance">
-                <el-radio-group v-model="detailForm.isSendFinance">
+                <el-radio-group :disabled="isSubDis" v-model="detailForm.isSendFinance">
                     <el-radio label="1">是</el-radio>
                     <el-radio label="0">否</el-radio>
                 </el-radio-group>
@@ -200,6 +200,7 @@
                 memberRefList:[],
                 serviceRes:[],
                 staticData: {},
+                isSubDis:false,
                 detailForm: {
                     typeCode:'1', 
                     bizType:'', 
@@ -209,6 +210,7 @@
                     baseAcceptGroup:'', 
                     baseOrgId:'', 
                     productCode:'', 
+                    baseOperator:this.$app.session.data.user.userName,
                     productName:'',
                     isSendFinance:'0', 
                     isSendOA:'0', 
@@ -235,7 +237,7 @@
         beforeMount() {
             Object.assign(this.detailForm, this.row);
             this.getOptionData()
-            console.log('showuser',this.$app.session.data)
+            this.checkIsSub()
         },
         methods: {
             async getOptionData(){
@@ -251,7 +253,11 @@
                     this.$msg.error(reason);
                 }
             },
- 
+            checkIsSub(){
+                if(!loadsh.isEmpty(this.row.applySubId)||this.mode==='addInfo'){
+                    this.isSubDis = true;
+                }
+            },
             // 新增服务行
             addRule(){
                 const newFileTableObj = {
@@ -290,7 +296,6 @@
                     let form =  JSON.parse(JSON.stringify(this.detailForm)) 
                     let openSub = false;
                     let isdel = false;
-                    console.log('ceshi')
                     if(!loadsh.isEmpty(this.detailForm.applySubId)){
                         openSub = true;
                     }
@@ -408,7 +413,17 @@
         },
 
         watch: {
-  
+            'detailForm.productCode'(val){
+                if(loadsh.isEmpty(val)){
+                    this.detailForm.productName=''
+                }else{
+                    for(let i=0;i<this.productList.length;i++){
+                        if(this.productList[i].productCode==val){
+                            this.detailForm.productName=this.productList[i].productName
+                        }
+                    }
+                }
+            },
         }
     }
 </script>
