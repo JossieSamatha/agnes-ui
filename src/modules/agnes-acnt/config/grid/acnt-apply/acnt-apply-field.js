@@ -14,11 +14,11 @@ const colButtons = [
 export default {
     columnDefs: [
         column.buildOpCol(150, colButtons),
-        {headerName: "账户类型", field: "typeCode"},
+        // {headerName: "账户类型", field: "typeCode"},
         {headerName: "归属机构", field: "orgName"},
         {headerName: "业务类型", field: "bizType"},
         {headerName: "流程节点", field: "processStatus",dictType:"AGNES_ACNT_APPLY_STATUS"},
-        {headerName: "是否提交OA", field: "isSendOA",
+        {headerName: "是否提交OA", field: "isSendOa",
           valueFormatter: function (params) {
             if(params.value==='0'){
                 return '否'
@@ -32,7 +32,8 @@ export default {
         flex: 1,
     },
     autoGroupColumnDef: {
-        headerName: 'ID',
+        headerName: '账户类型',
+        field:"typeCode",
         minWidth: 50,
         cellRendererParams: {
             suppressCount: true,
@@ -56,7 +57,7 @@ export default {
     //         {headerName: "归属机构", field: "orgName"},
     //         {headerName: "业务类型", field: "bizType"},
     //         {headerName: "流程节点", field: "processStatus",dictType:"AGNES_ACNT_APPLY_STATUS"},
-    //         {headerName: "是否提交OA", field: "isSendOA",
+    //         {headerName: "是否提交OA", field: "isSendOa",
     //           valueFormatter: function (params) {
     //             if(params.value==='0'){
     //                 return '否'

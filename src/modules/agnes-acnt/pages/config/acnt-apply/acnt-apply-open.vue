@@ -89,14 +89,14 @@
             </el-form-item>
         </div>
         <div class="line">
-            <el-form-item label="提交OA流程" prop="isSendOA">
-                <el-radio-group v-model="detailForm.isSendOA">
+            <el-form-item label="提交OA流程" prop="isSendOa">
+                <el-radio-group v-model="detailForm.isSendOa">
                     <el-radio label="1">是</el-radio>
                     <el-radio label="0">否</el-radio>
                 </el-radio-group>
             </el-form-item>
         </div>
-        <div v-if="detailForm.isSendOA==='1'" class="line">
+        <div v-if="detailForm.isSendOa==='1'" class="line">
             <el-form-item label="标题" prop="OATitle">
                 <gf-input v-model.trim="detailForm.OATitle" placeholder="标题"/>
             </el-form-item>
@@ -104,7 +104,7 @@
                 <gf-input v-model.trim="detailForm.OADept" placeholder="申请部门"/>    
             </el-form-item>
         </div>
-        <div v-if="detailForm.isSendOA==='1'" class="line">
+        <div v-if="detailForm.isSendOa==='1'" class="line">
             <el-form-item label="申请人" prop="OAOperator">
                 <gf-input v-model.trim="detailForm.OAOperator" placeholder="申请人"/>
             </el-form-item>
@@ -112,7 +112,7 @@
                 <gf-input v-model.trim="detailForm.OARemark" placeholder="申请事由"/>    
             </el-form-item>
         </div>
-        <div v-if="detailForm.isSendOA==='1'" class="line">
+        <div v-if="detailForm.isSendOa==='1'" class="line">
             <el-form-item label="公司领导" prop="OALeader">
                 <gf-input v-model.trim="detailForm.OALeader" placeholder="公司领导"/>
             </el-form-item>
@@ -123,7 +123,7 @@
                 </el-radio-group>
             </el-form-item>
         </div>
-        <div v-if="detailForm.isSendOA==='1'" class="line">
+        <div v-if="detailForm.isSendOa==='1'" class="line">
             <el-form-item label="是否需要加盖法人章" prop="OAIsNeedStamp">
                 <el-radio-group v-model="detailForm.OAIsNeedStamp">
                     <el-radio label="1">是</el-radio>
@@ -141,7 +141,7 @@
         </div>
 
 
-        <el-form-item v-if="detailForm.isSendOA==='1'" label="用印文件" prop="fileTable">
+        <el-form-item v-if="detailForm.isSendOa==='1'" label="用印文件" prop="fileTable">
             <div class="rule-table">
                 <el-table header-row-class-name="rule-header-row"
                         header-cell-class-name="rule-header-cell"
@@ -213,7 +213,7 @@
                     baseOperator:this.$app.session.data.user.userName,
                     productName:'',
                     isSendFinance:'0', 
-                    isSendOA:'0', 
+                    isSendOa:'0', 
                     OATitle:'用印申请流程', 
                     OADept:'基金运营部', 
                     OAOperator:'',
@@ -279,7 +279,7 @@
                     return;
                 }
                 let validate = true;
-                if(this.detailForm.fields&&this.detailForm.isSendOA==='1'){
+                if(this.detailForm.fields&&this.detailForm.isSendOa==='1'){
                     for(let i =0;i<this.detailForm.fields.length;i++){
                         for (let key in this.detailForm.fields[i]) {
                             if(this.mustFillField.indexOf(key) !== -1 && loadsh.isEmpty(this.form.detailForm.fields[i][key])){
@@ -308,7 +308,7 @@
                                 isdel = true;
                             }
                         }else if(this.detailForm.processStatus=='02'){
-                            if(this.detailForm.isSendOA=='1'){
+                            if(this.detailForm.isSendOa=='1'){
                                 form.processStatus = '03'; 
                             }else {
                                 if(this.detailForm.children){
