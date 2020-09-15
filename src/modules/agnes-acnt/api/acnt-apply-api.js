@@ -11,13 +11,13 @@ export default {
     saveApply(form) {
         return request.post(`agnes-app/v1/acnt/apply/save`,form);
     },
-    cancelApply() {
-        return request.post(`agnes-app/v1/acnt/apply/cancel/acnt-apply`);
+    cancelApply(form) {
+        return request.post(`agnes-app/v1/acnt/apply/cancel/acnt-apply`,form);
     },
-    saveSubApply() {
-        return request.post(`agnes-app/v1/acnt/apply/sub/save`);
+    saveSubApply(form) {
+        return request.post(`agnes-app/v1/acnt/apply/sub/save`,form);
     },
-    cancelSubApply() {
-        return request.post(`agnes-app/v1/acnt/apply/sub/cancel/acnt-apply`);
+    cancelSubApply(form) {
+        return request.post(`agnes-app/v1/acnt/apply/sub/cancel/acnt-sub-apply`,form);
     }
 };

@@ -1,5 +1,5 @@
 <template>
-    <el-form ref="taskDefForm" class="task-def-form" :model="detailForm" :disabled="mode==='view'||mode==='detele'"
+    <el-form ref="taskDefForm" class="task-def-form" :model="detailForm" :disabled="isDisabled"
              :rules="detailFormRules" label-width="160px">
         <div class="line">
             <el-form-item label="账户类型" prop="typeCode">
@@ -191,6 +191,7 @@
                 default: 'add'
             },
             row: Object,
+            isDisabled:Boolean,
             actionOk: Function
         },
         data() {
@@ -200,7 +201,7 @@
                 serviceRes:[],
                 staticData: {},
                 detailForm: {
-                    typeCode:'', 
+                    typeCode:'1', 
                     bizType:'', 
                     baseStartDept:'', 
                     baseStartDeptLinkman:'', 
@@ -234,6 +235,7 @@
         beforeMount() {
             Object.assign(this.detailForm, this.row);
             this.getOptionData()
+            console.log('showuser',this.$app.session.data)
         },
         methods: {
             async getOptionData(){
@@ -250,11 +252,6 @@
                 }
             },
  
-            // 取消onCancel事件，触发抽屉关闭事件this.$emit("onClose");
-            async onCancel() {
-                this.$emit("onClose");
-            },
-
             // 新增服务行
             addRule(){
                 const newFileTableObj = {
@@ -290,12 +287,96 @@
                     }
                 }
                 try {
-                    let form =  this.detailForm
-                    form.status = '02';
-                    const p = this.$api.acntApplyApi.saveApply(form);
-                    await this.$app.blockingApp(p);
-                    this.$msg.success('提交成功');
+                    let form =  JSON.parse(JSON.stringify(this.detailForm)) 
+                    let openSub = false;
+                    let isdel = false;
+                    console.log('ceshi')
+                    if(!loadsh.isEmpty(this.detailForm.applySubId)){
+                        openSub = true;
+                    }
+                    form.processStatus = '02';
+                    if(!loadsh.isEmpty(this.detailForm.processStatus)){
+                        //状态机控制
+                        if(this.detailForm.processStatus=='01'){
+                            form.processStatus = '02';
+                            if(this.mode=='detele'){
+                                isdel = true;
+                            }
+                        }else if(this.detailForm.processStatus=='02'){
+                            if(this.detailForm.isSendOA=='1'){
+                                form.processStatus = '03'; 
+                            }else {
+                                if(this.detailForm.children){
+                                    form.processStatus = '04';
+                                }else{
+                                    form.processStatus = '08';
+                                }
+                                
+                            }
+                        }else if(this.detailForm.processStatus=='03'){
+                            form.processStatus = '04';
+                        }else if(this.detailForm.processStatus=='04'){
+                            openSub = true;
+                            form.processStatus = '02';
+                            // if(this.detailForm.isSendFinance=='1'){
+                            //     form.processStatus = '05'; 
+                            // }else {
+                            //     form.processStatus = '06';
+                            // }
+                        }else if(this.detailForm.processStatus=='05'){
+                            form.processStatus = '06';
+                        }
+                    }
+                    if(isdel){
+                        form.processStatus = '09';
+                        const p = this.$api.acntApplyApi.cancelApply(form);
+                        await this.$app.blockingApp(p);
+                        this.$msg.success('作废成功');
+                    }else{
+                        if(openSub){
+                            const p = this.$api.acntApplyApi.saveSubApply(form);
+                            await this.$app.blockingApp(p);
+                            this.$msg.success('提交成功');
+                        }else{
+                            const p = this.$api.acntApplyApi.saveApply(form);
+                            await this.$app.blockingApp(p);
+                            this.$msg.success('提交成功');
+                        }
+                    }
 
+
+
+                    if (this.actionOk) {
+                        await this.actionOk();
+                    }
+                    this.$emit("onClose");
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
+
+            // 保存onCancel事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
+            async onCancel() {
+                try {
+               
+                    if(this.detailForm.processStatus=='02'){
+                        let openSub = false;
+                        if(!loadsh.isEmpty(this.detailForm.applySubId)){
+                            openSub = true;
+                        }
+                        let form =  JSON.parse(JSON.stringify(this.detailForm)) 
+                        form.processStatus = '01';
+                        if(openSub){
+                            const p = this.$api.acntApplyApi.cancelSubApply(form);
+                            await this.$app.blockingApp(p);
+                            this.$msg.success('提交成功');
+                        }else{
+                            const p = this.$api.acntApplyApi.cancelApply(form);
+                            await this.$app.blockingApp(p);
+                            this.$msg.success('提交成功');
+                        }
+  
+                    }
                     if (this.actionOk) {
                         await this.actionOk();
                     }

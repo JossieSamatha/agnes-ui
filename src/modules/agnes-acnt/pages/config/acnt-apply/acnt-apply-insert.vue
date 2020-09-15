@@ -208,7 +208,7 @@
 </template>
 
 <script>
-    // import loadsh from 'lodash';
+    import loadsh from 'lodash';
 
     export default {
         name: "apply-define",
@@ -316,19 +316,46 @@
 
             },
  
-            // 取消onCancel事件，触发抽屉关闭事件this.$emit("onClose");
-            async onCancel() {
-                this.$emit("onClose");
-            },
-
             // 保存onSave事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
             async onSave() {
                 const ok = await this.$refs['taskDefForm'].validate();
                 if (!ok) {
                     return;
                 }
+
                 try {
-          
+                    let form =  JSON.parse(JSON.stringify(this.detailForm)) 
+                    form.processStatus = '07';
+                    if(!loadsh.isEmpty(this.detailForm.processStatus)){
+                        //状态机控制
+                        if(this.detailForm.processStatus=='06'){
+                            form.processStatus = '07';
+                        }else if(this.detailForm.processStatus=='07'){
+                            form.processStatus = '08';
+                        }
+                    }
+                    const p = this.$api.acntApplyApi.saveApply(form);
+                    await this.$app.blockingApp(p);
+                    this.$msg.success('提交成功');
+                    if (this.actionOk) {
+                        await this.actionOk();
+                    }
+                    this.$emit("onClose");
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
+
+            // 保存onCancel事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
+            async onCancel() {
+                try {
+                    if(this.detailForm.processStatus=='07'){
+                        let form =  JSON.parse(JSON.stringify(this.detailForm)) 
+                        form.processStatus = '06';
+                        const p = this.$api.acntApplyApi.cancelApply(form);
+                        await this.$app.blockingApp(p);
+                        this.$msg.success('提交成功');
+                    }
                     if (this.actionOk) {
                         await this.actionOk();
                     }
