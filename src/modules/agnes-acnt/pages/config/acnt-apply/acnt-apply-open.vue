@@ -15,7 +15,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item  label="业务类型" prop="bizType">
-                <gf-dict :disabled="isSubDis" filterable clearable v-model="detailForm.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
+                <gf-dict :disabled="true" filterable clearable v-model="detailForm.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
             </el-form-item>
         </div>
         <div class="line">
@@ -203,7 +203,7 @@
                 isSubDis:false,
                 detailForm: {
                     typeCode:'1', 
-                    bizType:'', 
+                    bizType:'01',
                     baseStartDept:'', 
                     baseStartDeptLinkman:'', 
                     baseAcceptDept:'',

@@ -16,7 +16,7 @@ export default {
         column.buildOpCol(150, colButtons),
         // {headerName: "账户类型", field: "typeCode"},
         {headerName: "归属机构", field: "orgName"},
-        {headerName: "业务类型", field: "bizType"},
+        {headerName: "业务类型", field: "bizType",dictType:"AGNES_ACNT_BIZ_TYPE"},
         {headerName: "流程节点", field: "processStatus",dictType:"AGNES_ACNT_APPLY_STATUS"},
         {headerName: "是否提交OA", field: "isSendOa",
           valueFormatter: function (params) {
