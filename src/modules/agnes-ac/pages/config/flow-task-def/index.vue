@@ -333,6 +333,7 @@
                 }
             },
             handleAvatarSuccess(){
+
                 this.$refs.uploadCase.clearFiles()
                 this.$msg.success("上传解析成功!");
                 this.$emit("onClose");
