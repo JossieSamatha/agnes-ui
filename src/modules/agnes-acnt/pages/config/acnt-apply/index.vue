@@ -153,6 +153,10 @@
                     }else {
                         form.processStatus = '06';
                     }
+                    const ok = await this.$msg.ask(`材料是否准备充足?`);
+                    if (!ok) {
+                        return
+                    }
                     const p = this.$api.acntApplyApi.saveApply(form);
                     await this.$app.blockingApp(p);
                     await this.reloadData();

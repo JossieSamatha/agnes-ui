@@ -106,7 +106,7 @@
         </div>
         <div v-if="detailForm.isSendOa==='1'" class="line">
             <el-form-item label="申请人" prop="OAOperator">
-                <gf-input v-model.trim="detailForm.OAOperator" placeholder="申请人"/>
+                <gf-input disabled v-model.trim="detailForm.OAOperator" placeholder="申请人"/>
             </el-form-item>
             <el-form-item label="申请事由" prop="OARemark">
                 <gf-input v-model.trim="detailForm.OARemark" placeholder="申请事由"/>    
@@ -216,7 +216,7 @@
                     isSendOa:'0', 
                     OATitle:'用印申请流程', 
                     OADept:'基金运营部', 
-                    OAOperator:'',
+                    OAOperator:this.$app.session.data.user.userName,
                     OARemark:'业务描述', 
                     OALeader:'', 
                     OAIsNeedAudit:'0', 
