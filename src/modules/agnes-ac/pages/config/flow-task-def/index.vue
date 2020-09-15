@@ -31,6 +31,7 @@
                         :data="getFileData()"
                         :on-change="uploadFile"
                         :disabled="!uploadStatus"
+                        :on-success="handleAvatarSuccess"
                         accept=".xls,.xlsx">
                     <gf-button  :disabled="!uploadStatus" class="action-btn" slot="trigger" size="mini">解析文件</gf-button>
                 </el-upload>
@@ -327,16 +328,18 @@
                     let rows = this.$refs.grid.getSelectedRows();
                     let caseTaskDto = rows[0];
                     let caseData = JSON.stringify(caseTaskDto);
-                    return {caseData:caseData};
+                    let bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
+                    return {caseData:caseData,bizTag:JSON.stringify(bizTagOption)};
                 }
             },
-            uploadFile(){
-                this.$refs.uploadCase.submit();
+            handleAvatarSuccess(){
                 this.$refs.uploadCase.clearFiles()
                 this.$msg.success("上传解析成功!");
                 this.$emit("onClose");
                 this.reloadData();
-
+            },
+            uploadFile(){
+                this.$refs.uploadCase.submit();
             }
         }
     }
