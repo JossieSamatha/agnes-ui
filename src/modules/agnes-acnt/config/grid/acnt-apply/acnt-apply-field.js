@@ -33,7 +33,7 @@ export default {
     },
     autoGroupColumnDef: {
         headerName: '账户类型',
-        field:"typeCode",
+        field:"typeName",
         minWidth: 50,
         cellRendererParams: {
             suppressCount: true,

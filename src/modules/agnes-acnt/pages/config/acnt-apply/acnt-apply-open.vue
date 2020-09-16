@@ -97,42 +97,42 @@
             </el-form-item>
         </div>
         <div v-if="detailForm.isSendOa==='1'" class="line">
-            <el-form-item label="标题" prop="OATitle">
-                <gf-input v-model.trim="detailForm.OATitle" placeholder="标题"/>
+            <el-form-item label="标题" prop="oaTitle">
+                <gf-input v-model.trim="detailForm.oaTitle" placeholder="标题"/>
             </el-form-item>
-            <el-form-item label="申请部门" prop="OADept">
-                <gf-input v-model.trim="detailForm.OADept" placeholder="申请部门"/>    
-            </el-form-item>
-        </div>
-        <div v-if="detailForm.isSendOa==='1'" class="line">
-            <el-form-item label="申请人" prop="OAOperator">
-                <gf-input disabled v-model.trim="detailForm.OAOperator" placeholder="申请人"/>
-            </el-form-item>
-            <el-form-item label="申请事由" prop="OARemark">
-                <gf-input v-model.trim="detailForm.OARemark" placeholder="申请事由"/>    
+            <el-form-item label="申请部门" prop="oaDept">
+                <gf-input v-model.trim="detailForm.oaDept" placeholder="申请部门"/>
             </el-form-item>
         </div>
         <div v-if="detailForm.isSendOa==='1'" class="line">
-            <el-form-item label="公司领导" prop="OALeader">
-                <gf-input v-model.trim="detailForm.OALeader" placeholder="公司领导"/>
+            <el-form-item label="申请人" prop="oaOperator">
+                <gf-input disabled v-model.trim="detailForm.oaOperator" placeholder="申请人"/>
             </el-form-item>
-            <el-form-item label="是否需要合规法务审核" prop="OAIsNeedAudit">
-                <el-radio-group v-model="detailForm.OAIsNeedAudit">
+            <el-form-item label="申请事由" prop="oaRemark">
+                <gf-input v-model.trim="detailForm.oaRemark" placeholder="申请事由"/>
+            </el-form-item>
+        </div>
+        <div v-if="detailForm.isSendOa==='1'" class="line">
+            <el-form-item label="公司领导" prop="oaLeader">
+                <gf-input v-model.trim="detailForm.oaLeader" placeholder="公司领导"/>
+            </el-form-item>
+            <el-form-item label="是否需要合规法务审核" prop="oaIsNeedAudit">
+                <el-radio-group v-model="detailForm.oaIsNeedAudit">
                     <el-radio label="1">是</el-radio>
                     <el-radio label="0">否</el-radio>
                 </el-radio-group>
             </el-form-item>
         </div>
         <div v-if="detailForm.isSendOa==='1'" class="line">
-            <el-form-item label="是否需要加盖法人章" prop="OAIsNeedStamp">
-                <el-radio-group v-model="detailForm.OAIsNeedStamp">
+            <el-form-item label="是否需要加盖法人章" prop="oaIsNeedStamp">
+                <el-radio-group v-model="detailForm.oaIsNeedStamp">
                     <el-radio label="1">是</el-radio>
                     <el-radio label="0">否</el-radio>
                 </el-radio-group>
             </el-form-item>
-            <el-form-item label="用印日期" prop="OAPrintDT">
+            <el-form-item label="用印日期" prop="oaPrintDt">
                 <el-date-picker
-                        v-model="detailForm.OAPrintDT"
+                        v-model="detailForm.oaPrintDt"
                         type="date"
                         value-format="yyyy-MM-dd"
                         placeholder="用印日期">
@@ -150,22 +150,22 @@
                         :data="detailForm.fields"
                         border stripe
                         style="width: 100%">
-                    <el-table-column prop="OAurl" label="用印文件名">
+                    <el-table-column prop="fileName" label="用印文件名">
                         <template slot-scope="scope">
-                            <!-- <span v-if="this.mode === 'view'">{{scope.row.OAurl}}</span> -->
-                            <el-input :style="!scope.row.OAurl ? 'border:1px solid #f00':''" v-model="scope.row.OAurl"></el-input>
+                            <!-- <span v-if="this.mode === 'view'">{{scope.row.fileName}}</span> -->
+                            <el-input :style="!scope.row.fileName ? 'border:1px solid #f00':''" v-model="scope.row.fileName"></el-input>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="OAnumber" label="份数">
+                    <el-table-column prop="fileNumber" label="份数">
                         <template slot-scope="scope">
-                            <!-- <span v-if="this.mode === 'view'">{{scope.row.OAnumber}}</span> -->
-                            <el-input type="number" :style="!scope.row.OAnumber ? 'border:1px solid #f00':''" v-model="scope.row.OAnumber"></el-input>
+                            <!-- <span v-if="this.mode === 'view'">{{scope.row.fileNumber}}</span> -->
+                            <el-input type="number" :style="!scope.row.fileNumber ? 'border:1px solid #f00':''" v-model="scope.row.fileNumber"></el-input>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="OAremark" label="备注">
+                    <el-table-column prop="fileRemark" label="备注">
                         <template slot-scope="scope">
-                            <!-- <span v-if="this.mode === 'view'">{{scope.row.OAremark}}</span> -->
-                            <el-input v-model="scope.row.OAremark"></el-input>
+                            <!-- <span v-if="this.mode === 'view'">{{scope.row.fileRemark}}</span> -->
+                            <el-input v-model="scope.row.fileRemark"></el-input>
                         </template>
                     </el-table-column>
                     <el-table-column  prop="option" label="操作" width="52" align="center">
@@ -202,7 +202,7 @@
                 staticData: {},
                 isSubDis:false,
                 detailForm: {
-                    typeCode:'1', 
+                    typeCode:'01',
                     bizType:'01',
                     baseStartDept:'', 
                     baseStartDeptLinkman:'', 
@@ -214,17 +214,17 @@
                     productName:'',
                     isSendFinance:'0', 
                     isSendOa:'0', 
-                    OATitle:'用印申请流程', 
-                    OADept:'基金运营部', 
-                    OAOperator:this.$app.session.data.user.userName,
-                    OARemark:'业务描述', 
-                    OALeader:'', 
-                    OAIsNeedAudit:'0', 
-                    OAIsNeedStamp:'0',
-                    OAPrintDT:'',
+                    oaTitle:'用印申请流程',
+                    oaDept:'基金运营部',
+                    oaOperator:this.$app.session.data.user.userName,
+                    oaRemark:'业务描述',
+                    oaLeader:'',
+                    oaIsNeedAudit:'0',
+                    oaIsNeedStamp:'0',
+                    oaPrintDt:'',
                     fields:[],
                 },
-                mustFillField: ['OAurl','OAnumber'],
+                mustFillField: ['fileName','fileNumber'],
                 bizTagOption: [],        // 业务类型下拉
                 groupOption: [],        // 群组下拉
                 productList:[],     //产品代码群组
@@ -261,9 +261,9 @@
             // 新增服务行
             addRule(){
                 const newFileTableObj = {
-                    OAurl: '',
-                    OAnumber: '',
-                    OAremark: '',
+                    fileName: '',
+                    fileNumber: '',
+                    fileRemark: '',
                 };
                 this.detailForm.fields.push(newFileTableObj);
             },
