@@ -5,27 +5,11 @@
 .datav-component .el-aside {
     width: 200px!important;
     border-right: 1px solid #eaeaea;
-    /*background: #404258;*/
 }
 
 .datav-component .el-main {
     padding: 0px;
 }
-
-/*.datav-component .el-aside .el-tree {*/
-    /*height: 100%;*/
-    /*background:none;*/
-    /*color:#fff;*/
-    /*overflow: auto;*/
-/*}*/
-
-/*.datav-component .el-aside .el-tree .el-tree-node__content:hover {*/
-    /*background: #1c74c8;*/
-/*}*/
-
-/*.datav-component .el-aside .el-tree .el-tree-node:focus>.el-tree-node__content {*/
-    /*background: #1c74c8;*/
-/*}*/
 
 .datav-component-list {
     width: 100%;
@@ -118,58 +102,6 @@
 .datav-component-designer .el-container {
     height: 100%;
 }
-
-/*.datav-component-designer .el-aside {*/
-    /*width: 200px!important;*/
-    /*border-right: 1px #000 solid;*/
-    /*display: flex;*/
-    /*flex-direction: column;*/
-    /*background-color: #404258;*/
-    /*color: #fff;*/
-/*}*/
-
-/*.datav-component-designer .el-aside .title {*/
-    /*flex-grow: 0;*/
-/*}*/
-
-/*.datav-component-designer .title-label {*/
-    /*line-height: 26px;*/
-    /*padding: 0px 5px;*/
-/*}*/
-
-/*.datav-component-designer .el-aside .title>div:first-child {*/
-    /*font-weight: bold;*/
-/*}*/
-
-/*.datav-component-designer .el-aside .fields {*/
-    /*flex-grow: 1;*/
-    /*overflow: auto;*/
-/*}*/
-
-/*.datav-component-designer .el-aside .fields>div {*/
-    /*height: 100%;*/
-    /*overflow: auto;*/
-    /*background: none;*/
-/*}*/
-
-/*.datav-component-designer .el-aside .fields>div .item {*/
-    /*line-height: 26px;*/
-    /*font-size: 14px;*/
-/*}*/
-
-/*.datav-component-designer .el-aside .fields>div .item:hover {*/
-    /*cursor: pointer;*/
-    /*background: #1c74c8;*/
-/*}*/
-
-/*.datav-component-designer .el-aside .fields>div .item .el-col:first-child {*/
-    /*text-align: center;*/
-/*}*/
-
-/*.datav-component-designer .el-aside .fields>div .item .el-col:first-child i {*/
-    /*font-weight: bold;*/
-    /*font-size: 14px;*/
-/*}*/
 
 .datav-component-designer .el-main {
     padding: 0px;

@@ -81,18 +81,18 @@
         computed: {
             dataVTitle: {
                 get() {
-                    return this.$datavTemplateService.dataVData.title;
+                    return this.$datavTemplateService.data.dataVData.title;
                 },
                 set(val){
-                    this.$datavTemplateService.setDataVAttr('title', val);
+                    this.$datavTemplateService.data.dataVData.title = val;
                 }
             },
             dataVLabel: {
                 get(){
-                    return this.$datavTemplateService.dataVData.label;
+                    return this.$datavTemplateService.data.dataVData.label;
                 },
                 set(val){
-                    this.$datavTemplateService.setDataVAttr('label', val);
+                    this.$datavTemplateService.data.dataVData.label = val;
                 }
             }
         },
@@ -130,6 +130,7 @@
 
             chooseBg(bg){
                 this.activeBgImg = bg;
+                this.$datavTemplateService.data.dataVData.content.bgImage = bg;
             }
         },
     }

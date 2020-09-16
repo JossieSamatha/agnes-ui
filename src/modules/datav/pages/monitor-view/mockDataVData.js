@@ -20,44 +20,261 @@ export default function () {
             {
                 category: 'chart',
                 icon: 'bar-chart',
-                label: '图表',
+                label: '插入图表',
                 components: [
                     {
-                        type: 'ct-line',
+                        type: 'chart',
                         icon: 'ct-line',
                         compName: 'ct-line',
                         label: '折线（面积）图',
-                    }, {
-                        type: 'ct-bar',
+                        position: {
+                            ...staticCompPosition(),
+                            width: 500,
+                            height: 220,
+                        },
+                        componentMeta: {
+                            chartSettings: {
+                                stack: {'用户': ['访问用户', '下单用户']},
+                                axisSite: {right: ['下单率']},
+                                yAxisType: ['KMB', 'percent'],
+                                yAxisName: ['数值', '比率'],
+                                area: false,
+                            },
+                            extend: {
+                                series: {
+                                    label: {
+                                        normal: {
+                                            show: true
+                                        }
+                                    }
+                                }
+                            },
+                            chartData: {
+                                columns: ['日期', '访问用户', '下单用户', '下单率'],
+                                rows: [
+                                    {'日期': '1/1', '访问用户': 1393, '下单用户': 1093, '下单率': 0.32},
+                                    {'日期': '1/2', '访问用户': 3530, '下单用户': 3230, '下单率': 0.26},
+                                    {'日期': '1/3', '访问用户': 2923, '下单用户': 2623, '下单率': 0.76},
+                                    {'日期': '1/4', '访问用户': 1723, '下单用户': 1423, '下单率': 0.49},
+                                    {'日期': '1/5', '访问用户': 3792, '下单用户': 3492, '下单率': 0.323},
+                                    {'日期': '1/6', '访问用户': 4593, '下单用户': 4293, '下单率': 0.78}
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        type: 'chart',
                         icon: 'ct-bar',
                         compName: 'ct-bar',
                         label: '柱状（条形）图',
-                    }, {
-                        type: 'ct-scatter',
+                        position: {
+                            ...staticCompPosition(),
+                            width: 500,
+                            height: 220,
+                        },
+                        componentMeta: {
+                            chartSettings: {
+                                showLine: ['下单用户'],
+                                axisSite: {right: ['下单率']},
+                                yAxisType: ['KMB', 'percent'],
+                                yAxisName: ['数值', '比率'],
+                                stack: {'用户': ['访问用户', '下单用户']}
+                            },
+                            extend: {
+                                series: {
+                                    label: {show: true, position: "top"}
+                                },
+                            },
+                            ifShowLegend: true,
+                            legendPosition: 'bottom',
+                            chartData: {
+                                columns: ['日期', '访问用户', '下单用户', '下单率'],
+                                rows: [
+                                    {'日期': '1/1', '访问用户': 1393, '下单用户': 1093, '下单率': 0.32},
+                                    {'日期': '1/2', '访问用户': 3530, '下单用户': 3230, '下单率': 0.26},
+                                    {'日期': '1/3', '访问用户': 2923, '下单用户': 2623, '下单率': 0.76},
+                                    {'日期': '1/4', '访问用户': 1723, '下单用户': 1423, '下单率': 0.49},
+                                    {'日期': '1/5', '访问用户': 3792, '下单用户': 3492, '下单率': 0.323},
+                                    {'日期': '1/6', '访问用户': 4593, '下单用户': 4293, '下单率': 0.78}
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        type: 'chart',
                         icon: 'ct-scatter',
                         compName: 'ct-scatter',
-                        label: '散点（气泡图）',
-                    }, {
-                        type: 'ct-pie',
+                        label: '散点（气泡）图',
+                        position: {
+                            ...staticCompPosition(),
+                            width: 500,
+                            height: 220,
+                        },
+                        componentMeta: {
+                            chartSettings: {
+                                tooltipTrigger: 'axis'
+                            },
+                            chartData: {
+                                columns: ['日期', '访问用户', '下单用户', '年龄'],
+                                rows: {
+                                    '上海': [
+                                        {'日期': '1/1', '访问用户': 1230, '年龄': 3, '下单用户': 1244},
+                                        {'日期': '1/2', '访问用户': 1223, '年龄': 6, '下单用户': 2344},
+                                        {'日期': '1/3', '访问用户': 7123, '年龄': 9, '下单用户': 3245},
+                                        {'日期': '1/4', '访问用户': 4123, '年龄': 12, '下单用户': 4355},
+                                        {'日期': '1/5', '访问用户': 3123, '年龄': 15, '下单用户': 4564},
+                                        {'日期': '1/6', '访问用户': 2323, '年龄': 20, '下单用户': 6537}
+                                    ],
+                                    '北京': [
+                                        {'日期': '1/1', '访问用户': 1230, '年龄': 3, '下单用户': 1244},
+                                        {'日期': '1/2', '访问用户': 1273, '年龄': 6, '下单用户': 2344},
+                                        {'日期': '1/3', '访问用户': 3123, '年龄': 15, '下单用户': 4564},
+                                        {'日期': '1/4', '访问用户': 2123, '年龄': 9, '下单用户': 3245},
+                                        {'日期': '1/5', '访问用户': 4103, '年龄': 12, '下单用户': 4355},
+                                        {'日期': '1/6', '访问用户': 7123, '年龄': 10, '下单用户': 3567}
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    {
+                        type: 'chart',
                         icon: 'ct-pie',
                         compName: 'ct-pie',
-                        label: '饼（环形图）',
-                    }, {
-                        type: 'ct-radar',
+                        label: '饼（环形）图',
+                        position: {
+                            ...staticCompPosition(),
+                            width: 500,
+                            height: 220,
+                        },
+                        componentMeta: {
+                            chartSettings: {
+                                limitShowNum: 5
+                            },
+                            chartData: {
+                                columns: ['日期', '访问用户'],
+                                rows: [
+                                    { '日期': '1/1', '访问用户': 1393 },
+                                    { '日期': '1/2', '访问用户': 3530 },
+                                    { '日期': '1/3', '访问用户': 2923 },
+                                    { '日期': '1/4', '访问用户': 1723 },
+                                    { '日期': '1/5', '访问用户': 3792 },
+                                    { '日期': '1/6', '访问用户': 4593 }]
+                            }
+                        }
+                    },
+                    {
+                        type: 'chart',
                         icon: 'ct-radar',
                         compName: 'ct-radar',
                         label: '雷达（面积）图',
-                    }, {
-                        type: 'ct-gauge',
+                        position: {
+                            ...staticCompPosition(),
+                            width: 500,
+                            height: 220,
+                        },
+                        componentMeta: {
+                            chartSettings: {
+                                dataType: { '下单率': 'percent' }
+                            },
+                            chartData: {
+                                columns: ['日期', '访问用户', '下单用户', '下单率'],
+                                rows: [
+                                    { '日期': '1/1', '访问用户': 1393, '下单用户': 1093, '下单率': 0.32 },
+                                    { '日期': '1/2', '访问用户': 3530, '下单用户': 3230, '下单率': 0.26 },
+                                    { '日期': '1/3', '访问用户': 2923, '下单用户': 2623, '下单率': 0.76 },
+                                    { '日期': '1/4', '访问用户': 1723, '下单用户': 1423, '下单率': 0.49 },
+                                    { '日期': '1/5', '访问用户': 3792, '下单用户': 3492, '下单率': 0.323 },
+                                    { '日期': '1/6', '访问用户': 4593, '下单用户': 4293, '下单率': 0.78 }]
+                            }
+                        }
+                    },
+                    {
+                        type: 'chart',
                         icon: 'ct-gauge',
                         compName: 'ct-gauge',
                         label: '仪表盘',
-                    }, {
-                        type: 'ct-funnel',
+                        position: {
+                            ...staticCompPosition(),
+                            width: 500,
+                            height: 220,
+                        },
+                        componentMeta: {
+                            chartSettings: {
+                                dataType: {
+                                    '占比': 'percent'
+                                },
+                                seriesMap: {
+                                    '占比': {
+                                        min: 0,
+                                        max: 1
+                                    }
+                                }
+                            },
+                            chartData: {
+                                columns: ['type', 'value'],
+                                rows: [
+                                    { type: '占比', value: 0.8 }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        type: 'chart',
                         icon: 'ct-funnel',
                         compName: 'ct-funnel',
                         label: '漏斗图',
-                    }]
+                        position: {
+                            ...staticCompPosition(),
+                            width: 500,
+                            height: 220,
+                        },
+                        componentMeta: {
+                            chartSettings: {
+                                useDefaultOrder: true,
+                                filterZero: true
+                            },
+                            chartData: {
+                                columns: ['状态', '数值'],
+                                rows: [
+                                    { '状态': '展示', '数值': 900 },
+                                    { '状态': '访问', '数值': 100 },
+                                    { '状态': '零', '数值': 0 },
+                                    { '状态': '点击', '数值': 300 },
+                                    { '状态': '订单', '数值': 200 }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        type: 'chart',
+                        icon: 'ct-map',
+                        compName: 'ct-map',
+                        label: '地图',
+                        position: {
+                            ...staticCompPosition(),
+                            width: 500,
+                            height: 220,
+                        },
+                        componentMeta: {
+                            chartSettings: {
+                                position: "china",
+                                dataType: {
+                                    "面积": "KMB"
+                                }
+                            },
+                            chartData: {
+                                columns: ['位置', '税收', '人口', '面积'],
+                                rows: [
+                                    { '位置': '吉林', '税收': 123, '人口': 123, '面积': 92134 },
+                                    { '位置': '北京', '税收': 1223, '人口': 2123, '面积': 29234 },
+                                    { '位置': '上海', '税收': 2123, '人口': 1243, '面积': 94234 },
+                                    { '位置': '浙江', '税收': 4123, '人口': 5123, '面积': 29234 }
+                                ]
+                            }
+                        }
+                    }
+                ]
             },
             {
                 category: 'grid',
@@ -326,106 +543,33 @@ export default function () {
                                 "compName": "ct-line",
                                 "label": "折线（面积）图",
                                 "componentMeta": {
-                                    xAxis: {
-                                        name: '年份',
-                                        nameTextStyle: {
-                                            fill: '#fff',
-                                            fontSize: 12
-                                        },
-                                        data: ['2014', '2015', '2016', '2017', '2018', '2019'],
-                                        boundaryGap: false,
-                                        axisLine: {
-                                            style: {
-                                                stroke: '#fff'
-                                            }
-                                        },
-                                        axisLabel: {
-                                            style: {
-                                                fill: '#fff'
-                                            }
-                                        },
-                                        axisTick: {
-                                            show: false
-                                        }
+                                    chartSettings: {
+                                        stack: {'用户': ['访问用户', '下单用户']},
+                                        axisSite: {right: ['下单率']},
+                                        yAxisType: ['KMB', 'percent'],
+                                        yAxisName: ['数值', '比率'],
+                                        area: false,
                                     },
-                                    yAxis: {
-                                        name: '规模',
-                                        nameTextStyle: {
-                                            fill: '#fff',
-                                            fontSize: 12
-                                        },
-                                        data: 'value',
-                                        splitLine: {
-                                            show: false
-                                        },
-                                        axisLine: {
-                                            style: {
-                                                stroke: '#fff'
-                                            }
-                                        },
-                                        axisLabel: {
-                                            style: {
-                                                fill: '#fff'
-                                            },
-                                            formatter ({ value }) {
-                                                return value.toFixed(2)
-                                            }
-                                        },
-                                        axisTick: {
-                                            show: false
-                                        },
-                                        // interval: 0.5
-                                    },
-                                    series: [
-                                        {
-                                            data: [100, 230, 100, 200, 300, 400],
-                                            type: 'line',
-                                            name: '规模',
-                                            smooth: true,
-                                            lineArea: {
-                                                show: true,
-                                                gradient: ['rgba(55, 162, 218, 0.6)', 'rgba(55, 162, 218, 0)']
-                                            },
-                                            linePoint: {
-                                                radius: 4,
-                                                style: {
-                                                    fill: '#00db95'
-                                                }
-                                            }
-                                        },
-                                        {
-                                            data: [200, 230, 900, 100, 500, 200],
-                                            type: 'line',
-                                            name: '产品',
-                                            smooth: true,
-                                            lineArea: {
-                                                show: true,
-                                                gradient: ['rgba(55, 162, 218, 0.6)', 'rgba(55, 162, 218, 0)']
-                                            },
-                                            linePoint: {
-                                                radius: 4,
-                                                style: {
-                                                    fill: '#00db95'
-                                                }
-                                            }
-                                        },
-                                        {
-                                            data: [120, 223, 190, 210, 350, 420],
-                                            type: 'line',
-                                            name: '客户数',
-                                            smooth: true,
-                                            lineArea: {
-                                                show: true,
-                                                gradient: ['rgba(55, 162, 218, 0.6)', 'rgba(55, 162, 218, 0)']
-                                            },
-                                            linePoint: {
-                                                radius: 4,
-                                                style: {
-                                                    fill: '#00db95'
+                                    extend: {
+                                        series: {
+                                            label: {
+                                                normal: {
+                                                    show: true
                                                 }
                                             }
                                         }
-                                    ]
+                                    },
+                                    chartData: {
+                                        columns: ['日期', '访问用户', '下单用户', '下单率'],
+                                        rows: [
+                                            {'日期': '1/1', '访问用户': 1393, '下单用户': 1093, '下单率': 0.32},
+                                            {'日期': '1/2', '访问用户': 3530, '下单用户': 3230, '下单率': 0.26},
+                                            {'日期': '1/3', '访问用户': 2923, '下单用户': 2623, '下单率': 0.76},
+                                            {'日期': '1/4', '访问用户': 1723, '下单用户': 1423, '下单率': 0.49},
+                                            {'日期': '1/5', '访问用户': 3792, '下单用户': 3492, '下单率': 0.323},
+                                            {'日期': '1/6', '访问用户': 4593, '下单用户': 4293, '下单率': 0.78}
+                                        ]
+                                    }
                                 }
                             },
                         }
@@ -465,29 +609,33 @@ export default function () {
                                 "compName": "ct-line",
                                 "label": "折线（面积）图",
                                 "componentMeta": {
-                                    "xAxis": {
-                                        "name": "月份",
-                                        "data": ["2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
-                                        "boundaryGap": false
+                                    chartSettings: {
+                                        stack: {'用户': ['访问用户', '下单用户']},
+                                        axisSite: {right: ['下单率']},
+                                        yAxisType: ['KMB', 'percent'],
+                                        yAxisName: ['数值', '比率'],
+                                        area: false,
                                     },
-                                    "yAxis": {
-                                        "data": "value",
-                                        "splitLine": {"show": false},
-                                        "axisTick": {"show": false}
+                                    extend: {
+                                        series: {
+                                            label: {
+                                                normal: {
+                                                    show: true
+                                                }
+                                            }
+                                        }
                                     },
-                                    "series": [{
-                                        "name": "研发加班时长",
-                                        "data": [20, 15, 10, 25, 25, 30, 20, 10, 8, 35, 30],
-                                        "type": "line"
-                                    }, {
-                                        "name": "人均加班时长",
-                                        "data": [8, 10, 12, 10, 10, 10, 8, 8, 12, 14, 12],
-                                        "type": "line"
-                                    }, {
-                                        "name": "总计加班时长",
-                                        "data": [28, 25, 22, 35, 35, 40, 28, 18, 20, 49, 42],
-                                        "type": "line"
-                                    }]
+                                    chartData: {
+                                        columns: ['日期', '访问用户', '下单用户', '下单率'],
+                                        rows: [
+                                            {'日期': '1/1', '访问用户': 1393, '下单用户': 1093, '下单率': 0.32},
+                                            {'日期': '1/2', '访问用户': 3530, '下单用户': 3230, '下单率': 0.26},
+                                            {'日期': '1/3', '访问用户': 2923, '下单用户': 2623, '下单率': 0.76},
+                                            {'日期': '1/4', '访问用户': 1723, '下单用户': 1423, '下单率': 0.49},
+                                            {'日期': '1/5', '访问用户': 3792, '下单用户': 3492, '下单率': 0.323},
+                                            {'日期': '1/6', '访问用户': 4593, '下单用户': 4293, '下单率': 0.78}
+                                        ]
+                                    }
                                 }
                             },
                         }

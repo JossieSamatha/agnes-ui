@@ -1,11 +1,11 @@
 import BaseCharts from "../baseChart";
 
 export default {
-    name: "CtArea",
+    name: "CtRadar",
     extends: BaseCharts,
     props: {
         chartName: {
-            default: 've-line'
+            default: 've-radar'
         },
         compOption: {
             default: {

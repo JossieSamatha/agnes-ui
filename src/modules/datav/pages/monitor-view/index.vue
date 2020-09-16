@@ -83,10 +83,9 @@
             this.$dataVBus.$on('openEditPage', templateObj=>this.openEditPage(templateObj));
         },
         mounted() {
-            var that = this;
             this.rowNum = this.getTempRowNum(document.body.offsetWidth);
-            window.addEventListener('resize', function () {
-                that.rowNum = that.getTempRowNum(document.body.offsetWidth);
+            window.addEventListener('resize', () => {
+                this.rowNum = this.getTempRowNum(document.body.offsetWidth);
             });
         },
         methods: {
@@ -98,6 +97,9 @@
                     return;
                 }
                 const dataVData = this.setTemplateState(params);
+                if(!dataVData){
+                    return;
+                }
                 this.$datavTemplateService.init(dataVData);
                 const tabView = Object.assign({args: {dataVData}}, pageView, {id: viewId});
                 this.$nav.showView(tabView);

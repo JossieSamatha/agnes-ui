@@ -7,7 +7,7 @@
                      <span>返回</span>
                  </span>
                 <span class="header-item input">
-                    <el-input v-model="dataVTitle"></el-input>
+                    <el-input v-model="dataVDataSer.title"></el-input>
                 </span>
             </div>
             <div>
@@ -31,16 +31,24 @@
         </div>
         <div class="content">
             <comp-sider></comp-sider>
-            <board-container @activeComp="activeComp"></board-container>
-            <config-sider></config-sider>
+            <board-container></board-container>
+            <el-drawer ref="configDrawer" class="config-drawer"
+                       :withHeader="false"
+                       :visible.sync="configDrawer"
+                       :modal="false"
+                       :destroy-on-close="true"
+                       direction="rtl"
+                       size="100%">
+                <chart-config-drawer ref="configSider"></chart-config-drawer>
+            </el-drawer>
         </div>
     </div>
 </template>
 
 <script>
     import compSider from './comp-sider';
-    import configSider from './config-sider';
     import boardContainer from './board-container';
+    import chartConfigDrawer from './chart-config-drawer'
     export default {
         props: {
             dataVData: {
@@ -51,19 +59,19 @@
         data() {
             return {
                 svgImg: this.$dataVSvg,
-                activeComp: {},
+                activeComp: {type: ''},
                 isPreview: true,
+                configDrawer: false,
+                dataVDataSer: this.$datavTemplateService.data.dataVData
             }
         },
         components: {
             'comp-sider': compSider,
-            'config-sider': configSider,
-            'board-container': boardContainer
+            'board-container': boardContainer,
+            'chart-config-drawer': chartConfigDrawer
         },
-        computed: {
-            dataVTitle() {
-                return this.$datavTemplateService.dataVData.title;
-            },
+        mounted(){
+            this.$dataVBus.$on('openChartDrawer', this.openChartDrawer);
         },
         methods: {
             backIndex() {
@@ -71,7 +79,19 @@
             },
 
             priviewDatav(){
-            }
+            },
+
+            // 打开图表配置抽屉
+            openChartDrawer(curComp) {
+                this.activeComp = curComp;
+                if (curComp.comp.type == 'chart' || curComp.comp.type == 'grid') {
+                    this.configDrawer = true;
+                }
+            },
+
+            closedDrawer() {
+                this.$refs.configDrawer.closeDrawer();
+            },
 
         },
     }

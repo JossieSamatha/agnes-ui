@@ -6,6 +6,7 @@ import Utils from './utils/index'
 import svgObj from "./assets/svgObj";
 
 import './style/datav-template.css';
+import './style/data-conf.css';
 
 const datav = {
     install: function (Vue) {

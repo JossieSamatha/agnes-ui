@@ -9,18 +9,19 @@
                      :isDraggable="position.draggable"
                      :isResizable="position.resizable"
                      :aspectRatio="position.aspectRatio"
-                     :z="position.zIndex"
+                     :z="parseInt(position.zIndex || 0)"
                      :parentW="listWidth"
                      :parentH="listHeight"
                      :parentLimitation="true"
                      contentClass="box-shaddow"
+                     @dblclick.native="editConfig"
                      @activated="activateEv"
                      @deactivated="deactivateEv"
-                     @dragging="changePosition($event)"
-                     @resizing="changePosition($event)">
+                     @dragging="changePosition('drag', $event)"
+                     @resizing="changePosition('resize', $event)">
         <i class="optionIcon fa fa-close" @click="deleteComp"></i>
         <i class="optionIcon fa fa-copy" @click="copyComp"></i>
-        <slot name="drag-size-content"></slot>
+        <slot name="drag-size-content" :compId="compId" :compName="compName" :optional="optional"></slot>
     </vue-drag-resize>
 </template>
 <script>
@@ -39,8 +40,7 @@
                 require: true
             },
             isActive: {
-                type: Boolean,
-                require: true
+                type: Boolean
             },
             position: {
                 type: Object,
@@ -54,12 +54,19 @@
                         resizable: true,
                         axis: 'both',
                         aspectRatio: false,
-                        zIndex: 1,
+                        zIndex: 1
                     }
                 }
             },
             optional: {
-                type: Object
+                type: Object,
+                default: function () {
+                    return {
+                        type: '',
+                        compName: '',
+                        componentMeta: {}
+                    }
+                }
             },
         },
         data(){
@@ -82,7 +89,7 @@
         methods: {
             activateEv() {
                 this.$datavTemplateService.setActive(this.compId);
-                this.$datavTemplateService.curComp.position = this.position;
+                this.$datavTemplateService.data.curComp = this._props;
             },
 
             deactivateEv() {
@@ -90,15 +97,20 @@
             },
 
             // 修改组件大小位置
-            changePosition(newComp) {
-                this.$datavTemplateService.curComp.position.top = newComp.top;
-                this.$datavTemplateService.curComp.position.left = newComp.left;
-                this.$datavTemplateService.curComp.position.width = newComp.width;
-                this.$datavTemplateService.curComp.position.height = newComp.height;
+            changePosition(type, newComp) {
+                if(type === 'drag'){
+                    this.position.top = newComp.top;
+                    this.position.left = newComp.left;
+                }
+                if(type === 'resize'){
+                    this.position.width = newComp.width;
+                    this.position.height = newComp.height;
+                    this.$dataVBizFunc.windowResize(this);
+                }
             },
 
             compDataChange(index, attr, value){
-                var newData = this.datavComps[index];
+                let newData = this.datavComps[index];
                 newData[attr] = value;
                 this.$datavTemplateService.addComp(newData);
             },
@@ -115,13 +127,20 @@
             },
 
             copyComp(){
-                var newComp = this.$utils.deepClone(this._props);
+                let newComp = this.$utils.deepClone(this._props);
                 newComp.compId = this.$agnesUtils.randomString(32);
                 newComp.isActive = true;
                 newComp.position.left += 20;
                 newComp.position.top += 20;
                 this.$datavTemplateService.addComp(newComp);
                 this.$datavTemplateService.setActive(newComp.compId);
+                this.$dataVBizFunc.windowResize(this);
+            },
+
+            editConfig(){
+                const compData = this.$utils.deepClone(this.optional);
+                this.$store.commit("changeEditItem", {comp: compData});
+                this.$dataVBus.$emit('openChartDrawer', {comp: compData});
             }
         }
     }

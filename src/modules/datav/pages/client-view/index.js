@@ -1,6 +1,6 @@
 import clientView from "./index.vue";
 
-var pages = [{
+const pages = [{
     id: "datav.client.view",
     title: "首页",
     component: clientView,

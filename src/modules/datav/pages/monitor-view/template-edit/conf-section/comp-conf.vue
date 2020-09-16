@@ -163,35 +163,35 @@
                     }],
                 justifyOptions: [
                     {
-                    value: 'flex-start',
-                    label: '居左'
-                },{
-                    value: 'center',
-                    label: '居中'
-                },{
-                    value: 'flex-end',
-                    label: '居右'
-                }],
+                        value: 'flex-start',
+                        label: '居左'
+                    },{
+                        value: 'center',
+                        label: '居中'
+                    },{
+                        value: 'flex-end',
+                        label: '居右'
+                    }],
                 alignOptions: [
                     {
-                    value: 'flex-start',
-                    label: '居上'
-                },{
-                    value: 'center',
-                    label: '居中'
-                },{
-                    value: 'flex-end',
-                    label: '居下'
-                }]
+                        value: 'flex-start',
+                        label: '居上'
+                    },{
+                        value: 'center',
+                        label: '居中'
+                    },{
+                        value: 'flex-end',
+                        label: '居下'
+                    }]
             }
         },
         computed: {
             activeComp() {
-                return this.$store.getters['dataVTemplate/getActive'];
+                return {};
             },
 
             compData() {
-                return this.activeComp === null ? '' : this.$store.state.dataVTemplate.datavComps[this.activeComp]
+                return this.activeComp === null ? '' : {}
             },
         },
         methods: {

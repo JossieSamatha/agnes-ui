@@ -1,14 +1,14 @@
 <template>
     <div class="template-board-container">
         <section ref="boardContainer" class="container" @dropover.prevent
-                 :style="{'background-image': getImgPath(boardContent.bgImage)}">
-            <gf-drag-resize v-for="(comp, index) in datavComps" :key="comp.compId"
+                 :style="{'background-image': getImgPath(dataVData.content.bgImage)}">
+            <gf-drag-resize v-for="(comp, index) in compsArr" :key="comp.compId"
                             :comp="comp"
                             :compIndex="index"
                             v-bind="comp"
             >
-                <template slot="drag-size-content">
-                    <component :is="comp.compName" :compOption="comp"></component>
+                <template slot="drag-size-content" slot-scope="props">
+                    <component v-if="props.compId" :is="props.compName" :compOption="props.optional.componentMeta"></component>
                 </template>
             </gf-drag-resize>
         </section>
@@ -18,14 +18,9 @@
 <script>
     export default {
         data(){
-            return {
-                boardContent: {},
-                datavComps: [],
-            }
+            return this.$datavTemplateService.data;
         },
         mounted() {
-            this.boardContent = this.$datavTemplateService.dataVData.content;
-            this.datavComps = this.$datavTemplateService.compsArr;
             this.$dataVBus.$on('addComp', this.addComp);
             this.$app.registerCmd('compDataChange', this.compDataChange);
         },
@@ -42,7 +37,7 @@
                 const newComp = {
                     compId: this.$agnesUtils.randomString(32),
                     compName: comp.compName,
-                    isActive: false,
+                    isActive: true,
                     position: {
                         left: evt.screenX - 72 - initialPoint.x,
                         top: evt.screenY - 140 - initialPoint.y,
@@ -51,10 +46,14 @@
                     optional: {
                         type: comp.type,
                         compType: comp.compName,
-                        ...this.$utils.deepClone(comp.componentMeta)
+                        componentMeta: {
+                            ...this.$utils.deepClone(comp.componentMeta)
+                        }
                     }
                 };
-                this.$datavTemplateService.compsArr.push(newComp);
+                this.$datavTemplateService.addComp(newComp);
+                this.$datavTemplateService.setActive(newComp.compId);
+                this.$dataVBizFunc.windowResize(this);
             },
         }
     }
