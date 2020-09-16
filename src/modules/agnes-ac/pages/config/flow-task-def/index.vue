@@ -5,6 +5,7 @@
                  toolbar="find,refresh,more"
                  quick-text-max-width="300px"
                  @row-double-click="showFlowTaskDetail"
+                 @selected-changed = "selectedChanged"
         >
             <template slot="left">
                 <gf-button class="action-btn" @click="addFlowTask" size="mini">添加</gf-button>
@@ -14,11 +15,25 @@
                 <el-upload
                         ref="upload"
                         :limit="1"
+                        action
                         :auto-upload="false"
                         :show-file-list="false"
                         :on-change="importFlow"
-                        accept="txt">
+                        accept=".txt">
                     <gf-button class="action-btn" slot="trigger" size="mini">导入</gf-button>
+                </el-upload>
+                <el-upload
+                        ref="uploadCase"
+                        :limit="1"
+                        action="/api/agnes-ac/v1/ac/flow/task/case/upload-case-file"
+                        :auto-upload="false"
+                        :show-file-list="false"
+                        :data="getFileData()"
+                        :on-change="uploadFile"
+                        :disabled="!uploadStatus"
+                        :on-success="handleAvatarSuccess"
+                        accept=".xls,.xlsx">
+                    <gf-button  :disabled="!uploadStatus" class="action-btn" slot="trigger" size="mini">解析文件</gf-button>
                 </el-upload>
             </template>
         </gf-grid>
@@ -29,7 +44,20 @@
     import FlowTaskDetail from './flow-task-detail'
 
     export default {
+        data() {
+            return {
+                uploadStatus:false
+            }
+        },
         methods: {
+            selectedChanged(){
+                let rows = this.$refs.grid.getSelectedRows();
+                if(rows.length>0){
+                    this.uploadStatus = true;
+                }else{
+                    this.uploadStatus = false;
+                }
+            },
             showFlowTask(row, mode, actionOk){
                 if (mode !== 'add' && !row) {
                     this.$msg.warning("请选中一条记录!");
@@ -269,7 +297,7 @@
                 save_link.href = urlObject.createObjectURL(export_blob);
                 save_link.download = name;
                 this.fakeClick(save_link);
-                },
+            },
             async importFlow(file){
                 let reader = new FileReader()
                 reader.readAsText(file.raw)
@@ -294,6 +322,25 @@
                     }
                 }
                 this.$refs.upload.clearFiles()
+            },
+            getFileData(){
+                if(this.uploadStatus){
+                    let rows = this.$refs.grid.getSelectedRows();
+                    let caseTaskDto = rows[0];
+                    let caseData = JSON.stringify(caseTaskDto);
+                    let bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
+                    return {caseData:caseData,bizTag:JSON.stringify(bizTagOption)};
+                }
+            },
+            handleAvatarSuccess(){
+
+                this.$refs.uploadCase.clearFiles()
+                this.$msg.success("上传解析成功!");
+                this.$emit("onClose");
+                this.reloadData();
+            },
+            uploadFile(){
+                this.$refs.uploadCase.submit();
             }
         }
     }
