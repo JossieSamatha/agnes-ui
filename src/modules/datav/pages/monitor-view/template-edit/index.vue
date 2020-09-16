@@ -32,6 +32,7 @@
         <div class="content">
             <comp-sider></comp-sider>
             <board-container></board-container>
+            <common-conf></common-conf>
             <el-drawer ref="configDrawer" class="config-drawer"
                        :withHeader="false"
                        :visible.sync="configDrawer"
@@ -48,6 +49,7 @@
 <script>
     import compSider from './comp-sider';
     import boardContainer from './board-container';
+    import commonConf from './config-sider'
     import chartConfigDrawer from './chart-config-drawer'
     export default {
         props: {
@@ -68,10 +70,12 @@
         components: {
             'comp-sider': compSider,
             'board-container': boardContainer,
-            'chart-config-drawer': chartConfigDrawer
+            'chart-config-drawer': chartConfigDrawer,
+            'common-conf' :commonConf
         },
         mounted(){
             this.$dataVBus.$on('openChartDrawer', this.openChartDrawer);
+            this.$dataVBus.$on("closeDrawerCmd", this.closedDrawer);
         },
         methods: {
             backIndex() {

@@ -1,17 +1,30 @@
 <template>
     <div class="template-board-container">
-        <section ref="boardContainer" class="container" @dropover.prevent
-                 :style="{'background-image': getImgPath(dataVData.content.bgImage)}">
-            <gf-drag-resize v-for="(comp, index) in compsArr" :key="comp.compId"
-                            :comp="comp"
-                            :compIndex="index"
-                            v-bind="comp"
-            >
-                <template slot="drag-size-content" slot-scope="props">
-                    <component v-if="props.compId" :is="props.compName" :compOption="props.optional.componentMeta"></component>
-                </template>
-            </gf-drag-resize>
-        </section>
+        <div class="container">
+            <section class="dataVScreen" ref="boardContainer" @dropover.prevent
+                     :style="{width: dataVData.content.pageWidth+'px',
+                 height: dataVData.content.pageHeight+'px',
+                 transform: 'scale('+dataVData.content.pageScale/100+')',
+                 'background-image': getImgPath(dataVData.content.bgImage)}">
+                <gf-drag-resize v-for="(comp, index) in compsArr" :key="comp.compId"
+                                :comp="comp"
+                                :compIndex="index"
+                                v-bind="comp"
+                >
+                    <template slot="drag-size-content" slot-scope="props">
+                        <component v-if="props.compId" :is="props.compName" :compOption="props.optional.componentMeta"></component>
+                    </template>
+                </gf-drag-resize>
+            </section>
+        </div>
+        <p class="pageScale">
+            <span>大屏缩放(%)</span>
+            <el-slider class="pageWSlider"
+                       v-model="dataVData.content.pageScale"
+                       :min="50" :max="200" show-input>
+            </el-slider>
+        </p>
+
     </div>
 </template>
 

@@ -2,76 +2,76 @@
     <div>
         <div class="conf-row">
             <p class="conf-row-title">属性配置</p>
-            <div class="conf-row-item" v-show="compData.compType == 'border-comp'">
+            <div class="conf-row-item" v-show="compOptional.compType == 'border-comp'">
                 <div class="row-inp radioInp">
                     <span>边框类型</span>
-                    <el-radio-group v-model="compData.borderType" @change="compDataChange('borderType', $event)">
+                    <el-radio-group v-model="componentMeta.borderType">
                         <el-radio v-for="(type, index) in borderOptions" :key="index" :label="type.value">{{type.label}}</el-radio>
                     </el-radio-group>
                 </div>
             </div>
-            <div class="conf-row-item" v-show="compData.compType == 'dynamic-comp'">
+            <div class="conf-row-item" v-show="compOptional.compType == 'dynamic-comp'">
                 <div class="row-inp radioInp">
                     <span>装饰类型</span>
-                    <el-radio-group v-model="compData.dynamicType" @change="compDataChange('dynamicType', $event)">
+                    <el-radio-group v-model="componentMeta.dynamicType">
                         <el-radio v-for="(type, index) in dynamicOptions" :key="index" :label="type.value">{{type.label}}</el-radio>
                     </el-radio-group>
                 </div>
             </div>
             <div class="conf-row-item">
-                <div class="row-inp radioInp" v-show="compData.hasOwnProperty('title')">
+                <div class="row-inp radioInp" v-show="componentMeta.hasOwnProperty('title')">
                     <span>标题</span>
-                    <el-input v-model="compData.title"></el-input>
+                    <el-input v-model="componentMeta.title"></el-input>
                 </div>
-                <div class="row-inp radioInp" v-show="compData.hasOwnProperty('titleWidthStr')">
+                <div class="row-inp radioInp" v-show="componentMeta.hasOwnProperty('titleWidthStr')">
                     <span>标题宽度</span>
-                    <el-input v-model="compData.titleWidthStr"></el-input>
+                    <el-input v-model="componentMeta.titleWidthStr"></el-input>
                 </div>
             </div>
 
             <template>
-                <div class="conf-row-item" v-show="compData.hasOwnProperty('contentText')">
+                <div class="conf-row-item" v-show="componentMeta.hasOwnProperty('contentText')">
                     <div class="row-inp">
                         <span>输入内容</span>
-                        <el-input v-model="compData.contentText"></el-input>
+                        <el-input v-model="componentMeta.contentText"></el-input>
                     </div>
                 </div>
-                <div class="conf-row-item" v-show="compData.hasOwnProperty('font-size')">
+                <div class="conf-row-item" v-show="componentMeta.hasOwnProperty('font-size')">
                     <div class="row-inp">
                         <span>字体大小</span>
-                        <el-input v-model="compData['font-size']"></el-input>
+                        <el-input v-model="componentMeta['font-size']"></el-input>
                     </div>
                 </div>
-                <div class="conf-row-item" v-show="compData.hasOwnProperty('color')">
+                <div class="conf-row-item" v-show="componentMeta.hasOwnProperty('color')">
                     <div class="row-inp">
                         <span>字体颜色</span>
-                        <el-input v-model="compData.color"></el-input>
+                        <color-picker :color="componentMeta.color"></color-picker>
                     </div>
                 </div>
-                <div class="conf-row-item" v-show="compData.hasOwnProperty('background')">
+                <div class="conf-row-item" v-show="componentMeta.hasOwnProperty('background')">
                     <div class="row-inp">
                         <span>背景色</span>
-                        <el-input v-model="compData.background"></el-input>
+                        <el-input v-model="componentMeta.background"></el-input>
                     </div>
                 </div>
-                <div class="conf-row-item" v-show="compData.hasOwnProperty('border')">
+                <div class="conf-row-item" v-show="componentMeta.hasOwnProperty('border')">
                     <div class="row-inp">
                         <span>边框线</span>
-                        <el-input v-model="compData.border"></el-input>
+                        <el-input v-model="componentMeta.border"></el-input>
                     </div>
                 </div>
-                <div class="conf-row-item" v-show="compData.hasOwnProperty('justify-content')">
+                <div class="conf-row-item" v-show="componentMeta.hasOwnProperty('justify-content')">
                     <div class="row-inp">
                         <span>水平方向</span>
-                        <el-radio-group v-model="compData['justify-content']">
+                        <el-radio-group v-model="componentMeta['justify-content']">
                             <el-radio v-for="(type, index) in justifyOptions" :key="index" :label="type.value">{{type.label}}</el-radio>
                         </el-radio-group>
                     </div>
                 </div>
-                <div class="conf-row-item" v-show="compData.hasOwnProperty('align-items')">
+                <div class="conf-row-item" v-show="componentMeta.hasOwnProperty('align-items')">
                     <div class="row-inp">
                         <span>垂直方向</span>
-                        <el-radio-group v-model="compData['align-items']">
+                        <el-radio-group v-model="componentMeta['align-items']">
                             <el-radio v-for="(type, index) in alignOptions" :key="index" :label="type.value">{{type.label}}</el-radio>
                         </el-radio-group>
                     </div>
@@ -182,22 +182,31 @@
                     },{
                         value: 'flex-end',
                         label: '居下'
-                    }]
+                    }],
+                dataVTemplate: this.$datavTemplateService
             }
         },
         computed: {
-            activeComp() {
-                return {};
+            compOptional(){
+                if(this.dataVTemplate.data.curComp && this.dataVTemplate.data.curComp.optional){
+                    return this.dataVTemplate.data.curComp.optional;
+                }else{
+                    return {};
+                }
             },
 
-            compData() {
-                return this.activeComp === null ? '' : {}
-            },
+            componentMeta(){
+                if(this.compOptional && this.compOptional.componentMeta){
+                    console.log('color', this.compOptional.componentMeta.color);
+                    return this.compOptional.componentMeta;
+                }else{
+                    return {};
+                }
+
+            }
         },
         methods: {
-            compDataChange(type, val){
-                this.$app.runCmd('compDataChange', this.activeComp, type, val);
-            }
+
         }
     }
 </script>

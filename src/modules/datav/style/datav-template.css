@@ -314,6 +314,7 @@
 
 
 .template-edit-page>.content {
+    position: relative;
     display: flex;
     flex-direction: row;
     flex: 1;
@@ -328,6 +329,7 @@
 ===========================================================*/
 
 .template-edit-page .content .template-comp-sider {
+    flex: 0 0 50px;
     position: relative;
     width: 50px;
     height: 100%;
@@ -499,6 +501,17 @@
     margin-bottom: 8px;
 }
 
+.template-edit-page .content .template-comp-sider .comp-panel .content.pageInfo>div>.line{
+    display: flex;
+    align-items: center;
+    color: #ccc;
+}
+
+.template-edit-page .content .template-comp-sider .comp-panel .content.pageInfo>div>.line input{
+    height: 30px;
+    line-height: 30px;
+}
+
 .template-edit-page .content .template-comp-sider .comp-panel .content.pageInfo>div input{
     color: #fff;
     background-color: #262626;
@@ -595,7 +608,7 @@
 .template-edit-page .content .template-board-container,
 .template-edit-page .content .doc-board-container {
     flex: 1;
-    padding: 20px;
+    padding: 20px 20px 40px;
 }
 
 .template-edit-page .content .template-board-container>.container {
@@ -607,6 +620,72 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    overflow: auto;
+}
+
+.template-edit-page .content .template-board-container>.container .dataVScreen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: 0 0;
+    background-size: cover;
+}
+
+.template-edit-page .content .template-board-container>.pageScale {
+    width: 300px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    color: #eee;
+    height: 40px;
+}
+
+.template-edit-page .content .template-board-container>.pageScale .pageWSlider {
+    flex: 1;
+    margin-left: 10px;
+}
+
+.template-edit-page .content .template-board-container>.pageScale
+.pageWSlider .el-slider__input {
+    width: 65px;
+    margin-top: 4px;
+}
+
+.template-edit-page .content .template-board-container>.pageScale
+.pageWSlider .el-slider__input > span[role=button] {
+    display: none;
+}
+
+.template-edit-page .content .template-board-container>.pageScale
+.pageWSlider .el-slider__input > .el-input > .el-input__inner {
+    height: 30px;
+    padding: 0;
+    color: #fff;
+    border: #262626;
+    background: #262626;
+}
+
+.template-edit-page .content .template-board-container>.pageScale
+.pageWSlider .el-slider__runway.show-input {
+    margin-right: 70px;
+}
+
+.template-edit-page .content .template-board-container>.pageScale
+.pageWSlider .el-slider__runway:not(.disabled).show-input .el-slider__bar {
+    background: #476DBE;
+}
+
+.template-edit-page .content .template-board-container>.pageScale
+.pageWSlider .el-slider__runway:not(.disabled).show-input .el-slider__button {
+    border-color: #476DBE;
+}
+
+.template-edit-page .content .template-board-container>.pageScale
+.pageWSlider .el-slider__input.is-disabled .el-input__inner {
+    background: transparent;
+    border: none;
+    color: #ccc;
+    text-decoration: line-through;
 }
 
 
@@ -621,6 +700,12 @@
     position: relative;
     height: 100%;
     background: #333;
+}
+
+.template-edit-page .content .template-config-sider.common {
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 .template-edit-page .content .template-config-sider .menu-fold {
@@ -697,6 +782,7 @@
     border-radius: 0;
     padding: 10px;
     background: #262626;
+    overflow-y: auto;
 }
 
 .template-config-sider .confSection {

@@ -519,7 +519,9 @@ export default function () {
                 thumbnail: "bg0",
                 description: "科技部每日报告",
                 content: JSON.stringify({
-                    pageWidth: 800,
+                    pageWidth: 1920,
+                    pageHeight: 1048,
+                    pageScale: 100,
                     bgImage: 'bg0',
                     datavComps: [
                         {
@@ -527,8 +529,8 @@ export default function () {
                             compName: 'ct-line',
                             isActive: false,
                             position: {
-                                width: 200,
-                                height: 150,
+                                width: 420,
+                                height: 250,
                                 left: 10,
                                 top: 10,
                                 axis: 'both',
@@ -585,7 +587,9 @@ export default function () {
                 thumbnail: "bg1",
                 description: "科技部周报告",
                 content: JSON.stringify({
-                    pageWidth: 800,
+                    pageWidth: 1920,
+                    pageHeight: 1048,
+                    pageScale: 100,
                     bgImage: 'bg0',
                     datavComps: [
                         {
@@ -593,7 +597,7 @@ export default function () {
                             compName: 'ct-line',
                             isActive: false,
                             position: {
-                                width: 400,
+                                width: 420,
                                 height: 250,
                                 left: 10,
                                 top: 10,

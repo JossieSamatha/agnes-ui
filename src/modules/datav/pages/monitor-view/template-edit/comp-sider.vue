@@ -1,5 +1,5 @@
 <template>
-    <div class="template-comp-sider">
+    <div class="template-comp-sider" v-clickoutside="outsideClick">
         <ul class="comp-container">
             <li class="comp-item" v-for="categoryComp in compArr" :key="categoryComp.category"
                 :class="activeCategoryComp == categoryComp.category?'active':''"
@@ -44,12 +44,21 @@
                     </el-popover>
                 </div>
                 <div>
+                    <p class="title">大屏尺寸</p>
+                    <div class="line">
+                        <span style="margin-right: 5px">宽</span>
+                        <el-input v-model="dataVData.content.pageWidth"></el-input>
+                        <span style="margin: 0 5px 0 10px">高</span>
+                        <el-input v-model="dataVData.content.pageHeight"></el-input>
+                    </div>
+                </div>
+                <div>
                     <p class="title">标题</p>
-                    <el-input v-model="dataVTitle"></el-input>
+                    <el-input v-model="dataVData.title"></el-input>
                 </div>
                 <div>
                     <p class="title">标签</p>
-                    <el-input v-model="dataVLabel"></el-input>
+                    <el-input v-model="dataVData.label"></el-input>
                 </div>
             </div>
         </div>
@@ -79,20 +88,12 @@
             }
         },
         computed: {
-            dataVTitle: {
+            dataVData: {
                 get() {
-                    return this.$datavTemplateService.data.dataVData.title;
+                    return this.$datavTemplateService.data.dataVData;
                 },
                 set(val){
-                    this.$datavTemplateService.data.dataVData.title = val;
-                }
-            },
-            dataVLabel: {
-                get(){
-                    return this.$datavTemplateService.data.dataVData.label;
-                },
-                set(val){
-                    this.$datavTemplateService.data.dataVData.label = val;
+                    this.$datavTemplateService.data.dataVData = val;
                 }
             }
         },
@@ -131,6 +132,10 @@
             chooseBg(bg){
                 this.activeBgImg = bg;
                 this.$datavTemplateService.data.dataVData.content.bgImage = bg;
+            },
+
+            outsideClick(){
+                this.compPanelShow = false;
             }
         },
     }

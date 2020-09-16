@@ -667,6 +667,24 @@
     padding: 0;
 }
 
+.config-drawer .icon.type-icon {
+    width: 2.5em;
+    height: 2.5em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+    display: inline-block;
+    margin-right: 8px;
+    margin-top: 10px;
+    color: #ccc;
+    padding-top: 5px;
+}
+
+.config-drawer .chart-config .config-type .chart-type .icon.type-icon:hover {
+    color: rgb(64, 158, 255) !important;
+}
+
+
 .config-drawer .chart-config .config-type .chart-type .icon.type-icon:hover {
     color: #476DBE !important;
 }

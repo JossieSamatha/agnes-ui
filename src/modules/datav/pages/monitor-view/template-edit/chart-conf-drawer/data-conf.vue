@@ -81,7 +81,7 @@
                 </div>
             </div>
             <!--右侧内容-->
-            <div class="dash-chart-right chart-config" id="input-config" v-if="editType == 'chart'">
+            <div class="dash-chart-right chart-config" id="input-config" >
                 <div>
                     <div style="margin-top: 10px;">图表类型</div>
                     <div class="config-type" style="position: relative">
@@ -639,7 +639,7 @@
                 this.dataOption = compOption;
             },
             cancelEdit() {
-                this.$app.runCmd('closeDrawerCmd');
+                this.$dataVBus.$emit('closeDrawerCmd');
                 this.dataOption = [];
                 this.xAxis = [];
                 this.yAxis = [];
@@ -659,7 +659,7 @@
                         this.$set(this.dataOption, 'chartLabel', this.chartLabel);
                         this.$app.runCmd('dataConfigure', this.dataOption, this.chartLabel, this.editItemType)
                     }
-                    this.$app.runCmd('closeDrawerCmd')
+                    this.$dataVBus.$emit('closeDrawerCmd');
                     this.$store.commit("changeApiTip", false);
                     let id = this.$store.state.id;
                     let upperId = this.$store.state.upperId;
@@ -686,7 +686,7 @@
                         type: "pivot-grid"
                     }
                     this.$app.runCmd("dataConfigure", meta, this.chartLabel, this.editItemType)
-                    this.$app.runCmd("closeDrawerCmd")
+                    this.$dataVBus.$emit('closeDrawerCmd');
                 } else {
                     this.$message({
                         message: '请选择对应的维度、指标',

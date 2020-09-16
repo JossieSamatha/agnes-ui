@@ -7,6 +7,7 @@ import svgObj from "./assets/svgObj";
 
 import './style/datav-template.css';
 import './style/data-conf.css';
+import './assets/ali-iconfont/iconfont'
 
 const datav = {
     install: function (Vue) {
