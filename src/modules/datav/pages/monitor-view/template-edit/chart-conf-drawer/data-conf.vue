@@ -69,7 +69,7 @@
                     </div>
                     <div v-if="!isUpdate && editType == 'chart'" class="chart-widget">
                         <div class="component-content">
-                            <img src="../../../../assets/icon/dash-guide.png" alt="" class="guide-image">
+                            <img src="../../../../assets/drawer-icon/dash-guide.png" alt="" class="guide-image">
                             <div class="guide-tip">
                                 拖拽左侧字段到上方
                                 <a href="#" class="guide-link">维度</a>、

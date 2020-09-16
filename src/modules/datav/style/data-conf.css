@@ -361,7 +361,7 @@
     left: -3px;
     right: -3px;
     bottom: -3px;
-    /*background-image: url(../../src/assets/icon/chart-img.png);*/
+    /*background-image: url(../../src/assets/drawer-icon/chart-img.png);*/
     background-position-x: 0;
     background-position-y: 56px;
     background-size: 100% 100%;
@@ -569,7 +569,7 @@
     display: inline-block;
     width: 32px;
     height: 32px;
-    background-image: url(../assets/icon/chart-icon.png);
+    background-image: url(src/modules/datav/assets/drawer-icon/chart-icon.png);
     background-size: 32px;
     background-repeat: no-repeat;
     border-radius: 50%;
