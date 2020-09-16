@@ -77,6 +77,19 @@
                     this.$msg.error(reason);
                 }
             },
+            //停止
+            async stopAndCancelTask(params){
+                const ok = await this.$msg.ask(`确认停止任务:[${params.data.reTaskDef.taskName}]吗, 是否继续?`);
+                if (!ok) {
+                    return
+                }
+                try {
+                    const p = this.$api.taskDefineApi.stopAndCancelTask({"taskId":params.data.reTaskDef.taskId});
+                    await this.$app.blockingApp(p);
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
 
             //复核
             checkTask(params){
