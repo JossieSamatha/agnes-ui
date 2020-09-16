@@ -1,7 +1,12 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'editKpiTask', title: '编辑'},
+    {key: 'editKpiTask', title: '编辑',disabled: (params)=>{
+            let result = false;
+            if(params.data.reTaskDef.taskStatus === '03'){
+                result =true;
+            }
+            return result;}},
     {key: 'deleteKpiTask', title: '删除', cellClass: 'red-cell'},
     {key: 'checkTask', title: '审核',disabled: (params)=>{
             let result = false;
@@ -12,6 +17,17 @@ const colButtons = [
     {key: 'checkMotBeforePulish', title: '发布',disabled: (params)=>{
             let result = false;
             if(params.data.reTaskDef.taskStatus === '00' ||params.data.reTaskDef.taskStatus === '01' || params.data.reTaskDef.taskStatus === '03'){
+                result =true;
+            }
+            return result;},visiable:(params)=>{
+            let result = true;
+            if(params.data.reTaskDef.taskStatus === '03'){
+                result =false;
+            }
+            return result;}},
+    {key: 'stopAndCancelTask', title: '停止',visiable: (params)=>{
+            let result = false;
+            if(params.data.reTaskDef.taskStatus === '03'){
                 result =true;
             }
             return result;}},
