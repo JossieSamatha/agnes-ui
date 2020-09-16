@@ -28,7 +28,7 @@
                     {
                         args: {row, mode, actionOk},
                         width: '50%',
-                        title: this.$dialog.formatTitle('排班信息', mode),
+                        title: this.$dialog.formatTitle('值班信息', mode),
                     }
                 );
             },
