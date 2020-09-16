@@ -91,17 +91,13 @@
             },
             async approveChannel(params) {
                 const row = params.data;
-                if(row.channelStatus === '1'){
-                    this.$msg.alert("所选复核已生效")
-                    return;
-                }
                 const ok = await this.$msg.ask(`确认复核所选渠道:[${row.channelName}]吗, 是否继续?`);
                 // const ok = await this.$msg.ask(`确认复核所选日历吗, 是否继续?`);
                 if (!ok) {
                     return
                 }
                 try {
-                    const p = this.$api.channelApi.updateChannel(row.channelId,"1");
+                    const p = this.$api.channelApi.updateChannel(row.channelId, "04");
                     await this.$app.blockingApp(p);
                     this.reloadData();
                 } catch (reason) {

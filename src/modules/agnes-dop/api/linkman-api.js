@@ -26,5 +26,8 @@ export default {
     queryLinkManListOfGroup(form) {
         return request.post("/agnes-app/v1/dop/linkman/group/list", form);
     },
+    updateLinkmanStatus(linkmanId, status) {
+        return request.post("/agnes-app/v1/dop/linkman/update/status", null, {params: {linkmanId, status}});
+    }
 
 };
