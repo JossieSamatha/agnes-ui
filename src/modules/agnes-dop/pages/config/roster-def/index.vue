@@ -67,17 +67,32 @@
             async deleteRoster(params) {
                 const row = params.data;
                 const ok = await this.$msg.ask(`确认删除选中值班信息?`);
-                if (!ok) {
-                    return
-                }
-                try {
-                    const p = this.$api.rosterApi.deleteRoster(row.rosterId);
-                    await this.$app.blockingApp(p);
-                    this.reloadData();
-                } catch (reason) {
-                    this.$msg.error(reason);
-                }
+              if (!ok) {
+                return
+              }
+              try {
+                const p = this.$api.rosterApi.deleteRoster(row.rosterId);
+                await this.$app.blockingApp(p);
+                this.reloadData();
+              } catch (reason) {
+                this.$msg.error(reason);
+              }
+            },
+          async approveRoster(params) {
+            const row = params.data;
+            const ok = await this.$msg.ask(`确认复核所选记录吗, 是否继续?`);
+            // const ok = await this.$msg.ask(`确认复核所选日历吗, 是否继续?`);
+            if (!ok) {
+              return
             }
+            try {
+              const p = this.$api.rosterApi.updateRosterStatus(row.rosterId, "04");
+              await this.$app.blockingApp(p);
+              this.reloadData();
+            } catch (reason) {
+              this.$msg.error(reason);
+            }
+          }
         },
     }
 </script>

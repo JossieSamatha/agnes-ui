@@ -83,9 +83,9 @@ export default {
         autoFitColumnMode: 1,
         enableExportLocal: true,
         pageOptions: {
-            pageSize: 100,
+            pageSize: 50,
             pageSizes: [10, 20, 50, 100],
-            pageCount: 5,
+            pageCount: 0,
             prevText: "上一页",
             nextText: "下一页",
             layout: "total, sizes, prev, pager, next, jumper"

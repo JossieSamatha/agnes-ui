@@ -1,163 +1,352 @@
 <template>
-    <el-form ref="taskDefForm" class="task-def-form" :model="detailForm" :disabled="mode==='view'||mode==='check'"
-             :rules="detailFormRules" label-width="150px">
-        <el-form-item label="产品名称" prop="productName">
-            <gf-input v-model.trim="detailForm.productName" placeholder="产品名称"/>
-        </el-form-item>
-        <el-form-item label="产品简称" prop="productShortName">
-            <gf-input v-model.trim="detailForm.productShortName" placeholder="产品简称"/>
-        </el-form-item>
-        <el-form-item label="产品代码" prop="productCode">
-            <gf-input v-model.trim="detailForm.productCode" placeholder="产品名称"/>
-        </el-form-item>
-        <el-form-item label="产品种类" prop="productClass">
-            <gf-dict filterable clearable v-model="detailForm.productClass" dict-type="AGNES_PRODUCT_CLASS"/>
-        </el-form-item>
-        <el-form-item label="产品类型" prop="productType">
-            <gf-dict filterable clearable v-model="detailForm.productType" dict-type="AGNES_PRODUCT_TYPE"/>
-        </el-form-item>
-        <el-form-item label="产品阶段" prop="productStage">
-            <gf-dict filterable clearable v-model="detailForm.productStage" dict-type="AGNES_PRODUCT_STAGE"/>
-        </el-form-item>
-        <el-form-item label="当前状态" prop="productStatus">
-            <gf-dict filterable clearable v-model="detailForm.productStatus" dict-type="AGNES_PRODUCT_STATUS"/>
-        </el-form-item>
-        <el-form-item label="成立日期" prop="startDate">
-            <el-date-picker
-                    v-model="detailForm.startDate"
-                    type="date"
-                    value-format="yyyy-MM-dd"
-                    placeholder="执行时间">
-            </el-date-picker>
-        </el-form-item>
-        <el-form-item label="基金托管人" prop="productCustodian">
-            <gf-input v-model.trim="detailForm.productCustodian" placeholder="基金托管人"/>
-        </el-form-item>
-        <el-form-item label="基金托管人(境外)" prop="productCustodianOverseas">
-            <gf-input v-model.trim="detailForm.productCustodianOverseas" placeholder="基金托管人(境外)"/>
-        </el-form-item>
-        <el-form-item label="基金注册登记机构" prop="productRegistrationOrg">
-            <gf-input v-model.trim="detailForm.productRegistrationOrg" placeholder="基金注册登记机构"/>
-        </el-form-item>
-        <el-form-item label="基金律师事务所" prop="productLawFirm">
-            <gf-input v-model.trim="detailForm.productLawFirm" placeholder="基金律师事务所"/>
-        </el-form-item>
-        <el-form-item label="基金会计事务所" prop="productAccountFirm">
-            <gf-input v-model.trim="detailForm.productAccountFirm" placeholder="基金会计事务所"/>
-        </el-form-item>
-        <el-form-item label="申赎交易确认天数" prop="redemptionTransConfirmDays">
-            <gf-input type='number' v-model.trim="detailForm.redemptionTransConfirmDays" placeholder="申赎交易确认天数"/>
-        </el-form-item>
-        <el-form-item label="赎回清算天数" prop="redemptionSettlementDays">
-            <gf-input type='number' v-model.trim="detailForm.redemptionSettlementDays" placeholder="赎回清算天数"/>
-        </el-form-item>
-    </el-form>
+  <el-form ref="taskDefForm" class="task-def-form" :model="detailForm" :disabled="mode==='view'||mode==='check'"
+           :rules="detailFormRules" label-width="150px" style="width: 90%">
+    <div class="line">
+      <el-form-item label="产品名称" prop="productName">
+        <gf-input v-model.trim="detailForm.productName" placeholder="产品名称"/>
+      </el-form-item>
+      <el-form-item label="产品简称" prop="productShortName">
+        <gf-input v-model.trim="detailForm.productShortName" placeholder="产品简称"/>
+      </el-form-item>
+    </div>
+    <div class="line">
+      <el-form-item label="产品代码" prop="productCode">
+        <gf-input v-model.trim="detailForm.productCode" placeholder="产品名称"/>
+      </el-form-item>
+      <el-form-item label="产品种类" prop="productClass">
+        <gf-dict filterable clearable v-model="detailForm.productClass" dict-type="AGNES_PRODUCT_CLASS"/>
+      </el-form-item>
+    </div>
+    <div class="line">
+      <el-form-item label="产品类型" prop="productType">
+        <gf-dict filterable clearable v-model="detailForm.productType" dict-type="AGNES_PRODUCT_TYPE"/>
+      </el-form-item>
+      <el-form-item label="产品阶段" prop="productStage">
+        <gf-dict filterable clearable v-model="detailForm.productStage" dict-type="AGNES_PRODUCT_STAGE"/>
+      </el-form-item>
+    </div>
+    <div class="line" style="width: 100%">
+      <el-form-item label="当前状态" prop="productStatus">
+        <gf-dict filterable clearable v-model="detailForm.productStatus" dict-type="AGNES_PRODUCT_STATUS"/>
+      </el-form-item>
+      <el-form-item label="成立日期" prop="startDate" style="width: 100%">
+        <el-date-picker
+            v-model="detailForm.startDate"
+            style="width: 100%;"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="执行时间">
+        </el-date-picker>
+      </el-form-item>
+    </div>
+    <div class="line">
+      <el-form-item label="基金托管人" prop="productCustodian">
+        <gf-input v-model.trim="detailForm.productCustodian" placeholder="基金托管人"/>
+      </el-form-item>
+      <el-form-item label="基金托管人(境外)" prop="productCustodianOverseas">
+        <gf-input v-model.trim="detailForm.productCustodianOverseas" placeholder="基金托管人(境外)"/>
+      </el-form-item>
+    </div>
+    <div class="line">
+      <el-form-item label="基金注册登记机构" prop="productRegistrationOrg">
+        <gf-input v-model.trim="detailForm.productRegistrationOrg" placeholder="基金注册登记机构"/>
+      </el-form-item>
+      <el-form-item label="基金律师事务所" prop="productLawFirm">
+        <gf-input v-model.trim="detailForm.productLawFirm" placeholder="基金律师事务所"/>
+      </el-form-item>
+    </div>
+    <div class="line">
+      <el-form-item label="基金会计事务所" prop="productAccountFirm">
+        <gf-input v-model.trim="detailForm.productAccountFirm" placeholder="基金会计事务所"/>
+      </el-form-item>
+      <el-form-item label="申赎交易确认天数" prop="redemptionTransConfirmDays">
+        <gf-input type='number' v-model.trim="detailForm.redemptionTransConfirmDays" placeholder="申赎交易确认天数"/>
+      </el-form-item>
+    </div>
+    <el-form-item label="赎回清算天数" prop="redemptionSettlementDays" style="width: 50%">
+      <gf-input type='number' v-model.trim="detailForm.redemptionSettlementDays" placeholder="赎回清算天数"/>
+    </el-form-item>
+    <el-form-item label="专用参数" prop="redemptionSettlementDays">
+      <div class="rule-table">
+        <el-tabs>
+          <el-tab-pane label="FA专用">
+            <el-table
+                :data="detailForm.fAPrdtRuInfoParam"
+                border stripe
+                style="width: 100%"
+                header-row-class-name="rule-header-row"
+                header-cell-class-name="rule-header-cell"
+                row-class-name="rule-row"
+                cell-class-name="rule-cell">
+              <el-table-column prop="paramBizType" label="业务归属" min-width="150">
+                <template slot-scope="scope">
+                  <el-input :style="!scope.row.paramBizType ? 'border:1px solid #f00':''"
+                            v-model="scope.row.paramBizType" disabled></el-input>
+                </template>
+              </el-table-column>
+              <el-table-column prop="paramCode" label="参数代码" min-width="150">
+                <template slot-scope="scope">
+                  <el-input :style="!scope.row.paramCode ? 'border:1px solid #f00':''"
+                            v-model="scope.row.paramCode"></el-input>
+                </template>
+              </el-table-column>
+              <el-table-column prop="paramName" label="参数名称" min-width="150">
+                <template slot-scope="scope">
+                  <el-input :style="!scope.row.paramName ? 'border:1px solid #f00':''"
+                            v-model="scope.row.paramName"></el-input>
+                </template>
+              </el-table-column>
+              <el-table-column prop="paramType" label="参数类型" min-width="150">
+                <template slot-scope="scope">
+                  <gf-dict-select :style="!scope.row.paramType ? 'border:1px solid #f00':''"
+                                  dict-type="AGNES_PRODUCT_PARAM_TYPE" v-model="scope.row.paramType"
+                                  @change="changes(scope.row)"/>
+                </template>
+              </el-table-column>
+              <el-table-column prop="paramValue" label="参数值" min-width="150">
+                <template slot-scope="scope">
+                  <el-input type="number" :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
+                            v-model="scope.row.paramValue" v-if="scope.row.paramType === 'number'"/>
+                  <el-input :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
+                            v-model="scope.row.paramValue" v-if="scope.row.paramType === 'str'"/>
+                  <gf-dict-select :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
+                                  dict-type="GF_BOOL_TYPE" v-model="scope.row.paramValue"
+                                  v-if="scope.row.paramType === 'boolean'"/>
+                  <el-date-picker
+                      v-if="scope.row.paramType==='date'"
+                      v-model="scope.row.paramValue"
+                      :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
+                      type="date"
+                      value-format="yyyy-MM-dd">
+                  </el-date-picker>
+                </template>
+              </el-table-column>
+              <el-table-column prop="option" label="操作" width="60" align="center">
+                <template slot-scope="scope">
+                  <span class="option-span" @click="deleteFA(scope.$index)">删除</span>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-button @click="addFA()" class="rule-add-btn" size="small">新增</el-button>
+          </el-tab-pane>
+          <el-tab-pane label="TA专用">
+            <el-table
+                :data="detailForm.tAPrdtRuInfoParam"
+                border stripe
+                style="width: 100%"
+                header-row-class-name="rule-header-row"
+                header-cell-class-name="rule-header-cell"
+                row-class-name="rule-row"
+                cell-class-name="rule-cell">
+              <el-table-column prop="paramBizType" label="业务归属" min-width="150">
+                <template slot-scope="scope">
+                  <el-input :style="!scope.row.paramBizType ? 'border:1px solid #f00':''"
+                            v-model="scope.row.paramBizType"></el-input>
+                </template>
+              </el-table-column>
+              <el-table-column prop="paramCode" label="参数代码" min-width="150">
+                <template slot-scope="scope">
+                  <el-input :style="!scope.row.paramCode ? 'border:1px solid #f00':''"
+                            v-model="scope.row.paramCode"></el-input>
+                </template>
+              </el-table-column>
+              <el-table-column prop="paramName" label="参数名称" min-width="150">
+                <template slot-scope="scope">
+                  <el-input :style="!scope.row.paramName ? 'border:1px solid #f00':''"
+                            v-model="scope.row.paramName"></el-input>
+                </template>
+              </el-table-column>
+              <el-table-column prop="paramType" label="参数类型" min-width="150">
+                <template slot-scope="scope">
+                  <gf-dict-select :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
+                                  dict-type="AGNES_PRODUCT_PARAM_TYPE" v-model="scope.row.paramValue"
+                                  @change="changes(scope.row)"/>
+                </template>
+              </el-table-column>
+              <el-table-column prop="paramValue" label="参数值" min-width="150">
+                <template slot-scope="scope">
+                  <el-input type="number" :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
+                            v-model="scope.row.paramValue" v-if="scope.row.paramType === 'number'"/>
+                  <el-input :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
+                            v-model="scope.row.paramValue" v-if="scope.row.paramType === 'str'"/>
+                  <gf-dict-select :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
+                                  dict-type="GF_BOOL_TYPE" v-model="scope.row.paramValue"
+                                  v-if="scope.row.paramType === 'boolean'"/>
+                  <el-date-picker
+                      v-if="scope.row.paramType==='date'"
+                      v-model="scope.row.paramValue"
+                      :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
+                      type="date"
+                      align="center"
+                      value-format="yyyy-MM-dd">
+                  </el-date-picker>
+                </template>
+              </el-table-column>
+              <el-table-column prop="option" label="操作" width="60" align="center">
+                <template slot-scope="scope">
+                  <span class="option-span" @click="deleteTA(scope.$index)">删除</span>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-button @click="addTA()" class="rule-add-btn" size="small">新增</el-button>
+          </el-tab-pane>
+        </el-tabs>
+      </div>
+    </el-form-item>
+
+  </el-form>
 
 </template>
 
 <script>
+import lodash from 'lodash';
 
-    export default {
-        name: "task-define",
-        props: {
-            mode: {
-                type: String,
-                default: 'add'
-            },
-            row: Object,
-            actionOk: Function
-        },
-        data() {
-            return {
-                detailForm:{
-                    productName:'',
-                    productShortName:'',
-                    productCode:'',
-                    productClass:'',
-                    productType:'',
-                    productStage:'',
-                    productStatus:'',
-                    startDate:'',
-                    productCustodian:'',
-                    productCustodianOverseas:'',
-                    productRegistrationOrg:'',
-                    productLawFirm:'',
-                    productAccountFirm:'',
-                    redemptionTransConfirmDays:'',
-                    redemptionSettlementDays:'',
-                },
-                detailFormRules: {
-                    productName: [
-                        {required: true, message: '产品名称必填', trigger: 'blur'},
-                    ],
-                    productShortName: [
-                        {required: true, message: '产品简称必填', trigger: 'blur'},
-                    ],
-                    productCode: [
-                        {required: true, message: '产品代码必填', trigger: 'change'},
-                    ],
-                    productClass: [
-                        {required: true, message: '产品种类必填', trigger: 'blur'},
-                    ],
-                    productType: [
-                        {required: true, message: '产品类型必填', trigger: 'change'},
-                    ],
-                },
-            }
-        },
-        beforeMount() {
-            if(this.mode!=="add") {
-                Object.assign(this.detailForm, this.row);
-            }
-        },
-        methods: {
-            // 取消onCancel事件，触发抽屉关闭事件this.$emit("onClose");
-            async onCancel() {
-                this.$emit("onClose");
-            },
-
-            // 保存onSave事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
-            async onSave() {
-                const ok = await this.$refs['taskDefForm'].validate();
-                if (!ok) {
-                    return;
-                }
-                try {
-                    let paramData = this.detailForm;
-                    if(this.mode==='add'){
-                        const res = await this.$api.productApi.checkCodeExist(paramData.productCode);
-                        if(res.data!==0){
-                            this.$msg.success('产品代码已存在');
-                            return;
-                        }
-                        const p = this.$api.productApi.saveProdut(this.detailForm);
-                        await this.$app.blockingApp(p);
-                        this.$msg.success('保存成功');
-                    }else if(this.mode==='edit') {
-                        const p = this.$api.productApi.saveProdut(this.detailForm);
-                        await this.$app.blockingApp(p);
-                        this.$msg.success('修改成功');
-                    }else if(this.mode==='check'){
-                        let updateParam = {
-                            productId:paramData.productId,
-                            productStatus:'1'
-                        }
-                        const p = this.$api.productApi.updateStatus(updateParam);
-                        await this.$app.blockingApp(p);
-                        this.$msg.success('复核成功');
-                    }
-                    if (this.actionOk) {
-                        await this.actionOk();
-                    }
-                    this.$emit("onClose");
-                } catch (reason) {
-                    this.$msg.error(reason);
-                }
-            },
-        },
-
-        watch: {
-    
-        }
+export default {
+  name: "task-define",
+  props: {
+    mode: {
+      type: String,
+      default: 'add'
+    },
+    row: Object,
+    actionOk: Function
+  },
+  data() {
+    return {
+      detailForm: {
+        productName: '',
+        productShortName: '',
+        productCode: '',
+        productClass: '',
+        productType: '',
+        productStage: '',
+        productStatus: '',
+        startDate: '',
+        productCustodian: '',
+        productCustodianOverseas: '',
+        productRegistrationOrg: '',
+        productLawFirm: '',
+        productAccountFirm: '',
+        redemptionTransConfirmDays: '',
+        redemptionSettlementDays: '',
+        fAPrdtRuInfoParam: [],
+        tAPrdtRuInfoParam: [],
+      },
+      detailFormRules: {
+        productName: [
+          {required: true, message: '产品名称必填', trigger: 'blur'},
+        ],
+        productShortName: [
+          {required: true, message: '产品简称必填', trigger: 'blur'},
+        ],
+        productCode: [
+          {required: true, message: '产品代码必填', trigger: 'change'},
+        ],
+        productClass: [
+          {required: true, message: '产品种类必填', trigger: 'blur'},
+        ],
+        productType: [
+          {required: true, message: '产品类型必填', trigger: 'change'},
+        ],
+      },
     }
+  },
+  beforeMount() {
+    if (this.mode !== "add") {
+      Object.assign(this.detailForm, this.row);
+    }
+  },
+  methods: {
+    changes(params) {
+      params.paramValue = '';
+    },
+    // 取消onCancel事件，触发抽屉关闭事件this.$emit("onClose");
+    async onCancel() {
+      this.$emit("onClose");
+    },
+    addFA() {
+      const newFileTableObj = {
+        paramBizType: 'FA',
+        paramCode: '',
+        paramName: '',
+        paramType: 'str',
+        paramValue: ''
+      };
+      this.detailForm.fAPrdtRuInfoParam.push(newFileTableObj);
+    },
+    addTA() {
+      const newFileTableObj = {
+        paramBizType: 'TA',
+        paramCode: '',
+        paramName: '',
+        paramType: 'str',
+        paramValue: ''
+      };
+      this.detailForm.tAPrdtRuInfoParam.push(newFileTableObj);
+    },
+    // 删除行
+    deleteFA(rowIndex) {
+      this.detailForm.fAPrdtRuInfoParam.splice(rowIndex, 1);
+    },
+    deleteTA(rowIndex) {
+      this.detailForm.tAPrdtRuInfoParam.splice(rowIndex, 1);
+    },
+    // 保存onSave事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
+    async onSave() {
+      const ok = await this.$refs['taskDefForm'].validate();
+      if (!ok) {
+        return;
+      }
+      let validate = true;
+      const prdtRuInfoParam = lodash.concat(this.detailForm.fAPrdtRuInfoParam, this.detailForm.tAPrdtRuInfoParam);
+      if (prdtRuInfoParam) {
+        for (let i = 0; i < prdtRuInfoParam.length; i++) {
+          if (prdtRuInfoParam[i].paramCode === '' ||
+              prdtRuInfoParam[i].paramName === '' ||
+              prdtRuInfoParam[i].paramType === '' ||
+              prdtRuInfoParam[i].paramValue === '') {
+            validate = false;
+            break;
+          }
+        }
+      }
+      if (!validate) {
+        this.$msg.warning("请补充完整参数表格!");
+        return;
+      }
+      try {
+        let paramData = this.detailForm;
+        if (this.mode === 'add') {
+          const res = await this.$api.productApi.checkCodeExist(paramData.productCode);
+          if (res.data !== 0) {
+            this.$msg.success('产品代码已存在');
+            return;
+          }
+          const p = this.$api.productApi.saveProdut(this.detailForm);
+          await this.$app.blockingApp(p);
+          this.$msg.success('保存成功');
+        } else if (this.mode === 'edit') {
+          const p = this.$api.productApi.saveProdut(this.detailForm);
+          await this.$app.blockingApp(p);
+          this.$msg.success('修改成功');
+        } else {
+          let updateParam = {
+            productId: paramData.productId,
+            productStatus: '04'
+          }
+          const p = this.$api.productApi.updateStatus(updateParam);
+          await this.$app.blockingApp(p);
+          this.$msg.success('复核成功');
+        }
+        if (this.actionOk) {
+          await this.actionOk();
+        }
+        this.$emit("onClose");
+      } catch (reason) {
+        this.$msg.error(reason);
+      }
+    },
+  },
+  watch: {}
+}
 </script>
