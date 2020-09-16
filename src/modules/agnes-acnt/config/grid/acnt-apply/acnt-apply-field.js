@@ -1,49 +1,85 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'addData', title: '添加资料'},
+    {key: 'edit', title: '编辑',visiable: (params)=>{return params.data.processStatus === '01';}},
+    {key: 'detele', title: '作废',visiable: (params)=>{return params.data.processStatus === '01'&&!params.data.applySubId;}},
+    {key: 'check', title: '复核',visiable: (params)=>{return params.data.processStatus === '02';}},
+    {key: 'addInfo', title: '资料准备',visiable: (params)=>{return params.data.processStatus === '04';}},
+    {key: 'nextaddInfo', title: '资料准备完成',visiable: (params)=>{return params.data.processStatus === '04';}},
+    {key: 'checkFund', title: '财务审核',visiable: (params)=>{return params.data.processStatus === '05';}},
+    {key: 'addAcc', title: '账户录入',visiable: (params)=>{return params.data.processStatus === '06';}},
+    {key: 'checkAcc', title: '账户复核',visiable: (params)=>{return params.data.processStatus === '07';}},
     {key: 'showSteps', title: '查看流程'},
-    {key: 'check', title: '复核'},
 ];
 export default {
     columnDefs: [
         column.buildOpCol(150, colButtons),
-        { field: 'varId', cellRenderer: 'agGroupCellRenderer' },
-        {headerName: "账户类型", field: "typeCode"},
-        {headerName: "归属机构", field: "baseOrgId"},
-        {headerName: "业务类型", field: "bizType"},
-        {headerName: "流程节点", field: "bankName"},
-        {headerName: "提交OA", field: "rate"},
+        // {headerName: "账户类型", field: "typeCode"},
+        {headerName: "归属机构", field: "orgName"},
+        {headerName: "业务类型", field: "bizType",dictType:"AGNES_ACNT_BIZ_TYPE"},
+        {headerName: "流程节点", field: "processStatus",dictType:"AGNES_ACNT_APPLY_STATUS"},
+        {headerName: "是否提交OA", field: "isSendOa",
+          valueFormatter: function (params) {
+            if(params.value==='0'){
+                return '否'
+            }
+            return '是';
+        }},
         column.colUpdUser,
         column.colUpdTm
     ],
-    masterDetail: true,
-    isRowMaster: function () {
-        return true
-        // return dataItem ? dataItem.callRecords.length > 0 : false;
+    defaultColDef: {
+        flex: 1,
     },
-    detailCellRendererParams: {
-        detailGridOptions: {
-          columnDefs: [
-            { field: 'callId' },
-            { field: 'direction' },
-            { field: 'number', minWidth: 150 },
-            { field: 'duration', valueFormatter: "x.toLocaleString() + 's'" },
-            { field: 'switchCode', minWidth: 150 },
-          ],
-          defaultColDef: {
-            flex: 1,
-          },
-        },
-        getDetailRowData: function (params) {
-          params.successCallback(params.data.callRecords);
+    autoGroupColumnDef: {
+        headerName: '账户类型',
+        field:"typeName",
+        minWidth: 50,
+        cellRendererParams: {
+            suppressCount: true,
         },
     },
+    treeData: true, // enable Tree Data mode
+    animateRows: true,
+    groupDefaultExpanded: 0, // expand all groups by default
+    getDataPath: function(data) {
+        return data.orgHierarchy;
+    },
+    // masterDetail: true,
+    // isRowMaster: function (dataItem) {
+    //     return dataItem ? dataItem.children.length > 0 : false;
+    // },
+    // detailCellRendererParams: {
+    //     detailGridOptions: {
+    //       columnDefs: [
+    //         column.buildOpCol(50, DetailColButtons),
+    //         {headerName: "账户类型", field: "typeCode"},
+    //         {headerName: "归属机构", field: "orgName"},
+    //         {headerName: "业务类型", field: "bizType"},
+    //         {headerName: "流程节点", field: "processStatus",dictType:"AGNES_ACNT_APPLY_STATUS"},
+    //         {headerName: "是否提交OA", field: "isSendOa",
+    //           valueFormatter: function (params) {
+    //             if(params.value==='0'){
+    //                 return '否'
+    //             }
+    //             return '是';
+    //         }},
+    //         column.colUpdUser,
+    //         column.colUpdTm
+    //       ],
+    //       defaultColDef: {
+    //         flex: 1,
+    //       },
+    //     },
+    //     getDetailRowData: function (params) {
+    //       params.successCallback(params.data.children);
+    //     },
+    // },
     rowSelection:'multiple',
     ext: {
-        fetchUrl: "/agnes-app/v1/dc/file/scan/list-page",
-        fetchMethod: 'get',
-        pagingMode: true, //不分页
+        fetchUrl: "/agnes-app/v1/acnt/apply/getAcntApplyVoList",
+        fetchMethod: 'post',
+        pagingMode: false, //不分页
         checkboxColumn: 1, //是否显示checkbox列,
         enableExportLocal: true,
         autoFitColumnMode: 1,
