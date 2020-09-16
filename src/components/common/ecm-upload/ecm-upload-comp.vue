@@ -140,9 +140,7 @@
             },
 
             //上传中
-            uploadProgress(event, file, fileList) {
-                event
-                fileList
+            uploadProgress(file) {
                 file.showProgress = true;
             },
             //上传错误
