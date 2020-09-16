@@ -1,7 +1,20 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
+    {key: 'editErr', title: '编辑'},
     {key: 'deleteErr', title: '删除', cellClass: 'red-cell'},
+    {key: 'approveErr', title: '审核',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '02' || params.data.status === '03' || params.data.status === '00'){
+                result =true;
+            }
+            return result;}},
+    {key: 'publishErr', title: '发布',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '01' || params.data.status === '03' || params.data.status === '00'){
+                result =true;
+            }
+            return result;}}
 ];
 
 export default {
@@ -9,7 +22,7 @@ export default {
         {headerName: "任务名称", field: "taskName"},
         {headerName: "异常原因", field: "errReason"},
         {headerName: "异常发生时间", field: "crtTs"},
-        {headerName: "处理状态", field: "status",  dictType: 'AGNES_DATA_HANDLE_STATUS'},
+        {headerName: "处理状态", field: "status",  dictType: 'AGNES_RELEASE_STATUS'},
         {headerName: "处理时间", field: "inRiskTime"},
         {headerName: "异常类型", field: "errType", dictType: 'AGNES_DOP_ERR_TYPE'},
         {headerName: "异常描述", field: "errDesc"},
@@ -32,7 +45,7 @@ export default {
             // 可供选择的分页大小（下拉切换分页值）
             pageSizes: [10, 20, 50, 100],
             // 显示在状态栏上的页数字的个数
-            pageCount: 5,
+            pageCount: 0,
             prevText: "上一页",
             nextText: "下一页",
             // 分页工具显示项，例如总页数、当前页、上一页、下一页、等分页功能按钮

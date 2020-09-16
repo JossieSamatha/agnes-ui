@@ -1,5 +1,5 @@
 <template>
-    <el-progress class="define-progress"
+    <el-progress class="define-progress" v-if="params.data"
                  :percentage="percentage"
                  show-text
                  :color="getStatusColor"
@@ -17,7 +17,9 @@
             }
         },
         beforeMount(){
-            this.percentage = parseFloat(this.params.value)*100;
+            if(this.params.data){
+                this.percentage = parseInt(this.params.value*100);
+            }
         },
         methods: {
             getStatusColor(){

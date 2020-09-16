@@ -4,7 +4,7 @@
                  style="padding: 10px;">
 
             <el-form-item label="渠道代码" prop="dopReChannel.channelCode">
-                <gf-input type="text" v-model="form.dopReChannel.channelCode"/>
+                <gf-input type="text" v-model="form.dopReChannel.channelCode"  :max-byte-len="8"/>
             </el-form-item>
 
             <el-form-item label="渠道名称" prop="dopReChannel.channelName">

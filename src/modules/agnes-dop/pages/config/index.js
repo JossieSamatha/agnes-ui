@@ -17,13 +17,13 @@ const Loading = {
     load: function (Gfui) {
         Gfui.componentView('agnes.org.def', OrgDef, {title: '外部机构维护'});
         Gfui.componentView('agnes.org.type', OrgType, {title: '机构类型维护'});
-        Gfui.componentView('agnes.dop.product.def', Product, {title: '产品表维护'});
+        Gfui.componentView('agnes.dop.product.def', Product, {title: '产品信息维护'});
         Gfui.componentView('agnes.app.conf.channel', Channel, {title: '渠道表维护'});
         Gfui.componentView('agnes.app.conf.dayend', DataChange, {title: '工作日切换'});
-        Gfui.componentView('agnes.dop.linkman', Linkman, {title: '联系人维护'});
-        Gfui.componentView('agnes.dop.group.user', GroupUser, {title: '内部用户维护'});
-        Gfui.componentView('agnes.dop.memo', memoDef, {title: '日历维护'});
-        Gfui.componentView('agnes.dop.roster', RosterDef, {title: '排班表'});
+        Gfui.componentView('agnes.dop.linkman', Linkman, {title: '外部联系人维护'});
+        Gfui.componentView('agnes.dop.group.user', GroupUser, {title: '内部联系人分组'});
+        Gfui.componentView('agnes.dop.memo', memoDef, {title: '运营日历维护'});
+        Gfui.componentView('agnes.dop.roster', RosterDef, {title: '排班表维护'});
         Gfui.componentView('data.pipe.task', DataPipeTask, {title: '调度配置'});
         Gfui.componentView('agnes.app.monitor.risk', MonitorRiskDef, {title: '风险管理'});
         Gfui.componentView('agnes.app.monitor.error', MonitorErrDef, {title: '异常管理'});

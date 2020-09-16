@@ -1,8 +1,8 @@
 <template>
     <div>
-        <gf-grid @row-double-click="showModel" grid-no="agnes-msg-def" ref="grid">
+        <gf-grid @row-double-click="showMsg" grid-no="agnes-msg-def" ref="grid">
             <template slot="left">
-                <gf-button @click="addModel" class="action-btn">添加</gf-button>
+                <gf-button @click="addMsg" class="action-btn">添加</gf-button>
             </template>
         </gf-grid>
     </div>
@@ -21,31 +21,40 @@
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
+                row.isCheck=false;
+                let title = this.$dialog.formatTitle('消息定义配置', mode);
+                if(mode == 'check'){
+                    row.isCheck=true;
+                    title = '消息定义配置 - 审核';
+                }
                 this.$nav.showDialog(
                     MsgDefDlg,
                     {
                         args: {row, mode, actionOk},
                         width: '40%',
-                        title: this.$dialog.formatTitle('消息定义', mode),
+                        title: title,
                     }
                 );
             },
-            async onAddModel() {
+            async onAddMsg() {
                 this.reloadData();
             },
-            async onEditModel() {
+            async onEditMsg() {
                 this.reloadData();
             },
-            addModel() {
-                this.showDlg('add', {}, this.onAddModel.bind(this));
+            addMsg() {
+                this.showDlg('add', {}, this.onAddMsg.bind(this));
             },
-            showModel(params) {
+            showMsg(params) {
                 this.showDlg('view', params.data);
             },
-            editModel(params) {
-                this.showDlg('edit', params.data, this.onEditModel.bind(this));
+            editMsg(params) {
+                this.showDlg('edit', params.data, this.onEditMsg.bind(this));
             },
-            async deleteModel(params) {
+            approveMsg(params) {
+                this.showDlg('check', params.data, this.onEditMsg.bind(this));
+            },
+            async deleteMsg(params) {
                 const row = params.data;
                 const ok = await this.$msg.ask(`确认删除消息:[${row.msgName}]吗, 是否继续?`);
                 if (!ok) {
@@ -58,7 +67,28 @@
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
+            },
+            async publishMsg(params) {
+                const row = params.data;
+                if(params.data.msgStatus !== '02'){
+                    this.$msg.warning("该状态无法发布!");
+                    return;
+                }
+
+                const ok = await this.$msg.ask(`确认发布消息:[${row.msgName}]吗, 是否继续?`);
+                if (!ok) {
+                    return
+                }
+                try {
+                    const p = this.$api.msgDefineApi.publishMsg(row.msgId);
+                    await this.$app.blockingApp(p);
+                    this.$msg.success("发布成功!");
+                    this.reloadData();
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
             }
+
         }
     }
 </script>

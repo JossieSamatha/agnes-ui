@@ -11,6 +11,9 @@ export default {
     saveEventDef(form) {
         return request.post("/agnes-ac/v1/ec/event/save", form);
     },
+    existsEventCode(eventCode,eventId) {
+        return request.post("/agnes-ac/v1/ec/event/existsEventCode", null, {params: {eventCode,eventId}});
+    },
     deleteEventDef(eventId) {
         return request.post("/agnes-ac/v1/ec/event/delete", null, {params: {eventId}});
     },

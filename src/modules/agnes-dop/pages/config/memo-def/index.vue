@@ -53,7 +53,7 @@
                         args: {row, mode, actionOk},
                         width: '80%',
                         closeOnClickModal: false,
-                        title: this.$dialog.formatTitle('日历维护', mode),
+                        title: this.$dialog.formatTitle('运营日历维护', mode),
                     }
                 );
             },
@@ -75,7 +75,7 @@
             async deleteMemo(params) {
                 const row = params.data;
                 // const ok = await this.$msg.ask(`确认删除日历:[${row.memoDesc}]吗, 是否继续?`);
-                const ok = await this.$msg.ask(`确认删除所选日历吗, 是否继续?`);
+                const ok = await this.$msg.ask(`确认删除所选运营日历数据吗, 是否继续?`);
                 if (!ok) {
                     return
                 }
@@ -94,7 +94,7 @@
                     return;
                 }
                 // const ok = await this.$msg.ask(`确认复核所选日历:[${row.memoDesc}]吗, 是否继续?`);
-                const ok = await this.$msg.ask(`确认复核所选日历吗, 是否继续?`);
+                const ok = await this.$msg.ask(`确认复核所选运营日历数据吗, 是否继续?`);
                 if (!ok) {
                     return
                 }

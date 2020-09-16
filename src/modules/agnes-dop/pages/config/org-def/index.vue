@@ -114,7 +114,7 @@
                         args: {row, mode, actionOk},
                         width: '60%',
                         closeOnClickModal: false,
-                        title: this.$dialog.formatTitle('机构', mode),
+                        title: this.$dialog.formatTitle('外部机构维护', mode),
                     }
                 );
             },

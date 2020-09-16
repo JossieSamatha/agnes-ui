@@ -2,9 +2,9 @@
     <el-container>
         <el-container style="height: 100%">
             <el-header height="40px" class="el-border" style="line-height:40px;">
-                <gf-button class="action-btn" @click="addUserGroups" size="mini">添加群组</gf-button>
-                <gf-button class="action-btn" @click="editUserGroups" size="mini">编辑群组</gf-button>
-                <gf-button class="action-btn" @click="deleteUserGroups" size="mini">删除群组</gf-button>
+                <gf-button class="action-btn" @click="addUserGroups" size="mini">添加组</gf-button>
+                <gf-button class="action-btn" @click="editUserGroups" size="mini">编辑组</gf-button>
+                <gf-button class="action-btn" @click="deleteUserGroups" size="mini">删除组</gf-button>
             </el-header>
             <el-container style="height: calc(100% - 40px)">
                 <el-aside width="150px" class="el-border" style="height: 100%;overflow-y: auto">

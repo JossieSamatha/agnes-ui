@@ -5,7 +5,7 @@ const colButtons = [
 ];
 export default {
     columnDefs: [
-        column.buildOpCol(120, colButtons),
+        column.buildOpCol(100, colButtons),
         {headerName: "姓名", field: "linkmanName"},
         {headerName: "职位", field: "linkmanRoleId"},
         {headerName: "部门", field: "linkmanDept"},

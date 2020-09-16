@@ -1,19 +1,34 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'editModel', title: '编辑'},
-    {key: 'deleteModel', title: '删除',cellClass:'red-cell'},
+    {key: 'editMsg', title: '编辑'},
+    {key: 'deleteMsg', title: '删除',cellClass:'red-cell'},
+    {key: 'approveMsg', title: '审核',disabled: (params)=>{
+            let result = false;
+            if(params.data.msgStatus === '02' || params.data.msgStatus === '03'){
+                result =true;
+            }
+            return result;}},
+    {key: 'publishMsg', title: '发布',disabled: (params)=>{
+            let result = false;
+            if(params.data.msgStatus === '01' || params.data.msgStatus === '03'){
+                result =true;
+            }
+            return result;}}
 ];
 
 export default {
     columnDefs: [
-        {headerName: "名称", field: "msgName"},
+        column.buildOpCol(160, colButtons),
+        {headerName: "消息名称", field: "msgName"},
+        {headerName: "消息编号", field: "msgCode"},
+        {headerName: "消息类型", field: "msgTopic",formatType: 'dict', dictType: 'AC_MSG_TOPIC' },
+        {headerName: "状态", field: "msgStatus" ,formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
         column.colCrtUser,
-        column.colCrtTm,
-        column.colUpdUser,
-        column.colUpdTm,
-        column.buildOpCol(120, colButtons)
+        column.colCrtTm
     ],
+    headerHeight: 40,
+    rowHeight: 37,
     ext: {
         fetchUrl: "/agnes-ac/v1/ec/msg/page/list",    //后台查询数据的URL地址
         fetchMethod: 'get',

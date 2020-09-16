@@ -1,9 +1,7 @@
 <template>
     <div>
-        <gf-grid  grid-no="agnes-monitor-err-type" ref="grid" toolbar="find,refresh,more">
+        <gf-grid @row-double-click="showErr" grid-no="agnes-monitor-err-type" ref="grid" toolbar="find,refresh,more">
             <template slot="left">
-                <gf-button class="action-btn" @click="dealErr" size="mini">处理异常</gf-button>
-                <gf-button class="action-btn" @click="checkErr" size="mini">复核</gf-button>
                 <gf-button class="action-btn" @click="transferRisk" size="mini">调入风险事项</gf-button>
             </template>
         </gf-grid>
@@ -13,6 +11,7 @@
 <script>
     import MonitorErrType from "./monitor-err-type";
     import MonitorErrList from "./monitor-err-list";
+    import loadsh from 'lodash';
     export default {
         methods: {
 
@@ -34,12 +33,17 @@
                         }
                     );
                }else {
+                    let title = this.$dialog.formatTitle("处理异常",mode);
+                    if(mode == 'check'){
+                        title = '';
+                    }
                     this.$nav.showDialog(
                         MonitorErrType,
                         {
                             args: {row, mode, actionOk,ui},
                             width: '50%',
-                            title: this.$dialog.formatTitle('处理异常', mode),
+                            title: title,
+
                         }
                     );
                 }
@@ -47,31 +51,28 @@
             async onAddErr() {
                 await this.reloadData();
             },
-
-            dealErr() {
-                let t = this.$refs.grid.getSelectedRows();
-                if (t[0].status.match(/00/)){
-                    this.showDlg('edit',t[0],1, this.onAddErr.bind(this));
-                }else {
-                    this.$msg.warning("该状态无法处理!");
-                    return;
-                }
+            showErr(params) {
+                this.showDlg('view', params.data);
             },
-            checkErr(){
-                let t = this.$refs.grid.getSelectedRows();
-                if (t[0].status.match(/01/)){
-                    this.showDlg('edit',t[0],2, this.onAddErr.bind(this));
-                }else {
-                    this.$msg.warning("该状态无法处理!");
-                    return;
-                }
+            editErr(params) {
+                this.showDlg('edit', params.data, "1", this.onAddErr.bind(this));
+            },
+            approveErr(params){
+                this.showDlg('check', params.data, "2", this.onAddErr.bind(this));
+            },
+            publishErr(params){
+                this.showDlg('check', params.data, "3", this.onAddErr.bind(this));
             },
             transferRisk(){
                 let t = this.$refs.grid.getSelectedRows();
-                if (t[0].isRisk.match(/0/)){
+                if(loadsh.isEmpty(t)){
+                    this.$msg.success("请中一条记录!");
+                    return;
+                }
+                if (t[0].isRisk.match(/0/) && t[0].status.match(/03/)){
                     this.showDlg('edit',t[0],null,this.onAddErr.bind(this),'transfer');
                 }else {
-                    this.$msg.warning("该状态无法处理!");
+                    this.$msg.warning("该状态无法调入!");
                     return;
                 }
             },

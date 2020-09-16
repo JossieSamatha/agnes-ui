@@ -14,47 +14,55 @@
                 <gf-input v-model="form.memo.memoDesc" type="textarea" :max-byte-len="512"></gf-input>
             </el-form-item>
 
-            <el-row>
-                <el-col :span="10">
-                    <el-form-item label="参与人员" prop="memoMemberRefList">
+            <el-form-item label="通知人员">
+              <gf-person-chosen ref="memberRef"
+                                :memberRefList="form.memoMemberRefList"
+                                chosenType="user, group, roster"
+                                :rosterDate="this.rosterDate"
+                                @getMemberList="getMemberList">
+              </gf-person-chosen>
+            </el-form-item>
+<!--            <el-row>-->
+<!--                <el-col :span="10">-->
+<!--                    <el-form-item label="参与人员" prop="memoMemberRefList">-->
 
-                        <div style="width: 100%;height: 100%;margin: 10px;border: 1px solid #ebeef5;margin-top: 20px">
-                            <el-tag
-                                    :key="tag.memberDesc"
-                                    v-for="tag in form.memoMemberRefList"
-                                    :closable="mode!=='view'"
-                                    :disable-transitions="false"
-                                    @close="handleClose(tag)">
-                                {{tag.memberDesc}}
-                            </el-tag>
-                        </div>
+<!--                        <div style="width: 100%;height: 100%;margin: 10px;border: 1px solid #ebeef5;margin-top: 20px">-->
+<!--                            <el-tag-->
+<!--                                    :key="tag.memberDesc"-->
+<!--                                    v-for="tag in form.memoMemberRefList"-->
+<!--                                    :closable="mode!=='view'"-->
+<!--                                    :disable-transitions="false"-->
+<!--                                    @close="handleClose(tag)">-->
+<!--                                {{tag.memberDesc}}-->
+<!--                            </el-tag>-->
+<!--                        </div>-->
 
-                    </el-form-item>
-                </el-col>
-                <el-col :span="14">
-                    <el-form-item label="" prop="memberChoseTab">
-                        <el-tabs type="card" v-model="activeName" >
-                            <el-tab-pane label="用户" name="userTab">
-                                <gf-grid grid-no="agnes-dop-memo-member-user-list" ref="userGrid">
-<!--                                    <template slot="left">-->
-<!--                                        <gf-button @click="choseUser" size="mini">添加</gf-button>-->
-<!--                                    </template>-->
-                                </gf-grid>
+<!--                    </el-form-item>-->
+<!--                </el-col>-->
+<!--                <el-col :span="14">-->
+<!--                    <el-form-item label="" prop="memberChoseTab">-->
+<!--                        <el-tabs type="card" v-model="activeName" >-->
+<!--                            <el-tab-pane label="用户" name="userTab">-->
+<!--                                <gf-grid grid-no="agnes-dop-memo-member-user-list" ref="userGrid">-->
+<!--&lt;!&ndash;                                    <template slot="left">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <gf-button @click="choseUser" size="mini">添加</gf-button>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </template>&ndash;&gt;-->
+<!--                                </gf-grid>-->
 
-                            </el-tab-pane>
-                            <el-tab-pane label="群组" name="groupTab">
-                                <gf-grid grid-no="agnes-dop-memo-member-user-group-list" ref="userGroupGrid">
-                                </gf-grid>
-                            </el-tab-pane>
-                            <el-tab-pane label="排班" name="rosterTab">
-                                <gf-grid grid-no="agnes-dop-memo-member-roster-list" ref="rosterGrid">
-                                </gf-grid>
-                            </el-tab-pane>
-                        </el-tabs>
+<!--                            </el-tab-pane>-->
+<!--                            <el-tab-pane label="群组" name="groupTab">-->
+<!--                                <gf-grid grid-no="agnes-dop-memo-member-user-group-list" ref="userGroupGrid">-->
+<!--                                </gf-grid>-->
+<!--                            </el-tab-pane>-->
+<!--                            <el-tab-pane label="排班" name="rosterTab">-->
+<!--                                <gf-grid grid-no="agnes-dop-memo-member-roster-list" ref="rosterGrid">-->
+<!--                                </gf-grid>-->
+<!--                            </el-tab-pane>-->
+<!--                        </el-tabs>-->
 
-                    </el-form-item>
-                </el-col>
-            </el-row>
+<!--                    </el-form-item>-->
+<!--                </el-col>-->
+<!--            </el-row>-->
 
         </el-form>
         <dialog-footer :ok-button-visible="mode !== 'view'" :on-save="save" :on-cancel="cancel"></dialog-footer>

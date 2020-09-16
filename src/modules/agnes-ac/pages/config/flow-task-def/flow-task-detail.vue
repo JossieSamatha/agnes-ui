@@ -7,6 +7,27 @@
         <el-form-item label="任务编号" prop="caseKey">
             <gf-input v-model.trim="detailForm.caseKey" placeholder="任务编号" clear-regex="[^0-9]" :max-byte-len="8"/>
         </el-form-item>
+        <el-form-item label="任务图标" prop="taskIcon">
+            <gf-input v-model.trim="detailForm.taskIcon"
+                      placeholder="任务图标"
+                      style="width: calc(100% - 30px); margin-right: 10px"
+            />
+            <el-popover placement="bottom"
+                    title="图标库使用"
+                    width="220"
+                    trigger="click"
+                    popper-class="question-popover">
+                <el-button slot="reference"
+                           icon="fa fa-question-circle-o"
+                           style="border: none;padding: 0;font-size: 20px;vertical-align: middle"
+                ></el-button>
+                <p>图标库中选择需要的图标对应名称，前面加上【fa fa-】前缀即可。</p>
+                <p>如：<span><i class="fa fa-bus"></i> bus</span>填写为【fa fa-bus】</p>
+                <p>图标库链接地址为：
+                    <a href="https://fontawesome.dashgame.com/" target="_blank" style="color: #4183C4;">点我跳转</a>
+                </p>
+            </el-popover>
+        </el-form-item>
         <el-form-item label="流程类型" prop="flowType">
             <gf-dict filterable clearable v-model="detailForm.flowType" dict-type="AGNES_CASE_FLOWTYPE"/>
         </el-form-item>
@@ -98,7 +119,8 @@
                     execMode:'0',
                     eventId:'',
                     flowType:'',
-                    needApprove:'0'},
+                    needApprove:'0',
+                    taskIcon:''},
                 dayChecked: false,  // 跨日
                 startAllTime: false,       // 是否永久有效
                 // 规则选择类型选项

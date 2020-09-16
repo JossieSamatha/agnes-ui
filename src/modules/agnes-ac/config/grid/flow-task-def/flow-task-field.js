@@ -2,8 +2,18 @@ import column from "../../../../../config/column"
 const colButtons = [
     {key: 'updateFlowTask', title: '编辑', resId: 'dddd'},
     {key: 'deleteFlowTask', title: '删除', cellClass: 'red-cell'},
-    {key: 'checkFlowTask', title: '审核'},
-    {key: 'publishFlowTask', title: '发布'},
+    {key: 'checkFlowTask', title: '审核',disabled: (params)=>{
+            let result = false;
+            if(params.data.reTaskDef.taskStatus === '00' ||params.data.reTaskDef.taskStatus === '02' || params.data.reTaskDef.taskStatus === '03'){
+                result =true;
+            }
+            return result;}},
+    {key: 'publishFlowTask', title: '发布',disabled: (params)=>{
+            let result = false;
+            if(params.data.reTaskDef.taskStatus === '00' ||params.data.reTaskDef.taskStatus === '01' || params.data.reTaskDef.taskStatus === '03'){
+                result =true;
+            }
+            return result;}},
 ];
 export default {
     columnDefs: [
@@ -22,7 +32,7 @@ export default {
                 return "";
             }},
         {headerName: "任务类型", field: "reTaskDef.taskType" ,formatType: 'dict', dictType: 'AGNES_TASK_TYPE'},
-        {headerName: "状态", field: "reTaskDef.taskStatus",formatType: 'dict', dictType: 'CASE_TASK_STATUS'},
+        {headerName: "状态", field: "reTaskDef.taskStatus",formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
         {headerName: "创建时间", field: "reTaskDef.crtTs"},
         {headerName: "创建人", field: "reTaskDef.crtUser"}
     ],
@@ -41,7 +51,7 @@ export default {
             // 可供选择的分页大小（下拉切换分页值）
             pageSizes: [10, 20, 50, 100],
             // 显示在状态栏上的页数字的个数
-            pageCount: 5,
+            pageCount: 0,
             prevText: "上一页",
             nextText: "下一页",
             // 分页工具显示项，例如总页数、当前页、上一页、下一页、等分页功能按钮

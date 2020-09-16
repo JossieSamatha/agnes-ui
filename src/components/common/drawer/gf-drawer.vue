@@ -1,6 +1,6 @@
 <template>
     <el-drawer class="gf-page-drawer" ref="gf-page-drawer"
-               :class="className"
+               :class="[className, ifFullScreen?'full-screen':'']"
                :visible.sync="visible"
                :with-header="widthHeader"
                :direction="direction"
@@ -25,7 +25,7 @@
                 </template>
             </span>
         </template>
-        <component ref="component" :is="component" v-bind="args" @onClose="onClose">
+        <component ref="component" :is="component" v-bind="args" @onClose="onClose" @fullScreenOption="fullScreenOption">
         </component>
     </el-drawer>
 </template>
@@ -96,7 +96,8 @@
             return {
                 visible: true,
                 modeArr: {add: '添加', edit: '编辑', view: '查看'},
-                needAsk: true
+                needAsk: true,
+                ifFullScreen: false
             }
         },
         computed: {
@@ -122,6 +123,9 @@
             },
             opBtnClick(actionName){
                 this.$refs.component[actionName]();
+            },
+            fullScreenOption(ifFullScreen){
+                this.ifFullScreen = ifFullScreen;
             },
             async close(done) {
                 if(this.needAsk && this.args.mode !== 'view'){

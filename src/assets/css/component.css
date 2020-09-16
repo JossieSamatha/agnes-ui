@@ -627,9 +627,15 @@
     border-right: none;
 }
 
+.gf-ag-grid.ag-theme-balham .ag-cell.status-circle-cell,
 .gf-ag-grid.ag-theme-balham .ag-cell .status-circle-cell {
     display:flex;
     align-items:center
+}
+
+.gf-ag-grid.ag-theme-balham .ag-cell.status-circle-cell .ag-cell-value {
+    color: #666;
+    margin-left: 5px;
 }
 
 .gf-ag-grid.ag-theme-balham .ag-cell .status-circle-cell i.fa.fa-circle {

@@ -27,7 +27,7 @@
                         args: {row, mode, actionOk},
                         width: '40%',
                         closeOnClickModal: false,
-                        title: this.$dialog.formatTitle('机构类型', mode),
+                        title: this.$dialog.formatTitle('机构类型维护', mode),
                     }
                 );
             },

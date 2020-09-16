@@ -1,8 +1,8 @@
 <template>
     <div class="stage-item" :class="{'edit':stage.edit}">
-        <div class="stage-item-title" @dblclick="editStageTitle">
-            <i class="drag-bar fa fa-th"></i>
-            <span class="title">
+        <div class="stage-item-title" :title="stage.defName" @dblclick="editStageTitle" :style="titleStyle">
+            <i class="drag-bar fa fa-th" v-if="!preview"></i>
+            <span class="title" v-if="!preview">
                 <el-input ref="titleInput" class="title-input" :title="stage.defName" v-model="stage.defName"
                           :disabled="!stage.edit" size="mini" clearable
                           @keyup.enter.native="saveStageTitle" @blur="saveStageTitle"></el-input>
@@ -10,11 +10,18 @@
                     <i class="fa fa-trash-o" @click="deleteStage"></i>
                 </span>
             </span>
+            <span class="title" v-else>
+                <span>
+                    <span class="name">{{stage.defName}}</span>
+                    <span class="num"><span style="color:#52C41C">{{stage.completeNum}}</span>/{{stage.targetNum}}</span>
+                </span>
+                <span class="status" v-if="stage.status"><i v-html="getStatusIcon(stage.status).icon"></i></span>
+            </span>
         </div>
         <div class="stage-item-content">
             <slot name="stageSlot"></slot>
         </div>
-        <div class="add-task">
+        <div class="add-task" v-if="!preview">
             <span class="stage-add">
                 <i class="el-icon-plus"></i>
                 <span class="title">STEP</span>
@@ -50,6 +57,20 @@
             stepType: {
                 type: String,
                 require: true
+            },
+            preview: {
+                type: Boolean,
+                default: false
+            },
+            getStatusIcon: Function
+        },
+        computed: {
+            titleStyle() {
+                if(this.preview){
+                    return {'border-color': this.getStatusIcon(this.stage.status).color};
+                }else{
+                    return '';
+                }
             }
         },
         mounted(){
@@ -61,6 +82,9 @@
         methods: {
             // 修改Stage标题
             editStageTitle() {
+                if(this.preview){
+                    return;
+                }
                 this.$set(this.stage, 'edit', true);
             },
 

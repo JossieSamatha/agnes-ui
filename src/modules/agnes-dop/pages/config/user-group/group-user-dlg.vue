@@ -16,7 +16,7 @@
                 </gf-person-chosen>
             </el-form-item>
         </el-form>
-        <dialog-footer :ok-button="mode !== 'view'" :on-save="onSave" ok-button-title="确定"></dialog-footer>
+        <dialog-footer :ok-button="mode !== 'view'" :on-save="onSave" ok-button-title="保存"></dialog-footer>
     </div>
 </template>
 

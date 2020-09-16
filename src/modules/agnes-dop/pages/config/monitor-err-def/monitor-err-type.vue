@@ -15,7 +15,7 @@
                 <gf-input type="textarea" v-model="form.errDesc"/>
             </el-form-item>
         </el-form>
-        <dialog-footer :ok-button="mode !== 'view'" :on-cancel="onBack" :on-save="onSave" :cancel-button-title="ui==1?'取消':'驳回'" :ok-button-title="ui==1?'提交':'通过'"></dialog-footer>
+        <dialog-footer :ok-button="mode !== 'view'"  :on-save="onSave" cancel-button-title="取消" ok-button-title="确定"></dialog-footer>
     </div>
 </template>
 
@@ -46,36 +46,24 @@
             Object.assign(this.form, this.row);
         },
         methods: {
-            async onBack()  {
-                const ok = await this.$refs['form'].validate();
-                if (!ok) {
-                    return;
-                }
-                try {
-                    if (this.ui===2){
-                        await this.$api.monitorErrApi.checkErr("02",this.form);
-                        this.$msg.success('驳回成功');
-                    }
-                    if (this.actionOk){
-                        await this.actionOk(this.form, this.row);
-                    }
-                    this.$dialog.close(this);
-                } catch (e) {
-                    this.$msg.error(e);
-                }
-            },
             async onSave() {
                 const ok = await this.$refs['form'].validate();
                 if (!ok) {
                     return;
                 }
                 try {
-                    if (this.ui===1){
-                        await this.$api.monitorErrApi.dealErr(this.form);
-                        this.$msg.success('提交成功');
+                    if (this.ui==="1"){
+                        let dealErr = this.$api.monitorErrApi.dealErr(this.form);
+                        await this.$app.blockingApp(dealErr);
+                        this.$msg.success('保存成功');
+                    }else if(this.ui==="2"){
+                        let checkErr = this.$api.monitorErrApi.checkErr("02",this.form);
+                        await this.$app.blockingApp(checkErr);
+                        this.$msg.success('审核通过');
                     }else{
-                        await this.$api.monitorErrApi.checkErr("03",this.form);
-                        this.$msg.success('通过成功');
+                        let checkErr = this.$api.monitorErrApi.checkErr("03",this.form);
+                        await this.$app.blockingApp(checkErr);
+                        this.$msg.success('发布成功');
                     }
                     if (this.actionOk){
                         await this.actionOk(this.form, this.row);
