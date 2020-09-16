@@ -3,7 +3,11 @@ import column from "../../../../../config/column"
 const colButtons = [
     {key: 'editLinkMan', title: '编辑'},
     {key: 'deleteLinkMan', title: '删除', cellClass: 'red-cell'},
-    {key: 'approveLinkMan', title: '审核'}
+    {
+        key: 'approveLinkMan', title: '审核', disabled: (params) => {
+            return params.data.status === '04'
+        }
+    }
 ];
 export default {
     columnDefs: [
@@ -11,7 +15,8 @@ export default {
         {headerName: "姓名", field: "linkmanName"},
         {headerName: "岗位", field: "linkmanRoleId", dictType: "AGNES_ROSTER_POST"},
         {headerName: "部门", field: "linkmanDept", dictType: "AGNES_ROSTER_DEPT"},
-        {headerName: "状态", field: "linkmanStatus" ,formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
+        {headerName: "状态", field: "linkmanStatus", formatType: 'dict', dictType: 'DOP_LINKMAN_STATUS'},
+        {headerName: "操作状态", field: "status", formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
         {headerName: "电话", field: "linkmanPhone"},
         column.colUpdUser,
         column.colUpdTm,

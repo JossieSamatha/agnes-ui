@@ -3,13 +3,11 @@ import column from "../../../../../config/column"
 const colButtons = [
     {key: 'editMemo', title: '编辑'},
     {key: 'deleteMemo', title: '删除', cellClass: 'red-cell'},
-    {key: 'approveMemo', title: '审核',disabled: (params)=>{
-            let result = false;
-            if(params.data.form.memoStatus === '00' ||params.data.form.channelStatus === '02' || params.data.form.channelStatus === '03'){
-                result =true;
-            }
-            return result;}},
-    {key: 'publishMemo', title: '发布'},
+    {
+        key: 'approveMemo', title: '审核', disabled: (params) => {
+            return params.data.memoStatus === '04'
+        }
+    },
 ];
 
 export default {

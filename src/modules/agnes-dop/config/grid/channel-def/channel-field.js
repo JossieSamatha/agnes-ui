@@ -3,12 +3,11 @@ import column from "../../../../../config/column"
 const colButtons = [
     {key: 'editChannel', title: '编辑'},
     {key: 'deleteChannel', title: '删除', cellClass: 'red-cell'},
-    {key: 'approveChannel', title: '审核', disabled: (params)=>{
-            let result = false;
-            if(params.data.dopReChannel.channelStatus === '00' ||params.data.dopReChannel.channelStatus === '02' || params.data.dopReChannel.channelStatus === '03'){
-                result =true;
-            }
-            return result;}},
+    {
+        key: 'approveChannel', title: '审核', disabled: (params) => {
+            return params.data.channelStatus === '04'
+        }
+    },
 ];
 export default {
     columnDefs: [

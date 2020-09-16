@@ -12,4 +12,7 @@ export default {
     deleteRoster(rosterId) {
         return request.post("/agnes-app/v1/dop/roster/delete", null, {params: {rosterId}});
     },
+    updateRosterStatus(rosterId, status) {
+        return request.post("/agnes-app/v1/dop/roster/update/status", null, {params: {rosterId, status}});
+    }
 };

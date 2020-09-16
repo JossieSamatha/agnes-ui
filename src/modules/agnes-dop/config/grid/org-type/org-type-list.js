@@ -1,9 +1,12 @@
 import column from "../../../../../config/column"
 const colButtons = [
     {key: 'editOrgType', title: '编辑'},
-    {key: 'deleteOrgType', title: '删除',cellClass:'red-cell'},
-    {key: 'approveOrgType', title: '审核'},
-    {key: 'publishOrgType', title: '发布'},
+    {key: 'deleteOrgType', title: '删除', cellClass: 'red-cell'},
+    {
+        key: 'approveOrgType', title: '审核', disabled: (params) => {
+            return params.data.status === '04'
+        }
+    },
 ];
 
 export default {
