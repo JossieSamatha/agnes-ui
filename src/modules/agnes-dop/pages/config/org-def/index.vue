@@ -141,16 +141,30 @@
                 if (!ok) {
                     return
                 }
-                try {
-                    let that = this;
-                    const p = this.$api.orgDefineApi.deleteOrg(ids).then(function () {
-                        that.reloadData();
-                    });
-                    await this.$app.blockingApp(p);
-                } catch (reason) {
-                    this.$msg.error(reason);
-                }
+              try {
+                let that = this;
+                const p = this.$api.orgDefineApi.deleteOrg(ids).then(function () {
+                  that.reloadData();
+                });
+                await this.$app.blockingApp(p);
+              } catch (reason) {
+                this.$msg.error(reason);
+              }
+            },
+          async approveExOrg(params) {
+            const row = params.data;
+            const ok = await this.$msg.ask(`确认复核所选机构:[${row.extOrgName}]吗, 是否继续?`);
+            if (!ok) {
+              return
             }
+            try {
+              const p = this.$api.orgDefineApi.updateExOrgeStatus(row.extOrgId, "04");
+              await this.$app.blockingApp(p);
+              await this.reloadData();
+            } catch (reason) {
+              this.$msg.error(reason);
+            }
+          },
         },
         watch: {
             filterText(val) {

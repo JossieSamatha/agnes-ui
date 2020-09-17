@@ -14,7 +14,6 @@
             return {
                 queryArgs:{
                     'extOrgId':'',
-                    'linkmanGroupId':''
                 }
             }
         },
@@ -29,7 +28,6 @@
                 handler() {
                     if (this.reqData.extOrgId) {
                         this.queryArgs.extOrgId = this.reqData.extOrgId;
-                        this.queryArgs.linkmanGroupId = this.reqData.linkmanGroupId;
                         this.reloadData();
                     }
                 },
@@ -58,10 +56,6 @@
             this.reloadData()
           },
           addLinkMan() {
-            if (!this.reqData.extOrgId) {
-              this.$msg.warning("请先选中机构!");
-              return
-            }
             this.showDlg('add', {"extOrgId": this.reqData.extOrgId}, this.onAddLoad.bind(this));
           },
           showLinkman(params) {
@@ -91,7 +85,7 @@
               return
             }
             try {
-              const p = this.$api.rosterApi.updateLinkmanStatus(row.linkmanId, "04");
+              const p = this.$api.linkmanApi.updateLinkmanStatus(row.linkmanId, "04");
               await this.$app.blockingApp(p);
               this.reloadData();
             } catch (reason) {
