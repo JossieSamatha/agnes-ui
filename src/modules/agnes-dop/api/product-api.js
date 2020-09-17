@@ -2,7 +2,7 @@ import request from '@hex/gf-ui/src/util/request';
 
 export default {
     saveProdut(row) {
-        return request.post("/agnes-app/v1/prdt/info/save",{prdtRuInfo:row});
+        return request.post("/agnes-app/v1/prdt/info/save", {prdtRuInfoVo: row});
     },
     deleteProdut(param) {
         return request.post("/agnes-app/v1/prdt/info/delete",null,{params: param});

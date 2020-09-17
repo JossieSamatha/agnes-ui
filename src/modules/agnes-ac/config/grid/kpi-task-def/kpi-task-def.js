@@ -1,7 +1,12 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'editKpiTask', title: '编辑'},
+    {key: 'editKpiTask', title: '编辑',disabled: (params)=>{
+            let result = false;
+            if(params.data.reTaskDef.taskStatus === '03'){
+                result =true;
+            }
+            return result;}},
     {key: 'deleteKpiTask', title: '删除', cellClass: 'red-cell'},
     {key: 'checkKpiTask', title: '审核',disabled: (params)=>{
             let result = false;
@@ -14,7 +19,19 @@ const colButtons = [
             if(params.data.reTaskDef.taskStatus === '00' ||params.data.reTaskDef.taskStatus === '01' || params.data.reTaskDef.taskStatus === '03'){
                 result =true;
             }
+            return result;},visiable:(params)=>{
+            let result = true;
+            if(params.data.reTaskDef.taskStatus === '03'){
+                result =false;
+            }
             return result;}},
+    {key: 'stopAndCancelTask', title: '停止',visiable: (params)=>{
+            let result = false;
+            if(params.data.reTaskDef.taskStatus === '03'){
+                result =true;
+            }
+            return result;}},
+
 ];
 
 export default {
@@ -49,7 +66,7 @@ export default {
         enableExportLocal: true,
         pageOptions: {
             // 分页大小
-            pageSize: 10,
+            pageSize: 50,
             // 可供选择的分页大小（下拉切换分页值）
             pageSizes: [10, 20, 50, 100],
             // 显示在状态栏上的页数字的个数

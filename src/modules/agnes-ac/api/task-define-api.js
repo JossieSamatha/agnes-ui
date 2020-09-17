@@ -7,6 +7,9 @@ export default {
     saveTask(form) {
         return request.post("/agnes-ac/v1/config/task/save", form);
     },
+    stopAndCancelTask(form) {
+        return request.post("/agnes-ac/v1/config/task/stop-cancel/task", form);
+    },
     deleteTask(taskId) {
         return request.post("/agnes-ac/v1/config/task/delete", null, {params: {taskId}});
     },
