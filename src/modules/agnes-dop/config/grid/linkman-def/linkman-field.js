@@ -21,6 +21,7 @@ export default {
         column.colUpdUser,
         column.colUpdTm,
     ],
+
     headerHeight: 40,
     rowHeight: 37,
     ext: {
