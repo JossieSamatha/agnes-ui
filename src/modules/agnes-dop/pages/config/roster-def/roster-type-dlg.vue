@@ -2,13 +2,10 @@
     <div>
         <el-form class="fit-box" :disabled="mode==='view'" :model="form" ref="form" :rules="rules" label-width="85px"
                  style="padding: 10px;">
-            <el-form-item label="部门" prop="deptId">
-                <gf-dict-select dict-type="AGNES_ROSTER_DEPT" v-model="form.deptId"/>
-            </el-form-item>
-            <el-form-item label="排班类型" prop="rosterType">
+            <el-form-item label="值班类型" prop="rosterType">
                 <gf-dict-select dict-type="AGNES_ROSTER_TYPE" v-model="form.rosterType"/>
             </el-form-item>
-            <el-form-item label="排班日期" prop="rosterDate">
+            <el-form-item label="值班日期" prop="rosterDate">
                 <el-date-picker
                         v-model="form.rosterDate"
                         align="left"
@@ -16,7 +13,7 @@
                         placeholder="选择日期">
                 </el-date-picker>
             </el-form-item>
-            <el-form-item label="排班时间" prop="rosterTs">
+            <el-form-item label="值班时间" prop="rosterTs">
                 <el-time-picker
                         is-range
                         v-model="form.rosterTs"
@@ -35,9 +32,6 @@
                                   @getMemberList="getMemberList">
                 </gf-person-chosen>
             </el-form-item>
-            <el-form-item label="岗位" prop="roleId">
-                <gf-dict-select dict-type="AGNES_ROSTER_POST" v-model="form.roleId"/>
-            </el-form-item>
         </el-form>
         <dialog-footer :ok-button="mode !== 'view'" :on-save="onSave" ok-button-title="确定"></dialog-footer>
     </div>
@@ -49,21 +43,17 @@
             return {
                 memberRefList: [],
                 form: {
-                    deptId: "",
                     rosterType: "",
                     rosterDate: "",
                     rosterTs: "",
-                    roleId: "",
 
                 },
                 rosterId: "",
                 rules: {
                     'memberRefList': [{required: true, message: "请选择员工姓名"}],
-                    'deptId': [{required: true, message: "请选择部门"}],
-                    'rosterType': [{required: true, message: "请选择排班类型"}],
-                    'rosterTs': [{required: true, message: "请选择排班时间"}],
-                    'rosterDate': [{required: true, message: "请选择排班日期"}],
-                    'roleId': [{required: true, message: "请选择岗位"}],
+                    'rosterType': [{required: true, message: "请选择值班类型"}],
+                    'rosterTs': [{required: true, message: "请选择值班时间"}],
+                    'rosterDate': [{required: true, message: "请选择值班日期"}],
                 },
             };
         },

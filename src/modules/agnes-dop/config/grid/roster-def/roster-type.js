@@ -14,11 +14,9 @@ const colButtons = [
 export default {
     columnDefs: [
         column.buildOpCol(180, colButtons),
-        {headerName: "部门", field: "deptId", dictType: 'AGNES_ROSTER_DEPT'},
-        {headerName: "排班类型", field: "rosterType", dictType: 'AGNES_ROSTER_TYPE'},
-        {headerName: "排班日期", field: "rosterDate"},
-        {headerName: "排班时间", field: "rosterTs"},
-        {headerName: "岗位", field: "roleId", dictType: 'AGNES_ROSTER_POST'},
+        {headerName: "值班类型", field: "rosterType", dictType: 'AGNES_ROSTER_TYPE'},
+        {headerName: "值班日期", field: "rosterDate"},
+        {headerName: "值班时间", field: "rosterTs"},
         {headerName: "状态", field: "status" ,formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
         column.colCrtUser,
         column.colCrtTm
@@ -35,7 +33,7 @@ export default {
         autoFitColumnMode: 1,
         pageOptions: {
             // 分页大小
-            pageSize: 10,
+            pageSize: 50,
             // 可供选择的分页大小（下拉切换分页值）
             pageSizes: [10, 20, 50, 100],
             // 显示在状态栏上的页数字的个数
