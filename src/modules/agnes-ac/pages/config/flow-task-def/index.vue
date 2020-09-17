@@ -9,7 +9,7 @@
         >
             <template slot="left">
                 <gf-button class="action-btn" @click="addFlowTask" size="mini">添加</gf-button>
-                <gf-button class="action-btn" @click="confFlowNode" size="mini">配置流程任务节点</gf-button>
+                <gf-button :disabled="setTaskStatus" class="action-btn"  @click="confFlowNode" size="mini" >配置流程任务节点</gf-button>
                 <gf-button class="action-btn" @click="copyFlow" size="mini">复制</gf-button>
                 <gf-button class="action-btn" @click="exportFlow" size="mini">导出</gf-button>
                 <el-upload
@@ -46,7 +46,8 @@
     export default {
         data() {
             return {
-                uploadStatus:false
+                uploadStatus:false,
+                setTaskStatus:true
             }
         },
         methods: {
@@ -56,6 +57,14 @@
                     this.uploadStatus = true;
                 }else{
                     this.uploadStatus = false;
+                }
+                if(rows.length==0){
+                    return;
+                }
+                if(rows[0].reTaskDef.taskStatus === "03"){
+                    this.setTaskStatus = true;
+                }else {
+                    this.setTaskStatus = false;
                 }
             },
             showFlowTask(row, mode, actionOk){
@@ -120,10 +129,6 @@
                 // 抽屉创建
                 if (row.caseDefInfo.length === 0) {
                     this.$msg.warning("请选中一条记录!");
-                    return;
-                }
-                if(row.caseDefInfo.reTaskDef.taskStatus === "03"){
-                    this.$msg.warning("该状态无法进行编辑!");
                     return;
                 }
                 this.$drawerPage.create({
