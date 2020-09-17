@@ -122,6 +122,10 @@
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
+                if(row.caseDefInfo.reTaskDef.taskStatus === "03"){
+                    this.$msg.warning("该状态无法进行编辑!");
+                    return;
+                }
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
                     title: ['流程任务节点配置'],
