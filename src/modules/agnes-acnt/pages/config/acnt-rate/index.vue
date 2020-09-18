@@ -17,17 +17,22 @@
             reloadData() {
                 this.$refs.grid.reloadData();
             },
-            showDlg(mode, row, actionOk) {
+            showDlg(mode, row,ui, actionOk) {
                 if (mode !== 'add' && !row) {
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
+
+                let title = this.$dialog.formatTitle("利率方案",mode);
+                if(mode == 'check'){
+                    title = '';
+                }
                 this.$nav.showDialog(
                     AcntRateDetail,
                     {
-                        args: {row, mode, actionOk},
+                        args: {row, mode,ui, actionOk},
                         width: '50%',
-                        title: this.$dialog.formatTitle('利率信息', mode),
+                        title: title,
                     }
                 );
             },
@@ -36,17 +41,17 @@
             },
 
             addRate() {
-                this.showDlg('add', {}, this.onAddRate.bind(this));
+                this.showDlg('add', {},"", this.onAddRate.bind(this));
             },
             editRate(params) {
-                this.showDlg('edit', params.data, this.onAddRate.bind(this));
+                this.showDlg('edit', params.data,"", this.onAddRate.bind(this));
             },
             showRate(params) {
                 this.showDlg('view', params.data);
             },
 
             check(param) {
-                this.showDlg('check', param.data, this.onAddRate.bind(this));
+                this.showDlg('check', param.data,"1", this.onAddRate.bind(this));
             },
 
             async deleteRate(params) {

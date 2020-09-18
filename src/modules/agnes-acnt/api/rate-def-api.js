@@ -11,4 +11,7 @@ export default {
     getBranchList(form) {
         return request.post(`/agnes-app/v1/dop/bank/get/list`,form);
     },
+    check(form) {
+        return request.post(`/agnes-app/v1/acnt/rate/info/check`,form);
+    },
 };
