@@ -161,14 +161,14 @@
 
             // 添加排班
             choseRoster(params){
-                const deptName = this.$app.dict.getDictItem('AGNES_ROSTER_DEPT', params.data.deptId).dictName;
+             //   const deptName = this.$app.dict.getDictItem('AGNES_ROSTER_DEPT', params.data.deptId).dictName;
                 const rosterName = this.$app.dict.getDictItem('AGNES_ROSTER_TYPE', params.data.rosterType).dictName;
-                const roleName = this.$app.dict.getDictItem('AGNES_ROSTER_POST', params.data.roleId).dictName;
+             //   const roleName = this.$app.dict.getDictItem('AGNES_ROSTER_POST', params.data.roleId).dictName;
                 const member = {
                     refType: '3',
                     memberId: params.data.rosterId,
                     // 排班-部门 排班类型 排班日期 排班时间 岗位
-                    memberDesc: `排班-${deptName}-${rosterName}\n${params.data.rosterDate} ${params.data.rosterTs}-${roleName}`
+                    memberDesc: `排班-${rosterName}\n${params.data.rosterDate} ${params.data.rosterTs}`
                 }
                 this.rosterList.push(member);
                 params.data.checked = true;

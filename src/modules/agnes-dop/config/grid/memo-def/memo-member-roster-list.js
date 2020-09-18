@@ -7,15 +7,15 @@ const colButtons = [
 export default {
     columnDefs: [
         column.buildOpCol(80, colButtons),
-        {headerName: "部门", field: "deptId", dictType: 'AGNES_ROSTER_DEPT'},
-        {headerName: "排班类型", field: "rosterType", dictType: 'AGNES_ROSTER_TYPE'},
-        {headerName: "排班日期", field: "rosterDate"},
-        {headerName: "排班时间", field: "rosterTs"},
-        {headerName: "姓名", field: "userName"},
-        {headerName: "岗位", field: "roleId" ,dictType: 'AGNES_ROSTER_POST'},
-        {headerName: "手机", field: "mobileNo"},
-        {headerName: "座机", field: "oTel"},
-        {headerName: "邮箱", field: "oEmail"}
+        // {headerName: "部门", field: "deptId", dictType: 'AGNES_ROSTER_DEPT'},
+        {headerName: "值班类型", field: "rosterType", dictType: 'AGNES_ROSTER_TYPE'},
+        {headerName: "值班日期", field: "rosterDate"},
+        {headerName: "值班时间", field: "rosterTs"},
+       // {headerName: "姓名", field: "userName"},
+        // {headerName: "岗位", field: "roleId" ,dictType: 'AGNES_ROSTER_POST'},
+       // {headerName: "手机", field: "mobileNo"},
+        //{headerName: "座机", field: "oTel"},
+        //{headerName: "邮箱", field: "oEmail"}
     ],
     defaultColDef: {
         enableRowGroup: true
