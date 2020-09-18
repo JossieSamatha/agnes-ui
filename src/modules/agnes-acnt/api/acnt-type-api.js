@@ -6,10 +6,10 @@ export default {
         return request.get(`/agnes-app/v1/acnt/type/list`);
     },
     getAcntTypeFactorList(typeCode) {
-        return request.get("/agnes-app/v1/acnt/type/factor/list", {params: {typeCode}});
+        return request.post("/agnes-app/v1/acnt/type/factor/list", null, {params: {typeCode}});
     },
     getAcntTypeFactorShowConfig(typeCode) {
-        return request.get("/agnes-app/v1/acnt/type/factor/show/config", {params: {typeCode}});
+        return request.post("/agnes-app/v1/acnt/type/factor/show/config", null, {params: {typeCode}});
     },
     existsAcntTypeCode(typeCode,typeId) {
         return request.post("/agnes-app/v1/acnt/type/existsTypeCode", null, {params: {typeCode,typeId}});
