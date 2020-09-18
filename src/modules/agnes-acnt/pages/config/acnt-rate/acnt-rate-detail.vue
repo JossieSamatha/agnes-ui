@@ -9,7 +9,7 @@
                 <gf-input v-model="form.rateName" placeholder="方案名称" :max-byte-len="120"/>
             </el-form-item>
             <el-form-item label="网点名称" prop="bankBranchId">
-                <el-select class="multiple-select" v-model="form.bankBranchId"
+                <el-select style="width: 100%"  class="multiple-select" v-model="form.bankBranchId"
                            filterable clearable
                            placeholder="请选择">
                     <gf-filter-option
