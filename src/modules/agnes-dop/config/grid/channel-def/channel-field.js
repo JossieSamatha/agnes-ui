@@ -3,12 +3,11 @@ import column from "../../../../../config/column"
 const colButtons = [
     {key: 'editChannel', title: '编辑'},
     {key: 'deleteChannel', title: '删除', cellClass: 'red-cell'},
-    {key: 'approveChannel', title: '审核', disabled: (params)=>{
-            let result = false;
-            if(params.data.dopReChannel.channelStatus === '00' ||params.data.dopReChannel.channelStatus === '02' || params.data.dopReChannel.channelStatus === '03'){
-                result =true;
-            }
-            return result;}},
+    {
+        key: 'approveChannel', title: '审核', disabled: (params) => {
+            return params.data.channelStatus === '04'
+        }
+    },
 ];
 export default {
     columnDefs: [
@@ -31,7 +30,7 @@ export default {
         enableExportLocal: true,
         pageOptions: {
             // 分页大小
-            pageSize: 10,
+            pageSize: 50,
             // 可供选择的分页大小（下拉切换分页值）
             pageSizes: [10, 20, 50, 100],
             // 显示在状态栏上的页数字的个数

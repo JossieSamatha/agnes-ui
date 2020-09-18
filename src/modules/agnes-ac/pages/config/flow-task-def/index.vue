@@ -9,7 +9,7 @@
         >
             <template slot="left">
                 <gf-button class="action-btn" @click="addFlowTask" size="mini">添加</gf-button>
-                <gf-button class="action-btn" @click="confFlowNode" size="mini">配置流程任务节点</gf-button>
+                <gf-button :disabled="setTaskStatus" class="action-btn"  @click="confFlowNode" size="mini" >配置流程任务节点</gf-button>
                 <gf-button class="action-btn" @click="copyFlow" size="mini">复制</gf-button>
                 <gf-button class="action-btn" @click="exportFlow" size="mini">导出</gf-button>
                 <el-upload
@@ -46,7 +46,8 @@
     export default {
         data() {
             return {
-                uploadStatus:false
+                uploadStatus:false,
+                setTaskStatus:true
             }
         },
         methods: {
@@ -56,6 +57,14 @@
                     this.uploadStatus = true;
                 }else{
                     this.uploadStatus = false;
+                }
+                if(rows.length==0){
+                    return;
+                }
+                if(rows[0].reTaskDef.taskStatus === "03"){
+                    this.setTaskStatus = true;
+                }else {
+                    this.setTaskStatus = false;
                 }
             },
             showFlowTask(row, mode, actionOk){
@@ -144,6 +153,19 @@
                 }
             },
 
+            //停止
+            async stopAndCancelTask(params){
+                const ok = await this.$msg.ask(`确认停止任务:[${params.data.reTaskDef.taskName}]吗, 是否继续?`);
+                if (!ok) {
+                    return
+                }
+                try {
+                    const p = this.$api.taskDefineApi.stopAndCancelTask({"taskId":params.data.reTaskDef.taskId});
+                    await this.$app.blockingApp(p);
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
             //复核
             checkFlowTask(params){
                 if(params.data.reTaskDef.taskStatus.match(/01|04/)){

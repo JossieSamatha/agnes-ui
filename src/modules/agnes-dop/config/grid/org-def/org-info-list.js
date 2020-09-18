@@ -1,8 +1,8 @@
 import column from "../../../../../config/column"
 const colButtons = [
     {key: 'listEditOrg', title: '编辑'},
-    {key: 'deleteOrg', title: '删除',cellClass:'red-cell'},
-    {key: 'approveOrg', title: '审核'},
+    {key: 'deleteOrg', title: '删除', cellClass: 'red-cell'},
+    {key: 'approveExOrg', title: '审核'},
 ];
 
 export default {

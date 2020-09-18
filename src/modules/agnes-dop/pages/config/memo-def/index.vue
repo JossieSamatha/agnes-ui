@@ -89,17 +89,13 @@
             },
             async approveMemo(params) {
                 const row = params.data;
-                if(row.memoStatus === '1'){
-                    this.$msg.alert("所选复核已生效")
-                    return;
-                }
                 // const ok = await this.$msg.ask(`确认复核所选日历:[${row.memoDesc}]吗, 是否继续?`);
                 const ok = await this.$msg.ask(`确认复核所选运营日历数据吗, 是否继续?`);
                 if (!ok) {
                     return
                 }
                 try {
-                    const p = this.$api.memoApi.updateMemo(row.memoId,"1");
+                    const p = this.$api.memoApi.updateMemo(row.memoId,"04");
                     await this.$app.blockingApp(p);
                     this.reloadData();
                 } catch (reason) {

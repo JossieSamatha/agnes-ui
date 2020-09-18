@@ -3,12 +3,11 @@ import column from "../../../../../config/column"
 const colButtons = [
     {key: 'editProduct', title: '编辑'},
     {key: 'deleteProduct', title: '删除', cellClass: 'red-cell'},
-    {key: 'checkProduct', title: '审核',disabled: (params)=>{
-            let result = false;
-            if(params.data.detailForm.status === '00' ||params.data.detailForm.status === '02' || params.data.detailForm.status === '03'){
-                result =true;
-            }
-            return result;}},
+    {
+        key: 'checkProduct', title: '审核', disabled: (params) => {
+            return params.data.productStatus === '04'
+        }
+    },
 ];
 export default {
     columnDefs: [
@@ -18,9 +17,9 @@ export default {
         {headerName: "产品全称", field: "productName"},
         {headerName: "产品种类", field: "productClass", dictType: "AGNES_PRODUCT_CLASS"},
         {headerName: "产品类型", field: "productType", dictType: "AGNES_PRODUCT_TYPE"},
-        {headerName: "产品阶段", field: "productStage",dictType: "AGNES_PRODUCT_STAGE"},
-        {headerName: "当前状态", field: "productStatus",dictType:'AGNES_PRODUCT_STATUS'},
-        {headerName: "操作状态", field: "status",dictType:'AGNES_RELEASE_STATUS'},
+        {headerName: "产品阶段", field: "productStage", dictType: "AGNES_PRODUCT_STAGE"},
+        {headerName: "当前状态", field: "productCurStatus", dictType: 'AGNES_PRODUCT_STATUS'},
+        {headerName: "操作状态", field: "productStatus", dictType: 'AGNES_RELEASE_STATUS'},
         {headerName: "成立日期", field: "startDate"},
         {headerName: "基金托管人", field: "productCustodian"},
         {headerName: "基金托管人(境外)", field: "productCustodianOverseas"},
@@ -54,7 +53,7 @@ export default {
         autoFitColumnMode: 1,
         pageOptions: {
             // 分页大小
-            pageSize: 100,
+            pageSize: 50,
             // 可供选择的分页大小（下拉切换分页值）
             pageSizes: [10, 20, 50, 100],
             // 显示在状态栏上的页数字的个数
