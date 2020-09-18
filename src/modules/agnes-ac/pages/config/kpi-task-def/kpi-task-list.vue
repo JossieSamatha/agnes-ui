@@ -6,6 +6,7 @@
              @row-double-click="showTask">
         <template slot="left">
             <gf-button class="action-btn" @click="addTask">添加</gf-button>
+            <gf-button class="action-btn" @click="copyKpiTask" size="mini">复制</gf-button>
         </template>
     </gf-grid>
 </template>
@@ -201,6 +202,25 @@
                     }
                 }
             },
+
+            copyKpiTask(){
+                let rows = this.$refs.grid.getSelectedRows();
+                let row =[];
+                if(rows.length>0){
+                    row = rows[0];
+                }else{
+                    this.$msg.warning("请选中一条记录!");
+                    return;
+                }
+                const rowData = row;
+                rowData.reTaskDef.taskId = ''
+                rowData.reTaskDef.taskName = ''
+                rowData.reTaskDef.caseKey = ''
+                rowData.reTaskDef.jobId = ''
+                rowData.reTaskDef.taskStatus = '01';
+                rowData.caseDefId = '';
+                this.showDrawer('edit', rowData, this.onEditModel.bind(this));
+            }
 
         }
     }

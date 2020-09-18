@@ -281,6 +281,8 @@
                 rowData.reTaskDef.taskName = ''
                 rowData.reTaskDef.caseKey = ''
                 rowData.reTaskDef.jobId = ''
+                rowData.reTaskDef.taskStatus = '01';
+                rowData.caseDefId = '';
                 this.showFlowTask(rowData.reTaskDef,'edit' , this.onUpdateFlowTask.bind(this));
             },
             async exportFlow(){
