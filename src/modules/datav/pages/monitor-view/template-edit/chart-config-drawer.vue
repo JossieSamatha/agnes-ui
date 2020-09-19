@@ -19,13 +19,13 @@
                     </div>
                 </div>
             </div>
-            <data-configure></data-configure>
+<!--            <data-configure></data-configure>-->
         </section>
     </div>
 </template>
 
 <script>
-    import dataConfigure from './chart-conf-drawer/data-conf'
+    // import dataConfigure from './chart-conf-drawer/data-conf'
 
     export default {
         data() {
@@ -41,9 +41,9 @@
                 isCancel: false
             }
         },
-        components: {
-            'data-configure': dataConfigure
-        },
+        // components: {
+        //     'data-configure': dataConfigure
+        // },
         computed: {
             ifShowCharts() {
                 return this.activeComp.type == 'chart';
