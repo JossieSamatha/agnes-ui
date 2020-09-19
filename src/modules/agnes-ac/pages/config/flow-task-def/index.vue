@@ -278,14 +278,14 @@
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
-                const rowData = row;
-                rowData.reTaskDef.taskId = ''
-                rowData.reTaskDef.taskName = ''
-                rowData.reTaskDef.caseKey = ''
-                rowData.reTaskDef.jobId = ''
-                rowData.reTaskDef.taskStatus = '01';
-                rowData.caseDefId = '';
-                this.showFlowTask(rowData.reTaskDef,'edit' , this.onUpdateFlowTask.bind(this));
+                let copyRowData = this.$utils.deepClone(row);
+                copyRowData.reTaskDef.taskId = '';
+                copyRowData.reTaskDef.taskName = '';
+                copyRowData.reTaskDef.caseKey = '';
+                copyRowData.reTaskDef.jobId = '';
+                copyRowData.reTaskDef.taskStatus = '01';
+                copyRowData.caseDefId = '';
+                this.showFlowTask(copyRowData.reTaskDef,'edit' , this.onUpdateFlowTask.bind(this));
             },
             async exportFlow(){
                 let rows = this.$refs.grid.getSelectedRows();
