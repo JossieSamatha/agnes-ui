@@ -109,6 +109,7 @@
         },
         data() {
             return {
+                isCheckCode:false,
                 detailForm: {execScheduler:'* * * * * ?',
                     taskName:'',
                     caseKey:'',
@@ -245,6 +246,9 @@
                     let msg = '';
                     if(this.mode === 'add'){
                         resData.taskType = '2';
+                        this.isCheckCode=true;
+                    }else if(this.row.caseKey != resData.caseKey){
+                        this.isCheckCode=true;
                     }
                     if(this.row.isCheck){
                         const p = this.$api.kpiTaskApi.checkTask({reTaskDef:resData,isPass:'1'});
@@ -252,7 +256,7 @@
                         msg = '审核成功';
                     }else{
                         let data = {reTaskDef:resData,
-                            caseDefId: this.detailForm.caseDefId, caseDefBody: this.detailForm.caseDefBody,versionId:this.detailForm.versionId}
+                            caseDefId: this.detailForm.caseDefId, caseDefBody: this.detailForm.caseDefBody,versionId:this.detailForm.versionId,isCheckCode:this.isCheckCode}
                         const p = this.$api.flowTaskApi.saveFlowTask(data);
                         await this.$app.blockingApp(p);
                         msg = '保存成功';
