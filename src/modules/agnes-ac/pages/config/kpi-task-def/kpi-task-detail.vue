@@ -290,6 +290,7 @@
         },
         data() {
             return {
+                isCheckCode:false,
                 rosterDate:'',
                 memberRefList:[],
                 serviceRes:[],
@@ -568,7 +569,10 @@
                     }
                 })
                 caseDef.stages[0].children[0].stepFormInfo = stepFormInfo;
-                return {reTaskDef: kpiTaskDef, caseDefId: this.row.caseDefId, caseDefBody: JSON.stringify(caseDef),versionId:this.detailForm.versionId};
+                if(this.mode === 'add' || this.row.reTaskDef.caseKey != kpiTaskDef.caseKey){
+                    this.isCheckCode = true;
+                }
+                return {reTaskDef: kpiTaskDef, caseDefId: this.row.caseDefId, caseDefBody: JSON.stringify(caseDef),versionId:this.detailForm.versionId,isCheckCode:this.isCheckCode};
             },
 
             reDataTransfer() {
