@@ -65,18 +65,17 @@ export default {
     async approveOrgType(params) {
       const row = params.data;
       const ok = await this.$msg.ask(`确认复核所选机构:[${row.orgTypeName}]吗, 是否继续?`);
-      // const ok = await this.$msg.ask(`确认复核所选日历吗, 是否继续?`);
       if (!ok) {
         return
       }
       try {
-        const p = this.$api.channelApi.updateChannel(row.orgTypeId, "04");
+        const p = this.$api.orgTypeApi.updateOrgTypeStatus(row.orgTypeId, "04");
         await this.$app.blockingApp(p);
         this.reloadData();
       } catch (reason) {
         this.$msg.error(reason);
       }
-    }
+    },
   }
 }
 </script>
