@@ -12,7 +12,7 @@
     flex-direction: row;
 }
 
-.template-page .search-panel>div {
+.template-page .search-panel > div {
     width: 25%;
     max-width: 250px;
     margin: 0 10px;
@@ -42,14 +42,14 @@
     background: rgba(135, 141, 153, .3);
 }
 
-.template-item  {
+.template-item {
     position: relative;
     width: calc(25% - 8px);
     height: 0;
     padding-bottom: 20%;
     margin-bottom: 10px;
     border-radius: 10px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
 
@@ -85,7 +85,7 @@
     color: #476DBE;
 }
 
-.template-item>div {
+.template-item > div {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -108,7 +108,7 @@
     }
 }
 
-.template-item .img-canvas{
+.template-item .img-canvas {
     position: relative;
     width: 100%;
     flex: 1;
@@ -145,32 +145,32 @@
     justify-content: center;
 }
 
-.template-item .img-canvas .buttonP>button {
+.template-item .img-canvas .buttonP > button {
     width: 112px;
     margin: 0 auto;
     font-size: 14px;
 }
 
-.template-item .img-canvas .buttonP>button+button {
+.template-item .img-canvas .buttonP > button + button {
     margin-top: 10px;
 }
 
-.template-item .img-canvas .buttonP>button.el-button--primary {
+.template-item .img-canvas .buttonP > button.el-button--primary {
     background-color: #476DBE;
     border-color: #476DBE;
 }
 
-.template-item .img-canvas .buttonP>button.el-button--primary:hover {
+.template-item .img-canvas .buttonP > button.el-button--primary:hover {
     background-color: #264995;
 }
 
-.template-item .img-canvas .buttonP>button.el-button--default {
+.template-item .img-canvas .buttonP > button.el-button--default {
     color: #fff;
     background-color: transparent;
     border-color: #fff;
 }
 
-.template-item .img-canvas .buttonP>button.el-button--default:hover {
+.template-item .img-canvas .buttonP > button.el-button--default:hover {
     color: #476DBE;
     background-color: #fff;
 }
@@ -192,8 +192,8 @@
 }
 
 
-.template-item .img-canvas .hover-mask .iconImg>i,
-.template-item .img-canvas .hover-mask .iconImg>svg {
+.template-item .img-canvas .hover-mask .iconImg > i,
+.template-item .img-canvas .hover-mask .iconImg > svg {
     width: 20px;
     height: 20px;
     font-size: 20px;
@@ -222,7 +222,7 @@
     margin-bottom: 5px;
 }
 
-.template-item .tags .el-tag+.el-tag {
+.template-item .tags .el-tag + .el-tag {
     margin-left: 1px;
 }
 
@@ -247,7 +247,7 @@
     z-index: 1000;
 }
 
-.template-edit-page>.header{
+.template-edit-page > .header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -260,24 +260,24 @@
     background: #3b3b3b;
 }
 
-.template-edit-page>.header>div{
+.template-edit-page > .header > div {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-.template-edit-page>.header .header-item:not(.input) {
+.template-edit-page > .header .header-item:not(.input) {
     width: 80px;
     line-height: 46px;
     text-align: center;
     cursor: pointer;
 }
 
-.template-edit-page>.header .header-item+.header-item {
+.template-edit-page > .header .header-item + .header-item {
     cursor: pointer;
 }
 
-.template-edit-page>.header .header-item input {
+.template-edit-page > .header .header-item input {
     height: 30px;
     line-height: 30px;
     color: #fff;
@@ -285,7 +285,7 @@
     border-color: #262626;
 }
 
-.template-edit-page>.header .header-item .iconImg {
+.template-edit-page > .header .header-item .iconImg {
     display: inline-block;
     width: 24px;
     height: 24px;
@@ -294,26 +294,26 @@
     vertical-align: middle;
 }
 
-.template-edit-page>.header .header-item .iconImg>svg{
+.template-edit-page > .header .header-item .iconImg > svg {
     width: 20px;
     height: 20px;
     fill: #D3D6E9;
 }
 
-.template-edit-page>.header .header-item:hover .iconImg>svg{
+.template-edit-page > .header .header-item:hover .iconImg > svg {
     fill: #fff;
 }
 
-.template-edit-page>.header .header-item:hover{
+.template-edit-page > .header .header-item:hover {
     background: #000;
 }
 
-.template-edit-page>.header .header-item:hover>span{
+.template-edit-page > .header .header-item:hover > span {
     color: #fff;
 }
 
 
-.template-edit-page>.content {
+.template-edit-page > .content {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -335,7 +335,7 @@
     height: 100%;
 }
 
-.template-edit-page .content .template-comp-sider .comp-container{
+.template-edit-page .content .template-comp-sider .comp-container {
     position: relative;
     width: 100%;
     height: 100%;
@@ -354,7 +354,7 @@
 }
 
 .template-edit-page .content .template-comp-sider .comp-container
-.comp-item>i {
+.comp-item > i {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -366,18 +366,18 @@
     background: #4a4a4a;
 }
 
-.template-edit-page .content .template-comp-sider .iconImg>svg{
+.template-edit-page .content .template-comp-sider .iconImg > svg {
     width: 20px;
     height: 20px;
     fill: #fff;
 }
 
-.template-edit-page .content .template-comp-sider .iconImg>svg.text{
+.template-edit-page .content .template-comp-sider .iconImg > svg.text {
     width: 16px;
     height: 16px;
 }
 
-.template-edit-page .content .template-comp-sider .iconImg>svg.decorate{
+.template-edit-page .content .template-comp-sider .iconImg > svg.decorate {
     width: 24px;
     height: 24px;
 }
@@ -490,29 +490,29 @@
     z-index: 9;
 }
 
-.template-edit-page .content .template-comp-sider .comp-panel .content.pageInfo>div{
+.template-edit-page .content .template-comp-sider .comp-panel .content.pageInfo > div {
     position: relative;
     margin-bottom: 20px;
 }
 
-.template-edit-page .content .template-comp-sider .comp-panel .content.pageInfo>div>p.title{
+.template-edit-page .content .template-comp-sider .comp-panel .content.pageInfo > div > p.title {
     color: #ccc;
     font-size: 14px;
     margin-bottom: 8px;
 }
 
-.template-edit-page .content .template-comp-sider .comp-panel .content.pageInfo>div>.line{
+.template-edit-page .content .template-comp-sider .comp-panel .content.pageInfo > div > .line {
     display: flex;
     align-items: center;
     color: #ccc;
 }
 
-.template-edit-page .content .template-comp-sider .comp-panel .content.pageInfo>div>.line input{
+.template-edit-page .content .template-comp-sider .comp-panel .content.pageInfo > div > .line input {
     height: 30px;
     line-height: 30px;
 }
 
-.template-edit-page .content .template-comp-sider .comp-panel .content.pageInfo>div input{
+.template-edit-page .content .template-comp-sider .comp-panel .content.pageInfo > div input {
     color: #fff;
     background-color: #262626;
     border-color: #262626;
@@ -533,7 +533,7 @@
     text-align: center;
     color: #38a04c;
     font-size: 14px;
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(0, 0, 0, 0.7);
     padding: 5px;
     cursor: pointer;
 }
@@ -550,7 +550,7 @@
     overflow: hidden;
 }
 
-.bgListPop .el-popover__title{
+.bgListPop .el-popover__title {
     margin-bottom: 0;
     padding: 10px;
 }
@@ -564,7 +564,7 @@
     overflow-y: auto;
 }
 
-.bgListPop .bgList>div {
+.bgListPop .bgList > div {
     position: relative;
     width: calc(50% - 5px);
     height: auto;
@@ -573,12 +573,12 @@
     overflow: hidden;
 }
 
-.bgListPop .bgList>div>.bg-img {
+.bgListPop .bgList > div > .bg-img {
     width: 100%;
     height: 100%;
 }
 
-.bgListPop .bgList>div>p {
+.bgListPop .bgList > div > p {
     display: none;
     position: absolute;
     top: 0;
@@ -593,7 +593,7 @@
     cursor: pointer;
 }
 
-.bgListPop .bgList>div:hover>p {
+.bgListPop .bgList > div:hover > p {
     display: block;
 }
 
@@ -611,7 +611,7 @@
     padding: 20px 20px 40px;
 }
 
-.template-edit-page .content .template-board-container>.container {
+.template-edit-page .content .template-board-container > .container {
     position: relative;
     width: 100%;
     height: 100%;
@@ -623,7 +623,7 @@
     overflow: auto;
 }
 
-.template-edit-page .content .template-board-container>.container .dataVScreen {
+.template-edit-page .content .template-board-container > .container .dataVScreen {
     position: absolute;
     top: 0;
     left: 0;
@@ -631,7 +631,7 @@
     background-size: cover;
 }
 
-.template-edit-page .content .template-board-container>.pageScale {
+.template-edit-page .content .template-board-container > .pageScale {
     width: 300px;
     margin: auto;
     display: flex;
@@ -640,23 +640,23 @@
     height: 40px;
 }
 
-.template-edit-page .content .template-board-container>.pageScale .pageWSlider {
+.template-edit-page .content .template-board-container > .pageScale .pageWSlider {
     flex: 1;
     margin-left: 10px;
 }
 
-.template-edit-page .content .template-board-container>.pageScale
+.template-edit-page .content .template-board-container > .pageScale
 .pageWSlider .el-slider__input {
     width: 65px;
     margin-top: 4px;
 }
 
-.template-edit-page .content .template-board-container>.pageScale
+.template-edit-page .content .template-board-container > .pageScale
 .pageWSlider .el-slider__input > span[role=button] {
     display: none;
 }
 
-.template-edit-page .content .template-board-container>.pageScale
+.template-edit-page .content .template-board-container > .pageScale
 .pageWSlider .el-slider__input > .el-input > .el-input__inner {
     height: 30px;
     padding: 0;
@@ -665,22 +665,22 @@
     background: #262626;
 }
 
-.template-edit-page .content .template-board-container>.pageScale
+.template-edit-page .content .template-board-container > .pageScale
 .pageWSlider .el-slider__runway.show-input {
     margin-right: 70px;
 }
 
-.template-edit-page .content .template-board-container>.pageScale
+.template-edit-page .content .template-board-container > .pageScale
 .pageWSlider .el-slider__runway:not(.disabled).show-input .el-slider__bar {
     background: #476DBE;
 }
 
-.template-edit-page .content .template-board-container>.pageScale
+.template-edit-page .content .template-board-container > .pageScale
 .pageWSlider .el-slider__runway:not(.disabled).show-input .el-slider__button {
     border-color: #476DBE;
 }
 
-.template-edit-page .content .template-board-container>.pageScale
+.template-edit-page .content .template-board-container > .pageScale
 .pageWSlider .el-slider__input.is-disabled .el-input__inner {
     background: transparent;
     border: none;
@@ -724,7 +724,7 @@
     transform-origin: left;
 }
 
-.template-edit-page .content .template-config-sider .menu-fold>svg {
+.template-edit-page .content .template-config-sider .menu-fold > svg {
     position: absolute;
     left: -18px;
     width: 45px;
@@ -749,7 +749,7 @@
     background: transparent;
 }
 
-.darkTab.el-tabs--border-card>.el-tabs__header {
+.darkTab.el-tabs--border-card > .el-tabs__header {
     margin: 0;
     border-bottom: none;
     background: transparent;
@@ -772,7 +772,7 @@
     background: #262626;
 }
 
-.darkTab.el-tabs--border-card>.el-tabs__header .el-tabs__item:not(.is-disabled):hover {
+.darkTab.el-tabs--border-card > .el-tabs__header .el-tabs__item:not(.is-disabled):hover {
     color: #fff;
 }
 
@@ -789,14 +789,39 @@
     padding: 10px;
     border-radius: 5px;
     background: #444;
+    overflow: hidden;
 }
 
-.template-config-sider .confSection+.confSection {
+.template-config-sider .confSection + .confSection {
     margin-top: 10px;
 }
 
-.template-config-sider .confSection .conf-row {
+.template-config-sider .confSection .section-title {
+    color: #fff;
     margin-bottom: 10px;
+}
+
+.template-config-sider .confSection .el-collapse {
+    border: none;
+}
+
+.template-config-sider .confSection .el-collapse-item__wrap {
+    border: none;
+    background: transparent;
+}
+
+.template-config-sider .confSection .el-collapse-item__header {
+    color: #fff;
+    background: #444;
+    border-bottom: none;
+}
+
+.template-config-sider .confSection .conf-row {
+    background: #333;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 6px;
+    box-shadow: 0px 0px 5px #333;
 }
 
 .template-config-sider .confSection .conf-row .conf-row-title {
@@ -810,32 +835,149 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    margin-bottom: 5px;
 }
 
 .template-config-sider .confSection .conf-row .row-inp {
     display: flex;
     flex-direction: column;
+    flex: 1;
     margin-bottom: 10px;
 }
 
-.template-config-sider .confSection .conf-row .row-inp>span {
+.template-config-sider .confSection .conf-row .row-inp > span {
     color: #ccc;
     margin-bottom: 5px;
 }
 
-.template-config-sider .confSection .conf-row .row-inp+.row-inp {
+.template-config-sider .confSection .conf-row .row-inp + .row-inp {
     margin-left: 10px;
 }
 
-.template-config-sider .confSection .conf-row .row-inp .el-input__inner {
+.template-config-sider .confSection .conf-row .row-inp .row-inp-line {
+    display: flex;
+    align-items: center;
+    height: 22px;
+    color: #eee;
+}
+
+.template-config-sider .confSection .conf-row .row-inp .row-inp-absolute {
+    position: relative;
+    width: 35px;
+    height: 24px;
+}
+
+.template-config-sider .confSection .conf-row .row-inp .row-inp-absolute > i,
+.template-config-sider .confSection .conf-row .row-inp .row-inp-absolute > .hideDom {
+    position: absolute;
+    top: 0;
+    left: 6px;
+    width: 22px;
+    height: 22px;
+}
+
+.template-config-sider .confSection .conf-row .row-inp .row-inp-absolute > .color-fill {
+    position: absolute;
+    left: 6px;
+    bottom: 0;
+    height: 6px;
+    width: 22px;
+    border: 1px solid #eee;
+}
+
+.template-config-sider .confSection .conf-row .row-inp .row-inp-absolute > .hideDom {
+    height: 24px;
+    opacity: 0;
+}
+
+.template-config-sider .confSection .conf-row .row-inp .row-inp-absolute > i > svg {
+    fill: #eee;
+}
+
+.template-config-sider .confSection .conf-row .row-inp .el-input-number {
+    width: 100%;
+    line-height: 22px;
+}
+
+.template-config-sider .confSection .conf-row .row-inp
+.el-input-number.is-controls-right > span[role=button] {
+    width: 30px;
+    height: 11px;
+    line-height: 11px;
+    background: #000;
+    color: #eee;
+    border: none !important;
+}
+
+.template-config-sider .confSection .conf-row .row-inp .el-input-number.is-controls-right
+.el-input-number__decrease {
+    bottom: 0;
+}
+
+.template-config-sider .confSection .conf-row .row-inp .el-input-number.is-controls-right
+.el-input-number__increase {
+    top: 0;
+}
+
+.template-config-sider .confSection .conf-row .row-inp .el-input-number.is-controls-right
+.el-input__inner {
+    padding-right: 40px;
+}
+
+.template-config-sider .confSection .conf-row .row-inp .el-color-picker .el-color-picker__trigger {
+    width: 100%;
+    height: 35px;
+}
+
+.template-config-sider .confSection .conf-row .row-inp .button-group .el-checkbox-button + .el-checkbox-button {
+    margin-left: 8px;
+}
+
+.template-config-sider .confSection .conf-row .row-inp .button-group .el-checkbox-button.is-checked
+.el-checkbox-button__inner {
+    background: #ccc;
+    color: #333;
+}
+
+.template-config-sider .confSection .conf-row .row-inp .button-group .el-checkbox-button
+.el-checkbox-button__inner {
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    display: inline-block;
+    border-radius: 0;
+    text-align: center;
+    line-height: 22px;
+    background: transparent;
+    color: #eee;
+    border: none;
+    box-shadow: none;
+}
+
+.template-config-sider .confSection .conf-row .row-inp .el-select .el-input__inner {
+    padding: 0 3px;
+    text-align: center;
+}
+
+.template-config-sider .confSection .conf-row .row-inp .el-select .el-input__suffix {
+    display: none;
+}
+
+.template-config-sider .confSection .conf-row .row-inp .el-input__inner,
+.template-config-sider .confSection .conf-row .row-inp .el-textarea__inner {
     width: 100%;
     height: 22px;
     line-height: 22px;
     border: none;
-    color:  #fff;
-    background: #2f2f2f;
+    color: #fff;
+    background: #222;
     padding-left: 10px;
     padding-right: 21px;
+}
+
+.template-config-sider .confSection .conf-row .row-inp .el-input.is-disabled .el-input__inner {
+    color: #666;
+    background: transparent;
 }
 
 .template-config-sider .confSection .conf-row .row-inp .el-input .el-input-group__append {
@@ -855,17 +997,63 @@
 }
 
 .template-config-sider .confSection .conf-row .row-inp .el-input .el-input-group__append
-.conf-icon.el-icon-unlock{
+.conf-icon.el-icon-unlock {
     color: #38a04c;
 }
 
 .template-config-sider .confSection .conf-row .row-inp .el-input .el-input-group__append
-.conf-icon.el-icon-lock{
+.conf-icon.el-icon-lock {
     color: #ea6948;
 }
 
 .template-config-sider .confSection .conf-row .row-inp.radioInp {
     width: 100%;
+}
+
+.template-config-sider .confSection .conf-row .row-inp.radioInp
+.el-radio-group.picture-radio .el-radio {
+    position: relative;
+    width: 100%;
+    height: 100px;
+}
+
+.template-config-sider .confSection .conf-row .row-inp.radioInp
+.el-radio-group.picture-radio.dynamic {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.template-config-sider .confSection .conf-row .row-inp.radioInp
+.el-radio-group.picture-radio.dynamic .el-radio {
+    width: 50%;
+    height: 65px;
+}
+
+.template-config-sider .confSection .conf-row .row-inp.radioInp
+.el-radio-group.picture-radio .el-radio.is-checked {
+    border: 2px solid #fff;
+    border-radius: 5px;
+}
+
+.template-config-sider .confSection .conf-row .row-inp.radioInp
+.el-radio-group.picture-radio .el-radio .el-radio__input {
+    display: none;
+}
+
+.template-config-sider .confSection .conf-row .row-inp.radioInp
+.el-radio-group.picture-radio .el-radio .el-radio__label > div {
+    width: 100%;
+    height: 100%;
+}
+
+.template-config-sider .confSection .conf-row .row-inp.radioInp
+.el-radio-group.picture-radio .el-radio .el-radio__label > span {
+    position: absolute;
+    width: 100%;
+    height: 28px;
+    top: calc(50% - 14px);
+    left: 0;
+    color: #fff;
 }
 
 .template-config-sider .confSection .conf-row .row-inp.radioInp
@@ -875,6 +1063,21 @@
     text-align: center;
     margin-right: 0;
     margin-bottom: 5px;
+}
+
+.template-config-sider .confSection .conf-row .row-inp .el-radio-group.icon-radio
+.el-radio .el-radio__input {
+    display: none;
+}
+
+.template-config-sider .confSection .conf-row .row-inp .el-radio-group.icon-radio
+.el-radio .el-radio__label {
+    font-size: 16px;
+}
+
+.template-config-sider .confSection .conf-row .row-inp .el-radio-group.icon-radio
+.el-radio:not(.is-checked) .el-radio__label {
+    color: #999;
 }
 
 .template-config-sider .confSection .conf-row .row-inp.radioInp
@@ -887,6 +1090,25 @@
 .el-radio-group .el-radio .el-radio__label {
     padding-left: 0;
     font-size: 12px;
+}
+
+.template-config-sider .confSection .conf-row .row-inp .el-checkbox {
+    height: 22px;
+    line-height: 22px;
+    color: #eee;
+}
+
+.template-config-sider .confSection .conf-row .row-inp .el-checkbox .el-checkbox__label{
+    width: calc(100% - 18px);
+}
+
+.template-config-sider .confSection .conf-row .row-inp .el-checkbox.is-disabled .el-checkbox__inner {
+    background: #666;
+    border-color: #666;
+}
+
+.template-config-sider .confSection .conf-row .row-inp .el-checkbox__input.is-disabled + span.el-checkbox__label {
+    color: #666;
 }
 
 .dv-decoration-11 .decoration-content {
@@ -910,7 +1132,11 @@
     text-shadow: 0 0 3px #7acaec;
 }
 
-.vdr>.optionIcon {
+.dv-scroll-ranking-board .ranking-column .inside-column {
+    border-radius: 5px;
+}
+
+.vdr > .optionIcon {
     display: none;
     position: absolute;
     right: 10px;
@@ -921,11 +1147,29 @@
     z-index: 10;
 }
 
-.vdr.active>.optionIcon{
+.vdr.active > .optionIcon {
     display: block;
 }
 
-.vdr>.optionIcon.fa-copy {
+.vdr > .optionIcon.fa-copy {
     right: 30px;
     color: #fff;
+}
+
+@keyframes right {
+    0% {
+        transform: translateX(-100%)
+    }
+    100% {
+        transform: translateX(100%)
+    }
+}
+
+@keyframes left {
+    0% {
+        transform: translateX(100%)
+    }
+    100% {
+        transform: translateX(-100%)
+    }
 }

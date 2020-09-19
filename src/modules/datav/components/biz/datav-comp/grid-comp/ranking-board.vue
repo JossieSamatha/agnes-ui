@@ -1,48 +1,32 @@
 <template>
-    <dv-scroll-ranking-board :config="config"/>
+    <dv-scroll-ranking-board :config="configParam" style="width: 100%;height: 100%"/>
 </template>
 
 <script>
     export default {
         name: 'ranking-board',
         props: {
-            config: {
-                type: Object,
-                default: function () {
-                    return {
-                        data: [
-                            {
-                                name: '周口',
-                                value: 55
-                            },
-                            {
-                                name: '南阳',
-                                value: 120
-                            },
-                            {
-                                name: '西峡',
-                                value: 78
-                            },
-                            {
-                                name: '驻马店',
-                                value: 66
-                            },
-                            {
-                                name: '新乡',
-                                value: 80
-                            },
-                            {
-                                name: '信阳',
-                                value: 45
-                            },
-                            {
-                                name: '漯河',
-                                value: 29
-                            }
-                        ]
-                    }
+            position: Object,
+            compOption: {
+                type: Object
+            }
+        },
+        computed: {
+            configParam(){
+                const config = {
+                    ...this.compOption,
+                    waitTime: this.compOption.waitTimeSec*1000,
                 }
-            },
+                if(this.compOption.formatter === 'money'){
+                    config.valueFormatter = this.mapNumType;
+                }
+                return config;
+            }
+        },
+        methods: {
+            mapNumType({value}){
+                return this.$fmt.formateThousandthMoney(value) + this.compOption.unit;
+            }
         },
     }
 </script>

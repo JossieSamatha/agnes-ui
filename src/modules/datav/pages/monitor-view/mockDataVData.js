@@ -282,7 +282,7 @@ export default function () {
                 label: '表格（列表）',
                 components: [
                     {
-                        type: 'static-grid',
+                        type: 'grid',
                         icon: 'grid',
                         compName: 'static-grid',
                         label: '表格（普通）',
@@ -291,9 +291,20 @@ export default function () {
                             width: 500,
                             height: 220,
                         },
-                        componentMeta: {}
+                        componentMeta: {
+                            header: ['任务', '场景'],
+                            data: [
+                                ['数据收发', 'TA批处理监控台'],
+                                ['创新TA', 'TA批处理监控台'],
+                                ['直销中心', 'TA批处理监控台'],
+                                ['早班数据员', 'FA清算工作台'],
+                                ['日间清算', 'TA批处理监控台'],
+                                ['邮件检查', 'TA批处理监控台'],
+                            ],
+                            waitTime: 50000,
+                        }
                     }, {
-                        type: 'scroll-board',
+                        type: 'grid',
                         icon: 'scroll-board',
                         compName: 'scroll-board',
                         label: '轮播表',
@@ -302,9 +313,34 @@ export default function () {
                             width: 480,
                             height: 150,
                         },
-                        componentMeta: {}
+                        componentMeta: {
+                            header: ['列1', '列2', '列3'],
+                            dataStr: JSON.stringify([
+                                ['行1列1', '行1列2', '行1列3'],
+                                ['行2列1', '行2列2', '行2列3'],
+                                ['行3列1', '行3列2', '行3列3'],
+                                ['行4列1', '行4列2', '行4列3'],
+                                ['行5列1', '行5列2', '行5列3'],
+                                ['行6列1', '行6列2', '行6列3'],
+                                ['行7列1', '行7列2', '行7列3'],
+                                ['行8列1', '行8列2', '行8列3'],
+                                ['行9列1', '行9列2', '行9列3'],
+                                ['行10列1', '行10列2', '行10列3']
+                            ]),
+                            rowNum: 5,
+                            headerBGC: '#00BAFF',
+                            oddRowBGC: '#003B51',
+                            evenRowBGC: '#0A2732',
+                            waitTimeSec: 2,
+                            headerHeight: 35,
+                            indexWidth: 50,
+                            index: true,
+                            indexHeader: '#',
+                            carousel: 'single',
+                            hoverPause: true
+                        }
                     }, {
-                        type: 'ct-capsule',
+                        type: 'grid',
                         icon: 'ct-capsule',
                         compName: 'ct-capsule',
                         label: '胶囊柱图',
@@ -313,12 +349,35 @@ export default function () {
                             width: 480,
                             height: 150,
                         },
-                        componentMeta: {}
+                        componentMeta: {
+                            data: [{name: '南阳', value: 167}, {name: '周口', value: 67},
+                                {name: '漯河', value: 123}, {name: '郑州', value: 55},
+                                {name: '西峡', value: 98}]
+                        }
                     }, {
-                        type: 'ranking-board',
+                        type: 'grid',
                         icon: 'rank-board',
                         compName: 'ranking-board',
                         label: '排名轮播表',
+                        position: {
+                            ...staticCompPosition(),
+                            width: 480,
+                            height: 150,
+                        },
+                        componentMeta: {
+                            data: [{name: '周口', value: 1155}, {name: '南阳', value: 12340},
+                                {name: '西峡', value: 718}, {name: '驻马店', value: 6236},
+                                {name: '新乡', value: 8230}, {name: '信阳', value: 415},
+                                {name: '漯河', value: 229}, {name: '安徽', value: 2119},
+                                {name: '桐城', value: 292}, {name: '西安', value: 291}],
+                            rowNum: 5,
+                            waitTimeSec: 2,
+                            carousel: 'single',
+                            sort: true,
+                            unit: '',
+                            formatter: 'normal',
+                            colors: ['#f00']
+                        }
                     }
                 ]
             },
@@ -338,11 +397,13 @@ export default function () {
                             height: 50,
                         },
                         componentMeta: {
-                            'font-size': '16px',
-                            'fontWeight': 'normal',
+                            'font-size': '16',
                             'color': '#fff',
                             'background': 'transparent',
-                            'border': 'none',
+                            'border-width': '0',
+                            'border-style': 'solid',
+                            'border-color': 'transparent',
+                            'font-style': [],
                             'justify-content': 'center',
                             'align-items': 'center',
                             'contentText': '',
@@ -354,18 +415,34 @@ export default function () {
                         label: '滚动文本',
                         position: {
                             ...staticCompPosition(),
-                            width: 150,
-                            height: 50,
+                            width: 900,
+                            height: 60,
                         },
                         componentMeta: {
-                            'font-size': '16px',
-                            'fontWeight': 'normal',
+                            roll: true,
+                            slot: true,
+                            'contentText': 'DataMAX提供丰富的可视化设计组件，满足用户DIY需求',
                             'color': '#fff',
+                            'font-size': '26',
                             'background': 'transparent',
-                            'border': 'none',
-                            'justify-content': 'center',
+                            'border-width': '0',
+                            'border-style': 'solid',
+                            'border-color': 'transparent',
+                            'font-style': [],
+                            'shadowColor': '#e6a23c',
+                            'shadowBlur': 8,
+                            'shadowOffsetX': 0,
+                            'shadowOffsetY': 0,
                             'align-items': 'center',
-                            'contentText': '',
+                            'padding-left': 10,
+                            'padding-right': 10,
+                            'bgShadowColor': '#1f77dfa8',
+                            'bgShadowBlur': 30,
+                            'bgShadowOffsetX': 0,
+                            'bgShadowOffsetY': 0,
+                            'bgShadowDir': 'inset',
+                            'scrollDir': 'left',
+                            'scrollSpeed': 15
                         }
                     }, {
                         type: 'digital-flop',
@@ -374,31 +451,102 @@ export default function () {
                         label: '数字翻牌器',
                         position: {
                             ...staticCompPosition(),
-                            width: 150,
-                            height: 50,
+                            width: 340,
+                            height: 70,
                         },
                         componentMeta: {
-                            title: '标题',
-                            number: 20,
-                            textAlign: 'left',
-                            color: '#00c0ff',
-                            fontWeight: 'normal',
-                            unit: '个'
+                            direction: 'row',
+                            preOption: {
+                                'contentText': '数量',
+                                'color': '#fff',
+                                'font-size': '26',
+                                'background': 'transparent',
+                                'border-width': '0',
+                                'border-style': 'solid',
+                                'border-color': 'transparent',
+                                'font-style': [],
+                                'shadowColor': '#e6a23c',
+                                'shadowBlur': 8,
+                                'shadowOffsetX': 0,
+                                'shadowOffsetY': 0,
+                                'align-items': 'center'
+                            },
+                            sufOption: {
+                                'contentText': '个',
+                                'color': '#fff',
+                                'font-size': '20',
+                                'background': 'transparent',
+                                'border-width': '0',
+                                'border-style': 'solid',
+                                'border-color': 'transparent',
+                                'font-style': [],
+                                'shadowColor': '#e6a23c',
+                                'shadowBlur': 8,
+                                'shadowOffsetX': 0,
+                                'shadowOffsetY': 0,
+                                'align-items': 'center'
+                            },
+                            numOption: {
+                                digital: true,
+                                number: 3526,
+                                toFixed: 0,
+                                formatter: 'normal',
+                                color: '#fff',
+                                'font-size': 60,
+                                'font-style': [],
+                                shadowBlur: 8,
+                                shadowColor: '#e6a23c',
+                                shadowOffsetX: 0,
+                                shadowOffsetY: 0,
+                                width: 200,
+                                textAlign: 'center',
+                                'align-items': 'center'
+                            }
                         }
 
                     }, {
-                        type: 'date-picker',
-                        icon: 'date-picker',
-                        compName: 'date-picker',
-                        label: '日期',
-                    }, {
-                        type: 'date-time-picke',
-                        icon: 'date-time-picke',
-                        compName: 'date-time-picker',
-                        label: '时间',
+                        type: 'text',
+                        icon: 'date-time',
+                        compName: 'date-time',
+                        label: '日期-时间',
+                        position: {
+                            ...staticCompPosition(),
+                            width: 500,
+                            height: 70,
+                        },
+                        componentMeta: {
+                            slot: true,
+                            showDate: true,
+                            showTime: true,
+                            showWeek: true,
+                            dateType: 'yyyy年MM月dd日',
+                            timeType: 'HH:mm:ss',
+                            weekType: 'fullCnName',
+                            'color': '#fff',
+                            'font-size': '26',
+                            'background': 'transparent',
+                            'border-width': '0',
+                            'border-style': 'solid',
+                            'border-color': 'transparent',
+                            'font-style': [],
+                            'shadowColor': '#e6a23c',
+                            'shadowBlur': 8,
+                            'shadowOffsetX': 0,
+                            'shadowOffsetY': 0,
+                            'justify-content': 'center',
+                            'align-items': 'center',
+                            'padding-left': 10,
+                            'padding-right': 10,
+                            'bgShadowColor': '#1f77dfa8',
+                            'bgShadowBlur': 30,
+                            'bgShadowOffsetX': 0,
+                            'bgShadowOffsetY': 0,
+                            'bgShadowDir': 'inset',
+                        }
                     }
                 ]
-            }, {
+            },
+            {
                 category: 'decorate',
                 icon: 'decorate',
                 label: '装饰',
@@ -408,6 +556,11 @@ export default function () {
                         icon: 'border',
                         compName: 'border-comp',
                         label: '边框',
+                        position: {
+                            ...staticCompPosition(),
+                            width: 200,
+                            height: 200,
+                        },
                         componentMeta: {
                             borderType: 'dv-border-box-1',
                             reverse: false,
@@ -428,11 +581,15 @@ export default function () {
                         componentMeta: {
                             dynamicType: 'dv-decoration-3',
                             reverse: false,
-                            title: '123123'
+                            title: '标题',
+                            fontColor: '#fff',
+                            fontSize: 20,
+                            padding: 10
                         }
                     }
                 ]
-            }, {
+            },
+            {
                 category: 'others',
                 icon: 'others',
                 label: '其他',
@@ -442,14 +599,47 @@ export default function () {
                         icon: 'water-pond',
                         compName: 'water-pond',
                         label: '水位图',
+                        position: {
+                            ...staticCompPosition(),
+                            width: 190,
+                            height: 250,
+                        },
+                        componentMeta: {
+                            data: 45,
+                            color1: '#00BAFF',
+                            color2: '#3DE7C9',
+                            shape: 'round',
+                            waveNum: 5,
+                            waveHeight: 6,
+                            formatter: '{value}%',
+                        }
                     }, {
                         type: 'percent-pond',
                         icon: 'percent-pond',
                         compName: 'percent-pond',
                         label: '进度池',
+                        position: {
+                            ...staticCompPosition(),
+                            width: 200,
+                            height: 80,
+                        },
+                        componentMeta: {
+                            value: 66,
+                            color1: '#3DE7C9',
+                            color2: '#00BAFF',
+                            textColor: '#fff',
+                            formatter: '{value}%',
+                            borderWidth: 3,
+                            borderGap: 3,
+                            borderRadius: 10,
+                            lineWidth: 5,
+                            lineGap: 1
+                        }
                     }
                 ]
             }],
+
+
         dataVList: [
             {
                 "id": "de867b7e8d0c44fbba76bf581070eb3e",

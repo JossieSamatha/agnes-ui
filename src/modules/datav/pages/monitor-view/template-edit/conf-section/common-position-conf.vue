@@ -35,7 +35,11 @@
             <div class="conf-row-item">
                 <div class="row-inp" style="flex: 0 calc(50% - 5px)">
                     <span>层级</span>
-                    <el-input v-model="position.zIndex"></el-input>
+                    <el-input-number v-model="position.zIndex"
+                                     controls-position="right"
+                                     :precision="0"
+                                     :min="-1">
+                    </el-input-number>
                 </div>
             </div>
         </div>

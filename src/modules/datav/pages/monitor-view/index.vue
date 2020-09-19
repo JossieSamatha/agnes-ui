@@ -68,7 +68,9 @@
                         thumbnail: "bg0",
                         newTemplate: true,
                         content: JSON.stringify({
-                            pageWidth: 800,
+                            pageWidth: 1920,
+                            pageHeight: 1048,
+                            pageScale: 100,
                             bgImage: 'bg0',
                             datavComps: []
                         })

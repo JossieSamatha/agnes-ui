@@ -4,7 +4,7 @@
             :data="chartData"
             :settings="compOption.chartSettings"
             :extend="percentExtend"
-            :theme="dataVTheme.darkGreen.theme"
+            :theme="dataVTheme"
             width="100%"
             height="100%">
     </component>
@@ -35,7 +35,7 @@
                 yField: '',
                 xField: '',
                 xType: '',
-                dataVTheme: this.$dataVTheme
+                dataVTheme: this.$dataVTheme.dark
             }
         },
         methods: {

@@ -99,9 +99,12 @@
         },
         methods: {
             initData(dataSetId) {
-                this.$api.DatavDatavApi.dataSourceList().then(res => {
+                this.$api.dataVConfig.getCaseDefList().then(res => {
                     let resData = [];
                     this.listData = [];
+                    if(res.data<1){
+                        return;
+                    }
                     res.data.forEach(dataItem => {
                         let obj = {};
                         obj.label = dataItem.dataSetName;

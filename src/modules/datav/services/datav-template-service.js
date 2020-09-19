@@ -7,7 +7,7 @@ export default class datavTemplateService extends Service {
         super(app);
         this.data = {
             dataVData: {},
-            compsArr: {},
+            compsArr: [],
             curComp: {}
         }
     }
@@ -21,8 +21,7 @@ export default class datavTemplateService extends Service {
     }
 
     addComp(comp){
-        const length = this.data.compsArr.length - 1;
-        this.data.compsArr.splice(length, 0, comp);
+        this.data.compsArr.push(comp);
         this.data.curComp = comp;
     }
 
@@ -56,10 +55,10 @@ export default class datavTemplateService extends Service {
         if(activeIndex > -1){
             this.data.compsArr[activeIndex].isActive = false;
         }
-        const activeNum = lodash.findIndex(this.data.compsArr, {isActive: true});
-        if(activeNum === -1){
-            this.data.curComp = {};
-        }
+        // const activeNum = lodash.findIndex(this.data.compsArr, {isActive: true});
+        // if(activeNum === -1){
+        //     this.data.curComp = {};
+        // }
     }
 
     setDataVAttr(attr, val){
@@ -100,6 +99,8 @@ export default class datavTemplateService extends Service {
         this.data.dataVData.content = pageData;
         if(compArr && compArr.length>0){
             this.data.compsArr = compArr;
+        }else{
+            this.data.compsArr = [];
         }
     }
 }

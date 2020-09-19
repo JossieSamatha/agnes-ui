@@ -7,12 +7,9 @@
                     <section class="confSection">
                         <common-position-conf></common-position-conf>
                     </section>
-                    <section class="confSection">
-                        <comp-conf></comp-conf>
-                    </section>
                 </el-tab-pane>
-                <el-tab-pane label="个性配置" name="dataConf">
-
+                <el-tab-pane label="个性配置" name="dataConf" lazy>
+                    <comp-conf></comp-conf>
                 </el-tab-pane>
             </el-tabs>
         </section>

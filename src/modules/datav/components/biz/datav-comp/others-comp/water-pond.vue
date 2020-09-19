@@ -1,42 +1,35 @@
 <template>
-    <dv-water-level-pond ref="waterPond" :config="config" :style="{width: compWidth+'px', height: compHeight+'px'}"/>
+    <dv-water-level-pond ref="waterPond"
+                         :config="config"
+                         style="width: 100%; height: 100%">
+    </dv-water-level-pond>
 </template>
 
 <script>
     export default {
         name: 'water-pond',
         props: {
-            config: {
-                type: Object,
-                default(){
-                    return {
-                        data: [45],
-                        shape: 'round',
-                        waveHeight: 25,
-                    }
-                }
-            },
-            compOption: {
-                type: Object
-            }
+            position: Object,
+            compOption: Object
         },
         computed: {
-            compWidth(){
-                return this.compOption.width;
-            },
-
-            compHeight(){
-                return this.compOption.height;
+            config(){
+                return {
+                    ...this.compOption,
+                    data: [this.compOption.data],
+                    formatter: this.compOption.formatter,
+                    colors: [this.compOption.color1, this.compOption.color2],
+                }
             }
         },
-
         watch: {
-            compWidth(){
-                this.$refs.waterPond.init();
-            },
-
-            compHeight(){
-                this.$refs.waterPond.init();
+            position: {
+                handler(){
+                    this.$nextTick(()=>{
+                        this.$refs.waterPond.init();
+                    });
+                },
+                deep: true
             }
         }
     }
