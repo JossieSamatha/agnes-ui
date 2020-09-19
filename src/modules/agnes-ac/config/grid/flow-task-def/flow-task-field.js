@@ -29,7 +29,7 @@ const colButtons = [
             if(params.data.reTaskDef.taskStatus === '03'){
                 result =true;
             }
-            return result;}},
+            return result;}, cellClass: 'red-cell'},
 ];
 export default {
     columnDefs: [
