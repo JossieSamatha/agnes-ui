@@ -6,7 +6,12 @@ const colButtons = [
                 result =true;
             }
             return result;}},
-    {key: 'deleteFlowTask', title: '删除', cellClass: 'red-cell'},
+    {key: 'deleteFlowTask', title: '删除', cellClass: 'red-cell',disabled: (params)=>{
+            let result = false;
+            if(params.data.reTaskDef.taskStatus === '03'){
+                result =true;
+            }
+            return result;}},
     {key: 'checkFlowTask', title: '审核',disabled: (params)=>{
             let result = false;
             if(params.data.reTaskDef.taskStatus === '00' ||params.data.reTaskDef.taskStatus === '02' || params.data.reTaskDef.taskStatus === '03'){

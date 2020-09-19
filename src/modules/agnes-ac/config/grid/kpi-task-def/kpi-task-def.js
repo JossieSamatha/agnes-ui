@@ -7,7 +7,12 @@ const colButtons = [
                 result =true;
             }
             return result;}},
-    {key: 'deleteKpiTask', title: '删除', cellClass: 'red-cell'},
+    {key: 'deleteKpiTask', title: '删除', cellClass: 'red-cell',disabled: (params)=>{
+            let result = false;
+            if(params.data.reTaskDef.taskStatus === '03'){
+                result =true;
+            }
+            return result;}},
     {key: 'checkKpiTask', title: '审核',disabled: (params)=>{
             let result = false;
             if(params.data.reTaskDef.taskStatus === '00' ||params.data.reTaskDef.taskStatus === '02' || params.data.reTaskDef.taskStatus === '03'){
@@ -30,7 +35,7 @@ const colButtons = [
             if(params.data.reTaskDef.taskStatus === '03'){
                 result =true;
             }
-            return result;}},
+            return result;}, cellClass: 'red-cell'},
 
 ];
 
