@@ -27,7 +27,8 @@
                         this.$refs.percentPond.init();
                     });
                 },
-                deep: true
+                deep: true,
+                immediate: true
             }
         }
 

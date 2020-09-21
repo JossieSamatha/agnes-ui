@@ -82,7 +82,16 @@
                 this.$nav.closeCurrentTab();
             },
 
+            // 大屏预览
             priviewDatav(){
+                const {href} = this.$router.resolve({
+                    name: "datavpreview",
+                    query: {
+                        dataVData: JSON.stringify(this.dataVDataSer),
+                        compsArr: JSON.stringify(this.$datavTemplateService.data.compsArr)
+                    }
+                });
+                window.open(href, '_blank');
             },
 
             // 打开图表配置抽屉

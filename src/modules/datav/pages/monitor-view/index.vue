@@ -89,8 +89,16 @@
             window.addEventListener('resize', () => {
                 this.rowNum = this.getTempRowNum(document.body.offsetWidth);
             });
+            this.getDataVList();
+
         },
         methods: {
+            async getDataVList(){
+                const res = this.$api.dataVConfig.getTemplatesList();
+                const templateList = await this.$app.blockingApp(res);
+                console.log('templateList', templateList);
+            },
+
             // 打开编辑页
             openEditPage(params){
                 const viewId = 'datav.monitor.editBoard';

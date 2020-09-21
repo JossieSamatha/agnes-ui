@@ -42,7 +42,8 @@
                         this.$refs.dynamicComp.init();
                     }
                 },
-                deep: true
+                deep: true,
+                immediate: true
             }
         }
     }

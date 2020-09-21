@@ -29,7 +29,8 @@
                         this.$refs.waterPond.init();
                     });
                 },
-                deep: true
+                deep: true,
+                immediate: true
             }
         }
     }

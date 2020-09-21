@@ -6,6 +6,7 @@
                      :y="parseInt(position.top)"
                      :axis="position.axis"
                      :isActive="isActive"
+                     :preventActiveBehavior="preview?true:false"
                      :isDraggable="position.draggable"
                      :isResizable="position.resizable"
                      :aspectRatio="position.aspectRatio"
@@ -42,6 +43,7 @@
             isActive: {
                 type: Boolean
             },
+            preview: Boolean,
             position: {
                 type: Object,
                 default: function () {
@@ -80,6 +82,7 @@
                 let listEl = this.$refs.dragResize.parentElement;
                 this.listWidth = listEl.clientWidth;
                 this.listHeight = listEl.clientHeight;
+                this.$dataVBizFunc.windowResize(this);
                 window.addEventListener('resize', ()=>{
                     this.listWidth = listEl.clientWidth;
                     this.listHeight = listEl.clientHeight;
@@ -88,11 +91,13 @@
         },
         methods: {
             activateEv() {
+                if(this.preview) return;
                 this.$datavTemplateService.setActive(this.compId);
                 this.$datavTemplateService.data.curComp = this._props;
             },
 
             deactivateEv() {
+                if(this.preview) return;
                 this.$datavTemplateService.setDisActive(this.compId);
             },
 
