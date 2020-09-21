@@ -1,31 +1,32 @@
 <template>
-    <div class="org">
-    <el-container style="border: 1px solid #eee;border-radius: 0;">
-        <el-aside style="width: 240px;border: 1px solid #eee;border-radius: 0;padding: 0px 16px 0px 16px" class="el-border">
-            <el-row style="margin-top: 5px">
-                <el-input v-model="filterText" size="mini" placeholder="检索应用..."
-                          suffix-icon="fa fa-search"></el-input>
-            </el-row>
-            <el-tree ref="tree"
-                     :data="treeData"
-                     node-key="id"
-                     show-checkbox
-                     default-expand-all
-                     :expand-on-click-node="false"
-                     @check="handleNodeCheck"
-                     :filter-node-method="filterNode"
-                     style="height: 90%;margin-top:4px">
-            </el-tree>
-        </el-aside>
-        <el-main style="height: 100%;padding-top: 0px;padding-bottom: 0px">
-            <gf-grid grid-no="agnes-org-list" ref="grid" @row-double-click="listShowOrg" quick-text-max-width="300px" height="100%"  @grid-ready="onReady">
-                <template slot="left">
-                    <gf-button class="action-btn" @click="addOrg">添加</gf-button>
-                </template>
-            </gf-grid>
-        </el-main>
+  <div>
+    <el-container style="height: 100%">
+      <el-aside width="280px" class="el-border">
+        <el-row style="height: 30px">
+          <el-input v-model="filterText" size="mini" placeholder="检索机构..."
+                    suffix-icon="fa fa-search"></el-input>
+        </el-row>
+        <el-tree ref="tree"
+                 :data="treeData"
+                 node-key="id"
+                 show-checkbox
+                 default-expand-all
+                 :expand-on-click-node="false"
+                 @check="handleNodeCheck"
+                 :filter-node-method="filterNode"
+                 style="border: 1px solid #eee;border-radius: 0;overflow-y: auto;height: calc(100% - 34px);margin-top:4px">
+        </el-tree>
+      </el-aside>
+      <el-main height="100%" style="padding-top: 0px;padding-bottom: 0px" class="el-border">
+        <gf-grid grid-no="agnes-org-list" ref="grid" @row-double-click="listShowOrg" quick-text-max-width="300px"
+                 height="100%" @grid-ready="onReady">
+          <template slot="left">
+            <gf-button class="action-btn" @click="addOrg">添加</gf-button>
+          </template>
+        </gf-grid>
+      </el-main>
     </el-container>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -186,6 +187,9 @@
 </script>
 
 <style>
+.el-border {
+  border: 1px solid rgb(238, 238, 238);
+}
 
 
 </style>
