@@ -77,6 +77,7 @@ export default {
         return true;
       }
     },
+
     isPopoverDisabled() {
       const kpi = this.params.data.stepActType === '1';
       const artificial = this.params.data.stepActType === '6';
