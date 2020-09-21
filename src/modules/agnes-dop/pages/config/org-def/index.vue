@@ -14,7 +14,7 @@
                      :expand-on-click-node="false"
                      @check="handleNodeCheck"
                      :filter-node-method="filterNode"
-            style="height: 97%;margin-top:4px">
+                     style="height: 90%;margin-top:4px">
             </el-tree>
         </el-aside>
         <el-main style="height: 100%;padding-top: 0px;padding-bottom: 0px">
