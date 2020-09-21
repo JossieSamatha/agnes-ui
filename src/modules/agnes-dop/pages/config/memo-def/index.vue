@@ -50,10 +50,10 @@
                 this.$nav.showDialog(
                     MemoDefDlg,
                     {
-                        args: {row, mode, actionOk},
-                        width: '80%',
-                        closeOnClickModal: false,
-                        title: this.$dialog.formatTitle('运营日历维护', mode),
+                      args: {row, mode, actionOk},
+                      width: '50%',
+                      closeOnClickModal: false,
+                      title: this.$dialog.formatTitle('运营日历维护', mode),
                     }
                 );
             },

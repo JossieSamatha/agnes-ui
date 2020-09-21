@@ -1,9 +1,14 @@
 import column from "../../../../../config/column"
+
 const colButtons = [
     {key: 'listEditOrg', title: '编辑'},
     {key: 'deleteOrg', title: '删除', cellClass: 'red-cell'},
-    {key: 'approveExOrg', title: '审核'},
-];
+    {
+        key: 'approveExOrg', title: '审核', disabled: (params) => {
+            return params.data.status === '04'
+        }
+    }
+]
 
 export default {
     columnDefs: [
@@ -13,7 +18,7 @@ export default {
         {headerName: "机构类型", field: "orgTypeName"},
         {headerName: "机构简称", field: "extOrgNameShort"},
         {headerName: "机构全称", field: "extOrgName"},
-        {headerName: "状态", field: "status" ,formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
+        {headerName: "状态", field: "status", formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
         column.colUpdUser,
         column.colUpdTm,
 
