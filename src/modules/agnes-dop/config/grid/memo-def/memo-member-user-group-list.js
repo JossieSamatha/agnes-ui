@@ -7,14 +7,15 @@ const colButtons = [
 export default {
     columnDefs: [
         column.buildOpCol(80, colButtons),
-        {headerName: "群组名称", field: "userGroupName"},
+        {headerName: "群组名称", field: "orgName"},
         column.colCrtUser,
         column.colCrtTm
     ],
     paginationAutoPageSize: true,
     pagination: true,
     ext: {
-        fetchUrl: "/agnes-app/v1/dop/user/group/list/all",
+        fetchUrl: "/agnes-app/v1/dop/user/group/list/alls",
+        //fetchUrl: "/gf-admin/gf/org/getOrgTree",
         fetchMethod: 'get',
         pagingMode: false, //分页
         checkboxColumn: 0, //是否显示checkbox列,
