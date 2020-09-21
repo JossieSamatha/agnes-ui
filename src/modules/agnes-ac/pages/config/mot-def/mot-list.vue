@@ -156,6 +156,7 @@
                 copyRowData.reTaskDef.jobId = '';
                 copyRowData.reTaskDef.taskStatus = '01';
                 copyRowData.caseDefId = '';
+                copyRowData.reTaskDef.caseDefId = '';
                 this.showDrawer('edit', copyRowData, this.onEditModel.bind(this));
             }
 
