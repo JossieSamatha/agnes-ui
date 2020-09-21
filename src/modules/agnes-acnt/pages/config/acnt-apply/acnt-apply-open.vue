@@ -235,14 +235,13 @@
             }
         },
         beforeMount() {
-            switch (this.mode){
-                case 'addChange':{this.detailForm.bizType='02'} break;
-                case 'deteleApply':{this.detailForm.bizType='03'} break;
-                default :{this.detailForm.bizType='01'}
+            if(this.mode=='addChange'){
+                this.detailForm.bizType='02'
+            }else if(this.mode=='deteleApply'){
+                this.detailForm.bizType='03'
+            }else{
+                this.detailForm.bizType='01'
             }
-            // if(this.mode==='addChange'){
-            //     this.detailForm.bizType='02'
-            // }else if()
             Object.assign(this.detailForm, this.row);
             this.getOptionData()
             this.checkIsSub()

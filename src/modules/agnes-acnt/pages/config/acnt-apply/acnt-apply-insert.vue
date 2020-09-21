@@ -280,9 +280,10 @@
             }
         },
         beforeMount() {
-            switch (this.mode){
-                case 'registration':{this.detailForm.bizType='04'} break;
-                default :{this.detailForm.bizType='01'}
+            if(this.mode=='registration'){
+                this.detailForm.bizType='04'
+            }else{
+                this.detailForm.bizType='01'
             }
             Object.assign(this.detailForm, this.row);
             this.getOptionData()
