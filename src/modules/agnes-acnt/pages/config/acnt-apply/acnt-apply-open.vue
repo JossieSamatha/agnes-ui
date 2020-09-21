@@ -8,14 +8,14 @@
                         placeholder="请选择">
                     <gf-filter-option
                             v-for="item in bizTagOption"
-                            :key="item.dictId"
-                            :label="item.dictName"
-                            :value="item.dictId">
+                            :key="item.typeCode"
+                            :label="item.typeName"
+                            :value="item.typeCode">
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
             <el-form-item  label="业务类型" prop="bizType">
-                <gf-dict :disabled="true" filterable clearable v-model="detailForm.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
+                <gf-dict disabled filterable clearable v-model="detailForm.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
             </el-form-item>
         </div>
         <div class="line">
@@ -235,6 +235,14 @@
             }
         },
         beforeMount() {
+            switch (this.mode){
+                case 'addChange':{this.detailForm.bizType='02'} break;
+                case 'deteleApply':{this.detailForm.bizType='03'} break;
+                default :{this.detailForm.bizType='01'}
+            }
+            // if(this.mode==='addChange'){
+            //     this.detailForm.bizType='02'
+            // }else if()
             Object.assign(this.detailForm, this.row);
             this.getOptionData()
             this.checkIsSub()
@@ -242,13 +250,15 @@
         methods: {
             async getOptionData(){
                 try {
+                    let bizTagOption = await this.$api.acntApplyApi.getAcntTypeList();
+                    this.bizTagOption = bizTagOption.data
                     let groupOption = await this.$api.userGroupApi.getAllUserGroup();
                     this.groupOption = groupOption.data
                     let productList = await this.$api.acntApplyApi.getProductCodeList();
                     this.productList = productList.data
                     let OrgList = await this.$api.orgDefineApi.getOrgList();
                     this.OrgList = OrgList.data
-             
+
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
