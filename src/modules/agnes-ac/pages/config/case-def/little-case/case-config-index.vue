@@ -102,6 +102,7 @@
                 this.caseModelData.stepCodeArr = this.stepCodeArr;
                 this.row.caseDefInfo.caseDefBody = JSON.stringify(this.caseModelData)
                 try {
+                    this.row.caseDefInfo.isCheckCode=false;
                     const p = this.$api.flowTaskApi.saveFlowTask(this.row.caseDefInfo);
                     await this.$app.blockingApp(p);
                     this.$msg.success('保存成功');

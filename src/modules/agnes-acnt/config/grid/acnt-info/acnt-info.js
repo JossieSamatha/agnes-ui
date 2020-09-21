@@ -6,7 +6,7 @@ const colButtons = [
     {key: 'changeData', title: '变更资料'},
     {key: 'delete', title: '销户'},
     {key: 'registration', title: '账户登记'},
-    {key: 'check', title: '复核'},
+    // {key: 'check', title: '复核'},
 ];
 
 export default {

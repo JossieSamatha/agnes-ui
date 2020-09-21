@@ -21,8 +21,8 @@
             </div>
         </el-form>
         <gf-grid @row-double-click="editEventDef" :query-args="queryArgs" grid-no="agnes-acnt-info" ref="grid">
-            <template slot="right-before">
-               <gf-button @click="exoprtV45" size="mini">导出v45</gf-button>
+            <template slot="left">
+               <gf-button class="action-btn" @click="exoprtV45" size="mini">导出v45</gf-button>
             </template>
         </gf-grid>
     </div>
@@ -31,9 +31,6 @@
 <script>
     import AcntApplyOpen from "../acnt-apply/acnt-apply-open";
     import AcntApplyInsert from "../acnt-apply/acnt-apply-insert";
-    import acntInfoRateRefShowDlg from "./acnt-info-rate-ref-show-dlg";
-    import acntInfoLinkmanRefShowDlg from "./acnt-info-linkman-ref-show-dlg";
-
     export default {
         data() {
             return {
@@ -49,20 +46,20 @@
             reloadData() {
                 this.$refs.grid.reloadData();
             },
-            showOpenDlg(mode, row, actionOk) {
+            showOpenDlg(mode, row, actionOk,isDisabled=false) {
                 if (!row) {
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
                 let title = '账户销户';
-                if(mode==='add'){
+                if(mode==='addChange'){
                     title = '变更资料';
                 }
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
                     title: [title],
                     component: AcntApplyOpen,
-                    args: {row, mode, actionOk},
+                    args: {row, mode, actionOk,isDisabled},
                     okButtonVisible:mode!=='view',
                     okButtonTitle:mode==='detele'?'提交':'保存'
                 })
@@ -71,10 +68,10 @@
                 this.reloadData();
             },
             delete(params) {
-                this.showOpenDlg('detele', params.data, this.onOpenApply.bind(this));
+                this.showOpenDlg('deteleApply', params.data, this.onOpenApply.bind(this),true);
             },
             changeData(params) {
-                this.showOpenDlg('add', params.data, this.onOpenApply.bind(this));
+                this.showOpenDlg('addChange', params.data, this.onOpenApply.bind(this));
             },
 
 
@@ -86,7 +83,7 @@
                 }
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
-                    title: ['变更资料'],
+                    title: ['账户登记'],
                     component: AcntApplyInsert,
                     args: {row, mode, actionOk},
                     okButtonVisible:mode!=='view',
@@ -97,33 +94,12 @@
                 this.reloadData();
             },
             registration(params) {
-                this.showInsertDlg('add', params.data, this.onOpenApply.bind(this));
+                this.showInsertDlg('registration', params.data, this.onOpenApply.bind(this));
             },
-            check(params) {
-                this.showInsertDlg('check', params.data, this.onOpenApply.bind(this));
-            },
+            // check(params) {
+            //     this.showInsertDlg('check', params.data, this.onOpenApply.bind(this));
+            // },
 
-
-            showDlg(dlg,title,mode, row, actionOk) {
-                if (mode !== 'add' && !row) {
-                    this.$msg.warning("请选中一条记录!");
-                    return;
-                }
-                this.$nav.showDialog(
-                    dlg,
-                    {
-                        args: {row, mode, actionOk},
-                        width: '60%',
-                        title: this.$dialog.formatTitle(title, mode),
-                    }
-                );
-            },
-            queryRate(params) {
-                this.showDlg(acntInfoRateRefShowDlg,'利率','view', params.data);
-            },
-            queryLinkman(params) {
-                this.showDlg(acntInfoLinkmanRefShowDlg,'联系人','view', params.data);
-            }
         }
     }
 </script>

@@ -9,14 +9,14 @@
                         placeholder="请选择">
                     <gf-filter-option
                             v-for="item in bizTagOption"
-                            :key="item.dictId"
-                            :label="item.dictName"
-                            :value="item.dictId">
+                            :key="item.typeCode"
+                            :label="item.typeName"
+                            :value="item.typeCode">
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="业务类型" prop="bizType">
-                <gf-dict filterable clearable v-model="detailForm.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
+                <gf-dict disabled filterable clearable v-model="detailForm.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
             </el-form-item>
             <el-form-item label="业务发起部门" prop="baseStartDept">
                 <gf-dict filterable clearable v-model="detailForm.baseStartDept" dict-type="AGNES_ROSTER_DEPT" />
@@ -80,81 +80,81 @@
             </el-form-item>
             <div class="title">账户信息</div>
             <el-divider></el-divider>
-            <el-form-item v-if="showRules.acntName&&showRules.acntName.isshow" label="账户名称" prop="acntName">
+            <el-form-item v-if="showRules.acntName&&showRules.acntName.isShow" label="账户名称" prop="acntName">
                 <gf-input v-model.trim="detailForm.acntName" placeholder="账户名称"/>
             </el-form-item>
-            <el-form-item v-if="showRules.acntShortName&&showRules.acntShortName.isshow" label="账户简称" prop="acntShortName">
+            <el-form-item v-if="showRules.acntShortName&&showRules.acntShortName.isShow" label="账户简称" prop="acntShortName">
                 <gf-input v-model.trim="detailForm.acntShortName" placeholder="账户简称"/>
             </el-form-item>
-            <el-form-item v-if="showRules.setTlementNo&&showRules.setTlementNo.isshow" label="清算编号" prop="setTlementNo">
+            <el-form-item v-if="showRules.setTlementNo&&showRules.setTlementNo.isShow" label="清算编号" prop="setTlementNo">
                 <gf-input v-model.trim="detailForm.setTlementNo" placeholder="清算编号"/>
             </el-form-item>
-            <el-form-item v-if="showRules.stampInfo&&showRules.stampInfo.isshow" label="预留印鉴信息" prop="stampInfo">
+            <el-form-item v-if="showRules.stampInfo&&showRules.stampInfo.isShow" label="预留印鉴信息" prop="stampInfo">
                 <gf-input v-model.trim="detailForm.stampInfo" placeholder="预留印鉴信息"/>
             </el-form-item>
-            <el-form-item v-if="showRules.accNO&&showRules.accNO.isshow" label="账号" prop="accNO">
-                <gf-input v-model.trim="detailForm.accNO" placeholder="账号"/>
+            <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="账号" prop="accNo">
+                <gf-input v-model.trim="detailForm.accNo" placeholder="账号"/>
             </el-form-item>
-            <el-form-item v-if="showRules.market&&showRules.market.isshow" label="市场" prop="market">
+            <el-form-item v-if="showRules.market&&showRules.market.isShow" label="市场" prop="market">
                 <gf-dict filterable clearable v-model="detailForm.market" dict-type="AGNES_ACNT_MARKET" />
             </el-form-item>
-            <el-form-item v-if="showRules.region&&showRules.region.isshow" label="账户所属地区" prop="region">
+            <el-form-item v-if="showRules.region&&showRules.region.isShow" label="账户所属地区" prop="region">
                 <gf-input v-model.trim="detailForm.region" placeholder="账户所属地区"/>
             </el-form-item>
-            <el-form-item v-if="showRules.currency&&showRules.currency.isshow" label="币种" prop="currency">
+            <el-form-item v-if="showRules.currency&&showRules.currency.isShow" label="币种" prop="currency">
                 <gf-dict filterable clearable v-model="detailForm.currency" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
             </el-form-item>
-            <el-form-item v-if="showRules.fundAccName&&showRules.fundAccName.isshow" label="资金账户名称" prop="fundAccName">
+            <el-form-item v-if="showRules.fundAccName&&showRules.fundAccName.isShow" label="资金账户名称" prop="fundAccName">
                 <gf-input v-model.trim="detailForm.fundAccName" placeholder="资金账户名称"/>
             </el-form-item>
-            <el-form-item v-if="showRules.rate&&showRules.rate.isshow" label="利率" prop="rate">
+            <el-form-item v-if="showRules.rate&&showRules.rate.isShow" label="利率" prop="rate">
                 <gf-input v-model.trim="detailForm.rate" placeholder="利率"/>
             </el-form-item>
-            <el-form-item v-if="showRules.stampLegalPersonInfo&&showRules.stampLegalPersonInfo.isshow" label="印鉴法人变更情况" prop="stampLegalPersonInfo">
+            <el-form-item v-if="showRules.stampLegalPersonInfo&&showRules.stampLegalPersonInfo.isShow" label="印鉴法人变更情况" prop="stampLegalPersonInfo">
                 <gf-input v-model.trim="detailForm.stampLegalPersonInfo" placeholder="印鉴法人变更情况"/>
             </el-form-item>
-            <el-form-item v-if="showRules.threeLicenseInfo&&showRules.threeLicenseInfo.isshow" label="三证合一变更情况" prop="threeLicenseInfo">
+            <el-form-item v-if="showRules.threeLicenseInfo&&showRules.threeLicenseInfo.isShow" label="三证合一变更情况" prop="threeLicenseInfo">
                 <gf-input v-model.trim="detailForm.threeLicenseInfo" placeholder="预留印鉴信息"/>
             </el-form-item>
-            <el-form-item v-if="showRules.bigPayNo&&showRules.bigPayNo.isshow" label="大额支付号" prop="bigPayNo">
+            <el-form-item v-if="showRules.bigPayNo&&showRules.bigPayNo.isShow" label="大额支付号" prop="bigPayNo">
                 <gf-input v-model.trim="detailForm.bigPayNo" placeholder="大额支付号"/>
             </el-form-item>
-            <el-form-item v-if="showRules.openBack&&showRules.openBack.isshow" label="开户网点/开户单位" prop="openBack">
+            <el-form-item v-if="showRules.openBack&&showRules.openBack.isShow" label="开户网点/开户单位" prop="openBack">
                 <gf-input v-model.trim="detailForm.openBack" placeholder="开户网点/开户单位"/>
             </el-form-item>
-            <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isshow" label="资金帐号" prop="fundAccNo">
+            <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号" prop="fundAccNo">
                 <gf-input v-model.trim="detailForm.fundAccNo" placeholder="资金帐号"/>
             </el-form-item>
-            <el-form-item v-if="showRules.acntStartDT&&showRules.acntStartDT.isshow" label="账户启用日期" prop="acntStartDT">
+            <el-form-item v-if="showRules.acntStartDt&&showRules.acntStartDt.isShow" label="账户启用日期" prop="acntStartDt">
                 <el-date-picker
-                    v-model="detailForm.acntStartDT"
+                    v-model="detailForm.acntStartDt"
                     type="date"
                     value-format="yyyy-MM-dd"
                     placeholder="账户启用日期">
                 </el-date-picker>
             </el-form-item>
-            <el-form-item v-if="showRules.isOpenBankCorDirect&&showRules.isOpenBankCorDirect.isshow" label="是否开立银企直联" prop="isOpenBankCorDirect">
+            <el-form-item v-if="showRules.isOpenBankCorDirect&&showRules.isOpenBankCorDirect.isShow" label="是否开立银企直联" prop="isOpenBankCorDirect">
                 <el-radio-group v-model="detailForm.isOpenBankCorDirect">
                     <el-radio label="1">是</el-radio>
                     <el-radio label="0">否</el-radio>
                 </el-radio-group>
             </el-form-item>
-            <el-form-item v-if="showRules.isOpenEBank&&showRules.isOpenEBank.isshow" label="是否开立网银" prop="isOpenEBank">
+            <el-form-item v-if="showRules.isOpenEBank&&showRules.isOpenEBank.isShow" label="是否开立网银" prop="isOpenEBank">
                 <el-radio-group v-model="detailForm.isOpenEBank">
                     <el-radio label="1">是</el-radio>
                     <el-radio label="0">否</el-radio>
                 </el-radio-group>
             </el-form-item>
-            <el-form-item v-if="showRules.other&&showRules.other.isshow" label="其他" prop="other">
+            <el-form-item v-if="showRules.other&&showRules.other.isShow" label="其他" prop="other">
                 <gf-input v-model.trim="detailForm.other" placeholder="其他"/>
             </el-form-item>
-            <el-form-item v-if="showRules.acntPurpose&&showRules.acntPurpose.isshow" label="账户用途描述" prop="acntPurpose">
+            <el-form-item v-if="showRules.acntPurpose&&showRules.acntPurpose.isShow" label="账户用途描述" prop="acntPurpose">
                 <gf-input v-model.trim="detailForm.acntPurpose" placeholder="账户用途描述"/>
             </el-form-item>
-            <el-form-item v-if="showRules.acntStatus&&showRules.acntStatus.isshow" label="账户状态" prop="acntStatus">
+            <el-form-item v-if="showRules.acntStatus&&showRules.acntStatus.isShow" label="账户状态" prop="acntStatus">
                 <gf-dict filterable clearable v-model="detailForm.acntStatus" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
             </el-form-item>
-            <el-form-item v-if="showRules.maturityDt&&showRules.maturityDt.isshow" label="到期提醒" prop="maturityDt">
+            <el-form-item v-if="showRules.maturityDt&&showRules.maturityDt.isShow" label="到期提醒" prop="maturityDt">
                 <el-date-picker
                     v-model="detailForm.maturityDt"
                     type="date"
@@ -162,7 +162,7 @@
                     placeholder="到期提醒">
                 </el-date-picker>
             </el-form-item>
-            <el-form-item v-if="showRules.openMan&&showRules.openMan.isshow" label="开户时对方联系人" prop="openMan">
+            <el-form-item v-if="showRules.openMan&&showRules.openMan.isShow" label="开户时对方联系人" prop="openMan">
                 <el-select class="multiple-select" v-model="detailForm.openMan"
                         filterable clearable
                         placeholder="请选择">
@@ -174,7 +174,7 @@
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
-            <el-form-item v-if="showRules.productCode&&showRules.productCode.isshow" label="备付金账户对应的银行账户" prop="baseOperator">
+            <el-form-item v-if="showRules.productCode&&showRules.productCode.isShow" label="备付金账户对应的银行账户" prop="baseOperator">
                 <el-select class="multiple-select" v-model="detailForm.productCode"
                         filterable clearable
                         placeholder="请选择">
@@ -186,7 +186,7 @@
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
-            <el-form-item v-if="showRules.productCode&&showRules.productCode.isshow" label="卡账户对应的对公户" prop="productCode">
+            <el-form-item v-if="showRules.productCode&&showRules.productCode.isShow" label="卡账户对应的对公户" prop="productCode">
                 <el-select class="multiple-select" v-model="detailForm.productCode"
                         filterable clearable
                         placeholder="请选择">
@@ -198,10 +198,10 @@
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
-            <el-form-item v-if="showRules.openManPhone&&showRules.openManPhone.isshow" label="开户时对方联系人联系电话" prop="openManPhone">
+            <el-form-item v-if="showRules.openManPhone&&showRules.openManPhone.isShow" label="开户时对方联系人联系电话" prop="openManPhone">
                 <gf-input v-model.trim="detailForm.openManPhone" placeholder="开户时对方联系人联系电话"/>
             </el-form-item>
-            <el-form-item v-if="showRules.remark&&showRules.remark.isshow" label="备注" prop="remark">
+            <el-form-item v-if="showRules.remark&&showRules.remark.isShow" label="备注" prop="remark">
                 <gf-input v-model.trim="detailForm.remark" placeholder="备注"/>
             </el-form-item>
     </el-form>
@@ -244,7 +244,7 @@
                     acntName:'', 
                     acntShortName:'',
                     baseOperator:this.$app.session.data.user.userName,
-                    accNO:'',
+                    accNo:'',
                     market:'',
                     region:'',
                     currency:'',
@@ -255,7 +255,7 @@
                     openBack:'',
                     fundAccNo:'',
                     isOpenEBank:'',
-                    acntStartDT:'',
+                    acntStartDt:'',
                     isOpenBankCorDirect:'',
                     maturityDt:'',
                     openMan:'',
@@ -280,6 +280,11 @@
             }
         },
         beforeMount() {
+            if(this.mode=='registration'){
+                this.detailForm.bizType='04'
+            }else{
+                this.detailForm.bizType='01'
+            }
             Object.assign(this.detailForm, this.row);
             this.getOptionData()
             this.loadShowRule()
@@ -287,6 +292,8 @@
         methods: {
             async getOptionData(){
                 try {
+                    let bizTagOption = await this.$api.acntApplyApi.getAcntTypeList();
+                    this.bizTagOption = bizTagOption.data
                     let groupOption = await this.$api.userGroupApi.getAllUserGroup();
                     this.groupOption = groupOption.data
                     let productList = await this.$api.acntApplyApi.getProductCodeList();
@@ -299,16 +306,19 @@
                     this.$msg.error(reason);
                 }
             },
-            loadShowRule(){
-                let showRules = {
-                    acntName:{isshow:true,required:true},
-                    acntShortName:{isshow:true,required:true},
-                };
+            async loadShowRule(){
+                let resp = await this.$api.acntApplyApi.getConfig(this.detailForm.typeCode);
+                let showRules = resp.data;
+                // let showRules = {
+                //     acntName:{isShow:true,required:true},
+                //     acntShortName:{isShow:true,required:true},
+                // };
                 this.showRules = showRules;
                 let detailFormRules = {};
                 for(let key  in showRules){
                     let detailFormRulesOne = showRules[key];
                     detailFormRulesOne.message = '必填';
+                    detailFormRulesOne.required = showRules[key].mustFill=='1';
                     detailFormRulesOne.trigger = 'blur';
                     detailFormRules[key] = [detailFormRulesOne]
                 }
