@@ -9,7 +9,7 @@
         >
             <template slot="left">
                 <gf-button class="action-btn" @click="addFlowTask" size="mini">添加</gf-button>
-                <gf-button :disabled="setTaskStatus" class="action-btn"  @click="confFlowNode" size="mini" >配置流程任务节点</gf-button>
+                <gf-button :disabled="!uploadStatus" class="action-btn"  @click="confFlowNode" size="mini" >配置任务节点</gf-button>
                 <gf-button class="action-btn" @click="copyFlow" size="mini">复制</gf-button>
                 <gf-button class="action-btn" @click="exportFlow" size="mini">导出</gf-button>
                 <el-upload
@@ -33,7 +33,7 @@
                         :disabled="!uploadStatus"
                         :on-success="handleAvatarSuccess"
                         accept=".xls,.xlsx">
-                    <gf-button  :disabled="!uploadStatus" class="action-btn" slot="trigger" size="mini">解析文件</gf-button>
+                    <gf-button  :disabled="!uploadStatus" class="action-btn" slot="trigger" size="mini">批量导入任务节点</gf-button>
                 </el-upload>
             </template>
         </gf-grid>
@@ -47,24 +47,15 @@
         data() {
             return {
                 uploadStatus:false,
-                setTaskStatus:true
             }
         },
         methods: {
             selectedChanged(){
                 let rows = this.$refs.grid.getSelectedRows();
-                if(rows.length>0){
+                if(rows.length>0&& rows[0].reTaskDef.taskStatus != "03"){
                     this.uploadStatus = true;
                 }else{
                     this.uploadStatus = false;
-                }
-                if(rows.length==0){
-                    return;
-                }
-                if(rows[0].reTaskDef.taskStatus === "03"){
-                    this.setTaskStatus = true;
-                }else {
-                    this.setTaskStatus = false;
                 }
             },
             showFlowTask(row, mode, actionOk){
@@ -133,7 +124,7 @@
                 }
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
-                    title: ['流程任务节点配置'],
+                    title: ['任务节点配置'],
                     component: 'case-config-index',
                     args: {row, mode, actionOk},
                 })
@@ -162,6 +153,8 @@
                 try {
                     const p = this.$api.taskDefineApi.stopAndCancelTask({"taskId":params.data.reTaskDef.taskId});
                     await this.$app.blockingApp(p);
+                    this.$msg.success("任务已停止!");
+                    this.reloadData();
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
@@ -285,12 +278,14 @@
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
-                const rowData = row;
-                rowData.reTaskDef.taskId = ''
-                rowData.reTaskDef.taskName = ''
-                rowData.reTaskDef.caseKey = ''
-                rowData.reTaskDef.jobId = ''
-                this.showFlowTask(rowData.reTaskDef,'edit' , this.onUpdateFlowTask.bind(this));
+                let copyRowData = this.$utils.deepClone(row);
+                copyRowData.reTaskDef.taskId = '';
+                copyRowData.reTaskDef.taskName = '';
+                copyRowData.reTaskDef.caseKey = '';
+                copyRowData.reTaskDef.jobId = '';
+                copyRowData.reTaskDef.taskStatus = '01';
+                copyRowData.caseDefId = '';
+                this.showFlowTask(copyRowData.reTaskDef,'edit' , this.onUpdateFlowTask.bind(this));
             },
             async exportFlow(){
                 let rows = this.$refs.grid.getSelectedRows();

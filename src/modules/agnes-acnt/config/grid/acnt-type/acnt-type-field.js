@@ -2,16 +2,15 @@ import column from "../../../../../config/column"
 
 const colButtons = [
     {key: 'editType', title: '修改'},
-    {key: 'deleteType', title: '删除', cellClass: 'red-cell'},
-    {key: 'checkType', title: '复核'},
+    {key: 'deleteType', title: '删除', cellClass: 'red-cell'}
 ];
 export default {
     columnDefs: [
         column.buildOpCol(120, colButtons),
-        {headerName: "类型代码", field: "typeCode"},
-        {headerName: "类型名称", field: "typeName"},
+        {headerName: "账户类型代码", field: "typeCode"},
+        {headerName: "账户类型名称", field: "typeName"},
         {headerName: "流程类型", field: "processType",valueFormatter:function(params){
-            if(params.value==="ta"){
+            if(params.value==="TA"){
                 return "TA账户流程"
             }else{
                 return 'FA账户流程'
@@ -21,7 +20,7 @@ export default {
         column.colUpdTm
     ],
     ext: {
-        fetchUrl: "/agnes-app/v1/dc/file/scan/list-page",
+        fetchUrl: "/agnes-app/v1/acnt/type/list/page",
         fetchMethod: 'get',
         pagingMode: true, //不分页
         checkboxColumn: 1, //是否显示checkbox列,

@@ -6,6 +6,7 @@
              @row-double-click="showTask">
         <template slot="left">
             <gf-button class="action-btn" @click="addTask">添加</gf-button>
+            <gf-button class="action-btn" @click="copyMotTask">复制</gf-button>
         </template>
     </gf-grid>
 </template>
@@ -138,6 +139,25 @@
                     this.$msg.error(reason);
                 }
             },
+
+            copyMotTask(){
+                let rows = this.$refs.grid.getSelectedRows();
+                let row =[];
+                if(rows.length>0){
+                    row = rows[0];
+                }else{
+                    this.$msg.warning("请选中一条记录!");
+                    return;
+                }
+                let copyRowData = this.$utils.deepClone(row);
+                copyRowData.reTaskDef.taskId = '';
+                copyRowData.reTaskDef.taskName = '';
+                copyRowData.reTaskDef.caseKey = '';
+                copyRowData.reTaskDef.jobId = '';
+                copyRowData.reTaskDef.taskStatus = '01';
+                copyRowData.caseDefId = '';
+                this.showDrawer('edit', copyRowData, this.onEditModel.bind(this));
+            }
 
         }
     }
