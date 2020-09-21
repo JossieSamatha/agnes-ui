@@ -284,7 +284,7 @@
                 copyRowData.reTaskDef.caseKey = '';
                 copyRowData.reTaskDef.jobId = '';
                 copyRowData.reTaskDef.taskStatus = '01';
-                copyRowData.caseDefId = '';
+                copyRowData.reTaskDef.caseDefId = '';
                 this.showFlowTask(copyRowData.reTaskDef,'edit' , this.onUpdateFlowTask.bind(this));
             },
             async exportFlow(){
