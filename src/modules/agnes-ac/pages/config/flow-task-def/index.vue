@@ -356,6 +356,7 @@
                 this.$emit("onClose");
                 this.reloadData();
             },
+
             uploadFile(){
                 this.$refs.uploadCase.submit();
             }
