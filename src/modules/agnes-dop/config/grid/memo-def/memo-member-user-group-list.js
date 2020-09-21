@@ -15,7 +15,6 @@ export default {
     pagination: true,
     ext: {
         fetchUrl: "/agnes-app/v1/dop/user/group/list/alls",
-        //fetchUrl: "/gf-admin/gf/org/getOrgTree",
         fetchMethod: 'get',
         pagingMode: false, //分页
         checkboxColumn: 0, //是否显示checkbox列,
