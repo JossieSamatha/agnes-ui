@@ -1,14 +1,14 @@
 
 <template>
     <el-container>
-        <el-container style="height: 100%">
+        <el-container style="height: 100%;width:60%">
             <el-main height="100%" style="padding-top: 0px;padding-bottom: 0px" class="el-border">
                 <gf-grid grid-no="agnes-product-auth-field" ref="grid" quick-text-max-width="300px"
                         height="100%">
                 </gf-grid>
             </el-main>
         </el-container>
-        <el-aside width="300px" class="el-border">
+        <el-aside width="40%" class="el-border">
             <el-row class="button-body">
                 <el-input v-model="filterText" size="mini" placeholder="检索..."
                           suffix-icon="fa fa-search"></el-input>
