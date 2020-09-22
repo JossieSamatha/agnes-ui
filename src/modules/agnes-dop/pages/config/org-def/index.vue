@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-container style="height: 100%">
-      <el-aside width="280px" class="el-border">
+      <el-aside width="200px" class="el-border">
         <el-row style="height: 30px">
           <el-input v-model="filterText" size="mini" placeholder="检索机构..."
                     suffix-icon="fa fa-search"></el-input>
