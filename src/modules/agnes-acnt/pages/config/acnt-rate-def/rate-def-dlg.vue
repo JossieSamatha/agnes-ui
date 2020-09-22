@@ -11,13 +11,26 @@
                     <i slot="suffix" class="el-input__icon el-icon-edit-outline" @click="chooseRate"/>
                 </gf-input>
             </el-form-item>
-            <el-form-item label="生效时间" prop="startDt">
-                <el-date-picker
-                        v-model="form.startDt"
-                        type="date"
-                        placeholder="选择日期"
-                        style="width: 50%">
-                </el-date-picker>
+            <el-form-item label="有效日期" prop="startDt">
+                <div class="line none-shrink">
+                    <el-form-item prop="startDt">
+                        <el-date-picker
+                                v-model="form.startDt"
+                                type="date"
+                                value-format="yyyy-MM-dd"
+                                placeholder="开始日期">
+                        </el-date-picker>
+                    </el-form-item>
+                    <span style="margin: 0 10px">~</span>
+                    <el-form-item prop="endDt">
+                        <el-date-picker
+                                v-model="form.endDt"
+                                type="date"
+                                value-format="yyyy-MM-dd"
+                                placeholder="结束日期">
+                        </el-date-picker>
+                    </el-form-item>
+                </div>
             </el-form-item>
         </el-form>
         <dialog-footer :ok-button-visible="mode !== 'view'" :on-save="onSave" ok-button-title="确定"></dialog-footer>
@@ -103,3 +116,7 @@
         }
     }
 </script>
+
+<style scoped>
+
+</style>

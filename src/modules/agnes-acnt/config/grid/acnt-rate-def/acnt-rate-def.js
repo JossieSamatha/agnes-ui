@@ -3,7 +3,7 @@ import column from "../../../../../config/column"
 const colButtons = [
     {key: 'editRate', title: '编辑'},
     {key: 'deleteRate', title: '删除',cellClass:'red-cell'},
-    {key: 'checkRate', title: '复核'},
+    {key: 'checkRate', title: '审核'},
 ];
 
 export default {
@@ -12,10 +12,12 @@ export default {
         {headerName: "账户名称", field: "acntName"},
         {headerName: "利率方案名称", field: "rateName"},
         {headerName: "账号", field: "accountNo"},
+       // {headerName: "利率方案名称", field: "rateName"},
+        {headerName: "开户机构", field: "extOrgName"},
         {headerName: "利率(%)", field: "rate"},
-        {headerName: "状态", field: "status",dictType: 'ACNT_REF_STATUS'},
+        {headerName: "状态", field: "status",dictType: 'AGNES_RELEASE_STATUS'},
         {headerName: "生效日期", field: "startDt"},
-        {headerName: "失效日期", field: "endDt"},
+        //{headerName: "失效日期", field: "endDt"},
         column.colUpdUser,
         column.colUpdTm,
         column.buildOpCol(120, colButtons)

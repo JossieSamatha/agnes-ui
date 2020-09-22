@@ -49,9 +49,41 @@
             showRate(params) {
                 this.showDlg('view', params.data);
             },
+            check(params) {
+                this.showDlg('check', params.data,"1", this.onAddRate.bind(this));
+            },
+            async start(params) {
+                if(params.data.status.match(/05/)){
+                    this.$msg.warning("该状态无法启用!");
+                    return ;
+                }
+                const ok = await this.$msg.ask(`确认启用方案:[${params.data.rateName}]吗, 是否继续?`);
+                if (!ok) {
+                    return
+                }
+                try {
+                    const p = this.$api.rateDefApi.start(params.data);
+                    await this.$app.blockingApp(p);
+                    this.$msg.success("方案已启用!");
+                    this.reloadData();
+                } catch (e) {
+                    this.$msg.error(e);
+                }
+            },
 
-            check(param) {
-                this.showDlg('check', param.data,"1", this.onAddRate.bind(this));
+            async stop(params){
+                const ok = await this.$msg.ask(`确认停用方案:[${params.data.rateName}]吗, 是否继续?`);
+                if (!ok) {
+                    return
+                }
+                try {
+                    const p = this.$api.rateDefApi.stop(params.data);
+                    await this.$app.blockingApp(p);
+                    this.$msg.success("方案已停用!");
+                    this.reloadData();
+                } catch (e) {
+                    this.$msg.error(e);
+                }
             },
 
             async deleteRate(params) {

@@ -14,4 +14,11 @@ export default {
     check(form) {
         return request.post(`/agnes-app/v1/acnt/rate/info/check`,form);
     },
+    start(form) {
+        return request.post("/agnes-app/v1/acnt/rate/info/start", form);
+    },
+
+    stop(form) {
+        return request.post("/agnes-app/v1/acnt/rate/info/stop", form);
+    },
 };
