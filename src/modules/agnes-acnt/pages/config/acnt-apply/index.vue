@@ -51,7 +51,7 @@
                     '05':'财务流程',
                     '06':'账户待录入',
                     '07':'账户待复核',
-                    '08':'流程结束',
+                    '08':'已归档',
                     '09':'已作废',
                 },
             }
@@ -213,8 +213,8 @@
             onStepsApply(){
                 this.reloadData();
             },
-            showSteps() {
-                this.showStepsDlg('add', {}, this.onStepsApply.bind(this));
+            showSteps(params) {
+                this.showStepsDlg('add', params.data, this.onStepsApply.bind(this));
             },
         }
     }

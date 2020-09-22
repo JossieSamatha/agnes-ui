@@ -9,7 +9,7 @@ const colButtons = [
     {key: 'checkFund', title: '财务审核',visiable: (params)=>{return params.data.processStatus === '05';}},
     {key: 'addAcc', title: '账户录入',visiable: (params)=>{return params.data.processStatus === '06';}},
     {key: 'checkAcc', title: '账户复核',visiable: (params)=>{return params.data.processStatus === '07';}},
-    {key: 'showSteps', title: '查看流程'},
+    {key: 'showSteps', title: '查看流程',visiable: (params)=>{return params.data.processStatus != '09';}},
 ];
 export default {
     columnDefs: [
