@@ -213,8 +213,8 @@
             onStepsApply(){
                 this.reloadData();
             },
-            showSteps() {
-                this.showStepsDlg('add', {}, this.onStepsApply.bind(this));
+            showSteps(params) {
+                this.showStepsDlg('add', params.data, this.onStepsApply.bind(this));
             },
         }
     }

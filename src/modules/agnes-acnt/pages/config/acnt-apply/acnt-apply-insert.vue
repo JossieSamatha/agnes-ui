@@ -557,6 +557,10 @@
                     this.OrgList = OrgList.data
                     let linkManList = await this.$api.acntApplyApi.getLinkMan(this.detailForm.baseOrgId);
                     this.linkManList = linkManList.data
+                    if(this.showChange){
+                        let detailFormBefore = await this.$api.acntInfoApi.getAcntInfoByAcntId(this.detailForm.acntId);
+                        this.detailFormBefore = detailFormBefore.data
+                    }
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
