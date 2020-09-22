@@ -3,13 +3,13 @@
         <el-form class="fit-box" :disabled="mode==='view'" :model="form" ref="form" :rules="rules" label-width="85px"
                  style="padding: 10px;">
             <el-form-item label="方案代码" prop="rateCode">
-                <gf-input v-model="form.rateCode" placeholder="方案代码" :max-byte-len="8"/>
+                <gf-input v-model="form.rateCode" style="width: 80%" placeholder="方案代码" :max-byte-len="8"/>
             </el-form-item>
             <el-form-item label="方案名称" prop="rateName">
-                <gf-input v-model="form.rateName" placeholder="方案名称" :max-byte-len="120"/>
+                <gf-input v-model="form.rateName" placeholder="方案名称" style="width: 80%" :max-byte-len="120"/>
             </el-form-item>
             <el-form-item label="网点名称" prop="bankBranchId">
-                <el-select style="width: 100%"  class="multiple-select" v-model="form.bankBranchId"
+                <el-select style="width: 80%"  class="multiple-select" v-model="form.bankBranchId"
                            filterable clearable
                            placeholder="请选择">
                     <gf-filter-option
@@ -21,9 +21,9 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="利率" prop="rate">
-                <gf-input v-model="form.rate" placeholder="利率" :max-byte-len="120"/>
+                <gf-input v-model="form.rate" placeholder="利率" style="width: 80%" :max-byte-len="120"/>
             </el-form-item>
-            <el-form-item label="生效日期" prop="startDt">
+            <el-form-item label="有效日期" prop="startDt">
                 <div class="line none-shrink">
                     <el-form-item prop="startDt">
                         <el-date-picker

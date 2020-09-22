@@ -4,7 +4,7 @@
             <div class="tag-title">
                 <el-tag size="small">人员</el-tag>
                 <el-tag size="small" type="success">群组</el-tag>
-                <el-tag size="small" type="warning">排班</el-tag>
+                <el-tag size="small" type="warning">值班</el-tag>
             </div>
             <div class="tag-container">
                 <chosen-list-view :personList="personList"
@@ -39,7 +39,7 @@
                 </el-tab-pane>
                 <el-tab-pane name="roster" v-if="chosenType.indexOf('roster')>-1">
                     <span class="tab-label" slot="label">
-                        <span>排班列表</span>
+                        <span>值班列表</span>
                     </span>
                     <gf-grid ref="rosterGrid"
                             grid-no="agnes-dop-memo-member-roster-list"
@@ -129,7 +129,7 @@
                 }
             },
 
-            // 修改排班日期
+            // 修改值班日期
             rosterDateChange(date) {
                 this.rosterQueryArgs.rosterDate = date;
                 this.$refs.rosterGrid.reloadData();
@@ -159,7 +159,7 @@
                 this.$refs.groupGrid.refreshRows([params.node]);
             },
 
-            // 添加排班
+            // 添加值班
             choseRoster(params){
              //   const deptName = this.$app.dict.getDictItem('AGNES_ROSTER_DEPT', params.data.deptId).dictName;
                 const rosterName = this.$app.dict.getDictItem('AGNES_ROSTER_TYPE', params.data.rosterType).dictName;
@@ -167,8 +167,8 @@
                 const member = {
                     refType: '3',
                     memberId: params.data.rosterId,
-                    // 排班-部门 排班类型 排班日期 排班时间 岗位
-                    memberDesc: `排班-${rosterName}\n${params.data.rosterDate} ${params.data.rosterTs}`
+                    // 值班-部门 值班类型 值班日期 值班时间 岗位
+                    memberDesc: `值班-${rosterName}\n${params.data.rosterDate} ${params.data.rosterTs}`
                 }
                 this.rosterList.push(member);
                 params.data.checked = true;
