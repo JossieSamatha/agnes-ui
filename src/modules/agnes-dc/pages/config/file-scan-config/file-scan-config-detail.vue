@@ -20,29 +20,29 @@
             <gf-input v-model.trim="detailFormData.userName" placeholder="用户"/>
         </el-form-item>
         <el-form-item v-if="detailFormData.transMode==='0'" label="密码" prop="password">
-            <gf-input v-model.trim="detailFormData.password" placeholder="密码"/>
+            <el-input placeholder="请输入密码" v-model="detailFormData.password" show-password></el-input>
         </el-form-item>
-        <el-form-item label="变量选择" prop="varId">
-            <el-select class="multiple-select" v-model="detailFormData.varId"
-                       filterable clearable multiple
-                       placeholder="请选择">
-                <gf-filter-option
-                        v-for="item in variableOption"
-                        :key="item.pkId"
-                        :label="item.varName"
-                        :value="item.pkId">
-                </gf-filter-option>
-            </el-select>
-        </el-form-item>
+<!--        <el-form-item label="变量选择" prop="varId">-->
+<!--            <el-select class="multiple-select" v-model="detailFormData.varId"-->
+<!--                       filterable clearable multiple-->
+<!--                       placeholder="请选择">-->
+<!--                <gf-filter-option-->
+<!--                        v-for="item in variableOption"-->
+<!--                        :key="item.pkId"-->
+<!--                        :label="item.varName"-->
+<!--                        :value="item.pkId">-->
+<!--                </gf-filter-option>-->
+<!--            </el-select>-->
+<!--        </el-form-item>-->
         <el-form-item label="文件路径" prop="filePath">
             <gf-input v-model.trim="detailFormData.filePath" placeholder="文件路径"/>
         </el-form-item>
         <el-form-item label="文件名称" prop="fileName">
             <gf-input v-model.trim="detailFormData.fileName" placeholder="文件名称"/>
         </el-form-item>
-        <el-form-item label="基准日期" prop="baseDate">
-            <gf-dict filterable clearable v-model="detailFormData.baseDate" dict-type="AGNES_BASE_DATE" style="width: 30%;"/>
-        </el-form-item>
+<!--        <el-form-item label="基准日期" prop="baseDate">-->
+<!--            <gf-dict filterable clearable v-model="detailFormData.baseDate" dict-type="AGNES_BASE_DATE" style="width: 30%;"/>-->
+<!--        </el-form-item>-->
         <template >
             <el-form-item label="执行频率" prop="execScheduler">
                 <el-button type="text" @click="editExecTime('execScheduler', detailFormData.execScheduler)">
@@ -118,9 +118,9 @@
                     serverPort: [
                         {required: true, message: '服务器端口必填', trigger: 'blur'},
                     ],
-                    baseDate: [
-                        {required: true, message: '基准日期必填', trigger: 'change'},
-                    ],
+                    // baseDate: [
+                    //     {required: true, message: '基准日期必填', trigger: 'change'},
+                    // ],
                     // varId:[
                     //     {required: true, message: '变量选择必填', trigger: 'blur'},
                     // ],
@@ -135,10 +135,10 @@
         },
         beforeMount() {
             if(this.mode!=='add'){
-                this.detailFormData = this.row
+                Object.assign(this.detailFormData, this.row);
                 this.addExecScheduler();
             }
-            this.getVarIdList();
+            // this.getVarIdList();
             this.getAnalyRulesOption();
         },
         methods: {
@@ -155,11 +155,11 @@
                     this.detailFormData.varId = varIdArr
                 }
             },
-            async getVarIdList(){
-                const p = this.$api.fileScan.getVarIdList();
-                let res =  await this.$app.blockingApp(p);
-                this.variableOption = res.data;
-            },
+            // async getVarIdList(){
+            //     const p = this.$api.fileScan.getVarIdList();
+            //     let res =  await this.$app.blockingApp(p);
+            //     this.variableOption = res.data;
+            // },
             async getAnalyRulesOption(){
                 const p = this.$api.fileScan.queryRuleConfigList();
                 let res =  await this.$app.blockingApp(p);
@@ -184,11 +184,15 @@
                     if(moveForm.varId){
                         moveForm.varId = moveForm.varId.join();
                     }
+                    moveForm.isNeedCheck = true;
                     if(this.mode==='add'){
                         const p = this.$api.fileScan.saveFileScan(moveForm);
                         await this.$app.blockingApp(p);
                         this.$msg.success('保存成功');
                     }else if(this.mode==='edit') {
+                        if(this.detailFormData.scanCode === this.row.scanCode){
+                            moveForm.isNeedCheck = false;
+                        }
                         const p = this.$api.fileScan.saveFileScan(moveForm);
                         await this.$app.blockingApp(p);
                         this.$msg.success('修改成功');
