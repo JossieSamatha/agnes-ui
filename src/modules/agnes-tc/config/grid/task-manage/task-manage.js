@@ -3,13 +3,13 @@ import column from "../../../../../config/column";
 const colButtons = [
     {key: 'checkTask', title: '复核',disabled: (params)=>{
             let result = true;
-            if(params.taskStatus == '01'){
-                result =false;
+            if(params.data.taskStatus == '00'){
+                result = false;
             }
             return result;}},
     {key: 'cancelTask', title: '作废', cellClass: 'red-cell',disabled: (params)=>{
             let result = true;
-            if(params.taskStatus != '05'){
+            if(params.data.taskStatus != '05'){
                 result =false;
             }
             return result;}},
