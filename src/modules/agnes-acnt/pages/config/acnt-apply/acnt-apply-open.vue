@@ -448,6 +448,7 @@
         beforeMount() {
             if(this.mode=='addChange'){
                 this.detailForm.bizType='02';
+                this.detailFormBefore.bizType='02';
             }else if(this.mode=='deteleApply'){
                 this.detailForm.bizType='03'
             }else{
@@ -471,6 +472,10 @@
                     this.productList = productList.data
                     let OrgList = await this.$api.orgDefineApi.getOrgList();
                     this.OrgList = OrgList.data
+                    if(this.showChange){
+                        let detailFormBefore = await this.$api.acntInfoApi.getAcntInfoByAcntId(this.detailForm.acntId);
+                        this.detailFormBefore = detailFormBefore.data
+                    }
 
                 } catch (reason) {
                     this.$msg.error(reason);
