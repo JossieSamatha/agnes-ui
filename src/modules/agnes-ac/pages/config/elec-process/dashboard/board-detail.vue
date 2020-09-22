@@ -87,8 +87,8 @@
                 stageStatus: {
                     '#DFE1E5': '未开始',
                     '#4A8EF0': '执行中',
+                    '#FAAE14': '强制通过',
                     '#F5222E': '已异常/已超时',
-                    '#FAAE14': '强制关闭',
                     '#52C41C': '已完成'
                 },
                 freshInterval: null,
