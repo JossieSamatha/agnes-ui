@@ -1,11 +1,14 @@
 <template>
    <div>
         <el-steps direction="vertical" :active=nowStep>
-            <el-step title="开户申请"></el-step>
-            <el-step title="复核"></el-step>
+            <el-step title="申请"></el-step>
+            <el-step title="待复核"></el-step>
+            <el-step title="待提交OA"></el-step>
             <el-step title="资料准备"></el-step>
-            <el-step title="账户录入"></el-step>
-            <el-step title="账户复核"></el-step>
+            <el-step title="财务流程"></el-step>
+            <el-step title="账户待录入"></el-step>
+            <el-step title="账户待复核"></el-step>
+            <el-step title="已归档"></el-step>
         </el-steps>
     </div>
 </template>
@@ -29,6 +32,7 @@
             }
         },
         beforeMount() {
+            
             // Object.assign(this.detailForm, this.row);
            
         },
