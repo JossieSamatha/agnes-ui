@@ -133,7 +133,7 @@
         <el-form-item label="任务控制参数">
             <gf-strbool-checkbox v-model="detailForm.needApprove">是否需要复核</gf-strbool-checkbox>
             <gf-strbool-checkbox v-model="detailForm.isTodo">是否进入待办</gf-strbool-checkbox>
-            <gf-strbool-checkbox v-model="detailForm.allowManualConfirm">是否允许人工强制通过</gf-strbool-checkbox>
+            <gf-strbool-checkbox v-model="detailForm.allowManualConfirm">是否允许人工干预通过</gf-strbool-checkbox>
         </el-form-item>
         <el-form-item label="消息通知参数">
             <span class="default-checked">系统内部消息</span>

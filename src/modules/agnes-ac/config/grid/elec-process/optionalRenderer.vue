@@ -27,7 +27,7 @@
                v-popover:popover
                v-if="indexSetShow"
                @click="popoverClick('forcePass')"
-               title="强制通过"
+               title="干预通过"
                :disabled="isPopoverDisabled"
     >
       <span class="svgSpan" v-html="svgImg.forcePass"></span>
