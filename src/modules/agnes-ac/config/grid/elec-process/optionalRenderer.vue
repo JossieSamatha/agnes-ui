@@ -82,8 +82,8 @@ export default {
       const kpi = this.params.data.stepActType === '1';
       const artificial = this.params.data.stepActType === '6';
       const stepStatus = this.params.data.stepStatus;
-      if (this.params.data.allowManualConfirm === '1') {
-        return false;
+      if (this.params.data.allowManualConfirm === '0') {
+        return true;
       } else if (kpi && (stepStatus === '03' || stepStatus === '04')) {
         return false;
       } else if (artificial && (stepStatus === '02' || stepStatus === '03' || stepStatus === '04')) {
