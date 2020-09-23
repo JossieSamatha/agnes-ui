@@ -1,5 +1,5 @@
 <template>
-    <div id="pieChart" style="width:100%;height: 250px"></div>
+    <div id="pieChart" style="width:100%;" :style="{height: pieHeight}"></div>
 </template>
 
 <script>
@@ -17,6 +17,18 @@
                     return [];
                 }
             },
+            pieHeight: {
+                type: String,
+                default: '250px'
+            },
+            legendPosX: {
+                type: String,
+                default: 'center'
+            },
+            legendPosY: {
+                type: String,
+                default: 'bottom'
+            }
         },
         data: function () {
             return  {
@@ -24,7 +36,7 @@
             }
         },
         methods: {
-            init : function() {
+            init() {
                 this.pieChart = this.echarts.init(this.$el);
                 let legendName=[], valueSum = 0;
                 const colorSet = this.colorSet;
@@ -64,8 +76,8 @@
                 const legend={
                     orient: 'horizontal',
                     icon : 'circle',
-                    x: 'center',
-                    y: 'bottom',
+                    x: this.legendPosX,
+                    y: this.legendPosY,
                     itemWidth: 8,
                     itemGap: 20,
                     data: legendName
@@ -143,7 +155,8 @@
 
         },
         mounted : function () {
-            this.init()
+            this.init();
+
         }
     }
 </script>
