@@ -29,7 +29,8 @@
         </section>
         <section class="board-container" ref="contentSection" style="height: 100%">
             <el-carousel v-if="proTask && proTask.length>0"
-                        style="width: 100%;" :style="{height: carouselHeight + 'px'}"
+                        style="width: 100%;flex: 0 0 auto;"
+                         :style="{height: carouselHeight + 'px'}"
                          height="100%"
                          arrow="always"
                          :autoplay="false">
@@ -73,15 +74,16 @@
                     </div>
                     <div class="progress">
                         <div class="progress-item" v-for="stage in stageList" :key="stage.defId">
+                            <span>{{stage.defName}}</span>
                             <el-progress class="define-progress"
-                                         type="circle"
                                          :style="{color: getStatusColor(stage.status)}"
                                          :percentage="getPercentage(stage.percentage)"
                                          :color="getStatusColor(stage.status)"
-                                         :width="56"
                                          :stroke-width="6"
+                                         :show-text="false"
                             ></el-progress>
-                            <span>{{stage.stageTitle}}</span>
+                            <span :style="{color: getStatusColor(stage.status)}"
+                                  style="width: auto;margin-left: 10px;">{{stage.completeNum}} / {{stage.targetNum}}</span>
                         </div>
                     </div>
                 </div>
@@ -99,23 +101,17 @@
                 carouselHeight: 0,
                 flowType: '01',
                 proTask: [],
-                executePieData: [
-                    {name: '已完成', value: 80},
-                    {name: '未完成', value: 20}
-                ],
+                executePieData: [],
                 bizDate: '',
                 curTask: {},
                 stageStatus: {
                     '#DFE1E5': '未开始',
                     '#4A8EF0': '执行中',
-                    '#FAAE14': '强制通过',
+                    '#FAAE14': '干预通过',
                     '#F5222E': '已异常/已超时',
                     '#52C41C': '已完成'
                 },
-                stageList: [{defId: '0', percentage: 0.5, status: '01', stageTitle: '早班'},
-                    {defId: '1', percentage: 0.7, status: '02', stageTitle: '日间清算'},
-                    {defId: '2', percentage: 0.2, status: '03', stageTitle: '系统检查'},
-                    {defId: '3', percentage: 0.4, status: '04', stageTitle: '晚班'}]
+                stageList: []
             }
         },
         async created(){
@@ -148,14 +144,20 @@
 
             // 根据流程类型加载对应流程数据
             async getFLowsbyType(bizDate) {
+                this.proTask = [];
+                this.curTask = [];
                 const flowDataRes = this.$api.elecProcessApi.queryExecRuTask({bizDate});
                 const flowDataList = await this.$app.blockingApp(flowDataRes);
                 if (flowDataList.data && flowDataList.data.length > 0) {
-                    const data = flowDataList.data;
-                    const carouselLength = this.calcCardLength(flowDataList.data.length);
+                    let data = flowDataList.data;
+                    const carouselLength = this.calcCardLength(data.length);
                     for(let i=0; i<carouselLength; i++){
-                        const itemData = data.splice(i*4, i*4+4);
+                        const itemData = data.slice(i*4, i*4+4);
                         this.proTask.push(itemData);
+                        if(!(this.curTask && this.curTask.taskId)){
+                            this.curTask = data[0];
+                            this.getFLowDetail(data[0].taskId, data[0].caseId, this.bizDate);
+                        }
                     }
                 }else{
                     this.proTask = [];
@@ -166,6 +168,7 @@
             // 选择流程
             chooseTask(task){
                 this.curTask = task;
+                this.getFLowDetail(task.taskId, task.caseId, this.bizDate);
             },
 
             reivewDetail(){
@@ -191,6 +194,29 @@
                 const stepStatus = this.$agnesAcUtils.getStepStatusMap();
                 return stepStatus.get(statusId).color;
             },
+
+            // 根据流程id及业务日期加载流程信息{"taskId":"","bizDate":""}、获取任务状态、获取执行情况
+            async getFLowDetail(taskId, caseId, bizDate) {
+                const flowDetailRes = this.$api.elecProcessApi.getExecProcessDetail({taskId, caseId, bizDate});
+                const flowDetailStr = await this.$app.blockingApp(flowDetailRes);
+                if (flowDetailStr.data) {
+                    const flowDetailParse = this.$utils.fromJson(flowDetailStr.data);
+                    this.stageList = flowDetailParse.stages;
+                    // 获取任务状态
+                    const completeNum = flowDetailParse.processCompleteNum;
+                    const targetNum = flowDetailParse.processTargetNum;
+                    const executePieData = [
+                        {name: '完成', value: completeNum},
+                        {name: '未完成', value: (targetNum-completeNum)}
+                    ];
+                    this.executePieData = executePieData;
+                }else{
+                    this.stageList = [];
+                    this.executePieData = [];
+                }
+            },
+
+
         }
     }
 </script>

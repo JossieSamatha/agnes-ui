@@ -344,7 +344,7 @@
                 }
             },
 
-            // 强制通过
+            // 干预通过
             async forcePass(params) {
                 let taskCommit = {
                   stepInfo: {},

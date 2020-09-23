@@ -107,36 +107,37 @@
     padding-left: 50px;
 }
 
-.elec-process-dashboard .board-container .card-detail .progress {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
 .elec-process-dashboard .board-container .card-detail .progress .progress-item {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    width: 33%;
+    width: 100%;
     margin-top: 30px;
+}
+
+.elec-process-dashboard .board-container .card-detail .progress {
+    margin-top: 20px;
 }
 
 .elec-process-dashboard .board-container .card-detail .progress .progress-item>span {
     display: inline-block;
-    margin-top: 10px;
+    width: 100px;
 }
 
 .elec-process-dashboard .board-container .card-detail .progress .progress-item>.define-progress {
-    width: 56px;
+    flex: 1;
+    width: 100%;
+}
+
+.elec-process-dashboard .board-container .card-detail .progress .progress-item>.define-progress
+.el-progress-bar {
+    margin-right: -45px;
 }
 
 .elec-process-dashboard .board-container .card-detail .progress .progress-item>.define-progress
 .el-progress__text {
-    font-size: 16px!important;
+    font-size: 14px!important;
     transform: scale(1);
-    top: calc(50% - 8px);
-    left: 1px;
     color: inherit;
 }
 
