@@ -1,13 +1,46 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'editRate', title: '编辑'},
-    {key: 'deleteRate', title: '删除', cellClass: 'red-cell'},
-    {key: 'check', title: '审核'},
+    {key: 'editRate', title: '编辑',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '05'){
+                result =true;
+            }
+            return result;}},
+    {key: 'deleteRate', title: '删除', cellClass: 'red-cell',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '05'){
+                result =true;
+            }
+            return result;}},
+    {key: 'check', title: '审核',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '00'|| params.data.status === '04'|| params.data.status === '05'|| params.data.status === '06'){
+                result =true;
+            }
+            return result;}},
+    {key: 'start', title: '启用',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '00' ||params.data.status === '01' ){
+                result =true;
+            }
+            return result;},
+        visiable:(params)=>{
+            let result = true;
+            if(params.data.status === '05'){
+                result =false;
+            }
+            return result;}},
+    {key: 'stop', title: '停用',visiable: (params)=>{
+            let result = false;
+            if(params.data.status === '05'){
+                result =true;
+            }
+            return result;}, cellClass: 'red-cell'},
 ];
 export default {
     columnDefs: [
-        column.buildOpCol(120, colButtons),
+        column.buildOpCol(160, colButtons),
         {headerName: "方案代码", field: "rateCode"},
         {headerName: "方案名称", field: "rateName"},
         {headerName: "网点代码", field: "branchCode"},
