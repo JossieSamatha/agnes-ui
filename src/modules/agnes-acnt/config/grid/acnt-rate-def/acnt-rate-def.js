@@ -1,26 +1,44 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'editRate', title: '编辑'},
-    {key: 'deleteRate', title: '删除',cellClass:'red-cell'},
-    {key: 'checkRate', title: '审核'},
+    {key: 'editRateScheme', title: '编辑',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '06'||params.data.status === '01'){
+                result =true;
+            }
+            return result;}},
+    {key: 'deleteRateScheme', title: '删除',cellClass:'red-cell',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '04' ||params.data.status === '05'){
+                result =true;
+            }
+            return result;}},
+    {key: 'checkRateScheme', title: '审核',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '00'|| params.data.status === '04'||params.data.status === '05'|| params.data.status === '06'){
+                result =true;
+            }
+            return result;}},
+    {key: 'startRateScheme', title: '启用',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '00' ||params.data.status === '01'|| params.data.status === '05'||params.data.status === '06'){
+                result =true;
+            }
+            return result;}}
 ];
 
 export default {
     columnDefs: [
-        // {headerName: '序号', field: "rowindex",valueGetter:params=>params.node.rowIndex+1},
         {headerName: "账户名称", field: "acntName"},
-        {headerName: "利率方案名称", field: "rateName"},
         {headerName: "账号", field: "accountNo"},
-       // {headerName: "利率方案名称", field: "rateName"},
         {headerName: "开户机构", field: "extOrgName"},
         {headerName: "利率(%)", field: "rate"},
         {headerName: "状态", field: "status",dictType: 'AGNES_RELEASE_STATUS'},
-        {headerName: "生效日期", field: "startDt"},
-        //{headerName: "失效日期", field: "endDt"},
+        {headerName: "启用日期", field: "startDt"},
+        {headerName: "停用日期", field: "endDt"},
         column.colUpdUser,
         column.colUpdTm,
-        column.buildOpCol(120, colButtons)
+        column.buildOpCol(160, colButtons)
     ],
     ext: {
         fetchUrl: "/agnes-app/v1/acnt/rate/ref/list",    //后台查询数据的URL地址
