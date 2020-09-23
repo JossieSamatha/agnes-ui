@@ -104,7 +104,7 @@ export default function () {
                         type: 'chart',
                         icon: 'ct-pie',
                         compName: 'ct-pie',
-                        label: '饼（环形）图',
+                        label: '饼图',
                         position: {
                             ...staticCompPosition(),
                             width: 500,
@@ -114,6 +114,55 @@ export default function () {
                             chartSettings: {
                                 limitShowNum: 5
                             },
+                            chartData: {
+                                columns: ['日期', '访问用户'],
+                                rows: [
+                                    { '日期': '1/1', '访问用户': 1393 },
+                                    { '日期': '1/2', '访问用户': 3530 },
+                                    { '日期': '1/3', '访问用户': 2923 },
+                                    { '日期': '1/4', '访问用户': 1723 },
+                                    { '日期': '1/5', '访问用户': 3792 },
+                                    { '日期': '1/6', '访问用户': 4593 }]
+                            }
+                        }
+                    },
+                    {
+                        type: 'chart',
+                        icon: 'ct-rose',
+                        compName: 'ct-pie',
+                        label: '玫瑰图',
+                        position: {
+                            ...staticCompPosition(),
+                            width: 500,
+                            height: 220,
+                        },
+                        componentMeta: {
+                            chartSettings: {
+                                roseType: 'radius',
+                            },
+                            chartData: {
+                                columns: ['日期', '访问用户'],
+                                rows: [
+                                    { '日期': '1/1', '访问用户': 1393 },
+                                    { '日期': '1/2', '访问用户': 3530 },
+                                    { '日期': '1/3', '访问用户': 2923 },
+                                    { '日期': '1/4', '访问用户': 1723 },
+                                    { '日期': '1/5', '访问用户': 3792 },
+                                    { '日期': '1/6', '访问用户': 4593 }]
+                            }
+                        }
+                    },
+                    {
+                        type: 'chart',
+                        icon: 'ct-ring',
+                        compName: 'ct-ring',
+                        label: '环形图',
+                        position: {
+                            ...staticCompPosition(),
+                            width: 500,
+                            height: 220,
+                        },
+                        componentMeta: {
                             chartData: {
                                 columns: ['日期', '访问用户'],
                                 rows: [
@@ -246,7 +295,7 @@ export default function () {
                 components: [
                     {
                         type: 'grid',
-                        icon: 'grid',
+                        icon: 'static-grid',
                         compName: 'static-grid',
                         label: '表格（普通）',
                         position: {
@@ -256,17 +305,18 @@ export default function () {
                         },
                         componentMeta: {
                             header: ['任务', '场景'],
-                            data: [
+                            dataStr: JSON.stringify( [
                                 ['数据收发', 'TA批处理监控台'],
                                 ['创新TA', 'TA批处理监控台'],
                                 ['直销中心', 'TA批处理监控台'],
                                 ['早班数据员', 'FA清算工作台'],
                                 ['日间清算', 'TA批处理监控台'],
                                 ['邮件检查', 'TA批处理监控台'],
-                            ],
-                            waitTime: 50000,
+                            ]),
+                            waitTimeSec: 5000,
                         }
-                    }, {
+                    },
+                    {
                         type: 'grid',
                         icon: 'scroll-board',
                         compName: 'scroll-board',
@@ -302,7 +352,8 @@ export default function () {
                             carousel: 'single',
                             hoverPause: true
                         }
-                    }, {
+                    },
+                    {
                         type: 'grid',
                         icon: 'ct-capsule',
                         compName: 'ct-capsule',
@@ -317,9 +368,10 @@ export default function () {
                                 {name: '漯河', value: 123}, {name: '郑州', value: 55},
                                 {name: '西峡', value: 98}]
                         }
-                    }, {
+                    },
+                    {
                         type: 'grid',
-                        icon: 'rank-board',
+                        icon: 'ranking-board',
                         compName: 'ranking-board',
                         label: '排名轮播表',
                         position: {
@@ -351,7 +403,7 @@ export default function () {
                 components: [
                     {
                         type: 'text',
-                        icon: 'text',
+                        icon: 'basic-text',
                         compName: 'basic-text',
                         label: '文本',
                         position: {
@@ -371,7 +423,8 @@ export default function () {
                             'align-items': 'center',
                             'contentText': '',
                         }
-                    }, {
+                    },
+                    {
                         type: 'text',
                         icon: 'roll-text',
                         compName: 'roll-text',
@@ -407,7 +460,8 @@ export default function () {
                             'scrollDir': 'left',
                             'scrollSpeed': 15
                         }
-                    }, {
+                    },
+                    {
                         type: 'digital-flop',
                         icon: 'digital-flop',
                         compName: 'digital-flop',
@@ -467,7 +521,8 @@ export default function () {
                             }
                         }
 
-                    }, {
+                    },
+                    {
                         type: 'text',
                         icon: 'date-time',
                         compName: 'date-time',
@@ -516,7 +571,7 @@ export default function () {
                 components: [
                     {
                         type: 'border',
-                        icon: 'border',
+                        icon: 'border-comp',
                         compName: 'border-comp',
                         label: '边框',
                         position: {
@@ -531,7 +586,8 @@ export default function () {
                             title: '',
                             titleWidthStr: '300',
                         }
-                    }, {
+                    },
+                    {
                         type: 'dynamic-comp',
                         icon: 'dynamic-comp',
                         compName: 'dynamic-comp',
@@ -576,7 +632,8 @@ export default function () {
                             waveHeight: 6,
                             formatter: '{value}%',
                         }
-                    }, {
+                    },
+                    {
                         type: 'percent-pond',
                         icon: 'percent-pond',
                         compName: 'percent-pond',

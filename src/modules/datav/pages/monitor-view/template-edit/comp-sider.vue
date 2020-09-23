@@ -15,16 +15,18 @@
                 <span class="iconImg fa fa-close" @click="compPanelShow = false"></span>
             </div>
             <div class="content" v-if="activeCollapseObj.components">
-                <draggable tag="el-collapse" accordion v-model="activeCollapseObj.components" group="unitGroup"
+
+                <draggable class="compUl" v-model="activeCollapseObj.components" group="unitGroup"
                            @start="compDragStart">
-                    <el-collapse-item v-for="(comp, index) in activeCollapseObj.components" :key="comp.compName"
-                                      :title="comp.label" :name="index"
-                                      @mousedown.native="chooseComp($event, comp)"
-                                      @dragend.native="compDragEnd">
+                    <div class="compLi" v-for="comp in activeCollapseObj.components" :key="comp.icon"
+                                      @mousedown="chooseComp($event, comp)"
+                                      @dragend="compDragEnd">
                         <div class="comp-thumbnail">
-                            <img class="comp-img" :src="getImgPath(comp.compName+'.png')" width="100%" height="100%"/>
+                            <img class="comp-img" :src="getImgPath(comp.icon+'.png')" width="auto"
+                                 :height="comp.compName === 'water-pond' ? '50px' : 'auto'" />
                         </div>
-                    </el-collapse-item>
+                        <span class="comp-label">{{comp.label}}</span>
+                    </div>
                 </draggable>
             </div>
             <div class="content pageInfo" v-else>

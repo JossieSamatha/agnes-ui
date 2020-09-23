@@ -426,59 +426,50 @@
 }
 
 .template-edit-page .content .template-comp-sider .comp-panel .content
-.el-collapse {
-    border: none;
-}
-
-
-.template-edit-page .content .template-comp-sider .comp-panel .content
-.el-collapse .el-collapse-item {
-    background: #383838;
+.compUl {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .template-edit-page .content .template-comp-sider .comp-panel .content
-.el-collapse .el-collapse-item .el-collapse-item__header {
-    height: 36px;
-    line-height: 36px;
+.compUl>.compLi {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: calc(50% - 5px);
+    height: 90px;
     color: #999;
-    border: none;
-    background-color: #383838;
-    padding: 0 10px;
+    background: #2e2e2e;
+    font-size: 12px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    padding: 10px 10px 5px;
 }
 
 .template-edit-page .content .template-comp-sider .comp-panel .content
-.el-collapse .el-collapse-item.is-active .el-collapse-item__header {
-    color: #fff;
-    background-color: #5bbd72;
+.compUl>.compLi .comp-thumbnail {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
 }
 
 .template-edit-page .content .template-comp-sider .comp-panel .content
-.el-collapse .el-collapse-item .el-collapse-item__arrow {
-    margin-right: 0;
-}
-
-.template-edit-page .content .template-comp-sider .comp-panel .content
-.el-collapse .el-collapse-item {
-    margin-bottom: 10px;
-}
-
-.template-edit-page .content .template-comp-sider .comp-panel .content
-.el-collapse .el-collapse-item__content {
-    padding: 10px 0;
-}
-
-.template-edit-page .content .template-comp-sider .comp-panel .content
-.comp-thumbnail {
-    height: 105px;
-    text-align: center;
-    padding: 0 10px;
-}
-
-.template-edit-page .content .template-comp-sider .comp-panel .content
-.comp-thumbnail .comp-img {
-    height: 105px;
-    width: auto;
+.compUl>.compLi .comp-thumbnail .comp-img {
     max-width: 100%;
+    max-height: 100%;
+}
+
+.template-edit-page .content .template-comp-sider .comp-panel .content
+.compUl>.compLi .comp-thumbnail .comp-label {
+    margin-top: 5px;
+    color: #999;
+    font-size: 12px;
 }
 
 .clickMask {

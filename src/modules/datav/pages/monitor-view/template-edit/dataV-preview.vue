@@ -27,7 +27,6 @@
             }
         },
         created(){
-            console.log('this.$route',this.$route);
             this.$screenfull.toggle()
         },
         methods: {

@@ -4,6 +4,7 @@ import CtStrip from './JS/ct-strip';
 import CtArea from './JS/ct-area';
 import CtLineBar from './JS/ct-line-bar';
 import CtPie from './JS/ct-pie';
+import CtRing from './JS/ct-ring'
 import CtRadar from './JS/ct-radar';
 import CtMap from './JS/ct-map';
 import CtGauge from './JS/ct-gauge';
@@ -19,6 +20,7 @@ const Loading = {
         Vue.component('ct-area', CtArea);
         Vue.component('ct-line-bar', CtLineBar);
         Vue.component('ct-pie', CtPie);
+        Vue.component('ct-ring', CtRing);
         Vue.component('ct-radar', CtRadar);
         Vue.component('ct-map', CtMap);
         Vue.component('ct-gauge', CtGauge);

@@ -2,6 +2,7 @@
     <div>
         <el-tag class="yAxisTag"
                 :key="element.field"
+                size="small"
                 closable
                 @close="closeAxis"
                 style="margin-right:5px;margin-bottom: 6px"

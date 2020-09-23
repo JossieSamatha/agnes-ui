@@ -99,7 +99,7 @@
         },
         methods: {
             initData(dataSetId) {
-                this.$api.dataSetApi.getCaseDefList().then(res => {
+                this.$api.DatasetApi.pageList().then(res => {
                     let resData = [];
                     this.listData = [];
                     if(res.data<1){
@@ -240,29 +240,41 @@
                 this.$emit('dataSetIdLeft', data.id);
             },
             editItemData() {
-                this.$api.DatavDatavApi.dataSourceList().then(res => {
-                    let resData = [];
-                    res.data.forEach(dataItem => {
-                        /*数据集赋值*/
-                        let obj = {};
-                        obj.label = dataItem.dataSetName;
-                        obj.id = dataItem.dataSetId;
-                        if (dataItem.children) {
-                            let childList = [];
-                            dataItem.children.forEach(childItem => {
-                                let childObj = {};
-                                childObj.id = childItem.dataSetId;
-                                childObj.label = childItem.dataSetName;
-                                childObj.parentId = dataItem.dataSetId;
-                                childList.push(childObj);
-                            })
-                            obj.children = childList;
-                        }
-                        resData.push(obj);
-                        this.dataSetName = resData;
-                        this.resData = resData;
-                    })
-                });
+                const dataSourceList = {
+                    children: [],
+                    dataSetId: "c948ebfaa4f5427a81d3411237ca22ca",
+                    dataSetName: "gj-科技 小微项目响应情况",
+                    datasetType: "file",
+                    datasourceId: null,
+                    parentId: ''
+                    };
+                this.dataSetName = dataSourceList;
+                this.resData = dataSourceList;
+                const colList = [{"headerName":"col1","field":"col1","type":"VARCHAR","formater":null,"typeName":"text"},{"headerName":"col2","field":"col2","type":"VARCHAR","formater":null,"typeName":"text"},{"headerName":"平均响应周期","field":"col3","type":"VARCHAR","formater":null,"typeName":"number"},{"headerName":"平均实施周期","field":"col4","type":"VARCHAR","formater":null,"typeName":"number"},{"headerName":"平均排队周期","field":"col5","type":"VARCHAR","formater":null,"typeName":"number"},{"headerName":"去年平均响应周期","field":"col6","type":"VARCHAR","formater":null,"typeName":"number"},{"headerName":"上半年响应均值","field":"col7","type":"VARCHAR","formater":null,"typeName":"number"},{"headerName":"数据日期","field":"col9","type":"VARCHAR","formater":null,"typeName":"date"}]
+                this.columnDefsList = colList;
+                // this.$api.DatavDatavApi.dataSourceList().then(res => {
+                //     let resData = [];
+                //     res.data.forEach(dataItem => {
+                //         /*数据集赋值*/
+                //         let obj = {};
+                //         obj.label = dataItem.dataSetName;
+                //         obj.id = dataItem.dataSetId;
+                //         if (dataItem.children) {
+                //             let childList = [];
+                //             dataItem.children.forEach(childItem => {
+                //                 let childObj = {};
+                //                 childObj.id = childItem.dataSetId;
+                //                 childObj.label = childItem.dataSetName;
+                //                 childObj.parentId = dataItem.dataSetId;
+                //                 childList.push(childObj);
+                //             })
+                //             obj.children = childList;
+                //         }
+                //         resData.push(obj);
+                //         this.dataSetName = resData;
+                //         this.resData = resData;
+                //     })
+                // });
             },
         },
         mounted() {

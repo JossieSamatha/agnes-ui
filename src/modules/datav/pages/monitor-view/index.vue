@@ -25,7 +25,11 @@
                     </el-button>
                 </div>
             </div>
-            <template-item v-for="template in templateList" :key="template.id" :templateObj="template"></template-item>
+            <template-item v-for="template in templateList"
+                           :key="template.id"
+                           :templateObj="template"
+                           @deleteTemplate="deleteTemplate"
+            ></template-item>
             <template v-if="templateList.length+1%rowNum!==0">
                 <div class="template-item" style="opacity: 0" v-for="item in rowNum-templateList.length%rowNum-1" :key="item"></div>
             </template>
@@ -57,7 +61,7 @@
                     {id: '3', value: '核算'}
                 ],
                 templateFilter: '',
-                templateList: mockData().dataVList,
+                templateList: [],
                 defaultBoardContent: function () {
                     return {
                         id: this.$agnesUtils.randomString(32),
@@ -90,13 +94,16 @@
                 this.rowNum = this.getTempRowNum(document.body.offsetWidth);
             });
             this.getDataVList();
-
         },
         methods: {
             async getDataVList(){
                 const res = this.$api.dataVConfig.getTemplatesList();
-                const templateList = await this.$app.blockingApp(res);
-                console.log('templateList', templateList);
+                const list = await this.$app.blockingApp(res);
+                if(list.data && list.data.data&& list.data.data.length>0){
+                    this.templateList = list.data.data;
+                }else{
+                    this.templateList = [];
+                }
             },
 
             // 打开编辑页
@@ -123,6 +130,26 @@
                     initStateData = this.$lodash.find(list, {id: templateObj.id});
                 }
                 return initStateData;
+            },
+
+            // 删除大屏
+            async deleteTemplate(templateId){
+                const ok = await this.$msg.ask(`是否确认删除大屏?`);
+                if (!ok) {
+                    return
+                }
+                try {
+                    const p = this.$api.dataVConfig.deleteTemplate(templateId);
+                    const res = await this.$app.blockingApp(p);
+                    if(res.ok){
+                        this.getDataVList();
+                        this.$msg.success('删除成功!');
+                    }else{
+                        this.$msg.error(res.message);
+                    }
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
             },
 
             // 获取每行模板个数

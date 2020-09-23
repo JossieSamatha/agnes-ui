@@ -345,6 +345,7 @@ form input[type=submit] {
 .left-side-container .gf-menu .gf-menu-item.active {
     color: #476DBE;
     background: #EFF2F7;
+    border: none;
 }
 
 .left-side-container .gf-menu .gf-menu-item > i {

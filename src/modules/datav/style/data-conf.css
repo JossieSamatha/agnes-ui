@@ -253,7 +253,7 @@
     padding-top: 1px;
 }
 
-.config-drawer .chart-axis .xAxis-style .content-center span.el-tag.el-tag--small.el-tag--light {
+.config-drawer .chart-axis .xAxis-style .content-center span.el-tag.el-tag--light {
     position: relative;
     border-radius: 20px;
     background-color: #476DBE;
@@ -263,7 +263,7 @@
     cursor: pointer;
 }
 
-.config-drawer .chart-axis .yAxis-style .content-center span.el-tag.el-tag--small.el-tag--light {
+.config-drawer .chart-axis .yAxis-style .content-center span.el-tag.el-tag--light {
     position: relative;
     border-radius: 20px;
     background-color: rgb(13, 179, 166);
@@ -272,7 +272,7 @@
     cursor: pointer;
 }
 
-.config-drawer .chart-axis .filter-style .content-center span.el-tag.el-tag--small.el-tag--light {
+.config-drawer .chart-axis .filter-style .content-center span.el-tag.el-tag--light {
     position: relative;
     border-radius: 20px;
     background-color: rgb(234, 240, 252);

@@ -5,7 +5,7 @@
                 <img :src="getImgPath(templateObj.img)" width="100%" height="100%"/>
                 <div class="hover-mask">
                     <p class="option">
-                        <span class="iconImg delete" title="删除" @click="templateDelete(templateObj)">
+                        <span class="iconImg delete" title="删除" @click="deleteTemplate(templateObj.id)">
                             <i class="fa fa-trash-o"></i>
                         </span>
                         <span class="iconImg" title="复制" v-html="svgImg.copy" @click="templateCopy(templateObj)"></span>
@@ -58,9 +58,9 @@
                 this.$dataVBus.$emit('openEditPage', {opType: 'edit', templateObj: this.templateObj});
             },
 
-            // 删除模板
-            templateDelete(){
-
+            // 删除大屏
+            deleteTemplate(id){
+                this.$emit('deleteTemplate', id);
             },
 
             // 复制模板

@@ -26,7 +26,7 @@
                 </el-collapse>
             </section>
         </template>
-        <section class="confSection" v-else>
+        <section class="confSection" v-else-if="compOptional.type !== 'chart'">
             <template v-if="compOptional.compType == 'border-comp'">
                 <div class="conf-row">
                     <p class="conf-row-title">样式设置</p>
@@ -417,7 +417,7 @@
                     </div>
                 </div>
             </template>
-            <template v-if="compOptional.compType == 'scroll-board'">
+            <template v-if="compOptional.compType == 'static-grid' || compOptional.compType == 'scroll-board'">
                 <div class="conf-row">
                     <p class="conf-row-title">整体配置</p>
                     <div class="conf-row-item">

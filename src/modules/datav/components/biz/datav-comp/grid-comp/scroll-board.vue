@@ -23,12 +23,6 @@
                 }
                 return config;
             }
-        },
-        watch: {
-            configParam(){
-                this.$refs.scrollBoard
-            }
         }
-
     }
 </script>

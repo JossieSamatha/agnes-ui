@@ -11,7 +11,7 @@
                 </span>
             </div>
             <div>
-                <span class="header-item">
+                <span class="header-item" @click="saveTemplate">
                     <span class="iconImg" v-html="svgImg.check"></span>
                     <span>保存</span>
                 </span>
@@ -105,6 +105,22 @@
             closedDrawer() {
                 this.$refs.configDrawer.closeDrawer();
             },
+
+            // 大屏数据保存
+            async saveTemplate(){
+                const dataVData = this.$utils.deepClone(this.$datavTemplateService.data.dataVData);
+                dataVData.content.datavComps = this.$utils.deepClone(this.$datavTemplateService.data.compsArr);
+                dataVData.content = JSON.stringify(dataVData.content);
+
+                const p = this.$api.dataVConfig.saveTemplate(dataVData);
+                const res = await this.$app.blockingApp(p);
+                if(res.ok){
+                    this.backIndex();
+                    this.$msg.success('删除成功!');
+                }else{
+                    this.$msg.error(res.message);
+                }
+            }
 
         },
     }
