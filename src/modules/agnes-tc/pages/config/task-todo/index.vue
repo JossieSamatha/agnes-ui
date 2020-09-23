@@ -65,7 +65,7 @@
                         let customOpBtn = [];
                         if(row.allowManualConfirm && row.allowManualConfirm === '1'){
                             customOpBtn=  [
-                                {title:'强制通过',className:'primary',action:'onExtendButton'},
+                                {title:'干预通过',className:'primary',action:'onExtendButton'},
                                 {title:'重新执行',className:'primary',action:'onSave'},
                                 {title:'取消',action:'onCancel'},
                             ]
@@ -84,7 +84,7 @@
                             okButtonTitle: '重新执行',
                             cancelButtonTitle: '取消',
                             extendButtonVisible:true,
-                            extendButtonTitle:'强制通过'
+                            extendButtonTitle:'干预通过'
                         });
                     }else if(row.taskType === '06'||row.taskType === '6'){
                         this.$drawerPage.create({

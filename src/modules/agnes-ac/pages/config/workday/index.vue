@@ -1,8 +1,8 @@
 <template>
     <div>
         <el-row>
-            <el-col  :span="4" >
-                <div  style="height:100%;border:1px solid #F6F8FA;border-radius:5px">
+            <el-col style="height:100%;" :span="4" >
+                <div  style="height:100%;border:1px solid #F6F8FA;border-radius:5px;background-color:#F6F8FA;margin-right:8px;padding-left:8px;padding-top:4px">
                     <el-button size="small">同步</el-button>
                     <div v-for="(item,index) in areaList" :key="index"
                          :v-model="queryParam.workdayAreaCode"

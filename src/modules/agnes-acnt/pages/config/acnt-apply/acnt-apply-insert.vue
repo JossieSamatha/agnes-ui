@@ -1,5 +1,216 @@
 <template>
-    <el-form ref="taskDefForm" class="acnt-apply-insert-form" :model="detailForm" :disabled="mode==='view'||mode==='check'"
+    <div>
+        <div v-if="showChange" class="title-top">变更前</div>
+        <el-divider v-if="showChange"></el-divider>
+        <el-form v-if="showChange" ref="taskDefFormBefore" class="acnt-apply-insert-form" :model="detailFormBefore" disabled
+             :rules="detailFormRules" label-width="180px">
+        <div class="title">要素信息</div>
+        <el-divider></el-divider>
+            <el-form-item label="账户类型" prop="typeCode">
+                <el-select class="multiple-select" v-model="detailFormBefore.typeCode"
+                        filterable clearable
+                        placeholder="请选择">
+                    <gf-filter-option
+                            v-for="item in bizTagOption"
+                            :key="item.typeCode"
+                            :label="item.typeName"
+                            :value="item.typeCode">
+                    </gf-filter-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="业务类型" prop="bizType">
+                <gf-dict disabled filterable clearable v-model="detailFormBefore.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
+            </el-form-item>
+            <el-form-item label="业务发起部门" prop="baseStartDept">
+                <gf-dict filterable clearable v-model="detailFormBefore.baseStartDept" dict-type="AGNES_ROSTER_DEPT" />
+            </el-form-item>
+            <el-form-item label="业务发起部门联系人" prop="baseStartDeptLinkman">
+                <gf-input v-model.trim="detailFormBefore.baseStartDeptLinkman" placeholder="业务发起部门联系人"/>
+            </el-form-item>
+            <el-form-item label="业务描述" prop="baseDesc">
+                <gf-input v-model.trim="detailFormBefore.baseDesc" type='textarea' placeholder="业务描述" :max-len="200"/>
+            </el-form-item>
+            <el-form-item label="业务受理部门" prop="baseAcceptDept">
+                <gf-dict filterable clearable v-model="detailFormBefore.baseAcceptDept" dict-type="AGNES_ROSTER_DEPT" />
+            </el-form-item>
+            <el-form-item label="业务受理组" prop="baseAcceptGroup">
+                <el-select class="multiple-select" v-model="detailFormBefore.baseAcceptGroup"
+                        filterable clearable
+                        placeholder="请选择">
+                    <gf-filter-option
+                            v-for="item in groupOption"
+                            :key="item.userGroupId"
+                            :label="item.userGroupName"
+                            :value="item.userGroupId">
+                    </gf-filter-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="归属机构" prop="baseOrgId">
+                <el-select class="multiple-select" v-model="detailFormBefore.baseOrgId"
+                        filterable clearable
+                        placeholder="请选择">
+                    <gf-filter-option
+                            v-for="item in OrgList"
+                            :key="item.extOrgId"
+                            :label="item.extOrgName"
+                            :value="item.extOrgId">
+                    </gf-filter-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="经办人" prop="baseOperator">
+                <gf-input v-model.trim="detailFormBefore.baseOperator" placeholder="经办人"/>
+            </el-form-item>
+            <el-form-item label="基金代码" prop="productCode">
+                <el-select class="multiple-select" v-model="detailFormBefore.productCode"
+                        filterable clearable
+                        placeholder="请选择">
+                    <gf-filter-option
+                            v-for="item in productList"
+                            :key="item.productCode"
+                            :label="item.productCode"
+                            :value="item.productCode">
+                    </gf-filter-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="基金名称" prop="productName">
+                <gf-input disabled  v-model.trim="detailFormBefore.productName" placeholder="基金名称"/>
+            </el-form-item>
+            <el-form-item label="提交财务流程" prop="isSendFinance">
+                <el-radio-group v-model="detailFormBefore.isSendFinance">
+                    <el-radio label="1">是</el-radio>
+                    <el-radio label="0">否</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <div class="title">账户信息</div>
+            <el-divider></el-divider>
+            <el-form-item v-if="showRules.acntName&&showRules.acntName.isShow" label="账户名称" prop="acntName">
+                <gf-input v-model.trim="detailFormBefore.acntName" placeholder="账户名称"/>
+            </el-form-item>
+            <el-form-item v-if="showRules.acntShortName&&showRules.acntShortName.isShow" label="账户简称" prop="acntShortName">
+                <gf-input v-model.trim="detailFormBefore.acntShortName" placeholder="账户简称"/>
+            </el-form-item>
+            <el-form-item v-if="showRules.setTlementNo&&showRules.setTlementNo.isShow" label="清算编号" prop="setTlementNo">
+                <gf-input v-model.trim="detailFormBefore.setTlementNo" placeholder="清算编号"/>
+            </el-form-item>
+            <el-form-item v-if="showRules.stampInfo&&showRules.stampInfo.isShow" label="预留印鉴信息" prop="stampInfo">
+                <gf-input v-model.trim="detailFormBefore.stampInfo" placeholder="预留印鉴信息"/>
+            </el-form-item>
+            <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="账号" prop="accNo">
+                <gf-input v-model.trim="detailFormBefore.accNo" placeholder="账号"/>
+            </el-form-item>
+            <el-form-item v-if="showRules.market&&showRules.market.isShow" label="市场" prop="market">
+                <gf-dict filterable clearable v-model="detailFormBefore.market" dict-type="AGNES_ACNT_MARKET" />
+            </el-form-item>
+            <el-form-item v-if="showRules.region&&showRules.region.isShow" label="账户所属地区" prop="region">
+                <gf-input v-model.trim="detailFormBefore.region" placeholder="账户所属地区"/>
+            </el-form-item>
+            <el-form-item v-if="showRules.currency&&showRules.currency.isShow" label="币种" prop="currency">
+                <gf-dict filterable clearable v-model="detailFormBefore.currency" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
+            </el-form-item>
+            <el-form-item v-if="showRules.fundAccName&&showRules.fundAccName.isShow" label="资金账户名称" prop="fundAccName">
+                <gf-input v-model.trim="detailFormBefore.fundAccName" placeholder="资金账户名称"/>
+            </el-form-item>
+            <el-form-item v-if="showRules.rate&&showRules.rate.isShow" label="利率" prop="rate">
+                <gf-input v-model.trim="detailFormBefore.rate" placeholder="利率"/>
+            </el-form-item>
+            <el-form-item v-if="showRules.stampLegalPersonInfo&&showRules.stampLegalPersonInfo.isShow" label="印鉴法人变更情况" prop="stampLegalPersonInfo">
+                <gf-input v-model.trim="detailFormBefore.stampLegalPersonInfo" placeholder="印鉴法人变更情况"/>
+            </el-form-item>
+            <el-form-item v-if="showRules.threeLicenseInfo&&showRules.threeLicenseInfo.isShow" label="三证合一变更情况" prop="threeLicenseInfo">
+                <gf-input v-model.trim="detailFormBefore.threeLicenseInfo" placeholder="预留印鉴信息"/>
+            </el-form-item>
+            <el-form-item v-if="showRules.bigPayNo&&showRules.bigPayNo.isShow" label="大额支付号" prop="bigPayNo">
+                <gf-input v-model.trim="detailFormBefore.bigPayNo" placeholder="大额支付号"/>
+            </el-form-item>
+            <el-form-item v-if="showRules.openBack&&showRules.openBack.isShow" label="开户网点/开户单位" prop="openBack">
+                <gf-input v-model.trim="detailFormBefore.openBack" placeholder="开户网点/开户单位"/>
+            </el-form-item>
+            <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号" prop="fundAccNo">
+                <gf-input v-model.trim="detailFormBefore.fundAccNo" placeholder="资金帐号"/>
+            </el-form-item>
+            <el-form-item v-if="showRules.acntStartDt&&showRules.acntStartDt.isShow" label="账户启用日期" prop="acntStartDt">
+                <el-date-picker
+                    v-model="detailFormBefore.acntStartDt"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    placeholder="账户启用日期">
+                </el-date-picker>
+            </el-form-item>
+            <el-form-item v-if="showRules.isOpenBankCorDirect&&showRules.isOpenBankCorDirect.isShow" label="是否开立银企直联" prop="isOpenBankCorDirect">
+                <el-radio-group v-model="detailFormBefore.isOpenBankCorDirect">
+                    <el-radio label="1">是</el-radio>
+                    <el-radio label="0">否</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item v-if="showRules.isOpenEBank&&showRules.isOpenEBank.isShow" label="是否开立网银" prop="isOpenEBank">
+                <el-radio-group v-model="detailFormBefore.isOpenEBank">
+                    <el-radio label="1">是</el-radio>
+                    <el-radio label="0">否</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item v-if="showRules.other&&showRules.other.isShow" label="其他" prop="other">
+                <gf-input v-model.trim="detailFormBefore.other" placeholder="其他"/>
+            </el-form-item>
+            <el-form-item v-if="showRules.acntPurpose&&showRules.acntPurpose.isShow" label="账户用途描述" prop="acntPurpose">
+                <gf-input v-model.trim="detailFormBefore.acntPurpose" placeholder="账户用途描述"/>
+            </el-form-item>
+            <el-form-item v-if="showRules.acntStatus&&showRules.acntStatus.isShow" label="账户状态" prop="acntStatus">
+                <gf-dict filterable clearable v-model="detailFormBefore.acntStatus" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
+            </el-form-item>
+            <el-form-item v-if="showRules.maturityDt&&showRules.maturityDt.isShow" label="到期提醒" prop="maturityDt">
+                <el-date-picker
+                    v-model="detailFormBefore.maturityDt"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    placeholder="到期提醒">
+                </el-date-picker>
+            </el-form-item>
+            <el-form-item v-if="showRules.openMan&&showRules.openMan.isShow" label="开户时对方联系人" prop="openMan">
+                <el-select class="multiple-select" v-model="detailFormBefore.openMan"
+                        filterable clearable
+                        placeholder="请选择">
+                    <gf-filter-option
+                            v-for="item in linkManList"
+                            :key="item.productCode"
+                            :label="item.productCode"
+                            :value="item.productCode">
+                    </gf-filter-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item v-if="showRules.productCode&&showRules.productCode.isShow" label="备付金账户对应的银行账户" prop="baseOperator">
+                <el-select class="multiple-select" v-model="detailFormBefore.productCode"
+                        filterable clearable
+                        placeholder="请选择">
+                    <gf-filter-option
+                            v-for="item in productList"
+                            :key="item.productCode"
+                            :label="item.productCode"
+                            :value="item.productCode">
+                    </gf-filter-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item v-if="showRules.productCode&&showRules.productCode.isShow" label="卡账户对应的对公户" prop="productCode">
+                <el-select class="multiple-select" v-model="detailFormBefore.productCode"
+                        filterable clearable
+                        placeholder="请选择">
+                    <gf-filter-option
+                            v-for="item in productList"
+                            :key="item.productCode"
+                            :label="item.productCode"
+                            :value="item.productCode">
+                    </gf-filter-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item v-if="showRules.openManPhone&&showRules.openManPhone.isShow" label="开户时对方联系人联系电话" prop="openManPhone">
+                <gf-input v-model.trim="detailFormBefore.openManPhone" placeholder="开户时对方联系人联系电话"/>
+            </el-form-item>
+            <el-form-item v-if="showRules.remark&&showRules.remark.isShow" label="备注" prop="remark">
+                <gf-input v-model.trim="detailFormBefore.remark" placeholder="备注"/>
+            </el-form-item>
+        </el-form>
+        <div v-if="showChange" class="title-top">变更后</div>
+        <el-divider v-if="showChange"></el-divider>
+        <el-form ref="taskDefForm" class="acnt-apply-insert-form" :model="detailForm" :disabled="mode==='view'||mode==='check'"
              :rules="detailFormRules" label-width="180px">
         <div class="title">要素信息</div>
         <el-divider></el-divider>
@@ -204,7 +415,9 @@
             <el-form-item v-if="showRules.remark&&showRules.remark.isShow" label="备注" prop="remark">
                 <gf-input v-model.trim="detailForm.remark" placeholder="备注"/>
             </el-form-item>
-    </el-form>
+        </el-form>
+    </div>
+   
 </template>
 
 <script>
@@ -264,6 +477,45 @@
                     remark:'',
                     other:'',
                 },
+                detailFormBefore: {
+                    typeCode:'', 
+                    bizType:'', 
+                    baseStartDept:'', 
+                    baseStartDeptLinkman:'', 
+                    setTlementNo:'',
+                    baseAcceptDept:'',
+                    stampInfo:'',
+                    stampLegalPersonInfo:'', 
+                    threeLicenseInfo:'',
+                    baseAcceptGroup:'', 
+                    baseOrgId:'', 
+                    productCode:'', 
+                    productName:'',
+                    isSendFinance:'0', 
+                    acntName:'', 
+                    acntShortName:'',
+                    baseOperator:this.$app.session.data.user.userName,
+                    accNo:'',
+                    market:'',
+                    region:'',
+                    currency:'',
+                    fundAccName:'',
+                    acntPurpose:'',
+                    rate:'',
+                    bigPayNo:'',
+                    openBack:'',
+                    fundAccNo:'',
+                    isOpenEBank:'',
+                    acntStartDt:'',
+                    isOpenBankCorDirect:'',
+                    maturityDt:'',
+                    openMan:'',
+                    acntStatus:'',
+                    openManPhone:'',
+                    remark:'',
+                    other:'',
+                },
+                showChange:false,
                 bizTagOption: [],        // 业务类型下拉
                 groupOption: [],        // 群组下拉
                 productList:[],     //产品代码群组
@@ -286,6 +538,9 @@
                 this.detailForm.bizType='01'
             }
             Object.assign(this.detailForm, this.row);
+            if(this.detailForm.bizType=='02'){
+                this.showChange = true;
+            }
             this.getOptionData()
             this.loadShowRule()
         },
@@ -302,6 +557,10 @@
                     this.OrgList = OrgList.data
                     let linkManList = await this.$api.acntApplyApi.getLinkMan(this.detailForm.baseOrgId);
                     this.linkManList = linkManList.data
+                    if(this.showChange){
+                        let detailFormBefore = await this.$api.acntInfoApi.getAcntInfoByAcntId(this.detailForm.acntId);
+                        this.detailFormBefore = detailFormBefore.data
+                    }
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
@@ -392,6 +651,13 @@
     }
 </script>
 <style scoped>
+    .title-top{
+        color: black;
+        margin-left: 10px;
+        font-size: 20px;
+        margin-top: 10px;
+        width: 100%;
+    }
     .title{
         color: deepskyblue;
         margin-left: 30px;

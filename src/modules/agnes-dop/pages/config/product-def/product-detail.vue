@@ -78,32 +78,32 @@
                 header-cell-class-name="rule-header-cell"
                 row-class-name="rule-row"
                 cell-class-name="rule-cell">
-              <el-table-column prop="paramBizType" label="业务归属" min-width="150">
+              <el-table-column prop="paramBizType" label="业务归属" min-width="100">
                 <template slot-scope="scope">
                   <el-input :style="!scope.row.paramBizType ? 'border:1px solid #f00':''"
                             v-model="scope.row.paramBizType" disabled></el-input>
                 </template>
               </el-table-column>
-              <el-table-column prop="paramCode" label="参数代码" min-width="150">
+              <el-table-column prop="paramCode" label="参数代码" min-width="100">
                 <template slot-scope="scope">
                   <el-input :style="!scope.row.paramCode ? 'border:1px solid #f00':''"
                             v-model="scope.row.paramCode"></el-input>
                 </template>
               </el-table-column>
-              <el-table-column prop="paramName" label="参数名称" min-width="150">
+              <el-table-column prop="paramName" label="参数名称" min-width="100">
                 <template slot-scope="scope">
                   <el-input :style="!scope.row.paramName ? 'border:1px solid #f00':''"
                             v-model="scope.row.paramName"></el-input>
                 </template>
               </el-table-column>
-              <el-table-column prop="paramType" label="参数类型" min-width="150">
+              <el-table-column prop="paramType" label="参数类型" min-width="100">
                 <template slot-scope="scope">
                   <gf-dict-select :style="!scope.row.paramType ? 'border:1px solid #f00':''"
                                   dict-type="AGNES_PRODUCT_PARAM_TYPE" v-model="scope.row.paramType"
                                   @change="changes(scope.row)"/>
                 </template>
               </el-table-column>
-              <el-table-column prop="paramValue" label="参数值" min-width="150">
+              <el-table-column prop="paramValue" label="参数值" min-width="100">
                 <template slot-scope="scope">
                   <el-input type="number" :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
                             v-model="scope.row.paramValue" v-if="scope.row.paramType === 'number'"/>
@@ -138,32 +138,32 @@
                 header-cell-class-name="rule-header-cell"
                 row-class-name="rule-row"
                 cell-class-name="rule-cell">
-              <el-table-column prop="paramBizType" label="业务归属" min-width="150">
+              <el-table-column prop="paramBizType" label="业务归属" min-width="100">
                 <template slot-scope="scope">
                   <el-input :style="!scope.row.paramBizType ? 'border:1px solid #f00':''"
                             v-model="scope.row.paramBizType"></el-input>
                 </template>
               </el-table-column>
-              <el-table-column prop="paramCode" label="参数代码" min-width="150">
+              <el-table-column prop="paramCode" label="参数代码" min-width="100">
                 <template slot-scope="scope">
                   <el-input :style="!scope.row.paramCode ? 'border:1px solid #f00':''"
                             v-model="scope.row.paramCode"></el-input>
                 </template>
               </el-table-column>
-              <el-table-column prop="paramName" label="参数名称" min-width="150">
+              <el-table-column prop="paramName" label="参数名称" min-width="100">
                 <template slot-scope="scope">
                   <el-input :style="!scope.row.paramName ? 'border:1px solid #f00':''"
                             v-model="scope.row.paramName"></el-input>
                 </template>
               </el-table-column>
-              <el-table-column prop="paramType" label="参数类型" min-width="150">
+              <el-table-column prop="paramType" label="参数类型" min-width="100">
                 <template slot-scope="scope">
                   <gf-dict-select :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
                                   dict-type="AGNES_PRODUCT_PARAM_TYPE" v-model="scope.row.paramValue"
                                   @change="changes(scope.row)"/>
                 </template>
               </el-table-column>
-              <el-table-column prop="paramValue" label="参数值" min-width="150">
+              <el-table-column prop="paramValue" label="参数值" min-width="100">
                 <template slot-scope="scope">
                   <el-input type="number" :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
                             v-model="scope.row.paramValue" v-if="scope.row.paramType === 'number'"/>
