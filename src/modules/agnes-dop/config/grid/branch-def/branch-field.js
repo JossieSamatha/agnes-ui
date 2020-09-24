@@ -11,12 +11,12 @@ export default {
         {headerName: "网点名称", field: "branchName"},
         {headerName: "网点代码", field: "branchCode"},
         {headerName: "大额支付号", field: "bigPayNo"},
-        {headerName: "机构名称", field: "extOrgName"},
+        {headerName: "机构名称", field: "orgName"},
         {headerName: "省会", field: "provinceName"},
         {headerName: "城市", field: "cityName"},
     ],
     ext: {
-        fetchUrl: "/agnes-app/v1/dop/bank/get/list",
+        fetchUrl: "/agnes-app/v1/dop/bank/get/page/list",
         fetchMethod: 'post',
         pagingMode: true, //不分页
         checkboxColumn: 1, //是否显示checkbox列,

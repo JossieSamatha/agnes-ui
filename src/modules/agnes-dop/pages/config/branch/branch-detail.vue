@@ -39,7 +39,7 @@
         data() {
             return {
                 detailFormData:{
-                    branchId:'',
+                    bankBranchId:'',
                     branchName:'',
                     branchCode:'',
                     bigPayNo:'',
@@ -88,12 +88,12 @@
                 }
                 try {
                     let formData = JSON.parse(JSON.stringify(this.detailFormData))
-                    if(this.detailFormData.branchId == this.row.branchId){
+                    if(this.detailFormData.branchCode == this.row.branchCode){
                        formData.isCheck = false 
                     }else{
                         formData.isCheck = true 
                     }
-                    const p = this.$api.branchApi.deteleData(this.detailFormData);
+                    const p = this.$api.branchApi.saveData(formData);
                     await this.$app.blockingApp(p);
                     this.$msg.success('保存成功');
                     if (this.actionOk) {

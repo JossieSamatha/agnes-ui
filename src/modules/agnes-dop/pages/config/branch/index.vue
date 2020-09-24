@@ -75,7 +75,7 @@ import BranchDetail from './branch-detail'
             //     this.updateFileMove(params,'02');
             // },
             async deleteBranch(params){
-                const p = this.$api.branchApi.deteleData(params.data.branchId);
+                const p = this.$api.branchApi.deteleData(params.data.bankBranchId);
                 await this.$app.blockingApp(p);
                 this.reloadData();
             },
