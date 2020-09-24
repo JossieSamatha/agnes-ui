@@ -25,6 +25,15 @@
     </el-button>
     <el-button size="mini" type="text"
                v-popover:popover
+               v-if="autoSetShow"
+               @click="popoverClick('forcePass')"
+               title="干预通过"
+               :disabled="isPopoverDisabled"
+    >
+      <span class="svgSpan" v-html="svgImg.forcePass"></span>
+    </el-button>
+    <el-button size="mini" type="text"
+               v-popover:popover
                v-if="indexSetShow"
                @click="popoverClick('forcePass')"
                title="干预通过"
@@ -65,6 +74,9 @@ export default {
     indexSetShow() {
       return this.params.data.stepActType === '1';
     },
+    autoSetShow() {
+      return this.params.data.stepActType === '7';
+    },
     isDisabled() {
       const kpi = this.params.data.stepActType === '1';
       const artificial = this.params.data.stepActType === '6';
@@ -81,12 +93,15 @@ export default {
     isPopoverDisabled() {
       const kpi = this.params.data.stepActType === '1';
       const artificial = this.params.data.stepActType === '6';
+      const autotask = this.params.data.stepActType === '7';
       const stepStatus = this.params.data.stepStatus;
       if (this.params.data.allowManualConfirm === '0') {
         return true;
       } else if (kpi && (stepStatus === '03' || stepStatus === '04')) {
         return false;
       } else if (artificial && (stepStatus === '02' || stepStatus === '03' || stepStatus === '04')) {
+        return false;
+      } else if (autotask && (stepStatus === '02' || stepStatus === '03' || stepStatus === '04')) {
         return false;
       } else {
         return true;
