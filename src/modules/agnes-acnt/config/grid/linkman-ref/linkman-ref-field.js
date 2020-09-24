@@ -1,22 +1,45 @@
 import column from "../../../../../config/column";
 
 const colButtons = [
-    {key: 'deleteModel', title: '删除', cellClass: 'red-cell'},
+    {key: 'editLinkman', title: '编辑',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '06'||params.data.status === '01'){
+                result =true;
+            }
+            return result;}},
+    {key: 'deleteLinkman', title: '删除',cellClass:'red-cell',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '04' ||params.data.status === '05'){
+                result =true;
+            }
+            return result;}},
+    {key: 'checkLinkman', title: '审核',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '00'|| params.data.status === '04'||params.data.status === '05'|| params.data.status === '06'){
+                result =true;
+            }
+            return result;}},
+    {key: 'startLinkman', title: '启用',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '00' ||params.data.status === '01'|| params.data.status === '05'||params.data.status === '06'){
+                result =true;
+            }
+            return result;}},
 ];
 
 export default {
     columnDefs: [
-        column.buildOpCol(60, colButtons),
+        column.buildOpCol(160, colButtons),
         {headerName: "账户名称", field: "acntName"},
         {headerName: "账号", field: "accNo"},
-        {headerName: "开户机构", field: "status"},
-        {headerName: "联系人名称", field: "linkmanName"},
+        {headerName: "开户机构", field: "extOrgName"},
+        {headerName: "联系人姓名", field: "linkmanName"},
         {headerName: "联系方式", field: "linkmanMobile"},
-        {headerName: "状态", field: "status", dictType: 'ACNT_REF_STATUS'},
-        {headerName: "生效日期", field: "startDt"},
-        {headerName: "失效日期", field: "endDt"},
-        {headerName: "更新人", field: "updateUser"},
-        {headerName: "更新时间", field: "updateTs"},
+        {headerName: "状态", field: "status", dictType: 'AGNES_RELEASE_STATUS'},
+        {headerName: "启用日期", field: "startDt"},
+        {headerName: "停用日期", field: "endDt"},
+        column.colUpdUser,
+        column.colUpdTm,
     ],
     ext: {
         fetchUrl: "/agnes-app/v1/acnt/linkman/ref/list",
