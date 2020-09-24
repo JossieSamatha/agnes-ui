@@ -5,6 +5,7 @@
                @row-double-click="editService" >
         <template slot="left">
           <gf-button class="action-btn" @click="addService" >添加</gf-button>
+          <gf-button class="action-btn" @click="copyResp">复制</gf-button>
         </template>
       </gf-grid>
     </template>
@@ -83,6 +84,22 @@ export default {
             title: title,
           }
       );
+    },
+    copyResp(){
+      let rows = this.$refs.grid.getSelectedRows();
+      let row =[];
+      if(rows.length>0){
+        row = rows[0];
+      }else{
+        this.$msg.warning("请选中一条记录!");
+        return;
+      }
+      let copyRowData = this.$utils.deepClone(row);
+      copyRowData.serviceResponseId='';
+      copyRowData.serviceResponseCode='';
+      copyRowData.serviceResponseName='';
+      copyRowData.status='01';
+      this.showDlg('edit', copyRowData, this.onEditService.bind(this));
     },
     async deleteService(params) {
       const row = params.data;
