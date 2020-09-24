@@ -11,4 +11,10 @@ export default {
     deleteLinkmanRef(form) {
         return request.post("/agnes-app/v1/acnt/linkman/ref/delete", form);
     },
+    startLinkman(form) {
+        return request.post("/agnes-app/v1/acnt/linkman/ref/start", form);
+    },
+    checkLinkman(form) {
+        return request.post("/agnes-app/v1/acnt/linkman/ref/check", form);
+    },
 };
