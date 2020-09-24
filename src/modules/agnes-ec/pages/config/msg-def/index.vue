@@ -23,6 +23,10 @@
                 }
                 row.isCheck=false;
                 let title = this.$dialog.formatTitle('消息定义配置', mode);
+                if(mode==='copy'){
+                    title = '消息定义配置 - 复制';
+                }
+
                 if(mode == 'check'){
                     row.isCheck=true;
                     title = '消息定义配置 - 审核';
@@ -50,6 +54,9 @@
             },
             editMsg(params) {
                 this.showDlg('edit', params.data, this.onEditMsg.bind(this));
+            },
+            copyMsg(params) {
+                this.showDlg('copy', params.data, this.onEditMsg.bind(this));
             },
             approveMsg(params) {
                 this.showDlg('check', params.data, this.onEditMsg.bind(this));

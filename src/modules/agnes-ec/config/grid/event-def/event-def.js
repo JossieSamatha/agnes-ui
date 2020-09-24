@@ -2,6 +2,7 @@ import column from "../../../../../config/column"
 
 const colButtons = [
     {key: 'editEventDef', title: '编辑'},
+    {key: 'copyEventDef', title: '复制'},
     {key: 'deleteEventDef', title: '删除',cellClass:'red-cell'},
     {key: 'approveEventDef', title: '审核',disabled: (params)=>{
             let result = false;
@@ -14,12 +15,24 @@ const colButtons = [
             if(params.data.eventStatus === '01' || params.data.eventStatus === '03'){
                 result =true;
             }
-            return result;}}
+            return result;},
+        visiable:(params)=>{
+            let result = true;
+            if(params.data.eventStatus === '03'){
+                result =false;
+            }
+            return result;}},
+    {key: 'stopEventDef', title: '停用',visiable: (params)=>{
+            let result = false;
+            if(params.data.eventStatus === '03'){
+                result =true;
+            }
+            return result;}, cellClass: 'red-cell'},
 ];
 
 export default {
     columnDefs: [
-        column.buildOpCol(160, colButtons),
+        column.buildOpCol(170, colButtons),
         {headerName: "事件名称", field: "eventName"},
         {headerName: "事件编号", field: "eventCode"},
         {headerName: "监听方式", field: "execMode" ,formatType: 'dict', dictType: 'AGNES_EC_EVENT_EXEC_MODE'},

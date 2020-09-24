@@ -264,6 +264,11 @@ export default {
       this.fetchRuleDetail();
       this.fetchMsgDefList();
 
+      if(this.mode && this.mode === 'copy'){
+        this.form.eventDef.eventCode = "";
+      }
+      this.clearForCopy();
+
       // this.fetchRuleTargetOp();
 
       // this.fetchRuleTargetOp();
@@ -374,6 +379,7 @@ export default {
           }
           this.form.ruleTableData.ruleBody = outputJson;
 
+          this.clearForCopy();
           const p = this.$api.eventlDefConfigApi.saveEventDef(this.form);
           await this.$app.blockingApp(p);
           msg = '保存成功';
@@ -510,6 +516,22 @@ export default {
       }else if(param === "2"){
         this.form.eventDef.execScheduler = "";
       }
+    },
+
+    clearForCopy(){
+       if(this.mode && this.mode === 'copy'){
+         this.form.eventDef.eventId = "";
+         this.form.eventDef.eventRule = "";
+         this.form.eventDef.jobId = "";
+
+         this.form.eventMsg.eventId = "";
+
+         this.form.ruleTableData.ruleId = "";
+         this.form.ruleTableData.ruleList.forEach((item)=>{
+           item.ruleDetailId = "";
+         });
+
+       }
     }
 
   }
