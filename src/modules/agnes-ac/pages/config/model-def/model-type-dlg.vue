@@ -158,6 +158,10 @@ export default {
           if(this.row.typeCode != this.form.modelType.typeCode){
             this.form.isNeedCheck=true;
           }
+          if(this.row.isCopy){
+            this.row.modelTypeId = '';
+            this.form.modelTypeId = '';
+          }
           let validate = true;
           if(this.form.fields){
             for(let i =0;i<this.form.fields.length;i++){

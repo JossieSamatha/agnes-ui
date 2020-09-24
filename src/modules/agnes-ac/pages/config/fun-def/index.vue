@@ -3,6 +3,7 @@
         <gf-grid ref="grid" grid-no="agnes-fun-type" @row-double-click="showModel">
             <template slot="left">
                 <gf-button class="action-btn" @click="addModel" size="mini">添加</gf-button>
+                <gf-button class="action-btn" @click="copyFun">复制</gf-button>
             </template>
         </gf-grid>
     </div>
@@ -50,6 +51,22 @@
             },
             approveModelDef(params) {
                 this.showDlg('check', params.data, this.onEditModel.bind(this));
+            },
+            copyFun(){
+                let rows = this.$refs.grid.getSelectedRows();
+                let row =[];
+                if(rows.length>0){
+                    row = rows[0];
+                }else{
+                    this.$msg.warning("请选中一条记录!");
+                    return;
+                }
+                let copyRowData = this.$utils.deepClone(row);
+                copyRowData.fnCode='';
+                copyRowData.fnName='';
+                copyRowData.fnId='';
+                copyRowData.status='01';
+                this.showDlg('edit', copyRowData, this.onEditModel.bind(this));
             },
             async publishModelDef(params){
                 try {
