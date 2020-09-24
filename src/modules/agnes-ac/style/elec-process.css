@@ -1,4 +1,5 @@
 .gf-tab-view.elec-process-dashboard {
+    position: relative;
     flex-direction: column;
 }
 
@@ -48,13 +49,13 @@
     height: calc(100% - 40px);
     border-radius: 4px;
     font-size: 27px;
-    color: #e1e1e1;
+    color: #999;
     background: transparent;
 }
 
 .elec-process-dashboard .board-container .el-carousel .el-carousel__arrow:hover {
     color: #fff;
-    background: #F1F1F1;
+    background: #ddd;
 }
 
 .elec-process-dashboard .board-container .el-carousel .el-carousel__indicators--horizontal {
@@ -130,9 +131,14 @@
     min-width: 40px;
 }
 
+.elec-process-dashboard .board-container .card-detail .progress .progress-item>p {
+    width: 80px;
+}
+
 .elec-process-dashboard .board-container .card-detail .progress .progress-item>.define-progress {
     flex: 1;
     width: 100%;
+    cursor: pointer;
 }
 
 .elec-process-dashboard .board-container .card-detail .progress .progress-item>.define-progress
@@ -986,6 +992,7 @@
     margin: 10px 0;
 }
 
+.elec-process-dashboard .drag-column,
 .elec-process.board-detail > section .bottom.left > .drag-column {
     display: flex;
     flex-direction: column;
@@ -997,6 +1004,7 @@
     z-index: 20;
 }
 
+.elec-process-dashboard .drag-column .close-container,
 .elec-process.board-detail > section .bottom.left > .drag-column
 .close-container {
     position: relative;
@@ -1004,16 +1012,20 @@
     height: 100%;
 }
 
+
+.elec-process-dashboard .drag-column .close-container:hover,
 .elec-process.board-detail > section .bottom.left > .drag-column
 .close-container:hover {
     background: rgba(255, 255, 255, .5);
 }
 
+.elec-process-dashboard .drag-column .close-container:hover .el-icon-circle-close,
 .elec-process.board-detail > section .bottom.left > .drag-column
 .close-container:hover .el-icon-circle-close{
     display: block;
 }
 
+.elec-process-dashboard .drag-column .close-container .el-icon-circle-close,
 .elec-process.board-detail > section .bottom.left > .drag-column
 .close-container .el-icon-circle-close {
     display: none;
@@ -1025,11 +1037,13 @@
     cursor: pointer;
 }
 
+.elec-process-dashboard .drag-column .close-container:hover .el-icon-circle-close:hover,
 .elec-process.board-detail > section .bottom.left > .drag-column
 .close-container:hover .el-icon-circle-close:hover{
     color: #ccc;
 }
 
+.elec-process-dashboard .drag-column .drag-container,
 .elec-process.board-detail .drag-column .drag-container{
     width: 100%;
     height: 450px;

@@ -59,6 +59,7 @@ export default {
         {headerName: "备注", field: "remark"},
     ],
     defaultColDef: {
+        filter: true,
         menuTabs: ['generalMenuTab', 'filterMenuTab', 'columnsMenuTab'],
     },
     autoGroupColumnDef: {
