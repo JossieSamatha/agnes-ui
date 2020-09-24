@@ -78,6 +78,10 @@ export default {
       this.isNoEdit = true;
       this.okTitle = '审核';
     }
+    if(this.mode && this.mode === 'copy'){
+      this.form.msgId = "";
+      this.form.msgCode = "";
+    }
   },
   methods: {
     async fetchObjType() {
@@ -107,6 +111,10 @@ export default {
           return;
         }
         try {
+          if(this.mode && this.mode === 'copy'){
+            this.form.msgId = "";
+          }
+
           if(this.row.msgTopic !== this.form.msgTopic || this.row.msgName !== this.form.msgName || this.row.msgObjId !== this.form.msgObjId){
             const checkP = this.$api.msgDefineApi.check(this.form);
             const resp = await this.$app.blockingApp(checkP);
