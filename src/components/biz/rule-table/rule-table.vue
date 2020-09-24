@@ -17,35 +17,40 @@
                     <el-select v-if="scope.row.ruleType === 'fn'" :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
                                v-model="scope.row.ruleTarget"
                                placeholder="请选择"
+                               filterable clearable
                                @change="ruleTargetChange(scope.$index, scope.row)">
-                        <el-option v-for="funItem in funArr" :key="funItem.fnId" :label="funItem.fnName" :value="funItem.fnId">
-                        </el-option>
+                        <gf-filter-option v-for="funItem in funArr" :key="funItem.fnId" :label="funItem.fnName" :value="funItem.fnId">
+                        </gf-filter-option>
                     </el-select>
                     <el-select v-else-if="scope.row.ruleType === 'event'" :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
                                v-model="scope.row.ruleTarget"
                                placeholder="请选择"
+                               filterable clearable
                                @change="ruleTargetChange(scope.$index, scope.row)">
-                        <el-option v-for="event in eventArr" :key="event.eventId" :label="event.eventName" :value="event.eventId">
-                        </el-option>
+                        <gf-filter-option v-for="event in eventArr" :key="event.eventId" :label="event.eventName" :value="event.eventId">
+                        </gf-filter-option>
                     </el-select>
                     <el-select v-else-if="scope.row.ruleType === 'object'" :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
                                v-model="scope.row.ruleTarget"
                                placeholder="请选择"
+                               filterable clearable
                                @change="ruleTargetChange(scope.$index, scope.row)">
-                        <el-option v-for="funItem in ruleTargetOp[scope.row.ruleType]" :key="funItem.modelTypeId" :label="funItem.typeName" :value="funItem.modelTypeId">
-                        </el-option>
+                        <gf-filter-option v-for="funItem in ruleTargetOp[scope.row.ruleType]" :key="funItem.modelTypeId" :label="funItem.typeName" :value="funItem.modelTypeId">
+                        </gf-filter-option>
                     </el-select>
                     <el-select v-else-if="scope.row.ruleType === 'step'" :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
                                v-model="scope.row.ruleTarget"
+                               filterable clearable
                                placeholder="请选择">
-                        <el-option v-for="step in ruleTargetOp[scope.row.ruleType]" :key="step" :label="step" :value="step">
-                        </el-option>
+                        <gf-filter-option v-for="step in ruleTargetOp[scope.row.ruleType]" :key="step" :label="step" :value="step">
+                        </gf-filter-option>
                     </el-select>
                     <el-select v-else :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
                                v-model="scope.row.ruleTarget"
+                               filterable clearable
                                placeholder="请选择">
-                        <el-option v-for="funItem in ruleTargetOp[scope.row.ruleType]" :key="funItem.stepCode" :label="funItem.defName" :value="funItem.stepCode">
-                        </el-option>
+                        <gf-filter-option v-for="funItem in ruleTargetOp[scope.row.ruleType]" :key="funItem.stepCode" :label="funItem.defName" :value="funItem.stepCode">
+                        </gf-filter-option>
                     </el-select>
                 </template>
             </el-table-column>
@@ -260,8 +265,20 @@
                 });
                 Promise.all([funArrEvent, eventArrEvent]).then((result) => {
                     if(result){
-                        this.funArr = result[0].data;
-                        this.eventArr = result[1].data;
+                        const funArr = result[0].data;
+                        if(funArr && funArr.length>0){
+                            funArr.sort();
+                        }
+                        this.funArr = funArr;
+                        const eventArr = result[1].data;
+                        if(eventArr && eventArr.length>0){
+                            eventArr.forEach((item)=>{
+                                if(item.eventCode){
+                                    item.eventName = `(${item.eventCode})${item.eventName}`;
+                                }
+                            });
+                        }
+                        this.eventArr = eventArr;
                         this.initRuleList();
                     }
                 })

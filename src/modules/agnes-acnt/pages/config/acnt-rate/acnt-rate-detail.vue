@@ -77,9 +77,10 @@
                 branchList: [],
                 rules: {
                     'rateCode': [{required: true, message: "方案代码不能为空"}],
-                    'rateName': [{required: true, message: "方案代码不能为空"}],
+                    'rateName': [{required: true, message: "方案名称不能为空"}],
                     'bankBranchId': [{required: true, message: "网点名称不能为空"}],
-                    'startDate': [{required: true, message: "生效日期不能为空"}],
+                    'startDt': [{required: true, message: "开始日期不能为空"}],
+                    'endDt': [{required: true, message: "结束日期不能为空"}],
                     'rate': [{required: true, message: "方案利率不能为空"}],
                     'status': [{required: true, message: "状态不能为空"}],
                 },
@@ -115,8 +116,6 @@
                         this.$msg.success('审核通过');
 
                     } else {
-                        // eslint-disable-next-line no-console
-                        console.log(this.form);
                         let p = this.$api.rateDefApi.saveRate(this.form);
                         await this.$app.blockingApp(p);
                         this.$msg.success('保存成功');

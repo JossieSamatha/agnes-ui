@@ -4,6 +4,7 @@
             <el-col style="height:100%;" :span="4" >
                 <div  style="height:100%;border:1px solid #F6F8FA;border-radius:5px;background-color:#F6F8FA;margin-right:8px;padding-left:8px;padding-top:4px">
                     <el-button size="small">同步</el-button>
+                    <el-button size="small" @click="initWork()">初始化</el-button>
                     <div v-for="(item,index) in areaList" :key="index"
                          :v-model="queryParam.workdayAreaCode"
                          @click="choseOptions(index,item)"
@@ -54,6 +55,7 @@
 </template>
 
 <script>
+import initWorkDay from './init-workday-dlg'
 export default {
     data() {
         return {
@@ -86,26 +88,36 @@ export default {
     },
     methods:{
         list(workday){
-            this.onListWorkday(workday);
+          this.onListWorkday(workday);
         },
-        async onListWorkday(workday){
-            try {
-                const resp =await this.$api.workdayConfigApi.getWorkdayList(workday);
-                this.calendarData=resp.data;
-            } catch (reason) {
-                this.$msg.error(reason);
+      async onListWorkday(workday) {
+        try {
+          const resp = await this.$api.workdayConfigApi.getWorkdayList(workday);
+          this.calendarData = resp.data;
+        } catch (reason) {
+          this.$msg.error(reason);
+        }
+      },
+      initWork() {
+        this.$nav.showDialog(
+            initWorkDay,
+            {
+              args: {},
+              width: '50%',
+              title: this.$dialog.formatTitle('初始化工作日', 'edit'),
             }
-        },
-        async onUpdateWorkday(item,flag){
-            this.workday.workdayId=item.workdayId;
-            this.workday.bizDate=item.bizDate;
-            this.workday.workdayAreaCode=item.workdayAreaCode;
-            this.workday.workday=flag;
+        );
+      },
+      async onUpdateWorkday(item, flag) {
+        this.workday.workdayId = item.workdayId;
+        this.workday.bizDate = item.bizDate;
+        this.workday.workdayAreaCode = item.workdayAreaCode;
+        this.workday.workday = flag;
 
-            try {
-                await this.$api.workdayConfigApi.updateWorkday(this.workday);
-                this.list(this.workday)
-                this.$msg.success('保存成功');
+        try {
+          await this.$api.workdayConfigApi.updateWorkday(this.workday);
+          this.list(this.workday)
+          this.$msg.success('保存成功');
             } catch (reason) {
                 this.$msg.error(reason);
             }
