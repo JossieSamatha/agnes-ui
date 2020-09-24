@@ -313,6 +313,7 @@ export default function () {
                                 ['日间清算', 'TA批处理监控台'],
                                 ['邮件检查', 'TA批处理监控台'],
                             ]),
+                            rowNum: 5,
                             waitTimeSec: 5000,
                         }
                     },

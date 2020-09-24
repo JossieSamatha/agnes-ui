@@ -38,7 +38,6 @@
         },
         mounted() {
             this.$dataVBus.$on('addComp', this.addComp);
-            this.$app.registerCmd('compDataChange', this.compDataChange);
         },
         methods: {
             getImgPath(imgName){
@@ -71,6 +70,9 @@
                 this.$datavTemplateService.setActive(newComp.compId);
                 this.$dataVBizFunc.windowResize(this);
             },
+        },
+        beforeDestroy(){
+            this.$dataVBus.$off('addComp', this);
         }
     }
 </script>

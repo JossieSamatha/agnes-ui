@@ -53,6 +53,7 @@
                         <div class="chart-title"><span>{{chartLabel}}</span></div>
                     </div>
                     <div v-if="isUpdate" class="datav-chart-head"
+                         style="background: #2f2f2f;border-radius: 5px"
                          :style="{height: chartHeight, width: chartWidth, margin: chartMargin}">
                         <component :is="compName"
                                    :compOption="dataOption"
@@ -654,28 +655,28 @@
             saveChart() {
                 if (this.isUpdate) {
                     if (this.compName == "static-grid") {
-                        this.$app.runCmd("dataConfigure", this.gridConf, this.chartLabel, this.editItemType)
+                        this.$dataVBus.$emit('compDataChange', {metaData: this.gridConf, label: this.chartLabel, type: this.editItemType});
                     } else {
                         this.$set(this.dataOption, 'chartLabel', this.chartLabel);
-                        this.$app.runCmd('dataConfigure', this.dataOption, this.chartLabel, this.editItemType)
+                        this.$dataVBus.$emit('compDataChange', {metaData:this.dataOption, label: this.chartLabel, type: this.editItemType});
                     }
                     this.$dataVBus.$emit('closeDrawerCmd');
                     this.$store.commit("changeApiTip", false);
-                    let id = this.$store.state.id;
-                    let upperId = this.$store.state.upperId;
-                    let userTd = this.$app.session.data.user.userId;
-                    let chartData = this.$store.state.chartData;
-                    let params = {
-                        id: id,
-                        upperId: upperId,
-                        userId: userTd,
-                        content: JSON.stringify(chartData)
-                    };
-                    this.$api.DatavDatavApi.saveEveComp(params).then(res => {
-                        if (res.message == "ok" && res.status == "0000") {
-                            return;
-                        }
-                    })
+                    // let id = this.$store.state.id;
+                    // let upperId = this.$store.state.upperId;
+                    // let userTd = this.$app.session.data.user.userId;
+                    // let chartData = this.$store.state.chartData;
+                    // let params = {
+                    //     id: id,
+                    //     upperId: upperId,
+                    //     userId: userTd,
+                    //     content: JSON.stringify(chartData)
+                    // };
+                    // this.$api.DatavDatavApi.saveEveComp(params).then(res => {
+                    //     if (res.message == "ok" && res.status == "0000") {
+                    //         return;
+                    //     }
+                    // })
                 } else if (this.isUpdate && this.editItemType == "pivot-grid") {
                     let meta = {
                         dataSetId: this.dataSourceId,

@@ -121,7 +121,10 @@
                     this.$msg.error(res.message);
                 }
             }
-
         },
+        beforeDestroy(){
+            this.$dataVBus.$off('openChartDrawer', this);
+            this.$dataVBus.$off('closeDrawerCmd', this);
+        }
     }
 </script>

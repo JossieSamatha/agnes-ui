@@ -162,6 +162,9 @@
                     return 5;
                 }
             }
+        },
+        beforeDestroy(){
+            this.$dataVBus.$off('openEditPage', this);
         }
     }
 </script>

@@ -61,30 +61,12 @@ export default class datavTemplateService extends Service {
         // }
     }
 
-    setDataVAttr(attr, val){
-        this.data.dataVData[attr] = val;
-    }
+    updateCompData(metaData, label, type ){
+        this.data.curComp.compName = type;
+        this.data.curComp.optional.label = label;
+        this.data.curComp.optional.compName = type;
+        this.data.curComp.optional.componentMeta = metaData;
 
-    setCompAttr(findTypeObj, setAttrs){
-        let compIndex = -1;
-        const findType = Object.keys(findTypeObj)[0];
-        if(findType === 'compIndex'){
-            compIndex = findTypeObj.compIndex;
-        }
-        if(findType === 'compId'){
-            compIndex = lodash.findIndex(this.data.compsArr, {compId: findTypeObj.compId});
-        }
-        if(compIndex !== -1){
-            for(let key in setAttrs){
-                if(key === 'primary'){
-                    const copyAttr = this.data.compsArr[compIndex];
-                    this.data.compsArr[compIndex] = {...copyAttr, ...setAttrs[key]};
-                }else{
-                    const copyAttr = Util.deepClone(this.data.compsArr[compIndex][key]);
-                    this.data.compsArr[compIndex][key] ={...copyAttr, ...setAttrs[key]}
-                }
-            }
-        }
     }
 
     init(dataVObj) {

@@ -77,6 +77,7 @@
     </div>
 </template>
 <script>
+    import mockInterData from "../../../mockInterData";
     export default {
         name: "data-left",
         props: {
@@ -99,7 +100,15 @@
         },
         methods: {
             initData(dataSetId) {
-                this.$api.DatasetApi.pageList().then(res => {
+                // 模拟数据挂载
+                /* =============  start  ==================*/
+                const mockData = mockInterData().dataSetData;
+                let res = {
+                    data: mockData
+                }
+                dataSetId = '65a4e70b5cd8419bb34da33a0cb4bd13'
+                /* =============  end  ==================*/
+                // this.$api.DatasetApi.pageList().then(res => {
                     let resData = [];
                     this.listData = [];
                     if(res.data<1){
@@ -140,7 +149,7 @@
                     this.listData.push(dataSetObj);
                     this.fieldData(dataSetId);
                     this.dataSetId = dataSetId;
-                });
+                // });
             },
             showDialog() {
                 this.dialogVisible = true;
@@ -155,9 +164,16 @@
                 });
             },
             fieldData(dataSetId) {
-                this.$api.DatavDatavApi.dataSourceColumns(dataSetId).then(res => {
-                    this.columnDefsList = res.data;
-                });
+                // 模拟数据挂载
+                /* =============  start  ==================*/
+                const columnList = mockInterData().columnList;
+                this.columnDefsList = columnList;
+                dataSetId
+                /* =============  end  ==================*/
+
+                // this.$api.DatavDatavApi.dataSourceColumns(dataSetId).then(res => {
+                //     this.columnDefsList = res.data;
+                // });
             },
             confirm() {
                 this.xAxis = [];
@@ -186,12 +202,20 @@
                     this.checkId = checkId
                 }
                 let id = this.$refs.dataSetTree.getCheckedNodes()[0].id;
-                this.$api.DatavDatavApi.dataSourceColumns(id).then(res => {
-                    this.columnDefsList = res.data;
-                    this.$refs.dataTree.setCheckedKeys([id]);
-                    // this.$app.runCmd("initGridDataCmd", this.columnDefsList)
-                });
-                // this.$emit('listData',this.listData)
+
+                // 模拟数据挂载
+                /* =============  start  ==================*/
+                const columnList = mockInterData().columnList;
+                const dataSetId = '65a4e70b5cd8419bb34da33a0cb4bd13';
+                this.columnDefsList = columnList;
+                this.$refs.dataTree.setCheckedKeys([dataSetId]);
+                id
+                /* =============  end  ==================*/
+
+                // this.$api.DatavDatavApi.dataSourceColumns(id).then(res => {
+                //     this.columnDefsList = res.data;
+                //     this.$refs.dataTree.setCheckedKeys([id]);
+                // });
             },
             createChart() {
                 if (this.xAxis && this.yAxis && this.xAxis.length > 0 && this.yAxis.length > 0) {
@@ -208,12 +232,22 @@
             },
             cloneField(original) {
                 // 深拷贝对象，防止默认空对象被更改
-                let numRandom = this.rand(1000, 9999);
+
+                // 模拟数据挂载
+                /* =============  start  ==================*/
+
                 var newObj = this.$utils.deepClone(original);
-                newObj.field = newObj.field + numRandom;
                 /*添加是否显示级联面板标识*/
                 newObj.showCascader = false;
                 return newObj;
+                /* =============  end  ==================*/
+
+                // let numRandom = this.rand(1000, 9999);
+                // var newObj = this.$utils.deepClone(original);
+                // newObj.field = newObj.field + numRandom;
+                // /*添加是否显示级联面板标识*/
+                // newObj.showCascader = false;
+                // return newObj;
             },
             rand(min, max) {
                 return Math.floor(Math.random() * (max - min)) + min;
@@ -240,40 +274,36 @@
                 this.$emit('dataSetIdLeft', data.id);
             },
             editItemData() {
-                const dataSourceList = {
-                    children: [],
-                    dataSetId: "c948ebfaa4f5427a81d3411237ca22ca",
-                    dataSetName: "gj-科技 小微项目响应情况",
-                    datasetType: "file",
-                    datasourceId: null,
-                    parentId: ''
-                    };
-                this.dataSetName = dataSourceList;
-                this.resData = dataSourceList;
-                const colList = [{"headerName":"col1","field":"col1","type":"VARCHAR","formater":null,"typeName":"text"},{"headerName":"col2","field":"col2","type":"VARCHAR","formater":null,"typeName":"text"},{"headerName":"平均响应周期","field":"col3","type":"VARCHAR","formater":null,"typeName":"number"},{"headerName":"平均实施周期","field":"col4","type":"VARCHAR","formater":null,"typeName":"number"},{"headerName":"平均排队周期","field":"col5","type":"VARCHAR","formater":null,"typeName":"number"},{"headerName":"去年平均响应周期","field":"col6","type":"VARCHAR","formater":null,"typeName":"number"},{"headerName":"上半年响应均值","field":"col7","type":"VARCHAR","formater":null,"typeName":"number"},{"headerName":"数据日期","field":"col9","type":"VARCHAR","formater":null,"typeName":"date"}]
-                this.columnDefsList = colList;
+                // 模拟数据挂载
+                /* =============  start  ==================*/
+                const mockData = mockInterData().dataSetData;
+                let res = {
+                    data: mockData
+                }
+
+                /* =============  end  ==================*/
                 // this.$api.DatavDatavApi.dataSourceList().then(res => {
-                //     let resData = [];
-                //     res.data.forEach(dataItem => {
-                //         /*数据集赋值*/
-                //         let obj = {};
-                //         obj.label = dataItem.dataSetName;
-                //         obj.id = dataItem.dataSetId;
-                //         if (dataItem.children) {
-                //             let childList = [];
-                //             dataItem.children.forEach(childItem => {
-                //                 let childObj = {};
-                //                 childObj.id = childItem.dataSetId;
-                //                 childObj.label = childItem.dataSetName;
-                //                 childObj.parentId = dataItem.dataSetId;
-                //                 childList.push(childObj);
-                //             })
-                //             obj.children = childList;
-                //         }
-                //         resData.push(obj);
-                //         this.dataSetName = resData;
-                //         this.resData = resData;
-                //     })
+                    let resData = [];
+                    res.data.forEach(dataItem => {
+                        /*数据集赋值*/
+                        let obj = {};
+                        obj.label = dataItem.dataSetName;
+                        obj.id = dataItem.dataSetId;
+                        if (dataItem.children) {
+                            let childList = [];
+                            dataItem.children.forEach(childItem => {
+                                let childObj = {};
+                                childObj.id = childItem.dataSetId;
+                                childObj.label = childItem.dataSetName;
+                                childObj.parentId = dataItem.dataSetId;
+                                childList.push(childObj);
+                            })
+                            obj.children = childList;
+                        }
+                        resData.push(obj);
+                        this.dataSetName = resData;
+                        this.resData = resData;
+                    })
                 // });
             },
         },

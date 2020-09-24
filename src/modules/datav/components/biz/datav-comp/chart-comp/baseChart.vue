@@ -12,6 +12,7 @@
 
 <script>
     let _this = null;
+    import mockInterData from "../../../../pages/monitor-view/mockInterData";
     export default {
         name: "baseCharts",
         props: {
@@ -61,7 +62,14 @@
                 params['metrics'] = yAxis;
                 params['filter'] = filter;
                 params['dataCount'] = this.compOption.dataCount;
-                this.$api.DatavDatavApi.createChart(params).then(res => {
+
+                // 模拟数据挂载
+                /* =============  start  ==================*/
+                const mockData = mockInterData().chartData;
+                let res = mockData;
+                /* =============  end  ==================*/
+
+                // this.$api.DatavDatavApi.createChart(params).then(res => {
                     if (this.$utils.isArray(res) && res.length > 0) {
                         /*后端%数据通过format正常显示*/
                         Object.keys(res[0]).forEach((objKey, objIndex) => {
@@ -75,7 +83,7 @@
                     } else {
                         this.$set(this.chartData, 'rows', []);
                     }
-                });
+                // });
             },
             legendDirection() {
                 if (this.compOption.legendPosition == 'bottom') {

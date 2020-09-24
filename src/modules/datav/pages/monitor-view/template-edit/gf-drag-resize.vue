@@ -15,7 +15,7 @@
                      :parentH="listHeight"
                      :parentLimitation="true"
                      contentClass="box-shaddow"
-                     @dblclick.native="editConfig"
+                     @dblclick.native="editCompData"
                      @activated="activateEv"
                      @deactivated="deactivateEv"
                      @dragging="changePosition('drag', $event)"
@@ -78,6 +78,7 @@
             }
         },
         mounted() {
+            this.$dataVBus.$on('compDataChange', this.compDataChange);
             this.$nextTick( ()=> {
                 let listEl = this.$refs.dragResize.parentElement;
                 this.listWidth = listEl.clientWidth;
@@ -114,12 +115,12 @@
                 }
             },
 
-            compDataChange(index, attr, value){
-                let newData = this.datavComps[index];
-                newData[attr] = value;
-                this.$datavTemplateService.addComp(newData);
+            // 组件数据修改
+            compDataChange(updateData){
+                this.$datavTemplateService.updateCompData(updateData.metaData, updateData.label, updateData.type);
             },
 
+            // 组件删除
             deleteComp(){
                 let _that = this;
                 this.$confirm('此操作将删除该组件, 是否继续?', '提示', {
@@ -131,6 +132,7 @@
                 });
             },
 
+            // 组件复制
             copyComp(){
                 let newComp = this.$utils.deepClone(this._props);
                 newComp.compId = this.$agnesUtils.randomString(32);
@@ -142,11 +144,15 @@
                 this.$dataVBizFunc.windowResize(this);
             },
 
-            editConfig(){
+            // 编辑组件数据
+            editCompData(){
                 const compData = this.$utils.deepClone(this.optional);
                 this.$store.commit("changeEditItem", {comp: compData});
                 this.$dataVBus.$emit('openChartDrawer', {comp: compData});
             }
+        },
+        beforeDestroy(){
+            this.$dataVBus.$off('compDataChange', this);
         }
     }
 </script>
