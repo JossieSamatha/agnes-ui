@@ -1,28 +1,51 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'editFileAnaly', title: '修改'},
-    {key: 'deleteFileAnaly', title: '删除', cellClass: 'red-cell'},
-    {key: 'startFileMove', title: '启用',visiable: (params)=>{return params.data.status === '0';}},
-    {key: 'stopFileMove', title: '停用', visiable: (params)=>{return params.data.status === '1';}},
+    {key: 'editFileAnaly', title: '编辑',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '03'){
+                result =true;
+            }
+            return result;}},
+    {key: 'deleteFileAnaly', title: '删除', cellClass: 'red-cell',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '03'){
+                result =true;
+            }
+            return result;}},
+    {key: 'checkFile', title: '审核',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '00' ||params.data.status === '02' || params.data.status === '03'){
+                result =true;
+            }
+            return result;}},
+    {key: 'startFileMove', title: '发布',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '00' ||params.data.status === '01' || params.data.status === '03'){
+                result =true;
+            }
+            return result;},visiable:(params)=>{
+            let result = true;
+            if(params.data.status === '03'){
+                result =false;
+            }
+            return result;}},
+    {key: 'stopFileMove', title: '停用',visiable: (params)=>{
+            let result = false;
+            if(params.data.status === '03'){
+                result =true;
+            }
+            return result;}, cellClass: 'red-cell'},
 ];
 export default {
     columnDefs: [
-        column.buildOpCol(120, colButtons),
+        column.buildOpCol(130, colButtons),
         {headerName: "规则编号", field: "scanCode"},
         {headerName: "规则名称", field: "scanName"},
         {headerName: "传输方式", field: "transMode",formatType: 'dict', dictType: 'AGNES_DC_TRANS_MODE'},
         {headerName: "服务器地址", field: "serverAddress"},
         {headerName: "服务器端口", field: "serverPort"},
-        {headerName: "状态", field: "status",
-        valueFormatter:function(params){
-            if(params.value==="0"){
-                return "停用"
-            }else{
-                return '启用'
-            }
-        }},//0停用中  1启用中
-        {headerName: "变量选择", field: "varName"},
+        {headerName: "状态", field: "status",dictType: 'AGNES_RELEASE_STATUS'},
         {headerName: "扫描路径", field: "filePath"},
         {headerName: "扫描文件", field: "fileName"},
     ],

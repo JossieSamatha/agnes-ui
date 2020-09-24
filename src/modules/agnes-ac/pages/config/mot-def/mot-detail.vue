@@ -118,7 +118,7 @@
         <el-form-item label="任务控制参数">
             <gf-strbool-checkbox v-model="detailForm.needApprove">是否需要复核</gf-strbool-checkbox>
             <gf-strbool-checkbox v-model="detailForm.isTodo">是否进入待办</gf-strbool-checkbox>
-            <gf-strbool-checkbox v-model="detailForm.allowManualConfirm">是否允许人工强制通过</gf-strbool-checkbox>
+            <gf-strbool-checkbox v-model="detailForm.allowManualConfirm">是否允许人工干预通过</gf-strbool-checkbox>
         </el-form-item>
         <el-form-item label="消息通知参数">
             <span class="default-checked">系统内部消息</span>
@@ -275,6 +275,7 @@
                 isCheckCode:false,
                 rosterDate:'',
                 memberRefList:[],
+                versionId:'',
                 serviceRes:[],
                 staticData: staticData(),
                 detailForm: initData(),
@@ -540,7 +541,7 @@
                 if(this.mode === 'add' || this.row.reTaskDef.caseKey != kpiTaskDef.caseKey){
                     this.isCheckCode = true;
                 }
-                return {reTaskDef: kpiTaskDef, caseDefId: this.row.caseDefId, caseDefBody: JSON.stringify(caseDef),versionId:this.detailForm.versionId,isCheckCode:this.isCheckCode};
+                return {reTaskDef: kpiTaskDef, caseDefId: this.row.caseDefId, caseDefBody: JSON.stringify(caseDef),versionId:this.versionId,isCheckCode:this.isCheckCode};
             },
 
             reDataTransfer() {
@@ -548,6 +549,7 @@
                 if (this.mode && this.mode !== 'add') {
                     let kpiTaskDef = this.$utils.deepClone(this.row.reTaskDef);
                     this.reKeyToValue(kpiTaskDef, 'task_');
+                    this.versionId = this.row.versionId;
                     let caseDefBody = JSON.parse(this.row.caseDefBody);
                     let stepFormInfo = this.$utils.deepClone(caseDefBody.stages[0].children[0].stepFormInfo);
                     Object.keys(stepFormInfo).forEach((key) => {

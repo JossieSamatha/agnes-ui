@@ -88,6 +88,8 @@
                 try {
                     const p = this.$api.taskDefineApi.stopAndCancelTask({"taskId":params.data.reTaskDef.taskId});
                     await this.$app.blockingApp(p);
+                    this.$msg.success("任务已停止!");
+                    this.reloadData();
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
@@ -219,6 +221,7 @@
                 copyRowData.reTaskDef.jobId = '';
                 copyRowData.reTaskDef.taskStatus = '01';
                 copyRowData.caseDefId = '';
+                copyRowData.reTaskDef.caseDefId = '';
                 this.showDrawer('edit', copyRowData, this.onEditModel.bind(this));
             }
 
