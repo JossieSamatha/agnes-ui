@@ -99,7 +99,7 @@
             return {
                 svgImg: this.$lcImg,
                 carouselHeight: 0,
-                flowType: '01',
+                flowType: '',
                 proTask: [],
                 executePieData: [],
                 bizDate: '',
@@ -156,6 +156,7 @@
                         this.proTask.push(itemData);
                         if(!(this.curTask && this.curTask.taskId)){
                             this.curTask = data[0];
+                            this.flowType = data[0].exeType;
                             this.getFLowDetail(data[0].taskId, data[0].caseId, this.bizDate);
                         }
                     }
@@ -168,6 +169,7 @@
             // 选择流程
             chooseTask(task){
                 this.curTask = task;
+                this.flowType = task.exeType;
                 this.getFLowDetail(task.taskId, task.caseId, this.bizDate);
             },
 

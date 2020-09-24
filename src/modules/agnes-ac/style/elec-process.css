@@ -2,6 +2,10 @@
     flex-direction: column;
 }
 
+.el-progress-bar .el-progress-bar__outer {
+   background: #e0e0e0;
+}
+
 /*=======================================
 
 
@@ -78,7 +82,8 @@
     height: 100%;
     margin: 32px 50px;
     padding: 30px;
-    box-shadow: 0 0 8px rgba(0,0,0,.1);
+    box-shadow: 0px 0px 8px 0px rgba(13, 30, 65, 0.4);
+    border-radius: 4px;
 }
 
 .elec-process-dashboard .board-container .card-detail>div {
@@ -122,6 +127,7 @@
 .elec-process-dashboard .board-container .card-detail .progress .progress-item>span {
     display: inline-block;
     width: 100px;
+    min-width: 40px;
 }
 
 .elec-process-dashboard .board-container .card-detail .progress .progress-item>.define-progress {
@@ -168,9 +174,9 @@
     height: 0;
     padding-bottom: 12%;
     color: #999;
-    border: 1px solid transparent;
+    border: 2px solid transparent;
     border-radius: 4px;
-    box-shadow: 0px 0px 8px 0px rgba(13, 30, 65, 0.1);
+    box-shadow: 0px 0px 8px 0px rgba(13, 30, 65, 0.4);
     overflow: initial;
     cursor: pointer;
 }
@@ -185,7 +191,7 @@
     display: block;
     width: 10px;
     height: 10px;
-    border: 1px solid transparent;
+    border: 2px solid transparent;
     border-right-color: #486EBE;
     border-bottom-color: #486EBE;
     left: calc(50% - 5px);
