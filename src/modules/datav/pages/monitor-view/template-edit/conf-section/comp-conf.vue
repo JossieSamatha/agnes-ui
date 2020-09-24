@@ -1,6 +1,6 @@
 <template>
     <div>
-        <template v-if="compOptional.compType == 'digital-flop'">
+        <template v-if="compOptional.compName == 'digital-flop'">
             <section class="confSection">
                 <div class="conf-row">
                     <div class="conf-row-item">
@@ -27,7 +27,7 @@
             </section>
         </template>
         <section class="confSection" v-else-if="compOptional.type !== 'chart'">
-            <template v-if="compOptional.compType == 'border-comp'">
+            <template v-if="compOptional.compName == 'border-comp'">
                 <div class="conf-row">
                     <p class="conf-row-title">样式设置</p>
                     <div class="conf-row-item" v-if="componentMeta.borderType === 'dv-border-box-11'">
@@ -81,7 +81,7 @@
                     </div>
                 </div>
             </template>
-            <template v-if="compOptional.compType == 'dynamic-comp'">
+            <template v-if="compOptional.compName == 'dynamic-comp'">
                 <div class="conf-row">
                     <p class="conf-row-title">样式设置</p>
                     <div class="conf-row-item" v-if="componentMeta.dynamicType === 'dv-decoration-7' || componentMeta.dynamicType === 'dv-decoration-9'
@@ -158,7 +158,7 @@
                 </div>
                 </div>
             </template>
-            <template v-if="compOptional.compType == 'date-time'">
+            <template v-if="compOptional.compName == 'date-time'">
                 <div class="conf-row">
                     <p class="conf-row-title">格式化配置</p>
                     <div class="conf-row-item">
@@ -201,7 +201,7 @@
                 </div>
             </template>
             <text-conf v-if="compOptional.type == 'text'" :componentMeta="componentMeta"></text-conf>
-            <template v-if="compOptional.compType == 'percent-pond'">
+            <template v-if="compOptional.compName == 'percent-pond'">
                 <div class="conf-row">
                     <div class="conf-row-item">
                         <div class="row-inp">
@@ -288,7 +288,7 @@
                     </div>
                 </div>
             </template>
-            <template v-if="compOptional.compType == 'water-pond'">
+            <template v-if="compOptional.compName == 'water-pond'">
                 <div class="conf-row">
                     <div class="conf-row-item">
                         <div class="row-inp">
@@ -352,7 +352,7 @@
                     </div>
                 </div>
             </template>
-            <template v-if="compOptional.compType == 'ct-capsule'">
+            <template v-if="compOptional.compName == 'ct-capsule'">
                 <div class="conf-row">
                     <div class="conf-row-item">
                         <div class="row-inp">
@@ -366,7 +366,7 @@
                     </div>
                 </div>
             </template>
-            <template v-if="compOptional.compType == 'ranking-board'">
+            <template v-if="compOptional.compName == 'ranking-board'">
                 <div class="conf-row">
                     <div class="conf-row-item">
                         <div class="row-inp">
@@ -417,7 +417,7 @@
                     </div>
                 </div>
             </template>
-            <template v-if="compOptional.compType == 'static-grid' || compOptional.compType == 'scroll-board'">
+            <template v-if="compOptional.compName == 'static-grid' || compOptional.compName == 'scroll-board'">
                 <div class="conf-row">
                     <p class="conf-row-title">整体配置</p>
                     <div class="conf-row-item">

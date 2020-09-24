@@ -236,7 +236,7 @@ export default function () {
         ],
         columnList: [
             {
-                "headerName": "#人力加班总时长#/#人力加班人均时长#",
+                "headerName": "人力加班人均时长",
                 "field": "allave",
                 "type": "number",
                 "formater": null,
@@ -285,7 +285,8 @@ export default function () {
                 "columnDefinitionId": "2d15ef5d1caa4db49198d28b1011c848"
             }
         ],
-        chartData: [{
+        chartData: [
+            {
             "col9": "2018年12月",
             "col6": 1.41,
             "col5": 15660.0,

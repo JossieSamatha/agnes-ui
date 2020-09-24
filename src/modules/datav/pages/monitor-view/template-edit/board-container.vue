@@ -60,7 +60,7 @@
                     },
                     optional: {
                         type: comp.type,
-                        compType: comp.compName,
+                        compName: comp.compName,
                         componentMeta: {
                             ...this.$utils.deepClone(comp.componentMeta)
                         }

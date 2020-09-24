@@ -147,6 +147,7 @@
             // 编辑组件数据
             editCompData(){
                 const compData = this.$utils.deepClone(this.optional);
+                compData.componentMeta.type = compData.compName;
                 this.$store.commit("changeEditItem", {comp: compData});
                 this.$dataVBus.$emit('openChartDrawer', {comp: compData});
             }
