@@ -147,7 +147,6 @@
                     this.$msg.error(reason);
                 }
             },
-
             async stopEventDef(params) {
                 const row = params.data;
                 if(params.data.eventStatus !== '03'){
