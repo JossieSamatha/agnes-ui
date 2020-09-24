@@ -12,6 +12,7 @@ import GroupUser from "./group-user-def/index"
 import DataPipe from "./data-pipe"
 import MonitorRiskDef from "./monitor-risk-def"
 import MonitorErrDef from "./monitor-err-def"
+import BranchDef from "./branch-def"
 
 const Loading = {
     load: function (Gfui) {
@@ -29,6 +30,7 @@ const Loading = {
         Gfui.use(DataPipe);
         Gfui.use(MonitorRiskDef);
         Gfui.use(MonitorErrDef);
+        Gfui.use(BranchDef);
     }
 };
 

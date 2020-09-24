@@ -12,6 +12,7 @@ import RosterDef from "./roster-def/index";
 import DataPipeTask from "./data-pipe/index";
 import MonitorRiskDef from "./monitor-risk-def/index";
 import MonitorErrDef from "./monitor-err-def/index";
+import Branch from "./branch/index";
 
 const Loading = {
     load: function (Gfui) {
@@ -28,6 +29,7 @@ const Loading = {
         Gfui.componentView('data.pipe.task', DataPipeTask, {title: '调度配置'});
         Gfui.componentView('agnes.app.monitor.risk', MonitorRiskDef, {title: '风险管理'});
         Gfui.componentView('agnes.app.monitor.error', MonitorErrDef, {title: '异常管理'});
+        Gfui.componentView('agnes.dop.branch.edit', Branch, {title: '网点信息维护'});
     }
 };
 

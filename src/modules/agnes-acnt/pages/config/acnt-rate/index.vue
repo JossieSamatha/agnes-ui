@@ -1,6 +1,6 @@
 <template>
     <div>
-        <gf-grid grid-no="acnt-rate-field" ref="grid" @row-double-click="showRate" toolbar="find,refresh,more">
+        <gf-grid grid-no="acnt-rate-field" ref="grid" toolbar="find,refresh,more">
             <template slot="left">
                     <gf-button class="action-btn" @click="addRate" size="mini">添加</gf-button>
             </template>
@@ -45,9 +45,6 @@
             },
             editRate(params) {
                 this.showDlg('edit', params.data,"", this.onAddRate.bind(this));
-            },
-            showRate(params) {
-                this.showDlg('view', params.data);
             },
             check(params) {
                 this.showDlg('check', params.data,"1", this.onAddRate.bind(this));

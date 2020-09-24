@@ -12,6 +12,7 @@ import dataPipeApi from './data-pipe-api';
 import productApi from './product-api';
 import monitorRiskApi from './monitor-risk-api';
 import monitorErrApi from './monitor-err-api';
+import branchApi from './branch-data-api';
 
 export default {
     orgDefineApi,
@@ -27,5 +28,6 @@ export default {
     dataPipeApi,
     productApi,
     monitorRiskApi,
-    monitorErrApi
+    monitorErrApi,
+    branchApi,
 };

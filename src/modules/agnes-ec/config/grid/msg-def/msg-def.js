@@ -2,6 +2,7 @@ import column from "../../../../../config/column"
 
 const colButtons = [
     {key: 'editMsg', title: '编辑'},
+    {key: 'copyMsg', title: '复制'},
     {key: 'deleteMsg', title: '删除',cellClass:'red-cell'},
     {key: 'approveMsg', title: '审核',disabled: (params)=>{
             let result = false;
@@ -19,7 +20,7 @@ const colButtons = [
 
 export default {
     columnDefs: [
-        column.buildOpCol(160, colButtons),
+        column.buildOpCol(170, colButtons),
         {headerName: "消息名称", field: "msgName"},
         {headerName: "消息编号", field: "msgCode"},
         {headerName: "消息类型", field: "msgTopic",formatType: 'dict', dictType: 'AC_MSG_TOPIC' },

@@ -25,6 +25,9 @@ export default {
     publishEventDef(eventId) {
         return request.post("/agnes-ac/v1/ec/event/publish", null, {params: {eventId}});
     },
+    stopEventDef(eventId) {
+        return request.post("/agnes-ac/v1/ec/event/stop", null, {params: {eventId}});
+    },
     msgSelectList(params) {
         return request({
             url: '/agnes-ac/v1/ec/msg/list',
