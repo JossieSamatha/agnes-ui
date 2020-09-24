@@ -42,8 +42,9 @@
         methods: {
             async getOrgTreeNodes(){
                 try {
+                    this.treeData = [];
                     const resp = await this.$api.orgDefineApi.getOrgTreeNodes();
-                    this.treeData = resp.data;
+                  this.treeData.push(resp.data);
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
