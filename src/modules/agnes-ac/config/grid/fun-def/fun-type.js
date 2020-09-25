@@ -2,7 +2,12 @@ import column from "../../../../../config/column"
 
 const colButtons = [
     {key: 'editModel', title: '编辑'},
-    {key: 'deleteModel', title: '删除', cellClass: 'red-cell'},
+    {key: 'deleteModel', title: '删除', cellClass: 'red-cell',disabled: (params)=>{
+            let result = false;
+            if(params.data.status === '03'){
+                result =true;
+            }
+            return result;}},
     {key: 'approveModelDef', title: '审核',disabled: (params)=>{
             let result = false;
             if(params.data.status === '02' || params.data.status === '03'){
