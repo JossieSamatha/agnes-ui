@@ -3,6 +3,7 @@
         <gf-grid @row-double-click="showMsg" grid-no="agnes-msg-def" ref="grid">
             <template slot="left">
                 <gf-button @click="addMsg" class="action-btn">添加</gf-button>
+                <gf-button class="action-btn" @click="copyMsg" size="mini">复制</gf-button>
             </template>
         </gf-grid>
     </div>
@@ -56,6 +57,14 @@
                 this.showDlg('edit', params.data, this.onEditMsg.bind(this));
             },
             copyMsg(params) {
+                let rows = this.$refs.grid.getSelectedRows();
+                let row =[];
+                if(rows.length>0){
+                  row = rows[0];
+                }else{
+                  this.$msg.warning("请选中一条记录!");
+                  return;
+                }
                 this.showDlg('copy', params.data, this.onEditMsg.bind(this));
             },
             approveMsg(params) {
