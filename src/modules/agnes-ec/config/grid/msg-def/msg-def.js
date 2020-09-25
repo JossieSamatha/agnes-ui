@@ -2,7 +2,6 @@ import column from "../../../../../config/column"
 
 const colButtons = [
     {key: 'editMsg', title: '编辑'},
-    {key: 'copyMsg', title: '复制'},
     {key: 'deleteMsg', title: '删除',cellClass:'red-cell'},
     {key: 'approveMsg', title: '审核',disabled: (params)=>{
             let result = false;

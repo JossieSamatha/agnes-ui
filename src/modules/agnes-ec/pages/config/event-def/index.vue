@@ -3,6 +3,7 @@
         <gf-grid @row-double-click="showEventDef" grid-no="agnes-event-def" ref="grid">
             <template slot="left">
                 <gf-button class="action-btn" @click="addEventDef" size="mini">添加</gf-button>
+                <gf-button class="action-btn" @click="copyEventDef" size="mini">复制</gf-button>
             </template>
         </gf-grid>
     </div>
@@ -100,6 +101,13 @@
                 this.showDrawer(params.data,'edit' , this.onEditEventDef.bind(this));
             },
             copyEventDef(params) {
+              let rows = this.$refs.grid.getSelectedRows();
+              if(rows.length>0){
+                //
+              }else{
+                this.$msg.warning("请选中一条记录!");
+                return;
+              }
                 // this.showTab('agnes.config.event.edit','edit', params.data, this.onEditModel.bind(this));
                 this.showDrawer(params.data,'copy' , this.onEditEventDef.bind(this));
             },

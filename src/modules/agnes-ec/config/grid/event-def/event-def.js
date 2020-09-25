@@ -2,7 +2,6 @@ import column from "../../../../../config/column"
 
 const colButtons = [
     {key: 'editEventDef', title: '编辑'},
-    {key: 'copyEventDef', title: '复制'},
     {key: 'deleteEventDef', title: '删除',cellClass:'red-cell'},
     {key: 'approveEventDef', title: '审核',disabled: (params)=>{
             let result = false;
@@ -22,7 +21,7 @@ const colButtons = [
                 result =false;
             }
             return result;}},
-    {key: 'stopEventDef', title: '停用',visiable: (params)=>{
+    {key: 'stopEventDef', title: '停止',visiable: (params)=>{
             let result = false;
             if(params.data.eventStatus === '03'){
                 result =true;
