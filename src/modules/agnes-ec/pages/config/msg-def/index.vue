@@ -56,16 +56,16 @@
             editMsg(params) {
                 this.showDlg('edit', params.data, this.onEditMsg.bind(this));
             },
-            copyMsg(params) {
-                let rows = this.$refs.grid.getSelectedRows();
-
-                if(rows.length>0){
-                  //
-                }else{
-                  this.$msg.warning("请选中一条记录!");
-                  return;
-                }
-                this.showDlg('copy', params.data, this.onEditMsg.bind(this));
+            copyMsg() {
+              let rows = this.$refs.grid.getSelectedRows();
+              let row =[];
+              if(rows.length>0){
+                row = rows[0];
+              }else{
+                this.$msg.warning("请选中一条记录!");
+                return;
+              }
+                this.showDlg('copy', row, this.onEditMsg.bind(this));
             },
             approveMsg(params) {
                 this.showDlg('check', params.data, this.onEditMsg.bind(this));

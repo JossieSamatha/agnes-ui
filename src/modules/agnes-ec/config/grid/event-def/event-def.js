@@ -1,8 +1,18 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'editEventDef', title: '编辑'},
-    {key: 'deleteEventDef', title: '删除',cellClass:'red-cell'},
+    {key: 'editEventDef', title: '编辑', disabled: (params)=>{
+            let result = false;
+            if(params.data.eventStatus === '03'){
+                result =true;
+            }
+            return result;}},
+    {key: 'deleteEventDef', title: '删除',cellClass:'red-cell', disabled: (params)=>{
+            let result = false;
+            if(params.data.eventStatus === '03'){
+                result =true;
+            }
+            return result;}},
     {key: 'approveEventDef', title: '审核',disabled: (params)=>{
             let result = false;
             if(params.data.eventStatus === '02' || params.data.eventStatus === '03'){

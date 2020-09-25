@@ -100,16 +100,19 @@
                 // this.showTab('agnes.config.event.edit','edit', params.data, this.onEditModel.bind(this));
                 this.showDrawer(params.data,'edit' , this.onEditEventDef.bind(this));
             },
-            copyEventDef(params) {
+            copyEventDef() {
               let rows = this.$refs.grid.getSelectedRows();
+              let row =[];
               if(rows.length>0){
-                //
+                row = rows[0];
               }else{
                 this.$msg.warning("请选中一条记录!");
                 return;
               }
+              this.showDrawer(row,'copy',this.onEditEventDef.bind(this))
+
                 // this.showTab('agnes.config.event.edit','edit', params.data, this.onEditModel.bind(this));
-                this.showDrawer(params.data,'copy' , this.onEditEventDef.bind(this));
+                // this.showDrawer(eventDef,'copy' , this.onEditEventDef.bind(this));
             },
             async deleteEventDef(params) {
                 const row = params.data;
