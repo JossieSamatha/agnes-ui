@@ -35,10 +35,38 @@
 <!--            </el-select>-->
 <!--        </el-form-item>-->
         <el-form-item label="文件路径" prop="filePath">
-            <gf-input v-model.trim="detailFormData.filePath" placeholder="文件路径"/>
+            <gf-input v-model.trim="detailFormData.filePath" placeholder="文件路径" style="width: calc(100% - 30px); margin-right: 10px"/>
+            <el-popover placement="bottom"
+                        title="日期通配符配置说明"
+                        width="220"
+                        trigger="click"
+                        popper-class="question-popover">
+                <el-button slot="reference"
+                           icon="fa fa-question-circle-o"
+                           style="border: none;padding: 0;font-size: 20px;vertical-align: middle"
+                ></el-button>
+                <p>格式：${[yyyymmdd/yyyy-mm-dd],-1/0/1,D/W,CN};</p>
+                <p>-1/0/1：前一天/当天/后一天;D:自然日、W:工作(注：选择当天，该参数应为D);CN:中国大陆</p>
+                <p>例如：/home/${[yyyymmdd],-2,D,CN}/test</p>
+                <p>如当天日期为20200925,该表达式解析为：/home/20200923/test</p>
+            </el-popover>
         </el-form-item>
         <el-form-item label="文件名称" prop="fileName">
-            <gf-input v-model.trim="detailFormData.fileName" placeholder="文件名称"/>
+            <gf-input v-model.trim="detailFormData.fileName" placeholder="文件名称" style="width: calc(100% - 30px); margin-right: 10px"/>
+            <el-popover placement="bottom"
+                        title="日期通配符配置说明"
+                        width="220"
+                        trigger="click"
+                        popper-class="question-popover">
+                <el-button slot="reference"
+                           icon="fa fa-question-circle-o"
+                           style="border: none;padding: 0;font-size: 20px;vertical-align: middle"
+                ></el-button>
+                <p>格式：${[yyyymmdd/yyyy-mm-dd],-1/0/1,D/W,CN};</p>
+                <p>-1/0/1：前一天/当天/后一天;D:自然日、W:工作(注：选择当天，该参数应为D);CN:中国大陆</p>
+                <p>例如：/home/${[yyyymmdd],-2,D,CN}/test</p>
+                <p>如当天日期为20200925,该表达式解析为：/home/20200923/test</p>
+            </el-popover>
         </el-form-item>
 <!--        <el-form-item label="基准日期" prop="baseDate">-->
 <!--            <gf-dict filterable clearable v-model="detailFormData.baseDate" dict-type="AGNES_BASE_DATE" style="width: 30%;"/>-->
@@ -90,7 +118,7 @@
                     userName:'',
                     password:'',
                     status:'0',
-                    varId:[],
+                    // varId:[],
                     filePath:'',
                     fileName:'',
                     isNeedParse:'0',
