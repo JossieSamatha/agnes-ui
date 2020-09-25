@@ -23,6 +23,7 @@
         <gf-grid @row-double-click="editEventDef" :query-args="queryArgs" grid-no="agnes-acnt-info" ref="grid">
             <template slot="left">
                <gf-button class="action-btn" @click="exoprtV45" size="mini">导出v45</gf-button>
+               <gf-button class="action-btn" @click="registration" size="mini">账户登记</gf-button>
             </template>
         </gf-grid>
     </div>
@@ -93,8 +94,8 @@
             onInsertApply(){
                 this.reloadData();
             },
-            registration(params) {
-                this.showInsertDlg('registration', params.data, this.onOpenApply.bind(this));
+            registration() {
+                this.showInsertDlg('registration', {}, this.onOpenApply.bind(this));
             },
             // check(params) {
             //     this.showInsertDlg('check', params.data, this.onOpenApply.bind(this));

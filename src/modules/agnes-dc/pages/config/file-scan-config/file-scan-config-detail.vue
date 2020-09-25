@@ -93,7 +93,7 @@
                     varId:[],
                     filePath:'',
                     fileName:'',
-                    isNeedParse:false,
+                    isNeedParse:'0',
                     analyRules:'',
                     baseDate:'',
                     execScheduler:'',
@@ -117,6 +117,9 @@
                     ],
                     serverPort: [
                         {required: true, message: '服务器端口必填', trigger: 'blur'},
+                    ],
+                    execScheduler: [
+                        {required: true, message: '执行频率必填', trigger: 'blur'},
                     ],
                     // baseDate: [
                     //     {required: true, message: '基准日期必填', trigger: 'change'},
@@ -150,10 +153,10 @@
                 if(this.detailFormData.execScheduler){
                     this.detailFormData.execScheduler = '00#00#02#'+this.detailFormData.execScheduler
                 }
-                if(this.detailFormData.varId){
-                    let varIdArr = this.detailFormData.varId.split(',');
-                    this.detailFormData.varId = varIdArr
-                }
+                // if(this.detailFormData.varId){
+                //     let varIdArr = this.detailFormData.varId.split(',');
+                //     this.detailFormData.varId = varIdArr
+                // }
             },
             // async getVarIdList(){
             //     const p = this.$api.fileScan.getVarIdList();
@@ -181,10 +184,11 @@
                         let spiltExecScheduler = moveForm.execScheduler.split('#');
                         moveForm.execScheduler = spiltExecScheduler[3]
                     }
-                    if(moveForm.varId){
-                        moveForm.varId = moveForm.varId.join();
-                    }
+                    // if(moveForm.varId){
+                    //     moveForm.varId = moveForm.varId.join();
+                    // }
                     moveForm.isNeedCheck = true;
+                    moveForm.status='01';
                     if(this.mode==='add'){
                         const p = this.$api.fileScan.saveFileScan(moveForm);
                         await this.$app.blockingApp(p);
