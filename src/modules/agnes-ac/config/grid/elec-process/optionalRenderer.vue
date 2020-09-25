@@ -80,10 +80,13 @@ export default {
     isDisabled() {
       const kpi = this.params.data.stepActType === '1';
       const artificial = this.params.data.stepActType === '6';
+      const autotask = this.params.data.stepActType === '7';
       const stepStatus = this.params.data.stepStatus;
       if (kpi && (stepStatus === '03' || stepStatus === '04')) {
         return false;
       } else if (artificial && (stepStatus === '02' || stepStatus === '03' || stepStatus === '04')) {
+        return false;
+      } else if (autotask && (stepStatus === '02' || stepStatus === '03' || stepStatus === '04')) {
         return false;
       } else {
         return true;
