@@ -113,12 +113,12 @@
                     if (this.ui === "1") {
                         let p = this.$api.rateDefApi.check(this.form);
                         await this.$app.blockingApp(p);
-                        this.$msg.success('审核通过');
+                        this.$msg.success('审核通过!');
 
                     } else {
                         let p = this.$api.rateDefApi.saveRate(this.form);
                         await this.$app.blockingApp(p);
-                        this.$msg.success('保存成功');
+                        this.$msg.success('保存成功!');
                     }
                     if (this.actionOk) {
                         await this.actionOk(this.form, this.row);
