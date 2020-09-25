@@ -5,7 +5,7 @@ const colButtons = [
     // {key: 'queryLinkman', title: '查看联系人'},
     {key: 'changeData', title: '变更资料'},
     {key: 'delete', title: '销户'},
-    {key: 'registration', title: '账户登记'},
+    // {key: 'registration', title: '账户登记'},
     // {key: 'check', title: '复核'},
 ];
 
