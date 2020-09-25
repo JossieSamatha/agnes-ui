@@ -58,9 +58,9 @@
             },
             copyMsg(params) {
                 let rows = this.$refs.grid.getSelectedRows();
-                let row =[];
+
                 if(rows.length>0){
-                  row = rows[0];
+                  //
                 }else{
                   this.$msg.warning("请选中一条记录!");
                   return;
