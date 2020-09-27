@@ -81,15 +81,14 @@
                                          :color="getDetailColor(stage.status)"
                                          :stroke-width="6"
                                          :show-text="false"
-                                         @dblclick.native="stageDetailView(stage)"
+                                         @click.native="stageDetailView(stage)"
                             ></el-progress>
                             <p  :style="{color: getDetailColor(stage.status)}">
-                                <span style="margin-left: 10px;">{{stage.completeNum}}</span>
-                                <span style="color: #333"> / {{stage.targetNum}}</span>
+                                <span style="margin-left: 10px;color: #333">{{stage.completeNum}}/{{stage.targetNum}}</span>
                                 <span class="fa fa-circle"
                                       v-if="stage.status === '03'"
                                       style="margin-left: 10px;cursor: pointer"
-                                      @dblclick="showStageError(stage)"
+                                      @click="showStageError(stage)"
                                 ></span>
                             </p>
                         </div>
@@ -217,15 +216,21 @@
             },
 
             getDetailColor(statusId){
-                const colorSet = {
-                    '01': '#D0D0D0',    // 未开始
-                    '02': '#4A8EF0',    // 执行中
-                    '03': '#F5222E',    // 已异常
-                    '04': '#4A8EF0',    // 已超时
-                    '06': '#4A8EF0',    // 已完成
-                    '07': '#4A8EF0',    // 干预通过
-                };
-                return colorSet[statusId];
+              if(statusId === '01'){
+                return '#D0D0D0';
+              }else{
+                return '#4A8EF0';
+              }
+
+              // const colorSet = {
+              //       '01': '#D0D0D0',    // 未开始
+              //       '02': '#4A8EF0',    // 执行中
+              //       '03': '#F5222E',    // 已异常
+              //       '04': '#4A8EF0',    // 已超时
+              //       '06': '#4A8EF0',    // 已完成
+              //       '07': '#4A8EF0',    // 干预通过
+              //   };
+              //   return colorSet[statusId];
             },
 
             // 根据流程id及业务日期加载流程信息{"taskId":"","bizDate":""}、获取任务状态、获取执行情况
