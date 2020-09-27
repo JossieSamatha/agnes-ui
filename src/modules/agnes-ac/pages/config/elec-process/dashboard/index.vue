@@ -86,7 +86,7 @@
                             <p  :style="{color: getDetailColor(stage.status)}">
                                 <span style="margin-left: 10px;color: #333">{{stage.completeNum}}/{{stage.targetNum}}</span>
                                 <span class="fa fa-circle"
-                                      v-if="stage.status === '03'"
+                                      v-if="stage.status === '03' || stage.status === '04' "
                                       style="margin-left: 10px;cursor: pointer;color:#F5222E;"
                                       @click="showStageError(stage)"
                                 ></span>
