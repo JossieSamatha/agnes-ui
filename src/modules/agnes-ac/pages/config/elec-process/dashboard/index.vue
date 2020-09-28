@@ -267,7 +267,7 @@
                 const gridData = this.getStageData(stage, stage.ruCaseStepList);
                 this.$refs.monitorLeader.setRowData(gridData);
                 if(error){
-                    this.$refs.monitorLeader.gridController.gridApi.setFilterModel({stepStatus: {type: 'set', values: ['03']}})
+                    this.$refs.monitorLeader.gridController.gridApi.setFilterModel({stepStatus: {type: 'set', values: ['03','04']}})
                 }
                 this.ifGridExpand = true;
             },
