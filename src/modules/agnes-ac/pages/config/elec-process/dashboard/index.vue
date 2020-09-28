@@ -244,7 +244,7 @@
                     const completeNum = flowDetailParse.processCompleteNum;
                     const targetNum = flowDetailParse.processTargetNum;
                     const executePieData = [
-                        {name: '完成', value: completeNum},
+                        {name: '已完成', value: completeNum},
                         {name: '未完成', value: (targetNum-completeNum)}
                     ];
                     this.executePieData = executePieData;
