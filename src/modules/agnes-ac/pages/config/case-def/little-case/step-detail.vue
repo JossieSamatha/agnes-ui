@@ -421,10 +421,12 @@
         },
         methods: {
             stepActTypeChange(){
-                if(this.stepInfo.stepActType==='6'){
-                    this.caseStepDef.allowManualConfirm = '1'
-                }else{
-                    this.caseStepDef.allowManualConfirm = '0'
+                if(this.optionType == 'add'){
+                    if(this.stepInfo.stepActType==='6'){
+                        this.caseStepDef.allowManualConfirm = '1'
+                    }else{
+                        this.caseStepDef.allowManualConfirm = '0'
+                    }
                 }
             },
             getMemberList(val){
