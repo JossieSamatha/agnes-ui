@@ -74,6 +74,7 @@
 
 .elec-process-dashboard .card-container .module-card .content > p .el-progress .el-progress__text {
     font-size: 12px !important;
+    margin-left: 9px !important;
 }
 
 .elec-process-dashboard .board-container .card-detail {
@@ -118,7 +119,7 @@
     flex-direction: row;
     align-items: center;
     width: 100%;
-    margin-top: 0px;
+    margin-top: 30px;
 }
 
 .elec-process-dashboard .board-container .card-detail .progress {
