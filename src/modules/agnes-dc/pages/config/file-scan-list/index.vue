@@ -12,7 +12,6 @@
         </gf-grid>
     </div>
 </template>
-
 <script>
     export default {
         methods: {
