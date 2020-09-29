@@ -3,6 +3,7 @@
 </template>
 
 <script>
+    import mockInterData from "../../../../pages/monitor-view/mockInterData";
     export default {
         name: 'ranking-board',
         props: {
@@ -13,6 +14,9 @@
         },
         computed: {
             configParam(){
+                if(this.compOption.columnArr && this.compOption.columnArr.length>0){
+                    this.getTableData();
+                }
                 const config = {
                     ...this.compOption,
                     waitTime: this.compOption.waitTimeSec*1000,
@@ -23,9 +27,33 @@
                 return config;
             }
         },
+        watch: {
+            compOption(val){
+                this.compOption = val;
+            },
+            header(){
+                this.getTableData();
+            },
+            dataConfig(){
+                this.getTableData();
+            },
+        },
         methods: {
             mapNumType({value}){
-                return this.$fmt.formateThousandthMoney(value) + this.compOption.unit;
+                return this.$fmt.formateThousandthMoney(value) + '&nbsp;&nbsp;' + this.compOption.unit;
+            },
+            getTableData(){
+                // 模拟数据挂载
+                /* =============  start  ==================*/
+                const mockData = mockInterData().capsuleData;
+                const columnArr = this.compOption.columnArr
+                const fields = columnArr.map((headItem)=>{return headItem.field});
+                const filterMockData = mockData.filter((dataItem)=>{
+                    return fields.includes(dataItem.field);
+                });
+
+                this.compOption.data = filterMockData;
+                /* =============  end  ==================*/
             }
         },
     }

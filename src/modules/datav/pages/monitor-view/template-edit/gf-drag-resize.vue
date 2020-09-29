@@ -117,7 +117,8 @@
 
             // 组件数据修改
             compDataChange(updateData){
-                this.$datavTemplateService.updateCompData(updateData.metaData, updateData.label, updateData.type);
+                const {type, compName, label, metaData} = updateData;
+                this.$datavTemplateService.updateCompData(type, compName, label, metaData);
             },
 
             // 组件删除
@@ -147,7 +148,6 @@
             // 编辑组件数据
             editCompData(){
                 const compData = this.$utils.deepClone(this.optional);
-                compData.componentMeta.type = compData.compName;
                 this.$store.commit("changeEditItem", {comp: compData});
                 this.$dataVBus.$emit('openChartDrawer', {comp: compData});
             }

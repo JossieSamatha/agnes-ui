@@ -61,10 +61,10 @@ export default class datavTemplateService extends Service {
         // }
     }
 
-    updateCompData(metaData, label, type ){
-        this.data.curComp.compName = type;
+    updateCompData(type, compName, label, metaData){
+        this.data.curComp.compName = compName;
         this.data.curComp.optional.label = label;
-        this.data.curComp.optional.compName = type;
+        this.data.curComp.optional.compName = compName;
         this.data.curComp.optional.componentMeta = metaData;
 
     }

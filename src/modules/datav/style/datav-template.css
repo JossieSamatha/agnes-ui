@@ -1164,3 +1164,7 @@
         transform: translateX(-100%)
     }
 }
+
+.dv-capsule-chart .capsule-item .capsule-item-column .capsule-item-value {
+    padding-left: 3px;
+}

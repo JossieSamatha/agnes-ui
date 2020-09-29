@@ -2,6 +2,7 @@
 /*             左侧内容            */
 /*================================*/
 .config-drawer .dash-chart-content .dash-chart-left {
+    flex: 0 0 20%;
     width: 20%;
     height: 100%;
     border-right: 1px solid #e9e9e9;
@@ -120,11 +121,12 @@
 /*             中间内容            */
 /*================================*/
 .config-drawer .dash-chart-main {
-    width: 60%;
-    height: 100%;
-    padding: 10px 15px;
     display: flex;
     flex-direction: column;
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    padding: 10px 15px;
 }
 
 .config-drawer .dash-chart-main .chart-axis {

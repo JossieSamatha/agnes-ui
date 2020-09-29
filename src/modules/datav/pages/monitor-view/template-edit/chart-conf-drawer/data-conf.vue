@@ -26,8 +26,7 @@
                 <div class="datav-chart-head">
                     <axis v-for="(axisItem ,axisIndex) in axisDataList"
                           :key="axisIndex"
-                          :axisItem="axisItem"
-                          @getPivotData="getPivotData">
+                          :axisItem="axisItem">
                         <template slot="axis-content">
                             <draggable v-model="axisItem.axisData"
                                        :options="{group:{name:'list'}}"
@@ -37,7 +36,7 @@
                                     <axis-tag
                                             :key="element.field"
                                             :index="index"
-                                            :axisIndex="axisIndex"
+                                            :axisIndex="parseInt(axisIndex)"
                                             :element="element"
                                             :axisItem="axisItem"
                                             @panelChange="panelChange"
@@ -52,20 +51,22 @@
                     <div class="chart-title-wrapper">
                         <div class="chart-title"><span>{{chartLabel}}</span></div>
                     </div>
-                    <div v-if="isUpdate" class="datav-chart-head"
+                    <div class="datav-chart-head" v-if="isUpdate"
                          style="background: #2f2f2f;border-radius: 5px"
                          :style="{height: chartHeight, width: chartWidth, margin: chartMargin}">
-                        <component :is="compName"
+                        <component :is="compName" v-if="editType == 'chart'"
                                    :compOption="dataOption"
                                    :dataConfig="dataConfig"
                                    :header="header"
                                    :dataSetId="dataSourceId"
                                    :dimRow="dimRow"
                                    :dimCol="dimCol"
-                                   :pivotIndex="pivotIndex"
-                                   :pivotFilter="pivotFilter"
                                    :formatterInfo="formatterInfoTemp"
                                    :curElement="curElement"
+                        ></component>
+                        <component :is="compName"
+                                   v-if="editType === 'grid'"
+                                   :compOption="compOption"
                         ></component>
                     </div>
                     <div v-if="!isUpdate && editType == 'chart'" class="chart-widget">
@@ -82,7 +83,7 @@
                 </div>
             </div>
             <!--右侧内容-->
-            <div class="dash-chart-right chart-config" id="input-config" >
+            <div class="dash-chart-right chart-config" id="input-config" v-if="editType == 'chart'">
                 <div>
                     <div style="margin-top: 10px;">图表类型</div>
                     <div class="config-type" style="position: relative">
@@ -298,18 +299,6 @@
                             </div>
                         </div>
                     </div>
-                    <!--                    //维度冻结-->
-                    <div class="config-block" v-if="editItemType==='pivot-grid'">
-                        <div class="">维度冻结</div>
-                        <div class="block-body">
-                            <div class="x-check">
-                                <el-checkbox v-model="demensionRow">冻结行维度</el-checkbox>
-                            </div>
-                            <div class="x-check">
-                                <el-checkbox v-model="demensionCloumn">冻结列维度</el-checkbox>
-                            </div>
-                        </div>
-                    </div>
                     <!-- 颜色-->
                     <div class="config-block">
                         <div class="">颜色</div>
@@ -344,45 +333,6 @@
                     </div>
                 </div>
             </div>
-            <div class="dash-chart-right chart-config" v-if="editType == 'grid'">
-                <div class="config-block">
-                    <div>操作权限</div>
-                    <div class="block-body">
-                        <el-checkbox @change="changeAuth">可导出数据</el-checkbox>
-                    </div>
-                </div>
-                <div class="config-block" v-if="editItemType != 'pivot-grid'">
-                    <div class="">数据显示</div>
-                    <el-checkbox @change="enableIndex">显示序号</el-checkbox>
-                    <div class="block-body data-display">
-                        <div class="top-data">
-                            <div class="top-data-check">
-                                <el-checkbox v-model="displayRange">显示前</el-checkbox>
-                            </div>
-                            <div class="number-input">
-                                <div class="fui_text x-ui-disable"
-                                     style="width: 70px; height: 30px;">
-                                    <el-input v-model="inputDisplay" :disabled="true"></el-input>
-                                </div>
-                            </div>
-                            <div class="top-data-text">条数据</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="config-block">
-                    <div>表格冻结</div>
-                    <div class="block-body">
-                        <div class="top-data-check">
-                            <el-checkbox v-model="displayRange">固定前</el-checkbox>
-                            <el-select v-model="calmRows" placeholder=""
-                                       style="width: 70px; height: 30px; margin: 0 5px;">
-                                <el-option v-for="i in rowNum" :key="i" :value="i">{{i}}</el-option>
-                            </el-select>
-                            行
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
         <data-formatter-dia
                 :dialogVisible="dataFormatterDia"
@@ -395,7 +345,7 @@
 </template>
 
 <script>
-    import dataConfData from './dataConf'
+    import mockConfData from './dataConf.js'
     import dataLeft from './options/data-left'
     import DataFormatterDia from "./components/data-formatter-dia";
 
@@ -408,8 +358,9 @@
         data() {
             return {
                 dataDraggable: [],
-                axisList: dataConfData.axisList,
-                doubleLineAxisList: dataConfData.doubleLineAxisList,
+                axisList: mockConfData().axisList,
+                doubleLineAxisList: mockConfData().doubleLineAxisList,
+                staticList: mockConfData().staticList,
                 options: [
                     {
                         value: '1',
@@ -424,7 +375,7 @@
                 yMax: "",
                 yMin: "",
                 dirVal: "transverse",
-                dirArr: dataConfData.dirArr,
+                dirArr: mockConfData().dirArr,
                 value: '',
                 checked: false,
                 input: '',
@@ -440,9 +391,9 @@
                 filter: [],
                 filterType: "",
                 filterLabel: "",
-                numberFilterOptions: dataConfData.numberFilterOptions,
-                dateFilterOptions: dataConfData.dateFilterOptions,
-                textFilterOptions: dataConfData.textFilterOptions,
+                numberFilterOptions: mockConfData().numberFilterOptions,
+                dateFilterOptions: mockConfData().dateFilterOptions,
+                textFilterOptions: mockConfData().textFilterOptions,
                 numberCond: "",
                 filterNum: '',
                 minFil: "",
@@ -472,8 +423,8 @@
                         "series": true
                     }
                 },
-                iconList: dataConfData.iconList,
-                metricsIconList: dataConfData.metricsIconList,
+                iconList: mockConfData().iconList,
+                metricsIconList: mockConfData().metricsIconList,
                 editItemType: "",
                 editType: "",
                 svgImg: this.$svgImg,
@@ -533,12 +484,10 @@
                 axisListMounted: [],
                 dimRow: [],
                 dimCol: [],
-                pivotIndex: [],
-                pivotFilter: {},
                 strList: [],
                 headerName: '',
-                axisNumOptions: dataConfData.axisNumOptions,
-                axisDateOptions: dataConfData.axisDateOptions,
+                axisNumOptions: mockConfData().axisNumOptions,
+                axisDateOptions: mockConfData().axisDateOptions,
                 tagList: [],
                 handleData: '',
                 doubleLineTip: false,
@@ -557,33 +506,15 @@
             }
         },
         methods: {
-            getPivotData(val) {
-                if (this.compName == 'pivot-grid') {
-                    for (let i = 0; i < 4; i++) {
-                        if (this.$lodash.isEqual(this.axisDataList[i].axisData, val)) {
-                            if (i == 0) {
-                                this.dimRow = val
-                            }
-                            if (i == 1) {
-                                this.dimCol = val
-                            }
-                            if (i == 2) {
-                                this.pivotIndex = val
-                            }
-                            if (i == 3) {
-                                return "#"
-                            }
-                        }
-                    }
-                }
-            },
             createChart() {
                 if (this.editItemType === 'ct-line-bar') {
                     if (this.lineBarAxis && this.lineBarAxis.length > 0) {
                         this.yAxis = this.lineBarAxis;
                     }
                 }
-                if (this.xAxis && this.yAxis && this.xAxis.length > 0 && this.yAxis.length > 0) {
+                if (this.editType === 'grid' && this.staticList[0].axisData.length>0) {
+                    this.isUpdate = true;
+                }else if (this.xAxis && this.yAxis && this.xAxis.length > 0 && this.yAxis.length > 0) {
                     this.initChartData(this.xAxis, this.yAxis, this.filter, this.editItemType);
                     this.isUpdate = true;
                 } else {
@@ -654,11 +585,21 @@
             },
             saveChart() {
                 if (this.isUpdate) {
-                    if (this.compName == "static-grid") {
-                        this.$dataVBus.$emit('compDataChange', {metaData: this.gridConf, label: this.chartLabel, type: this.editItemType});
+                    if (this.editType == "grid") {
+                        this.$dataVBus.$emit('compDataChange', {
+                            type: this.editType,
+                            compName: this.editItemType,
+                            label: this.chartLabel,
+                            metaData: this.compOption
+                        });
                     } else {
                         this.$set(this.dataOption, 'chartLabel', this.chartLabel);
-                        this.$dataVBus.$emit('compDataChange', {metaData:this.dataOption, label: this.chartLabel, type: this.editItemType});
+                        this.$dataVBus.$emit('compDataChange', {
+                            type: this.editType,
+                            compName: this.editItemType,
+                            label: this.chartLabel,
+                            metaData: this.dataOption,
+                        });
                     }
                     this.$dataVBus.$emit('closeDrawerCmd');
                     this.$store.commit("changeApiTip", false);
@@ -677,17 +618,6 @@
                     //         return;
                     //     }
                     // })
-                } else if (this.isUpdate && this.editItemType == "pivot-grid") {
-                    let meta = {
-                        dataSetId: this.dataSourceId,
-                        dimRow: this.dimRow,
-                        dimCol: this.dimCol,
-                        pivotIndex: this.pivotIndex,
-                        pivotFilter: this.pivotFilter,
-                        type: "pivot-grid"
-                    }
-                    this.$app.runCmd("dataConfigure", meta, this.chartLabel, this.editItemType)
-                    this.$dataVBus.$emit('closeDrawerCmd');
                 } else {
                     this.$message({
                         message: '请选择对应的维度、指标',
@@ -703,10 +633,6 @@
                     this.index = idx;
                     this.editItemType = item.type;
                     this.compName = this.editItemType;
-                    if (this.compName == "pivot-grid") {
-                        this.isUpdate = true
-                        // this.$app.runCmd("initGridDataCmd", this.strList)
-                    }
                     let typeArr = ["ct-bar", "ct-line", "ct-line-bar", "ct-pie", "ct-radar", 'ct-strip', 'ct-map', 'ct-area'];
                     let type = item.type;
                     if (item.type === 'ct-line-bar' && item.type === 'ct-line-bar' && this.metricsLeftIndex === -1 && this.metricsRightIndex === -1) {
@@ -842,7 +768,7 @@
             },
             getGridDetail() {
                 this.header = []
-                this.gridParams.dataSetId = this.dataSourceId
+                this.gridParams.dataSetId = this.dataSourceId;
                 this.dataConfig = this.$lodash.cloneDeep(this.gridParams)
                 for (let i of this.xAxis) {
                     let headerItem = {}
@@ -854,23 +780,8 @@
                     dataConfig: this.dataConfig,
                     header: this.header
                 }
-                this.compName = "static-grid"
+                this.compName = this.editItemType;
                 this.isUpdate = true
-                // this.$api.DatavDatavApi.getTableList(this.gridParams).then(res => {
-                //     this.compName = this.editItemType
-                //     let header = []
-                //     for (let i of this.xAxis) {
-                //         let headerItem = {}
-                //         headerItem.field = i.field
-                //         headerItem.headerName = i.headerName
-                //         this.header.push(headerItem)
-                //     }
-                //     this.dataOption = {
-                //         header: header,
-                //         data: res
-                //     }
-                //     this.isUpdate = true
-                // })
             },
             updateLabel(label) {
                 this.chartLabel = label;
@@ -884,19 +795,22 @@
             },
             editItemData() {
                 let itemDate = this.editItemState;
-                let type = itemDate.comp.componentMeta.type;
-                let setting = itemDate.comp.componentMeta.chartSettings;
+                let type = itemDate.comp.compName;
+                let setting = itemDate.comp.componentMeta.chartSettings || {};
                 let id = itemDate.comp.componentMeta.dataSourceId;
                 let metaDate = itemDate.comp.componentMeta;
                 let dataCount = itemDate.comp.componentMeta.dataCount;
                 this.dataSourceId = id;
                 /*维度指标过滤条件赋值*/
-                this.mountedAxis(type, metaDate);
+                this.mountedAxis(type, metaDate, itemDate.comp.type);
                 /*数据集*/
                 this.$refs.dataLeft.initData(id);
                 /*图表类型*/
                 this.editType = itemDate.comp.type;
                 this.editItemType = itemDate.comp.compName;
+                if(this.editType === 'grid'){
+                    this.compOption = metaDate;
+                }
                 for (let i = 0; i < 20; i++) {
                     this.rowNum.push(i.toString())
                 }
@@ -1452,7 +1366,10 @@
             },
             typeAxisDataList(type) {
                 if (this.notMounted) {
-                    if (type === 'ct-line-bar') {
+                    if (this.editType == "grid") {
+                        this.axisDataList = this.staticList
+                        // this.configStaticGrid()
+                    } else if (type === 'ct-line-bar') {
                         this.axisDataList = this.doubleLineAxisList;
                         this.doubleAxisValues();
                     } else {
@@ -1460,7 +1377,11 @@
                         this.axisValues();
                     }
                 } else {
-                    if (type === 'ct-line-bar') {
+                    if (this.editType == "grid") {
+                        this.staticList[0].axisData = this.editItemState.comp.componentMeta.shownStr
+                        this.axisDataList = this.staticList
+                        // this.configStaticGrid()
+                    } else if (type === 'ct-line-bar') {
                         this.axisDataList = this.doubleAxisListMounted;
                         this.doubleAxisValues();
                     } else {
@@ -1468,15 +1389,22 @@
                         this.axisValues();
                     }
                 }
-                if (!this.dataSourceId) {
-                    this.axisDataList.forEach(item => {
-                        item.axisData = [];
-                    })
-                }
+                // if (!this.dataSourceId) {
+                //     this.axisDataList.forEach(item => {
+                //         item.axisData = [];
+                //     })
+                // }
             },
-            mountedAxis(type, metaDate) {
+            mountedAxis(type, metaDate, compType) {
                 let list = [];
-                if (type !== 'ct-line-bar') {
+                if(compType === 'grid'){
+                    if(metaDate.shownStr && metaDate.shownStr.length>0){
+                        const staticList = this.$utils.deepClone(this.staticList);
+                        staticList[0].axisData = metaDate.shownStr;
+                        this.staticList = staticList;
+                    }
+
+                } else if (type !== 'ct-line-bar') {
                     list.push(metaDate.xFields);
                     list.push(metaDate.metrics);
                     if (metaDate.filter && metaDate.filter.cond.length > 0) {
@@ -1670,13 +1598,8 @@
                 })
             },
             textAdd(item, data) {
-                if (this.editItemType == "pivot-grid") {
-                    this.getPivotData(data)
-                }
                 if (!data) {
                     this.$set(data, 'axisData', []);
-                } else {
-                    this.$emit('getPivotData', data)
                 }
                 /* if (item.label === "过滤条件") {
                      this.isEndDraggable = true;
@@ -1711,18 +1634,14 @@
         },
         computed: {
             chartHeight() {
-                if (this.editItemType == "pivot-grid") {
-                    return "calc(100% - 50px)"
-                } else {
+                if(this.editType === 'grid'){
+                    return '250px'
+                }else{
                     return "400px"
                 }
             },
             chartWidth() {
-                if (this.editItemType == "pivot-grid") {
-                    return "100%"
-                } else {
-                    return "calc(100% - 40px)"
-                }
+                return "calc(100% - 40px)"
             },
             chartMargin() {
                 return "0 auto"
@@ -1740,17 +1659,7 @@
                 return data;
             },
             xAxisLength() {
-                if (this.editItemType === 'pivot-grid') {
-                    let lengthLeft = 0;
-                    let lengthRight = 0;
-                    let length = 0;
-                    lengthLeft = this.axisDataList[0].axisData.length;
-                    lengthRight = this.axisDataList[1].axisData.length;
-                    length = parseInt(lengthLeft) + parseInt(lengthRight);
-                    return length > 2 ? 'multiple' : length;
-                } else {
-                    return this.axisDataList[0].axisData.length > 2 ? 'multiple' : this.axisDataList[0].axisData.length
-                }
+                return this.axisDataList[0].axisData.length > 2 ? 'multiple' : this.axisDataList[0].axisData.length
             },
             yAxisLength() {
                 if (this.editItemType === 'ct-line-bar') {
@@ -1845,34 +1754,40 @@
                 this.yAxis = val;
             },
             editItemType: {
-                handler(val, oldVal) {
-                    if (val == "pivot-grid") {
-                        this.axisDataList = dataConfData.pivotList
-                    } else if (val == "static-grid") {
-                        this.axisDataList = dataConfData.staticList
+                handler(val) {
+                    if (this.editType == "grid") {
+                        this.axisDataList = this.staticList;
                     } else {
                         this.typeAxisDataList(val);
-                    }
-                    if (oldVal == "pivot-grid" && val != oldVal) {
-                        this.axisDataList[0].axisData = this.dimRow.concat(this.dimCol)
-                        if (val != "ct-line-bar") {
-                            this.axisDataList[1].axisData = this.pivotIndex
-                        } else {
-                            this.axisDataList[1].axisData = [this.pivotIndex[0]]
-                            this.axisDataList[2].axisData = [...this.pivotIndex.unshift()]
-                        }
-                    }
-                    if (val == "pivot-grid" && val != oldVal) {
-                        this.dimRow = this.axisDataList[0].axisData
-                        if (oldVal == "ct-line-bar") {
-                            this.pivotIndex = this.axisDataList[1].axisData.concat(this.axisDataList[2].axisData)
-                        } else {
-                            this.pivotIndex = this.axisDataList[1].axisData
-                        }
                     }
                 },
                 deep: true,
                 immediate: true
+            },
+            staticList: {
+                handler(val) {
+                    let header = [];
+                    const dataSetId = this.dataSourceId
+                    if (val[0].axisData.length > 0) {
+                        this.isUpdate = true
+                        this.compName = this.editItemType;
+                        header = val[0].axisData.map((item)=>{
+                            return {
+                                headerName: item.headerName,
+                                field: item.field,
+
+                            }
+                        });
+                        const compOption = this.$utils.deepClone(this.compOption);
+                        this.compOption = {
+                            ...compOption,
+                            dataSetId: dataSetId,
+                            columnArr: header,
+                            shownStr: this.axisDataList[0].axisData
+                        }
+                    }
+                },
+                deep: true
             },
             axisList: {
                 handler(val) {
@@ -1991,15 +1906,6 @@
                     }
                 },
                 deep: true
-            },
-            isUpdate: {
-                handler() {
-                    if (this.compName == "pivot-grid") {
-                        this.isUpdate = true
-                    }
-                },
-                deep: true,
-                immediate: true
             },
             compOptionData: {
                 handler(val, old) {

@@ -237,11 +237,11 @@ export default function () {
         columnList: [
             {
                 "headerName": "人力加班人均时长",
-                "field": "allave",
+                "field": "col4",
                 "type": "number",
                 "formater": null,
                 "typeName": null,
-                "computed": true,
+                "computed": false,
                 "columnDefinitionId": "c000f6a51ca0420cbb84de89c34d3463"
             }, {
                 "headerName": "人力加班总时长",
@@ -251,15 +251,7 @@ export default function () {
                 "typeName": "number",
                 "computed": false,
                 "columnDefinitionId": "fce7e61777a041e099c4b2bef71c348a"
-            }, {
-                "headerName": "人力加班人均时长",
-                "field": "col4",
-                "type": "varchar",
-                "formater": null,
-                "typeName": "number",
-                "computed": false,
-                "columnDefinitionId": "85d03cc2278f4082ad5efb61c3addf7a"
-            }, {
+            },{
                 "headerName": "项目加班总时长",
                 "field": "col5",
                 "type": "varchar",
@@ -287,83 +279,88 @@ export default function () {
         ],
         chartData: [
             {
-            "col9": "2018年12月",
-            "col6": 1.41,
-            "col5": 15660.0,
-            "col3": 3636.0,
-            "allave": 1
-        }, {
-            "col9": "2019年01月",
-            "col6": 1.36,
-            "col5": 15666.0,
-            "col3": 4611.0,
-            "allave": 1
-        }, {
-            "col9": "2019年02月",
-            "col6": 0.88,
-            "col5": 7737.0,
-            "col3": 2386.0,
-            "allave": 1
-        }, {
-            "col9": "2019年03月",
-            "col6": 1.46,
-            "col5": 18084.0,
-            "col3": 5418.0,
-            "allave": 1
-        }, {
-            "col9": "2019年04月",
-            "col6": 1.38,
-            "col5": 17358.0,
-            "col3": 7855.0,
-            "allave": 1
-        }, {
-            "col9": "2019年05月",
-            "col6": 1.25,
-            "col5": 15430.0,
-            "col3": 7115.0,
-            "allave": 1
-        }, {
-            "col9": "2019年06月",
-            "col6": 1.27,
-            "col5": 14340.0,
-            "col3": 6981.0,
-            "allave": 1
-        }, {
-            "col9": "2019年07月",
-            "col6": 1.12,
-            "col5": 14463.0,
-            "col3": 9076.0,
-            "allave": 1
-        }, {
-            "col9": "2019年08月",
-            "col6": 1.12,
-            "col5": 13994.0,
-            "col3": 9735.0,
-            "allave": 1
-        }, {
-            "col9": "2019年09月",
-            "col6": 1.0,
-            "col5": 12240.0,
-            "col3": 8077.0,
-            "allave": 1
-        }, {
-            "col9": "2019年10月",
-            "col6": 1.13,
-            "col5": 9257.0,
-            "col3": 6685.0,
-            "allave": 1
-        }, {
-            "col9": "2019年11月",
-            "col6": 1.32,
-            "col5": 14097.0,
-            "col3": 10004.0,
-            "allave": 1
-        }, {
-            "col9": "2019年12月",
-            "col6": 1.25,
-            "col5": 12190.0,
-            "col3": 9460.0,
-            "allave": 1
-        }]
+                "col9": "2018年12月",
+                "col6": 1.41,
+                "col5": 15660.0,
+                "col3": 3636.0,
+                "col4": 1
+            }, {
+                "col9": "2019年01月",
+                "col6": 1.36,
+                "col5": 15666.0,
+                "col3": 4611.0,
+                "col4": 1
+            }, {
+                "col9": "2019年02月",
+                "col6": 0.88,
+                "col5": 7737.0,
+                "col3": 2386.0,
+                "col4": 1
+            }, {
+                "col9": "2019年03月",
+                "col6": 1.46,
+                "col5": 18084.0,
+                "col3": 5418.0,
+                "col4": 1
+            }, {
+                "col9": "2019年04月",
+                "col6": 1.38,
+                "col5": 17358.0,
+                "col3": 7855.0,
+                "col4": 1
+            }, {
+                "col9": "2019年05月",
+                "col6": 1.25,
+                "col5": 15430.0,
+                "col3": 7115.0,
+                "col4": 1
+            }, {
+                "col9": "2019年06月",
+                "col6": 1.27,
+                "col5": 14340.0,
+                "col3": 6981.0,
+                "col4": 1
+            }, {
+                "col9": "2019年07月",
+                "col6": 1.12,
+                "col5": 14463.0,
+                "col3": 9076.0,
+                "col4": 1
+            }, {
+                "col9": "2019年08月",
+                "col6": 1.12,
+                "col5": 13994.0,
+                "col3": 9735.0,
+                "col4": 1
+            }, {
+                "col9": "2019年09月",
+                "col6": 1.0,
+                "col5": 12240.0,
+                "col3": 8077.0,
+                "col4": 1
+            }, {
+                "col9": "2019年10月",
+                "col6": 1.13,
+                "col5": 9257.0,
+                "col3": 6685.0,
+                "col4": 1
+            }, {
+                "col9": "2019年11月",
+                "col6": 1.32,
+                "col5": 14097.0,
+                "col3": 10004.0,
+                "col4": 1
+            }, {
+                "col9": "2019年12月",
+                "col6": 1.25,
+                "col5": 12190.0,
+                "col3": 9460.0,
+                "col4": 1
+            }],
+        capsuleData: [{name: '数据日期', field: 'col9', value: 1155},
+            {name: '项目加班总时长', field: 'col5', value: 12340},
+            {name: '项目加班人均时长', field: 'col6', value: 718},
+            {name: '人力加班人均时长', field: 'col4', value: 6236},
+            {name: '人力加班总时长', field: 'col3', value: 8230}],
     }
 }
