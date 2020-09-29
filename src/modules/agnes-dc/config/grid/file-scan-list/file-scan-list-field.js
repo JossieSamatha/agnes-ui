@@ -13,7 +13,7 @@ export default {
         {headerName: "执行日期", field: "exeDate"},
         {headerName: "执行时间", field: "crtTs"},
         {headerName: "服务器地址", field: "serverAddress"},
-        {headerName: "是否需要解析", field: "status",
+        {headerName: "是否需要解析", field: "isNeedParse",
         valueFormatter:function(params){
             if(params.value==="0"){
                 return "否"
