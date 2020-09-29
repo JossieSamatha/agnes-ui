@@ -836,7 +836,7 @@
                 }
                 /*饼图-显示配置*/
                 if (type === 'ct-pie') {
-                    if (setting) {
+                    if (setting !== {}) {
                         if (setting.roseType) {
                             this.roseType = true;
                             this.$set(this.dataOption.chartSettings, "roseType", "radius")
@@ -999,57 +999,57 @@
                 let xLength = this.xAxisLength;
                 let yLength = this.yAxisLength;
                 if (label === '指标图' || label === '雷达图' || label === '地图') {
-                    return tip = true;
+                    tip = true;
                 }
                 if (label === '透视表') {
                     if ((xLength === 1 && yLength === 1) || (xLength === 1 && yLength === 'multiple')) {
-                        return tip = false;
+                        tip = false;
                     }
                     if ((xLength === 2 && yLength === 1) || (xLength === 2 && yLength === 'multiple')) {
-                        return tip = false;
+                        tip = false;
                     }
                     if ((xLength === 'multiple' && yLength === 'multiple') || (xLength === 'multiple' && yLength === 1)) {
-                        return tip = false;
+                        tip = false;
                     }
                     if ((xLength <= 2 && yLength === 0) || (xLength === 0 && yLength === 1) || (xLength === 0 && yLength === 'multiple') || (xLength === 'multiple' && yLength === 0)) {
-                        return tip = false;
+                        tip = false;
                     }
                 }
                 if (label === '柱状图' || label === '条形图' || label === '折线图' || label === '面积图') {
                     if ((xLength === 1 && yLength === 1) || (xLength === 1 && yLength === 'multiple')) {
-                        return tip = false;
+                        tip = false;
                     }
                     if (xLength === 2 && yLength === 1) {
-                        return tip = false;
+                        tip = false;
                     }
                     if ((xLength <= 2 && yLength === 0) || (xLength === 0 && yLength === 1) || (xLength === 0 && yLength === 'multiple')) {
-                        return tip = false;
+                        tip = false;
                     }
                 }
                 if (label === '双轴图') {
                     if ((xLength === 1 && yLength === 1) || (xLength === 1 && yLength === 'multiple')) {
-                        return tip = false;
+                        tip = false;
                     }
                     if ((xLength === 1 && yLength === 0) || (xLength === 0 && yLength === 1) || (xLength === 0 && yLength === 'multiple')) {
-                        return tip = false;
+                        tip = false;
                     }
                 }
                 if (label === '饼图') {
                     if (xLength === 1 && yLength === 1) {
-                        return tip = false;
+                        tip = false;
                     }
                     if ((xLength === 1 && yLength === 0) || (xLength === 0 && yLength === 1)) {
-                        return tip = false;
+                        tip = false;
                     }
                 }
                 if (this.axisDataList.length === 3) {
                     if (this.axisDataList[0].axisData.length <= 0 && this.axisDataList[1].axisData.length <= 0) {
-                        return tip = false;
+                        tip = false;
                     }
                 }
                 if (this.axisDataList.length === 4) {
                     if (this.axisDataList[0].axisData.length <= 0 && this.axisDataList[1].axisData.length <= 0 && this.axisDataList[2].axisData.length <= 0) {
-                        return tip = false;
+                        tip = false;
                     }
                 }
                 item.disable = tip;
