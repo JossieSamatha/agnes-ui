@@ -998,9 +998,6 @@
                 let label = item.label;
                 let xLength = this.xAxisLength;
                 let yLength = this.yAxisLength;
-                if (label === '指标图' || label === '雷达图' || label === '地图') {
-                    tip = true;
-                }
                 if (label === '透视表') {
                     if ((xLength === 1 && yLength === 1) || (xLength === 1 && yLength === 'multiple')) {
                         tip = false;
