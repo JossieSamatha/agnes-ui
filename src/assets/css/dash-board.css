@@ -146,6 +146,7 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
+    font-size: 12px;
 }
 
 .datav_client_view .el-card.module-card .el-calendar .el-calendar__header{

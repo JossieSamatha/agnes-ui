@@ -10,6 +10,9 @@
                 type: Object,
                 required: true
             }
+        },
+        mounted() {
+            this.moduleObj
         }
     }
 </script>
