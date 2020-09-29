@@ -20,7 +20,6 @@
                 this.$refs.grid.reloadData();
             },
             showFileDetail(){
-
             }
         }
     }
