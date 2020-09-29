@@ -635,7 +635,7 @@
                     this.compName = this.editItemType;
                     let typeArr = ["ct-bar", "ct-line", "ct-line-bar", "ct-pie", "ct-radar", 'ct-strip', 'ct-map', 'ct-area'];
                     let type = item.type;
-                    if (item.type === 'ct-line-bar' && item.type === 'ct-line-bar' && this.metricsLeftIndex === -1 && this.metricsRightIndex === -1) {
+                    if (item.type === 'ct-line-bar' && this.metricsLeftIndex === -1 && this.metricsRightIndex === -1) {
                         this.doubleLineTip = true;
                     } else {
                         this.doubleLineTip = false;

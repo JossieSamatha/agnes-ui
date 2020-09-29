@@ -163,12 +163,12 @@
                     this.columnDefsList = res.data;
                 });
             },
-            fieldData(dataSetId) {
+            fieldData() {
                 // 模拟数据挂载
                 /* =============  start  ==================*/
                 const columnList = mockInterData().columnList;
                 this.columnDefsList = columnList;
-                dataSetId
+
                 /* =============  end  ==================*/
 
                 // this.$api.DatavDatavApi.dataSourceColumns(dataSetId).then(res => {
@@ -201,7 +201,7 @@
                     this.listData.push(obj);
                     this.checkId = checkId
                 }
-                let id = this.$refs.dataSetTree.getCheckedNodes()[0].id;
+                // let id = this.$refs.dataSetTree.getCheckedNodes()[0].id;
 
                 // 模拟数据挂载
                 /* =============  start  ==================*/
@@ -209,7 +209,7 @@
                 const dataSetId = '65a4e70b5cd8419bb34da33a0cb4bd13';
                 this.columnDefsList = columnList;
                 this.$refs.dataTree.setCheckedKeys([dataSetId]);
-                id
+                // id
                 /* =============  end  ==================*/
 
                 // this.$api.DatavDatavApi.dataSourceColumns(id).then(res => {
