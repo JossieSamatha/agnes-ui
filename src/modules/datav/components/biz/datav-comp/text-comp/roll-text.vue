@@ -1,11 +1,32 @@
 <template>
-    <span class="roll-text" :style="compOption">{{compOption.contentText ? compOption.contentText:"输入文本"}}</span>
+    <basic-text class="roll-text" style="overflow: hidden"
+                :compOption="compOption">
+        <template slot="textSlot">
+            <div style="white-space: nowrap;" :style="{animation: animation}">
+                {{compOption.contentText ? compOption.contentText:"输入文本"}}
+            </div>
+        </template>
+    </basic-text>
 </template>
 
 <script>
+    import basicText from './basic-text'
     export default {
         name: 'roll-text',
-        props: ['compOption'],
+        props: {
+            position: Object,
+            compOption: {
+                type: Object
+            }
+        },
+        components: {
+            'basic-text': basicText
+        },
+        computed:{
+            animation(){
+                return `${this.compOption.scrollSpeed}s linear 0s infinite normal none running ${this.compOption.scrollDir}`
+            }
+        }
     }
 </script>
 

@@ -10,7 +10,9 @@ import draggable from "vuedraggable";
 import VueDragResize from 'vue-drag-resize';
 import VueGridLayout from 'vue-grid-layout';
 import dataVComp from '@jiaminghi/data-view';
+import VCharts from 'v-charts'
 import echarts from 'echarts'
+import screenfull from 'screenfull'
 
 import router from "./route/index";
 import store from './store/index';
@@ -31,7 +33,9 @@ import './assets/css/dash-board.css';
 
 Vue.use(ElementUI);
 Vue.use(echarts);
+Vue.use(VCharts);
 Vue.prototype.echarts = echarts;
+Vue.prototype.$screenfull = screenfull;
 
 Vue.prototype.$lodash = lodash;
 

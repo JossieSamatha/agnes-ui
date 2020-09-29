@@ -1,6 +1,7 @@
 import basicText from "./basic-text"
 import rollText from "./roll-text"
 import digitalFlop from "./digital-flop"
+import dateTime from './date-time'
 
 // 定义 Loading 对象
 const Loading = {
@@ -9,6 +10,7 @@ const Loading = {
         Vue.component('basic-text', basicText);
         Vue.component('roll-text', rollText);
         Vue.component('digital-flop', digitalFlop);
+        Vue.component('date-time', dateTime);
     }
 };
 // 导出

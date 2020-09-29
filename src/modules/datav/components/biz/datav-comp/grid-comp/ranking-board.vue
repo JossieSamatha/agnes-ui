@@ -1,48 +1,60 @@
 <template>
-    <dv-scroll-ranking-board :config="config"/>
+    <dv-scroll-ranking-board :config="configParam" style="width: 100%;height: 100%"/>
 </template>
 
 <script>
+    import mockInterData from "../../../../pages/monitor-view/mockInterData";
     export default {
         name: 'ranking-board',
         props: {
-            config: {
-                type: Object,
-                default: function () {
-                    return {
-                        data: [
-                            {
-                                name: '周口',
-                                value: 55
-                            },
-                            {
-                                name: '南阳',
-                                value: 120
-                            },
-                            {
-                                name: '西峡',
-                                value: 78
-                            },
-                            {
-                                name: '驻马店',
-                                value: 66
-                            },
-                            {
-                                name: '新乡',
-                                value: 80
-                            },
-                            {
-                                name: '信阳',
-                                value: 45
-                            },
-                            {
-                                name: '漯河',
-                                value: 29
-                            }
-                        ]
-                    }
+            position: Object,
+            compOption: {
+                type: Object
+            }
+        },
+        computed: {
+            configParam(){
+                if(this.compOption.columnArr && this.compOption.columnArr.length>0){
+                    this.getTableData();
                 }
+                const config = {
+                    ...this.compOption,
+                    waitTime: this.compOption.waitTimeSec*1000,
+                }
+                if(this.compOption.formatter === 'money'){
+                    config.valueFormatter = this.mapNumType;
+                }
+                return config;
+            }
+        },
+        watch: {
+            compOption(val){
+                this.compOption = val;
             },
+            header(){
+                this.getTableData();
+            },
+            dataConfig(){
+                this.getTableData();
+            },
+        },
+        methods: {
+            mapNumType({value}){
+                return this.$fmt.formateThousandthMoney(value) + '&nbsp;&nbsp;' + this.compOption.unit;
+            },
+            getTableData(){
+                // 模拟数据挂载
+                /* =============  start  ==================*/
+                const mockData = mockInterData().capsuleData;
+                const columnArr = this.compOption.columnArr
+                const fields = columnArr.map((headItem)=>{return headItem.field});
+                const filterMockData = mockData.filter((dataItem)=>{
+                    return fields.includes(dataItem.field);
+                });
+
+                this.compOption.data = filterMockData;
+                /* =============  end  ==================*/
+            }
         },
     }
 </script>
