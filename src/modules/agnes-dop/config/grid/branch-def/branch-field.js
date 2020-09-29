@@ -1,30 +1,23 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'showFileDetail', title: '文件明细'},
+    {key: 'editBranch', title: '编辑'},
+    {key: 'deleteBranch', title: '删除', cellClass: 'red-cell'},
 ];
+
 export default {
     columnDefs: [
-        column.buildOpCol(80, colButtons),
-        {headerName: "规则编号", field: "scanCode"},
-        {headerName: "规则名称", field: "scanName"},
-        {headerName: "扫描路径", field: "filePath"},
-        {headerName: "扫描文件", field: "fileName"},
-        {headerName: "执行日期", field: "exeDate"},
-        {headerName: "执行时间", field: "crtTs"},
-        {headerName: "服务器地址", field: "serverAddress"},
-        {headerName: "是否需要解析", field: "status",
-        valueFormatter:function(params){
-            if(params.value==="0"){
-                return "否"
-            }else{
-                return '是'
-            }
-        }},
+        column.buildOpCol(160, colButtons),
+        {headerName: "网点名称", field: "branchName"},
+        {headerName: "网点代码", field: "branchCode"},
+        {headerName: "大额支付号", field: "bigPayNo"},
+        {headerName: "机构名称", field: "orgName"},
+        {headerName: "省会", field: "provinceName"},
+        {headerName: "城市", field: "cityName"},
     ],
     ext: {
-        fetchUrl: "/agnes-app/v1/dc/file/scan/log/list-page",
-        fetchMethod: 'get',
+        fetchUrl: "/agnes-app/v1/dop/bank/get/page/list",
+        fetchMethod: 'post',
         pagingMode: true, //不分页
         checkboxColumn: 1, //是否显示checkbox列,
         enableExportLocal: true,

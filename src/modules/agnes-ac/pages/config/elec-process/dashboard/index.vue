@@ -76,19 +76,37 @@
                         <div class="progress-item" v-for="stage in stageList" :key="stage.defId">
                             <span>{{stage.defName}}</span>
                             <el-progress class="define-progress"
-                                         :style="{color: getStatusColor(stage.status)}"
+                                         :style="{color: getDetailColor(stage.status)}"
                                          :percentage="getPercentage(stage.percentage)"
-                                         :color="getStatusColor(stage.status)"
+                                         :color="getDetailColor(stage.status)"
                                          :stroke-width="6"
                                          :show-text="false"
+                                         @click.native="stageDetailView(stage)"
                             ></el-progress>
-                            <span :style="{color: getStatusColor(stage.status)}"
-                                  style="width: auto;margin-left: 10px;">{{stage.completeNum}} / {{stage.targetNum}}</span>
+                            <p  :style="{color: getDetailColor(stage.status)}">
+                                <span style="margin-left: 10px;color: #333">{{stage.completeNum}}/{{stage.targetNum}}</span>
+                                <span class="fa fa-circle"
+                                      v-if="stage.status === '03' || stage.status === '04' "
+                                      style="margin-left: 10px;cursor: pointer;color:#F5222E;"
+                                      @click="showStageError(stage)"
+                                ></span>
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+        <div v-show="ifGridExpand" class="drag-column" id="taskContainerLeft">
+            <div class="close-container">
+                <i class="el-icon-circle-close" @click="closeTableDetail"></i>
+            </div>
+            <div class="drag-container" v-dragx="dragColumn" @bindUpdate="dragColumnUpdate" ref="dragColumn">
+                <gf-grid ref="monitorLeader"
+                         height="100%"
+                         grid-no="agnes-monitor-leader-field"
+                ></gf-grid>
+            </div>
+        </div>
     </el-container>
 </template>
 
@@ -98,20 +116,20 @@
         data(){
             return {
                 svgImg: this.$lcImg,
+                dragColumn: {dragContainerId: "taskContainerLeft", dragDirection: 'n'},
                 carouselHeight: 0,
-                flowType: '01',
+                flowType: '',
                 proTask: [],
                 executePieData: [],
                 bizDate: '',
                 curTask: {},
                 stageStatus: {
-                    '#DFE1E5': '未开始',
-                    '#4A8EF0': '执行中',
-                    '#FAAE14': '干预通过',
-                    '#F5222E': '已异常/已超时',
-                    '#52C41C': '已完成'
+                    '#E0E0E0': '未开始',
+                    '#F5222E': '已异常',
+                    '#4A8EF0': '已完成'
                 },
-                stageList: []
+                stageList: [],
+                ifGridExpand: false
             }
         },
         async created(){
@@ -156,6 +174,7 @@
                         this.proTask.push(itemData);
                         if(!(this.curTask && this.curTask.taskId)){
                             this.curTask = data[0];
+                            this.flowType = data[0].exeType;
                             this.getFLowDetail(data[0].taskId, data[0].caseId, this.bizDate);
                         }
                     }
@@ -168,6 +187,7 @@
             // 选择流程
             chooseTask(task){
                 this.curTask = task;
+                this.flowType = task.exeType;
                 this.getFLowDetail(task.taskId, task.caseId, this.bizDate);
             },
 
@@ -195,6 +215,24 @@
                 return stepStatus.get(statusId).color;
             },
 
+            getDetailColor(statusId){
+              if(statusId === '01'){
+                return '#D0D0D0';
+              }else{
+                return '#4A8EF0';
+              }
+
+              // const colorSet = {
+              //       '01': '#D0D0D0',    // 未开始
+              //       '02': '#4A8EF0',    // 执行中
+              //       '03': '#F5222E',    // 已异常
+              //       '04': '#4A8EF0',    // 已超时
+              //       '06': '#4A8EF0',    // 已完成
+              //       '07': '#4A8EF0',    // 干预通过
+              //   };
+              //   return colorSet[statusId];
+            },
+
             // 根据流程id及业务日期加载流程信息{"taskId":"","bizDate":""}、获取任务状态、获取执行情况
             async getFLowDetail(taskId, caseId, bizDate) {
                 const flowDetailRes = this.$api.elecProcessApi.getExecProcessDetail({taskId, caseId, bizDate});
@@ -206,7 +244,7 @@
                     const completeNum = flowDetailParse.processCompleteNum;
                     const targetNum = flowDetailParse.processTargetNum;
                     const executePieData = [
-                        {name: '完成', value: completeNum},
+                        {name: '已完成', value: completeNum},
                         {name: '未完成', value: (targetNum-completeNum)}
                     ];
                     this.executePieData = executePieData;
@@ -216,6 +254,53 @@
                 }
             },
 
+            closeTableDetail(){
+                this.ifGridExpand = false;
+            },
+
+            // 纵向拉伸宽度问题处理
+            dragColumnUpdate() {
+                this.$refs.dragColumn.style.width = '100%';
+            },
+
+            stageDetailView(stage, error){
+                const gridData = this.getStageData(stage, stage.ruCaseStepList);
+                this.$refs.monitorLeader.setRowData(gridData);
+                if(error){
+                    this.$refs.monitorLeader.gridController.gridApi.setFilterModel({stepStatus: {type: 'set', values: ['03','04']}})
+                }
+                this.ifGridExpand = true;
+            },
+
+            showStageError(stage){
+                this.stageDetailView(stage, 'error')
+            },
+
+            // 展开表格显示详情
+            getStageData(listInfo, ruCaseStepList){
+                let tableArr = [];
+                let orgHierarchy = [];
+                let traverseArr = [];
+                traverseArr = listInfo.children;
+                return this.traverseData(traverseArr, orgHierarchy, tableArr, ruCaseStepList);
+            },
+
+            traverseData(arr, orgHierarchy, tableArr, ruCaseStepList){
+                arr.forEach((groupItem)=>{
+                    let newHierarchy = [].concat(orgHierarchy);
+                    if(groupItem.defType === 'group'){
+                        newHierarchy.push(groupItem.defName);
+                        this.traverseData(groupItem.steps, newHierarchy, tableArr, ruCaseStepList);
+                    }else{
+                        newHierarchy.push(groupItem.stepName);
+                        const stepCode = groupItem.stepFormInfo.caseStepDef.stepCode;
+                        let rowData = ruCaseStepList[stepCode];
+                        rowData.orgHierarchy = newHierarchy;
+                        tableArr.push(rowData);
+                    }
+                });
+                return tableArr;
+            },
 
         }
     }

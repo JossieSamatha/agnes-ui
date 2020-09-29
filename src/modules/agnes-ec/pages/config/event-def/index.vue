@@ -3,6 +3,7 @@
         <gf-grid @row-double-click="showEventDef" grid-no="agnes-event-def" ref="grid">
             <template slot="left">
                 <gf-button class="action-btn" @click="addEventDef" size="mini">添加</gf-button>
+                <gf-button class="action-btn" @click="copyEventDef" size="mini">复制</gf-button>
             </template>
         </gf-grid>
     </div>
@@ -25,12 +26,19 @@
                 if(mode==='view'){
                     cancelTitle = '关闭';
                 }
+
+                let title = this.$dialog.formatTitle('事件定义配置', mode);
+                if(mode==='copy'){
+                    title = '事件定义配置 - 复制';
+                }
+
                 let isShow = true;
                 row.isCheck=false;
                 if(mode==='check'){
                     mode='view';
                     row.isCheck=true;
                     cancelTitle = '反审核';
+                    title = '事件定义配置-审核';
                 }
                 if(!row.isCheck && mode==='view'){
                     isShow = false;
@@ -39,7 +47,7 @@
                 // 抽屉创建
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
-                    title: ['事件定义配置',mode],
+                    title: [title],
                     component: EventDefDlg,
                     args: {row, mode, actionOk},
                     okButtonVisible:isShow,
@@ -92,6 +100,20 @@
                 // this.showTab('agnes.config.event.edit','edit', params.data, this.onEditModel.bind(this));
                 this.showDrawer(params.data,'edit' , this.onEditEventDef.bind(this));
             },
+            copyEventDef() {
+              let rows = this.$refs.grid.getSelectedRows();
+              let row =[];
+              if(rows.length>0){
+                row = rows[0];
+              }else{
+                this.$msg.warning("请选中一条记录!");
+                return;
+              }
+              this.showDrawer(row,'copy',this.onEditEventDef.bind(this))
+
+                // this.showTab('agnes.config.event.edit','edit', params.data, this.onEditModel.bind(this));
+                // this.showDrawer(eventDef,'copy' , this.onEditEventDef.bind(this));
+            },
             async deleteEventDef(params) {
                 const row = params.data;
                 const ok = await this.$msg.ask(`确认删除事件定义:[${row.eventName}]吗, 是否继续?`);
@@ -129,6 +151,26 @@
                 }
                 try {
                     const p = this.$api.eventlDefConfigApi.publishEventDef(row.eventId);
+                    await this.$app.blockingApp(p);
+                    this.$msg.success("发布成功!");
+                    this.reloadData();
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
+            async stopEventDef(params) {
+                const row = params.data;
+                if(params.data.eventStatus !== '03'){
+                    this.$msg.warning("该状态无法停用!");
+                    return;
+                }
+
+                const ok = await this.$msg.ask(`确认停用事件定义:[${row.eventName}]吗, 是否继续?`);
+                if (!ok) {
+                    return
+                }
+                try {
+                    const p = this.$api.eventlDefConfigApi.stopEventDef(row.eventId);
                     await this.$app.blockingApp(p);
                     this.$msg.success("发布成功!");
                     this.reloadData();

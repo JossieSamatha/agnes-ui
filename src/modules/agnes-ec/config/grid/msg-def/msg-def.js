@@ -1,8 +1,18 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'editMsg', title: '编辑'},
-    {key: 'deleteMsg', title: '删除',cellClass:'red-cell'},
+    {key: 'editMsg', title: '编辑', disabled: (params)=>{
+            let result = false;
+            if(params.data.msgStatus === '03'){
+                result =true;
+            }
+            return result;}},
+    {key: 'deleteMsg', title: '删除',cellClass:'red-cell',disabled: (params)=>{
+            let result = false;
+            if(params.data.msgStatus === '03'){
+                result =true;
+            }
+            return result;}},
     {key: 'approveMsg', title: '审核',disabled: (params)=>{
             let result = false;
             if(params.data.msgStatus === '02' || params.data.msgStatus === '03'){
@@ -19,7 +29,7 @@ const colButtons = [
 
 export default {
     columnDefs: [
-        column.buildOpCol(160, colButtons),
+        column.buildOpCol(170, colButtons),
         {headerName: "消息名称", field: "msgName"},
         {headerName: "消息编号", field: "msgCode"},
         {headerName: "消息类型", field: "msgTopic",formatType: 'dict', dictType: 'AC_MSG_TOPIC' },

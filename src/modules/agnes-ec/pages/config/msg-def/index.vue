@@ -3,6 +3,7 @@
         <gf-grid @row-double-click="showMsg" grid-no="agnes-msg-def" ref="grid">
             <template slot="left">
                 <gf-button @click="addMsg" class="action-btn">添加</gf-button>
+                <gf-button class="action-btn" @click="copyMsg" size="mini">复制</gf-button>
             </template>
         </gf-grid>
     </div>
@@ -23,6 +24,10 @@
                 }
                 row.isCheck=false;
                 let title = this.$dialog.formatTitle('消息定义配置', mode);
+                if(mode==='copy'){
+                    title = '消息定义配置 - 复制';
+                }
+
                 if(mode == 'check'){
                     row.isCheck=true;
                     title = '消息定义配置 - 审核';
@@ -50,6 +55,17 @@
             },
             editMsg(params) {
                 this.showDlg('edit', params.data, this.onEditMsg.bind(this));
+            },
+            copyMsg() {
+              let rows = this.$refs.grid.getSelectedRows();
+              let row =[];
+              if(rows.length>0){
+                row = rows[0];
+              }else{
+                this.$msg.warning("请选中一条记录!");
+                return;
+              }
+                this.showDlg('copy', row, this.onEditMsg.bind(this));
             },
             approveMsg(params) {
                 this.showDlg('check', params.data, this.onEditMsg.bind(this));

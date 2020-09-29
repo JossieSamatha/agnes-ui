@@ -68,7 +68,7 @@
                 </gf-person-chosen>
             </el-form-item>
             <el-form-item label="任务类型" prop="stepActType">
-                <gf-dict v-model="stepInfo.stepActType" dictType="AGNES_CASE_STEPTYPE"></gf-dict>
+                <gf-dict v-model="stepInfo.stepActType" dictType="AGNES_CASE_STEPTYPE" @change="stepActTypeChange"></gf-dict>
             </el-form-item>
             <el-form-item v-if="stepInfo.stepActType === '1'" label="执行逻辑选择" prop="stepActKey">
                 <el-select style="width: 100%" v-model="caseStepDef.stepActKey" placeholder="请选择" filterable clearable>
@@ -420,6 +420,15 @@
             this.rosterDate = window.bizDate
         },
         methods: {
+            stepActTypeChange(){
+                if(this.optionType == 'add'){
+                    if(this.stepInfo.stepActType==='6'){
+                        this.caseStepDef.allowManualConfirm = '1'
+                    }else{
+                        this.caseStepDef.allowManualConfirm = '0'
+                    }
+                }
+            },
             getMemberList(val){
                 this.memberRefList = val;
                 this.stepInfo.stepFormInfo.caseStepDef.stepActOwner = JSON.stringify(val);

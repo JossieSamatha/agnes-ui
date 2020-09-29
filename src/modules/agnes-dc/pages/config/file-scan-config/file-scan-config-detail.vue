@@ -35,10 +35,38 @@
 <!--            </el-select>-->
 <!--        </el-form-item>-->
         <el-form-item label="文件路径" prop="filePath">
-            <gf-input v-model.trim="detailFormData.filePath" placeholder="文件路径"/>
+            <gf-input v-model.trim="detailFormData.filePath" placeholder="文件路径" style="width: calc(100% - 30px); margin-right: 10px"/>
+            <el-popover placement="bottom"
+                        title="日期通配符配置说明"
+                        width="220"
+                        trigger="click"
+                        popper-class="question-popover">
+                <el-button slot="reference"
+                           icon="fa fa-question-circle-o"
+                           style="border: none;padding: 0;font-size: 20px;vertical-align: middle"
+                ></el-button>
+                <p>格式：${[yyyymmdd/yyyy-mm-dd],-1/0/1,D/W,CN};</p>
+                <p>-1/0/1：前一天/当天/后一天;D:自然日、W:工作(注：选择当天，该参数应为D);CN:中国大陆</p>
+                <p>例如：/home/${[yyyymmdd],-2,D,CN}/test</p>
+                <p>如当天日期为20200925,该表达式解析为：/home/20200923/test</p>
+            </el-popover>
         </el-form-item>
         <el-form-item label="文件名称" prop="fileName">
-            <gf-input v-model.trim="detailFormData.fileName" placeholder="文件名称"/>
+            <gf-input v-model.trim="detailFormData.fileName" placeholder="文件名称" style="width: calc(100% - 30px); margin-right: 10px"/>
+            <el-popover placement="bottom"
+                        title="日期通配符配置说明"
+                        width="220"
+                        trigger="click"
+                        popper-class="question-popover">
+                <el-button slot="reference"
+                           icon="fa fa-question-circle-o"
+                           style="border: none;padding: 0;font-size: 20px;vertical-align: middle"
+                ></el-button>
+                <p>格式：${[yyyymmdd/yyyy-mm-dd],-1/0/1,D/W,CN};</p>
+                <p>-1/0/1：前一天/当天/后一天;D:自然日、W:工作(注：选择当天，该参数应为D);CN:中国大陆</p>
+                <p>例如：/home/${[yyyymmdd],-2,D,CN}/test</p>
+                <p>如当天日期为20200925,该表达式解析为：/home/20200923/test</p>
+            </el-popover>
         </el-form-item>
 <!--        <el-form-item label="基准日期" prop="baseDate">-->
 <!--            <gf-dict filterable clearable v-model="detailFormData.baseDate" dict-type="AGNES_BASE_DATE" style="width: 30%;"/>-->
@@ -90,10 +118,10 @@
                     userName:'',
                     password:'',
                     status:'0',
-                    varId:[],
+                    // varId:[],
                     filePath:'',
                     fileName:'',
-                    isNeedParse:false,
+                    isNeedParse:'0',
                     analyRules:'',
                     baseDate:'',
                     execScheduler:'',
@@ -117,6 +145,9 @@
                     ],
                     serverPort: [
                         {required: true, message: '服务器端口必填', trigger: 'blur'},
+                    ],
+                    execScheduler: [
+                        {required: true, message: '执行频率必填', trigger: 'blur'},
                     ],
                     // baseDate: [
                     //     {required: true, message: '基准日期必填', trigger: 'change'},
@@ -150,10 +181,10 @@
                 if(this.detailFormData.execScheduler){
                     this.detailFormData.execScheduler = '00#00#02#'+this.detailFormData.execScheduler
                 }
-                if(this.detailFormData.varId){
-                    let varIdArr = this.detailFormData.varId.split(',');
-                    this.detailFormData.varId = varIdArr
-                }
+                // if(this.detailFormData.varId){
+                //     let varIdArr = this.detailFormData.varId.split(',');
+                //     this.detailFormData.varId = varIdArr
+                // }
             },
             // async getVarIdList(){
             //     const p = this.$api.fileScan.getVarIdList();
@@ -181,10 +212,11 @@
                         let spiltExecScheduler = moveForm.execScheduler.split('#');
                         moveForm.execScheduler = spiltExecScheduler[3]
                     }
-                    if(moveForm.varId){
-                        moveForm.varId = moveForm.varId.join();
-                    }
+                    // if(moveForm.varId){
+                    //     moveForm.varId = moveForm.varId.join();
+                    // }
                     moveForm.isNeedCheck = true;
+                    moveForm.status='01';
                     if(this.mode==='add'){
                         const p = this.$api.fileScan.saveFileScan(moveForm);
                         await this.$app.blockingApp(p);

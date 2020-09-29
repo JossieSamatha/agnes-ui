@@ -23,10 +23,10 @@
                         icon: 'indicator'
                     },
                     {
-                        id: '3',
-                        type: 'process',
-                        label: '审批流程任务',
-                        icon: 'process'
+                        id: '7',
+                        type: 'robot',
+                        label: '自动处理任务',
+                        icon: 'robot'
                     },
                     {
                         id: '6',
@@ -35,10 +35,10 @@
                         icon: 'person'
                     },
                     {
-                        id: '4',
-                        type: 'robot',
-                        label: 'RPA自动任务',
-                        icon: 'robot'
+                        id: '3',
+                        type: 'process',
+                        label: '审批流程任务',
+                        icon: 'process'
                     }
                 ]
             }

@@ -238,7 +238,7 @@
                         let stepActType = '';
                         if(nowData[i].stepActType === '1'){
                             stepActType = 'action'
-                        }else if(nowData[i].stepActType === '6'){
+                        }else if(nowData[i].stepActType === '6' || nowData[i].stepActType === '7'){
                             stepActType = 'form'
                         }
                         currentData['@stepType'] = stepActType;

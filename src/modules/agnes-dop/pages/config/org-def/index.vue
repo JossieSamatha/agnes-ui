@@ -88,8 +88,9 @@
             //树相关
             async getOrgTreeNodes(){
                 try {
+                    this.treeData = [];
                     const resp = await this.$api.orgDefineApi.getOrgTreeNodes();
-                    this.treeData = resp.data;
+                  this.treeData.push(resp.data);
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
@@ -190,6 +191,4 @@
 .el-border {
   border: 1px solid rgb(238, 238, 238);
 }
-
-
 </style>

@@ -36,26 +36,51 @@
             }
         },
         methods: {
+            showPieChartText(val1, val2) {
+                if ((val2 - val1) === 0) {
+                    return "100%"
+                } else {
+                    let temp = (val1 / val2) * 100 + ""
+                    if (temp.includes(".")) {
+                        let tempArr = temp.split(".")
+                        if (parseInt(tempArr[1].slice(0, 1)) >= 5) {
+                            return (parseInt(tempArr[0]) + 1) + "%"
+                        } else {
+                            return tempArr[0] + "%"
+                        }
+                    } else {
+                        return temp + "%"
+                    }
+                }
+            },
             init() {
                 this.pieChart = this.echarts.init(this.$el);
-                let legendName=[], valueSum = 0;
+                let legendName=[], valueSum = 0, doneSum = 0;
                 const colorSet = this.colorSet;
                 this.chartData.forEach(function (item) {
                     legendName.push(item.name);
+                    if (item.name == "已完成") {
+                        doneSum = item.value
+                    }
                     valueSum += item.value;
                 });
-
                 const title = {
                     zlevel: 0,
-                    text: valueSum+'个',
+                    text: this.showPieChartText(doneSum, valueSum),
                     rich: {
                         value: {
                             color: '#333',
                             fontSize: 14
                         },
                     },
-                    top: 'center',
-                    left: 'center',
+                    x: 'center',
+                    y: 'center',
+                    top: '170',
+                    textStyle: {
+                        color: "blue",
+                        fontSize: 30,
+                        fontWeight: '800'
+                    }
                 };
                 const tooltip ={
                     trigger: 'item',
@@ -96,9 +121,12 @@
                             },
                             normal:{
                                 label:{
-                                    show:true,
+                                    show: false,
                                     position: 'outside',
                                     formatter:'{b} : {c} ({d}%)'
+                                },
+                                labelLine: {
+                                    show: false
                                 },
                                 color:function(params) {
                                     //自定义颜色
@@ -131,14 +159,31 @@
         watch: {
             chartData: {
                 handler: function(newVal) {
-                    let valueSum = 0,legendName=[];
+                    let valueSum = 0,legendName=[], doneSum = 0;
                     newVal.forEach(function (item) {
                         legendName.push(item.name);
+                        if (item.name == "已完成") {
+                            doneSum = item.value
+                        }
                         valueSum += item.value;
                     });
                     this.pieChart.setOption({
                         title: {
-                            text: valueSum+'个',
+                            zlevel: 0,
+                            text: this.showPieChartText(doneSum, valueSum),
+                            rich: {
+                                value: {
+                                    color: '#333',
+                                    fontSize: 14
+                                },
+                            },
+                            top: 'center',
+                            left: 'center',
+                            textStyle: {
+                                color: "#476dbe",
+                                fontSize: 30,
+                                fontWeight: 800
+                            }
                         },
                         legend: {
                             data: legendName
