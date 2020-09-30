@@ -30,7 +30,7 @@ const colButtons = [
                 result =false;
             }
             return result;}},
-    {key: 'stopFileMove', title: '停用',visiable: (params)=>{
+    {key: 'stopFileMove', title: '停止',visiable: (params)=>{
             let result = false;
             if(params.data.status === '03'){
                 result =true;
