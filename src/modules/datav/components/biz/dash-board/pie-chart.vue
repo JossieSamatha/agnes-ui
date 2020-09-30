@@ -17,6 +17,9 @@ export default {
                 return [];
             }
         },
+        title: {
+          type: String
+        },
         pieHeight: {
             type: String,
             default: '250px'
@@ -36,19 +39,6 @@ export default {
         }
     },
     methods: {
-        showPieChartText(val1, val2) {
-            if (val2 === val1) {
-                return "100%"
-            } else {
-                let temp = (val1 / val2) * 100 + ""
-                let temp1 = (val1 / val2) * 100
-                if (temp.includes(".")) {
-                    return temp1.toFixed(0) + "%"
-                } else {
-                    return temp1 + "%"
-                }
-            }
-        },
         init() {
             this.pieChart = this.echarts.init(this.$el);
             let legendName=[], valueSum = 0, doneSum = 0;
@@ -62,7 +52,7 @@ export default {
             });
             const title = {
                 zlevel: 0,
-                text: this.showPieChartText(doneSum, valueSum),
+                text: doneSum === valueSum ? '100%' : this.title,
                 rich: {
                     value: {
                         color: '#333',
@@ -165,7 +155,7 @@ export default {
                 this.pieChart.setOption({
                     title: {
                         zlevel: 0,
-                        text: this.showPieChartText(doneSum, valueSum),
+                        text: doneSum === valueSum ? '100%' : this.title,
                         rich: {
                             value: {
                                 color: '#333',

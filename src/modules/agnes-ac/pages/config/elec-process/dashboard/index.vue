@@ -60,9 +60,9 @@
             </el-carousel>
             <div class="card-detail" v-if="curTask.taskId">
                 <div class="chart-container">
-                    <pie-chart ref="pieChart" :chart-data="executePieData" pieHeight="70%"
-                               legendPosX="right" legendPosY="top"
-                               :color-set="['#476DBE','#E0E0E0']"></pie-chart>
+                    <pie-chart ref="pieChart" :chart-data="executePieData" :title="pieTitle" pieHeight="70%"
+                               legendPosX="right" legendPosY="top" :color-set="['#476DBE','#E0E0E0']"
+                    ></pie-chart>
                     <p class="detail-btn" @click="reivewDetail">查看详情</p>
                 </div>
                 <div class="process-container">
@@ -134,6 +134,7 @@ export default {
                 '#4A8EF0': '已完成'
             },
             stageList: [],
+            pieTitle: '',
             ifGridExpand: false,
             setPos: "relative"
         }
@@ -180,6 +181,7 @@ export default {
                     this.proTask.push(itemData);
                     if(!(this.curTask && this.curTask.taskId)){
                         this.curTask = data[0];
+                        this.pieTitle = this.getPercentage(data[0].finishedRate)+'%';
                         this.flowType = data[0].exeType;
                         this.getFLowDetail(data[0].taskId, data[0].caseId, this.bizDate);
                     }
@@ -193,6 +195,7 @@ export default {
         // 选择流程
         chooseTask(task){
             this.curTask = task;
+            this.pieTitle = this.getPercentage(task.finishedRate)+'%';
             this.flowType = task.exeType;
             this.getFLowDetail(task.taskId, task.caseId, this.bizDate);
         },
@@ -227,16 +230,6 @@ export default {
             }else{
                 return '#4A8EF0';
             }
-            
-            // const colorSet = {
-            //       '01': '#D0D0D0',    // 未开始
-            //       '02': '#4A8EF0',    // 执行中
-            //       '03': '#F5222E',    // 已异常
-            //       '04': '#4A8EF0',    // 已超时
-            //       '06': '#4A8EF0',    // 已完成
-            //       '07': '#4A8EF0',    // 干预通过
-            //   };
-            //   return colorSet[statusId];
         },
         
         // 根据流程id及业务日期加载流程信息{"taskId":"","bizDate":""}、获取任务状态、获取执行情况
