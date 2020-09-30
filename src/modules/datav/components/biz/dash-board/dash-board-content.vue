@@ -55,7 +55,7 @@
             }
         },
         mounted() {
-
+            this.draggableList
         },
         watch: {
         },
