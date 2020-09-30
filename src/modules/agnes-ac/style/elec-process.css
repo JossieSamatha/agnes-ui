@@ -86,6 +86,7 @@
     padding: 30px;
     box-shadow: 0px 0px 8px 0px rgba(13, 30, 65, 0.4);
     border-radius: 4px;
+    overflow: scroll;
 }
 
 .elec-process-dashboard .board-container .card-detail>div {
@@ -124,6 +125,7 @@
 
 .elec-process-dashboard .board-container .card-detail .progress {
     margin-top: 20px;
+    overflow: scroll;
 }
 
 .elec-process-dashboard .board-container .card-detail .progress .progress-item>span {

@@ -44,7 +44,7 @@
 <style scoped>
     .notice-list {
         width: 100%;
-        margin: 25px;
+        margin: 20px 10px;
     }
     .state-icon,
     .notice-date,
