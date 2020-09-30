@@ -129,9 +129,9 @@ export default {
             bizDate: '',
             curTask: {},
             stageStatus: {
-                '#E0E0E0': '未开始',
-                '#F5222E': '有异常',
-                '#4A8EF0': '已完成'
+                '#4A8EF0': '已完成',
+                '#E0E0E0': '未完成',
+                '#F5222E': '异常'
             },
             stageList: [],
             pieTitle: '',
