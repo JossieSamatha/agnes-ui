@@ -2,7 +2,7 @@ import router from '../route'
 import store from '@hex/ares-ui/src/store'
 
 //白名单路由
-const whiteList = ['/login'];
+const whiteList = ['/login', '/datavpreview'];
 
 router.beforeEach((to, from, next) => {
     document.title = '智能运营平台';

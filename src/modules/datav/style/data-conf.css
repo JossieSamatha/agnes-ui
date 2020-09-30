@@ -1,0 +1,1490 @@
+/*================================*/
+/*             左侧内容            */
+/*================================*/
+.config-drawer .dash-chart-content .dash-chart-left {
+    flex: 0 0 20%;
+    width: 20%;
+    height: 100%;
+    border-right: 1px solid #e9e9e9;
+}
+
+.config-drawer .dash-chart-content .dash-chart-data {
+    line-height: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.config-drawer .dash-chart-content .dash-chart-left .data-block {
+    border-bottom: 1px solid #9999;
+    flex: 1 1 auto;
+    position: relative;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.config-drawer .dash-chart-content .dash-chart-left .data-block:first-child {
+    flex-grow: 0;
+}
+
+.config-drawer .dash-chart-content .dash-chart-left .data-block .data-auth {
+    padding: 5px 10px 0 20px;
+}
+
+.config-drawer .data-block .data-auth .data-auth-desc {
+    margin-top: 5px;
+    font-size: 12px;
+    line-height: 16px;
+    color: #91A1B7;
+}
+
+.config-drawer .block-main {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow-y: auto;
+}
+
+.config-drawer .block-main .block-list {
+    font-size: 12px;
+    margin-left: 20px;
+}
+
+.config-drawer .x-list-pane {
+    overflow: auto;
+    padding: 5px 0;
+    width: 90%;
+}
+
+.config-drawer .list-item {
+    cursor: move;
+    color: #1F2D3D;
+    position: relative;
+    padding-left: 35px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.config-drawer .block-right {
+    position: relative;
+    float: right;
+    right: 0;
+}
+
+.config-drawer .block-link {
+    cursor: pointer;
+    color: #476DBE;
+}
+
+.config-drawer .block-head {
+    padding: 10px 10px 0 20px;
+}
+
+.config-drawer .block-icon {
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+.config-drawer .block-icon-color {
+    color: #476DBE;
+}
+
+.config-drawer .update-data-source {
+    border: 1px solid #eaeaea;
+    width: 100%;
+    height: 350px;
+    position: relative;
+}
+
+.config-drawer .block-list .x-list-pane .list-item.item i.icon {
+    color: #476DBE;
+}
+
+/*更改数据集*/
+.config-drawer .update-data-source ul li#data-source-table:hover {
+    background-color: #ecf5ff;
+    color: #476DBE;;
+}
+
+.config-drawer .dash-chart-content .el-tabs__active-bar {
+    background-color: #476DBE;
+}
+
+.config-drawer #update-data-source ul li#data-source-table:hover .el-radio__label {
+    color: #476DBE;
+}
+
+/*================================*/
+/*             中间内容            */
+/*================================*/
+.config-drawer .dash-chart-main {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    padding: 10px 15px;
+}
+
+.config-drawer .dash-chart-main .chart-axis {
+    position: relative;
+    line-height: 34px;
+    background: #fff;
+    position: relative;
+    margin-bottom: 10px;
+    border: 1px dashed #D9D9D9;
+    border-radius: 3px;
+    line-height: 34px;
+}
+
+.config-drawer .dash-chart-main .chart-axis .axis-head {
+    position: absolute;
+    top: 0;
+    left: 10px;
+}
+
+.config-drawer .chart-axis .drag-target {
+    padding: 2.5px 10px 2.5px 78px;
+    min-height: 34px;
+    max-height: 90px;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.config-drawer .chart-axis .drag-target .drag-tip {
+    font-size: 12px;
+    color: #91A1B7;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 80px;
+}
+
+.config-drawer .dash-chart-main .chart-main {
+    position: relative;
+    background: #fff;
+    box-shadow: 0 2px 6px 0 rgba(84, 48, 132, .1);
+    flex: 1 1 auto;
+    /*overflow: hidden;*/
+    overflow-y: auto;
+}
+
+.config-drawer .dash-chart-main .chart-title-wrapper {
+    line-height: 20px;
+    margin: 20px 90px 10px 30px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.config-drawer .dash-chart-main .chart-title-wrapper .chart-title {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: bold;
+    color: #333;
+}
+
+.config-drawer .dash-chart-main .chart-widget {
+    /*position: absolute;*/
+    top: 60px;
+    left: 30px;
+    right: 30px;
+    bottom: 30px;
+}
+
+.config-drawer .chart-widget .component-content {
+    position: relative;
+    width: 300px;
+    margin: 150px auto 0;
+    text-align: center;
+}
+
+.config-drawer .chart-widget .component-content .guide-image {
+    width: 84px;
+    vertical-align: middle;
+}
+
+.config-drawer .chart-widget .component-content .guide-tip {
+    color: #91A1B7;
+    margin-top: 10px;
+}
+
+.config-drawer .chart-widget .component-content .guide-tip .guide-link {
+    color: #476DBE;
+    text-decoration: underline;
+}
+
+/* 维度、指标*/
+.config-drawer .chart-axis .content-center i.el-tag__close.el-icon-close {
+    opacity: 0;
+    padding-left: 5px;
+    margin-bottom: 2px;
+}
+
+.config-drawer .chart-axis .xAxis-style .content-center span.el-tag:hover i.el-tag__close {
+    opacity: 1;
+    background-color: #fff;
+    color: #476DBE;
+}
+
+.config-drawer .chart-axis .yAxis-style .content-center span.el-tag:hover i.el-tag__close {
+    opacity: 1;
+    background-color: #fff;
+    color: rgb(13, 179, 166);
+}
+
+.config-drawer .chart-axis .filter-style .content-center span.el-tag:hover i.el-tag__close {
+    opacity: 1;
+    background-color: #999;
+    color: #fff;
+}
+
+.config-drawer .chart-axis .content-center i.el-tag__close.el-icon-close {
+    padding-left: 0px;
+    padding-top: 1px;
+}
+
+.config-drawer .chart-axis .xAxis-style .content-center span.el-tag.el-tag--light {
+    position: relative;
+    border-radius: 20px;
+    background-color: #476DBE;
+    border-color: #476DBE;
+    color: #fff;
+    color: #fff;
+    cursor: pointer;
+}
+
+.config-drawer .chart-axis .yAxis-style .content-center span.el-tag.el-tag--light {
+    position: relative;
+    border-radius: 20px;
+    background-color: rgb(13, 179, 166);
+    border-color: rgb(13, 179, 166);
+    color: #fff;
+    cursor: pointer;
+}
+
+.config-drawer .chart-axis .filter-style .content-center span.el-tag.el-tag--light {
+    position: relative;
+    border-radius: 20px;
+    background-color: rgb(234, 240, 252);
+    border-color: rgb(234, 240, 252);
+    color: #999999;
+    /*cursor: pointer;*/
+}
+
+/* cascader*/
+.config-drawer .chart-axis .content-center .el-cascader-node.in-active-path,
+.config-drawer .chart-axis .content-center .el-cascader-node.is-active,
+.config-drawer .chart-axis .content-center .el-cascader-node.is-selectable.in-checked-path {
+    color: #476DBE;
+}
+
+/* 过滤条件*/
+.config-drawer .top-main .el-dialog__header {
+    border-bottom: 1px solid #eaeaea;
+}
+
+.config-drawer .top-main .el-input input {
+    height: 30px;
+    line-height: 30px;
+}
+
+.config-drawer #filter-options input.el-input__inner:not(#filter-option-input-text),
+.config-drawer #num input.el-input__inner:not(#filter-option-input-num),
+.config-drawer #date input.el-input__inner:not(#filter-option-input-date) {
+    background: #F5F5F5;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    /*padding-left: 12px;*/
+    cursor: pointer;
+    position: relative;
+    border-color: transparent;
+}
+
+.config-drawer .top-main .el-select .el-input .el-select__caret {
+    color: #476DBE;
+}
+
+/*================================*/
+/*             右侧内容            */
+/*================================*/
+.config-drawer .dash-chart-right {
+    width: 20%;
+    height: 100%;
+    border-left: 1px solid #e9e9e9;
+}
+
+.config-drawer .dash-chart-right .config-block {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.config-drawer .dash-chart-right .config-block label.el-checkbox {
+    display: block;
+}
+
+.config-drawer .config-block .el-checkbox__input.is-checked + .el-checkbox__label {
+    color: #606266;
+}
+
+.config-drawer .dash-chart-right .config-block .one-line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.config-drawer .dash-chart-right .config-block .one-line.legend .el-select {
+    flex: 1;
+    margin-left: 5px;
+}
+
+.config-drawer .dash-chart-right .config-block .one-line.legend .el-select
+.el-input__suffix {
+    border-left: 1px solid #C0C4CC;
+    height: 30px;
+}
+
+.config-drawer .chart-image {
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    /*background-image: url(../../src/assets/drawer-icon/chart-img.png);*/
+    background-position-x: 0;
+    background-position-y: 56px;
+    background-size: 100% 100%;
+}
+
+.config-drawer .dash-chart-content {
+    width: 100%;
+    height: 100%;
+    background: #F4F6F9;
+    display: flex;
+    position: absolute;
+}
+
+.config-drawer .block-body {
+    color: #5E6D82;
+}
+
+.config-drawer .custom-xaxis .rotation {
+    margin-bottom: 2px;
+}
+
+.config-drawer .custom-xaxis .label {
+    display: inline-block;
+    vertical-align: bottom;
+    color: #5E6D82;
+    margin-right: 5px;
+}
+
+.config-drawer .custom-xaxis .rotation .label-rotation {
+    display: inline-block;
+    color: #1F2D3D;
+}
+
+.config-drawer .chart-config {
+    padding: 10px 20px;
+    line-height: 30px;
+    overflow: auto;
+    height: calc(100% - 20px)
+}
+
+.config-drawer .custom-yaxis .title,
+.config-drawer .custom-yaxis .max,
+.config-drawer .custom-yaxis .min {
+    margin-bottom: 8px;
+}
+
+.config-drawer .custom-yaxis .axis-limit {
+    display: inline-block;
+}
+
+.config-drawer .custom-yaxis .label {
+    display: inline-block;
+    margin-right: 15px;
+    width: 42px;
+    text-align: right;
+}
+
+.config-drawer .data-display .top-data .top-data-check,
+.config-drawer .data-display .top-data .top-data-text {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.config-drawer .data-display .top-data .number-input {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: initial;
+    margin: 0 5px;
+}
+
+.config-drawer .x-check {
+    cursor: pointer;
+}
+
+.config-drawer .inner-wrapper {
+    width: 100%;
+    height: 30px;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #CCC;
+    border-radius: 2px;
+    background: #fff;
+    transition: background 218ms ease;
+    cursor: pointer;
+    color: #333;
+    justify-content: center;
+}
+
+.config-drawer .inner-wrapper .btn-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.config-drawer .body-btn {
+    width: 90px;
+    height: 32px;
+    line-height: 30px;
+    color: #476DBE;
+    text-align: left;
+}
+
+
+.config-drawer .chart-axis .drag-target .axis-tag {
+    max-width: 100%;
+    margin: 2.5px;
+}
+
+.config-drawer .chart-axis .drag-target .axis-tag .field-config {
+    display: flex;
+}
+
+.config-drawer .tag-wrapper.style-blue {
+    color: #fff;
+    background: #248AF9;
+}
+
+.config-drawer .text-wrapper {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 4px;
+}
+
+.config-drawer .chart-axis .drag-target.has-tag .drag-tip {
+    display: none;
+}
+
+.config-drawer .tag-wrapper {
+    display: flex;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    border-radius: 100px;
+    cursor: pointer;
+    padding: 0 6px;
+}
+
+.config-drawer .chart-head {
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    border: 1px #ddd solid;
+    padding: 0px 5px;
+    border-radius: 4px;
+    line-height: 28px;
+}
+
+.config-drawer .chart-font-icon {
+    line-height: 32px;
+    font-size: 18px;
+    color: #fff;
+}
+
+.config-drawer .chart-line {
+    background-position-x: -1px;
+    background-position-y: -1px
+}
+
+.config-drawer .chart-bar {
+    background-position-x: -1px;
+    background-position-y: -33px
+}
+
+.config-drawer .chart-pie {
+    background-position-x: -1px;
+    background-position-y: -129px
+}
+
+.config-drawer .chart-scatter {
+    background-position-x: -1px;
+    background-position-y: -65px
+}
+
+.config-drawer .chart-candlestick {
+    background-position-x: -1px;
+    background-position-y: -97px;
+}
+
+.config-drawer .chart-radar {
+    background-position-x: -1px;
+    background-position-y: -161px;
+}
+
+.config-drawer .chart-gauge {
+    background-position-x: -1px;
+    background-position-y: -289px;
+}
+
+.config-drawer .chart-map {
+    background-position-x: -1px;
+    background-position-y: -257px;
+}
+
+.config-drawer .chart-funnel {
+    background-position-x: -1px;
+    background-position-y: -321px;
+}
+
+.config-drawer .chart-icon {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background-image: url('../assets/drawericon/chart-icon.png');
+    background-size: 32px;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    border: 1px solid #fff;
+}
+
+/* 默认el-input样式修改*/
+.config-drawer #select-style .el-input input,
+.config-drawer #input-config .el-input input {
+    height: 30px !important;
+    line-height: 30px !important;
+}
+
+
+.config-drawer #update-data-source .el-tabs__item.is-active {
+    color: #476DBE;
+    background-color: transparent;
+}
+
+.config-drawer #update-data-source .el-tabs__item {
+    background-color: transparent;
+}
+
+.config-drawer #update-data-source .el-tabs__nav-scroll {
+    padding-left: 10px;
+}
+
+.config-drawer #update-data-source .el-tabs__content {
+    background-color: transparent;
+    overflow: auto;
+    position: absolute;
+    height: calc(100% - 55px);
+    width: 100%;
+    padding-left: 10px;
+}
+
+.config-drawer #update-data-source .el-tabs.el-tabs--top {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.config-drawer #update-data-source .is-checked + .el-radio__label {
+    color: #476DBE;
+}
+
+.config-drawer #update-data-source .is-checked .el-radio__inner {
+    border-color: #476DBE;
+    background: #476DBE;
+}
+
+.config-drawer div#update-data-source .el-dialog__header {
+    border-bottom: 1px solid #eaeaea;
+    padding: 20px 20px 20px 20px;
+}
+
+.config-drawer .config-block .el-row {
+    border-bottom: none;
+}
+
+.config-drawer .config-type .el-row {
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 0px;
+}
+
+/*图标类型*/
+.config-drawer .chart-config .config-type .chart-type {
+    position: relative;
+    width: 54px;
+    height: 54px;
+    text-align: center;
+    cursor: pointer;
+    border: 4px solid transparent;
+    display: inline-block;
+    /*margin-right: 8px;*/
+    margin-right: 4px;
+    margin-bottom: 8px;
+    vertical-align: middle;
+}
+
+.config-drawer .chart-config .config-type .chart-type > span {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.config-drawer .chart-config .config-type .chart-type > span .chart-container {
+    width: 100%;
+    height: 100%;
+}
+
+.config-drawer .chart-config .config-type .chart-type .icon.type-icon {
+    margin: 6px;
+    color: #476DBE;
+    padding: 0;
+}
+
+.config-drawer .icon.type-icon {
+    width: 2.5em;
+    height: 2.5em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+    display: inline-block;
+    margin-right: 8px;
+    margin-top: 10px;
+    color: #ccc;
+    padding-top: 5px;
+}
+
+.config-drawer .chart-config .config-type .chart-type .icon.type-icon:hover {
+    color: rgb(64, 158, 255) !important;
+}
+
+
+.config-drawer .chart-config .config-type .chart-type .icon.type-icon:hover {
+    color: #476DBE !important;
+}
+
+.config-drawer .chart-config .config-type .chart-type:hover {
+    background-color: #fff;
+    position: relative;
+}
+
+.config-drawer .top-main .bottom-btn {
+    width: 100%;
+    height: 40px;
+    position: fixed;
+    bottom: 0px;
+    background-color: #333;
+}
+
+.config-drawer .top-main .bottom-btn .bottom-btn-cont {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 5px);
+}
+
+.config-drawer .top-main button.el-button.el-button--plain.el-button--small {
+    width: 100%;
+}
+
+/*dragger样式修改*/
+.config-drawer .chart-axis .row .content-center {
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/*级联面板*/
+.config-drawer chart-axis .content-center .xAxisTag:hover > .el-cascader-panel.is-bordered {
+    display: flex;
+}
+
+.config-drawer .chart-axis .content-center .yAxisTag:hover > .el-cascader-panel.is-bordered {
+    display: flex;
+}
+
+.config-drawer .chart-axis .content-center .fAxisTag:hover > .el-cascader-panel.is-bordered {
+    display: flex;
+}
+
+.config-drawer .chart-axis .content-center .xAxisTag .el-cascader-panel.is-bordered {
+    display: none;
+    z-index: 9999;
+    position: absolute;
+    top: 23px;
+    left: 5px;
+}
+
+.config-drawer .chart-axis .content-center .yAxisTag .el-cascader-panel.is-bordered {
+    display: none;
+    z-index: 99;
+    position: absolute;
+    top: 23px;
+    left: 4px;
+}
+
+.config-drawer .chart-axis .content-center .fAxisTag .el-cascader-panel.is-bordered {
+    display: none;
+    z-index: 99;
+    position: absolute;
+    top: 23px;
+    left: 6px;
+}
+
+.config-drawer .chart-axis .content-center .el-cascader-menu__wrap {
+    min-height: 90px;
+    height: auto;
+}
+
+.config-drawer .chart-axis .content-center .el-cascader-menu {
+    background-color: #fff;
+}
+
+.config-drawer .chart-axis .content-center .el-cascader-menu:last-child {
+    border-radius: 2px;
+    background-color: #fff;
+    box-shadow: 0 1px 4px 0 rgba(170, 170, 170, .5);
+}
+
+.config-drawer .textDialog .el-dialog__body {
+    border-top: 1px solid #ccc;
+    height: 100%;
+    padding: 10px 15px !important;
+    display: flex;
+}
+
+.config-drawer .rightContent {
+    display: inline-block;
+    flex: 0 0 180px;
+    width: 180px;
+    height: calc(100% - 45px);
+    overflow-x: hidden;
+    overflow-y: scroll;
+    margin-left: 15px;
+    border: 1px solid #ccc;
+}
+
+.config-drawer .table-grid-container {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.config-drawer .someTagStr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 15px;
+}
+
+.config-drawer .textDialog .el-dialog {
+    height: 100%;
+    margin: 0px !important;
+}
+
+.config-drawer .textDialog .el-tabs__content {
+    height: calc(100% - 42px);
+}
+
+.config-drawer .textDialog .el-dialog__header {
+    padding: 10px 20px !important;
+}
+
+.config-drawer .textDialog .el-dialog__title {
+    margin-left: 35px;
+}
+
+.config-drawer .filterDialog .el-range-editor--small.el-input__inner {
+    width: 320px !important;
+}
+
+.config-drawer .filterDialog .el-date-editor .el-range-separator {
+    padding: 0 0 !important;
+}
+
+.config-drawer .addCalcHeader {
+    margin-top: -5px;
+    margin-bottom: 15px;
+    border: 1px solid #0db3a6;
+}
+
+.config-drawer .addCalcMiddle {
+    height: 155px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    width: auto;
+}
+
+.config-drawer .addCalcBottom {
+    height: 227px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    width: auto;
+}
+
+.config-drawer .addfooter .el-button:nth-child(1) {
+    margin-left: 400px;
+}
+
+.config-drawer .beingVar {
+    height: 30px;
+    line-height: 30px;
+    text-indent: 10px;
+}
+
+.config-drawer .beingVar:hover {
+    background-color: #e6f6f4;
+}
+
+/*图表类型select样式*/
+.config-drawer .dash-chart-right .config-type .chart-type.select:after,
+.config-drawer .dash-chart-right .config-type .chart-type#on-edit:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 3px solid #476DBE;
+}
+
+.config-drawer .dash-chart-right .config-type .chart-type.select {
+    background: #fff;
+    border-color: rgba(13, 179, 166, .1);
+}
+
+.config-drawer #enChange {
+    pointer-events: none;
+    cursor: no-drop;
+}
+
+.config-drawer .txtMid {
+    height: calc(100% - 285px);
+    display: flex;
+    /*border: 1px solid #ccc;*/
+    margin-top: 10px;
+}
+
+.config-drawer .midLeft {
+    /*height: 100%;*/
+    width: 180px;
+    flex: 0 0 180px;
+    border: 1px solid #ccc;
+    display: inline-block;
+    overflow: scroll;
+}
+
+.config-drawer .midLeft .dialog-text-left {
+    width: 100% !important;
+    overflow: scroll;
+}
+
+.config-drawer .midLeft .data-block {
+    border-right: none !important;
+    padding-left: 15px;
+}
+
+.config-drawer .midRight {
+    display: flex;
+    flex: 1;
+    width: calc(100% - 195px);
+    height: 100%;
+    margin-left: 15px;
+}
+
+.config-drawer .midRight .table-container {
+    width: calc(100% - 195px);
+    height: 100%;
+    flex: 1;
+}
+
+.config-drawer .midRight .el-tabs__nav.is-top {
+    width: 100%;
+}
+
+.config-drawer .midRight .el-tabs__item.is-top {
+    width: 50%;
+    text-align: center;
+}
+
+.config-drawer .midRight .el-tabs__item.is-top:nth-child(2) {
+    border-right: none;
+}
+
+.config-drawer .midRight .index-container {
+    flex: 0 0 180px;
+    width: 180px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    display: inline-block;
+    margin-left: 15px;
+    height: 100%;
+    border: 1px solid #ccc;
+}
+
+.config-drawer .txtFooter {
+    /*margin-top: 40px;*/
+    position: absolute;
+    /*right: 15px;*/
+    top: 8px;
+    width: 100%;
+}
+
+.config-drawer .txtFooter .el-button:nth-child(1) {
+    border: none;
+    padding: 1px 1px;
+    font-size: 30px;
+    margin-top: -3px;
+}
+
+.config-drawer .txtFooter .el-button:nth-child(2) {
+    position: absolute;
+    right: 30px;
+    padding: 8px 20px;
+}
+
+.config-drawer .txt-tip {
+    margin-top: 15px;
+}
+
+.config-drawer .txt-txt {
+    color: #91b6dc;
+    display: inline-block;
+    background-color: #fff;
+}
+
+.config-drawer .txt-txt:nth-child(1) {
+    width: 480px;
+    margin-left: 90px;
+}
+
+.config-drawer .txt-txt:nth-child(2) {
+    width: 140px;
+}
+
+.config-drawer .txt-dataset {
+    height: 400px;
+    overflow: scroll;
+}
+
+.config-drawer .txt-dataset,
+.config-drawer .txt-datacolumn {
+    overflow: scroll;
+}
+
+.config-drawer .txt-datacolumn {
+    width: 150px;
+    height: 100%;
+    overflow: scroll;
+    border: 1px solid #ccc;
+}
+
+.config-drawer .txtitem:hover,
+.config-drawer .txt-column:hover {
+    cursor: pointer;
+    background-color: #e6f6f4;
+}
+
+.config-drawer .txt-dragitem {
+    height: 30px;
+    line-height: 30px;
+}
+
+.config-drawer .rTop {
+    height: 150px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+
+.config-drawer .rBottom {
+    width: 100%;
+    height: 140px;
+    border: 1px solid #ccc;
+}
+
+.config-drawer input::-webkit-input-placeholder {
+    color: #ccc;
+    font-size: 12px;
+}
+
+.config-drawer .txtHeader {
+    display: flex;
+}
+
+.config-drawer .changeDS .el-dialog__body {
+    padding: 0 0 !important;
+}
+
+.config-drawer .selectDataSource {
+    display: inline-block;
+    flex: 0 0 180px;
+    width: 180px;
+    height: 230px;
+    border: 1px solid #ccc;
+    position: relative;
+}
+
+.config-drawer .el-date-editor.el-input, .el-date-editor.el-input__inner {
+    margin-top: 10px;
+}
+
+.config-drawer .sub-str {
+    height: 28px;
+    line-height: 28px;
+    padding-left: 55px;
+    margin-top: 5px;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.config-drawer .sub-str:hover {
+    background-color: #e6f6f4;
+}
+
+.config-drawer .txt-quill {
+    height: 230px;
+    display: inline-block;
+    margin-left: 15px;
+    width: 100%;
+    flex: 1;
+}
+
+.config-drawer .ql-editor .ql-size-large {
+    line-height: 16px;
+}
+
+.config-drawer .ql-sourceEditor {
+    width: 38px !important;
+    font-size: 15px;
+    line-height: 15px;
+    font-width: bolder;
+    /*border: 1px solid #ccc !important;*/
+    /*border-radius: 5px !important;*/
+}
+
+.config-drawer .ql-custag {
+    background-color: #eaf7f6;
+    margin: auto 2px;
+    color: #0db3a6;
+    padding: 3px 5px;
+}
+
+.config-drawer .ql-editor .ql-size-huge {
+    line-height: 35px;
+}
+
+.config-drawer .txt-datacolumn .txt-column .icon.iconfont {
+    color: #476DBE;
+}
+
+.config-drawer .addStrDialog .el-dialog {
+    height: 750px;
+}
+
+.config-drawer .addStrDialog .el-dialog__body .dialog-text-content {
+    height: 612px;
+}
+
+.config-drawer .number-input .fui_text .el-input.el-input--small input.el-input__inner:focus {
+    border-color: #476DBE;
+}
+
+/*==========================*/
+/*     文本组件dialog        */
+/*==========================*/
+.config-drawer .dialog-text-content {
+    display: flex;
+    height: 500px;
+    background-color: #eaeaea;
+}
+
+.config-drawer .dialog-text-content .dialog-text-left {
+    /*height: 100%;*/
+    background-color: #fff;
+}
+
+.config-drawer .dialog-text-left .data-block {
+    width: 100%;
+    height: 100%;
+    border-right: 1px solid #eaeaea;
+    overflow: scroll;
+    margin-top: 15px;
+}
+
+.config-drawer .midRight .dialog-text-right {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+}
+
+.config-drawer .dialog-text-content .dialog-text-right {
+    width: 70%;
+    height: 100%;
+    background-color: #fff;
+}
+
+.config-drawer .dialog-text-content .dash-chart-main-text {
+    width: 100%;
+    padding: 0px 15px;
+    padding-bottom: 10px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    /*display: flex;*/
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.config-drawer .dialog-text-right .dash-chart-main-text {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.config-drawer .dash-chart-main-text .datav-chart-head .chart-axis {
+    border: 1px dashed #eaeaea;
+    padding: 6px;
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding-bottom: 0px;
+}
+
+.config-drawer .dash-chart-main-text .datav-chart-head .dash-chart-main .chart-axis .axis-head {
+    position: absolute;
+    top: 0;
+    left: 10px;
+}
+
+.config-drawer .dash-chart-main-text .datav-chart-head .chart-axis .drag-target {
+    padding: 2.5px 10px 2.5px 78px;
+    min-height: 34px;
+    max-height: 90px;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.config-drawer .dash-chart-main-text .datav-chart-head .drag-tip {
+    margin-left: 30px;
+    font-size: 12px;
+    color: #91A1B7;
+}
+
+.config-drawer .dash-chart-main-text .datav-chart-head .row {
+    line-height: 32px;
+    /* height: 32px; */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+}
+
+.config-drawer .dash-chart-main-text .datav-chart-head .row > div:last-child {
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    border: 1px #ddd solid;
+    padding: 0px 5px;
+    border-radius: 4px;
+    line-height: 28px;
+}
+
+.config-drawer .ql-toolbar.ql-snow .ql-formats {
+    margin-right: 0px !important;
+}
+
+.config-drawer .ql-toolbar.ql-snow .ql-formats button {
+    margin: 0 !important;
+}
+
+.config-drawer .ql-snow .ql-picker.ql-font {
+    width: 85px !important;
+}
+
+.config-drawer .ql-snow .ql-picker.ql-size {
+    width: 55px !important;
+}
+
+.config-drawer .ql-snow .ql-picker.ql-header {
+    width: 55px !important;
+}
+
+.config-drawer .ql-snow .ql-picker-label {
+    padding-left: 0 !important;
+}
+
+/* 未命名图表*/
+.el-drawer__wrapper.config-drawer .template-config-sider>.container{
+    width: 100%;
+}
+
+.config-drawer .dash-chart-head {
+    height: 60px;
+    line-height: 60px;
+    text-indent: 20px;
+    background-color: #fff;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 2px 5px 0 hsla(0, 0%, 39%, .15);
+}
+
+.config-drawer .dash-chart-head .fx-navigation-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0 10px;
+    line-height: 60px;
+}
+
+.config-drawer .fx-navigation-bar .nav.left {
+    position: relative;
+    float: left;
+    left: 0;
+}
+
+.config-drawer .fx-navigation-bar .nav.left .nav-title {
+    margin-left: 5px;
+}
+
+.config-drawer .fx-navigation-bar .nav-btn {
+    cursor: pointer;
+    position: relative;
+    float: left;
+    left: 0;
+    height: 60px;
+    line-height: 60px;
+}
+
+.config-drawer .fx-entry-title {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    padding: 0 40px 0 50px;
+}
+
+.config-drawer .fx-title-editor {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 16px;
+    max-width: 350px;
+    cursor: default;
+}
+
+.config-drawer .fx-title-editor > .name-pre {
+    display: none;
+    visibility: hidden;
+    padding: 0 2px;
+}
+
+.config-drawer .fx-title-editor > input {
+    max-width: 100%;
+    position: relative;
+    float: left;
+    left: 0;
+    margin: 15px 0;
+    padding: 0 2px;
+    height: 30px;
+    font-size: 16px;
+    color: #1F2D3D;
+    outline: 0;
+    border: none;
+    box-shadow: none;
+    background: 0 0;
+    border-bottom: dashed 1px #bababa;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.config-drawer .fx-navigation-bar .nav-home {
+    position: absolute;
+    top: 0;
+    left: -40px;
+    color: #476DBE;
+    cursor: pointer;
+    height: 60px;
+    line-height: 60px;
+}
+
+.config-drawer .nav-home i.el-icon-arrow-left {
+    font-size: 40px;
+    vertical-align: middle;
+}
+
+.config-drawer .fx-navigation-bar .nav.left .nav-title {
+    margin-left: 5px;
+}
+
+/*过滤条件*/
+.config-drawer #eqne .el-cascader.el-cascader--small,
+.config-drawer #eq-random .el-cascader.el-cascader--small,
+.config-drawer #picker .el-date-editor.el-input.el-input--small.el-input--prefix.el-input--suffix.el-date-editor--date,
+.config-drawer #startDate .el-date-editor.el-input.el-input--small.el-input--prefix.el-input--suffix.el-date-editor--date,
+.config-drawer #endDate .el-date-editor.el-input.el-input--small.el-input--prefix.el-input--suffix.el-date-editor--date {
+    width: 100%;
+}
+
+.config-drawer #eqne .el-cascader.el-cascader--small input.el-input__inner,
+.config-drawer #eq-random .el-cascader.el-cascader--small input.el-input__inner,
+.config-drawer #picker .el-date-editor.el-input.el-input--small.el-input--prefix.el-input--suffix.el-date-editor--date input.el-input__inner,
+.config-drawer #startDate .el-date-editor.el-input.el-input--small.el-input--prefix.el-input--suffix.el-date-editor--date input.el-input__inner,
+.config-drawer #endDate .el-date-editor.el-input.el-input--small.el-input--prefix.el-input--suffix.el-date-editor--date input.el-input__inner,
+.config-drawer #min .el-input.el-input--small input.el-input__inner,
+.config-drawer #max .el-input.el-input--small input.el-input__inner {
+    background: #ffffff !important;
+    border: 1px solid #ccc !important;
+}
+
+/* 维度、指标-修改显示名称*/
+.config-drawer .chart-axis .xAxisTag .edit-name,
+.config-drawer .chart-axis .yAxisTag .edit-name {
+    position: absolute;
+    top: 25px;
+    left: 0px;
+    min-width: 230px;
+    min-height: 110px;
+    background: #fff;
+    z-index: 9999;
+    border-radius: 2px;
+    box-shadow: 0 0 6px rgba(51, 51, 51, .2);
+}
+
+.config-drawer .chart-axis .xAxisTag .edit-name .text,
+.config-drawer .chart-axis .yAxisTag .edit-name .text {
+    padding: 15px 15px 60px;
+}
+
+.config-drawer .chart-axis .xAxisTag .edit-name .btn,
+.config-drawer .chart-axis .yAxisTag .edit-name .btn {
+    position: absolute;
+    bottom: 10px;
+    right: 11px;
+}
+
+.config-drawer .chart-axis .xAxisTag .edit-name .text input.el-input__inner:focus,
+.config-drawer .chart-axis .yAxisTag .edit-name .text input.el-input__inner:focus {
+    border-color: #476DBE;
+}
+
+.config-drawer .chart-axis .xAxisTag .edit-name .btn .el-button--small, .el-button--small.is-round,
+.config-drawer .chart-axis .yAxisTag .edit-name .btn .el-button--small, .el-button--small.is-round {
+    padding: 9px 37px;
+}
+
+.config-drawer .chart-axis .xAxisTag .edit-name .btn .el-button--primary,
+.config-drawer .chart-axis .yAxisTag .edit-name .btn .el-button--primary {
+    background-color: #476DBE;
+    border-color: #476DBE;
+}
+
+.config-drawer .chart-axis .xAxisTag .edit-name .btn .el-button.is-plain:focus, .chart-axis .xAxisTag .edit-name .btn .el-button.is-plain:hover,
+.config-drawer .chart-axis .yAxisTag .edit-name .btn .el-button.is-plain:focus, .chart-axis .xAxisTag .edit-name .btn .el-button.is-plain:hover {
+    background: #ebebeb;
+    border-color: #ccc;
+    color: #333;
+}
+
+.config-drawer .chart-axis .xAxisTag .edit-name .btn .el-button--primary:hover,
+.config-drawer .chart-axis .yAxisTag .edit-name .btn .el-button--primary:hover {
+    background-color: #4162AA !important;
+    border-color: #4162AA !important;
+}
+
+.config-drawer .chart-axis .xAxisTag .edit-name .btn .el-button--primary:active,
+.config-drawer .chart-axis .yAxisTag .edit-name .btn .el-button--primary:active {
+    background-color: #264995 !important;
+    border-color: #264995 !important;
+}
+
+/*图表类型禁用*/
+.config-drawer .config-type .chart-type.disable {
+    cursor: not-allowed;
+    opacity: .5;
+}
+
+.config-drawer .config-type .chart-type.disable svg.icon.type-icon,
+.config-drawer .chart-config .config-type .chart-type.disable .icon.type-icon:hover {
+    color: #666 !important;;
+}
+
+/*左右指标*/
+.config-drawer .config-type .left-type {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    text-align: center;
+    flex: 0 0 48px;
+    cursor: pointer;
+    border: 4px solid transparent;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.config-drawer .config-type .left-type svg.icon.type-icon {
+    color: #476DBE;
+    margin-top: 0px !important;
+    margin-left: 3px;
+}
+
+.config-drawer .config-type .left-type .icon.type-icon:hover {
+    color: #476DBE !important;
+}
+
+/*select样式*/
+.config-drawer .config-type .left-type.select:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px solid #476DBE;
+}
+
+.config-drawer .config-type .left-type.select {
+    background: #fff;
+    border-color: rgba(13, 179, 166, .1);
+}
+
+.config-drawer .block-body .config-type .metric-span {
+    position: relative;
+    top: -7px;
+}

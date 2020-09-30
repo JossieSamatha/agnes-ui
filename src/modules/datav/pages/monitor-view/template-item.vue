@@ -5,7 +5,7 @@
                 <img :src="getImgPath(templateObj.img)" width="100%" height="100%"/>
                 <div class="hover-mask">
                     <p class="option">
-                        <span class="iconImg delete" title="删除" @click="templateDelete(templateObj)">
+                        <span class="iconImg delete" title="删除" @click="deleteTemplate(templateObj.id)">
                             <i class="fa fa-trash-o"></i>
                         </span>
                         <span class="iconImg" title="复制" v-html="svgImg.copy" @click="templateCopy(templateObj)"></span>
@@ -15,14 +15,14 @@
                         </span>
                     </p>
                     <p class="buttonP">
-                        <el-button type="primary" @click="editTemplate">编辑</el-button>
+                        <el-button type="primary" @click="openEditPage">编辑</el-button>
                         <el-button>预览</el-button>
                     </p>
                 </div>
             </div>
             <p class="title">{{templateObj.title}}</p>
             <p class="tags">
-                <el-tag type="info" size="mini" v-for="(tag, index) in templateObj.tag" :key="index">{{tag||''}}</el-tag>
+                <el-tag type="info" size="mini" v-if="templateObj.label">{{templateObj.label}}</el-tag>
             </p>
         </div>
     </div>
@@ -54,13 +54,13 @@
             },
 
             // 打开编辑页面
-            editTemplate(){
-                this.$emit('editTemplate');
+            openEditPage(){
+                this.$dataVBus.$emit('openEditPage', {opType: 'edit', templateObj: this.templateObj});
             },
 
-            // 删除模板
-            templateDelete(){
-
+            // 删除大屏
+            deleteTemplate(id){
+                this.$emit('deleteTemplate', id);
             },
 
             // 复制模板
@@ -70,7 +70,3 @@
         },
     }
 </script>
-
-<style scoped>
-
-</style>

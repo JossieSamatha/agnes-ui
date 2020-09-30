@@ -1,54 +1,88 @@
 import lodash from 'lodash';
-import Service from "../service";
+import Util from '@hex/gf-ui/src/util/common'
+import Service from "@hex/gf-ui/src/engine/service";
 
-
-export default class DictService extends Service {
+export default class datavTemplateService extends Service {
     constructor(app) {
         super(app);
-        this.dictItemMap = new Map();
-        this.dictMap = {};
-        this.dictOptions = app.options.dictOpts || {};
-    }
-
-    getDictItems(dictType) {
-        return this.dictMap[dictType];
-    }
-
-    getDictItem(dictType, dictId) {
-        const catchItem = this.dictItemMap.get(dictType);
-        if (!catchItem) {
-            return {dictId: dictId, dictName: dictId};
-        }
-        return catchItem.mapping[dictId];
-    }
-
-    getDictName(dictType, dictId) {
-        const foundItem = this.getDictItem(dictType, dictId);
-        if (foundItem === void 0) {
-            return dictId;
-        } else {
-            return foundItem[this.dictOptions.nameField];
+        this.data = {
+            dataVData: {},
+            compsArr: [],
+            curComp: {}
         }
     }
 
-    init(dictMap, options) {
-        lodash.extend(this.dictOptions, options);
-        this.dictItemMap.clear();
-        const idField = this.dictOptions.idField || 'dictId';
-        const nameField = this.dictOptions.nameField || 'dictName';
-        lodash.forIn(dictMap, (dictItems, key) => {
-            const catchItem = {sourceItems: dictItems, mapping: {}};
-            dictItems.forEach(x => {
-                const dictId = x[idField];
-                if (!dictId) {
-                    return;
-                }
-                x.dictId = dictId;
-                x.dictName = x[nameField];
-                catchItem.mapping[dictId] = x;
-            });
-            this.dictItemMap.set(key, catchItem);
-        });
-        this.dictMap = dictMap;
+    getCompItem(compId) {
+        return lodash.find(this.data.compsArr, {compId: compId});
+    }
+
+    setCurComp(comp) {
+        this.data.curComp = comp;
+    }
+
+    addComp(comp){
+        this.data.compsArr.push(comp);
+        this.data.curComp = comp;
+    }
+
+    removeComp(compIndex){
+        this.data.compsArr.splice(compIndex, 1, 0);
+    }
+
+    getActiveIndex() {
+        for (let i = 0, l = this.data.compsArr.length; i < l; i++) {
+            let rect = this.data.compsArr[i];
+            if (rect.isActive) {
+                return i;
+            }
+        }
+        return null;
+    }
+
+    setActive(compId){
+        const disActiveIndex = lodash.findIndex(this.data.compsArr, {isActive: true});
+        if(disActiveIndex > -1){
+            this.data.compsArr[disActiveIndex].isActive = false;
+        }
+        const activeIndex = lodash.findIndex(this.data.compsArr, {compId: compId});
+        if(activeIndex > -1){
+            this.data.compsArr[activeIndex].isActive = true;
+        }
+    }
+
+    setDisActive(compId){
+        const activeIndex = lodash.findIndex(this.data.compsArr, {compId: compId});
+        if(activeIndex > -1){
+            this.data.compsArr[activeIndex].isActive = false;
+        }
+        // const activeNum = lodash.findIndex(this.data.compsArr, {isActive: true});
+        // if(activeNum === -1){
+        //     this.data.curComp = {};
+        // }
+    }
+
+    updateCompData(type, compName, label, metaData){
+        this.data.curComp.compName = compName;
+        this.data.curComp.optional.label = label;
+        this.data.curComp.optional.compName = compName;
+        this.data.curComp.optional.componentMeta = metaData;
+
+    }
+
+    init(dataVObj) {
+        this.data.curComp = {};
+        this.data.dataVData = dataVObj;
+        const pageData = Util.fromJson(dataVObj.content);
+        let compArr = [];
+        if( Object.prototype.hasOwnProperty.call(pageData, 'datavComps')){
+            compArr = pageData.datavComps;
+            delete pageData.datavComps;
+        }
+        this.data.dataVData.content = pageData;
+        if(compArr && compArr.length>0){
+            this.data.compsArr = compArr;
+        }else{
+            this.data.compsArr = [];
+        }
     }
 }

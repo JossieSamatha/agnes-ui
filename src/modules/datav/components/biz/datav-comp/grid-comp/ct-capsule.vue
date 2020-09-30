@@ -1,41 +1,54 @@
 <template>
-    <dv-capsule-chart :config="config"/>
+    <dv-capsule-chart :config="configParam" style="width: 100%;height: 100%"/>
 </template>
 
 <script>
+    import mockInterData from "../../../../pages/monitor-view/mockInterData";
     export default {
         name: 'ct-capsule',
         props: {
-            config: {
-                type: Object,
-                default: function () {
-                    return {
-                        data: [
-                            {
-                                name: '南阳',
-                                value: 167
-                            },
-                            {
-                                name: '周口',
-                                value: 67
-                            },
-                            {
-                                name: '漯河',
-                                value: 123
-                            },
-                            {
-                                name: '郑州',
-                                value: 55
-                            },
-                            {
-                                name: '西峡',
-                                value: 98
-                            }
-                        ]
-                    }
+            position: Object,
+            compOption: {
+                type: Object
+            }
+        },
+        computed: {
+            configParam(){
+                if(this.compOption.columnArr && this.compOption.columnArr.length>0){
+                    this.getTableData();
                 }
+                const config = {
+                    ...this.compOption,
+                }
+                return config;
+            }
+        },
+        watch: {
+            compOption(val){
+                this.compOption = val;
+            },
+            header(){
+                this.getTableData();
+            },
+            dataConfig(){
+                this.getTableData();
             },
         },
+        methods: {
+            getTableData(){
+                // 模拟数据挂载
+                /* =============  start  ==================*/
+                const mockData = mockInterData().capsuleData;
+                const columnArr = this.compOption.columnArr
+                const fields = columnArr.map((headItem)=>{return headItem.field});
+                const filterMockData = mockData.filter((dataItem)=>{
+                    return fields.includes(dataItem.field);
+                });
+
+                this.compOption.data = filterMockData;
+                /* =============  end  ==================*/
+            }
+        }
     }
 </script>
 
