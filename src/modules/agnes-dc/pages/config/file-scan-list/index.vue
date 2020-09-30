@@ -12,7 +12,6 @@
         </gf-grid>
     </div>
 </template>
-
 <script>
     export default {
         methods: {
@@ -20,7 +19,6 @@
                 this.$refs.grid.reloadData();
             },
             showFileDetail(){
-
             }
         }
     }
