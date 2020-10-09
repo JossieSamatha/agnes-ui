@@ -247,9 +247,9 @@
                         placeholder="请选择">
                     <gf-filter-option
                             v-for="item in groupOption"
-                            :key="item.userGroupId"
-                            :label="item.userGroupName"
-                            :value="item.userGroupId">
+                            :key="item.orgId"
+                            :label="item.orgName"
+                            :value="item.orgId">
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
@@ -549,7 +549,7 @@
                 try {
                     let bizTagOption = await this.$api.acntApplyApi.getAcntTypeList();
                     this.bizTagOption = bizTagOption.data
-                    let groupOption = await this.$api.userGroupApi.getAllUserGroup();
+                    let groupOption = await this.$api.userGroupApi.getAllGfUserGroup();
                     this.groupOption = groupOption.data
                     let productList = await this.$api.acntApplyApi.getProductCodeList();
                     this.productList = productList.data
