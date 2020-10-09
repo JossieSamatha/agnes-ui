@@ -25,23 +25,24 @@
 <!--            ref="grid"-->
 <!--        >-->
 <!--        </gf-grid>-->
-        <div class="task-container" v-for="(item, index) in msgDemoArr" :key="index">
-            <div class="task-type">{{item.msgType}}</div>
+        <div class="task-container" v-for="(item, index) in taskDemoArr" :key="index">
+            <div class="task-type">{{item.taskRemark}}</div>
             <div class="task-content">
-                {{item.msgContent}}
+                {{item.taskName}}
             </div>
             <div class="task-execor">
-                <span>{{item.msgSender}}</span>
-                <span style="margin-left: 20px;">{{item.msgTime}}</span>
+                <span>{{item.participants}}</span>
+                <span style="margin-left: 20px;">{{item.taskStartTm}}</span>
                 <span style="position: absolute;
                              right: 30px;
-                             color: #476DBD;"
+                             color: #476DBD;
+                             cursor: pointer;"
                 >
                     去处理
                 </span>
             </div>
-            <div :class="setClassName(item.msgState)">
-                {{item.msgState}}
+            <div :class="setClassName(item.stepStatus)">
+                {{item.stepStatus | showTaskStatus}}
             </div>
         </div>
     </div>
@@ -59,84 +60,54 @@
                     'taskName':'',
                     'taskStartTime':''
                 },
-                msgDemoArr: [
-                    {
-                        msgType: "【数据收发】启动自动发送-处理",
-                        msgContent: "这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容",
-                        msgSender: "通知人员: 张三",
-                        msgTime: "2020-09-28 15:30:00",
-                        msgState: "已完成"
-                    },
-                    {
-                        msgType: "【数据收发】启动自动发送-处理",
-                        msgContent: "这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容",
-                        msgSender: "通知人员: 张三",
-                        msgTime: "2020-09-28 15:30:00",
-                        msgState: "未开始"
-                    },
-                    {
-                        msgType: "【数据收发】启动自动发送-处理",
-                        msgContent: "这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容",
-                        msgSender: "通知人员: 张三",
-                        msgTime: "2020-09-28 15:30:00",
-                        msgState: "执行中"
-                    },
-                    {
-                        msgType: "【数据收发】启动自动发送-处理",
-                        msgContent: "这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容",
-                        msgSender: "通知人员: 张三",
-                        msgTime: "2020-09-28 15:30:00",
-                        msgState: "有异常"
-                    },
-                    {
-                        msgType: "【数据收发】启动自动发送-处理",
-                        msgContent: "这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容",
-                        msgSender: "通知人员: 张三",
-                        msgTime: "2020-09-28 15:30:00",
-                        msgState: "已超时"
-                    },
-                    {
-                        msgType: "【数据收发】启动自动发送-处理",
-                        msgContent: "这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容",
-                        msgSender: "通知人员: 张三",
-                        msgTime: "2020-09-28 15:30:00",
-                        msgState: "未开始"
-                    },
-                    {
-                        msgType: "【数据收发】启动自动发送-处理",
-                        msgContent: "这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容",
-                        msgSender: "通知人员: 张三",
-                        msgTime: "2020-09-28 15:30:00",
-                        msgState: "执行中"
-                    },
-                    {
-                        msgType: "【数据收发】启动自动发送-处理",
-                        msgContent: "这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容",
-                        msgSender: "通知人员: 张三",
-                        msgTime: "2020-09-28 15:30:00",
-                        msgState: "已超时"
-                    },
-                    {
-                        msgType: "【数据收发】启动自动发送-处理",
-                        msgContent: "这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容",
-                        msgSender: "通知人员: 张三",
-                        msgTime: "2020-09-28 15:30:00",
-                        msgState: "有异常"
-                    },
-                    {
-                        msgType: "【数据收发】启动自动发送-处理",
-                        msgContent: "这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容",
-                        msgSender: "通知人员: 张三",
-                        msgTime: "2020-09-28 15:30:00",
-                        msgState: "已完成"
-                    },
-                ]
+                taskDemoArr: []
             }
         },
+        // allowManualConfirm: "0"
+        // bizDt: "2020-09-29"
+        // caseId: "20200929-172102-640"
+        // jobId: "9901"
+        // participants: "AGNES"
+        // stepCode: "00101800"
+        // stepName: "【分TA】中登确认文件收到"
+        // stepStatus: "02"
+        // taskId: "1f12pfccus0ly"
+        // taskKey: "00101800"
+        // taskName: "【分TA】中登确认文件收到[2020-09-29]-监控指标任务"
+        // taskRemark: "【分TA】中登确认文件收到"
+        // taskStartTm: "2020-09-29 17:21:49"
+        // taskType: "1"
         mounted() {
             this.getChangeData();
+            this.$api.ruleTableApi.getTaskTodoList().then(res => {
+                this.taskDemoArr = res.data.rows
+            })
         },
-
+        filters: {
+            showTaskStatus(val) {
+                if (val === "01") {
+                    return "未开始"
+                }
+                if (val === "02") {
+                    return "执行中"
+                }
+                if (val === "03") {
+                    return "有异常"
+                }
+                if (val === "04") {
+                    return "已超时"
+                }
+                if (val === "05") {
+                    return "已作废"
+                }
+                if (val === "06") {
+                    return "已完成"
+                }
+                if (val === "07") {
+                    return "人工强制关闭"
+                }
+            }
+        },
         methods: {
             async getChangeData() {
                 this.queryArgs.taskStartTime = window.bizDate;
@@ -215,19 +186,19 @@
                     this.reloadData();
                 },
             setClassName(val) {
-                if (val === "已完成") {
+                if (val === "06") {
                     return "task-state-done"
                 }
-                if (val === "未开始") {
+                if (val === "01") {
                     return "task-state-start"
                 }
-                if (val === "已超时") {
+                if (val === "04") {
                     return "task-state-overtime"
                 }
-                if (val === "执行中") {
+                if (val === "02") {
                     return "task-state-exec"
                 }
-                if (val === "有异常") {
+                if (val === "03" || val === "05" || val === "07") {
                     return "task-state-error"
                 }
             }

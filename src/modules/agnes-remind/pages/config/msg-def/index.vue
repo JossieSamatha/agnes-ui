@@ -9,14 +9,14 @@
         <gf-button class="action-btn" size="mini">全选</gf-button>
         <div class="task-container" v-for="(item, index) in msgDemoArr" :key="index">
             <el-checkbox v-model="checkbox" checked class="task-type">
-                {{item.msgType}}
+                {{item.msgTitle}}
             </el-checkbox>
-            <span class="msg-time">{{item.msgTime}}</span>
+            <span class="msg-time">{{item.crtTs}}</span>
             <div class="task-content">
-                {{item.msgContent}}
+                {{item.msgDetail}}
              </div>
-            <div :class="setClassName(item.msgState)">
-                {{item.msgState}}
+            <div :class="setClassName(item.hasRead)">
+                {{item.hasRead | showMsgState}}
             </div>
         </div>
     </div>
@@ -27,79 +27,37 @@
     export default {
         data () {
             return {
-                msgDemoArr: [
-                    {
-                        msgType: "【数据收发】启动自动发送-处理",
-                        msgContent: "这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容",
-                        msgSender: "通知人员: 张三",
-                        msgTime: "2020-09-28 15:30:00",
-                        msgState: "完成"
-                    },
-                    {
-                        msgType: "【数据收发】启动自动发送-处理",
-                        msgContent: "这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容",
-                        msgSender: "通知人员: 张三",
-                        msgTime: "2020-09-28 15:30:00",
-                        msgState: "超时"
-                    },
-                    {
-                        msgType: "【数据收发】启动自动发送-处理",
-                        msgContent: "这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容",
-                        msgSender: "通知人员: 张三",
-                        msgTime: "2020-09-28 15:30:00",
-                        msgState: "提醒"
-                    },
-                    {
-                        msgType: "【数据收发】启动自动发送-处理",
-                        msgContent: "这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容",
-                        msgSender: "通知人员: 张三",
-                        msgTime: "2020-09-28 15:30:00",
-                        msgState: "完成"
-                    },
-                    {
-                        msgType: "【数据收发】启动自动发送-处理",
-                        msgContent: "这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容",
-                        msgSender: "通知人员: 张三",
-                        msgTime: "2020-09-28 15:30:00",
-                        msgState: "超时"
-                    },
-                    {
-                        msgType: "【数据收发】启动自动发送-处理",
-                        msgContent: "这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容",
-                        msgSender: "通知人员: 张三",
-                        msgTime: "2020-09-28 15:30:00",
-                        msgState: "提醒"
-                    },
-                    {
-                        msgType: "【数据收发】启动自动发送-处理",
-                        msgContent: "这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容",
-                        msgSender: "通知人员: 张三",
-                        msgTime: "2020-09-28 15:30:00",
-                        msgState: "完成"
-                    },
-                    {
-                        msgType: "【数据收发】启动自动发送-处理",
-                        msgContent: "这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容",
-                        msgSender: "通知人员: 张三",
-                        msgTime: "2020-09-28 15:30:00",
-                        msgState: "超时"
-                    },
-                    {
-                        msgType: "【数据收发】启动自动发送-处理",
-                        msgContent: "这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容",
-                        msgSender: "通知人员: 张三",
-                        msgTime: "2020-09-28 15:30:00",
-                        msgState: "提醒"
-                    },
-                    {
-                        msgType: "【数据收发】启动自动发送-处理",
-                        msgContent: "这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容，这里是消息内容",
-                        msgSender: "通知人员: 张三",
-                        msgTime: "2020-09-28 15:30:00",
-                        msgState: "完成"
-                    },
-                ]
+                msgDemoArr: []
             }
+        },
+        // crtTs: "2020-09-25 15:33:29"
+        // crtUser: "guest"
+        // hasRead: "1"
+        // hasSend: "0"
+        // isDel: "0"
+        // msgDetail: "【直销中心】申请数据导出发送（华安TA、中登上海、中登深圳、创新TA逐个发送）-超时通知"
+        // msgId: "1f0o605v1fqc0"
+        // msgTitle: "【直销中心】申请数据导出发送（华安TA、中登上海、中登深圳、创新TA逐个发送）-超时通知"
+        // pkId: "1f0o6062gmvbk"
+        // remindTime: "2020-09-25 15:33:29"
+        // remindType: "1"
+        // sendUser: "agnes"
+        // updateTs: "2020-09-27 16:11:10"
+        // updateUser: "agnes"
+        mounted() {
+            this.$api.ruleTableApi.getRemindList().then(res => {
+                this.msgDemoArr = res.data.rows
+            })
+        },
+        filters: {
+            showMsgState(val) {
+                if (val === '1') {
+                    return '已读'
+                }
+                if (val === '0') {
+                    return '未读'
+                }
+             }
         },
         methods: {
              async batchRead() {
@@ -125,13 +83,13 @@
                 this.$refs.grid.reloadData();
             },
             setClassName(val) {
-                if (val === "完成") {
+                if (val === "1") {
                     return "task-state-done"
                 }
-                if (val === "提醒") {
-                    return "task-state-clock"
-                }
-                if (val === "超时") {
+                // if (val === "0") {
+                //     return "task-state-clock"
+                // }
+                if (val === "0") {
                     return "task-state-overtime"
                 }
             }
