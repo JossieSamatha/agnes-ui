@@ -185,11 +185,11 @@
     
         <div v-if="showChange" class="title-top">变更后</div>
         <el-divider v-if="showChange"></el-divider>
-        <el-form ref="taskDefForm" class="task-def-form" :model="detailFormBefore" :disabled="isDisabled"
+        <el-form ref="taskDefForm" class="task-def-form" :model="detailForm" :disabled="isDisabled"
                 :rules="detailFormRules" label-width="160px">
             <div class="line" >
                 <el-form-item  label="账户类型" prop="typeCode">
-                    <el-select :disabled="isSubDis" class="multiple-select" v-model="detailFormBefore.typeCode"
+                    <el-select :disabled="isSubDis" class="multiple-select" v-model="detailForm.typeCode"
                             filterable clearable
                             placeholder="请选择">
                         <gf-filter-option
