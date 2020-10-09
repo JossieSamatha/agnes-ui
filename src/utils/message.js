@@ -3,7 +3,7 @@ import Vue from 'vue';
 const vue = Vue.prototype;
 
 function showWarning(msg, title = "提示") {
-    vue.$msgbox({
+    return vue.$msgbox({
         type: "warning",
         title: title,
         message: msg

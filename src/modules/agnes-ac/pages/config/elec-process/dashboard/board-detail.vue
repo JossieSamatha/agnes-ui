@@ -37,7 +37,7 @@
             <div class="bottom right" v-show="ifRightExpand">
                 <div class="chart-container">
                     <p class="section-title">任务进度</p>
-                    <pie-chart ref="pieChart" :chart-data="executePieData"
+                    <pie-chart ref="pieChart" :chart-data="executePieData" :title="pieTitle"
                                :color-set="['#476DBE','#E0E0E0']"></pie-chart>
                 </div>
                 <div class="exec-container">
@@ -80,6 +80,7 @@
                 lcImg: this.$lcImg,
                 dragColumn: {dragContainerId: "taskContainerLeft", dragDirection: 'n'},
                 executePieData: [],
+                pieTitle: '',
                 taskStage: [],
                 execLog: [],
                 ifRightExpand: false,
@@ -105,7 +106,7 @@
             stageList
         },
         created() {
-            this.getFLowDetail(this.task.taskId, this.task.caseId, this.bizDate);
+            this.getFLowDetail(this.task.taskId, this.task.caseId, this.bizDate, this.task.finishedRate);
         },
         beforeDestroy() {
             clearInterval(this.freshInterval);
@@ -124,11 +125,11 @@
 
             // 刷新页面数据
             onSave(){
-                this.getFLowDetail(this.task.taskId, this.task.caseId, this.bizDate);
+                this.getFLowDetail(this.task.taskId, this.task.caseId, this.bizDate, this.task.finishedRate);
             },
 
             // 根据流程id及业务日期加载流程信息{"taskId":"","bizDate":""}、获取任务状态、获取执行情况
-            async getFLowDetail(taskId, caseId, bizDate) {
+            async getFLowDetail(taskId, caseId, bizDate, finishedRate) {
                 const flowDetailRes = this.$api.elecProcessApi.getExecProcessDetail({taskId, caseId, bizDate});
                 const flowDetailStr = await this.$app.blockingApp(flowDetailRes);
                 if (flowDetailStr.data) {
@@ -142,6 +143,7 @@
                         {name: '未完成', value: (targetNum-completeNum)}
                     ];
                     this.executePieData = executePieData;
+                    this.pieTitle = parseInt(finishedRate * 100) + '%'
                     // 获取执行情况
                     this.taskIdList = flowDetailParse.taskIdList;
                     this.getExecuteData(flowDetailParse.taskIdList, this.execTypeChecked);

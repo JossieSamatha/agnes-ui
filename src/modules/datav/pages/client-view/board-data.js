@@ -97,19 +97,29 @@ const todoCol = [
 const todoRowData = [
     {
         taskType: '产品信息审批子流程',
-        currentTask: '产品新增申请'
+        currentTask: '产品新增申请',
+        taskDate: '09-11',
+        taskTime: '12:05:30'
     }, {
         taskType: '账户申请流程',
-        currentTask: '提交申请'
+        currentTask: '提交申请',
+        taskDate: '09-11',
+        taskTime: '12:05:30'
     }, {
         taskType: '账户申请流程',
-        currentTask: '提交申请'
+        currentTask: '提交申请',
+        taskDate: '09-11',
+        taskTime: '12:05:30'
     }, {
         taskType: '补充账户申请流程',
-        currentTask: '账户新增'
+        currentTask: '账户新增',
+        taskDate: '09-11',
+        taskTime: '12:05:30'
     }, {
         taskType: '账户销户流程',
-        currentTask: '账户复核通过'
+        currentTask: '账户复核通过',
+        taskDate: '09-11',
+        taskTime: '12:05:30'
     }];
 const msgCol = [
     {headerName: '消息类型', field: 'msgType'},
@@ -117,9 +127,9 @@ const msgCol = [
 ];
 
 const msgData = [
-    {msgType: '完成', msgName: 'XXX完成通知'},
-    {msgType: '超时', msgName: 'XXX超时通知'},
-    {msgType: '提醒', msgName: 'XXX提醒通知'}
+    {msgType: '完成', msgName: 'XXX完成通知', msgDate: '09-15'},
+    {msgType: '超时', msgName: 'XXX超时通知', msgDate: '09-15'},
+    {msgType: '提醒', msgName: 'XXX提醒通知', msgDate: '09-15'}
 ];
 
 const scheduleCol = [
@@ -129,45 +139,33 @@ const scheduleCol = [
 ];
 
 const scheduleData = [
-    {dep: '运营部', type: 'TA早班录入', person: '张三'},
-    {dep: '运营部', type: 'TA早班复核', person: '李四'},
-    {dep: 'IT部', type: 'XXXXXX', person: '王五'}
+    {dep: '运营部', type: '早班', person: '张三', id: '021-38601112', date: '09-28', state: "待复核"},
+    {dep: '运营部', type: '晚班', person: '李四', id: '021-38601112', date: '09-28', state: "已审核"},
+    {dep: 'IT部', type: '早班-授权', person: '王五', id: '021-38601112', date: '09-28', state: "已审核"},
+    {dep: 'IT部', type: '晚班-复核', person: '钱六', id: '021-38601112', date: '09-28', state: "待复核"},
+
 ];
 
 const abnormalCol = [
     {headerName: '异常事项', field: 'abnormal'}
 ];
 const abnormalData = [
-    {abnormal: 'XXX任务已超时，需尽快处理'},
-    {abnormal: 'XXX任务已超时，需尽快处理'},
-    {abnormal: 'XXX任务已超时，需尽快处理'},
-    {abnormal: 'XXX任务已超时，需尽快处理'},
-    {abnormal: 'XXX任务已超时，需尽快处理'},
-    {abnormal: 'XXX任务已超时，需尽快处理'},
-    {abnormal: 'XXX任务已超时，需尽快处理'},
-    {abnormal: 'XXX任务已超时，需尽快处理'},
-    {abnormal: 'XXX任务已超时，需尽快处理'},
-    {abnormal: 'XXX任务已超时，需尽快处理'},
-    {abnormal: 'XXX任务已超时，需尽快处理'},
-    {abnormal: 'XXX任务已超时，需尽快处理'},
+    {abnormal: 'XXX任务已超时，需尽快处理', taskDate: '今天'},
+    {abnormal: 'XXX任务已超时，需尽快处理', taskDate: '09-15'},
+    {abnormal: 'XXX任务已超时，需尽快处理', taskDate: '09-15'},
+    {abnormal: 'XXX任务已超时，需尽快处理', taskDate: '09-15'},
+    {abnormal: 'XXX任务已超时，需尽快处理', taskDate: '09-15'},
 ];
 
 const riskCol = [
     {headerName: '风险事项', field: 'abnormal'}
 ];
 const riskData = [
-    {abnormal: 'XXX任务已超时，导致划款失败'},
-    {abnormal: 'XXX任务已超时，导致划款失败'},
-    {abnormal: 'XXX任务已超时，导致划款失败'},
-    {abnormal: 'XXX任务已超时，导致划款失败'},
-    {abnormal: 'XXX任务已超时，导致划款失败'},
-    {abnormal: 'XXX任务已超时，导致划款失败'},
-    {abnormal: 'XXX任务已超时，导致划款失败'},
-    {abnormal: 'XXX任务已超时，导致划款失败'},
-    {abnormal: 'XXX任务已超时，导致划款失败'},
-    {abnormal: 'XXX任务已超时，导致划款失败'},
-    {abnormal: 'XXX任务已超时，导致划款失败'},
-    {abnormal: 'XXX任务已超时，导致划款失败'},
+    {abnormal: 'XXX任务已超时，导致划款失败', taskDate: '今天'},
+    {abnormal: 'XXX任务已超时，导致划款失败', taskDate: '09-15'},
+    {abnormal: 'XXX任务已超时，导致划款失败', taskDate: '09-15'},
+    {abnormal: 'XXX任务已超时，导致划款失败', taskDate: '09-15'},
+    {abnormal: 'XXX任务已超时，导致划款失败', taskDate: '09-15'},
 ];
 
 const contractCol = [
@@ -335,7 +333,7 @@ const boardStyleArr = [
     },
     {
         id: '5', label: '我的待办',
-        type: 'grid-comp',
+        type: 'my-todolist',
         data: {
             columnDefs: todoCol,
             rowData: JSON.stringify(todoRowData),
@@ -345,7 +343,7 @@ const boardStyleArr = [
     },
     {
         id: '6', label: '我的消息',
-        type: 'grid-comp',
+        type: 'comp-notice',
         data: {
             columnDefs: msgCol,
             rowData: JSON.stringify(msgData),
@@ -355,7 +353,7 @@ const boardStyleArr = [
     },
     {
         id: '3', label: '今日排班',
-        type: 'grid-comp',
+        type: 'comp-work',
         data: {
             columnDefs: scheduleCol,
             rowData: JSON.stringify(scheduleData),
@@ -365,7 +363,7 @@ const boardStyleArr = [
     },
     {
         id: '7', label: '异常事项',
-        type: 'grid-comp',
+        type: 'comp-event',
         data: {
             columnDefs: abnormalCol,
             rowData: JSON.stringify(abnormalData),
@@ -375,7 +373,7 @@ const boardStyleArr = [
     },
     {
         id: '10', label: '风险事项',
-        type: 'grid-comp',
+        type: 'comp-event',
         data: {
             columnDefs: riskCol,
             rowData: JSON.stringify(riskData),
