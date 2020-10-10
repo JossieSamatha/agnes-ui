@@ -13,7 +13,7 @@ const colButtons = [
 ];
 export default {
     columnDefs: [
-        column.buildOpCol(150, colButtons),
+        column.buildOpCol(200, colButtons),
         // {headerName: "账户类型", field: "typeCode"},
         {headerName: "归属机构", field: "orgName"},
         {headerName: "业务类型", field: "bizType",dictType:"AGNES_ACNT_BIZ_TYPE"},
