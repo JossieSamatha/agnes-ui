@@ -319,7 +319,17 @@
                 <gf-input v-model.trim="detailForm.fundAccName" placeholder="资金账户名称"/>
             </el-form-item>
             <el-form-item v-if="showRules.rate&&showRules.rate.isShow" label="利率" prop="rate">
-                <gf-input v-model.trim="detailForm.rate" placeholder="利率"/>
+<!--                <gf-input v-model.trim="detailForm.rate" placeholder="利率"/>-->
+                <el-select v-model="detailForm.rate"
+                           clearable
+                           placeholder="请选择">
+                    <gf-filter-option
+                            v-for="item in rateList"
+                            :key="item.rateId"
+                            :label="item.rateName"
+                            :value="item.rateId">
+                    </gf-filter-option>
+                </el-select>
             </el-form-item>
             <el-form-item v-if="showRules.stampLegalPersonInfo&&showRules.stampLegalPersonInfo.isShow" label="印鉴法人变更情况" prop="stampLegalPersonInfo">
                 <gf-input v-model.trim="detailForm.stampLegalPersonInfo" placeholder="印鉴法人变更情况"/>
@@ -373,15 +383,15 @@
                     placeholder="到期提醒">
                 </el-date-picker>
             </el-form-item>
-            <el-form-item v-if="showRules.openMan&&showRules.openMan.isShow" label="开户时对方联系人" prop="openMan">
-                <el-select class="multiple-select" v-model="detailForm.openMan"
+            <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="开户时对方联系人" prop="openMan">
+                <el-select class="multiple-select" v-model="detailForm.bankLinkMan"
                         filterable clearable
                         placeholder="请选择">
                     <gf-filter-option
                             v-for="item in linkManList"
-                            :key="item.productCode"
-                            :label="item.productCode"
-                            :value="item.productCode">
+                            :key="item.linkmanId"
+                            :label="item.linkmanName"
+                            :value="item.linkmanId">
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
@@ -471,7 +481,7 @@
                     acntStartDt:'',
                     isOpenBankCorDirect:'',
                     maturityDt:'',
-                    openMan:'',
+                    bankLinkMan:'',
                     acntStatus:'',
                     openManPhone:'',
                     remark:'',
@@ -521,6 +531,7 @@
                 productList:[],     //产品代码群组
                 OrgList:[],         //机构列表
                 linkManList:[],     //机构联系人列表
+                rateList:[],     //利率列表
                 showRules:{
            
                 },
@@ -557,6 +568,8 @@
                     this.OrgList = OrgList.data
                     let linkManList = await this.$api.acntApplyApi.getLinkMan(this.detailForm.baseOrgId);
                     this.linkManList = linkManList.data
+                    let rateList = await this.$api.rateDefApi.getAllPulishRateList();
+                    this.rateList = rateList.data
                     if(this.showChange){
                         let detailFormBefore = await this.$api.acntInfoApi.getAcntInfoByAcntId(this.detailForm.acntId);
                         this.detailFormBefore = detailFormBefore.data

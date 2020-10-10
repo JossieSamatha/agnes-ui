@@ -393,7 +393,7 @@
                 staticData: {},
                 isSubDis:false,
                 detailFormBefore: {
-                    typeCode:'01',
+                    typeCode:'',
                     bizType:'01',
                     baseStartDept:'', 
                     baseStartDeptLinkman:'', 
@@ -416,7 +416,7 @@
                     fields:[],
                 },
                 detailForm: {
-                    typeCode:'01',
+                    typeCode:'',
                     bizType:'01',
                     baseStartDept:'', 
                     baseStartDeptLinkman:'', 
