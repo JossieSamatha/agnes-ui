@@ -14,7 +14,7 @@
             </el-rate>
         </el-form-item>
         <el-form-item label="任务编号" prop="caseKey">
-            <gf-input v-model.trim="detailForm.caseKey" placeholder="任务编号" :max-byte-len="8"/>
+            <gf-input v-model.trim="detailForm.caseKey" clear-regex="[^0-9]" placeholder="任务编号" :max-byte-len="8"/>
         </el-form-item>
         <el-form-item label="业务场景" prop="bizType">
             <gf-dict filterable clearable v-model="detailForm.bizType" dict-type="AGNES_BIZ_CASE"/>
