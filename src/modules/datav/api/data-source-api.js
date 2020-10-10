@@ -4,7 +4,7 @@ import request from '@hex/gf-ui/src/util/request';
 export default {
     // 获取数据源列表
     getDatasourceList(id){
-        return request.get("/agnes-datav/config/datasource/get", {params: {id}});
+        return request.get("/agnes-datav/config/datasource/get?id="+id);
     },
 
     // 新增数据源

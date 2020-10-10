@@ -72,7 +72,7 @@
             },
         },
         beforeDestroy(){
-            this.$dataVBus.$off('addComp', this);
+            this.$dataVBus.$off('addComp');
         }
     }
 </script>

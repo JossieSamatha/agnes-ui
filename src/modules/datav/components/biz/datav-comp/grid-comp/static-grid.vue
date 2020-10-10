@@ -65,8 +65,24 @@
 
                 this.compOption.header = header;
                 this.compOption.dataStr = JSON.stringify(rowData);
-            }
                 /* =============  end  ==================*/
+
+
+                this.$api.DatavDatavApi.getTableList(this.compOption.columnArr).then(res => {
+                    if (res != "") {
+                        this.dataOption = {
+                            header: this.gridConf.header,
+                            data: res
+                        }
+                    } else {
+                        this.dataOption = {
+                            header: [],
+                            data: []
+                        }
+                    }
+                })
+            }
+
         }
     }
 </script>
