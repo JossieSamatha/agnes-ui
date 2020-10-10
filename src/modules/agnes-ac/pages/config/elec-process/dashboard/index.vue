@@ -27,7 +27,7 @@
                 <i class="el-icon-refresh" title="全部刷新" @click="getFLowsbyType(bizDate)"></i>
             </div>
         </section>
-        <section class="board-container" ref="contentSection" style="height: 100%">
+        <section class="board-container" ref="contentSection">
             <el-carousel v-if="proTask && proTask.length>0"
                          style="width: 100%;flex: 0 0 auto;"
                          :style="{height: carouselHeight + 'px'}"
@@ -44,7 +44,7 @@
                                         <i v-if="task.taskIcon" :class="task.taskIcon"></i>
                                         <i v-else class="fa fa-cogs"></i>
                                     </p>
-                                    <p class="title">{{task.taskName}}</p>
+                                    <p class="title" title="task.taskName">{{task.taskName}}</p>
                                     <p style="height: 15px">
                                         <el-progress v-if="task.finishedRate" class="monitor-progress" show-text
                                                      :percentage="getPercentage(task.finishedRate)"
