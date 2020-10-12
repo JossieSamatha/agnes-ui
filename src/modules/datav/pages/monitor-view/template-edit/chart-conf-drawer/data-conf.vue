@@ -64,9 +64,10 @@
                                    :formatterInfo="formatterInfoTemp"
                                    :curElement="curElement"
                         ></component>
-                        <component :is="compName"
-                                   v-if="editType === 'grid'"
+                        <component v-if="editType === 'grid'"
+                                   :is="compName"
                                    :compOption="compOption"
+                                   :dataOption="gridDataOption"
                         ></component>
                     </div>
                     <div v-if="!isUpdate && editType == 'chart'" class="chart-widget">
@@ -502,7 +503,9 @@
                 checkedCharts: [],
                 chartsList: ['未命名图表'],
                 isIndeterminate: true,
-                chartsOptions: ['未命名图表']
+                chartsOptions: ['未命名图表'],
+
+                gridDataOption: {}
             }
         },
         methods: {
@@ -586,11 +589,13 @@
             saveChart() {
                 if (this.isUpdate) {
                     if (this.editType == "grid") {
+                        let compOption = this.$lodash.clone(this.compOption);
+                        compOption.dataOption = this.gridDataOption;
                         this.$dataVBus.$emit('compDataChange', {
                             type: this.editType,
                             compName: this.editItemType,
                             label: this.chartLabel,
-                            metaData: this.compOption
+                            metaData: compOption
                         });
                     } else {
                         this.$set(this.dataOption, 'chartLabel', this.chartLabel);
@@ -810,6 +815,10 @@
                 this.editItemType = itemDate.comp.compName;
                 if(this.editType === 'grid'){
                     this.compOption = metaDate;
+                    this.gridDataOption = {
+                        dataSetId: metaDate.dataSetId,
+                        xFields: metaDate.xFields
+                    }
                 }
                 for (let i = 0; i < 20; i++) {
                     this.rowNum.push(i.toString())
@@ -1775,9 +1784,7 @@
 
                             }
                         });
-                        const compOption = this.$utils.deepClone(this.compOption);
-                        this.compOption = {
-                            ...compOption,
+                        this.gridDataOption = {
                             dataSetId: dataSetId,
                             columnArr: header,
                             shownStr: this.axisDataList[0].axisData
