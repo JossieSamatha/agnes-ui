@@ -63,7 +63,7 @@
             publishErr(params){
                 this.showDlg('check', params.data, "3", this.onAddErr.bind(this));
             },
-            transferRisk(){
+            transferErr(){
                 let t = this.$refs.grid.getSelectedRows();
                 if(loadsh.isEmpty(t)){
                     this.$msg.success("请中一条记录!");

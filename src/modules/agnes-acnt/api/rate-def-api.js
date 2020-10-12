@@ -17,6 +17,9 @@ export default {
     start(form) {
         return request.post("/agnes-app/v1/acnt/rate/info/start", form);
     },
+    getAllPulishRateList() {
+        return request.post("/agnes-app/v1/acnt/rate/info/list/all");
+    },
 
     stop(form) {
         return request.post("/agnes-app/v1/acnt/rate/info/stop", form);

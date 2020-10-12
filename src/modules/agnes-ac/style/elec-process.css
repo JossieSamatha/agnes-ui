@@ -1,6 +1,7 @@
 .gf-tab-view.elec-process-dashboard {
     position: relative;
     flex-direction: column;
+    height: 100%;
 }
 
 .el-progress-bar .el-progress-bar__outer {
@@ -42,6 +43,8 @@
 .elec-process-dashboard .board-container {
     display: flex;
     flex-direction: column;
+    flex: 1;
+    height: calc(100% - 50px);
 }
 
 .elec-process-dashboard .board-container .el-carousel .el-carousel__arrow {
@@ -60,6 +63,11 @@
 
 .elec-process-dashboard .board-container .el-carousel .el-carousel__indicators--horizontal {
     display: none;
+}
+
+.elec-process-dashboard .board-container .el-carousel .monitor-progress {
+    display: flex;
+    align-items: center;
 }
 
 .elec-process-dashboard .board-container .el-carousel .monitor-progress
@@ -87,6 +95,21 @@
     box-shadow: 0px 0px 8px 0px rgba(13, 30, 65, 0.4);
     border-radius: 4px;
     overflow: scroll;
+}
+
+@media screen and (max-width: 1200px) {
+    .elec-process-dashboard .board-container .card-detail {
+        margin: 10px;
+    }
+
+    .elec-process-dashboard .board-container .card-detail .progress .progress-item {
+        margin-top: 15px!important;
+    }
+
+    .elec-process-dashboard .card-container .module-card .content > p.title,
+    .elec-process-dashboard .card-container .module-card .content > p.imgContainer > i {
+        transform: scale(0.9);
+    }
 }
 
 .elec-process-dashboard .board-container .card-detail>div {
@@ -230,6 +253,12 @@
     justify-content: space-around;
     width: 100%;
     height: 100%;
+}
+
+.elec-process-dashboard .card-container .module-card .content > p.title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .elec-process-dashboard .card-container .module-card .content > p.title,
