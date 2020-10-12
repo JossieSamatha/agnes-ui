@@ -67,7 +67,7 @@
                     return;
                 }
                 try {
-                    let risk = this.$api.monitorErrApi.transferRisk(this.form);
+                    let risk = this.$api.monitorErrApi.transferErr(this.form);
                     await this.$app.blockingApp(risk);
                     this.$msg.success('提交成功');
                     if (this.actionOk){

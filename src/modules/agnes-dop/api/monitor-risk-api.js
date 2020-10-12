@@ -1,6 +1,9 @@
 import request from '@hex/gf-ui/src/util/request';
 
 export default {
+    queryRisk(form) {
+        return request.post("/agnes-app/v1/dop/risk/query", form);
+    },
     dealRisk(form) {
         return request.post("/agnes-app/v1/dop/risk/deal", form);
     },
