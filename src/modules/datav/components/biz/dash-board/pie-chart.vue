@@ -62,9 +62,9 @@ export default {
                 top: 'center',
                 left: 'center',
                 textStyle: {
-                    color: "blue",
-                    fontSize: 40,
-                    fontWeight: '800'
+                    color: "#476dbe",
+                    fontSize: 30,
+                    fontWeight: '500'
                 }
             };
             const tooltip ={
@@ -95,7 +95,7 @@ export default {
             const series=[
                 {
                     type: 'pie',
-                    radius: ['40%', '60%'],
+                    radius: ['45%', '60%'],
                     center: 'center',
                     hoverAnimation: false,
                     itemStyle: {
@@ -166,8 +166,8 @@ export default {
                         left: 'center',
                         textStyle: {
                             color: "#476dbe",
-                            fontSize: 40,
-                            fontWeight: 800
+                            fontSize: 30,
+                            fontWeight: 500
                         }
                     },
                     legend: {

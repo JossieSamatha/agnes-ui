@@ -14,6 +14,9 @@ export default {
     getAllUserGroup() {
         return request.get("/agnes-app/v1/dop/user/group/list/all");
     },
+    getAllGfUserGroup() {
+        return request.get("/agnes-app/v1/dop/user/group/list/alls");
+    },
     getUserInfos(userGroupId) {
         return request.post("/agnes-app/v1/dop/user/group/get/user-info?userGroupId="+userGroupId);
     }
