@@ -14,7 +14,12 @@ export default {
         }
         return request.post("/agnes-app/v1/dop/err/check", req);
     },
-    transferRisk(form) {
+    transferErr(form) {
         return request.post("/agnes-app/v1/dop/err/transfer", form);
     },
+
+    queryErr(form) {
+        return request.post("/agnes-app/v1/dop/err/query", form);
+    },
+
 };

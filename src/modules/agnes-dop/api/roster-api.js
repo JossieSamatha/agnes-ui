@@ -2,6 +2,9 @@ import request from '@hex/gf-ui/src/util/request';
 
 
 export default {
+    queryRoster(form) {
+        return request.get("/agnes-app/v1/dop/roster/list", form);
+    },
     getUserList(rosterId) {
         return request.get("/agnes-app/v1/dop/roster/user", {params: {rosterId}});
     },
