@@ -13,6 +13,9 @@
         <el-form-item label="传输方式" prop="transMode">
             <gf-dict filterable clearable v-model="detailFormData.transMode" dict-type="AGNES_DC_TRANS_MODE"/>
         </el-form-item>
+        <el-form-item label="编码类型" prop="codeType">
+            <gf-dict filterable clearable v-model="detailFormData.codeType" dict-type="AGNES_SCAN_CODE_TYPE"/>
+        </el-form-item>
         <el-form-item label="服务器地址" prop="serverAddress">
             <gf-input v-model.trim="detailFormData.serverAddress" placeholder="服务器地址"/>
         </el-form-item>
@@ -103,6 +106,7 @@
                 detailFormData:{
                     scanCode:'',
                     scanName:'',
+                    codeType:'',
                     transMode:'0',
                     serverAddress:'',
                     serverPort:"",
@@ -140,9 +144,9 @@
                     execScheduler: [
                         {required: true, message: '执行频率必填', trigger: 'blur'},
                     ],
-                    // baseDate: [
-                    //     {required: true, message: '基准日期必填', trigger: 'change'},
-                    // ],
+                    codeType: [
+                        {required: true, message: '编码类型必填', trigger: 'blur'},
+                    ],
                     varId:[
                         {required: true, message: '业务编号必填', trigger: 'blur'},
                     ],

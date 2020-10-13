@@ -43,6 +43,7 @@ export default {
         {headerName: "规则编号", field: "scanCode"},
         {headerName: "业务编号", field: "varId"},
         {headerName: "规则名称", field: "scanName"},
+        {headerName: "编码类型", field: "codeType",formatType: 'dict', dictType: 'AGNES_SCAN_CODE_TYPE'},
         {headerName: "传输方式", field: "transMode",formatType: 'dict', dictType: 'AGNES_DC_TRANS_MODE'},
         {headerName: "服务器地址", field: "serverAddress"},
         {headerName: "服务器端口", field: "serverPort"},
