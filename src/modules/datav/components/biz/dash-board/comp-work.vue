@@ -1,20 +1,20 @@
 <template>
     <div>
-        <div v-for="(item, index) in JSON.parse(moduleObj.rowData)"
+        <div v-for="(item, index) in rosterList"
              :key="index" class="todolist-container">
             <div class="work-icon">
-                <img :src="getImgPath(item.type)">
+                <img :src="getImgPath(item.rosterType)">
             </div>
             <div class="task-des">
                 <div>
-                    {{item.person}}&nbsp;
+                    {{item.crtUser}}&nbsp;
                     <span style="color:#9a9a9a;">({{item.id}})</span>
                 </div>
-                <div>{{item.type}}</div>
+                <div>{{getRosterType(item.rosterType)}}</div>
             </div>
             <div class="task-time">
-                <div>{{item.date}}</div>
-                <div>{{item.state}}</div>
+                <div>{{getRosterDate(item.rosterDate)}}</div>
+                <div>{{getRosterStatus(item.status)}}</div>
             </div>
         </div>
     </div>
@@ -29,17 +29,45 @@
                 require: true
             }
         },
+        data(){
+            return {
+                rosterList: [],
+                rosterType: this.$app.dict.getDictItems('AGNES_ROSTER_TYPE'),
+                rosterStatus: this.$app.dict.getDictItems('AGNES_RELEASE_STATUS')
+            }
+        },
+        created(){
+            this.$api.ruleTableApi.getRosterList().then(res => {
+                this.rosterList = res.data.rows;
+            })
+        },
         methods: {
             getImgPath(val) {
-                if (val.includes("早班") && !val.includes("-")) {
+                if (val.includes("00") && !val.includes("-")) {
                     return require("../../../assets/sun.png")
-                } else if (val.includes("晚班") && !val.includes("-")) {
+                } else if (val.includes("01") && !val.includes("-")) {
                     return require("../../../assets/moon.png")
-                } else if (val.includes("-授权")) {
+                } else if (val.includes("-02")) {
                     return require("../../../assets/key.png")
-                } else if (val.includes("-复核")) {
+                } else if (val.includes("-03")) {
                     return require("../../../assets/recheck.png")
                 }
+            },
+
+            getRosterType(rosterTypeId){
+                return this.$lodash.find(this.rosterType, {dictId: rosterTypeId}).dictName;
+            },
+
+            getRosterStatus(rosterStatusId){
+                if(rosterStatusId){
+                    return this.$lodash.find(this.rosterStatus, {dictId: rosterStatusId}).dictName;
+                }else{
+                    return ''
+                }
+            },
+
+            getRosterDate(rosterDate){
+                return rosterDate ? rosterDate.slice(5,11) : '';
             }
         }
     }
@@ -47,29 +75,21 @@
 
 <style scoped>
     .todolist-container {
-        height: 70px;
+        display: flex;
+        align-items: center;
         width: 100%;
-        position: relative;
+        height: 60px;
     }
     .work-icon,
     .task-des,
     .task-time {
-        display: inline-block;
-        position: absolute;
-        top: 50%;
         font-size: 12px;
     }
     .work-icon {
-        width: 10%;
-        position: absolute;
-        top: 50%;
-        left: 4%;
-        transform: translate(0px, -50%);
+        margin-right: 10px;
     }
     .task-des {
-        width: 70%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        flex: 1;
     }
     .task-des > div:nth-child(1) {
         color: #666;
@@ -79,9 +99,8 @@
         color: #ccc;
     }
     .task-time {
-        width: 20%;
-        right: 0;
-        transform: translate(0px, -50%);
+        width: 55px;
+        padding: 0 10px;
     }
     .task-time > div:nth-child(1) {
         color: #9a9a9a;

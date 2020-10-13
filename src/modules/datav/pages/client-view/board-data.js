@@ -15,10 +15,7 @@ const gridLayoutType = [
     {"x": 8, "y": 0, "w": 4, "h": 3, "i": "2020040902"},
     {"x": 0, "y": 3, "w": 4, "h": 3, "i": "2020040903"},
     {"x": 4, "y": 3, "w": 4, "h": 3, "i": "2020040904"},
-    {"x": 8, "y": 3, "w": 4, "h": 3, "i": "2020040905"},
-    // {"x": 6, "y": 2, "w": 2, "h": 2, "i": "2020040906"},
-    // {"x": 4, "y": 4, "w": 2, "h": 2, "i": "2020040907"},
-    // {"x": 6, "y": 4, "w": 2, "h": 2, "i": "2020040908"}
+    {"x": 8, "y": 3, "w": 4, "h": 3, "i": "2020040905"}
 ];
 
 const gridLayoutType2 = [
@@ -146,33 +143,12 @@ const scheduleData = [
 
 ];
 
-const abnormalCol = [
-    {headerName: '异常事项', field: 'abnormal'}
-];
-const abnormalData = [
-    {abnormal: 'XXX任务已超时，需尽快处理', taskDate: '今天'},
-    {abnormal: 'XXX任务已超时，需尽快处理', taskDate: '09-15'},
-    {abnormal: 'XXX任务已超时，需尽快处理', taskDate: '09-15'},
-    {abnormal: 'XXX任务已超时，需尽快处理', taskDate: '09-15'},
-    {abnormal: 'XXX任务已超时，需尽快处理', taskDate: '09-15'},
-];
-
-const riskCol = [
-    {headerName: '风险事项', field: 'abnormal'}
-];
-const riskData = [
-    {abnormal: 'XXX任务已超时，导致划款失败', taskDate: '今天'},
-    {abnormal: 'XXX任务已超时，导致划款失败', taskDate: '09-15'},
-    {abnormal: 'XXX任务已超时，导致划款失败', taskDate: '09-15'},
-    {abnormal: 'XXX任务已超时，导致划款失败', taskDate: '09-15'},
-    {abnormal: 'XXX任务已超时，导致划款失败', taskDate: '09-15'},
-];
-
 const contractCol = [
     {headerName: '机构', field: 'dep'},
     {headerName: '联系人', field: 'conPer'},
     {headerName: '联系方式', field: 'conTel'}
 ];
+
 const contractData = [
     {dep: '工商',conPer: '张三',conTel: '12390000000'},
     {dep: '中国银行',conPer: '李四',conTel: '12390000000'},
@@ -188,6 +164,7 @@ const contractData = [
 const channelCol = [
     {headerName: '渠道信息', field: 'channel'}
 ];
+
 const channelData = [
     {channel: '瑜伽TA'},
     {channel: '创新TA'},
@@ -334,6 +311,8 @@ const boardStyleArr = [
     {
         id: '5', label: '我的待办',
         type: 'my-todolist',
+        menuId: 'agnes.app.task.todo',
+        arrowShow: true,
         data: {
             columnDefs: todoCol,
             rowData: JSON.stringify(todoRowData),
@@ -344,6 +323,8 @@ const boardStyleArr = [
     {
         id: '6', label: '我的消息',
         type: 'comp-notice',
+        menuId: 'agnes.app.message.mgr',
+        arrowShow: true,
         data: {
             columnDefs: msgCol,
             rowData: JSON.stringify(msgData),
@@ -354,6 +335,8 @@ const boardStyleArr = [
     {
         id: '3', label: '今日排班',
         type: 'comp-work',
+        menuId: 'agnes.dop.roster',
+        arrowShow: true,
         data: {
             columnDefs: scheduleCol,
             rowData: JSON.stringify(scheduleData),
@@ -364,20 +347,20 @@ const boardStyleArr = [
     {
         id: '7', label: '异常事项',
         type: 'comp-event',
+        menuId: 'agnes.app.monitor.error',
+        arrowShow: true,
         data: {
-            columnDefs: abnormalCol,
-            rowData: JSON.stringify(abnormalData),
-            gridOption: JSON.stringify(gridOptionObj)
+            compType: 'err'
         },
         img: 'unit05'
     },
     {
         id: '10', label: '风险事项',
         type: 'comp-event',
+        menuId: 'agnes.app.monitor.risk',
+        arrowShow: true,
         data: {
-            columnDefs: riskCol,
-            rowData: JSON.stringify(riskData),
-            gridOption: JSON.stringify(gridOptionObj)
+            compType: 'risk'
         },
         img: 'unit05'
     },
