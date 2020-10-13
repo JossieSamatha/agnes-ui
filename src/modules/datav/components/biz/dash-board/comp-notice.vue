@@ -1,16 +1,16 @@
 <template>
     <div>
-        <div v-for="(item, index) in JSON.parse((moduleObj.rowData))"
+        <div v-for="(item, index) in msgDemoArr"
             :key="index" class="notice-list"
         >
             <div class="state-icon">
                 <img :src="getImgPath(item.msgName)">
             </div>
             <div class="notice-state">
-                {{item.msgName}}
+                {{item.msgTitle}}
             </div>
             <div class="notice-date">
-                {{item.msgDate}}
+                {{getNoticeDate(item.remindTime)}}
             </div>
         </div>
     </div>
@@ -25,6 +25,16 @@
                 require: true
             }
         },
+        data(){
+            return {
+                msgDemoArr: []
+            }
+        },
+        created(){
+            this.$api.ruleTableApi.getRemindList().then(res => {
+                this.msgDemoArr = res.data.rows
+            })
+        },
         methods: {
             getImgPath(val) {
                 if (val.includes("完成")) {
@@ -36,6 +46,10 @@
                 if (val.includes("提醒")) {
                     return require("../../../assets/clock.png")
                 }
+            },
+
+            getNoticeDate(noticeTime){
+                return noticeTime ? noticeTime.slice(5,11) : '';
             }
         }
     }
@@ -43,24 +57,30 @@
 
 <style scoped>
     .notice-list {
+        display: flex;
         width: 100%;
-        margin: 20px 10px;
+        align-items: center;
+        margin-bottom: 15px;
     }
     .state-icon,
     .notice-date,
     .notice-state {
-        display: inline-block;
         font-size: 12px;
     }
     .state-icon {
-        width: 10%;
+        margin-right: 10px;
     }
     .notice-state {
-        width: 70%;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
         color: #666;
+        flex: 1;
     }
     .notice-date {
-        width: 20%;
-        color: #9a9a9a;
+        width: 55px;
+        padding: 0 10px;
+        color: #999;
     }
 </style>
