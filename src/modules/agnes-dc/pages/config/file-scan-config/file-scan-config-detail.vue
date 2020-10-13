@@ -4,6 +4,9 @@
         <el-form-item label="规则编号" prop="scanCode">
             <gf-input v-model.trim="detailFormData.scanCode" placeholder="规则编号" :max-byte-len="8"/>
         </el-form-item>
+        <el-form-item label="业务编号" prop="varId">
+            <gf-input v-model.trim="detailFormData.varId" placeholder="规则编号" :max-byte-len="8"/>
+        </el-form-item>
         <el-form-item label="规则名称" prop="scanName">
             <gf-input v-model.trim="detailFormData.scanName" placeholder="规则名称" :max-byte-len="120"/>
         </el-form-item>
@@ -16,24 +19,12 @@
         <el-form-item label="服务器端口" prop="serverPort">
             <gf-input v-model.trim="detailFormData.serverPort" placeholder="服务器端口"/>
         </el-form-item>
-        <el-form-item v-if="detailFormData.transMode==='0'" label="用户" prop="userName">
+        <el-form-item v-if="detailFormData.transMode==='0' || detailFormData.transMode==='2'" label="用户" prop="userName">
             <gf-input v-model.trim="detailFormData.userName" placeholder="用户"/>
         </el-form-item>
-        <el-form-item v-if="detailFormData.transMode==='0'" label="密码" prop="password">
+        <el-form-item v-if="detailFormData.transMode==='0' || detailFormData.transMode==='2'" label="密码" prop="password">
             <el-input placeholder="请输入密码" v-model="detailFormData.password" show-password></el-input>
         </el-form-item>
-<!--        <el-form-item label="变量选择" prop="varId">-->
-<!--            <el-select class="multiple-select" v-model="detailFormData.varId"-->
-<!--                       filterable clearable multiple-->
-<!--                       placeholder="请选择">-->
-<!--                <gf-filter-option-->
-<!--                        v-for="item in variableOption"-->
-<!--                        :key="item.pkId"-->
-<!--                        :label="item.varName"-->
-<!--                        :value="item.pkId">-->
-<!--                </gf-filter-option>-->
-<!--            </el-select>-->
-<!--        </el-form-item>-->
         <el-form-item label="文件路径" prop="filePath">
             <gf-input v-model.trim="detailFormData.filePath" placeholder="文件路径" style="width: calc(100% - 30px); margin-right: 10px"/>
             <el-popover placement="bottom"
@@ -118,7 +109,7 @@
                     userName:'',
                     password:'',
                     status:'0',
-                    // varId:[],
+                    varId:'',
                     filePath:'',
                     fileName:'',
                     isNeedParse:'0',
@@ -152,9 +143,9 @@
                     // baseDate: [
                     //     {required: true, message: '基准日期必填', trigger: 'change'},
                     // ],
-                    // varId:[
-                    //     {required: true, message: '变量选择必填', trigger: 'blur'},
-                    // ],
+                    varId:[
+                        {required: true, message: '业务编号必填', trigger: 'blur'},
+                    ],
                     userName:[
                         {required: true, message: '用户名必填', trigger: 'blur'},
                     ],
@@ -169,7 +160,6 @@
                 Object.assign(this.detailFormData, this.row);
                 this.addExecScheduler();
             }
-            // this.getVarIdList();
             this.getAnalyRulesOption();
         },
         methods: {
@@ -181,16 +171,7 @@
                 if(this.detailFormData.execScheduler){
                     this.detailFormData.execScheduler = '00#00#02#'+this.detailFormData.execScheduler
                 }
-                // if(this.detailFormData.varId){
-                //     let varIdArr = this.detailFormData.varId.split(',');
-                //     this.detailFormData.varId = varIdArr
-                // }
             },
-            // async getVarIdList(){
-            //     const p = this.$api.fileScan.getVarIdList();
-            //     let res =  await this.$app.blockingApp(p);
-            //     this.variableOption = res.data;
-            // },
             async getAnalyRulesOption(){
                 const p = this.$api.fileScan.queryRuleConfigList();
                 let res =  await this.$app.blockingApp(p);
@@ -212,22 +193,36 @@
                         let spiltExecScheduler = moveForm.execScheduler.split('#');
                         moveForm.execScheduler = spiltExecScheduler[3]
                     }
-                    // if(moveForm.varId){
-                    //     moveForm.varId = moveForm.varId.join();
-                    // }
                     moveForm.isNeedCheck = true;
                     moveForm.status='01';
                     if(this.mode==='add'){
                         const p = this.$api.fileScan.saveFileScan(moveForm);
-                        await this.$app.blockingApp(p);
-                        this.$msg.success('保存成功');
+                        const resp = await this.$app.blockingApp(p);
+                        if(resp.data == 'success'){
+                            this.$msg.success('保存成功');
+                            this.$emit("onClose");
+                            if (this.actionOk) {
+                                await this.actionOk();
+                            }
+                        }else {
+                            this.$msg.error("该编码已存在");
+                        }
                     }else if(this.mode==='edit') {
-                        if(this.detailFormData.scanCode === this.row.scanCode){
+                        if(this.detailFormData.scanCode === this.row.scanCode && this.detailFormData.varId === this.row.varId){
                             moveForm.isNeedCheck = false;
                         }
                         const p = this.$api.fileScan.saveFileScan(moveForm);
-                        await this.$app.blockingApp(p);
-                        this.$msg.success('修改成功');
+                        const resp = await this.$app.blockingApp(p);
+                        console.log(resp);
+                        if(resp.data == 'success'){
+                            this.$msg.success('修改成功');
+                            this.$emit("onClose");
+                            if (this.actionOk) {
+                                await this.actionOk();
+                            }
+                        }else {
+                            this.$msg.error("该编码已存在");
+                        }
                     }else if(this.mode==='check'){
                         // let updateParam = {
                         //     productParamId:paramData.productParamId,
@@ -237,10 +232,6 @@
                         // await this.$app.blockingApp(p);
                         // this.$msg.success('复核成功');
                     }
-                    if (this.actionOk) {
-                        await this.actionOk();
-                    }
-                    this.$emit("onClose");
                 } catch (reason) {
                     this.$msg.error(reason);
                 }

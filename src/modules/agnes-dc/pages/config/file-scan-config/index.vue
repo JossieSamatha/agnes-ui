@@ -41,6 +41,7 @@ import FileScanConfigDetail from './file-scan-config-detail'
                 copyRowData.scanCode = "";
                 copyRowData.scanId = "";
                 copyRowData.scanName = "";
+                copyRowData.varId = "";
                 this.showFileAnalyConfig(copyRowData,'edit' , this.onUpdate.bind(this));
             },
             addFileAnaly() {
