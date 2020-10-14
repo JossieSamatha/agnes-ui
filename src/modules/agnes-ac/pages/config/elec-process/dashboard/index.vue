@@ -105,11 +105,19 @@
             <div class="close-container">
                 <i class="el-icon-circle-close" @click="closeTableDetail"></i>
             </div>
-            <div class="drag-container" v-dragx="dragColumn" @bindUpdate="dragColumnUpdate" ref="dragColumn">
+            <div class="drag-container" v-dragx="dragColumn"
+                 @bindUpdate="dragColumnUpdate"
+                 ref="dragColumn">
                 <gf-grid ref="monitorLeader"
                          height="100%"
-                         grid-no="agnes-monitor-leader-field"
-                ></gf-grid>
+                         grid-no="agnes-monitor-leader-field">
+                    <template slot="right-before">
+                        <span class="full-screen-btn">
+                             <i v-show="!ifDetailFullScreen" v-html="svgImg.fullScreen" @click="expandDetailFullScreen(true)"></i>
+                            <i v-show="ifDetailFullScreen" v-html="svgImg.exitFullScreen" @click="expandDetailFullScreen(false)"></i>
+                        </span>
+                    </template>
+                </gf-grid>
             </div>
         </div>
     </el-container>
@@ -136,7 +144,8 @@ export default {
             stageList: [],
             pieTitle: '',
             ifGridExpand: false,
-            setPos: "relative"
+            setPos: "relative",
+            ifDetailFullScreen: false
         }
     },
     async created(){
@@ -300,7 +309,16 @@ export default {
             });
             return tableArr;
         },
-        
+
+        // 表格详情是否全屏
+        expandDetailFullScreen(status){
+            this.ifDetailFullScreen = status;
+            if(status){
+                this.$refs.dragColumn.style.height = 'calc(100% - 70px)';
+            }else{
+                this.$refs.dragColumn.style.height = '450px';
+            }
+        }
     }
 }
 </script>
