@@ -7,6 +7,7 @@ export default {
     columnDefs: [
         column.buildOpCol(80, colButtons),
         {headerName: "规则编号", field: "scanCode"},
+        {headerName: "业务编号", field: "varId"},
         {headerName: "规则名称", field: "scanName"},
         {headerName: "扫描路径", field: "filePath"},
         {headerName: "扫描文件", field: "fileName"},
@@ -24,7 +25,7 @@ export default {
     ],
     ext: {
         fetchUrl: "/agnes-app/v1/dc/file/scan/log/list-page",
-        fetchMethod: 'get',
+        fetchMethod: 'post',
         pagingMode: true, //不分页
         checkboxColumn: 1, //是否显示checkbox列,
         enableExportLocal: true,
