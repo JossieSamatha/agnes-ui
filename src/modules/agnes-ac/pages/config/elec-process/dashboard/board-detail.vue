@@ -29,8 +29,14 @@
                     <div class="drag-container" v-dragx="dragColumn" @bindUpdate="dragColumnUpdate" ref="dragColumn">
                         <gf-grid ref="monitorLeader"
                                  height="100%"
-                                 grid-no="agnes-monitor-leader-field"
-                        ></gf-grid>
+                                 grid-no="agnes-monitor-leader-field">
+                            <template slot="right-before">
+                                <span class="full-screen-btn">
+                                     <i v-show="!ifDetailFullScreen" v-html="lcImg.fullScreen" @click="expandDetailFullScreen(true)"></i>
+                                    <i v-show="ifDetailFullScreen" v-html="lcImg.exitFullScreen" @click="expandDetailFullScreen(false)"></i>
+                                </span>
+                            </template>
+                        </gf-grid>
                     </div>
                 </div>
             </div>
@@ -99,7 +105,8 @@
                     {id: 'OVERTIME', label: '超时', icon: 'outTime'}, {id: 'EXCEPTION', label: '异常', icon: 'abnormal'}
                 ],
                 ifFullScreen: false,
-                taskIdList: []
+                taskIdList: [],
+                ifDetailFullScreen: false
             }
         },
         components: {
@@ -210,7 +217,17 @@
             getExecIcon(status) {
                 const icon = this.$lodash.find(this.execTypeOp, {id: status}).icon;
                 return this.lcImg[icon];
-            }
+            },
+
+            // 表格详情是否全屏
+            expandDetailFullScreen(status){
+                this.ifDetailFullScreen = status;
+                if(status){
+                    this.$refs.dragColumn.style.height = 'calc(100% - 70px)';
+                }else{
+                    this.$refs.dragColumn.style.height = '450px';
+                }
+            },
         }
     }
 </script>
