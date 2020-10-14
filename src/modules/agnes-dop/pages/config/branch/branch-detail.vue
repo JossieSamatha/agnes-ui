@@ -59,6 +59,9 @@
                     bigPayNo: [
                         {required: true, message: '大额支付号必填', trigger: 'blur'},
                     ],
+                    extOrgId: [
+                        {required: true, message: '归属机构必填', trigger: 'blur'},
+                    ],
                   
                 },
             }
