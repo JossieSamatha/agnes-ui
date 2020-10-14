@@ -43,6 +43,7 @@
     </div>
 </template>
 <script>
+   import dateUtils from "@hex/gf-ui/src/util/date-utils"
     export default {
         data() {
             return {
@@ -55,6 +56,9 @@
                 }
             }
         },
+        beforeMount() {
+            this.getExeTime();
+        },
         methods: {
             reloadData() {
                 this.$refs.grid.reloadData();
@@ -65,6 +69,10 @@
                 this.queryArgs.varId = '';
                 this.queryArgs.isNeedParse = '';
                 this.reloadData();
+            },
+            async getExeTime() {
+                this.queryArgs.exeDate = dateUtils.formatDate(window.bizDate,"yyyyMMdd");
+                await this.reloadData();
             },
             showFileDetail(){
             }
