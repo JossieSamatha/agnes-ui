@@ -109,7 +109,7 @@
             // 面板grid -- 单元数据删除
             gridUnitDel(delUnitId) {
                 this.$set(this.boardDataObj,delUnitId,[]);
-            },
+            }
         }
     }
 </script>

@@ -1,17 +1,17 @@
 <template>
     <div>
-        <div v-for="(item, index) in JSON.parse(moduleObj.rowData)"
+        <div v-for="(item, index) in taskDemoArr"
             :key="index" class="todolist-container">
             <div class="task-icon">
-                <div></div>
+                <i class="fa fa-circle"></i>
             </div>
             <div class="task-des">
-                <div>{{item.taskType}}</div>
-                <div>{{item.currentTask}}</div>
+                <div :title="item.taskName">{{item.taskName}}</div>
+                <div :title="item.stepName">{{item.stepName}}</div>
             </div>
             <div class="task-time">
-                <div>{{item.taskDate}}</div>
-                <div>{{item.taskTime}}</div>
+                <div>{{getTaskDate(item.bizDt)}}</div>
+                <div>{{getTaskTime(item.taskStartTm)}}</div>
             </div>
         </div>
     </div>
@@ -25,53 +25,74 @@
                 type: Object,
                 require: true
             }
+        },
+        data(){
+            return {
+                taskDemoArr: []
+            }
+        },
+        created(){
+            this.$api.ruleTableApi.getTaskTodoList().then(res => {
+                this.taskDemoArr = res.data.rows;
+            })
+        },
+        methods: {
+            getTaskDate(taskDate){
+                return taskDate ? taskDate.slice(5,11) : '';
+            },
+
+            getTaskTime(taskTime){
+                return taskTime ? taskTime.slice(11) : '';
+            }
         }
     }
 </script>
 
 <style scoped>
     .todolist-container {
-        height: 70px;
+        display: flex;
         width: 100%;
-        position: relative;
+        height: 70px;
+        align-items: center;
     }
     .task-icon,
     .task-des,
     .task-time {
-        display: inline-block;
-        position: absolute;
-        top: 50%;
         font-size: 12px;
     }
     .task-icon {
-        width: 10%;
+        margin-right: 10px;
     }
-    .task-icon > div {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background-color: #709FED;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
+    .task-icon > i {
+        font-size: 12px;
+        color: #709FED;
+        transform: scale(.6);
     }
     .task-des {
-        width: 70%;
-        left: 46%;
-        transform: translate(-50%, -50%);
+        width: 100%;
+        overflow: hidden;
     }
+
     .task-des > div:nth-child(1) {
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
         color: #666;
         margin-bottom: 6px;
     }
     .task-des > div:nth-child(2) {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
         color: #ccc;
     }
     .task-time {
-        width: 20%;
-        right: 0;
-        transform: translate(0px, -50%);
+        flex: none;
+        width: 55px;
+        text-align: right;
+        padding-right: 5px;
     }
     .task-time > div:nth-child(1) {
         color: #9a9a9a;

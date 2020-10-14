@@ -1,14 +1,14 @@
 <template>
     <div>
-        <div v-for="(item, index) in JSON.parse((moduleObj.rowData))"
+        <div v-for="(item, index) in eventList"
              :key="index" class="notice-list"
         >
             <div class="el-icon-chat-line-square"></div>
             <div class="notice-state">
-                {{item.abnormal}}
+                {{item.eventDesc}}
             </div>
             <div class="notice-date">
-                {{item.taskDate}}
+                {{item.eventDate}}
             </div>
         </div>
     </div>
@@ -22,7 +22,34 @@
                 type: Object,
                 require: true
             }
-        }
+        },
+        data(){
+            return {
+                eventList: [],
+            }
+        },
+        created(){
+            if(this.moduleObj.compType === 'err'){
+                this.$api.ruleTableApi.getErrList().then(res => {
+                    this.eventList = res.data.rows.map((item)=>{
+                        return {
+                            eventDesc: item.errDesc,
+                            eventDate: item.crtTs
+                        }
+                    });
+                })
+            }else if(this.moduleObj.compType === 'risk'){
+                this.$api.ruleTableApi.getRiskList().then(res => {
+                    this.eventList = res.data.rows.map((item)=>{
+                        return {
+                            eventDesc: item.riskDesc,
+                            eventDate: item.crtTs
+                        }
+                    });
+                })
+            }
+
+        },
     }
 </script>
 

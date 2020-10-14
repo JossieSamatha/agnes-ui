@@ -494,6 +494,16 @@
 }
 
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
+.menuContent .el-card.module-card .el-card__body>.content::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+.datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
+.menuContent .el-card.module-card .el-card__body>.content:hover::-webkit-scrollbar-thumb {
+    background: rgba(135, 141, 153, .3);
+}
+
+.datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
 .menuContent .el-card.module-card .el-card__body {
     overflow: scroll;
     height: calc(100% - 31px);
