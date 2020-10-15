@@ -1,10 +1,13 @@
 <template>
     <agnes-calendar ref="calendar" v-model="moduleObj.calendarVal" :first-day-of-week="7">
-        <template slot="dateCell" slot-scope="{date}">
-            <el-popover placement="bottom" width="110" trigger="click" popper-class="calendar-popper">
+        <template slot="dateCell" slot-scope="{date, data}">
+            <el-popover placement="bottom" width="110" trigger="click"
+                        popper-class="calendar-popper"
+                        @show="getCalendarData(data.day)"
+            >
                 <p>运营日历：<span>5个</span></p>
                 <el-button type="text">查看详情</el-button>
-                <el-button slot="reference">{{ getDay(date) }}</el-button>
+                <el-button slot="reference" :class="workStatus">{{ getDay(date) }}</el-button>
             </el-popover>
         </template>
     </agnes-calendar>
@@ -18,18 +21,30 @@
                 required: true
             }
         },
-        created(){
+        data(){
+            return {
+                workStatus: '',
+                todayDate: new Date().toLocaleDateString().replace(/\//g, '-')
+            }
+        },
+        mounted(){
             this.$dataVBus.$off('clientCalendarRefresh');
             this.$dataVBus.$on('clientCalendarRefresh', this.clientCalendarRefresh);
-            this.$api.workdayConfigApi.getWorkdayList({'workdayAreaCode':'CN'});
+            this.getCalendarData(this.todayDate);
         },
         methods: {
             getDay(date){
-                return new Date(date).getDate()
+                return new Date(date).getDate();
             },
 
             clientCalendarRefresh(){
-                this.$refs.calendar.selectDate('today')
+                this.$refs.calendar.selectDate('today');
+                this.getCalendarData(this.todayDate);
+            },
+
+            async getCalendarData(date){
+                const res = await this.$api.memoApi.getMemoList(date, '', '04');
+                this.workStatus = res.memoStatus;
             }
         }
     }

@@ -44,10 +44,15 @@
 
 /*消息盒子*/
 
+.noticeDrawer .el-drawer__body,
+.noticeDrawer .slotCanve {
+    height: 100%;
+}
+
 .noticeDrawer .slotCanve .container {
     display: flex;
     flex: 1;
-    height: 100%;
+    height: calc(100% - 60px);
 }
 
 .noticeDrawer .slotCanve .container .messagebox {

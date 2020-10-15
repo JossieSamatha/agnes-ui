@@ -208,6 +208,25 @@
 }
 
 .datav_client_view .el-card.module-card .el-calendar .el-calendar__body
+.el-calendar-table .el-calendar-day>span {
+    display: block;
+}
+
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
+.el-calendar-table .el-calendar-day>span .day-block{
+    position: relative;
+}
+
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
+.el-calendar-table .el-calendar-day>span .day-block .fa.fa-circle{
+    position: absolute;
+    left: 50%;
+    bottom: 3px;
+    font-size: 12px;
+    transform: scale(.5);
+}
+
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
 .el-calendar-table:not(.is-range) td.next,
 .datav_client_view .el-card.module-card .el-calendar .el-calendar__body
 .el-calendar-table:not(.is-range) td.prev {
