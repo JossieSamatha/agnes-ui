@@ -3,6 +3,8 @@
 export default {
     columnDefs: [
         {headerName: "消息名称", field: "msgName"},
+        {headerName: "消息类型", field: "msgType"},
+        {headerName: "通知时间", field: "remindTime"},
         {headerName: "完成时间", field: "updateTs"},
         {headerName: "状态", field: "hasRead", dictType: 'REMIND_HAS_READ'},
     ],
@@ -11,7 +13,7 @@ export default {
     rowSelection:'multiple',
     ext: {
         fetchUrl: "/agnes-remind/v1/remind/msg/query",    //后台查询数据的URL地址
-        fetchMethod: 'post',
+        fetchMethod: 'get',
         pagingMode: true, //不分页
         checkboxColumn: 1, //是否显示checkbox列,
         enableExportLocal: true,
