@@ -27,15 +27,13 @@
     </div>
     <div class="line" style="width: 100%">
       <el-form-item label="当前状态" prop="productStatus">
-        <gf-dict filterable clearable v-model="detailForm.productStatus" dict-type="AGNES_PRODUCT_STATUS"/>
+        <gf-dict filterable clearable v-model="detailForm.productCurStatus" dict-type="AGNES_PRODUCT_STATUS"/>
       </el-form-item>
       <el-form-item label="成立日期" prop="startDate" style="width: 100%">
         <el-date-picker
             v-model="detailForm.startDate"
             style="width: 100%;"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="执行时间">
+            type="date">
         </el-date-picker>
       </el-form-item>
     </div>
@@ -141,7 +139,7 @@
               <el-table-column prop="paramBizType" label="业务归属" min-width="100">
                 <template slot-scope="scope">
                   <el-input :style="!scope.row.paramBizType ? 'border:1px solid #f00':''"
-                            v-model="scope.row.paramBizType"></el-input>
+                            v-model="scope.row.paramBizType" disabled></el-input>
                 </template>
               </el-table-column>
               <el-table-column prop="paramCode" label="参数代码" min-width="100">
@@ -158,8 +156,8 @@
               </el-table-column>
               <el-table-column prop="paramType" label="参数类型" min-width="100">
                 <template slot-scope="scope">
-                  <gf-dict-select :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
-                                  dict-type="AGNES_PRODUCT_PARAM_TYPE" v-model="scope.row.paramValue"
+                  <gf-dict-select :style="!scope.row.paramType ? 'border:1px solid #f00':''"
+                                  dict-type="AGNES_PRODUCT_PARAM_TYPE" v-model="scope.row.paramType"
                                   @change="changes(scope.row)"/>
                 </template>
               </el-table-column>
@@ -177,14 +175,13 @@
                       v-model="scope.row.paramValue"
                       :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
                       type="date"
-                      align="center"
                       value-format="yyyy-MM-dd">
                   </el-date-picker>
                 </template>
               </el-table-column>
               <el-table-column prop="option" label="操作" width="60" align="center">
                 <template slot-scope="scope">
-                  <span class="option-span" @click="deleteTA(scope.$index)">删除</span>
+                  <span class="option-span" @click="deleteFA(scope.$index)">删除</span>
                 </template>
               </el-table-column>
             </el-table>
@@ -221,6 +218,7 @@ export default {
         productType: '',
         productStage: '',
         productStatus: '',
+        productCurStatus: '',
         startDate: '',
         productCustodian: '',
         productCustodianOverseas: '',
