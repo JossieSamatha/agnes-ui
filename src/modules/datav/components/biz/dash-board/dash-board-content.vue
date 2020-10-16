@@ -25,7 +25,8 @@
                     <i class="fa fa-close"></i>
                 </span>
                 <span class="compEntrance" v-if="unit.arrowShow">
-                    <i class="fa fa-angle-right" @click="entranceMenu(unit.menuId)"></i>
+                    <i class="el-icon-refresh" v-if="unit.type === 'calendar-def'" @click="calendarRefresh"></i>
+                    <i class="fa fa-angle-right" v-else @click="entranceMenu(unit.menuId)"></i>
                 </span>
                 <module-card :title="unit.label">
                     <template slot="content">
@@ -103,6 +104,10 @@
                 let clientView = this.$app.views.getView(menuId);
                 let clientTabView = Object.assign({args: {}, id: menuId}, clientView);
                 this.$nav.showView(clientTabView);
+            },
+
+            calendarRefresh(){
+                this.$dataVBus.$emit('clientCalendarRefresh');
             }
 
         }

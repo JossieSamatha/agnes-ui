@@ -11,6 +11,7 @@ import myTodoList from './my-todolist'
 import compNotice from './comp-notice'
 import compEvent from './comp-event'
 import compWork from './comp-work'
+import AgnesCalendar from './agnes-calendar'
 
 const Loading = {
     install: function (Vue) {
@@ -27,6 +28,7 @@ const Loading = {
         Vue.component('comp-notice', compNotice);
         Vue.component('comp-event', compEvent);
         Vue.component('comp-work', compWork)
+        Vue.component('agnes-calendar', AgnesCalendar)
     }
 };
 
