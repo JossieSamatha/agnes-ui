@@ -44,10 +44,15 @@
 
 /*消息盒子*/
 
+.noticeDrawer .el-drawer__body,
+.noticeDrawer .slotCanve {
+    height: 100%;
+}
+
 .noticeDrawer .slotCanve .container {
     display: flex;
     flex: 1;
-    height: 100%;
+    height: calc(100% - 60px);
 }
 
 .noticeDrawer .slotCanve .container .messagebox {
@@ -750,6 +755,7 @@
     box-shadow: none;
 }
 
+.gf-ag-grid.ag-theme-balham .ag-header-select-all .ag-checkbox-input-wrapper::after,
 .gf-ag-grid.ag-theme-balham .ag-selection-checkbox .ag-checkbox-input-wrapper::after {
     content: '';
     top: 0px;
@@ -758,6 +764,15 @@
     height: 11px;
 }
 
+.gf-ag-grid.ag-theme-balham .ag-header-select-all .ag-checkbox-input-wrapper.ag-indeterminate::after {
+    top: 5px;
+    left: 2px;
+    width: 9px;
+    border-bottom: 2px solid #476DBE;
+    transform: rotate(180deg);
+}
+
+.gf-ag-grid.ag-theme-balham .ag-header-select-all .ag-checkbox-input-wrapper.ag-checked::after,
 .gf-ag-grid.ag-theme-balham .ag-selection-checkbox .ag-checkbox-input-wrapper.ag-checked::after {
     border-bottom: 2px solid #476DBE;
     border-right: 2px solid #476DBE;
