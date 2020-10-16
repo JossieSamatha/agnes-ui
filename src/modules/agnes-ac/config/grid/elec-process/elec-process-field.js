@@ -77,9 +77,10 @@ export default {
     },
     rowData: [],
     groupDefaultExpanded: -1,
+    rowSelection:'multiple',
     ext: {
         pagingMode: true,
-        checkboxColumn: 1,
+        checkboxColumn: 2,
         autoFitColumnMode: 1,
         enableExportLocal: true,
         pageOptions: {
