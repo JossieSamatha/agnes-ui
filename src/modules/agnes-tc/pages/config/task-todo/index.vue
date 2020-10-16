@@ -25,24 +25,26 @@
 <!--            ref="grid"-->
 <!--        >-->
 <!--        </gf-grid>-->
-        <div class="task-container" v-for="(item, index) in taskDemoArr" :key="index">
-            <div class="task-type">{{item.taskRemark}}</div>
-            <div class="task-content">
-                {{item.taskName}}
-            </div>
-            <div class="task-execor">
-                <span>{{item.participants}}</span>
-                <span style="margin-left: 20px;">{{item.taskStartTm}}</span>
-                <span style="position: absolute;
+        <div class="container">
+            <div class="task-container" v-for="(item, index) in taskDemoArr" :key="index">
+                <div class="task-type">{{item.taskRemark}}</div>
+                <div class="task-content">
+                    {{item.taskName}}
+                </div>
+                <div class="task-execor">
+                    <span>{{item.participants}}</span>
+                    <span style="margin-left: 20px;">{{item.taskStartTm}}</span>
+                    <span style="position: absolute;
                              right: 30px;
                              color: #476DBD;
                              cursor: pointer;"
-                >
+                    >
                     去处理
                 </span>
-            </div>
-            <div :class="setClassName(item.stepStatus)">
-                {{item.stepStatus | showTaskStatus}}
+                </div>
+                <div :class="setClassName(item.stepStatus)">
+                    {{item.stepStatus | showTaskStatus}}
+                </div>
             </div>
         </div>
     </div>
@@ -206,6 +208,12 @@
     }
 </script>
 <style scoped>
+    .container {
+        height: calc(100% - 55px);
+        flex: 1;
+        overflow-y: auto;
+    }
+
     .task-container {
         width: 95%;
         height: 123px;
@@ -267,10 +275,7 @@
     .task-state-overtime {
         background-color: #ea6461;
     }
-    .gf-tab-view {
-        display: block !important;
-        overflow: scroll;
-    }
+
     .el-form.search-panel {
         margin-bottom: 20px;
     }
