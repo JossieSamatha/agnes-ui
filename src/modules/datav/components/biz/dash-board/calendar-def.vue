@@ -3,11 +3,12 @@
         <template slot="dateCell" slot-scope="{date, data}">
             <el-popover placement="bottom" width="110" trigger="click"
                         popper-class="calendar-popper"
+                        v-model="data.isSelected"
                         @show="getCalendarData(data.day)"
             >
                 <p>运营日历：<span>5个</span></p>
                 <el-button type="text" @click="calendarDetail">查看详情</el-button>
-                <el-button slot="reference" :class="workStatus">{{ getDay(date) }}</el-button>
+                <el-button slot="reference" class="popover-btn" :class="workStatus">{{ getDay(date) }}</el-button>
             </el-popover>
         </template>
     </agnes-calendar>
@@ -30,7 +31,12 @@
         mounted(){
             this.$dataVBus.$off('clientCalendarRefresh');
             this.$dataVBus.$on('clientCalendarRefresh', this.clientCalendarRefresh);
-            this.getCalendarData(this.todayDate);
+            this.getCalendarData(this.todayDate, true);
+            this.$nextTick(()=>{
+                if(this.$app.nav.tabBar.currentTabKey === this.moduleObj.module){
+                    this.$refs.calendar.pickDay(this.todayDate);
+                }
+            });
         },
         methods: {
             getDay(date){

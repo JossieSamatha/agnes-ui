@@ -291,7 +291,8 @@ const boardStyleArr = [
         type: 'calendar-def',
         arrowShow: true,
         data: {
-            calendarVal: ''
+            calendarVal: '',
+            module: 'datav.client.view'
         },
         img: 'unit01'
     },
@@ -484,7 +485,8 @@ const boardStyleDep = [
         id: '0', label: '运营日历',
         type: 'calendar-def',
         data: {
-            calendarVal: ''
+            calendarVal: '',
+            module: 'datav.dep.view'
         },
         img: 'unit01'
     },
