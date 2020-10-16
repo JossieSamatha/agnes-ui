@@ -747,7 +747,7 @@
     border-color: #fff;
 }
 
-.elec-process.board-detail .full-screen-btn {
+.elec-process.board-detail>.full-screen-btn {
     width: 20px;
     height: 20px;
     position: absolute;
@@ -756,8 +756,15 @@
     cursor: pointer;
 }
 
-.gf-page-drawer.elec-dashboard-drawer.full-screen .elec-process.board-detail
-.full-screen-btn>i>svg>path {
+.elec-process .drag-container .right .full-screen-btn{
+    width: 19px;
+    height: 19px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.gf-page-drawer.elec-dashboard-drawer.full-screen
+.elec-process.board-detail>.full-screen-btn>i>svg>path {
     fill: #ffffff;
 }
 

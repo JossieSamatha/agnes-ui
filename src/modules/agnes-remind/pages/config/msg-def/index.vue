@@ -5,18 +5,24 @@
 <!--                <gf-button class="action-btn" @click="batchRead" size="mini">批量读取</gf-button>-->
 <!--            </template>-->
 <!--        </gf-grid>-->
-        <gf-button class="action-btn" @click="batchRead" size="mini">批量读取</gf-button>
-        <gf-button class="action-btn" size="mini">全选</gf-button>
-        <div class="task-container" v-for="(item, index) in msgDemoArr" :key="index">
-            <el-checkbox v-model="checkbox" checked class="task-type">
-                {{item.msgTitle}}
-            </el-checkbox>
-            <span class="msg-time">{{item.crtTs}}</span>
-            <div class="task-content">
-                {{item.msgDetail}}
-             </div>
-            <div :class="setClassName(item.hasRead)">
-                {{item.hasRead | showMsgState}}
+        <div class="option-panel">
+            <span>
+                <gf-button class="action-btn" @click="batchRead" size="mini">批量读取</gf-button>
+                <gf-button class="action-btn" size="mini">全选</gf-button>
+            </span>
+        </div>
+        <div class="container">
+            <div class="task-container" v-for="(item, index) in msgDemoArr" :key="index">
+                <el-checkbox v-model="checkbox" checked class="task-type">
+                    {{item.msgTitle}}
+                </el-checkbox>
+                <span class="msg-time">{{item.crtTs}}</span>
+                <div class="task-content">
+                    {{item.msgDetail}}
+                </div>
+                <div :class="setClassName(item.hasRead)">
+                    {{item.hasRead | showMsgState}}
+                </div>
             </div>
         </div>
     </div>
@@ -98,6 +104,12 @@
 </script>
 
 <style scoped>
+    .container {
+        height: calc(100% - 55px);
+        flex: 1;
+        overflow-y: auto;
+    }
+
     .task-container {
         width: 95%;
         height: 106px;
@@ -154,10 +166,7 @@
         right: 50px;
         top: 20px;
     }
-    .gf-tab-view {
-        display: block !important;
-        overflow: scroll;
-    }
+
     .el-button--mini, .el-button--mini.is-round {
         margin-left: 20px;
         margin-bottom: 15px;
