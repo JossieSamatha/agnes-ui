@@ -191,7 +191,7 @@ export default {
                     if(!(this.curTask && this.curTask.taskId)){
                         this.curTask = data[0];
                         this.pieTitle = this.getPercentage(data[0].finishedRate)+'%';
-                        this.flowType = data[0].exeType;
+                        this.flowType = data[0].flowType;
                         this.getFLowDetail(data[0].taskId, data[0].caseId, this.bizDate);
                     }
                 }
@@ -205,7 +205,7 @@ export default {
         chooseTask(task){
             this.curTask = task;
             this.pieTitle = this.getPercentage(task.finishedRate)+'%';
-            this.flowType = task.exeType;
+            this.flowType = task.flowType;
             this.getFLowDetail(task.taskId, task.caseId, this.bizDate);
         },
         
