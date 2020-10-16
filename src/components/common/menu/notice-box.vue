@@ -14,12 +14,12 @@
                 <ul class="messagebox">
                 <li class="boxLi" v-for="notice in noticeData" :key="notice.pkId" @click="handelNotice(notice)">
                     <p class="title">
-                        <el-badge :is-dot="notice.isRead=='0'">{{notice.remindTital}}</el-badge>
+                        <el-badge :is-dot="notice.hasRead=='0'">{{notice.msgTitle}}</el-badge>
                     </p>
                     <div class="content">
-                        <span>{{notice.remindContent}}</span>
+                        <span>{{notice.msgDetail}}</span>
                     </div>
-                    <p class="footer">{{notice.crtTime}}</p>
+                    <p class="footer">{{notice.remindTime}}</p>
                 </li>
                 </ul>
             </div>
@@ -50,7 +50,7 @@
         },
         methods: {
             handelNotice(notice){
-                notice.isRead = '1';
+                notice.hasRead = '1';
             },
             handleClose(){
                 this.$emit('noticeDrawerClose');
