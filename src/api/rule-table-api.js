@@ -14,7 +14,7 @@ export default {
 
 
     getRemindList() {
-        return request.post("/agnes-remind/v1/remind/msg/query?pageIndex=0&pageSize=50")
+        return request.get("/agnes-remind/v1/remind/msg/query?pageIndex=0&pageSize=50")
     },
 
 
