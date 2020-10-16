@@ -7,13 +7,11 @@ const colButtons = [
 export default {
     columnDefs: [
         column.buildOpCol(80, colButtons),
-        {headerName: "群组名称", field: "userGroupName"},
-        {headerName: "用户姓名", field: "userName"},
-        {headerName: "办公电话", field: "otel"},
-        {headerName: "办公邮箱", field: "oemail"},
+        {headerName: "群组代码", field: "userGroupCode"},
+        {headerName: "群组名称", field: "userGroupName"}
     ],
     ext: {
-        fetchUrl: "/agnes-app/v1/dop/user/group/query",
+        fetchUrl: "/agnes-app/v1/dop/user/group/page/group/list",
         fetchMethod: 'post',
         pagingMode: true, //分页
         checkboxColumn: 1, //是否显示checkbox列,
