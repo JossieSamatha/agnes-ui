@@ -201,7 +201,7 @@ export default {
             this.getCarouselHeight();
         },
         
-        // 选择流程
+        // 选择流程--修改流程类型的字段返回
         chooseTask(task){
             this.curTask = task;
             this.pieTitle = this.getPercentage(task.finishedRate)+'%';
