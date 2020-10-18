@@ -201,7 +201,7 @@ export default {
             this.getCarouselHeight();
         },
         
-        // 选择流程-流程类型的取值字段更改
+        // 选择流程-流程类型的取值字段更改 同步分支版本
         chooseTask(task){
             this.curTask = task;
             this.pieTitle = this.getPercentage(task.finishedRate)+'%';
