@@ -176,7 +176,7 @@ export default {
             return intLength ? length / 4 : parseInt(length / 4 + 1);
         },
         
-        // 根据流程类型加载对应流程数据-流程类型接口添加字段
+        // 根据流程类型加载对应的接口数据
         async getFLowsbyType(bizDate) {
             this.proTask = [];
             this.curTask = [];
