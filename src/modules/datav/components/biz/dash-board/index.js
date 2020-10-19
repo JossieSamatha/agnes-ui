@@ -11,6 +11,9 @@ import myTodoList from './my-todolist'
 import compNotice from './comp-notice'
 import compEvent from './comp-event'
 import compWork from './comp-work'
+import linkMan from './comp-linkman'
+import productComp from './comp-product'
+import channelComp from './comp-channel'
 import AgnesCalendar from './agnes-calendar'
 
 const Loading = {
@@ -28,6 +31,9 @@ const Loading = {
         Vue.component('comp-notice', compNotice);
         Vue.component('comp-event', compEvent);
         Vue.component('comp-work', compWork)
+        Vue.component('comp-lineman', linkMan)
+        Vue.component('comp-product', productComp)
+        Vue.component('comp-channel', channelComp)
         Vue.component('agnes-calendar', AgnesCalendar)
     }
 };

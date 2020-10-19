@@ -8,7 +8,7 @@
             <div class="top">
                 <el-input class="search-input" placeholder="请选择输入内容..." suffix-icon="el-icon-search" v-model="messageParam">
                 </el-input>
-                <li class="refreshIcon el-icon-refresh" title="刷新"></li>
+                <li class="refreshIcon el-icon-refresh" title="刷新" @click="refreshNotice"></li>
             </div>
             <div class="container">
                 <ul class="messagebox">
@@ -52,8 +52,15 @@
             handelNotice(notice){
                 notice.hasRead = '1';
             },
+
+            // 关闭消息盒子
             handleClose(){
                 this.$emit('noticeDrawerClose');
+            },
+
+            // 消息刷新
+            refreshNotice(){
+                this.$emit('refreshNotice');
             }
         },
     };

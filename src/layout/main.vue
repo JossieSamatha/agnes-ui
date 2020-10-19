@@ -28,7 +28,10 @@
                 <el-option value="adminMenus" label="管理模式（DEV STUDIO）"></el-option>
             </el-select>
         </template>
-        <notice-box :noticeData="noticeData" :showDrawer="showNoticeDrawer" @noticeDrawerClose="noticeDrawerClose"></notice-box>
+        <notice-box :noticeData="noticeData" :showDrawer="showNoticeDrawer"
+                    @refreshNotice="handelNotice"
+                    @noticeDrawerClose="noticeDrawerClose"
+        ></notice-box>
         <el-popover popper-class="feedbackPopover" width="300" placement="right" trigger="click" @show="handelfeedback(true)" @hide="handelfeedback(false)">
             <el-form ref="feedbackForm" label-position="top" size="mini">
                 <el-form-item label="聆听:意见反馈" prop="name">
@@ -197,7 +200,7 @@
                 }
             },
 
-            // 获取日切值
+            // 获取消息数量
             async getUnreadCount() {
                 try {
                     const resp = await this.$api.ruleTableApi.getUnreadCount();
