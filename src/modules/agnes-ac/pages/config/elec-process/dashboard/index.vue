@@ -208,7 +208,7 @@ export default {
             this.flowType = task.flowType;
             this.getFLowDetail(task.taskId, task.caseId, this.bizDate);
         },
-        
+        //查看详情
         reivewDetail(){
             if(this.curTask && this.curTask.taskId){
                 const task = this.curTask;
