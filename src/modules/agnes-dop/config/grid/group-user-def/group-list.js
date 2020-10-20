@@ -2,11 +2,11 @@ import column from "../../../../../config/column"
 
 const colButtons = [
     {key: 'deleteUser', title: '删除', cellClass: 'red-cell'},
-    {key: 'approveUser', title: '审核',},
+    {key: 'editUser', title: '编辑'},
 ];
 export default {
     columnDefs: [
-        column.buildOpCol(80, colButtons),
+        column.buildOpCol(90, colButtons),
         {headerName: "群组代码", field: "userGroupCode"},
         {headerName: "群组名称", field: "userGroupName"}
     ],

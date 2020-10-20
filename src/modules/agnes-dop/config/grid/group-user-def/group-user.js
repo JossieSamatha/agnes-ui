@@ -14,7 +14,7 @@ export default {
         {headerName: "用户状态", field: "userStatus", formatType:"dict", dictType:'GF_USER_STATUS'},
         {headerName: "群组名称", field: "userGroupName"},
         {headerName: "授权时间", field: "crtTs"},
-        column.buildOpColSimple(colButtons),
+        column.buildOpCol(80, colButtons),
     ],
     ext: {
         fetchUrl: "/agnes-app/v1/dop/user/group/query",

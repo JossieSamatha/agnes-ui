@@ -2,14 +2,15 @@
     <div style="height: 100%">
         <gf-grid ref="grid" grid-no="agnes-user" :query-args="queryArgs" height="100%">
             <template slot="left">
-                <gf-button class="action-btn" @click="addRow" size="mini">添加</gf-button>
+                <gf-button class="action-btn" :aria-disabled="disabled" @click="addRow" size="mini">添加</gf-button>
             </template>
         </gf-grid>
     </div>
 </template>
 
 <script>
-
+    import UserSelect from "./select";
+    import lodash from "lodash";
     export default {
         name: "userAuth",
         props: {
@@ -17,7 +18,7 @@
         },
         data() {
             return {
-                hasAuth: true,
+                disabled: true,
                 queryArgs: {},
             }
         },
@@ -31,17 +32,53 @@
                     this.$refs.grid.reloadData(true);
                 }
             },
+
             addRow() {
+                // 查询用户
+                let fieldData = {dataType: this.$store.getters.appConfig.orgType, multiSelect: true, users: []};
+                let _this = this;
+                this.$dialog.create({
+                    title: '新增授权用户',
+                    component: UserSelect,
+                    closeOnClickModal: false,
+                    args: {data: fieldData},
+                    beforeClose: function (args, action) {
+                        if (action && action === 'ok') {
+                            try {
+                                // 保存用户
+                                let userIds = lodash.map(args.data.users,"userId");
+                                this.$api.userGroupApi.saveUserGroupRef({"userIds":userIds,"userGroupId":_this.row.userGroupId}).then(function (resp) {
+                                    if(resp.data === "success"){
+                                        _this.onSearch();
+                                    }
+                                });
+                            } catch (reason) {
+                                this.$msg.error(reason);
+                            }
+                        } else {
+                            _this.onSearch();
+                        }
+                    }
+                });
             },
-            removeRow() {
-            },
-            isAuth() {
+            async removeRow(params) {
+                const ok = await this.$msg.ask(`确认移除选中的联系人吗, 是否继续?`);
+                if (!ok) {
+                    return
+                }
+                try {
+                    let p = this.$api.userGroupApi.deleteUserGroupRef({"userGroupRefId":params.data.userGroupRefId});
+                    await this.$app.blockingApp(p);
+                    this.onSearch();
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
             }
         },
         watch: {
             row(newVal) {
                 this.onSearch();
-                this.disabled = !newVal || (this.isAuth()===false);
+                this.disabled = !newVal;
             }
         }
     }

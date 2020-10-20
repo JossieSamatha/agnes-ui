@@ -2,13 +2,11 @@
     <div class="gf-fit">
         <div class="gf-auth">
             <div class="gf-auth-role">
-                <el-header height="40px" style="line-height:40px;">
-                    <gf-button class="action-btn" @click="addUserGroups" size="mini">添加组</gf-button>
-                    <gf-button class="action-btn" @click="editUserGroups" size="mini">编辑组</gf-button>
-                    <gf-button class="action-btn" @click="deleteUserGroups" size="mini">删除组</gf-button>
-                </el-header>
                 <gf-grid ref="grid" grid-no="agnes-group-user" height="100%"
                          @selected-changed="initAuthPage">
+                    <template slot="left">
+                        <gf-button class="action-btn"  style="margin-right: 20px" @click="addUserGroups">添加</gf-button>
+                    </template>
                 </gf-grid>
             </div>
             <div class="gf-auth-body">
@@ -30,6 +28,7 @@
 
     import ResAuth from "./res";
     import UserAuth from "./user";
+    import userGroup from "./group-user-dlg"
 
     export default {
         name: 'gf-auth',
@@ -45,40 +44,55 @@
         data() {
             return {
                 authType: 'res',
-                currentRow: null
+                currentRow: null,
+                groupId:'',
             };
         },
         methods: {
             initAuthPage(gridState) {
                 this.currentRow = gridState.selectedRow;
-                console.log("currentRow:"+this.currentRow);
+            },
+            showGroupDlg(mode, row, actionOk) {
+                if (mode !== 'add' && !row) {
+                    this.$msg.warning("请选中一条记录!");
+                    return;
+                }
+                this.$nav.showDialog(
+                    userGroup,
+                    {
+                        args: {row, mode, actionOk},
+                        width: '50%',
+                        title: this.$dialog.formatTitle('群组', mode),
+                    }
+                );
+            },
+            async onAddGroup() {
+                this.$refs.grid.reloadData(true);
             },
             addUserGroups() {
                 this.showGroupDlg('add', {}, this.onAddGroup.bind(this));
             },
-            editUserGroups() {
-                const data = this.$refs.grid.selectedRow()[0];
+            editUser(params) {
+                const data = params.data;
                 if (data && !data.children && data.userGroupId) {
                     this.showGroupDlg('edit', data, this.onAddGroup.bind(this));
                 }
             },
-            async deleteUserGroups() {
-                const data = this.$refs.grid.selectedRow()[0];
-                if (data && !data.children && data.userGroupId) {
-                    const ok = await this.$msg.ask(`确认删除选中的组吗, 是否继续?`);
-                    if (!ok) {
-                        return
-                    }
-                    try {
-                        const p = this.$api.userGroupApi.deleteUserGroup(data);
-                        await this.$app.blockingApp(p);
-
-                        this.$msg.success('删除成功');
-                        this.loaduserGroup();
-                    } catch (reason) {
-                        this.$msg.error(reason);
-                    }
+            async deleteUser(params) {
+                const data = params.data;
+                const ok = await this.$msg.ask(`确认删除选中的组吗, 是否继续?`);
+                if (!ok) {
+                    return
                 }
+                try {
+                    const p = this.$api.userGroupApi.deleteUserGroup(data);
+                    await this.$app.blockingApp(p);
+                    this.$msg.success('删除成功');
+                    this.$refs.grid.reloadData(true);
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+
             },
         }
     }
