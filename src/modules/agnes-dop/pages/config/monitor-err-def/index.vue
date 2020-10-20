@@ -2,7 +2,7 @@
     <div>
         <gf-grid @row-double-click="showErr" grid-no="agnes-monitor-err-type" ref="grid" toolbar="find,refresh,more">
             <template slot="left">
-                <gf-button class="action-btn" @click="transferRisk" size="mini">调入风险事项</gf-button>
+                <gf-button class="action-btn" @click="transferErr" size="mini">调入风险事项</gf-button>
             </template>
         </gf-grid>
     </div>
@@ -66,7 +66,7 @@
             transferErr(){
                 let t = this.$refs.grid.getSelectedRows();
                 if(loadsh.isEmpty(t)){
-                    this.$msg.success("请中一条记录!");
+                    this.$msg.warning("请中一条记录!");
                     return;
                 }
                 if (t[0].isRisk.match(/0/) && t[0].status.match(/03/)){
