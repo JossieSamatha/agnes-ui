@@ -11,7 +11,7 @@
     </div>
     <div class="line">
       <el-form-item label="产品代码" prop="productCode">
-        <gf-input v-model.trim="detailForm.productCode" placeholder="产品名称"/>
+        <gf-input v-model.trim="detailForm.productCode" placeholder="产品代码"/>
       </el-form-item>
       <el-form-item label="产品种类" prop="productClass">
         <gf-dict filterable clearable v-model="detailForm.productClass" dict-type="AGNES_PRODUCT_CLASS"/>
