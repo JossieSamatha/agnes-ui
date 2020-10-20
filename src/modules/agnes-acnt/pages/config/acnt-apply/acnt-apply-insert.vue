@@ -126,7 +126,7 @@
                 <gf-input v-model.trim="detailFormBefore.openBack" placeholder="开户网点/开户单位"/>
             </el-form-item>
             <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号" prop="fundAccNo">
-                <gf-input v-model.trim="detailFormBefore.fundAccNo" placeholder="资金帐号"/>
+                <gf-input v-model.trim="detailFormBefore.fundAccNo" placeholder="资金账号"/>
             </el-form-item>
             <el-form-item v-if="showRules.acntStartDt&&showRules.acntStartDt.isShow" label="账户启用日期" prop="acntStartDt">
                 <el-date-picker
@@ -165,7 +165,7 @@
                     placeholder="到期提醒">
                 </el-date-picker>
             </el-form-item>
-            <el-form-item v-if="showRules.openMan&&showRules.openMan.isShow" label="开户时对方联系人" prop="openMan">
+            <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="开户时对方联系人" prop="bankLinkMan">
                 <el-select class="multiple-select" v-model="detailFormBefore.openMan"
                         filterable clearable
                         placeholder="请选择">
@@ -215,9 +215,10 @@
         <div class="title">要素信息</div>
         <el-divider></el-divider>
             <el-form-item label="账户类型" prop="typeCode">
-                <el-select class="multiple-select" v-model="detailForm.typeCode"
+                <el-select class="multiple-select" v-model="detailForm.typeCode" :disabled="mode!=='registration'"
                         filterable clearable
-                        placeholder="请选择">
+                        placeholder="请选择"
+                        @change="loadShowRule">
                     <gf-filter-option
                             v-for="item in bizTagOption"
                             :key="item.typeCode"
@@ -230,33 +231,38 @@
                 <gf-dict disabled filterable clearable v-model="detailForm.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
             </el-form-item>
             <el-form-item label="业务发起部门" prop="baseStartDept">
-                <gf-dict filterable clearable v-model="detailForm.baseStartDept" dict-type="AGNES_ROSTER_DEPT" />
+                <gf-dict filterable clearable v-model="detailForm.baseStartDept" dict-type="AGNES_ROSTER_DEPT"
+                         :disabled="mode!=='registration'"/>
             </el-form-item>
             <el-form-item label="业务发起部门联系人" prop="baseStartDeptLinkman">
-                <gf-input v-model.trim="detailForm.baseStartDeptLinkman" placeholder="业务发起部门联系人"/>
+                <gf-input v-model.trim="detailForm.baseStartDeptLinkman" placeholder="业务发起部门联系人"
+                          :disabled="mode!=='registration'"/>
             </el-form-item>
             <el-form-item label="业务描述" prop="baseDesc">
-                <gf-input v-model.trim="detailForm.baseDesc" type='textarea' placeholder="业务描述" :max-len="200"/>
+                <gf-input v-model.trim="detailForm.baseDesc" type='textarea' placeholder="业务描述" :max-len="200"
+                          :disabled="mode!=='registration'"/>
             </el-form-item>
             <el-form-item label="业务受理部门" prop="baseAcceptDept">
-                <gf-dict filterable clearable v-model="detailForm.baseAcceptDept" dict-type="AGNES_ROSTER_DEPT" />
+                <gf-dict filterable clearable v-model="detailForm.baseAcceptDept" dict-type="AGNES_ROSTER_DEPT"
+                         :disabled="mode!=='registration'"/>
             </el-form-item>
             <el-form-item label="业务受理组" prop="baseAcceptGroup">
                 <el-select class="multiple-select" v-model="detailForm.baseAcceptGroup"
-                        filterable clearable
+                        filterable clearable :disabled="mode!=='registration'"
                         placeholder="请选择">
                     <gf-filter-option
                             v-for="item in groupOption"
-                            :key="item.orgId"
-                            :label="item.orgName"
-                            :value="item.orgId">
+                            :key="item.userGroupId"
+                            :label="item.userGroupName"
+                            :value="item.userGroupId">
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="归属机构" prop="baseOrgId">
                 <el-select class="multiple-select" v-model="detailForm.baseOrgId"
-                        filterable clearable
-                        placeholder="请选择">
+                        filterable clearable :disabled="mode!=='registration'"
+                        placeholder="请选择"
+                           @change="onBaseOrgIdChange">
                     <gf-filter-option
                             v-for="item in OrgList"
                             :key="item.extOrgId"
@@ -266,11 +272,11 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="经办人" prop="baseOperator">
-                <gf-input v-model.trim="detailForm.baseOperator" placeholder="经办人"/>
+                <gf-input disabled v-model.trim="detailForm.baseOperator" placeholder="经办人" />
             </el-form-item>
             <el-form-item label="基金代码" prop="productCode">
                 <el-select class="multiple-select" v-model="detailForm.productCode"
-                        filterable clearable
+                        filterable clearable :disabled="mode!=='registration'"
                         placeholder="请选择">
                     <gf-filter-option
                             v-for="item in productList"
@@ -284,7 +290,7 @@
                 <gf-input disabled  v-model.trim="detailForm.productName" placeholder="基金名称"/>
             </el-form-item>
             <el-form-item label="提交财务流程" prop="isSendFinance">
-                <el-radio-group v-model="detailForm.isSendFinance">
+                <el-radio-group disabled v-model="detailForm.isSendFinance">
                     <el-radio label="1">是</el-radio>
                     <el-radio label="0">否</el-radio>
                 </el-radio-group>
@@ -383,9 +389,9 @@
                     placeholder="到期提醒">
                 </el-date-picker>
             </el-form-item>
-            <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="开户时对方联系人" prop="openMan">
+            <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人" prop="bankLinkMan">
                 <el-select class="multiple-select" v-model="detailForm.bankLinkMan"
-                        filterable clearable
+                        filterable clearable multiple
                         placeholder="请选择">
                     <gf-filter-option
                             v-for="item in linkManList"
@@ -426,8 +432,10 @@
                 <gf-input v-model.trim="detailForm.remark" placeholder="备注"/>
             </el-form-item>
         </el-form>
+        {{detailForm}}
+
     </div>
-   
+
 </template>
 
 <script>
@@ -481,7 +489,7 @@
                     acntStartDt:'',
                     isOpenBankCorDirect:'',
                     maturityDt:'',
-                    bankLinkMan:'',
+                    bankLinkMan:[],
                     acntStatus:'',
                     openManPhone:'',
                     remark:'',
@@ -520,6 +528,7 @@
                     isOpenBankCorDirect:'',
                     maturityDt:'',
                     openMan:'',
+                    bankLinkMan:[],
                     acntStatus:'',
                     openManPhone:'',
                     remark:'',
@@ -536,9 +545,15 @@
            
                 },
                 detailFormRules: {
-                    // typeCode: [
-                    //     {required: true, message: '账户类型必填', trigger: 'blur'},
-                    // ],
+                    typeCode: [
+                        {required: true, message: '账户类型必填', trigger: 'blur'},
+                    ],
+                    baseStartDept: [
+                        {required: true, message: '必填', trigger: 'blur'},
+                    ],
+                    baseAcceptDept: [
+                        {required: true, message: '必填', trigger: 'blur'},
+                    ]
                 },
             }
         },
@@ -560,13 +575,16 @@
                 try {
                     let bizTagOption = await this.$api.acntApplyApi.getAcntTypeList();
                     this.bizTagOption = bizTagOption.data
-                    let groupOption = await this.$api.userGroupApi.getAllGfUserGroup();
+                    // let groupOption = await this.$api.userGroupApi.getAllGfUserGroup();
+                    let groupOption = await this.$api.userGroupApi.getAllUserGroup();
                     this.groupOption = groupOption.data
                     let productList = await this.$api.acntApplyApi.getProductCodeList();
                     this.productList = productList.data
                     let OrgList = await this.$api.orgDefineApi.getOrgList();
                     this.OrgList = OrgList.data
+
                     let linkManList = await this.$api.acntApplyApi.getLinkMan(this.detailForm.baseOrgId);
+
                     this.linkManList = linkManList.data
                     let rateList = await this.$api.rateDefApi.getAllPulishRateList();
                     this.rateList = rateList.data
@@ -574,6 +592,10 @@
                         let detailFormBefore = await this.$api.acntInfoApi.getAcntInfoByAcntId(this.detailForm.acntId);
                         this.detailFormBefore = detailFormBefore.data
                     }
+
+                    this.loadProductName();
+                    this.loadProductNameBeafore();
+
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
@@ -586,17 +608,39 @@
                 //     acntShortName:{isShow:true,required:true},
                 // };
                 this.showRules = showRules;
-                let detailFormRules = {};
+                // let detailFormRules = {};
                 for(let key  in showRules){
                     let detailFormRulesOne = showRules[key];
                     detailFormRulesOne.message = '必填';
                     detailFormRulesOne.required = showRules[key].mustFill=='1';
                     detailFormRulesOne.trigger = 'blur';
-                    detailFormRules[key] = [detailFormRulesOne]
+                    this.detailFormRules[key] = [detailFormRulesOne]
                 }
-                this.detailFormRules = detailFormRules;
+                // this.detailFormRules = detailFormRules;
             },
- 
+            async loadProductName(){
+                if(loadsh.isEmpty(this.detailForm.productCode)){
+                    this.detailForm.productName=''
+                }else{
+                    for(let i=0;i<this.productList.length;i++){
+                        if(this.productList[i].productCode==this.detailForm.productCode){
+                            this.detailForm.productName=this.productList[i].productName;
+                        }
+                    }
+                }
+            },
+            async loadProductNameBeafore(){
+                if(loadsh.isEmpty(this.detailFormBefore.productCode)){
+                    this.detailFormBefore.productName='';
+                }else{
+                    for(let i=0;i<this.productList.length;i++){
+                        if(this.productList[i].productCode==this.detailFormBefore.productCode){
+                            this.detailFormBefore.productName=this.productList[i].productName;
+                        }
+                    }
+                }
+            },
+
             // 保存onSave事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
             async onSave() {
                 const ok = await this.$refs['taskDefForm'].validate();
@@ -645,6 +689,11 @@
                     this.$msg.error(reason);
                 }
             },
+            async onBaseOrgIdChange(){
+                let linkManList = await this.$api.acntApplyApi.getLinkMan(this.detailForm.baseOrgId);
+                this.linkManList = linkManList.data;
+                this.detailForm.bankLinkMan = [];
+            }
 
         },
 

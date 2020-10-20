@@ -9,7 +9,10 @@ export default {
         return request.get(`agnes-app/v1/acnt/type/list`);
     },
     getLinkMan(extOrgId){
-        return request.post(`agnes-app/v1/dop/linkman/org/all/list`,{},{'extOrgId':extOrgId});
+        return request.post(`agnes-app/v1/dop/linkman/org/all/list`,{'extOrgId':extOrgId});
+    },
+    queryAllLinkManList() {
+        return request.get(`/agnes-app/v1/dop/linkman/all`);
     },
     saveApply(form) {
         return request.post(`agnes-app/v1/acnt/apply/save`,form);
