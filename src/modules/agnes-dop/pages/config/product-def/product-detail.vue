@@ -148,6 +148,7 @@
                   <el-input :style="!scope.row.paramCode ? 'border:1px solid #f00':''"
                             v-model="scope.row.paramCode"></el-input>
                 </template>
+
               </el-table-column>
               <el-table-column prop="paramName" label="参数名称" min-width="100">
                 <template slot-scope="scope">
