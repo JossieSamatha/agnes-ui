@@ -149,7 +149,7 @@ export default {
         }
     },
     async created(){
-        // 默认系统业务日期
+        // 默认系统业务日期--默认系统当前业务日期
         this.bizDate = window.bizDate;
         this.getFLowsbyType(this.bizDate);
     },
@@ -176,7 +176,7 @@ export default {
             return intLength ? length / 4 : parseInt(length / 4 + 1);
         },
         
-        // 根据流程类型加载对应流程数据
+        // 根据流程类型加载对应的接口数据
         async getFLowsbyType(bizDate) {
             this.proTask = [];
             this.curTask = [];
@@ -191,7 +191,7 @@ export default {
                     if(!(this.curTask && this.curTask.taskId)){
                         this.curTask = data[0];
                         this.pieTitle = this.getPercentage(data[0].finishedRate)+'%';
-                        this.flowType = data[0].exeType;
+                        this.flowType = data[0].flowType;
                         this.getFLowDetail(data[0].taskId, data[0].caseId, this.bizDate);
                     }
                 }
@@ -201,14 +201,14 @@ export default {
             this.getCarouselHeight();
         },
         
-        // 选择流程
+        // 选择流程-流程类型的取值字段更改 同步分支版本
         chooseTask(task){
             this.curTask = task;
             this.pieTitle = this.getPercentage(task.finishedRate)+'%';
-            this.flowType = task.exeType;
+            this.flowType = task.flowType;
             this.getFLowDetail(task.taskId, task.caseId, this.bizDate);
         },
-        
+        //查看详情
         reivewDetail(){
             if(this.curTask && this.curTask.taskId){
                 const task = this.curTask;
