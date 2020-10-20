@@ -27,6 +27,11 @@ export default {
         return request.get("/agnes-app/v1/dop/roster/list?pageIndex=0&pageSize=50")
     },
 
+    // 排班管理列表
+    getUserOfToday(rosterDate) {
+        return request.post("/agnes-app/v1/dop/roster/user/today", null, {params: {rosterDate}});
+    },
+
     // 异常管理列表
     getErrList(){
         return request.post("/agnes-app/v1/dop/err/query?pageIndex=0&pageSize=50")

@@ -7,14 +7,13 @@
             </div>
             <div class="task-des">
                 <div>
-                    {{item.crtUser}}&nbsp;
-                    <span style="color:#9a9a9a;">({{item.id}})</span>
+                    {{item.userName}}&nbsp;
+                    <span style="color:#9a9a9a;">({{item.userId}})</span>
                 </div>
                 <div>{{getRosterType(item.rosterType)}}</div>
             </div>
             <div class="task-time">
-                <div>{{getRosterDate(item.rosterDate)}}</div>
-                <div>{{getRosterStatus(item.status)}}</div>
+                <div>{{item.rosterTs}}</div>
             </div>
         </div>
     </div>
@@ -31,16 +30,28 @@
         },
         data(){
             return {
+                todayDate: new Date().toLocaleDateString().replace(/\//g, '-'),
                 rosterList: [],
                 rosterType: this.$app.dict.getDictItems('AGNES_ROSTER_TYPE'),
                 rosterStatus: this.$app.dict.getDictItems('AGNES_RELEASE_STATUS')
             }
         },
-        created(){
-            this.$api.ruleTableApi.getRosterList().then(res => {
-                this.rosterList = res.data.rows;
-            })
+        async created(){
+            const resp = await this.$api.changeDataApi.getChangeData();
+            const resChangeData = resp.data;
+            if(resChangeData && resChangeData.bizDate) {
+                this.todayDate = resChangeData.bizDate;
+            }
+            this.$api.ruleTableApi.getUserOfToday(this.todayDate).then(res => {
+                this.rosterList = res.data;
+            });
         },
+        mounted(){
+            this.$api.ruleTableApi.getUserOfToday(this.todayDate).then(res => {
+                this.rosterList = res.data;
+            });
+        },
+
         methods: {
             getImgPath(val) {
                 if (val.includes("00") && !val.includes("-")) {
@@ -57,18 +68,6 @@
             getRosterType(rosterTypeId){
                 return this.$lodash.find(this.rosterType, {dictId: rosterTypeId}).dictName;
             },
-
-            getRosterStatus(rosterStatusId){
-                if(rosterStatusId){
-                    return this.$lodash.find(this.rosterStatus, {dictId: rosterStatusId}).dictName;
-                }else{
-                    return ''
-                }
-            },
-
-            getRosterDate(rosterDate){
-                return rosterDate ? rosterDate.slice(5,11) : '';
-            }
         }
     }
 </script>
@@ -90,16 +89,11 @@
     }
     .task-des {
         flex: 1;
-    }
-    .task-des > div:nth-child(1) {
         color: #666;
-        margin-bottom: 6px;
     }
-    .task-des > div:nth-child(2) {
-        color: #ccc;
-    }
+
     .task-time {
-        width: 55px;
+        width: 60px;
         padding: 0 10px;
     }
     .task-time > div:nth-child(1) {

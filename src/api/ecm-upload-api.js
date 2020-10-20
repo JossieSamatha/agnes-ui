@@ -6,8 +6,8 @@ export default {
         return request.get("");
     },
 
-    getOisFileList() {
-        return request.get("");
+    getOisFileList(docId) {
+        return request.get("http://192.168.8.113:7002/api/ecm/ecm/doc/get/" + docId);
     },
 
 
