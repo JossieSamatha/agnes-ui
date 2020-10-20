@@ -49,7 +49,7 @@ export default function () {
         stepActKey: '',      // 指标
         stepActOwner: '',    // 通知人id
         stepActOwnerName: '',    // 通知人姓名
-        isTodo: '0',          // 是否进入待办
+        isTodo: '1',          // 是否进入待办
         allowManualConfirm: '0',       // 是否允许人工强制通过
         isRecordError: '',          // 异常通知 -- 是否记入异常
         errorType: '',              // 异常通知 -- 异常类型
