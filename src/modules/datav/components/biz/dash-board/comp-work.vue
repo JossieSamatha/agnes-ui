@@ -30,17 +30,28 @@
         },
         data(){
             return {
-                todayDate: window.bizDate ? window.bizDate : new Date().toLocaleDateString().replace(/\//g, '-'),
+                todayDate: new Date().toLocaleDateString().replace(/\//g, '-'),
                 rosterList: [],
                 rosterType: this.$app.dict.getDictItems('AGNES_ROSTER_TYPE'),
                 rosterStatus: this.$app.dict.getDictItems('AGNES_RELEASE_STATUS')
             }
         },
-        created(){
+        async created(){
+            const resp = await this.$api.changeDataApi.getChangeData();
+            const resChangeData = resp.data;
+            if(resChangeData && resChangeData.bizDate) {
+                this.todayDate = resChangeData.bizDate;
+            }
             this.$api.ruleTableApi.getUserOfToday(this.todayDate).then(res => {
                 this.rosterList = res.data;
-            })
+            });
         },
+        mounted(){
+            this.$api.ruleTableApi.getUserOfToday(this.todayDate).then(res => {
+                this.rosterList = res.data;
+            });
+        },
+
         methods: {
             getImgPath(val) {
                 if (val.includes("00") && !val.includes("-")) {

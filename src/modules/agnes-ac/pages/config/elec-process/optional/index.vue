@@ -160,17 +160,29 @@
                 this.flowType = flowTypeDicts[0].dictId;
                 this.getFLowbyType(flowTypeDicts[0].dictId);
             }
-            // this.freshInterval = setInterval(() => {
-            //     this.freshFlowData();
-            // }, 60000);
+            this.freshInterval = setInterval(() => {
+                this.freshFlowData();
+            }, 60000);
         },
         beforeDestroy() {
             clearInterval(this.freshInterval);
         },
+        watch:{
+            // 监听,当路由发生变化的时候执行
+            $route(to,from){
+                if(from.path === '/agnes.elec.operate') {
+                    clearInterval(this.freshInterval);
+                }
+                if(to.path === '/agnes.elec.operate'){
+                    this.freshInterval = setInterval(() => {
+                        this.freshFlowData();
+                    }, 60000);
+                }
+            }
+        },
         methods: {
             // 根据流程类型加载对应流程数据
             async getFLowbyType(firstFlowType) {
-                this.loading = true;
                 const flowDataList = await this.$api.elecProcessApi.getTaskByType({"flowType": firstFlowType});
                 if (flowDataList.data && flowDataList.data.length > 0) {
                     this.proTask = flowDataList.data;
@@ -184,12 +196,12 @@
                     this.executePieData = [];
                     this.execLog = [];
                     this.setGridData([]);
-                    this.loading = false;
                 }
             },
 
             // 根据流程id及业务日期加载流程信息{"taskId":"","bizDate":""}、获取任务状态、获取执行情况
             async getFLowDetail(taskId, bizDate) {
+                this.loading = true;
                 try {
                     const flowDetailStr = await this.$api.elecProcessApi.getExecProcessBrief({taskId, bizDate});
                     if (flowDetailStr.data) {
@@ -212,7 +224,9 @@
                           // 获取执行情况
                             this.taskIdList = flowDetailParse.taskIdList;
                             this.getExecuteData(flowDetailParse.taskIdList, this.execTypeChecked);
-                            this.setGridData(this.curStage.ruCaseStepList);
+                            if(this.curStage.ruCaseStepList){
+                                this.setGridData(this.curStage.ruCaseStepList);
+                            }
                             this.loading = false;
                         } else {
                             this.taskStage = [];
@@ -249,7 +263,9 @@
             // 任务流程 -- 指定stage -- 选择
             chooseTaskStage(stage) {
                 this.curStage = stage;
-                this.setGridData(stage.ruCaseStepList);
+                if(stage.ruCaseStepList){
+                    this.setGridData(stage.ruCaseStepList);
+                }
             },
 
             // 表格数据塞入
@@ -423,6 +439,7 @@
 
 <style>
     .elec-process.gf-tab-view .el-loading-mask{
-        background-color: rgba(255, 255, 255, 0.5);
+        z-index: inherit;
+        background-color: rgba(255, 255, 255, 0.7);
     }
 </style>
