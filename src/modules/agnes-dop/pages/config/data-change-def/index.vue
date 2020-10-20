@@ -156,16 +156,9 @@
             },
             async stopAndChangeDay(nowTaskData){                
                 try {
-                    let p = this.$api.changeDataApi.stopTask();
-                    let res = await this.$app.blockingApp(p);
-                    if(res.code!=='100'){
-                        await this.$api.changeDataApi.queryChangeData(nowTaskData);
-                        await this.$message({type: 'success',message: '切换成功!'});
-                        await this.loadChangeData();
-                    }else{
-                        this.$msg.error('切换失败!');
-                    }
-
+                    await this.$api.changeDataApi.queryChangeData(nowTaskData);
+                    await this.$message({type: 'success',message: '切换成功!'});
+                    await this.loadChangeData();
                 } catch (e) {
                     this.$msg.error(e);
                 }
