@@ -116,9 +116,9 @@
                 </el-form-item>
             </div>
             <div v-if="detailFormBefore.isSendOa==='1'" class="line">
-                <el-form-item label="公司领导" prop="oaLeader">
-                    <gf-input v-model.trim="detailFormBefore.oaLeader" placeholder="公司领导"/>
-                </el-form-item>
+<!--                <el-form-item label="公司领导" prop="oaLeader">-->
+<!--                    <gf-input v-model.trim="detailFormBefore.oaLeader" placeholder="公司领导"/>-->
+<!--                </el-form-item>-->
                 <el-form-item label="是否需要合规法务审核" prop="oaIsNeedAudit">
                     <el-radio-group v-model="detailFormBefore.oaIsNeedAudit">
                         <el-radio label="1">是</el-radio>
@@ -191,7 +191,8 @@
                 <el-form-item  label="账户类型" prop="typeCode">
                     <el-select :disabled="isSubDis" class="multiple-select" v-model="detailForm.typeCode"
                             filterable clearable
-                            placeholder="请选择">
+                            placeholder="请选择"
+                            @change="loadShowRule">
                         <gf-filter-option
                                 v-for="item in bizTagOption"
                                 :key="item.typeCode"
@@ -268,7 +269,7 @@
                     <gf-input disabled v-model.trim="detailForm.productName" placeholder="基金名称"/>
                 </el-form-item>
                 <el-form-item label="提交财务流程" prop="isSendFinance">
-                    <el-radio-group :disabled="isSubDis" v-model="detailForm.isSendFinance">
+                    <el-radio-group :disabled="isSubDis || isSendFinanceDis" v-model="detailForm.isSendFinance">
                         <el-radio label="1">是</el-radio>
                         <el-radio label="0">否</el-radio>
                     </el-radio-group>
@@ -299,9 +300,9 @@
                 </el-form-item>
             </div>
             <div v-if="detailForm.isSendOa==='1'" class="line">
-                <el-form-item label="公司领导" prop="oaLeader">
-                    <gf-input v-model.trim="detailForm.oaLeader" placeholder="公司领导"/>
-                </el-form-item>
+<!--                <el-form-item label="公司领导" prop="oaLeader">-->
+<!--                    <gf-input v-model.trim="detailForm.oaLeader" placeholder="公司领导"/>-->
+<!--                </el-form-item>-->
                 <el-form-item label="是否需要合规法务审核" prop="oaIsNeedAudit">
                     <el-radio-group v-model="detailForm.oaIsNeedAudit">
                         <el-radio label="1">是</el-radio>
@@ -392,6 +393,7 @@
                 serviceRes:[],
                 staticData: {},
                 isSubDis:false,
+                isSendFinanceDis:false,
                 detailFormBefore: {
                     typeCode:'',
                     bizType:'01',
@@ -444,8 +446,18 @@
                 groupOption: [],        // 群组下拉
                 productList:[],     //产品代码群组
                 OrgList:[],         //机构列表
+                showRules:{
+                },
                 detailFormRules: {
-                
+                    typeCode: [
+                        {required: true, message: '账户类型必填', trigger: 'blur'},
+                    ],
+                    baseStartDept: [
+                        {required: true, message: '必填', trigger: 'blur'},
+                    ],
+                    baseAcceptDept: [
+                        {required: true, message: '必填', trigger: 'blur'},
+                    ]
                 },
             }
         },
@@ -464,6 +476,7 @@
             }
             this.getOptionData()
             this.checkIsSub()
+            this.loadShowRule()
         },
         methods: {
             async getOptionData(){
@@ -481,10 +494,63 @@
                         this.detailFormBefore = detailFormBefore.data
                     }
 
+                    this.loadProductName();
+                    this.loadProductNameBeafore();
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
             },
+            async loadShowRule(){
+                let resp = await this.$api.acntApplyApi.getConfig(this.detailForm.typeCode);
+                let showRules = resp.data;
+                // let showRules = {
+                //     acntName:{isShow:true,required:true},
+                //     acntShortName:{isShow:true,required:true},
+                // };
+                this.showRules = showRules;
+                // let detailFormRules = {};
+                for(let key  in showRules){
+                    let detailFormRulesOne = showRules[key];
+                    detailFormRulesOne.message = '必填';
+                    detailFormRulesOne.required = showRules[key].mustFill=='1';
+                    detailFormRulesOne.trigger = 'blur';
+                    this.detailFormRules[key] = [detailFormRulesOne]
+                }
+                // this.detailFormRules = detailFormRules;
+
+                this.detailForm.isSendFinance = '0';
+                if( !loadsh.isEmpty(showRules) &&
+                    !loadsh.isEmpty(showRules.isSendFinance) &&
+                    !loadsh.isEmpty(showRules.isSendFinance.isShow)
+                    && showRules.isSendFinance.isShow === '1'){
+                    this.isSendFinanceDis =  false;
+                }else{
+                    this.isSendFinanceDis =  true;
+                }
+            },
+            async loadProductName(){
+                if(loadsh.isEmpty(this.detailForm.productCode)){
+                    this.detailForm.productName=''
+                }else{
+                    for(let i=0;i<this.productList.length;i++){
+                        if(this.productList[i].productCode==this.detailForm.productCode){
+                            this.detailForm.productName=this.productList[i].productName;
+                        }
+                    }
+                }
+            },
+            async loadProductNameBeafore(){
+                if(loadsh.isEmpty(this.detailFormBefore.productCode)){
+                    this.detailFormBefore.productName='';
+                }else{
+                    for(let i=0;i<this.productList.length;i++){
+                        if(this.productList[i].productCode==this.detailFormBefore.productCode){
+                            this.detailFormBefore.productName=this.productList[i].productName;
+                        }
+                    }
+                }
+            },
+
             checkIsSub(){
                 if(!loadsh.isEmpty(this.row.applySubId)||this.mode==='addInfo'){
                     this.isSubDis = true;

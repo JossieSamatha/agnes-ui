@@ -20,7 +20,7 @@ export default {
         {headerName: "开户机构", field: "openBank"},
         {headerName: "账户对方联系人", field: "openLinkMan"},
         {headerName: "利率", field: "rate"},
-        {headerName: "币种", field: "currency"},
+        {headerName: "币种", field: "currency" , dictType:"AGNES_ACNT_CURRENCY_TYPE"},
         {headerName: "账户启用日期", field: "acntStartDt"},
         column.colCrtUser,
         column.colCrtTm,
