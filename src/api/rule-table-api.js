@@ -14,7 +14,7 @@ export default {
 
 
     getRemindList() {
-        return request.post("/agnes-remind/v1/remind/msg/query?pageIndex=0&pageSize=50")
+        return request.get("/agnes-remind/v1/remind/msg/query?pageIndex=0&pageSize=50")
     },
 
 
@@ -35,5 +35,15 @@ export default {
     // 风险管理列表
     getRiskList(){
         return request.post("/agnes-app/v1/dop/risk/query?pageIndex=0&pageSize=50")
+    },
+
+    //消息盒子数据
+    getMsgBoxList(){
+        return request.post("/agnes-remind/v1/remind/msg/query/msg/box")
+    },
+    //消息盒子未读数据
+    getUnreadCount(){
+        return request.post("/agnes-remind/v1/remind/msg/query/unread/count")
     }
+
 };

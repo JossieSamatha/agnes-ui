@@ -129,20 +129,6 @@ const msgData = [
     {msgType: '提醒', msgName: 'XXX提醒通知', msgDate: '09-15'}
 ];
 
-const scheduleCol = [
-    {headerName: '部门', field: 'dep'},
-    {headerName: '排班类型', field: 'type'},
-    {headerName: '人员', field: 'person'}
-];
-
-const scheduleData = [
-    {dep: '运营部', type: '早班', person: '张三', id: '021-38601112', date: '09-28', state: "待复核"},
-    {dep: '运营部', type: '晚班', person: '李四', id: '021-38601112', date: '09-28', state: "已审核"},
-    {dep: 'IT部', type: '早班-授权', person: '王五', id: '021-38601112', date: '09-28', state: "已审核"},
-    {dep: 'IT部', type: '晚班-复核', person: '钱六', id: '021-38601112', date: '09-28', state: "待复核"},
-
-];
-
 const contractCol = [
     {headerName: '机构', field: 'dep'},
     {headerName: '联系人', field: 'conPer'},
@@ -303,8 +289,10 @@ const boardStyleArr = [
     {
         id: '0', label: '我的日历',
         type: 'calendar-def',
+        arrowShow: true,
         data: {
-            calendarVal: ''
+            calendarVal: '',
+            module: 'datav.client.view'
         },
         img: 'unit01'
     },
@@ -338,9 +326,6 @@ const boardStyleArr = [
         menuId: 'agnes.dop.roster',
         arrowShow: true,
         data: {
-            columnDefs: scheduleCol,
-            rowData: JSON.stringify(scheduleData),
-            gridOption: JSON.stringify(gridOptionObj)
         },
         img: 'unit03'
     },
@@ -500,17 +485,17 @@ const boardStyleDep = [
         id: '0', label: '运营日历',
         type: 'calendar-def',
         data: {
-            calendarVal: ''
+            calendarVal: '',
+            module: 'datav.dep.view'
         },
         img: 'unit01'
     },
     {
         id: '1', label: '今日排班',
-        type: 'grid-comp',
+        type: 'comp-work',
+        menuId: 'agnes.dop.roster',
+        arrowShow: true,
         data: {
-            columnDefs: scheduleCol,
-            rowData: JSON.stringify(scheduleData),
-            gridOption: JSON.stringify(gridOptionObj)
         },
         img: 'unit05'
     },

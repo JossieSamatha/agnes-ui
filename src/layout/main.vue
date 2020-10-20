@@ -12,7 +12,7 @@
                 <span class="iconImg" title="帮助" v-html="svgImg.helpIcon"></span>
             </div>
             <div class="top-menu-item" @click="handelNotice">
-                <el-badge :value="12">
+                <el-badge :value=unreadCount>
                     <span class="iconImg" title="消息提醒" v-html="svgImg.noticeIcon"></span>
                 </el-badge>
             </div>
@@ -48,7 +48,6 @@
 </template>
 
 <script>
-    import noticeData from './noticeData'
     import {toColumn} from "./menus";
     import init from './init-menus'
     export default {
@@ -62,13 +61,14 @@
                     }
                 },
                 menus: {},
-                noticeData: noticeData,
+                noticeData: [],
                 studioType: 'appMenus',
                 searchValue: '',
                 showNoticeDrawer: false,
                 feedbackContent: '',
                 feedbackShow: false,
                 bizDateTimer: null, // 日切日期定时器
+                unreadCount:""
             }
         },
         methods: {
@@ -158,8 +158,10 @@
                     this.menus = this.adminMenus;
                 }
             },
-            handelNotice(){
+            async handelNotice(){
                 this.showNoticeDrawer = true;
+                const resp = await this.$api.ruleTableApi.getMsgBoxList();
+                this.noticeData = resp.data;
             },
 
             noticeDrawerClose() {
@@ -194,14 +196,26 @@
                     this.$msg.error(reason);
                 }
             },
+
+            // 获取日切值
+            async getUnreadCount() {
+                try {
+                    const resp = await this.$api.ruleTableApi.getUnreadCount();
+                    this.unreadCount = resp.data;
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
         },
         async mounted() {
             //加载菜单
             this.loadMenus();
             // 获取日切值
             this.getChangeDate();
+            this.getUnreadCount();
             this.bizDateTimer = setInterval(()=>{
                 this.getChangeDate();
+                this.getUnreadCount();
             }, 300000)
 
             //默认加载首页、部门首页

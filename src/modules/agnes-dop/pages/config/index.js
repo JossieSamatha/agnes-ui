@@ -23,7 +23,7 @@ const Loading = {
         Gfui.componentView('agnes.app.conf.channel', Channel, {title: '渠道表维护'});
         Gfui.componentView('agnes.app.conf.dayend', DataChange, {title: '工作日切换'});
         Gfui.componentView('agnes.dop.linkman', Linkman, {title: '外部联系人维护'});
-        Gfui.componentView('agnes.dop.group.user', GroupUser, {title: '内部联系人分组'});
+        Gfui.componentView('agnes.dop.group.user', GroupUser, {title: '工作群组管理'});
         Gfui.componentView('agnes.dop.memo', memoDef, {title: '运营日历维护'});
         Gfui.componentView('agnes.dop.roster', RosterDef, {title: '值班表维护'});
         Gfui.componentView('data.pipe.task', DataPipeTask, {title: '调度配置'});
