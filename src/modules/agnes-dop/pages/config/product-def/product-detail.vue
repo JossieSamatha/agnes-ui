@@ -33,7 +33,8 @@
         <el-date-picker
             v-model="detailForm.startDate"
             style="width: 100%;"
-            type="date">
+            type="date"
+        >
         </el-date-picker>
       </el-form-item>
     </div>
