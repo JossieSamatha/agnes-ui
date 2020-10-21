@@ -30,6 +30,7 @@
         </template>
         <notice-box :noticeData="noticeData" :showDrawer="showNoticeDrawer"
                     @refreshNotice="handelNotice"
+                    @getUnreadCount="getUnreadCount"
                     @noticeDrawerClose="noticeDrawerClose"
         ></notice-box>
         <el-popover popper-class="feedbackPopover" width="300" placement="right" trigger="click" @show="handelfeedback(true)" @hide="handelfeedback(false)">
