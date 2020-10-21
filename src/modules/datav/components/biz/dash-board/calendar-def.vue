@@ -6,7 +6,7 @@
                         v-model="data.isSelected"
                         @show="getCalendarData(data.day)"
             >
-                <p>运营日历：<span>5个</span></p>
+                <p>运营日历：<span>{{memoNum}}</span></p>
                 <el-button type="text" @click="calendarDetail">查看详情</el-button>
                 <el-button slot="reference" class="popover-btn" :class="workStatus">{{ getDay(date) }}</el-button>
             </el-popover>
@@ -25,7 +25,8 @@
         data(){
             return {
                 workStatus: '',
-                todayDate: new Date().toLocaleDateString().replace(/\//g, '-')
+                todayDate: new Date().toLocaleDateString().replace(/\//g, '-'),
+                memoNum: ''
             }
         },
         mounted(){
@@ -50,8 +51,8 @@
             },
 
             async getCalendarData(date){
-                const res = await this.$api.memoApi.getMemoList(date, '', '04');
-                this.workStatus = res.memoStatus;
+                const res = await this.$api.memoApi.getMemoList(date, '04');
+                this.memoNum = res.data.length;
             },
 
             calendarDetail(){

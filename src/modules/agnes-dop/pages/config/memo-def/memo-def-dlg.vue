@@ -18,7 +18,7 @@
               <gf-person-chosen ref="memberRef"
                                 :memberRefList="form.memoMemberRefList"
                                 chosenType="user, group, roster"
-                                :rosterDate="this.rosterDate"
+                                :rosterDate="rosterDate"
                                 @getMemberList="getMemberList">
               </gf-person-chosen>
             </el-form-item>
@@ -65,7 +65,7 @@
 <!--            </el-row>-->
 
         </el-form>
-        <dialog-footer :ok-button-visible="mode !== 'view'" :on-save="save" :on-cancel="cancel"></dialog-footer>
+        <dialog-footer :ok-button-visible="mode !== 'view'" :on-save="save"></dialog-footer>
     </div>
 </template>
 
@@ -98,11 +98,14 @@
                     'memo.memoDesc': [
                         { required: true, message: '请填写记录事项', trigger: 'blur' }
                     ]
-                }
+                },
+                rosterDate: ''
             }
         },
 
         beforeMount() {
+            this.rosterDate = window.bizDate;
+
             Object.assign(this.form.memo, this.row);
 
             if (this.form.memo.memoId) {
@@ -114,7 +117,7 @@
             async fetchMemberRefList() {
                 try {
                     const resp = await this.$api.memoApi.getMemoMemberRefList(this.form.memo.memoId);
-                    this.form.memoMemberRefList = resp.data;
+                    this.$refs.memberRef.initChosenData(resp.data);
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
@@ -187,7 +190,11 @@
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
-            }
+            },
+
+            getMemberList(val){
+                this.form.memoMemberRefList = val;
+            },
 
         }
     }
