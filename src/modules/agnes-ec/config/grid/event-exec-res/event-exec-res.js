@@ -1,25 +1,21 @@
-import column from "../../../../../config/column"
-
-const colButtons = [
-    {key: 'choseUserGroup', title: '选择'},
-];
 
 export default {
     columnDefs: [
-        column.buildOpCol(80, colButtons),
-        {headerName: "群组名称", field: "userGroupName"},
-        column.colCrtUser,
-        column.colCrtTm
+        {headerName: "事件编号", field: "eventCode"},
+        {headerName: "事件名称", field: "eventName"},
+        {headerName: "监听方式", field: "execMode" ,formatType: 'dict', dictType: 'AGNES_EC_EVENT_EXEC_MODE'},
+        {headerName: "触发日期", field: "execBizDt"},
+        {headerName: "更新时间", field: "crtTs"}
     ],
-    paginationAutoPageSize: true,
-    pagination: true,
+    headerHeight: 40,
+    rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-app/v1/dop/user/group/page/group/list",
-        fetchMethod: 'post',
-        pagingMode: true, //分页
-        checkboxColumn: 0, //是否显示checkbox列,
+        fetchUrl: "/agnes-ac/v1/ec/event/execres/list/page",
+        fetchMethod: 'get',
+        pagingMode: true, //是否分页
+        checkboxColumn: 1, //是否显示checkbox列,
         autoFitColumnMode: 1,
-        enableExportLocal: false,
+        enableExportLocal: true,
         pageOptions: {
             // 分页大小
             pageSize: 50,
@@ -34,4 +30,5 @@ export default {
             layout: "total, sizes, prev, pager, next, jumper"
         },
     }
+
 };

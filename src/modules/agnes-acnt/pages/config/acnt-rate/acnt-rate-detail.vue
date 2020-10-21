@@ -30,6 +30,7 @@
                                 v-model="form.startDt"
                                 type="date"
                                 value-format="yyyy-MM-dd"
+                                :picker-options="pickerOptionsStart"
                                 placeholder="开始日期">
                         </el-date-picker>
                     </el-form-item>
@@ -39,6 +40,7 @@
                                 v-model="form.endDt"
                                 type="date"
                                 value-format="yyyy-MM-dd"
+                                :picker-options="pickerOptionsEnd"
                                 placeholder="结束日期">
                         </el-date-picker>
                     </el-form-item>
@@ -67,8 +69,8 @@
                     rateName: '',
                     branchCode: '',
                     branchName: '',
-                    startDt: '',
-                    endDt: '',
+                    startDt: null,
+                    endDt: null,
                     rate: '',
                     status: '',
                     bankBranchId: '',
@@ -83,6 +85,25 @@
                     'endDt': [{required: true, message: "结束日期不能为空"}],
                     'rate': [{required: true, message: "方案利率不能为空"}],
                     'status': [{required: true, message: "状态不能为空"}],
+                },
+                pickerOptionsStart: {
+                    disabledDate: time => {
+                        let endDateVal = this.form.endDt;
+                        if (endDateVal) {
+                            return time.getTime() > new Date(endDateVal).getTime();
+                        }
+                    }
+                },
+                pickerOptionsEnd: {
+                    disabledDate: time => {
+                        let beginDateVal = this.form.startDt;
+                        if (beginDateVal) {
+                            return (
+                                time.getTime() <
+                                new Date(beginDateVal).getTime() - 1 * 24 * 60 * 60 * 1000
+                            );
+                        }
+                    }
                 },
             }
         },
