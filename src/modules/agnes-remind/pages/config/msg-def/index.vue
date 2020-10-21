@@ -38,23 +38,23 @@
         },
         methods: {
             async batchRead() {
-                let data = this.$refs.grid.getSelectedRows();
-                if (loadsh.isEmpty(data)){
-                    this.$msg.success('请选择一条记录');
-                    return;
-                }
-                let t =0;
-                for (let i=0;i<data.length;i++){
-                    if (data[i].hasRead=="1"){
-                        t+=1;
-                    }
-                }
-                if (t!=0){
-                    this.$msg.success('选中有'+t+'条已读数据');
-                    return;
-                }
-                await this.$api.MsgApi.batchRead(data);
-                await this.$refs.grid.reloadData();
+              let data = this.$refs.grid.getSelectedRows();
+              if (loadsh.isEmpty(data)) {
+                this.$msg.success('请选择一条记录');
+                return;
+              }
+              // let t =0;
+              // for (let i=0;i<data.length;i++){
+              //     if (data[i].hasRead=="1"){
+              //         t+=1;
+              //     }
+              // }
+              // if (t!=0){
+              //     this.$msg.success('选中有'+t+'条已读数据');
+              //     return;
+              // }
+              await this.$api.MsgApi.batchRead(data);
+              await this.$refs.grid.reloadData();
             },
             reloadData() {
                 this.$refs.grid.reloadData();

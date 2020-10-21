@@ -10,6 +10,7 @@
                         v-model="form.rosterDate"
                         align="left"
                         type="date"
+                        value-format="yyyy-MM-dd"
                         placeholder="选择日期">
                 </el-date-picker>
             </el-form-item>
@@ -25,12 +26,12 @@
                         value-format="HH:mm">
                 </el-time-picker>
             </el-form-item>
-            <el-form-item label="值班人员" prop="userName">
-                <gf-person-chosen ref="memberRef"
-                                  :memberRefList="memberRefList"
-                                  chosenType="user"
-                                  @getMemberList="getMemberList">
-                </gf-person-chosen>
+            <el-form-item label="值班人员" prop="memberRef">
+              <gf-person-chosen ref="memberRef"
+                                :memberRefList="memberRefList"
+                                chosenType="user"
+                                @getMemberList="getMemberList">
+              </gf-person-chosen>
             </el-form-item>
         </el-form>
         <dialog-footer :ok-button="mode !== 'view'" :on-save="onSave" ok-button-title="确定"></dialog-footer>
@@ -50,10 +51,11 @@
                 },
                 rosterId: "",
                 rules: {
-                    'memberRefList': [{required: true, message: "请选择员工姓名"}],
-                    'rosterType': [{required: true, message: "请选择值班类型"}],
-                    'rosterTs': [{required: true, message: "请选择值班时间"}],
-                    'rosterDate': [{required: true, message: "请选择值班日期"}],
+                  'memberRefList': [{required: true, message: "请选择员工姓名"}],
+                  'rosterType': [{required: true, message: "请选择值班类型"}],
+                  'rosterTs': [{required: true, message: "请选择值班时间"}],
+                  'rosterDate': [{required: true, message: "请选择值班日期"}],
+                  'memberRef': [{required: true, message: "请选择值班人员", trigger: ['blur', 'change']}],
                 },
             };
         },
@@ -71,7 +73,6 @@
         },
 
         methods: {
-
             async loadUserInfos() {
                 const p = this.$api.userGroupApi.getUserInfos({'userGroupId':this.form.userGroupId});
                 const resp = await this.$app.blockingApp(p);

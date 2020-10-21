@@ -1,5 +1,5 @@
 <template>
-    <div class="elec-process">
+    <div class="elec-process" v-loading="loading">
         <section class="top-section">
             <el-radio-group class="task-board" v-model="choosedTaskId" size="mini" @change="chooseTask">
                 <div class="flow-type">
@@ -147,7 +147,8 @@
                       {id: 'LAUNCH', label: '启动', icon: 'executing'}, {id: 'FINISHED', label: '完成', icon: 'finish'},
                     {id: 'OVERTIME', label: '超时', icon: 'outTime'}, {id: 'EXCEPTION', label: '异常', icon: 'abnormal'}
                   ],
-                  taskIdList: []
+                taskIdList: [],
+                loading: false
             }
         },
         created() {
@@ -166,11 +167,23 @@
         beforeDestroy() {
             clearInterval(this.freshInterval);
         },
+        watch:{
+            // 监听,当路由发生变化的时候执行
+            $route(to,from){
+                if(from.path === '/agnes.elec.operate') {
+                    clearInterval(this.freshInterval);
+                }
+                if(to.path === '/agnes.elec.operate'){
+                    this.freshInterval = setInterval(() => {
+                        this.freshFlowData();
+                    }, 60000);
+                }
+            }
+        },
         methods: {
             // 根据流程类型加载对应流程数据
             async getFLowbyType(firstFlowType) {
-                const flowDataRes = this.$api.elecProcessApi.getTaskByType({"flowType": firstFlowType});
-                const flowDataList = await this.$app.blockingApp(flowDataRes);
+                const flowDataList = await this.$api.elecProcessApi.getTaskByType({"flowType": firstFlowType});
                 if (flowDataList.data && flowDataList.data.length > 0) {
                     this.proTask = flowDataList.data;
                     // 默认加载第一项流程数据
@@ -188,9 +201,9 @@
 
             // 根据流程id及业务日期加载流程信息{"taskId":"","bizDate":""}、获取任务状态、获取执行情况
             async getFLowDetail(taskId, bizDate) {
+                this.loading = true;
                 try {
-                    const flowDetailRes = this.$api.elecProcessApi.getExecProcessBrief({taskId, bizDate});
-                    const flowDetailStr = await this.$app.blockingApp(flowDetailRes);
+                    const flowDetailStr = await this.$api.elecProcessApi.getExecProcessBrief({taskId, bizDate});
                     if (flowDetailStr.data) {
                         const flowDetailParse = this.$utils.fromJson(flowDetailStr.data);
                         if (flowDetailParse && flowDetailParse.stages.length > 0) {
@@ -211,17 +224,22 @@
                           // 获取执行情况
                             this.taskIdList = flowDetailParse.taskIdList;
                             this.getExecuteData(flowDetailParse.taskIdList, this.execTypeChecked);
-                            this.setGridData(this.curStage.ruCaseStepList);
+                            if(this.curStage.ruCaseStepList){
+                                this.setGridData(this.curStage.ruCaseStepList);
+                            }
+                            this.loading = false;
                         } else {
                             this.taskStage = [];
                             this.executePieData = [];
                             this.taskIdList = [];
+                            this.loading = false;
                         }
                     }else{
                         this.taskStage = [];
                         this.executePieData = [];
                         this.execLog = [];
                         this.setGridData([]);
+                        this.loading = false;
                     }
                 } catch (e) {
                     this.$msg.error(e);
@@ -245,7 +263,9 @@
             // 任务流程 -- 指定stage -- 选择
             chooseTaskStage(stage) {
                 this.curStage = stage;
-                this.setGridData(stage.ruCaseStepList);
+                if(stage.ruCaseStepList){
+                    this.setGridData(stage.ruCaseStepList);
+                }
             },
 
             // 表格数据塞入
@@ -416,3 +436,10 @@
         }
     }
 </script>
+
+<style>
+    .elec-process.gf-tab-view .el-loading-mask{
+        z-index: inherit;
+        background-color: rgba(255, 255, 255, 0.7);
+    }
+</style>
