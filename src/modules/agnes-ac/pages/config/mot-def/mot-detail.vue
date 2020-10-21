@@ -449,15 +449,23 @@
                         const p = this.$api.kpiTaskApi.checkTask(resData);
                         await this.$app.blockingApp(p);
                         this.$msg.success('审核成功');
+                        if (this.actionOk) {
+                            await this.actionOk();
+                        }
+                        this.$emit("onClose");
                     }else {
                         const p = this.$api.motConfigApi.saveTask(resData);
-                        await this.$app.blockingApp(p);
-                        this.$msg.success('保存成功');
+                        const resp = await this.$app.blockingApp(p);
+                        if(resp && resp.code == 'rwbhycz'){
+                            this.$msg.error(resp.message);
+                        }else {
+                            this.$msg.success('保存成功');
+                            if (this.actionOk) {
+                                await this.actionOk();
+                            }
+                            this.$emit("onClose");
+                        }
                     }
-                    if (this.actionOk) {
-                        await this.actionOk();
-                    }
-                    this.$emit("onClose");
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
