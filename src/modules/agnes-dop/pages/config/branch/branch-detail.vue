@@ -97,12 +97,16 @@
                         formData.isCheck = true 
                     }
                     const p = this.$api.branchApi.saveData(formData);
-                    await this.$app.blockingApp(p);
-                    this.$msg.success('保存成功');
-                    if (this.actionOk) {
-                        await this.actionOk();
+                    const resp = await this.$app.blockingApp(p);
+                    if(resp && resp.code == 'bhcz'){
+                        this.$msg.error("该编码已存在");
+                    }else {
+                        this.$msg.success('保存成功');
+                        if (this.actionOk) {
+                            await this.actionOk();
+                        }
+                        this.$emit("onClose");
                     }
-                    this.$emit("onClose");
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
