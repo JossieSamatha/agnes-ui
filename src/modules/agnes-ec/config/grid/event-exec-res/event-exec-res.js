@@ -30,4 +30,5 @@ export default {
             layout: "total, sizes, prev, pager, next, jumper"
         },
     }
+
 };
