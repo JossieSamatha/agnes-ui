@@ -194,7 +194,9 @@
                 try {
                     const resp = await this.$api.changeDataApi.getChangeData();
                     const resChangeData = resp.data;
-                    window.bizDate = resChangeData.bizDate;
+                    if(resChangeData.bizDate && resChangeData.bizDate !== window.bizDate){
+                        window.bizDate = resChangeData.bizDate;
+                    }
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
