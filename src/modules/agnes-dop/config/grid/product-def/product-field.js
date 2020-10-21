@@ -1,8 +1,13 @@
 import column from "../../../../../config/column"
 import dateUtils from "@hex/gf-ui/src/util/date-utils"
+import Permission from "../../../../../utils/hasPermission"
 
 const colButtons = [
-    {key: 'editProduct', title: '编辑'},
+    {
+        key: 'editProduct', title: '编辑', visiable: () => {
+            return Permission.hasPermission('agnes.dop.product.def.edit');
+        }
+    },
     {key: 'deleteProduct', title: '删除', cellClass: 'red-cell'},
     {
         key: 'checkProduct', title: '审核', disabled: (params) => {
