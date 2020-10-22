@@ -9,7 +9,7 @@
         props: {
             kpiCode: String,
             bizDate: String,
-            status: String
+            status: Number
         },
         data(){
             return {
@@ -21,6 +21,12 @@
                         pagingMode: false,
                     },
                 }
+            }
+        },
+        methods: {
+            // 返回关闭抽屉;
+            onCancel(){
+                this.$emit("onClose");
             }
         }
     }

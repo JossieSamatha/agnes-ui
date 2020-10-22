@@ -1,6 +1,7 @@
 <template>
     <div class="monitor-kpi-page">
         <div class="tool-panel">
+            <span style="margin-right: 10px">业务日期</span>
             <el-date-picker v-model="bizDate"
                             type="date"
                             size="mini"
@@ -14,8 +15,8 @@
             </el-date-picker>
         </div>
         <div class="content" style="height: calc(100% - 30px)">
-            <el-table :data="kpiData" stripe height="100%" style="width: 100%">
-                <el-table-column label="操作" width="100" :fit="false" fixed header-align="center" align="center">
+            <el-table class="kpi-grid" :data="kpiData" stripe height="100%" style="width: 100%">
+                <el-table-column label="操作" width="100" :fit="false" header-align="center" align="center">
                     <template slot-scope="scope">
                         <el-popover class="icon-popper" placement="bottom"
                                     title="备注"
@@ -45,7 +46,7 @@
                         </el-popover>
                     </template>
                 </el-table-column>
-                <el-table-column prop="KPI_NAME" label="指标名称" width="200" header-align="center">
+                <el-table-column prop="KPI_NAME" label="指标名称" header-align="center">
                     <template slot-scope="scope">
                         <span class="kpi-level" v-if="scope.row.KPI_LEVEL">
                             <i class="fa fa-star" style="color: #f5222e" v-for="i in Number(scope.row.KPI_LEVEL)" :key="i"></i>
@@ -53,34 +54,34 @@
                         <span>{{scope.row.KPI_NAME}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="KPI_VALUE" label="异常" width="80" header-align="center" align="center">
+                <el-table-column prop="KPI_VALUE" label="异常" width="120" header-align="center" align="center">
                     <template slot-scope="scope">
                         <i class="circle-icon fa fa-circle" style="color: red"></i>
                         <a class="link-num" v-if="scope.row.KPI_VALUE!==0 && !scope.row.KPI_VALUE">--</a>
                         <a class="link-num" v-else @click="showKpiDetail(scope.row, 1)">{{scope.row.KPI_VALUE}}</a>
                     </template>
                 </el-table-column>
-                <el-table-column prop="KPI_MANUAL_TAG" label="人工" width="80" header-align="center" align="center">
+                <el-table-column prop="KPI_MANUAL_TAG" label="人工" width="120" header-align="center" align="center">
                     <template slot-scope="scope">
                         <i class="circle-icon fa fa-circle" style="color: #bba350"></i>
                         <a class="link-num" v-if="scope.row.KPI_MANUAL_TAG !==0 && !scope.row.KPI_MANUAL_TAG">--</a>
                         <a class="link-num" v-else @click="showKpiDetail(scope.row, 2)">{{scope.row.KPI_MANUAL_TAG}}</a>
                     </template>
                 </el-table-column>
-                <el-table-column prop="F_KPI_VALUE" label="正常" width="100" header-align="center" align="center">
+                <el-table-column prop="F_KPI_VALUE" label="正常" width="120" header-align="center" align="center">
                     <template slot-scope="scope">
                         <i class="circle-icon fa fa-circle" style="color: green"></i>
                         <a class="link-num" v-if="scope.row.F_KPI_VALUE !==0 && !scope.row.F_KPI_VALUE">--</a>
                         <a class="link-num" v-else @click="showKpiDetail(scope.row, 0)">{{scope.row.F_KPI_VALUE}}</a>
                     </template>
                 </el-table-column>
-                <el-table-column prop="TARGET_NUM" label="目标值" width="100" header-align="center" align="center">
+                <el-table-column prop="TARGET_NUM" label="目标值" width="120" header-align="center" align="center">
                     <template slot-scope="scope">
                         <span v-if="scope.row.TARGET_NUM">{{scope.row.TARGET_NUM}}</span>
                         <span v-else>--</span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="KPI_TOTAL" label="最后更新时间" width="150" header-align="center" align="center">
+                <el-table-column prop="KPI_TOTAL" label="最后更新时间">
                     <template slot-scope="scope">
                         <span v-if="scope.row.LAST_MODIFY">{{scope.row.LAST_MODIFY}}</span>
                         <span v-else>--</span>
@@ -128,9 +129,6 @@
             // 显示KPI详情
             showKpiDetail(row, status) {
                 const statusObj = {0: '正常', 1: '异常', 2: '人工'};
-                // if(row.KPI_VALUE == '--' && row.KPI_MANUAL_TAG == '--' && (row.KPI_TOTAL=='0' || row.KPI_TOTAL=='--')){
-                //     return;
-                // }
                 this.$drawerPage.create({
                     className: 'elec-dashboard-drawer',
                     width: 'calc(97% - 215px)',
@@ -138,11 +136,25 @@
                     component: detailPage,
                     args: {kpiCode: row.KPI_CODE, bizDate: this.bizDate, status},
                     cancelButtonTitle: '返回',
+                    okButtonVisible: false
                 });
             },
         }
     }
 </script>
+
+<style>
+    .kpi-grid .el-table__header th{
+        color: #333;
+        font-weight: normal;
+    }
+
+    .kpi-grid tr.el-table__row td {
+        padding: 4px 0px;
+        border: none;
+        color: #666;
+    }
+</style>
 
 <style scoped>
     .svgSpan {
