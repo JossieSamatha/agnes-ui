@@ -9,7 +9,8 @@
 
         <el-form-item label="事件编号" prop="eventDef.eventCode">
           <gf-input v-model.trim="form.eventDef.eventCode" placeholder="事件编号" :max-byte-len="8"
-                    clear-regex="[^a-zA-Z\d\x00-\xff]"/>
+                    clear-regex="[^a-zA-Z\d\x00-\xff]"
+                    :disabled="mode==='edit'"/>
         </el-form-item>
         <el-form-item label="运行周期配置" prop="eventDef.dateRange">
           <div class="line none-shrink">

@@ -15,7 +15,7 @@ export default {
         return request.get("/agnes-app/v1/dop/memo/member/ref/list/memoid", {params: {memoId}});
     },
 
-    getMemoList(memoDt, memoDesc, memoStatus) {
-        return request.get("/agnes-app/v1/dop/memo/list", {params: {memoDt, memoDesc, memoStatus}});
+    getMemoList(memoDt, memoStatus) {
+        return request.get("/agnes-app/v1/dop/memo/list", {params: {memoDt, memoStatus}});
     }
 };
