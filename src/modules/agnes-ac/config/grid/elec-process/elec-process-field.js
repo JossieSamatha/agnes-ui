@@ -39,7 +39,7 @@ export default {
         {headerName: "任务编号", field: "stepCode"},
         {
             headerName: "任务名称", field: "stepName",
-            tooltipField: 'stepName',
+            tooltipField: 'stepRemark',
         },
         {
             headerName: "完成进度", field: "finishedRate", enableRowGroup: false,

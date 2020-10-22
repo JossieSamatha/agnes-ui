@@ -13,6 +13,8 @@ import ElecProcessOp from './elec-process/optional/index'
 import ElecProcessDB from './elec-process/dashboard/index'
 import ServiceRespLevelConf from "./service-resp-level-conf/index";
 
+import MonitorKPI from './monitor-kpi/index.vue'
+
 
 const Loading = {
     install: function(Vue){
@@ -38,6 +40,9 @@ const Loading = {
         Gfui.componentView('agnes.elec.operate', ElecProcessOp, {title: '电子流程操作'});
         Gfui.componentView('agnes.app.monitor.leader', ElecProcessDB, {title: '综合监控看板'});
         Gfui.componentView('agnes.service.resp.level.conf', ServiceRespLevelConf, {title: '服务响应等级配置'});
+
+
+        Gfui.componentView('agnes.monitor.kpi', MonitorKPI, {title: '指标监控看板'});
     }
 };
 
