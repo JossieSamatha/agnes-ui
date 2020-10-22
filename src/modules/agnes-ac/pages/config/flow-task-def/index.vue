@@ -184,21 +184,6 @@
                     return
                 }
                 try {
-                    const p = this.$api.kpiTaskApi.checkBeforePulish({taskId:rowData.reTaskDef.taskId});
-                    const resp = await this.$app.blockingApp(p);
-                    if(resp.code !== '00000000'){
-                        this.$msg.warning(resp.message);
-                        return ;
-                    }
-                    await this.publishTask(params);
-                } catch (reason) {
-                    this.$msg.error(reason);
-                }
-            },
-
-            async publishTask(params){
-                const rowData = params.data;
-                try {
                     rowData.caseDefJson = JSON.stringify(this.checkData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName));
                     const p = this.$api.caseConfigApi.publishCaseDef(rowData);
                     await this.$app.blockingApp(p);
@@ -209,7 +194,6 @@
                     this.$msg.error(reason);
                 }
             },
-
             checkData(dataOrigin,caseDefKey,caseDefName) {
                 let data =JSON.parse(JSON.stringify(dataOrigin))
                 delete data.stepCodeArr
