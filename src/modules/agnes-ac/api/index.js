@@ -9,7 +9,8 @@ import ruleConfigApi from './rule-config-api';
 import motConfigApi from './mot-config-api';
 import flowTaskApi from './flow-task-config-api';
 import ServiceConfApi from './service-conf-api';
-import elecProcessApi from './elec-process-api'
+import elecProcessApi from './elec-process-api';
+import monitorConfigApi from './monitor-kpi-api';
 
 export default {
     modelConfigApi,
@@ -23,5 +24,6 @@ export default {
     motConfigApi,
     flowTaskApi,
     ServiceConfApi,
-    elecProcessApi
+    elecProcessApi,
+    monitorConfigApi
 };
