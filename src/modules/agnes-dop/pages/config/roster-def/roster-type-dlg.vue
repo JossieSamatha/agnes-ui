@@ -26,9 +26,9 @@
                         value-format="HH:mm">
                 </el-time-picker>
             </el-form-item>
-            <el-form-item label="值班人员" prop="memberRef">
+            <el-form-item label="值班人员" prop="memberRefList">
               <gf-person-chosen ref="memberRef"
-                                :memberRefList="memberRefList"
+                                :memberRefList="form.memberRefList"
                                 chosenType="user"
                                 @getMemberList="getMemberList">
               </gf-person-chosen>
@@ -42,12 +42,11 @@
     export default {
         data() {
             return {
-                memberRefList: [],
                 form: {
                     rosterType: "",
                     rosterDate: "",
                     rosterTs: "",
-
+                    memberRefList: []
                 },
                 rosterId: "",
                 rules: {
@@ -89,9 +88,9 @@
                     this.$refs.memberRef.initChosenData(chosenData);
                 }
             },
-// 人员选择数组变化回调事件，返回参数为最新选择人员数组
+            // 人员选择数组变化回调事件，返回参数为最新选择人员数组
             getMemberList(newChosenData){
-                this.memberRefList = newChosenData;
+                this.form.memberRefList = newChosenData;
                 this.form.userIds = newChosenData.map(item=>{return item.memberId});
             },
             async transferTime() {

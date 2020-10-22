@@ -50,7 +50,10 @@
         },
         methods: {
             handelNotice(notice){
-                notice.hasRead = '1';
+                this.$api.MsgApi.batchRead([notice]).then(() => {
+                    notice.hasRead = '1';
+                    this.$emit('getUnreadCount');
+                });
             },
 
             // 关闭消息盒子

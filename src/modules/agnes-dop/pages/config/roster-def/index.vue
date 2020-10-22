@@ -46,13 +46,13 @@
             personnel(param) {
                 this.showDrawer('check', param.data, this.onEditRoster.bind(this));
             },
-            showDrawer(mode,row, actionOk) {
+            showDrawer(mode, row, actionOk) {
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
-                    title: ['值班人员','view'],
+                    title: ['值班人员', 'view'],
                     component: RosterList,
                     args: {row, mode, actionOk},
-                    okButtonVisible:false,
+                    okButtonVisible: false,
                     cancelButtonTitle: '取消',
                 });
             },
@@ -67,32 +67,32 @@
             async deleteRoster(params) {
                 const row = params.data;
                 const ok = await this.$msg.ask(`确认删除选中值班信息?`);
-              if (!ok) {
-                return
-              }
-              try {
-                const p = this.$api.rosterApi.deleteRoster(row.rosterId);
-                await this.$app.blockingApp(p);
-                this.reloadData();
-              } catch (reason) {
-                this.$msg.error(reason);
-              }
+                if (!ok) {
+                    return
+                }
+                try {
+                    const p = this.$api.rosterApi.deleteRoster(row.rosterId);
+                    await this.$app.blockingApp(p);
+                    this.reloadData();
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
             },
-          async approveRoster(params) {
-            const row = params.data;
-            const ok = await this.$msg.ask(`确认复核所选记录吗, 是否继续?`);
-            // const ok = await this.$msg.ask(`确认复核所选日历吗, 是否继续?`);
-            if (!ok) {
-              return
+            async approveRoster(params) {
+                const row = params.data;
+                const ok = await this.$msg.ask(`确认复核所选记录吗, 是否继续?`);
+                // const ok = await this.$msg.ask(`确认复核所选日历吗, 是否继续?`);
+                if (!ok) {
+                    return
+                }
+                try {
+                    const p = this.$api.rosterApi.updateRosterStatus(row.rosterId, "04");
+                    await this.$app.blockingApp(p);
+                    this.reloadData();
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
             }
-            try {
-              const p = this.$api.rosterApi.updateRosterStatus(row.rosterId, "04");
-              await this.$app.blockingApp(p);
-              this.reloadData();
-            } catch (reason) {
-              this.$msg.error(reason);
-            }
-          }
         },
     }
 </script>
