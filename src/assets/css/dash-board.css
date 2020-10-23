@@ -150,32 +150,36 @@
 }
 
 .datav_client_view .el-card.module-card .el-calendar .el-calendar__header{
-    padding: 0;
-}
-
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__header
-.el-calendar__title {
-    white-space: nowrap;
+    padding: 0 10px 10px 10px;
+    text-align: center;
+    border: none;
 }
 
 .datav_client_view .el-card.module-card .el-calendar .el-calendar__header
 .el-calendar__button-group {
-    width: calc(100% - 25px);
-    max-width: 215px;
-    margin-left: 5px;
+    margin: 0 auto;
 }
 
 .datav_client_view .el-card.module-card .el-calendar .el-calendar__header
 .el-calendar__button-group .el-button-group {
     display: flex;
+    align-items: center;
     width: 100%;
 }
 
 .datav_client_view .el-card.module-card .el-calendar .el-calendar__header
-.el-calendar__button-group .el-button-group>.el-button{
-    flex: 1;
-    padding: 7px 0;
+.el-calendar__button-group .el-button-group .el-calendar__title {
+    color: #333;
     font-size: 14px;
+    line-height: 14px;
+    margin: 0 20px;
+}
+
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__header
+.el-calendar__button-group .el-button-group .arrow-btn {
+    color: #999;
+    font-size: 16px;
+    cursor: pointer;
 }
 
 .datav_client_view .el-card.module-card .el-calendar .el-calendar__body{
@@ -186,12 +190,14 @@
 .datav_client_view .el-card.module-card .el-calendar .el-calendar__body
 .el-calendar-table thead th {
     padding: 3px 0;
+    color: #333;
 }
 
 .datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table thead {
-    border-left: 1px solid #EBEEF5;
-    border-right: 1px solid #EBEEF5;
+.el-calendar-table thead,
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
+.el-calendar-table tr td{
+    border: none;
 }
 
 .datav_client_view .el-card.module-card .el-calendar .el-calendar__body
@@ -199,6 +205,70 @@
     height: auto;
     padding: 15% 0;
     text-align: center;
+}
+
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
+.el-calendar-table .el-calendar-day>span {
+    display: block;
+}
+
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
+.el-calendar-table .el-calendar-day>span .day-block{
+    position: relative;
+}
+
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
+.el-calendar-table .el-calendar-day>span .day-block .fa.fa-circle{
+    position: absolute;
+    left: 50%;
+    bottom: 3px;
+    font-size: 12px;
+    transform: scale(.5);
+}
+
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
+.el-calendar-table:not(.is-range) td.next,
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
+.el-calendar-table:not(.is-range) td.prev {
+    color: #ccc;
+}
+
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
+.el-calendar-table td.current {
+    color: #666;
+}
+
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__body .el-backtop,
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
+.el-calendar-table td.is-today {
+    color: #476Dbe;
+}
+
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
+.el-calendar-table td.is-selected {
+    background: #F1F1F1;
+}
+
+.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
+.el-calendar-table .el-button.el-popover__reference {
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font-size: 12px;
+}
+
+.calendar-popper {
+    padding: 10px;
+    color: #333;
+    text-align: center;
+}
+
+.calendar-popper .el-button.el-button--text{
+    padding: 0;
+    margin-top: 5px;
+    font-size: 12px;
+    color: #476dbe;
 }
 
 /* =============================
@@ -491,6 +561,16 @@
     height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
+}
+
+.datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
+.menuContent .el-card.module-card .el-card__body>.content::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+.datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
+.menuContent .el-card.module-card .el-card__body>.content:hover::-webkit-scrollbar-thumb {
+    background: rgba(135, 141, 153, .3);
 }
 
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item

@@ -49,7 +49,7 @@ Vue.use(dataVComp);
 Vue.prototype.$dataVComp = dataVComp;
 
 Vue.use(Gfui, {
-    tabBar: {cacheMultiView: false, hideTitleBar: false},
+    tabBar: {cacheMultiView: true, hideTitleBar: false},
     grid: {gridApi}
 });
 Gfui.use(AresUI);

@@ -24,6 +24,10 @@
                 <span class="delUnitGrid" @click="delContent" v-if="ifCloseIconShow">
                     <i class="fa fa-close"></i>
                 </span>
+                <span class="compEntrance" v-if="unit.arrowShow">
+                    <i class="el-icon-refresh" v-if="unit.type === 'calendar-def'" @click="calendarRefresh"></i>
+                    <i class="fa fa-angle-right" v-else @click="entranceMenu(unit.menuId)"></i>
+                </span>
                 <module-card :title="unit.label">
                     <template slot="content">
                         <slot name="group-content" :unitData="unit"></slot>
@@ -72,15 +76,18 @@
             delContent() {
                 this.$emit('gridUnitDel', this.draggableId);
             },
+
             // 面板grid -- 单元开始拖动
             gridUnitDragStart(){
                 const movedUnitId = this.draggableId;
                 this.$emit('gridUnitDragStart', movedUnitId);
             },
+
             // 面板grid -- 单元拖动结束
             gridUnitDragEnd(){
                 this.$emit('gridUnitDragEnd');
             },
+
             // 面板grid -- 单元draggable数组新增
             gridUnitDragAdd(newArr, evt){
                 if(newArr.length == 2){
@@ -93,6 +100,28 @@
                 }
             },
 
+            entranceMenu(menuId){
+                let clientView = this.$app.views.getView(menuId);
+                let clientTabView = Object.assign({args: {}, id: menuId}, clientView);
+                this.$nav.showView(clientTabView);
+            },
+
+            calendarRefresh(){
+                this.$dataVBus.$emit('clientCalendarRefresh');
+            }
+
         }
     }
 </script>
+
+<style scoped>
+    .compEntrance {
+        position: absolute;
+        top: 4px;
+        right: 10px;
+        font-size: 20px;
+        color: #999;
+        z-index: 10;
+        cursor: pointer;
+    }
+</style>

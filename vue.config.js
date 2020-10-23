@@ -53,6 +53,14 @@ module.exports = {
             //         '^/api/agnes-datav': '/'
             //     }
             // },
+            '/api/data-pipe': {
+                target: 'http://127.0.0.1:9021',
+                ws: true,
+                changeOrigin: true,
+                // pathRewrite: {
+                //     '^/api/agnes-datav': '/'
+                // }
+            },
             '/api/': {
                 // target: 'http://172.18.16.195:9000',
                 target: 'http://agnes.dev.hexinfo.cn:8200/api',

@@ -104,6 +104,7 @@
                 }
             },
 
+            // 发布
             async checkMotBeforePulish(params){
                 const rowData = params.data;
                 if(rowData.reTaskDef.taskStatus.match(/00|01|03|04/)){
@@ -114,22 +115,6 @@
                 if (!ok) {
                     return
                 }
-                try {
-                    const p = this.$api.kpiTaskApi.checkBeforePulish({taskId:rowData.reTaskDef.taskId});
-                    const resp = await this.$app.blockingApp(p);
-                    if(resp.code !== '00000000'){
-                        this.$msg.warning(resp.message);
-                        return ;
-                    }
-                    await this.publishTask(params);
-                } catch (reason) {
-                    this.$msg.error(reason);
-                }
-            },
-
-            // 发布
-            async publishTask(params){
-                const rowData = params.data;
                 try {
                     let sendInfo = transferCaseDefData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName,'list');
                     rowData.caseDefJson = JSON.stringify(sendInfo);

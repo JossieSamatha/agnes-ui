@@ -42,16 +42,22 @@
             onAddLinkman() {
                 this.showDlg('add', {},"", this.onAddLinkMan.bind(this));
             },
-
             editLinkman(params) {
                 this.showDlg('edit', params.data,"", this.onEditLinkMan.bind(this));
+            },
+            stopLinkman(params) {
+                this.startLinkman(params);
             },
             checkLinkman(params) {
                 this.showDlg('check', params.data,"1", this.onEditLinkMan.bind(this));
             },
 
             async startLinkman(params) {
-                const ok = await this.$msg.ask(`确认启用吗, 是否继续?`);
+                let msg = "确认启用吗, 是否继续?";
+                if(params.data.status == '03'){
+                    msg = "确认停用吗, 是否继续?";
+                }
+                const ok = await this.$msg.ask(msg);
                 if (!ok) {
                     return
                 }

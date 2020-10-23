@@ -4,18 +4,19 @@ import dateUtil from '@hex/gf-ui/src/util/date-utils'
 import AcUtil from '../../../util/common'
 
 export default {
-    columnDefs:[
+    columnDefs: [
         {
             headerName: "操作", field: "option", width: 70, enableRowGroup: false,
             cellRenderer: 'optionalRenderer'
         },
-        {headerName: "状态", field: "stepStatus", width: 95,
+        {
+            headerName: "状态", field: "stepStatus", width: 95,
             suppressSizeToFit: true,
             dictType: 'AGNES_TASK_STEP_STATUS',
-            cellStyle: function(params) {
-                if(!params.value){
+            cellStyle: function (params) {
+                if (!params.value) {
                     return {display: 'none'}
-                }else{
+                } else {
                     const colorSet = AcUtil.getStepStatusMap();
                     const color = colorSet.get(params.value).color
                     return {color: color};
@@ -38,7 +39,7 @@ export default {
         {headerName: "任务编号", field: "stepCode"},
         {
             headerName: "任务名称", field: "stepName",
-            tooltipField: 'stepName',
+            tooltipField: 'stepRemark',
         },
         {
             headerName: "完成进度", field: "finishedRate", enableRowGroup: false,
@@ -50,9 +51,9 @@ export default {
         {
             headerName: "实际完成时间", field: "execEndTime",
             cellRenderer: (params) => {
-                if(!params.value){
+                if (!params.value) {
                     return ''
-                }else{
+                } else {
                     let formatDate = '';
                     formatDate = dateUtil.formatDate(params.value, 'yyyy-MM-dd HH:mm:ss')
                     return formatDate;
@@ -77,18 +78,11 @@ export default {
     },
     rowData: [],
     groupDefaultExpanded: -1,
+    rowSelection: 'multiple',
     ext: {
-        pagingMode: true,
-        checkboxColumn: 1,
+        pagingMode: false,
+        checkboxColumn: 2,
         autoFitColumnMode: 1,
-        enableExportLocal: true,
-        pageOptions: {
-            pageSize: 50,
-            pageSizes: [10, 20, 50, 100],
-            pageCount: 0,
-            prevText: "上一页",
-            nextText: "下一页",
-            layout: "total, sizes, prev, pager, next, jumper"
-        },
+        enableExportLocal: true
     }
 };

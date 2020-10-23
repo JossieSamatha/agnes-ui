@@ -174,13 +174,17 @@
             },
 
             showInsertDlg(mode, row, actionOk) {
+                let title = '账户录入';
                 if (mode !== 'add' && !row) {
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
+                if(mode === 'check'){
+                    title = '账户复核';
+                }
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
-                    title: ['添加资料'],
+                    title: [title],
                     component: AcntApplyInsert,
                     args: {row, mode, actionOk},
                     okButtonVisible:mode!=='view',

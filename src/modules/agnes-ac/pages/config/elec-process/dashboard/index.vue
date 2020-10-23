@@ -105,11 +105,19 @@
             <div class="close-container">
                 <i class="el-icon-circle-close" @click="closeTableDetail"></i>
             </div>
-            <div class="drag-container" v-dragx="dragColumn" @bindUpdate="dragColumnUpdate" ref="dragColumn">
+            <div class="drag-container" v-dragx="dragColumn"
+                 @bindUpdate="dragColumnUpdate"
+                 ref="dragColumn">
                 <gf-grid ref="monitorLeader"
                          height="100%"
-                         grid-no="agnes-monitor-leader-field"
-                ></gf-grid>
+                         grid-no="agnes-monitor-leader-field">
+                    <template slot="right-before">
+                        <span class="full-screen-btn">
+                             <i v-show="!ifDetailFullScreen" v-html="svgImg.fullScreen" @click="expandDetailFullScreen(true)"></i>
+                            <i v-show="ifDetailFullScreen" v-html="svgImg.exitFullScreen" @click="expandDetailFullScreen(false)"></i>
+                        </span>
+                    </template>
+                </gf-grid>
             </div>
         </div>
     </el-container>
@@ -136,11 +144,12 @@ export default {
             stageList: [],
             pieTitle: '',
             ifGridExpand: false,
-            setPos: "relative"
+            setPos: "relative",
+            ifDetailFullScreen: false
         }
     },
     async created(){
-        // 默认系统业务日期
+        // 默认系统业务日期--默认系统当前业务日期
         this.bizDate = window.bizDate;
         this.getFLowsbyType(this.bizDate);
     },
@@ -167,7 +176,7 @@ export default {
             return intLength ? length / 4 : parseInt(length / 4 + 1);
         },
         
-        // 根据流程类型加载对应流程数据
+        // 根据流程类型加载对应的接口数据
         async getFLowsbyType(bizDate) {
             this.proTask = [];
             this.curTask = [];
@@ -182,7 +191,7 @@ export default {
                     if(!(this.curTask && this.curTask.taskId)){
                         this.curTask = data[0];
                         this.pieTitle = this.getPercentage(data[0].finishedRate)+'%';
-                        this.flowType = data[0].exeType;
+                        this.flowType = data[0].flowType;
                         this.getFLowDetail(data[0].taskId, data[0].caseId, this.bizDate);
                     }
                 }
@@ -192,14 +201,14 @@ export default {
             this.getCarouselHeight();
         },
         
-        // 选择流程
+        // 选择流程-流程类型的取值字段更改 同步分支版本
         chooseTask(task){
             this.curTask = task;
             this.pieTitle = this.getPercentage(task.finishedRate)+'%';
-            this.flowType = task.exeType;
+            this.flowType = task.flowType;
             this.getFLowDetail(task.taskId, task.caseId, this.bizDate);
         },
-        
+        //查看详情
         reivewDetail(){
             if(this.curTask && this.curTask.taskId){
                 const task = this.curTask;
@@ -300,7 +309,16 @@ export default {
             });
             return tableArr;
         },
-        
+
+        // 表格详情是否全屏
+        expandDetailFullScreen(status){
+            this.ifDetailFullScreen = status;
+            if(status){
+                this.$refs.dragColumn.style.height = 'calc(100% - 70px)';
+            }else{
+                this.$refs.dragColumn.style.height = '450px';
+            }
+        }
     }
 }
 </script>

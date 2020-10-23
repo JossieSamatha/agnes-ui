@@ -10,7 +10,12 @@ export default {
     updateMemo(memoId,memoStatus) {
         return request.post("/agnes-app/v1/dop/memo/update/status", null, {params: {memoId,memoStatus}});
     },
+
     getMemoMemberRefList(memoId) {
         return request.get("/agnes-app/v1/dop/memo/member/ref/list/memoid", {params: {memoId}});
+    },
+
+    getMemoList(memoDt, memoStatus) {
+        return request.get("/agnes-app/v1/dop/memo/list", {params: {memoDt, memoStatus}});
     }
 };

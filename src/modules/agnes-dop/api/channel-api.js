@@ -9,5 +9,9 @@ export default {
     },
     updateChannel(channelId,channelStatus) {
         return request.post("/agnes-app/v1/dop/channel/update/status", null, {params: {channelId,channelStatus}});
+    },
+
+    getChannelList() {
+        return request.post("/agnes-app/v1/dop/channel/list/page?pageIndex=0&pageSize=50", {params: {}});
     }
 };

@@ -12,7 +12,7 @@
                 <span class="iconImg" title="帮助" v-html="svgImg.helpIcon"></span>
             </div>
             <div class="top-menu-item" @click="handelNotice">
-                <el-badge :value="12">
+                <el-badge :value=unreadCount>
                     <span class="iconImg" title="消息提醒" v-html="svgImg.noticeIcon"></span>
                 </el-badge>
             </div>
@@ -28,7 +28,11 @@
                 <el-option value="adminMenus" label="管理模式（DEV STUDIO）"></el-option>
             </el-select>
         </template>
-        <notice-box :noticeData="noticeData" :showDrawer="showNoticeDrawer" @noticeDrawerClose="noticeDrawerClose"></notice-box>
+        <notice-box :noticeData="noticeData" :showDrawer="showNoticeDrawer"
+                    @refreshNotice="handelNotice"
+                    @getUnreadCount="getUnreadCount"
+                    @noticeDrawerClose="noticeDrawerClose"
+        ></notice-box>
         <el-popover popper-class="feedbackPopover" width="300" placement="right" trigger="click" @show="handelfeedback(true)" @hide="handelfeedback(false)">
             <el-form ref="feedbackForm" label-position="top" size="mini">
                 <el-form-item label="聆听:意见反馈" prop="name">
@@ -48,7 +52,6 @@
 </template>
 
 <script>
-    import noticeData from './noticeData'
     import {toColumn} from "./menus";
     import init from './init-menus'
     export default {
@@ -62,13 +65,14 @@
                     }
                 },
                 menus: {},
-                noticeData: noticeData,
+                noticeData: [],
                 studioType: 'appMenus',
                 searchValue: '',
                 showNoticeDrawer: false,
                 feedbackContent: '',
                 feedbackShow: false,
                 bizDateTimer: null, // 日切日期定时器
+                unreadCount:""
             }
         },
         methods: {
@@ -158,8 +162,10 @@
                     this.menus = this.adminMenus;
                 }
             },
-            handelNotice(){
+            async handelNotice(){
                 this.showNoticeDrawer = true;
+                const resp = await this.$api.ruleTableApi.getMsgBoxList();
+                this.noticeData = resp.data;
             },
 
             noticeDrawerClose() {
@@ -189,7 +195,19 @@
                 try {
                     const resp = await this.$api.changeDataApi.getChangeData();
                     const resChangeData = resp.data;
-                    window.bizDate = resChangeData.bizDate;
+                    if(resChangeData.bizDate && resChangeData.bizDate !== window.bizDate){
+                        window.bizDate = resChangeData.bizDate;
+                    }
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
+
+            // 获取消息数量
+            async getUnreadCount() {
+                try {
+                    const resp = await this.$api.ruleTableApi.getUnreadCount();
+                    this.unreadCount = resp.data;
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
@@ -200,8 +218,10 @@
             this.loadMenus();
             // 获取日切值
             this.getChangeDate();
+            this.getUnreadCount();
             this.bizDateTimer = setInterval(()=>{
                 this.getChangeDate();
+                this.getUnreadCount();
             }, 300000)
 
             //默认加载首页、部门首页

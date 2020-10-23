@@ -16,4 +16,8 @@ export default {
     updateStatus(param) {
         return request.post("/agnes-app/v1/prdt/info/update/status",null,{params: param});
     },
+
+    productList() {
+        return request.post("/agnes-app/v1/prdt/info/list/page?pageIndex=0&pageSize=50", {params: {}});
+    },
 };

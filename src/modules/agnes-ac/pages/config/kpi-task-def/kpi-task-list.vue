@@ -117,22 +117,6 @@
                     return
                 }
                 try {
-                    const p = this.$api.kpiTaskApi.checkBeforePulish({taskId:rowData.reTaskDef.taskId});
-                    const resp = await this.$app.blockingApp(p);
-                    if(resp.code !== '00000000'){
-                        this.$msg.warning(resp.message);
-                        return ;
-                    }
-                    await this.publishKpiTask(params);
-                } catch (reason) {
-                    this.$msg.error(reason);
-                }
-            },
-
-            // 发布
-            async publishKpiTask(params){
-                const rowData = params.data;
-                try {
                     let sendInfo = this.handleData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName);
                     rowData.caseDefJson = JSON.stringify(sendInfo);
                     const p = this.$api.caseConfigApi.publishCaseDef(rowData);

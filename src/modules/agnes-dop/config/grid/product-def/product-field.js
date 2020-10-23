@@ -1,7 +1,13 @@
 import column from "../../../../../config/column"
+import dateUtils from "@hex/gf-ui/src/util/date-utils"
+import Permission from "../../../../../utils/hasPermission"
 
 const colButtons = [
-    {key: 'editProduct', title: '编辑'},
+    {
+        key: 'editProduct', title: '编辑', visiable: () => {
+            return Permission.hasPermission('agnes.dop.product.def.edit');
+        }
+    },
     {key: 'deleteProduct', title: '删除', cellClass: 'red-cell'},
     {
         key: 'checkProduct', title: '审核', disabled: (params) => {
@@ -20,7 +26,14 @@ export default {
         {headerName: "产品阶段", field: "productStage", dictType: "AGNES_PRODUCT_STAGE"},
         {headerName: "当前状态", field: "productCurStatus", dictType: 'AGNES_PRODUCT_STATUS'},
         {headerName: "操作状态", field: "productStatus", dictType: 'AGNES_RELEASE_STATUS'},
-        {headerName: "成立日期", field: "startDate"},
+        {
+            headerName: "成立日期", field: "startDate", valueFormatter: function (params) {
+                if (params.value) {
+                    return dateUtils.formatDate(params.value, 'yyyy-MM-dd')
+                }
+                return "";
+            }
+        },
         {headerName: "基金托管人", field: "productCustodian"},
         {headerName: "基金托管人(境外)", field: "productCustodianOverseas"},
         {headerName: "基金注册登记机构", field: "productRegistrationOrg"},

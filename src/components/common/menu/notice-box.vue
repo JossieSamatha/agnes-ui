@@ -8,18 +8,18 @@
             <div class="top">
                 <el-input class="search-input" placeholder="请选择输入内容..." suffix-icon="el-icon-search" v-model="messageParam">
                 </el-input>
-                <li class="refreshIcon el-icon-refresh" title="刷新"></li>
+                <li class="refreshIcon el-icon-refresh" title="刷新" @click="refreshNotice"></li>
             </div>
             <div class="container">
                 <ul class="messagebox">
                 <li class="boxLi" v-for="notice in noticeData" :key="notice.pkId" @click="handelNotice(notice)">
                     <p class="title">
-                        <el-badge :is-dot="notice.isRead=='0'">{{notice.remindTital}}</el-badge>
+                        <el-badge :is-dot="notice.hasRead=='0'">{{notice.msgTitle}}</el-badge>
                     </p>
                     <div class="content">
-                        <span>{{notice.remindContent}}</span>
+                        <span>{{notice.msgDetail}}</span>
                     </div>
-                    <p class="footer">{{notice.crtTime}}</p>
+                    <p class="footer">{{notice.remindTime}}</p>
                 </li>
                 </ul>
             </div>
@@ -50,10 +50,20 @@
         },
         methods: {
             handelNotice(notice){
-                notice.isRead = '1';
+                this.$api.MsgApi.batchRead([notice]).then(() => {
+                    notice.hasRead = '1';
+                    this.$emit('getUnreadCount');
+                });
             },
+
+            // 关闭消息盒子
             handleClose(){
                 this.$emit('noticeDrawerClose');
+            },
+
+            // 消息刷新
+            refreshNotice(){
+                this.$emit('refreshNotice');
             }
         },
     };

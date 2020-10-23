@@ -118,7 +118,7 @@
         <el-form-item label="任务控制参数">
             <gf-strbool-checkbox v-model="detailForm.needApprove">是否需要复核</gf-strbool-checkbox>
             <gf-strbool-checkbox v-model="detailForm.isTodo">是否进入待办</gf-strbool-checkbox>
-            <gf-strbool-checkbox v-model="detailForm.allowManualConfirm">是否允许人工干预通过</gf-strbool-checkbox>
+<!--            <gf-strbool-checkbox v-model="detailForm.allowManualConfirm">是否允许人工干预通过</gf-strbool-checkbox>-->
         </el-form-item>
         <el-form-item label="消息通知参数">
             <span class="default-checked">系统内部消息</span>
@@ -449,15 +449,23 @@
                         const p = this.$api.kpiTaskApi.checkTask(resData);
                         await this.$app.blockingApp(p);
                         this.$msg.success('审核成功');
+                        if (this.actionOk) {
+                            await this.actionOk();
+                        }
+                        this.$emit("onClose");
                     }else {
                         const p = this.$api.motConfigApi.saveTask(resData);
-                        await this.$app.blockingApp(p);
-                        this.$msg.success('保存成功');
+                        const resp = await this.$app.blockingApp(p);
+                        if(resp && resp.code == 'rwbhycz'){
+                            this.$msg.error(resp.message);
+                        }else {
+                            this.$msg.success('保存成功');
+                            if (this.actionOk) {
+                                await this.actionOk();
+                            }
+                            this.$emit("onClose");
+                        }
                     }
-                    if (this.actionOk) {
-                        await this.actionOk();
-                    }
-                    this.$emit("onClose");
                 } catch (reason) {
                     this.$msg.error(reason);
                 }

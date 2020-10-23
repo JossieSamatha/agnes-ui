@@ -69,7 +69,7 @@
                 this.reloadData();
             },
             delete(params) {
-                this.showOpenDlg('deteleApply', params.data, this.onOpenApply.bind(this),true);
+                this.showOpenDlg('deteleApply', params.data, this.onOpenApply.bind(this),false);
             },
             changeData(params) {
                 this.showOpenDlg('addChange', params.data, this.onOpenApply.bind(this));
