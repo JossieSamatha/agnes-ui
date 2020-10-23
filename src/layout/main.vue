@@ -223,8 +223,8 @@
                 this.getChangeDate();
                 this.getUnreadCount();
             }, 300000)
-
             //默认加载首页、部门首页
+            this.$nav.closeAllTab();
             this.showMain();
             this.$app.registerCmd('gf.changePwd', () => this.changePwd());
             this.$app.registerCmd('gf.logout', () => this.logout());
