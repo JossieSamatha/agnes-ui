@@ -161,7 +161,9 @@
                 this.getFLowbyType(flowTypeDicts[0].dictId);
             }
             this.freshInterval = setInterval(() => {
-                this.freshFlowData();
+                if(!this.loading) {
+                    this.freshFlowData();
+                }
             }, 60000);
         },
         beforeDestroy() {
@@ -175,7 +177,9 @@
                 }
                 if(to.path === '/agnes.elec.operate'){
                     this.freshInterval = setInterval(() => {
-                        this.freshFlowData();
+                        if(!this.loading){
+                            this.freshFlowData();
+                        }
                     }, 60000);
                 }
             },
