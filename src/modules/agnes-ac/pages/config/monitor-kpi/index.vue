@@ -1,7 +1,7 @@
 <template>
-    <div class="monitor-kpi-page" style="padding: 20px">
+    <div class="monitor-kpi-page" v-loading="loading">
         <div class="option-panel">
-            <span>指标监控看板列表</span>
+            <span></span>
             <span>
                 <span style="margin-right: 10px">业务日期</span>
                 <el-date-picker v-model="bizDate"
@@ -15,6 +15,7 @@
                                 @change="bizDateChange"
                 >
                 </el-date-picker>
+                <i class="el-icon-refresh" title="全部刷新" @click="init(bizDate)"></i>
             </span>
         </div>
         <div class="content" style="height: calc(100% - 30px)">
@@ -95,7 +96,7 @@
                 svgImg: this.$lcImg,
                 bizDate: window.bizDate,
                 kpiData: [],
-
+                loading: false,
                 remark: '',
                 popoverVisible: false,
                 taskCommit: {
@@ -120,8 +121,10 @@
 
 
             async init(bizDate){
+                this.loading = true;
                 const resp = await this.$api.monitorKpiApi.getMonitorkpiList(bizDate);
                 this.kpiData = resp.data;
+                this.loading = false;
             },
             // 业务日期切换
             bizDateChange(val){
@@ -193,9 +196,15 @@
 </script>
 
 <style>
+    .kpi-grid.el-table {
+        border: 1px solid #EAEDF1;
+    }
+
     .kpi-grid .el-table__header th{
         color: #333;
         font-weight: normal;
+        border-color: #EAEDF1;
+        background: #F6F8FA;
     }
 
     .kpi-grid tr.el-table__row td {
@@ -222,5 +231,23 @@
 
     .icon-popper+.icon-popper{
         margin-left: 8px;
+    }
+
+    .el-icon-refresh {
+        font-size: 18px;
+        color: #999;
+        font-weight: bold;
+        margin-left: 5px;
+        line-height: 26px;
+        cursor: pointer;
+    }
+
+    .el-icon-refresh:hover {
+        color: #476DBE;
+    }
+
+    .monitor-kpi-page.gf-tab-view .el-loading-mask{
+        z-index: inherit;
+        background-color: rgba(255, 255, 255, 0.7);
     }
 </style>
