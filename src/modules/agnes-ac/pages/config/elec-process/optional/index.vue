@@ -178,6 +178,14 @@
                         this.freshFlowData();
                     }, 60000);
                 }
+            },
+
+            bizDate(val){
+                if(val !== window.bizDate){
+                   this.$refs.elecGrid.gridController.columnApi.setColumnsVisible(['option'], false);
+                }else{
+                    this.$refs.elecGrid.gridController.columnApi.setColumnsVisible(['option'], true);
+                }
             }
         },
         methods: {
