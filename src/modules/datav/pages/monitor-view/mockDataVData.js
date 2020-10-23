@@ -336,7 +336,7 @@ export default function () {
                         }
                     },
                     {
-                        type: 'grid',
+                        type: 'chart',
                         icon: 'ct-capsule',
                         compName: 'ct-capsule',
                         label: '胶囊柱图',
@@ -346,13 +346,11 @@ export default function () {
                             height: 150,
                         },
                         componentMeta: {
-                            data: [{name: '南阳', value: 167}, {name: '周口', value: 67},
-                                {name: '漯河', value: 123}, {name: '郑州', value: 55},
-                                {name: '西峡', value: 98}]
+                            dataOption: {},
                         }
                     },
                     {
-                        type: 'grid',
+                        type: 'chart',
                         icon: 'ranking-board',
                         compName: 'ranking-board',
                         label: '排名轮播表',

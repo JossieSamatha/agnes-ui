@@ -41,15 +41,6 @@ export default function () {
                 type: "",
                 disable: true,
             },
-            // {
-            //     label: "透视表",
-            //     rule: [{xAxis: '1', yAxis: '1', yMultiple: true}, {xAxis: '1', xMultiple: true, yAxis: '1', yMultiple: true}],
-            //     detail: "１个维度，１个或多个指标",
-            //     detail2: "多个维度，１个或多个指标",
-            //     icon: "#icon-shujutoushibiao",
-            //     type: "pivot-grid",
-            //     disable: false,
-            // },
             {
                 label: "柱状图",
                 rule: [{xAxis: '1', yAxis: '1', yMultiple: true}, {xAxis: '2', yAxis: '1'}],
@@ -347,14 +338,7 @@ export default function () {
                 label: "堆积柱形图",
                 icon: "#icon-duijizhuxingtu-copy",
                 type: "ct-stack-bar",
-            },
-            // {
-            //     label: "面积图",
-            //     icon: "#icon-mianjitu",
-            //     type: "ct-area",
-            // },
-
-
+            }
         ],
         axisList: [
             {

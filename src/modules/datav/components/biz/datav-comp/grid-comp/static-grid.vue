@@ -7,9 +7,7 @@
         name: 'static-grid',
         props: {
             position: Object,
-            compOption: {
-                type: Object,
-            },
+            compOption: Object,
             dataOption: Object
         },
         data(){
@@ -96,7 +94,10 @@
                 });
                 const res = await this.$api.DatavDatavApi.getTableList(params);
                 if(res && res.length>0){
-                    return {header, data: res};
+                    const dataArr = res.map((resItem)=>{
+                        return this.$lodash.values(resItem)
+                    });
+                    return {header, data: dataArr};
                 }else{
                     return {header: [], data: []};
                 }

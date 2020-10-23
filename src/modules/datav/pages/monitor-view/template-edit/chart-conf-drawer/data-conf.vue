@@ -84,7 +84,7 @@
                 </div>
             </div>
             <!--右侧内容-->
-            <div class="dash-chart-right chart-config" id="input-config" v-if="editType == 'chart'">
+            <div class="dash-chart-right chart-config" id="input-config" v-if="editType == 'chart' && editItemType !== 'ct-capsule' && editItemType !== 'ranking-board'">
                 <div>
                     <div style="margin-top: 10px;">图表类型</div>
                     <div class="config-type" style="position: relative">
