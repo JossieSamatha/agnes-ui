@@ -26,6 +26,77 @@
                 </el-collapse>
             </section>
         </template>
+        <template v-else-if="compOptional.compName == 'ct-capsule'">
+            <section class="confSection">
+                <div class="conf-row">
+                    <div class="conf-row-item">
+                        <div class="row-inp">
+                            <span>单位</span>
+                            <el-input v-model="componentMeta.unit" placeholder="单位"></el-input>
+                        </div>
+                        <div class="row-inp">
+                            <span>标签</span>
+                            <el-checkbox  v-model="componentMeta.showValue">是否显示数值</el-checkbox>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </template>
+
+        <template v-else-if="compOptional.compName == 'ranking-board'">
+            <section class="confSection">
+                <div class="conf-row">
+                <div class="conf-row-item">
+                    <div class="row-inp">
+                        <span>表行数</span>
+                        <el-input-number v-model="componentMeta.rowNum"
+                                         controls-position="right"
+                                         :precision="0"
+                                         :min="0">
+                        </el-input-number>
+                    </div>
+                    <div class="row-inp">
+                        <span>轮播时间间隔</span>
+                        <div class="row-inp-line">
+                            <el-input-number v-model="componentMeta.waitTimeSec"
+                                             controls-position="right"
+                                             :precision="0"
+                                             :min="2">
+                            </el-input-number>
+                            <span style="margin-left: 3px;">s</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="conf-row-item">
+                    <div class="row-inp">
+                        <span>轮播方式</span>
+                        <el-select v-model="componentMeta.carousel">
+                            <el-option label="单行滚动" value="single"></el-option>
+                            <el-option label="整页滚动" value="page"></el-option>
+                        </el-select>
+                    </div>
+                    <div class="row-inp">
+                        <span>排序</span>
+                        <el-checkbox v-model="componentMeta.sort">是否自动排序</el-checkbox>
+                    </div>
+                </div>
+                <div class="conf-row-item">
+                    <div class="row-inp">
+                        <span>单位</span>
+                        <el-input v-model="componentMeta.unit" placeholder="单位"></el-input>
+                    </div>
+                    <div class="row-inp">
+                        <span>数据类型</span>
+                        <el-select v-model="componentMeta.formatter">
+                            <el-option label="数值" value="normal"></el-option>
+                            <el-option label="千分位" value="money"></el-option>
+                        </el-select>
+                    </div>
+                </div>
+            </div>
+            </section>
+        </template>
+
         <section class="confSection" v-else-if="compOptional.type !== 'chart'">
             <template v-if="compOptional.compName == 'border-comp'">
                 <div class="conf-row">
@@ -348,71 +419,6 @@
                                                  :min="0">
                                 </el-input-number>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </template>
-            <template v-if="compOptional.compName == 'ct-capsule'">
-                <div class="conf-row">
-                    <div class="conf-row-item">
-                        <div class="row-inp">
-                            <span>单位</span>
-                            <el-input v-model="componentMeta.unit" placeholder="单位"></el-input>
-                        </div>
-                        <div class="row-inp">
-                            <span>标签</span>
-                            <el-checkbox  v-model="componentMeta.showValue">是否显示数值</el-checkbox>
-                        </div>
-                    </div>
-                </div>
-            </template>
-            <template v-if="compOptional.compName == 'ranking-board'">
-                <div class="conf-row">
-                    <div class="conf-row-item">
-                        <div class="row-inp">
-                            <span>表行数</span>
-                            <el-input-number v-model="componentMeta.rowNum"
-                                             controls-position="right"
-                                             :precision="0"
-                                             :min="0">
-                            </el-input-number>
-                        </div>
-                        <div class="row-inp">
-                            <span>轮播时间间隔</span>
-                            <div class="row-inp-line">
-                                <el-input-number v-model="componentMeta.waitTimeSec"
-                                                 controls-position="right"
-                                                 :precision="0"
-                                                 :min="2">
-                                </el-input-number>
-                                <span style="margin-left: 3px;">s</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="conf-row-item">
-                        <div class="row-inp">
-                            <span>轮播方式</span>
-                            <el-select v-model="componentMeta.carousel">
-                                <el-option label="单行滚动" value="single"></el-option>
-                                <el-option label="整页滚动" value="page"></el-option>
-                            </el-select>
-                        </div>
-                        <div class="row-inp">
-                            <span>排序</span>
-                            <el-checkbox v-model="componentMeta.sort">是否自动排序</el-checkbox>
-                        </div>
-                    </div>
-                    <div class="conf-row-item">
-                        <div class="row-inp">
-                            <span>单位</span>
-                            <el-input v-model="componentMeta.unit" placeholder="单位"></el-input>
-                        </div>
-                        <div class="row-inp">
-                            <span>数据类型</span>
-                            <el-select v-model="componentMeta.formatter">
-                                <el-option label="数值" value="normal"></el-option>
-                                <el-option label="千分位" value="money"></el-option>
-                            </el-select>
                         </div>
                     </div>
                 </div>

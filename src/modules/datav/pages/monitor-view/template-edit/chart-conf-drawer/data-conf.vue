@@ -599,6 +599,9 @@
                         });
                     } else {
                         this.$set(this.dataOption, 'chartLabel', this.chartLabel);
+                        if(this.editItemType === 'ct-capsule' || this.editItemType === 'ranking-board'){
+                            this.dataOption = Object.assign(this.dataConfig, this.dataOption)
+                        }
                         this.$dataVBus.$emit('compDataChange', {
                             type: this.editType,
                             compName: this.editItemType,
@@ -819,6 +822,15 @@
                         dataSetId: metaDate.dataSetId,
                         xFields: metaDate.xFields
                     }
+                }
+                if(this.editItemType === 'ct-capsule') {
+                    const {unit, colors, showValue} = metaDate;
+                    this.dataConfig = {unit, colors, showValue};
+                }
+
+                if(this.editItemType ==='ranking-board'){
+                    const {rowNum, waitTimeSec, carousel, sort, unit, formatter, colors} = metaDate;
+                    this.dataConfig = {rowNum, waitTimeSec, carousel, sort, unit, formatter, colors};
                 }
                 for (let i = 0; i < 20; i++) {
                     this.rowNum.push(i.toString())

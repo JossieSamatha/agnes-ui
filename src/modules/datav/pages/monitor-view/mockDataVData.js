@@ -345,9 +345,7 @@ export default function () {
                             width: 480,
                             height: 150,
                         },
-                        componentMeta: {
-                            dataOption: {},
-                        }
+                        componentMeta: {}
                     },
                     {
                         type: 'chart',
@@ -360,11 +358,6 @@ export default function () {
                             height: 150,
                         },
                         componentMeta: {
-                            data: [{name: '周口', value: 1155}, {name: '南阳', value: 12340},
-                                {name: '西峡', value: 718}, {name: '驻马店', value: 6236},
-                                {name: '新乡', value: 8230}, {name: '信阳', value: 415},
-                                {name: '漯河', value: 229}, {name: '安徽', value: 2119},
-                                {name: '桐城', value: 292}, {name: '西安', value: 291}],
                             rowNum: 5,
                             waitTimeSec: 2,
                             carousel: 'single',
