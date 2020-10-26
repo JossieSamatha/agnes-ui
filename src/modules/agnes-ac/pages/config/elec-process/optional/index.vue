@@ -185,17 +185,19 @@
             },
 
             bizDate(val){
-                if(val !== window.bizDate){
-                   this.$refs.elecGrid.gridController.columnApi.setColumnsVisible(['option'], false);
-                }else{
-                    this.$refs.elecGrid.gridController.columnApi.setColumnsVisible(['option'], true);
+                if(this.$refs.elecGrid && this.$refs.elecGrid.gridController.columnApi){
+                    if(val !== window.bizDate){
+                        this.$refs.elecGrid.gridController.columnApi.setColumnsVisible(['option'], false);
+                    }else{
+                        this.$refs.elecGrid.gridController.columnApi.setColumnsVisible(['option'], true);
+                    }
                 }
             }
         },
         methods: {
             // 根据流程类型加载对应流程数据
             async getFLowbyType(firstFlowType) {
-                const flowDataList = await this.$api.elecProcessApi.getTaskByType({"flowType": firstFlowType});
+                const flowDataList = await this.$api.elecProcessApi.getTaskByType(firstFlowType, this.bizDate);
                 if (flowDataList.data && flowDataList.data.length > 0) {
                     this.proTask = flowDataList.data;
                     // 默认加载第一项流程数据
