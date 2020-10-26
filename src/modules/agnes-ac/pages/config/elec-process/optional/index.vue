@@ -197,7 +197,7 @@
         methods: {
             // 根据流程类型加载对应流程数据
             async getFLowbyType(firstFlowType) {
-                const flowDataList = await this.$api.elecProcessApi.getTaskByType({flowType: firstFlowType, bizDate: this.bizDate});
+                const flowDataList = await this.$api.elecProcessApi.getTaskByType(firstFlowType, this.bizDate);
                 if (flowDataList.data && flowDataList.data.length > 0) {
                     this.proTask = flowDataList.data;
                     // 默认加载第一项流程数据

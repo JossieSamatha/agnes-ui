@@ -2,13 +2,13 @@ import request from '@hex/gf-ui/src/util/request';
 
 
 export default {
-    getTaskByType(params) {
-        return request.post("/agnes-ac/v1/config/task/list/type", params);
+    getTaskByType(flowType,bizDate) {
+        return request.post("/agnes-ac/v1/config/task/list/type", null, {params:{flowType, bizDate}});
     },
 
     // 根据业务日期查询当日的运行中的任务列表
     queryExecRuTask(params){
-        return request.post("/agnes-ac/v1/ac/exec/process/list", params);
+        return request.post("/agnes-ac/v1/ac/exec/process/list",null,  params);
     },
 
 
