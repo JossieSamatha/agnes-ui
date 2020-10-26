@@ -131,7 +131,7 @@
 
 .template-item .img-canvas .option {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     height: 40px;
     padding: 0 10px;
@@ -181,6 +181,7 @@
     height: 32px;
     border-radius: 5px;
     text-align: center;
+    margin-left: 15px;
 }
 
 .template-item .img-canvas .hover-mask .iconImg:hover {

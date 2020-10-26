@@ -78,6 +78,7 @@
             }
         },
         mounted() {
+            this.$dataVBus.$off('compDataChange');
             this.$dataVBus.$on('compDataChange', this.compDataChange);
             this.$nextTick( ()=> {
                 let listEl = this.$refs.dragResize.parentElement;
@@ -135,7 +136,7 @@
 
             // 组件复制
             copyComp(){
-                let newComp = this.$utils.deepClone(this._props);
+                let newComp = this.$lodash.clone(this._props);
                 newComp.compId = this.$agnesUtils.randomString(32);
                 newComp.isActive = true;
                 newComp.position.left += 20;
@@ -151,9 +152,6 @@
                 this.$store.commit("changeEditItem", {comp: compData});
                 this.$dataVBus.$emit('openChartDrawer', {comp: compData});
             }
-        },
-        beforeDestroy(){
-            this.$dataVBus.$off('compDataChange', this);
         }
     }
 </script>

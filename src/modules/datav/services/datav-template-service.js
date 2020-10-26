@@ -55,10 +55,6 @@ export default class datavTemplateService extends Service {
         if(activeIndex > -1){
             this.data.compsArr[activeIndex].isActive = false;
         }
-        // const activeNum = lodash.findIndex(this.data.compsArr, {isActive: true});
-        // if(activeNum === -1){
-        //     this.data.curComp = {};
-        // }
     }
 
     updateCompData(type, compName, label, metaData){

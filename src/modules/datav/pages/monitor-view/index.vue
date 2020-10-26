@@ -39,7 +39,6 @@
 
 <script>
     import templateItem from './template-item';
-    import mockData from './mockDataVData';
     export default {
         data() {
             return {
@@ -87,6 +86,8 @@
         },
         created(){
             this.$dataVBus.$on('openEditPage', templateObj=>this.openEditPage(templateObj));
+            this.$dataVBus.$off('datavPriview');
+            this.$dataVBus.$on('datavPriview', templateId=>this.datavPriview(templateId));
         },
         mounted() {
             this.rowNum = this.getTempRowNum(document.body.offsetWidth);
@@ -113,23 +114,24 @@
                 if (!pageView) {
                     return;
                 }
-                const dataVData = this.setTemplateState(params);
-                if(!dataVData){
-                    return;
-                }
-                this.$datavTemplateService.init(dataVData);
-                const tabView = Object.assign({args: {dataVData}}, pageView, {id: viewId});
-                this.$nav.showView(tabView);
+                this.setTemplateState(params, (dataVData)=>{
+                    this.$datavTemplateService.init(dataVData);
+                    const tabView = Object.assign({args: {dataVData}}, pageView, {id: viewId});
+                    this.$nav.showView(tabView);
+                });
             },
 
-            setTemplateState(params){
+            async setTemplateState(params, fun){
                 const {opType, templateObj} = params;
                 let initStateData = this.defaultBoardContent();
                 if(opType === 'edit') {
-                    const list = mockData().dataVTemplate;
-                    initStateData = this.$lodash.find(list, {id: templateObj.id});
+                    const res = this.$api.dataVConfig.getTemplateDetail(templateObj.id);
+                    const detail = await this.$app.blockingApp(res);
+                    if(detail && detail.data) {
+                        initStateData = detail.data;
+                    }
                 }
-                return initStateData;
+                fun ? fun(initStateData) : false;
             },
 
             // 删除大屏
@@ -152,6 +154,20 @@
                 }
             },
 
+            // 大屏预览
+            datavPriview(templateId){
+                if(templateId){
+                    const {href} = this.$router.resolve({
+                        name: "datavpreview",
+                        query: {
+                            editPreview: false,
+                            templateId
+                        }
+                    });
+                    window.open(href, '_blank');
+                }
+            },
+
             // 获取每行模板个数
             getTempRowNum(docWidth){
                 if(docWidth < 1200){
@@ -164,7 +180,7 @@
             }
         },
         beforeDestroy(){
-            this.$dataVBus.$off('openEditPage', this);
+            this.$dataVBus.$off('openEditPage');
         }
     }
 </script>

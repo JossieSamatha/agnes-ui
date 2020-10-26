@@ -586,6 +586,10 @@
 }
 
 
+.config-drawer #update-data-source.el-dialog__wrapper .el-dialog {
+    height: 515px;
+}
+
 .config-drawer #update-data-source .el-tabs__item.is-active {
     color: #476DBE;
     background-color: transparent;
@@ -625,8 +629,48 @@
 
 .config-drawer div#update-data-source .el-dialog__header {
     border-bottom: 1px solid #eaeaea;
-    padding: 20px 20px 20px 20px;
+    padding: 12px 20px;
 }
+
+.config-drawer div#update-data-source .el-dialog__header .el-dialog__headerbtn {
+    top: 19px;
+}
+
+.config-drawer div#update-data-source .el-dialog__header .el-dialog__title {
+    font-size: 16px;
+}
+
+.config-drawer div#update-data-source .el-tree > .el-tree-node.is-expanded > .el-tree-node__content {
+    color: #666;
+    height: 35px;
+}
+
+.config-drawer div#update-data-source .el-tree .el-tree-node.is-expanded .el-tree-node__content:hover,
+.config-drawer div#update-data-source .el-tree > .el-tree-node.is-expanded.is-checked > .el-tree-node__content,
+.config-drawer div#update-data-source .el-tree .el-tree-node.is-expanded .el-tree-node.is-current > .el-tree-node__content {
+    color: #476DBE;
+    background: #EFF2F7;
+}
+
+.config-drawer div#update-data-source .el-tree .el-tree-node.is-checked .el-tree-node__content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: #476DBE;
+}
+
+.config-drawer div#update-data-source .el-tree .el-tree-node.is-checked .el-tree-node__content::after {
+    content: '';
+    position: absolute;
+    top: calc(50% - 4px);
+    right: 0;
+    border: 5px solid transparent;
+    border-right: 5px solid #476DBE;
+}
+
 
 .config-drawer .config-block .el-row {
     border-bottom: none;

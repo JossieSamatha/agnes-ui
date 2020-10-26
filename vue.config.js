@@ -45,14 +45,14 @@ module.exports = {
                     '^/api/agnes-app': '/'
                 }
             },
-            '/api/agnes-datav': {
-                target: 'http://172.18.21.191:7010',
-                ws: true,
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/api/agnes-datav': '/'
-                }
-            },
+            // '/api/agnes-datav': {
+            //     target: 'http://172.18.21.191:7010',
+            //     ws: true,
+            //     changeOrigin: true,
+            //     pathRewrite: {
+            //         '^/api/agnes-datav': '/'
+            //     }
+            // },
             '/api/data-pipe': {
                 target: 'http://127.0.0.1:9021',
                 ws: true,

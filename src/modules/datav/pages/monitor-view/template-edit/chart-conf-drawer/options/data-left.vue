@@ -45,10 +45,9 @@
                 </div>
             </div>
         </div>
-        <el-dialog
-                title="更改数据集"
+        <el-dialog title="更改数据集"
                 :visible.sync="dialogVisible"
-                width="30%"
+                width="450px"
                 :before-close="closeDialog"
                 :modal-append-to-body="false"
                 id="update-data-source">
@@ -62,6 +61,7 @@
                                 default-expand-all
                                 check-strictly
                                 node-key="id"
+                                :check-on-click-node="true"
                                 @check-change="handleNodeClick"
                         >
                         </el-tree>
@@ -77,7 +77,6 @@
     </div>
 </template>
 <script>
-    import mockInterData from "../../../mockInterData";
     export default {
         name: "data-left",
         props: {
@@ -100,15 +99,7 @@
         },
         methods: {
             initData(dataSetId) {
-                // 模拟数据挂载
-                /* =============  start  ==================*/
-                const mockData = mockInterData().dataSetData;
-                let res = {
-                    data: mockData
-                }
-                dataSetId = '65a4e70b5cd8419bb34da33a0cb4bd13'
-                /* =============  end  ==================*/
-                // this.$api.DatasetApi.pageList().then(res => {
+                this.$api.DatavDatavApi.dataSourceList().then(res => {
                     let resData = [];
                     this.listData = [];
                     if(res.data<1){
@@ -129,9 +120,9 @@
                             obj.children = childList;
                         }
                         resData.push(obj);
-                        this.dataSetName = resData;
-                        this.resData = resData;
-                    })
+                    });
+                    this.dataSetName = resData;
+                    this.resData = resData;
                     let dataSetObj = {};
                     this.resData.forEach(resDataItem => {
                         if (resDataItem.id === dataSetId) {
@@ -144,12 +135,11 @@
                                 }
                             })
                         }
-
                     })
                     this.listData.push(dataSetObj);
                     this.fieldData(dataSetId);
                     this.dataSetId = dataSetId;
-                // });
+                });
             },
             showDialog() {
                 this.dialogVisible = true;
@@ -163,17 +153,10 @@
                     this.columnDefsList = res.data;
                 });
             },
-            fieldData() {
-                // 模拟数据挂载
-                /* =============  start  ==================*/
-                const columnList = mockInterData().columnList;
-                this.columnDefsList = columnList;
-
-                /* =============  end  ==================*/
-
-                // this.$api.DatavDatavApi.dataSourceColumns(dataSetId).then(res => {
-                //     this.columnDefsList = res.data;
-                // });
+            fieldData(dataSetId) {
+                this.$api.DatavDatavApi.dataSourceColumns(dataSetId).then(res => {
+                    this.columnDefsList = res.data;
+                });
             },
             confirm() {
                 this.xAxis = [];
@@ -201,21 +184,11 @@
                     this.listData.push(obj);
                     this.checkId = checkId
                 }
-                // let id = this.$refs.dataSetTree.getCheckedNodes()[0].id;
-
-                // 模拟数据挂载
-                /* =============  start  ==================*/
-                const columnList = mockInterData().columnList;
-                const dataSetId = '65a4e70b5cd8419bb34da33a0cb4bd13';
-                this.columnDefsList = columnList;
-                this.$refs.dataTree.setCheckedKeys([dataSetId]);
-                // id
-                /* =============  end  ==================*/
-
-                // this.$api.DatavDatavApi.dataSourceColumns(id).then(res => {
-                //     this.columnDefsList = res.data;
-                //     this.$refs.dataTree.setCheckedKeys([id]);
-                // });
+                let id = this.$refs.dataSetTree.getCheckedNodes()[0].id;
+                this.$api.DatavDatavApi.dataSourceColumns(id).then(res => {
+                    this.columnDefsList = res.data;
+                    this.$refs.dataTree.setCheckedKeys([id]);
+                });
             },
             createChart() {
                 if (this.xAxis && this.yAxis && this.xAxis.length > 0 && this.yAxis.length > 0) {
@@ -232,22 +205,12 @@
             },
             cloneField(original) {
                 // 深拷贝对象，防止默认空对象被更改
-
-                // 模拟数据挂载
-                /* =============  start  ==================*/
-
+                let numRandom = this.rand(1000, 9999);
                 var newObj = this.$utils.deepClone(original);
+                newObj.field = newObj.field + numRandom;
                 /*添加是否显示级联面板标识*/
                 newObj.showCascader = false;
                 return newObj;
-                /* =============  end  ==================*/
-
-                // let numRandom = this.rand(1000, 9999);
-                // var newObj = this.$utils.deepClone(original);
-                // newObj.field = newObj.field + numRandom;
-                // /*添加是否显示级联面板标识*/
-                // newObj.showCascader = false;
-                // return newObj;
             },
             rand(min, max) {
                 return Math.floor(Math.random() * (max - min)) + min;
@@ -274,15 +237,7 @@
                 this.$emit('dataSetIdLeft', data.id);
             },
             editItemData() {
-                // 模拟数据挂载
-                /* =============  start  ==================*/
-                const mockData = mockInterData().dataSetData;
-                let res = {
-                    data: mockData
-                }
-
-                /* =============  end  ==================*/
-                // this.$api.DatavDatavApi.dataSourceList().then(res => {
+                this.$api.DatavDatavApi.dataSourceList().then(res => {
                     let resData = [];
                     res.data.forEach(dataItem => {
                         /*数据集赋值*/
@@ -304,7 +259,7 @@
                         this.dataSetName = resData;
                         this.resData = resData;
                     })
-                // });
+                });
             },
         },
         mounted() {

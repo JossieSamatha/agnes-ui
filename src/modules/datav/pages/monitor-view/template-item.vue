@@ -9,14 +9,10 @@
                             <i class="fa fa-trash-o"></i>
                         </span>
                         <span class="iconImg" title="复制" v-html="svgImg.copy" @click="templateCopy(templateObj)"></span>
-                        <span class="iconImg" title="分享" v-html="svgImg.share"></span>
-                        <span class="iconImg" title="更多">
-                            <i class="el-icon-more-outline"></i>
-                        </span>
                     </p>
                     <p class="buttonP">
                         <el-button type="primary" @click="openEditPage">编辑</el-button>
-                        <el-button>预览</el-button>
+                        <el-button @click="datavPriview(templateObj.id)">预览</el-button>
                     </p>
                 </div>
             </div>
@@ -56,6 +52,11 @@
             // 打开编辑页面
             openEditPage(){
                 this.$dataVBus.$emit('openEditPage', {opType: 'edit', templateObj: this.templateObj});
+            },
+
+            // 大屏预览
+            datavPriview(templateId){
+                this.$dataVBus.$emit('datavPriview', templateId);
             },
 
             // 删除大屏
