@@ -85,105 +85,105 @@
                     }
                 }
         },
-            //树相关
-            async getOrgTreeNodes(){
-                try {
-                    this.treeData = [];
-                    const resp = await this.$api.orgDefineApi.getOrgTreeNodes();
-                  this.treeData.push(resp.data);
-                } catch (reason) {
-                    this.$msg.error(reason);
-                }
-            },
-            async reloadData(){
-                await this.getOrgTreeNodes();
-                this.rowData = this.$refs.tree.getCheckedNodes();
-            },
-            filterNode(value, data) {
-                return data.label.indexOf(value) >= 0;
-            },
-            handleNodeCheck() {
-                this.rowData = this.$refs.tree.getCheckedNodes();
-            },
-            showDlg(mode, row, actionOk) {
-                if (mode !== 'add' && !row) {
-                    this.$msg.warning("请选中一条记录!");
-                    return;
-                }
-                this.$nav.showDialog(
-                    OrgDefDlg,
-                    {
-                        args: {row, mode, actionOk},
-                        width: '60%',
-                        closeOnClickModal: false,
-                        title: this.$dialog.formatTitle('外部机构维护', mode),
-                    }
-                );
-            },
-            async onAddOrg() {
-                this.expandKeys=this.$refs.tree.getCheckedNodes(true);
-                await this.reloadData();
-                this.$refs.tree.setCheckedNodes(this.expandKeys);
-                this.handleNodeCheck();
-            },
-            async onEditOrg() {
-                this.expandKeys=this.$refs.tree.getCheckedNodes(true);
-                await this.reloadData();
-                this.$refs.tree.setCheckedNodes(this.expandKeys);
-                this.handleNodeCheck();
-            },
-            addOrg() {
-                let nodeInfo = {id:"root",label:"机构树",extOrgNameShort:'机构树'};
-                this.showDlg('add', nodeInfo, this.onAddOrg.bind(this));
-            },
-            async deleteOrg(params) {
-                let ids = [];
-                ids.push(params.data.extOrgId);
-                const ok = await this.$msg.ask(`确认删除所选机构吗, 是否继续?`);
-                if (!ok) {
-                    return
-                }
+          //树相关
+          async getOrgTreeNodes(){
               try {
-                let that = this;
-                const p = this.$api.orgDefineApi.deleteOrg(ids).then(function () {
-                  that.reloadData();
-                });
-                await this.$app.blockingApp(p);
+                  this.treeData = [];
+                  const resp = await this.$api.orgDefineApi.getOrgTreeNodes();
+                this.treeData.push(resp.data);
               } catch (reason) {
-                this.$msg.error(reason);
+                  this.$msg.error(reason);
               }
-            },
-          async approveExOrg(params) {
-            const row = params.data;
-            const ok = await this.$msg.ask(`确认复核所选机构:[${row.extOrgName}]吗, 是否继续?`);
-            if (!ok) {
-              return
-            }
+          },
+          async reloadData(){
+              await this.getOrgTreeNodes();
+              this.rowData = this.$refs.tree.getCheckedNodes();
+          },
+          filterNode(value, data) {
+              return data.label.indexOf(value) >= 0;
+          },
+          handleNodeCheck() {
+              this.rowData = this.$refs.tree.getCheckedNodes();
+          },
+          showDlg(mode, row, actionOk) {
+              if (mode !== 'add' && !row) {
+                  this.$msg.warning("请选中一条记录!");
+                  return;
+              }
+              this.$nav.showDialog(
+                  OrgDefDlg,
+                  {
+                      args: {row, mode, actionOk},
+                      width: '60%',
+                      closeOnClickModal: false,
+                      title: this.$dialog.formatTitle('外部机构维护', mode),
+                  }
+              );
+          },
+          async onAddOrg() {
+              this.expandKeys=this.$refs.tree.getCheckedNodes(true);
+              await this.reloadData();
+              this.$refs.tree.setCheckedNodes(this.expandKeys);
+              this.handleNodeCheck();
+          },
+          async onEditOrg() {
+              this.expandKeys=this.$refs.tree.getCheckedNodes(true);
+              await this.reloadData();
+              this.$refs.tree.setCheckedNodes(this.expandKeys);
+              this.handleNodeCheck();
+          },
+          addOrg() {
+              let nodeInfo = {id:"root",label:"机构树",extOrgNameShort:'机构树'};
+              this.showDlg('add', nodeInfo, this.onAddOrg.bind(this));
+          },
+          async deleteOrg(params) {
+              let ids = [];
+              ids.push(params.data.extOrgId);
+              const ok = await this.$msg.ask(`确认删除所选机构吗, 是否继续?`);
+              if (!ok) {
+                  return
+              }
             try {
-              const p = this.$api.orgDefineApi.updateExOrgeStatus(row.extOrgId, "04");
+              let that = this;
+              const p = this.$api.orgDefineApi.deleteOrg(ids).then(function () {
+                that.reloadData();
+              });
               await this.$app.blockingApp(p);
-              await this.onAddOrg();
             } catch (reason) {
               this.$msg.error(reason);
             }
           },
+        async approveExOrg(params) {
+          const row = params.data;
+          const ok = await this.$msg.ask(`确认复核所选机构:[${row.extOrgName}]吗, 是否继续?`);
+          if (!ok) {
+            return
+          }
+          try {
+            const p = this.$api.orgDefineApi.updateExOrgeStatus(row.extOrgId, "04");
+            await this.$app.blockingApp(p);
+            await this.onAddOrg();
+          } catch (reason) {
+            this.$msg.error(reason);
+          }
         },
-        watch: {
-            filterText(val) {
-                this.$refs.tree.filter(val);
-            },
-            rowData(value) {
-                if (this.grid) {
-                    let hasNoRootData = [] ;
-                    value.forEach(item=>{
-                       if(item.id!=='root'){
-                           hasNoRootData.push(item);
-                       }
-                    });
-                    this.grid.setRowData(hasNoRootData);
-                }
-            }
-        },
+      },
+      watch: {
+          filterText(val) {
+              this.$refs.tree.filter(val);
+          },
+          rowData(value) {
+              if (this.grid) {
+                  let hasNoRootData = [] ;
+                  value.forEach(item=>{
+                     if(item.id!=='root'){
+                         hasNoRootData.push(item);
+                     }
+                  });
+                  this.grid.setRowData(hasNoRootData);
+              }
+          }
+      },
     }
 </script>
 
