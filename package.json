@@ -14,7 +14,7 @@
     "deploy": "yarn publish --registry=http://repo.hexinfo.cn:8000/artifactory/api/npm/npm-goframe/ ",
     "test:unit": "vue-cli-service test:unit",
     "unit": "run-s lint test:unit",
-    "api": "swagger-api http://localhost:9002/v2/api-docs"
+    "api": "swagger-api http://localhost:8004/v2/api-docs"
   },
   "dependencies": {
     "@hex/ares-ui": "^5.0.3",

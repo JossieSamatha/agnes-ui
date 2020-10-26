@@ -14,6 +14,7 @@
                     <template slot="drag-size-content" slot-scope="props">
                         <component v-if="props.compId" :is="props.compName"
                                    :compOption="props.optional.componentMeta"
+                                   :dataOption="props.optional.componentMeta.dataOption"
                                    :position="props.position"
                         ></component>
                     </template>
@@ -72,7 +73,7 @@
             },
         },
         beforeDestroy(){
-            this.$dataVBus.$off('addComp', this);
+            this.$dataVBus.$off('addComp');
         }
     }
 </script>

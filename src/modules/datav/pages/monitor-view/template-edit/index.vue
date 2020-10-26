@@ -11,21 +11,13 @@
                 </span>
             </div>
             <div>
-                <span class="header-item" @click="saveTemplate">
+                <span class="header-item" @click="saveTemplate(true)">
                     <span class="iconImg" v-html="svgImg.check"></span>
                     <span>保存</span>
                 </span>
-                <span class="header-item" @click="priviewDatav">
+                <span class="header-item" @click="datavPriview">
                     <span class="iconImg" v-html="svgImg.preview"></span>
                     <span>预览</span>
-                </span>
-                <span class="header-item">
-                    <span class="iconImg" v-html="svgImg.download"></span>
-                    <span>下载</span>
-                </span>
-                <span class="header-item">
-                    <span class="iconImg" v-html="svgImg.share"></span>
-                    <span>分享</span>
                 </span>
             </div>
         </div>
@@ -83,15 +75,12 @@
             },
 
             // 大屏预览
-            priviewDatav(){
-                const {href} = this.$router.resolve({
-                    name: "datavpreview",
-                    query: {
-                        dataVData: JSON.stringify(this.dataVDataSer),
-                        compsArr: JSON.stringify(this.$datavTemplateService.data.compsArr)
-                    }
-                });
-                window.open(href, '_blank');
+            async datavPriview(){
+                const ok = await this.$msg.ask(`保存后预览最新内容?`);
+                if (ok) {
+                    this.saveTemplate(false);
+                }
+                this.$dataVBus.$emit('datavPriview', this.dataVDataSer.id);
             },
 
             // 打开图表配置抽屉
@@ -107,24 +96,27 @@
             },
 
             // 大屏数据保存
-            async saveTemplate(){
-                const dataVData = this.$utils.deepClone(this.$datavTemplateService.data.dataVData);
-                dataVData.content.datavComps = this.$utils.deepClone(this.$datavTemplateService.data.compsArr);
+            async saveTemplate(ifBack){
+                const dataVData = this.$lodash.clone(this.$datavTemplateService.data.dataVData);
+                const datavComps = this.$lodash.clone(this.$datavTemplateService.data.compsArr);
+                dataVData.content.datavComps = this.$lodash.compact(datavComps);
                 dataVData.content = JSON.stringify(dataVData.content);
 
                 const p = this.$api.dataVConfig.saveTemplate(dataVData);
                 const res = await this.$app.blockingApp(p);
                 if(res.ok){
-                    this.backIndex();
-                    this.$msg.success('删除成功!');
+                    if(ifBack){
+                        this.backIndex();
+                        this.$msg.success('保存成功!');
+                    }
                 }else{
                     this.$msg.error(res.message);
                 }
             }
         },
         beforeDestroy(){
-            this.$dataVBus.$off('openChartDrawer', this);
-            this.$dataVBus.$off('closeDrawerCmd', this);
+            this.$dataVBus.$off('openChartDrawer');
+            this.$dataVBus.$off('closeDrawerCmd');
         }
     }
 </script>

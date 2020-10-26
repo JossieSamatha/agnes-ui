@@ -304,19 +304,7 @@ export default function () {
                             height: 220,
                         },
                         componentMeta: {
-                            header: ['列1', '列2', '列3'],
-                            dataStr: JSON.stringify([
-                                ['行1列1', '行1列2', '行1列3'],
-                                ['行2列1', '行2列2', '行2列3'],
-                                ['行3列1', '行3列2', '行3列3'],
-                                ['行4列1', '行4列2', '行4列3'],
-                                ['行5列1', '行5列2', '行5列3'],
-                                ['行6列1', '行6列2', '行6列3'],
-                                ['行7列1', '行7列2', '行7列3'],
-                                ['行8列1', '行8列2', '行8列3'],
-                                ['行9列1', '行9列2', '行9列3'],
-                                ['行10列1', '行10列2', '行10列3']
-                            ]),
+                            dataOption: {},
                             rowNum: 5,
                             headerHeight: 35,
                             waitTimeSec: 5000,
@@ -333,19 +321,7 @@ export default function () {
                             height: 150,
                         },
                         componentMeta: {
-                            header: ['列1', '列2', '列3'],
-                            dataStr: JSON.stringify([
-                                ['行1列1', '行1列2', '行1列3'],
-                                ['行2列1', '行2列2', '行2列3'],
-                                ['行3列1', '行3列2', '行3列3'],
-                                ['行4列1', '行4列2', '行4列3'],
-                                ['行5列1', '行5列2', '行5列3'],
-                                ['行6列1', '行6列2', '行6列3'],
-                                ['行7列1', '行7列2', '行7列3'],
-                                ['行8列1', '行8列2', '行8列3'],
-                                ['行9列1', '行9列2', '行9列3'],
-                                ['行10列1', '行10列2', '行10列3']
-                            ]),
+                            dataOption: {},
                             rowNum: 5,
                             headerBGC: '#00BAFF',
                             oddRowBGC: '#003B51',
@@ -360,7 +336,7 @@ export default function () {
                         }
                     },
                     {
-                        type: 'grid',
+                        type: 'chart',
                         icon: 'ct-capsule',
                         compName: 'ct-capsule',
                         label: '胶囊柱图',
@@ -369,14 +345,10 @@ export default function () {
                             width: 480,
                             height: 150,
                         },
-                        componentMeta: {
-                            data: [{name: '南阳', value: 167}, {name: '周口', value: 67},
-                                {name: '漯河', value: 123}, {name: '郑州', value: 55},
-                                {name: '西峡', value: 98}]
-                        }
+                        componentMeta: {}
                     },
                     {
-                        type: 'grid',
+                        type: 'chart',
                         icon: 'ranking-board',
                         compName: 'ranking-board',
                         label: '排名轮播表',
@@ -386,11 +358,6 @@ export default function () {
                             height: 150,
                         },
                         componentMeta: {
-                            data: [{name: '周口', value: 1155}, {name: '南阳', value: 12340},
-                                {name: '西峡', value: 718}, {name: '驻马店', value: 6236},
-                                {name: '新乡', value: 8230}, {name: '信阳', value: 415},
-                                {name: '漯河', value: 229}, {name: '安徽', value: 2119},
-                                {name: '桐城', value: 292}, {name: '西安', value: 291}],
                             rowNum: 5,
                             waitTimeSec: 2,
                             carousel: 'single',
