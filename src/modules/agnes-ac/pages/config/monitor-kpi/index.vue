@@ -42,6 +42,7 @@
 
                     </template>
                 </el-table-column>
+                <el-table-column prop="kpiCode" label="指标代码" width="100"></el-table-column>
                 <el-table-column prop="taskName" label="指标名称">
                     <template slot-scope="scope">
                         <span class="kpi-level" v-if="scope.row.stepLevel">
@@ -50,28 +51,28 @@
                         <span>{{scope.row.taskName}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="errNum" label="异常" width="120">
+                <el-table-column prop="errNum" label="异常" width="100">
                     <template slot-scope="scope">
                         <i class="circle-icon fa fa-circle" style="color: red"></i>
                         <a class="link-num" v-if="scope.row.errNum!==0 && !scope.row.errNum">--</a>
                         <a class="link-num" v-else @click="showKpiDetail(scope.row, 1)">{{scope.row.errNum}}</a>
                     </template>
                 </el-table-column>
-                <el-table-column prop="manualNum" label="人工" width="120">
+                <el-table-column prop="manualNum" label="人工" width="100">
                     <template slot-scope="scope">
                         <i class="circle-icon fa fa-circle" style="color: #bba350"></i>
                         <a class="link-num" v-if="scope.row.manualNum !==0 && !scope.row.manualNum">--</a>
                         <a class="link-num" v-else @click="showKpiDetail(scope.row, 2)">{{scope.row.manualNum}}</a>
                     </template>
                 </el-table-column>
-                <el-table-column prop="doneNum" label="正常" width="120">
+                <el-table-column prop="doneNum" label="正常" width="100">
                     <template slot-scope="scope">
                         <i class="circle-icon fa fa-circle" style="color: green"></i>
                         <a class="link-num" v-if="scope.row.doneNum !==0 && !scope.row.doneNum">--</a>
                         <a class="link-num" v-else @click="showKpiDetail(scope.row, 0)">{{scope.row.doneNum}}</a>
                     </template>
                 </el-table-column>
-                <el-table-column prop="targetName" label="目标值" width="120">
+                <el-table-column prop="targetName" label="目标值" width="100">
                     <template slot-scope="scope">
                         <span v-if="scope.row.targetName">{{scope.row.targetName}}</span>
                         <span v-else>--</span>
@@ -112,7 +113,7 @@
             }
         },
         mounted() {
-             this.init(this.bizDate);
+            this.init(this.bizDate);
         },
         methods: {
             formatDate(dt){
@@ -197,20 +198,27 @@
 
 <style>
     .kpi-grid.el-table {
-        border: 1px solid #EAEDF1;
+        border: 1px solid #ccc;
     }
 
     .kpi-grid .el-table__header th{
         color: #333;
+        font-size: 13px;
         font-weight: normal;
-        border-color: #EAEDF1;
-        background: #F6F8FA;
+        border-color: #ccc;
+        background: #EAEDF1;
+        padding: 6px 0;
+    }
+
+    .kpi-grid.el-table th.is-leaf {
+        border-color: #ccc;
     }
 
     .kpi-grid tr.el-table__row td {
-        padding: 4px 0px;
+        padding: 0;
         border: none;
         color: #666;
+        font-size: 12px;
     }
 </style>
 
