@@ -35,7 +35,7 @@
             async init(){
                 this.kpiDetail.kpiCode = this.kpiCode
                 this.kpiDetail.bizDate = this.bizDate
-                this.kpiDetail.status = this.status
+                this.kpiDetail.status = this.status.toString()
                 try {
                     const p = this.$api.kpiDefineApi.queryKpiInfoMation(this.kpiDetail);
                     const resp = await this.$app.blockingApp(p);
@@ -48,6 +48,8 @@
                         this.kpiDetail =resp1.data;
                     }
                     this.data.q.kpiCode =this.kpiDetail.kpiCode;
+                    this.data.q.status = this.status.toString();
+                    this.data.q.bizDate = this.bizDate;
                     const p2 = this.$api.kpiDefineApi.getKpiDetails(this.data);
                     const resp2 = await this.$app.blockingApp(p2);
                     if(resp2.data && resp2.data.length>0){
@@ -56,11 +58,11 @@
                         const columnDefsArray=this.getSqlGridOptions(keys);
                         if(keys.indexOf("STATUS")>-1){
                             this.opStatus=true;
-                            this.$refs.grid.api.setColumnDefs(this.setColumnFiled(columnDefsArray));
+                            this.$refs.grid.gridController.gridApi.setColumnDefs(this.setColumnFiled(columnDefsArray));
                         }else{
-                            this.$refs.grid.api.setColumnDefs(columnDefsArray);
+                            this.$refs.grid.gridController.gridApi.setColumnDefs(columnDefsArray);
                         }
-                        this.gridOptions.api.setRowData(rows);
+                        this.$refs.grid.setRowData(rows);
                     }
                     const p3 = this.$api.kpiDefineApi.getKpiFields(this.kpiDetail.kpiCode);
                     const resp3 = await this.$app.blockingApp(p3);
@@ -80,15 +82,31 @@
                 let _this =this;
                 this.$api.kpiDefineApi.getKpiDetails(this.data).then((resp) => {
                     if(resp.data && resp.data.length>0){
-                        _this.gridOptions.api.setRowData(resp.data);
+                        _this.$refs.grid.setRowData(resp.data);
                     }
                 });
             },
             getSqlGridOptions(resp) {
-                return resp.map((item)=>{return {headerName: item, field: item, cellClass: "left", suppressMovable:true}});
+                return resp.map((item)=>{return {headerName: item, field: item, cellClass: "left", suppressMovable:true,
+                    valueFormatter:function (params){
+                        if(params.colDef.field === 'C_STATUS'){
+                            if (params.value) {
+                                return window.$gfui.$app.dict.getDictItem('OPDS_KPI_STATUS', params.value).dictName;
+                            }
+                            return "";
+                        }
+                    }}});
             },
             getKpiGridOptions(resp) {
-                return resp.map((item)=>{return {headerName: item.columnName, field: item.fieldName, cellClass: "left", suppressMovable:true}});
+                return resp.map((item)=>{return {headerName: item.columnName, field: item.fieldName, cellClass: "left", suppressMovable:true,
+                    valueFormatter:function (params){
+                        if(params.colDef.field === 'C_STATUS'){
+                            if (params.value) {
+                                return window.$gfui.$app.dict.getDictItem('OPDS_KPI_STATUS', params.value).dictName;
+                            }
+                            return "";
+                        }
+                    }}});
             },
             setColumnFiled(columnDefsArray){
                 columnDefsArray.push({
