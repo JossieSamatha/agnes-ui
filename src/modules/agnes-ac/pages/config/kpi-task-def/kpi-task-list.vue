@@ -5,8 +5,8 @@
              height="100%"
              @row-double-click="showTask">
         <template slot="left">
-            <gf-button class="action-btn" @click="addTask">添加</gf-button>
-            <gf-button class="action-btn" @click="copyKpiTask" size="mini">复制</gf-button>
+            <gf-button class="action-btn" @click="addTask" v-if="$hasPermission('agnes.kpi.task.def.add')">添加</gf-button>
+            <gf-button class="action-btn" @click="copyKpiTask" size="mini" v-if="$hasPermission('agnes.kpi.task.def.copy')">复制</gf-button>
         </template>
     </gf-grid>
 </template>
