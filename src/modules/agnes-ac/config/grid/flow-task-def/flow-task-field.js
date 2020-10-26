@@ -1,23 +1,30 @@
 import column from "../../../../../config/column"
+import Permission from "../../../../../utils/hasPermission";
 const colButtons = [
     {key: 'updateFlowTask', title: '编辑', resId: 'dddd',disabled: (params)=>{
             let result = false;
             if(params.data.reTaskDef.taskStatus === '03'){
                 result =true;
             }
-            return result;}},
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.app.business.flowconf.edit');
+        }},
     {key: 'deleteFlowTask', title: '删除', cellClass: 'red-cell',disabled: (params)=>{
             let result = false;
             if(params.data.reTaskDef.taskStatus === '03'){
                 result =true;
             }
-            return result;}},
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.app.business.flowconf.delete');
+        }},
     {key: 'checkFlowTask', title: '审核',disabled: (params)=>{
             let result = false;
             if(params.data.reTaskDef.taskStatus === '00' ||params.data.reTaskDef.taskStatus === '02' || params.data.reTaskDef.taskStatus === '03'){
                 result =true;
             }
-            return result;}},
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.app.business.flowconf.check');
+        }},
     {key: 'publishFlowTask', title: '发布',disabled: (params)=>{
             let result = false;
             if(params.data.reTaskDef.taskStatus === '00' ||params.data.reTaskDef.taskStatus === '01' || params.data.reTaskDef.taskStatus === '03'){
@@ -25,13 +32,13 @@ const colButtons = [
             }
             return result;},visiable:(params)=>{
             let result = true;
-            if(params.data.reTaskDef.taskStatus === '03'){
+            if(!Permission.hasPermission('agnes.app.business.flowconf.pulish') && params.data.reTaskDef.taskStatus === '03'){
                 result =false;
             }
             return result;}},
     {key: 'stopAndCancelTask', title: '停止',visiable: (params)=>{
             let result = false;
-            if(params.data.reTaskDef.taskStatus === '03'){
+            if(Permission.hasPermission('agnes.app.business.flowconf.stop') && params.data.reTaskDef.taskStatus === '03'){
                 result =true;
             }
             return result;}, cellClass: 'red-cell'},

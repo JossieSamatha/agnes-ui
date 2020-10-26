@@ -8,10 +8,10 @@
                  @selected-changed = "selectedChanged"
         >
             <template slot="left">
-                <gf-button class="action-btn" @click="addFlowTask" size="mini">添加</gf-button>
+                <gf-button class="action-btn" @click="addFlowTask" size="mini" v-if="$hasPermission('agnes.app.business.flowconf.add')">添加</gf-button>
                 <gf-button :disabled="!uploadStatus" class="action-btn"  @click="confFlowNode" size="mini" >配置任务节点</gf-button>
-                <gf-button class="action-btn" @click="copyFlow" size="mini">复制</gf-button>
-                <gf-button class="action-btn" @click="exportFlow" size="mini">导出</gf-button>
+                <gf-button class="action-btn" @click="copyFlow" size="mini" v-if="$hasPermission('agnes.app.business.flowconf.copy')">复制</gf-button>
+                <gf-button class="action-btn" @click="exportFlow" size="mini"  v-if="$hasPermission('agnes.app.business.flowconf.exportFlow')">导出</gf-button>
                 <el-upload
                         ref="upload"
                         :limit="1"
@@ -20,7 +20,7 @@
                         :show-file-list="false"
                         :on-change="importFlow"
                         accept=".txt">
-                    <gf-button class="action-btn" slot="trigger" size="mini">导入</gf-button>
+                    <gf-button class="action-btn" slot="trigger" size="mini"  v-if="$hasPermission('agnes.app.business.flowconf.importFlow')">导入</gf-button>
                 </el-upload>
                 <el-upload
                         ref="uploadCase"
@@ -33,7 +33,7 @@
                         :disabled="!uploadStatus"
                         :on-success="handleAvatarSuccess"
                         accept=".xls,.xlsx">
-                    <gf-button  :disabled="!uploadStatus" class="action-btn" slot="trigger" size="mini">批量导入任务节点</gf-button>
+                    <gf-button  :disabled="!uploadStatus" class="action-btn" slot="trigger" size="mini"   v-if="$hasPermission('agnes.app.business.flowconf.uploadFile')">批量导入任务节点</gf-button>
                 </el-upload>
             </template>
         </gf-grid>

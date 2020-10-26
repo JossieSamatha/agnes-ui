@@ -1,4 +1,5 @@
 import column from "../../../../../config/column"
+import Permission from "../../../../../utils/hasPermission";
 
 const colButtons = [
     {key: 'editFileAnaly', title: '编辑',disabled: (params)=>{
@@ -6,19 +7,25 @@ const colButtons = [
             if(params.data.status === '03'){
                 result =true;
             }
-            return result;}},
+            return result;}, visiable: () => {
+            return Permission.hasPermission('dataservice.filescan.config.edit');
+        }},
     {key: 'deleteFileAnaly', title: '删除', cellClass: 'red-cell',disabled: (params)=>{
             let result = false;
             if(params.data.status === '03'){
                 result =true;
             }
-            return result;}},
+            return result;}, visiable: () => {
+            return Permission.hasPermission('dataservice.filescan.config.delete');
+        }},
     {key: 'checkFile', title: '审核',disabled: (params)=>{
             let result = false;
             if(params.data.status === '00' ||params.data.status === '02' || params.data.status === '03'){
                 result =true;
             }
-            return result;}},
+            return result;}, visiable: () => {
+            return Permission.hasPermission('dataservice.filescan.config.check');
+        }},
     {key: 'startFileMove', title: '发布',disabled: (params)=>{
             let result = false;
             if(params.data.status === '00' ||params.data.status === '01' || params.data.status === '03'){
@@ -26,13 +33,13 @@ const colButtons = [
             }
             return result;},visiable:(params)=>{
             let result = true;
-            if(params.data.status === '03'){
+            if(!Permission.hasPermission('dataservice.filescan.config.pulish') && params.data.status === '03'){
                 result =false;
             }
             return result;}},
     {key: 'stopFileMove', title: '停止',visiable: (params)=>{
             let result = false;
-            if(params.data.status === '03'){
+            if(Permission.hasPermission('dataservice.filescan.config.stop') && params.data.status === '03'){
                 result =true;
             }
             return result;}, cellClass: 'red-cell'},

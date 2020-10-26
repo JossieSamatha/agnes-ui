@@ -162,7 +162,7 @@
             try {
               const p = this.$api.orgDefineApi.updateExOrgeStatus(row.extOrgId, "04");
               await this.$app.blockingApp(p);
-              await this.reloadData();
+              await this.onAddOrg();
             } catch (reason) {
               this.$msg.error(reason);
             }
