@@ -161,7 +161,9 @@
                 this.getFLowbyType(flowTypeDicts[0].dictId);
             }
             this.freshInterval = setInterval(() => {
-                this.freshFlowData();
+                if(!this.loading) {
+                    this.freshFlowData();
+                }
             }, 60000);
         },
         beforeDestroy() {
@@ -175,8 +177,18 @@
                 }
                 if(to.path === '/agnes.elec.operate'){
                     this.freshInterval = setInterval(() => {
-                        this.freshFlowData();
+                        if(!this.loading){
+                            this.freshFlowData();
+                        }
                     }, 60000);
+                }
+            },
+
+            bizDate(val){
+                if(val !== window.bizDate){
+                   this.$refs.elecGrid.gridController.columnApi.setColumnsVisible(['option'], false);
+                }else{
+                    this.$refs.elecGrid.gridController.columnApi.setColumnsVisible(['option'], true);
                 }
             }
         },

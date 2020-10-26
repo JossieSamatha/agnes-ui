@@ -37,9 +37,10 @@
         methods: {
             getChannelType(channelType){
                 if(channelType){
-                    return this.$lodash.find(this.channelTypeDict, {dictId: channelType}).dictName;
-                }else{
-                    return ''
+                    const dictObj = this.$lodash.find(this.channelTypeDict, {dictId: channelType});
+                    if(dictObj){
+                        return dictObj.dictName;
+                    }
                 }
             },
         }
