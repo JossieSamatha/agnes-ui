@@ -29,7 +29,7 @@
                             <el-input type="textarea" :rows="1" placeholder="请输入备注内容" v-model="remark">
                             </el-input>
                             <div style="text-align: right; margin-top: 10px">
-                                <el-button class="op-btn primary" size="mini" @click="executeKpi">提交</el-button>
+                                <el-button class="op-btn primary" size="mini" @click="executeKpi(scope.row)">提交</el-button>
                             </div>
                             <el-button slot="reference" size="mini" type="text" @click="popoverClick(scope.row)" title="干预通过">
                                 <span class="svgSpan" v-html="svgImg.forcePass"></span>
@@ -58,7 +58,7 @@
                         <a class="link-num" v-else @click="showKpiDetail(scope.row, 1)">{{scope.row.errNum}}</a>
                     </template>
                 </el-table-column>
-                <el-table-column prop="manualNum" label="人工" width="100">
+                <el-table-column prop="manualNum" label="干预通过" width="100">
                     <template slot-scope="scope">
                         <i class="circle-icon fa fa-circle" style="color: #bba350"></i>
                         <a class="link-num" v-if="scope.row.manualNum !==0 && !scope.row.manualNum">--</a>
