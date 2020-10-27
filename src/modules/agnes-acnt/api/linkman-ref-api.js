@@ -17,4 +17,7 @@ export default {
     checkLinkman(form) {
         return request.post("/agnes-app/v1/acnt/linkman/ref/check", form);
     },
+    queryAcntLinkmanRefIdsByApplyId(acntId) {
+        return request.get(`agnes-app/v1/acnt/linkman/ref/ids/acntid`, {params: {acntId}});
+    }
 };
