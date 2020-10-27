@@ -5,8 +5,8 @@
              height="100%"
              @row-double-click="showTask">
         <template slot="left">
-            <gf-button class="action-btn" @click="addTask">添加</gf-button>
-            <gf-button class="action-btn" @click="copyMotTask">复制</gf-button>
+            <gf-button class="action-btn" @click="addTask" v-if="$hasPermission('agnes.config.mot.add')">添加</gf-button>
+            <gf-button class="action-btn" @click="copyMotTask" v-if="$hasPermission('agnes.config.mot.copy')">复制</gf-button>
         </template>
     </gf-grid>
 </template>

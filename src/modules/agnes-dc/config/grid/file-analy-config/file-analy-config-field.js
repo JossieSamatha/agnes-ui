@@ -1,9 +1,14 @@
 import column from "../../../../../config/column"
 import dateUtils from "@hex/gf-ui/src/util/date-utils"
+import Permission from "../../../../../utils/hasPermission";
 
 const colButtons = [
-    {key: 'editFileAnaly', title: '修改'},
-    {key: 'deleteFileAnaly', title: '删除', cellClass: 'red-cell'},
+    {key: 'editFileAnaly', title: '编辑', visiable: () => {
+            return Permission.hasPermission('dataservice.fileanaly.config.edit');
+        }},
+    {key: 'deleteFileAnaly', title: '删除', cellClass: 'red-cell', visiable: () => {
+            return Permission.hasPermission('dataservice.fileanaly.config.delete');
+        }},
 ];
 export default {
     columnDefs: [

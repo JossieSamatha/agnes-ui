@@ -7,8 +7,8 @@
                  @row-double-click="showDetail"
         >
             <template slot="left">
-                <gf-button class="action-btn" @click="addFileAnaly" size="mini">添加</gf-button>
-                <gf-button class="action-btn" @click="copyFileScanConfig">复制</gf-button>
+                <gf-button class="action-btn" @click="addFileAnaly" size="mini" v-if="$hasPermission('dataservice.filescan.config.add')">添加</gf-button>
+                <gf-button class="action-btn" @click="copyFileScanConfig" v-if="$hasPermission('dataservice.filescan.config.copy')">复制</gf-button>
             </template>
         </gf-grid>
     </div>

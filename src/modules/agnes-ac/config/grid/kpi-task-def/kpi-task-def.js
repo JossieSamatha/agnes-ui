@@ -1,4 +1,5 @@
 import column from "../../../../../config/column"
+import Permission from "../../../../../utils/hasPermission"
 
 const colButtons = [
     {key: 'editKpiTask', title: '编辑',disabled: (params)=>{
@@ -6,19 +7,25 @@ const colButtons = [
             if(params.data.reTaskDef.taskStatus === '03'){
                 result =true;
             }
-            return result;}},
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.kpi.task.def.edit');
+        }},
     {key: 'deleteKpiTask', title: '删除', cellClass: 'red-cell',disabled: (params)=>{
             let result = false;
             if(params.data.reTaskDef.taskStatus === '03'){
                 result =true;
             }
-            return result;}},
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.kpi.task.def.delete');
+        }},
     {key: 'checkKpiTask', title: '审核',disabled: (params)=>{
             let result = false;
             if(params.data.reTaskDef.taskStatus === '00' ||params.data.reTaskDef.taskStatus === '02' || params.data.reTaskDef.taskStatus === '03'){
                 result =true;
             }
-            return result;}},
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.kpi.task.def.check');
+        }},
     {key: 'checkBeforePulish', title: '发布',disabled: (params)=>{
             let result = false;
             if(params.data.reTaskDef.taskStatus === '00' ||params.data.reTaskDef.taskStatus === '01' || params.data.reTaskDef.taskStatus === '03'){
@@ -26,13 +33,13 @@ const colButtons = [
             }
             return result;},visiable:(params)=>{
             let result = true;
-            if(params.data.reTaskDef.taskStatus === '03'){
+            if(!Permission.hasPermission('agnes.kpi.task.def.pulish') && params.data.reTaskDef.taskStatus === '03'){
                 result =false;
             }
             return result;}},
     {key: 'stopAndCancelTask', title: '停止',visiable: (params)=>{
             let result = false;
-            if(params.data.reTaskDef.taskStatus === '03'){
+            if(Permission.hasPermission('agnes.kpi.task.def.stop') && params.data.reTaskDef.taskStatus === '03'){
                 result =true;
             }
             return result;}, cellClass: 'red-cell'},
