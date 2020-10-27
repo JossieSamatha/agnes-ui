@@ -1,11 +1,22 @@
 import column from "../../../../../config/column"
+import Permission from "../../../../../utils/hasPermission"
 
 const colButtons = [
-    {key: 'editLinkMan', title: '编辑'},
-    {key: 'deleteLinkMan', title: '删除', cellClass: 'red-cell'},
+    {
+        key: 'editLinkMan', title: '编辑', visiable: () => {
+            return Permission.hasPermission('agnes.dop.linkman.edit');
+        }
+    },
+    {
+        key: 'deleteLinkMan', title: '删除', cellClass: 'red-cell', visiable: () => {
+            return Permission.hasPermission('agnes.dop.linkman.delete');
+        }
+    },
     {
         key: 'approveLinkman', title: '审核', disabled: (params) => {
             return params.data.status === '04'
+        }, visiable: () => {
+            return Permission.hasPermission('agnes.dop.linkman.edit');
         }
     }
 ];
