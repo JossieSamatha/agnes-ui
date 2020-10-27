@@ -1,39 +1,39 @@
 <template>
     <div class="elec-process" v-loading="loading">
         <section class="top-section">
+            <div class="flow-type">
+                <p class="section-label">流程类型</p>
+                <gf-dict class="flow-type-select"
+                         clearable
+                         dict-type="AGNES_CASE_FLOWTYPE"
+                         size="mini"
+                         v-model="flowType"
+                         @change="flowTypeChange"
+                         style="width: 175px;margin-right: 12px;"/>
+            </div>
             <el-radio-group class="task-board" v-model="choosedTaskId" size="mini" @change="chooseTask">
-                <div class="flow-type">
-                    <p class="section-label">流程类型</p>
-                    <gf-dict class="flow-type-select"
-                             clearable
-                             dict-type="AGNES_CASE_FLOWTYPE"
-                             size="mini"
-                             v-model="flowType"
-                             @change="flowTypeChange"
-                             style="width: 175px;margin-right: 12px;"/>
-                </div>
                 <el-radio v-for="task in proTask" :key="task.taskId" :label="task.taskId" :title="task.taskName"
                           border>
                     <i v-if="task.taskIcon" :class="task.taskIcon"></i>
                     <i v-else class="fa fa-cogs"></i>
                     <span>{{task.taskName}}</span>
                 </el-radio>
-                <div class="date-search">
-                    <p class="section-label">业务日期</p>
-                    <el-date-picker v-model="bizDate"
-                                    type="date"
-                                    size="mini"
-                                    align="center"
-                                    :clearable="false"
-                                    value-format="yyyy-MM-dd"
-                                    placeholder="选择日期"
-                                    style="width: 175px"
-                                    @change="bizDateChange"
-                    >
-                    </el-date-picker>
-                    <i class="el-icon-refresh" title="全部刷新" @click="freshFlowData()"></i>
-                </div>
             </el-radio-group>
+            <div class="date-search">
+                <p class="section-label">业务日期</p>
+                <el-date-picker v-model="bizDate"
+                                type="date"
+                                size="mini"
+                                align="center"
+                                :clearable="false"
+                                value-format="yyyy-MM-dd"
+                                placeholder="选择日期"
+                                style="width: 175px"
+                                @change="bizDateChange"
+                >
+                </el-date-picker>
+                <i class="el-icon-refresh" title="全部刷新" @click="freshFlowData()"></i>
+            </div>
         </section>
         <section class="bottom-section">
             <span class="rightExpandBtn" @click="foldBottomRight">
