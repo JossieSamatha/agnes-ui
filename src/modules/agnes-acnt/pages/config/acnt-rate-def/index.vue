@@ -37,8 +37,20 @@
             checkRateScheme(params) {
                 this.showDlg('check', params.data,"1", this.onAdd.bind(this));
             },
+            stopRateScheme(params) {
+                this.startRateScheme(params);
+            },
             async startRateScheme(params) {
-                const ok = await this.$msg.ask(`确认启用吗, 是否继续?`);
+                // const ok = await this.$msg.ask(`确认启用吗, 是否继续?`);
+                // if (!ok) {
+                //     return
+                // }
+
+                let msg = "确认启用吗, 是否继续?";
+                if(params.data.status == '03'){
+                    msg = "确认停用吗, 是否继续?";
+                }
+                const ok = await this.$msg.ask(msg);
                 if (!ok) {
                     return
                 }

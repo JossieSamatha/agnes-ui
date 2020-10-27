@@ -3,20 +3,50 @@
         <el-form class="search-panel" label-width="100px">
             <div class="line">
                 <el-form-item label="账户名称">
-                    <el-input v-model="queryArgs.taskName"></el-input>
+                    <el-input v-model="queryArgs.acntName"></el-input>
                 </el-form-item>
                 <el-form-item label="账号" >
-                    <el-input v-model="queryArgs.account"></el-input>
+                    <el-input v-model="queryArgs.accNo"></el-input>
                 </el-form-item>
+
+                <el-form-item label="账户类型">
+<!--                    <gf-dict filterable clearable v-model="queryArgs.typeCode" dict-type="AGNES_TASK_TYPE" />-->
+
+                    <el-select class="multiple-select" v-model="queryArgs.typeCode"
+                               filterable clearable
+                               placeholder="请选择">
+                        <gf-filter-option
+                                v-for="item in typeCodeOption"
+                                :key="item.typeCode"
+                                :label="item.typeName"
+                                :value="item.typeCode">
+                        </gf-filter-option>
+                    </el-select>
+                </el-form-item>
+
                 <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
             </div>
             <div class="line">
-                <el-form-item label="账户类型">
-                    <gf-dict filterable clearable v-model="queryArgs.taskType" dict-type="AGNES_TASK_TYPE" />
+                <el-form-item label="业务类型">
+                    <gf-dict filterable clearable v-model="queryArgs.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
                 </el-form-item>
-                <el-form-item label="状态">
-                    <gf-dict filterable clearable v-model="queryArgs.taskStatus" dict-type="AGNES_TASK_MGR_STATUS"/>
+
+                <el-form-item label="流程节点">
+                    <el-select class="multiple-select" v-model="queryArgs.processStatus"
+                               filterable clearable
+                               placeholder="请选择">
+                        <gf-filter-option
+                                v-for="item in processStatusOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </gf-filter-option>
+                    </el-select>
                 </el-form-item>
+
+                <el-form-item label="">
+                </el-form-item>
+
                 <el-button @click="reSetSearch" class="option-btn">重置</el-button>
             </div>
         </el-form>
@@ -37,10 +67,11 @@
         data() {
             return {
                 queryArgs:{
-                    'taskName':'',
-                    'account':'',
-                    'taskType':'',
-                    'taskStatus':'',
+                    'typeCode':'',
+                    'acntName':'',
+                    'accNo':'',
+                    'processStatus':'',
+                    'bizType':''
                 },
                 tableData: [],
                 status:{
@@ -54,12 +85,34 @@
                     '08':'已归档',
                     '09':'已作废',
                 },
+                processStatusOptions: [
+                    {value: '01', label: '发起申请'},
+                    {value: '02', label: '待复核'},
+                    {value: '03', label: '待提交OA'},
+                    {value: '04', label: '资料准备'},
+                    {value: '05', label: '财务流程'},
+                    {value: '06', label: '账户待录入'},
+                    {value: '07', label: '账户待复核'},
+                    {value: '08', label: '已归档'},
+                    {value: '09', label: '已作废'},
+                ],
+                typeCodeOption:[]
+
             }
         },
         beforeMount() {
-      
+            const p = this.getOptionData();
+            this.$app.blockingApp(p);
         },
         methods: {
+            async getOptionData(){
+                try {
+                    let typeCodeOption = await this.$api.acntApplyApi.getAcntTypeList();
+                    this.typeCodeOption = typeCodeOption.data
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
             reloadData() {
                 this.$refs.grid.reloadData();
             },
@@ -82,10 +135,11 @@
             },
             reSetSearch() {
                 this.queryArgs = {
-                    'taskName':'',
-                    'account':'',
-                    'taskType':'',
-                    'taskStatus':'',
+                    'typeCode':'',
+                    'acntName':'',
+                    'accNo':'',
+                    'processStatus':'',
+                    'bizType':''
                 };
                 this.reloadData();
             },

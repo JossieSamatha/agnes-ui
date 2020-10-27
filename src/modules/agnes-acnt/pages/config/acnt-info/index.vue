@@ -3,19 +3,30 @@
         <el-form class="search-panel" label-width="100px">
             <div class="line">
                 <el-form-item label="账户名称">
-                    <el-input v-model="queryArgs.taskName"></el-input>
+                    <el-input v-model="queryArgs.acntName"></el-input>
                 </el-form-item>
                 <el-form-item label="账号" >
-                    <el-input v-model="queryArgs.account"></el-input>
+                    <el-input v-model="queryArgs.accNo"></el-input>
                 </el-form-item>
                 <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
             </div>
             <div class="line">
                 <el-form-item label="账户类型">
-                    <gf-dict filterable clearable v-model="queryArgs.taskType" dict-type="AGNES_TASK_TYPE" />
+<!--                    <gf-dict filterable clearable v-model="queryArgs.typeCode" dict-type="AGNES_TASK_TYPE" />-->
+
+                    <el-select class="multiple-select" v-model="queryArgs.typeCode"
+                               filterable clearable
+                               placeholder="请选择">
+                        <gf-filter-option
+                                v-for="item in typeCodeOption"
+                                :key="item.typeCode"
+                                :label="item.typeName"
+                                :value="item.typeCode">
+                        </gf-filter-option>
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="状态">
-                    <gf-dict filterable clearable v-model="queryArgs.taskStatus" dict-type="AGNES_TASK_MGR_STATUS"/>
+                    <gf-dict filterable clearable v-model="queryArgs.acntStatus" dict-type="AGNES_ACNT_INFO_STATUS"/>
                 </el-form-item>
                 <el-button @click="reSetSearch" class="option-btn">重置</el-button>
             </div>
@@ -36,16 +47,40 @@
         data() {
             return {
                 queryArgs:{
-                    'taskName':'',
-                    'execStartTime':'',
-                    'taskType':'',
-                    'taskStatus':'',
-                }
+                    'typeCode':'',
+                    'acntName':'',
+                    'accNo':'',
+                    'acntStatus':''
+                },
+                typeCodeOption:[]
             }
         },
+        beforeMount() {
+            const p = this.getOptionData();
+            this.$app.blockingApp(p);
+        },
+
         methods: {
+            async getOptionData(){
+                try {
+                    let typeCodeOption = await this.$api.acntApplyApi.getAcntTypeList();
+                    this.typeCodeOption = typeCodeOption.data
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
+
             reloadData() {
                 this.$refs.grid.reloadData();
+            },
+            reSetSearch() {
+                this.queryArgs = {
+                    'typeCode':'',
+                    'acntName':'',
+                    'accNo':'',
+                    'acntStatus':''
+                };
+                this.reloadData();
             },
             showOpenDlg(mode, row, actionOk,isDisabled=false) {
                 if (!row) {

@@ -3,34 +3,45 @@ import column from "../../../../../config/column"
 const colButtons = [
     {key: 'editRateScheme', title: '编辑',disabled: (params)=>{
             let result = false;
-            if(params.data.status === '06'||params.data.status === '01'){
+            if(params.data.status === '03'||params.data.status === '05'){
                 result =true;
             }
             return result;}},
     {key: 'deleteRateScheme', title: '删除',cellClass:'red-cell',disabled: (params)=>{
             let result = false;
-            if(params.data.status === '04' ||params.data.status === '05'){
+            if(params.data.status === '03'){
                 result =true;
             }
             return result;}},
     {key: 'checkRateScheme', title: '审核',disabled: (params)=>{
             let result = false;
-            if(params.data.status === '00'|| params.data.status === '04'||params.data.status === '05'|| params.data.status === '06'){
+            if(params.data.status === '02'||params.data.status === '03'||params.data.status === '05'){
                 result =true;
             }
             return result;}},
     {key: 'startRateScheme', title: '启用',disabled: (params)=>{
             let result = false;
-            if(params.data.status === '00' ||params.data.status === '01'|| params.data.status === '05'||params.data.status === '06'){
+            if(params.data.status === '01'|| params.data.status === '05'){
                 result =true;
             }
-            return result;}}
+            return result;},visiable: (params)=>{
+            let result = true;
+            if(params.data.status === '03'){
+                result =false;
+            }
+            return result;}},
+    {key: 'stopRateScheme', title: '停用',visiable: (params)=>{
+            let result = false;
+            if(params.data.status === '03'){
+                result =true;
+            }
+            return result;}},
 ];
 
 export default {
     columnDefs: [
         {headerName: "账户名称", field: "acntName"},
-        {headerName: "账号", field: "accountNo"},
+        // {headerName: "账号", field: "accountNo"},
         {headerName: "开户机构", field: "extOrgName"},
         {headerName: "利率(%)", field: "rate"},
         {headerName: "状态", field: "status",dictType: 'AGNES_RELEASE_STATUS'},
