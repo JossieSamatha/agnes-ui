@@ -325,15 +325,13 @@
 }
 
 .elec-process > section.top-section {
-    flex-wrap: wrap;
-    justify-content: space-between;
+
 }
 
 .elec-process .top-section > div {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     flex-wrap: wrap;
-    width: 100%;
 }
 
 .elec-process .top-section .section-label {
@@ -515,6 +513,10 @@
     top: calc(50% - 5px);
 }
 
+.elec-process .define-progress.el-progress--circle path.el-progress-circle__track {
+    stroke: #e0e0e0;
+}
+
 .elec-process .define-progress .el-progress__text{
     font-size: 12px!important;
 }
@@ -530,14 +532,15 @@
 }
 
 /* task-board样式 */
-.elec-process .top-section .task-board .flow-type,
-.elec-process .top-section .task-board .date-search{
+.elec-process .top-section .flow-type,
+.elec-process .top-section .date-search{
     display: flex;
     margin-bottom: 5px;
 }
 
-.elec-process .top-section .task-board .date-search{
-    margin-left: auto;
+.elec-process .top-section .task-board{
+    flex: 1;
+    width: 100%;
 }
 
 .elec-process .top-section .task-board.el-radio-group .el-radio {
