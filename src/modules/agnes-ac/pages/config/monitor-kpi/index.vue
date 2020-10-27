@@ -31,12 +31,12 @@
                             <div style="text-align: right; margin-top: 10px">
                                 <el-button class="op-btn primary" size="mini" @click="executeKpi(scope.row)">提交</el-button>
                             </div>
-                            <el-button slot="reference" size="mini" type="text" :disabled="!(scope.row.stepStatus === '03' || scope.row.stepStatus === '04')" @click="popoverClick(scope.row)" title="干预通过">
+                            <el-button class="svg-btn" slot="reference" size="mini" type="text" :disabled="!(scope.row.stepStatus === '03' || scope.row.stepStatus === '04')" @click="popoverClick(scope.row)" title="干预通过">
                                 <span class="svgSpan" v-html="svgImg.forcePass"></span>
                             </el-button>
                         </el-popover>
 
-                        <el-button  class="icon-popper" size="mini" type="text" :disabled="!(scope.row.stepStatus === '03' || scope.row.stepStatus === '04')" @click="exeTaskJob(scope.row)" title="重新执行">
+                        <el-button  class="icon-popper svg-btn" size="mini" type="text" :disabled="!(scope.row.stepStatus === '03' || scope.row.stepStatus === '04')" @click="exeTaskJob(scope.row)" title="重新执行">
                             <span class="svgSpan" v-html="svgImg.reExecute"></span>
                         </el-button>
 
