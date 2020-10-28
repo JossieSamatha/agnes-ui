@@ -3,11 +3,11 @@
         <div class="el-calendar__header">
             <div class="el-calendar__button-group" v-if="validatedRange.length === 0">
                 <el-button-group>
-                    <i class="arrow-btn el-icon-arrow-left"  @click="selectDate('prev-month')"></i>
+                    <em class="arrow-btn el-icon-arrow-left"  @click="selectDate('prev-month')"></em>
                     <div class="el-calendar__title">
                         {{ i18nDate }}
                     </div>
-                    <i class="arrow-btn el-icon-arrow-right" @click="selectDate('next-month')"></i>
+                    <em class="arrow-btn el-icon-arrow-right" @click="selectDate('next-month')"></em>
                 </el-button-group>
             </div>
         </div>

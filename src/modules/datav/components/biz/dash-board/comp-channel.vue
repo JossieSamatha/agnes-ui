@@ -2,7 +2,7 @@
     <div>
         <div class="linkman-list" v-for="(item, index) in channelArr" :key="index">
             <div class="state-icon">
-                <i class="el-icon-place"></i>
+                <em class="el-icon-place"></em>
             </div>
             <div class="notice-info">
                 <p>({{item.channelCode}}){{item.channelName}}</p>

@@ -15,7 +15,7 @@
                                 @change="bizDateChange"
                 >
                 </el-date-picker>
-                <i class="el-icon-refresh" title="全部刷新" @click="init(bizDate)"></i>
+                <em class="el-icon-refresh" title="全部刷新" @click="init(bizDate)"></em>
             </span>
         </div>
         <div class="content" style="height: calc(100% - 30px)">
@@ -46,28 +46,28 @@
                 <el-table-column prop="taskName" label="指标名称">
                     <template slot-scope="scope">
                         <span class="kpi-level" v-if="scope.row.stepLevel">
-                            <i class="fa fa-star" style="color: #f5222e" v-for="i in Number(scope.row.stepLevel)" :key="i"></i>
+                            <em class="fa fa-star" style="color: #f5222e" v-for="i in Number(scope.row.stepLevel)" :key="i"></em>
                         </span>
                         <span>{{scope.row.taskName}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column prop="errNum" label="异常" width="100">
                     <template slot-scope="scope">
-                        <i class="circle-icon fa fa-circle" style="color: red"></i>
+                        <em class="circle-icon fa fa-circle" style="color: red"></em>
                         <a class="link-num" v-if="scope.row.errNum!==0 && !scope.row.errNum">--</a>
                         <a class="link-num" v-else @click="showKpiDetail(scope.row, 1)">{{scope.row.errNum}}</a>
                     </template>
                 </el-table-column>
                 <el-table-column prop="manualNum" label="干预通过" width="100">
                     <template slot-scope="scope">
-                        <i class="circle-icon fa fa-circle" style="color: #bba350"></i>
+                        <em class="circle-icon fa fa-circle" style="color: #bba350"></em>
                         <a class="link-num" v-if="scope.row.manualNum !==0 && !scope.row.manualNum">--</a>
                         <a class="link-num" v-else @click="showKpiDetail(scope.row, 2)">{{scope.row.manualNum}}</a>
                     </template>
                 </el-table-column>
                 <el-table-column prop="doneNum" label="正常" width="100">
                     <template slot-scope="scope">
-                        <i class="circle-icon fa fa-circle" style="color: green"></i>
+                        <em class="circle-icon fa fa-circle" style="color: green"></em>
                         <a class="link-num" v-if="scope.row.doneNum !==0 && !scope.row.doneNum">--</a>
                         <a class="link-num" v-else @click="showKpiDetail(scope.row, 0)">{{scope.row.doneNum}}</a>
                     </template>

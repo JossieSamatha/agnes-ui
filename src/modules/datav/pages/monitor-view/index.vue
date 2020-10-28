@@ -131,7 +131,9 @@
                         initStateData = detail.data;
                     }
                 }
-                fun ? fun(initStateData) : false;
+                if(fun){
+                    fun(initStateData)
+                }
             },
 
             // 删除大屏
