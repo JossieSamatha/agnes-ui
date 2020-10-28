@@ -19,7 +19,7 @@ const Loading = {
         Gfui.componentView('agnes.org.def', OrgDef, {title: '外部机构维护'});
         Gfui.componentView('agnes.org.type', OrgType, {title: '机构类型维护'});
         Gfui.componentView('agnes.dop.product.def', Product, {title: '产品信息维护'});
-        Gfui.componentView('agnes.dop.product.auth.def', ProductAuth, {title: '产品核算员维护'});
+        Gfui.componentView('agnes.dop.product.user', ProductAuth, {title: '产品核算员维护'});
         Gfui.componentView('agnes.app.conf.channel', Channel, {title: '渠道表维护'});
         Gfui.componentView('agnes.app.conf.dayend', DataChange, {title: '工作日切换'});
         Gfui.componentView('agnes.dop.linkman', Linkman, {title: '外部联系人维护'});
