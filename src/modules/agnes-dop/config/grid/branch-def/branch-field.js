@@ -12,6 +12,7 @@ const colButtons = [
         key: 'deleteBranch', title: '删除', cellClass: 'red-cell', visiable: () => {
             return Permission.hasPermission('agnes.dop.branch.delete');
         }
+
     },
 ];
 
