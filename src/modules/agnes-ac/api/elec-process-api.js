@@ -8,7 +8,7 @@ export default {
 
     // 根据业务日期查询当日的运行中的任务列表
     queryExecRuTask(params){
-        return request.post("/agnes-ac/v1/ac/exec/process/list",null,  params);
+        return request.post("/agnes-ac/v1/ac/exec/process/list", params);
     },
 
 

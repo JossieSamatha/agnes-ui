@@ -110,8 +110,20 @@
             <el-form-item v-if="showRules.fundAccName&&showRules.fundAccName.isShow" label="资金账户名称" prop="fundAccName">
                 <gf-input v-model.trim="detailFormBefore.fundAccName" placeholder="资金账户名称"/>
             </el-form-item>
-            <el-form-item v-if="showRules.rate&&showRules.rate.isShow" label="利率" prop="rate">
-                <gf-input v-model.trim="detailFormBefore.rate" placeholder="利率"/>
+            <el-form-item v-if="showRules.rateId&&showRules.rateId.isShow" label="利率" prop="rateId">
+<!--                <gf-input v-model.trim="detailFormBefore.rateId" placeholder="利率"/>-->
+
+                <el-select v-model="detailFormBefore.rateId"
+                           clearable
+                           placeholder="请选择">
+                    <gf-filter-option
+                            v-for="item in rateList"
+                            :key="item.rateId"
+                            :label="item.rateName"
+                            :value="item.rateId">
+                    </gf-filter-option>
+                </el-select>
+
             </el-form-item>
             <el-form-item v-if="showRules.stampLegalPersonInfo&&showRules.stampLegalPersonInfo.isShow" label="印鉴法人变更情况" prop="stampLegalPersonInfo">
                 <gf-input v-model.trim="detailFormBefore.stampLegalPersonInfo" placeholder="印鉴法人变更情况"/>
@@ -165,15 +177,15 @@
                     placeholder="到期提醒">
                 </el-date-picker>
             </el-form-item>
-            <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="开户时对方联系人" prop="bankLinkMan">
-                <el-select class="multiple-select" v-model="detailFormBefore.openMan"
-                        filterable clearable
+            <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人" prop="bankLinkMan">
+                <el-select class="multiple-select" v-model="detailFormBefore.bankLinkMan"
+                        filterable clearable multiple
                         placeholder="请选择">
                     <gf-filter-option
                             v-for="item in linkManList"
-                            :key="item.productCode"
-                            :label="item.productCode"
-                            :value="item.productCode">
+                            :key="item.linkmanId"
+                            :label="item.linkmanName"
+                            :value="item.linkmanId">
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
@@ -324,9 +336,9 @@
             <el-form-item v-if="showRules.fundAccName&&showRules.fundAccName.isShow" label="资金账户名称" prop="fundAccName">
                 <gf-input v-model.trim="detailForm.fundAccName" placeholder="资金账户名称"/>
             </el-form-item>
-            <el-form-item v-if="showRules.rate&&showRules.rate.isShow" label="利率" prop="rate">
+            <el-form-item v-if="showRules.rateId&&showRules.rateId.isShow" label="利率" prop="rateId">
 <!--                <gf-input v-model.trim="detailForm.rate" placeholder="利率"/>-->
-                <el-select v-model="detailForm.rate"
+                <el-select v-model="detailForm.rateId"
                            clearable
                            placeholder="请选择">
                     <gf-filter-option
@@ -389,7 +401,7 @@
                     placeholder="到期提醒">
                 </el-date-picker>
             </el-form-item>
-            <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人" prop="bankLinkMan">
+            <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人" prop="detailForm.bankLinkMan">
                 <el-select class="multiple-select" v-model="detailForm.bankLinkMan"
                         filterable clearable multiple
                         placeholder="请选择">
@@ -458,6 +470,7 @@
                 serviceRes:[],
                 staticData: {},
                 detailForm: {
+                    applyId:'',
                     typeCode:'', 
                     bizType:'', 
                     baseStartDept:'', 
@@ -481,7 +494,7 @@
                     currency:'',
                     fundAccName:'',
                     acntPurpose:'',
-                    rate:'',
+                    rateId:'',
                     bigPayNo:'',
                     openBack:'',
                     fundAccNo:'',
@@ -519,7 +532,7 @@
                     currency:'',
                     fundAccName:'',
                     acntPurpose:'',
-                    rate:'',
+                    rateId:'',
                     bigPayNo:'',
                     openBack:'',
                     fundAccNo:'',
@@ -567,8 +580,12 @@
             if(this.detailForm.bizType=='02'){
                 this.showChange = true;
             }
-            this.getOptionData()
-            this.loadShowRule()
+            const p = this.getOptionData();
+            this.$app.blockingApp(p);
+
+            const p2 = this.loadShowRule();
+            this.$app.blockingApp(p2);
+
         },
         methods: {
             async getOptionData(){
@@ -588,10 +605,26 @@
                     this.linkManList = linkManList.data
                     let rateList = await this.$api.rateDefApi.getAllPulishRateList();
                     this.rateList = rateList.data
+
                     if(this.showChange){
                         let detailFormBefore = await this.$api.acntInfoApi.getAcntInfoByAcntId(this.detailForm.acntId);
                         this.detailFormBefore = detailFormBefore.data
+
+                        let bankLinkMan = await this.$api.linkmanRefApi.queryAcntLinkmanRefIdsByApplyId(this.detailForm.acntId);
+                        this.detailFormBefore.bankLinkMan = bankLinkMan.data;
                     }
+
+                    if(this.showChang && this.detailForm.processStatus=='06'){
+                        let bankLinkMan = await this.$api.linkmanRefApi.queryAcntLinkmanRefIdsByApplyId(this.detailForm.acntId);
+                        this.detailForm.bankLinkMan = bankLinkMan.data;
+                    }else{
+                        let bankLinkMan = await this.$api.acntApplyApi.getApplyLinkmanRefIdsByApplyId(this.detailForm.applyId);
+                        this.detailForm.bankLinkMan = bankLinkMan.data;
+                    }
+
+                    // let bankLinkMan = await this.$api.acntApplyApi.getApplyLinkmanRefIdsByApplyId(this.detailForm.applyId);
+                    // this.detailForm.bankLinkMan = bankLinkMan.data;
+
 
                     this.loadProductName();
                     this.loadProductNameBeafore();

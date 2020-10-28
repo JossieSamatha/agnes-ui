@@ -20,7 +20,7 @@
         </div>
         <div class="content" style="height: calc(100% - 30px)">
             <el-table class="kpi-grid" :data="kpiData" stripe height="100%" style="width: 100%">
-                <el-table-column label="操作" width="100" :fit="false" header-align="center" align="center">
+                <el-table-column label="操作" width="100" :fit="false" header-align="center" align="center" v-if="optionColShow">
                     <template slot-scope="scope">
                         <el-popover class="icon-popper" placement="bottom-start"
                                     title="备注"
@@ -29,14 +29,14 @@
                             <el-input type="textarea" :rows="1" placeholder="请输入备注内容" v-model="remark">
                             </el-input>
                             <div style="text-align: right; margin-top: 10px">
-                                <el-button class="op-btn primary" size="mini" @click="executeKpi">提交</el-button>
+                                <el-button class="op-btn primary" size="mini" @click="executeKpi(scope.row)">提交</el-button>
                             </div>
-                            <el-button slot="reference" size="mini" type="text" @click="popoverClick(scope.row)" title="干预通过">
+                            <el-button class="svg-btn" slot="reference" size="mini" type="text" :disabled="!(scope.row.stepStatus === '03' || scope.row.stepStatus === '04')" @click="popoverClick(scope.row)" title="干预通过">
                                 <span class="svgSpan" v-html="svgImg.forcePass"></span>
                             </el-button>
                         </el-popover>
 
-                        <el-button  class="icon-popper" size="mini" type="text" @click="exeTaskJob(scope.row)" title="重新执行">
+                        <el-button  class="icon-popper svg-btn" size="mini" type="text" :disabled="!(scope.row.stepStatus === '03' || scope.row.stepStatus === '04')" @click="exeTaskJob(scope.row)" title="重新执行">
                             <span class="svgSpan" v-html="svgImg.reExecute"></span>
                         </el-button>
 
@@ -58,7 +58,7 @@
                         <a class="link-num" v-else @click="showKpiDetail(scope.row, 1)">{{scope.row.errNum}}</a>
                     </template>
                 </el-table-column>
-                <el-table-column prop="manualNum" label="人工" width="100">
+                <el-table-column prop="manualNum" label="干预通过" width="100">
                     <template slot-scope="scope">
                         <i class="circle-icon fa fa-circle" style="color: #bba350"></i>
                         <a class="link-num" v-if="scope.row.manualNum !==0 && !scope.row.manualNum">--</a>
@@ -100,6 +100,7 @@
                 loading: false,
                 remark: '',
                 popoverVisible: false,
+                optionColShow: true,
                 taskCommit: {
                     inst: {
                         taskId: "",
@@ -123,6 +124,11 @@
 
             async init(bizDate){
                 this.loading = true;
+                if(bizDate === window.bizDate){
+                    this.optionColShow = true;
+                }else{
+                    this.optionColShow = false;
+                }
                 const resp = await this.$api.monitorKpiApi.getMonitorkpiList(bizDate);
                 this.kpiData = resp.data;
                 this.loading = false;
@@ -219,6 +225,17 @@
         border: none;
         color: #666;
         font-size: 12px;
+    }
+    .kpi-grid tr.el-table__row td {
+        padding: 0;
+        border: none;
+        color: #666;
+        font-size: 12px;
+        height: 36px;
+    }
+
+    .svg-btn.el-button.is-disabled .lcSvg.theme-color .cls-1{
+        fill: #ccc;
     }
 </style>
 
