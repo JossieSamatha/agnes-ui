@@ -1,10 +1,22 @@
 import column from "../../../../../config/column"
+import Permission from "../../../../../utils/hasPermission"
 const colButtons = [
-    {key: 'editOrgType', title: '编辑'},
-    {key: 'deleteOrgType', title: '删除', cellClass: 'red-cell'},
+    {
+        key: 'editOrgType', title: '编辑', visiable: () => {
+            return Permission.hasPermission('agnes.org.type.edit');
+        }
+    },
+    {
+        key: 'deleteOrgType', title: '删除', cellClass: 'red-cell', visiable: () => {
+            return Permission.hasPermission('agnes.org.type.delete');
+        }
+    },
     {
         key: 'approveOrgType', title: '审核', disabled: (params) => {
             return params.data.status === '04'
+        },
+        visiable: () => {
+            return Permission.hasPermission('agnes.org.type.approve');
         }
     },
 ];

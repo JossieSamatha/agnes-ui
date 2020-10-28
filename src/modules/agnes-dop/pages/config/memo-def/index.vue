@@ -19,7 +19,9 @@
                  :query-args="queryParam"
          >
             <template slot="left">
-                <gf-button class="action-btn" @click="addMemo" size="mini">添加</gf-button>
+                <gf-button v-if="$hasPermission('agnes.dop.memo.add')" class="action-btn" @click="addMemo" size="mini">
+                  添加
+                </gf-button>
             </template>
         </gf-grid>
     </div>

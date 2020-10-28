@@ -21,7 +21,7 @@
         <gf-grid grid-no="agnes-org-list" ref="grid" @row-double-click="listShowOrg" quick-text-max-width="300px"
                  height="100%" @grid-ready="onReady">
           <template slot="left">
-            <gf-button class="action-btn" @click="addOrg">添加</gf-button>
+            <gf-button v-if="$hasPermission('agnes.org.def.add')" class="action-btn" @click="addOrg">添加</gf-button>
           </template>
         </gf-grid>
       </el-main>

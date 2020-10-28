@@ -7,7 +7,9 @@
                  @row-double-click="showDetail"
         >
             <template slot="left">
-                <gf-button class="action-btn" @click="addFileAnaly" size="mini">添加</gf-button>
+                <gf-button v-if="$hasPermission('agnes.dop.branch.add')" class="action-btn" @click="addFileAnaly"
+                           size="mini">添加
+                </gf-button>
             </template>
         </gf-grid>
     </div>

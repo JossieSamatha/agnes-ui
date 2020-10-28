@@ -1,11 +1,23 @@
 import column from "../../../../../config/column"
+import Permission from "../../../../../utils/hasPermission"
+
 
 const colButtons = [
-    {key: 'editChannel', title: '编辑'},
-    {key: 'deleteChannel', title: '删除', cellClass: 'red-cell'},
+    {
+        key: 'editChannel', title: '编辑', visiable: () => {
+            return Permission.hasPermission('agnes.app.conf.channel.edit');
+        }
+    },
+    {
+        key: 'deleteChannel', title: '删除', cellClass: 'red-cell', visiable: () => {
+            return Permission.hasPermission('agnes.app.conf.channel.delete');
+        }
+    },
     {
         key: 'approveChannel', title: '审核', disabled: (params) => {
             return params.data.channelStatus === '04'
+        }, visiable: () => {
+            return Permission.hasPermission('agnes.app.conf.channel.approve');
         }
     },
 ];
@@ -14,8 +26,8 @@ export default {
         column.buildOpCol(160, colButtons),
         {headerName: "渠道代码", field: "channelCode"},
         {headerName: "渠道名称", field: "channelName"},
-        {headerName: "渠道类型", field: "channelType",formatType: 'dict', dictType: 'AGNES_DOP_CHANNEL_TYPE'},
-        {headerName: "渠道状态", field: "channelStatus",formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
+        {headerName: "渠道类型", field: "channelType", formatType: 'dict', dictType: 'AGNES_DOP_CHANNEL_TYPE'},
+        {headerName: "渠道状态", field: "channelStatus", formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
         column.colCrtUser,
         column.colCrtTm
     ],
