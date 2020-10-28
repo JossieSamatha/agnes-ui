@@ -25,7 +25,7 @@
         </draggable>
         <div class="stage-item add-btn" @click="addStage">
             <div class="stage-item-title">
-                <i class="el-icon-plus"></i>
+                <em class="el-icon-plus"></em>
                 <span class="title">stage</span>
             </div>
         </div>

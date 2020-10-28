@@ -3,13 +3,13 @@
         @dblclick.stop="showTableDetail('group', group, ruCaseStepList)"
         @click.stop="chooseActive">
         <div class="process-item-title" @dblclick="editgroupTitle" :class="{'edit':group.edit}">
-            <i class="fa fa-list-ul" v-if="!preview"></i>
+            <em class="fa fa-list-ul" v-if="!preview"></em>
             <span class="title">
                 <el-input ref="titleInput" class="title-input" :title="group.defName" v-model="group.defName"
                           :disabled="!group.edit" size="mini" clearable
                           @keyup.enter.native="$event.target.blur" @blur="savegroupTitle"></el-input>
                 <span class="edit" :class="{'is-disabled':!group.edit}" v-if="!preview">
-                    <i class="fa fa-trash-o" @click="deletegroup"></i>
+                    <em class="fa fa-trash-o" @click="deletegroup"></em>
                 </span>
             </span>
         </div>
@@ -43,12 +43,12 @@
         </div>
         <div class="add-task" v-if="!preview">
             <span class="stage-add">
-                <i class="el-icon-plus"></i>
+                <em class="el-icon-plus"></em>
                 <span class="title">STEP</span>
                 <step-act-type @addStep="addStep"></step-act-type>
             </span>
             <span @click="addGroup">
-                <i class="el-icon-plus"></i>
+                <em class="el-icon-plus"></em>
                 <span class="title">GROUP</span>
             </span>
         </div>

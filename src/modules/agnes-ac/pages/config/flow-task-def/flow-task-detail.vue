@@ -22,7 +22,7 @@
                            style="border: none;padding: 0;font-size: 20px;vertical-align: middle"
                 ></el-button>
                 <p>图标库中选择需要的图标对应名称，前面加上【fa fa-】前缀即可。</p>
-                <p>如：<span><i class="fa fa-bus"></i> bus</span>填写为【fa fa-bus】</p>
+                <p>如：<span><em class="fa fa-bus"></em> bus</span>填写为【fa fa-bus】</p>
                 <p>图标库链接地址为：
                     <a href="https://fontawesome.dashgame.com/" target="_blank" rel="noopener noreferrer" style="color: #4183C4;">点我跳转</a>
                 </p>

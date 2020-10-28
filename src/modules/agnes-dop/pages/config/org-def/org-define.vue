@@ -6,7 +6,7 @@
                 <el-col :span="12">
                     <el-form-item label="上级机构"  prop="parentExtOrgName">
                         <gf-input type="text" v-model="form.parentExtOrgName" :disabled="this.mode!=='add'" :readonly="true">
-                            <i slot="suffix" class="el-input__icon el-icon-edit-outline" @click="chooseParentOrg" v-show="this.mode==='add'"/>
+                            <em slot="suffix" class="el-input__icon el-icon-edit-outline" @click="chooseParentOrg" v-show="this.mode==='add'"/>
                         </gf-input>
                     </el-form-item>
                 </el-col>

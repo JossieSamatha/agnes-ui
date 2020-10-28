@@ -58,7 +58,7 @@
                 <template slot-scope="scope">
                     <div v-if="scope.row.ruleType === 'fn'" class="filter-conf" :class="mustFill('ruleParam') && !jsonNull(scope.row.ruleParam) ? 'error':''">
                         <span class="nowrap-span" :title="scope.row.ruleParam">{{jsonNull(scope.row.ruleParam)}}</span>
-                        <i class="edit-btn fa fa-edit" v-show="scope.row.ruleParam !== '无筛选条件'" @click="editRuleParam(scope.$index, scope.row)"></i>
+                        <em class="edit-btn fa fa-edit" v-show="scope.row.ruleParam !== '无筛选条件'" @click="editRuleParam(scope.$index, scope.row)"></em>
                     </div>
                 </template>
             </el-table-column>

@@ -5,8 +5,8 @@
             <ul class="dynamic-ul">
                 <li class="dynamic-item" v-for="dynamic in dynamicArr" :key="dynamic.value">
                     <span class="dynamic-label">{{dynamic.label}}</span>
-                    <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i>
+                    <em class="fa fa-edit"></em>
+                    <em class="fa fa-trash-o"></em>
                 </li>
             </ul>
         </div>

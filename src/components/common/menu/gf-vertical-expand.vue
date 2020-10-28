@@ -4,39 +4,39 @@
             <div v-if="false" class="gf-menu entrance-menu" @click="menuChoose(allMenu)">
                 <el-tooltip :disabled="!ifSideMenuFlod" effect="dark" :content="platFormTitle" placement="right">
                     <div class="gf-menu-item" :class="curSideMenu.menuid == 'root' ? 'active' : ''">
-                        <i class="menuicon" v-html="svgImg.overviewMenuIcon"></i>
+                        <em class="menuicon" v-html="svgImg.overviewMenuIcon"></em>
                         <span class="menuname">{{platFormTitle}}</span>
-                        <i class="el-icon-arrow-right"></i>
+                        <em class="el-icon-arrow-right"></em>
                     </div>
                 </el-tooltip>
             </div>
             <div class="gf-menu mark-menu">
                 <el-tooltip v-for="menu in allMenu.children" :key="menu.menuid" :disabled="!ifSideMenuFlod" effect="dark" :content="menu.menuname" placement="right">
                     <div class="gf-menu-item" :class="curSideMenu.menuid == menu.menuid ? 'active' : ''" @click="menuChoose(menu)">
-                        <i class="menuicon" v-if="menu.menuicon" :class="menu.menuicon"></i>
-                        <i class="menuicon" v-else v-html="svgImg.defaultMenuIcon"></i>
+                        <em class="menuicon" v-if="menu.menuicon" :class="menu.menuicon"></em>
+                        <em class="menuicon" v-else v-html="svgImg.defaultMenuIcon"></em>
                         <span class="menuname">{{menu.menuname}}</span>
-                        <i class="el-icon-arrow-right"></i>
+                        <em class="el-icon-arrow-right"></em>
                     </div>
                 </el-tooltip>
             </div>
             <div class="gf-menu footer" :style="{height: fastMenuHeight}">
                 <div class="header">
                     <span class="gf-menu-item flodBtn" @click="foldSideMenu">
-                        <i class="menuicon" v-html="ifSideMenuFlod?svgImg.refoldIcon:svgImg.foldIcon"></i>
+                        <em class="menuicon" v-html="ifSideMenuFlod?svgImg.refoldIcon:svgImg.foldIcon"></em>
                     </span>
                     <span class="setting" @click="showFastMenu">
-                        <i class="fa fa-star"></i>
+                        <em class="fa fa-star"></em>
                         <span>常用功能</span>
-                        <i class="el-icon-arrow-up" v-if="foldFastMenu"></i>
-                        <i class="el-icon-arrow-down" v-else></i>
+                        <em class="el-icon-arrow-up" v-if="foldFastMenu"></em>
+                        <em class="el-icon-arrow-down" v-else></em>
                     </span>
                 </div>
                 <div class="content">
                     <div class="gf-menu-item" v-for="menu in markMenu" :key="menu.menuid"
                          :class="menu.menuid == activeMarkMenu ? 'active' : ''">
                         <span class="menuname" @click="markMenuChoose(menu)">{{menu.menuname}}</span>
-                        <i class="el-icon-close" @click="cancelMark(menu)"></i>
+                        <em class="el-icon-close" @click="cancelMark(menu)"></em>
                     </div>
                 </div>
             </div>

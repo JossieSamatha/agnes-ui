@@ -4,7 +4,7 @@
             :key="index" class="notice-list"
         >
             <div class="state-icon">
-                <img :src="getImgPath(item.msgName)">
+                <img :src="getImgPath(item.msgName)" alt="notice-img">
             </div>
             <div class="notice-state">
                 {{item.msgTitle}}

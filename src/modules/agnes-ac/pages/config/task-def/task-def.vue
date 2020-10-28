@@ -65,7 +65,7 @@
         </el-form-item>
         <el-form-item label="执行频率"  v-if="form.execMode==1">
             <gf-input v-model.trim="form.execScheduler"  placeholder="请编辑执行频率" :readonly="true" style="width: 50%"/>
-            <i class="fa fa-edit"  style="font-size: 20px;margin-left: 10px" @click="editExecTime"></i>
+            <em class="fa fa-edit"  style="font-size: 20px;margin-left: 10px" @click="editExecTime"></em>
         </el-form-item>
         <el-form-item label="事件选择" v-else>
             <el-select v-model="form.eventId" placeholder="请选择" style="width: 50%">

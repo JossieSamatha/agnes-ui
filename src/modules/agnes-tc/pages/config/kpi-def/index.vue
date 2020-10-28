@@ -30,7 +30,7 @@
                     </div>
                     <div style="text-align: center">
                         <pie-chart v-show="showChar" :chart-data="charData" :color-set="colorSet"></pie-chart>
-                        <img v-show="!showChar" :src="require('../../../../../assets/img/no-data.png')" style="margin-top:-20px">
+                        <img v-show="!showChar" :src="require('../../../../../assets/img/no-data.png')" alt="no-data" style="margin-top:-20px">
                         <p v-show="!showChar" style="margin-top: 20px">未关联指标状态</p>
                     </div>
                 </el-card>

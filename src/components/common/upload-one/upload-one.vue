@@ -5,15 +5,16 @@
         :show-file-list="false"
         :on-success="uploadSuccess"
         :before-upload="checkFile">
-        <li v-if="fileList.length!=0" tabindex="0" class="el-upload-list__item is-success" style="display:flex">
-            <a class="el-upload-list__item-name">
-                <i class="el-icon-document">
-                </i>{{fileList[0].name}}
-            </a>
-            <a @click="fileDowload(fileList[0].objectId)" style="margin-right: 10px;">下载</a>
-            <a @click="onRemove(fileList[0].objectId)">删除</a>
-        </li>
-        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        <ul v-if="fileList.length!=0">
+            <li class="el-upload-list__item is-success" style="display:flex">
+                <a class="el-upload-list__item-name">
+                    <em class="el-icon-document"></em>{{fileList[0].name}}
+                </a>
+                <a @click="fileDowload(fileList[0].objectId)" style="margin-right: 10px;">下载</a>
+                <a @click="onRemove(fileList[0].objectId)">删除</a>
+            </li>
+        </ul>
+        <em v-else class="el-icon-plus avatar-uploader-icon"></em>
     </el-upload>
 </template>
 

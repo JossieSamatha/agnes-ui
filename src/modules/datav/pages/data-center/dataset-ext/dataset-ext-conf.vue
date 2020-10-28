@@ -12,7 +12,7 @@
                         <span class="block-right block-link" @click="openDsDialog">更改数据集</span>
                     </div>
                     <div class="list-item">
-                        <i class="icon iconfont icon-shuju icon-dianpu block-icon-color"></i>
+                        <em class="icon iconfont icon-shuju icon-dianpu block-icon-color"></em>
                         <span>{{filterArgs.srcDataset.dataSetName}}</span>
                     </div>
                 </div>
@@ -27,9 +27,9 @@
                                            :options="{group:{name:'list', pull:'clone',}, draggable:'.item'}">
                                     <div class="list-item item" v-for="(filed,index) in columns"
                                          :key="filed +index">
-                                        <i v-if="filed.columnTypeName==='data'" class="icon iconfont icon-calendar"></i>
-                                        <i v-else-if="filed.columnTypeName==='number'" class="icon iconfont icon-number"></i>
-                                        <i v-else class="icon iconfont icon-text"></i>
+                                        <em v-if="filed.columnTypeName==='data'" class="icon iconfont icon-calendar"></em>
+                                        <em v-else-if="filed.columnTypeName==='number'" class="icon iconfont icon-number"></em>
+                                        <em v-else class="icon iconfont icon-text"></em>
                                         <span class="item-title">{{filed.columnLabel}}</span>
                                     </div>
                                 </draggable>
@@ -80,7 +80,7 @@
                     </div>
                     <div v-if="!showGrid" class="chart-widget">
                         <div class="component-content">
-                            <img src="../../../assets/drawericon/dash-guide.png" alt="" class="guide-image">
+                            <img src="../../../assets/drawericon/dash-guide.png" alt="" class="guide-image"/>
                             <div class="guide-tip">
                                 拖拽左侧字段到
                                 <a href="#" class="guide-link">显示字段</a>
@@ -97,7 +97,7 @@
                         <div class="">衍生数据集</div>
                         <div class="block-body">
                             <div class="body-btn">
-                                <i class="icon iconfont icon-icon_add "></i>
+                                <em class="icon iconfont icon-icon_add "></em>
                                 <span class="block-right block-link" @click="addDataset">添加数据集</span>
                             </div>
                         </div>

@@ -17,7 +17,7 @@
                v-loading.fullscreen.lock="uploadFileLoading"
                element-loading-background="rgba(0, 0, 0, 0.3)" element-loading-text="文件上传中，请稍后">
         <div>
-            <i class="el-icon-upload"></i>
+            <em class="el-icon-upload"></em>
             <p>将文件拖到此处，或<em>点击上传</em></p>
         </div>
         <div slot="tip" class="el-upload__tip">
@@ -25,8 +25,7 @@
                 <div v-for="item in fileList" :key="item.objectId">
                     <li tabindex="0" class="el-upload-list__item is-success" style="display:flex">
                         <a class="el-upload-list__item-name">
-                            <i class="el-icon-document">
-                            </i>{{item.name}}
+                            <em class="el-icon-document"></em>{{item.name}}
                         </a>
                         <a @click="fileDowload(item.objectId)" style="margin-right: 10px;">下载</a>
                         <a @click="onRemove(item.objectId)">删除</a>

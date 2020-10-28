@@ -24,7 +24,7 @@
                                 @change="bizDateChange"
                 >
                 </el-date-picker>
-                <i class="el-icon-refresh" title="全部刷新" @click="getFLowsbyType(bizDate)"></i>
+                <em class="el-icon-refresh" title="全部刷新" @click="getFLowsbyType(bizDate)"></em>
             </div>
         </section>
         <section class="board-container" ref="contentSection">
@@ -41,8 +41,8 @@
                                          @click.native="chooseTask(task)">
                                 <template slot="content">
                                     <p class="imgContainer">
-                                        <i v-if="task.taskIcon" :class="task.taskIcon"></i>
-                                        <i v-else class="fa fa-cogs"></i>
+                                        <em v-if="task.taskIcon" :class="task.taskIcon"></em>
+                                        <em v-else class="fa fa-cogs"></em>
                                     </p>
                                     <p class="title" title="task.taskName">{{task.taskName}}</p>
                                     <p style="height: 15px">
@@ -68,8 +68,8 @@
                 <div class="process-container">
                     <div class="flow-legend">
                         <span v-for="(status, statusColor) in stageStatus" :key="statusColor">
-                            <i class="fa fa-circle" :style="{color: statusColor}"
-                            ></i>{{status}}
+                            <em class="fa fa-circle" :style="{color: statusColor}"
+                            ></em>{{status}}
                         </span>
                     </div>
                     <div class="progress">
@@ -103,7 +103,7 @@
         </section>
         <div v-show="ifGridExpand" class="drag-column" id="taskContainerLeft">
             <div class="close-container">
-                <i class="el-icon-circle-close" @click="closeTableDetail"></i>
+                <em class="el-icon-circle-close" @click="closeTableDetail"></em>
             </div>
             <div class="drag-container" v-dragx="dragColumn"
                  @bindUpdate="dragColumnUpdate"
@@ -113,8 +113,8 @@
                          grid-no="agnes-monitor-leader-field">
                     <template slot="right-before">
                         <span class="full-screen-btn">
-                             <i v-show="!ifDetailFullScreen" v-html="svgImg.fullScreen" @click="expandDetailFullScreen(true)"></i>
-                            <i v-show="ifDetailFullScreen" v-html="svgImg.exitFullScreen" @click="expandDetailFullScreen(false)"></i>
+                             <em v-show="!ifDetailFullScreen" v-html="svgImg.fullScreen" @click="expandDetailFullScreen(true)"></em>
+                            <em v-show="ifDetailFullScreen" v-html="svgImg.exitFullScreen" @click="expandDetailFullScreen(false)"></em>
                         </span>
                     </template>
                 </gf-grid>

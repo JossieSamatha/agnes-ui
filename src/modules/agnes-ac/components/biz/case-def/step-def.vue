@@ -1,12 +1,12 @@
 <template>
     <div class="step-comp" @dblclick="editTaskInfo">
-        <i class="step-icon" :class="iconTypeObj" v-html="lcImg[iconTypeObj]"></i>
+        <em class="step-icon" :class="iconTypeObj" v-html="lcImg[iconTypeObj]"></em>
         <span class="name" :title="step.stepName">{{step.stepName}}</span>
         <span class="edit" v-if="!preview">
-            <i class="fa fa-copy" @click="copyTask"></i>
-            <i class="fa fa-trash-o" @click="deleteTask"></i>
+            <em class="fa fa-copy" @click="copyTask"></em>
+            <em class="fa fa-trash-o" @click="deleteTask"></em>
         </span>
-        <span class="status" v-else-if="stepStatus"><i v-html="getStatusIcon(stepStatus).icon"></i></span>
+        <span class="status" v-else-if="stepStatus"><em v-html="getStatusIcon(stepStatus).icon"></em></span>
     </div>
 </template>
 

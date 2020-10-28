@@ -72,7 +72,7 @@
                     </div>
                     <div v-if="!isUpdate && editType == 'chart'" class="chart-widget">
                         <div class="component-content">
-                            <img src="../../../../assets/drawericon/dash-guide.png" class="guide-image">
+                            <img src="../../../../assets/drawericon/dash-guide.png" class="guide-image" alt="guide-image">
                             <div class="guide-tip">
                                 拖拽左侧字段到上方
                                 <a href="#" class="guide-link">维度</a>、
@@ -314,7 +314,7 @@
                         <div class="">数据预警</div>
                         <div class="block-body">
                             <div class="body-btn">
-                                <i class="icon iconfont icon-icon_add "></i>
+                                <em class="icon iconfont icon-icon_add "></em>
                                 <span>添加预警</span>
                             </div>
                         </div>
@@ -658,8 +658,8 @@
                 }
                 /*坐标Y轴:非指定图表类型删除特定属性*/
                 let setting = this.dataOption.chartSettings;
-                let compType = this.dataOption.type;
-                if (compType !== 'ct-line' && compType !== 'ct-bar' && compType !== 'ct-area') {
+                let dataOptionType = this.dataOption.type;
+                if (dataOptionType !== 'ct-line' && dataOptionType !== 'ct-bar' && dataOptionType !== 'ct-area') {
                     if (setting.yAxisName) {
                         delete setting.yAxisName
                     }

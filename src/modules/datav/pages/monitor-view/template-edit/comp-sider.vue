@@ -5,7 +5,7 @@
                 :class="activeCategoryComp == categoryComp.category?'active':''"
                 @click="categoryChoose(categoryComp)">
                 <el-tooltip class="item" effect="dark" :content="categoryComp.label" placement="right">
-                    <i class="iconImg" v-html="svgImg[categoryComp.icon]"></i>
+                    <em class="iconImg" v-html="svgImg[categoryComp.icon]"></em>
                 </el-tooltip>
             </li>
         </ul>
@@ -22,7 +22,7 @@
                                       @mousedown="chooseComp($event, comp)"
                                       @dragend="compDragEnd">
                         <div class="comp-thumbnail">
-                            <img class="comp-img" :src="getImgPath(comp.icon+'.png')" width="auto"
+                            <img class="comp-img" :src="getImgPath(comp.icon+'.png')" alt="comp-icon" width="auto"
                                  :height="comp.compName === 'water-pond' ? '50px' : 'auto'" />
                         </div>
                         <span class="comp-label">{{comp.label}}</span>
@@ -31,14 +31,14 @@
             </div>
             <div class="content pageInfo" v-else>
                 <div class="bgContent">
-                    <img class="bg-img" :src="getImgPath(activeBgImg+'.jpg')"/>
+                    <img class="bg-img" :src="getImgPath(activeBgImg+'.jpg')" alt="bg-img-bc"/>
                     <el-popover popper-class="bgListPop"
                             placement="right"
                             title="更换大屏背景"
                             trigger="click">
                         <div class="bgList">
                             <div v-for="(bgImg, index) in bgImgArr" :key="index">
-                                <img class="bg-img" :src="getImgPath(bgImg+'.jpg')"/>
+                                <img class="bg-img" :src="getImgPath(bgImg+'.jpg')" alt="bg-img"/>
                                 <p @click="chooseBg(bgImg)">选择</p>
                             </div>
                         </div>

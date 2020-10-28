@@ -20,7 +20,7 @@
             <div class="template-item new" @click="openEditPage({opType: 'add'})">
                 <div>
                     <el-button type="text">
-                        <i class="el-icon-plus"></i>
+                        <em class="el-icon-plus"></em>
                         <div class="component-label">新建大屏</div>
                     </el-button>
                 </div>

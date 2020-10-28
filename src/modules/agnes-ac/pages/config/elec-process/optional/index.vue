@@ -14,8 +14,8 @@
             <el-radio-group class="task-board" v-model="choosedTaskId" size="mini" @change="chooseTask">
                 <el-radio v-for="task in proTask" :key="task.taskId" :label="task.taskId" :title="task.taskName"
                           border>
-                    <i v-if="task.taskIcon" :class="task.taskIcon"></i>
-                    <i v-else class="fa fa-cogs"></i>
+                    <em v-if="task.taskIcon" :class="task.taskIcon"></em>
+                    <em v-else class="fa fa-cogs"></em>
                     <span>{{task.taskName}}</span>
                 </el-radio>
             </el-radio-group>
@@ -32,12 +32,12 @@
                                 @change="bizDateChange"
                 >
                 </el-date-picker>
-                <i class="el-icon-refresh" title="全部刷新" @click="freshFlowData()"></i>
+                <em class="el-icon-refresh" title="全部刷新" @click="freshFlowData()"></em>
             </div>
         </section>
         <section class="bottom-section">
             <span class="rightExpandBtn" @click="foldBottomRight">
-                <i class="menuicon" v-html="ifRightExpand?svgImg.refoldIcon:svgImg.foldIcon"></i>
+                <em class="menuicon" v-html="ifRightExpand?svgImg.refoldIcon:svgImg.foldIcon"></em>
             </span>
             <div class="bottom left" id="taskContainerLeft">
                 <div class="section-title">
@@ -45,7 +45,7 @@
                     <span v-if="currentTaskObj.taskName"> -- {{currentTaskObj.taskName}}</span>
                     <div class="flow-legend" :style="{right: ifRightExpand?'0':'35px'}">
                         <span v-for="(status, statusColor) in stageStatus" :key="statusColor">
-                            <i class="fa fa-circle" :style="{color: statusColor}"></i>{{status}}
+                            <em class="fa fa-circle" :style="{color: statusColor}"></em>{{status}}
                         </span>
                     </div>
                 </div>
@@ -69,8 +69,8 @@
                     </div>
                     <div class="drag-bar-line">
                         <p @click="ifGridExpand = !ifGridExpand">
-                            <i class="fa fa-caret-down"></i>
-                            <i class="fa fa-caret-up"></i>
+                            <em class="fa fa-caret-down"></em>
+                            <em class="fa fa-caret-up"></em>
                         </p>
                     </div>
                 </div>
@@ -92,7 +92,7 @@
                         <span>执行情况</span>
                         <el-checkbox-group class="exec-type" v-model="execTypeChecked" size="small" @change="execTypeChange">
                             <el-checkbox v-for="exeType in execTypeOp" :key="exeType.id" :label="exeType.id" border>
-                                <i v-html="lcImg[exeType.icon]"></i><span>{{exeType.label}}</span>
+                                <em v-html="lcImg[exeType.icon]"></em><span>{{exeType.label}}</span>
                             </el-checkbox>
                         </el-checkbox-group>
                     </p>

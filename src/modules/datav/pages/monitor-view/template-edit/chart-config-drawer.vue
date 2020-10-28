@@ -5,7 +5,7 @@
                 <div class="fx-navigation-bar">
                     <div class="nav left">
                         <div class="nav-btn nav-title fx-entry-title">
-                            <div class="nav-home" @click="passCancel"><i class="el-icon-arrow-left"></i></div>
+                            <div class="nav-home" @click="passCancel"><em class="el-icon-arrow-left"></em></div>
                             <div class="fx-title-editor nav-title">
                                 <input v-model.lazy="chartLabel" @blur="updateChartLabel">
                                 <span class="name-pre">{{chartLabel}}</span>

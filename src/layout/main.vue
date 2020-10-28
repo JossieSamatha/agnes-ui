@@ -44,8 +44,8 @@
                 </el-form-item>
             </el-form>
             <div class="funBtn feedback" slot="reference" title="意见反馈">
-                <i class="fa fa-envelope-o" v-if="!feedbackShow"></i>
-                <i class="fa fa-envelope-open-o" v-if="feedbackShow"></i>
+                <em class="fa fa-envelope-o" v-if="!feedbackShow"></em>
+                <em class="fa fa-envelope-open-o" v-if="feedbackShow"></em>
             </div>
         </el-popover>
     </gf-layout-default>
