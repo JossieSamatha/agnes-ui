@@ -393,6 +393,3 @@
     }
 </script>
 
-<style scoped>
-</style>
-

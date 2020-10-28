@@ -116,11 +116,8 @@ export default {
 }
 </script>
 
-<style >
-
+<style scoped>
 .act-button{
     background-color:#F6F8FA;
 }
-
-
 </style>

@@ -207,8 +207,4 @@
     .not-block{
         border-color: #f00;
     }
-    /* .move-model-body{
-        width: 800px;
-        overflow: scroll;
-    } */
 </style>>

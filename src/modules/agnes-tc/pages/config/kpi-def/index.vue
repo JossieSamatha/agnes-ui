@@ -315,7 +315,6 @@
     }
 
     .item {
-        /*margin-bottom: 18px;*/
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -339,8 +338,6 @@
         margin-left: 40px;
         margin-right: 40px;
         float: left;
-        /*width: 33%;*/
-        /*max-width: 180px;*/
     }
 
     .first{

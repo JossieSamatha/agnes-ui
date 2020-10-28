@@ -135,7 +135,6 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        /* padding-top: 6px; */
         padding-bottom: 6px;
     }
 
