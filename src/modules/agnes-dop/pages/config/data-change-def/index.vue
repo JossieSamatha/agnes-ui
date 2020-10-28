@@ -56,6 +56,7 @@
                 nowTaskData:'',
                 person:'',
                 changeData:'',
+                execScheduler:'',
                 dayendId:'',
             }
         },
@@ -76,6 +77,7 @@
                     let resChangeData = resp.data
                     this.lastTaskData = resChangeData.lastBizDate;
                     this.nextTaskData = resChangeData.nextBizDate;
+                    this.execScheduler = resChangeData.execScheduler;
                     this.nowTaskData = resChangeData.bizDate;
                     this.person = resChangeData.updateUser;
                     this.changeData = resChangeData.updateTs;
@@ -84,7 +86,7 @@
                     this.$msg.error(reason);
                 }
             },
-            showDlg(actionOk,type) {
+            showDlg(actionOk,type,execScheduler) {
                 if(type==='data'){
                     this.$nav.showDialog(
                         ChangeDataDlg,
@@ -98,16 +100,16 @@
                     this.$nav.showDialog(
                         ChangeRuleDlg,
                         {
-                            args: {actionOk},
+                            args: {actionOk,execScheduler},
                             width: '600px',
-                            title: this.$dialog.formatTitle('日切规则'),
+                            title: this.$dialog.formatTitle('日切规则','edit'),
                         }
                     );
                 }
 
             },
             async onAddChangeData() {
-                await this.reloadData();
+                await this.loadChangeData();
             },
             async addChangeData() {
                 if (!this.nowTaskData) {
@@ -170,7 +172,7 @@
                 await this.loadChangeData();
             },
             addChangeRule(){
-                this.showDlg(this.onAddChangeData.bind(this),'rule');
+                this.showDlg(this.onAddChangeData.bind(this),'rule',this.execScheduler);
             },
             openChangeList(){
                 this.$drawerPage.create({
