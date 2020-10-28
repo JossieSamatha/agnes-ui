@@ -74,10 +74,14 @@
             }
         },
         mounted(){
-            this.stage.edit ? this.$refs.titleInput.focus() : false;
+            if(this.stage.edit){
+                this.$refs.titleInput.focus()
+            }
         },
         updated(){
-            this.stage.edit ? this.$refs.titleInput.focus() : false;
+            if(this.stage.edit){
+                this.$refs.titleInput.focus()
+            }
         },
         methods: {
             // 修改Stage标题

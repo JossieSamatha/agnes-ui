@@ -1,22 +1,4 @@
 <template>
-    <!-- <el-upload class="ecm-upload"
-               action="oisSolr/search/upload"
-               :drag="true"
-               :data="uploadData"
-               :before-upload="checkFile"
-               :on-progress="uploadProgress"
-               :on-success="uploadSuccess"
-               :on-remove="onRemove"
-               :on-error="uploadError"
-               :on-exceed="sizeExp"
-               :multiple="true"
-               limit=1
-               :disabled="disabled"
-               :show-file-list="false"
-               :file-list="fileList"
-               v-loading.fullscreen.lock="uploadFileLoading"
-               element-loading-background="rgba(0, 0, 0, 0.3)" element-loading-text="文件上传中，请稍后">
-    </el-upload> -->
     <el-upload
         class="avatar-uploader"
         action="http://192.168.8.113:7002/api/ecm/ecm/doc/upload"
@@ -31,7 +13,6 @@
             <a @click="fileDowload(fileList[0].objectId)" style="margin-right: 10px;">下载</a>
             <a @click="onRemove(fileList[0].objectId)">删除</a>
         </li>
-        <!-- <img v-if="uploadData.folder" :src="imageUrl" class="avatar"> -->
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
     </el-upload>
 </template>

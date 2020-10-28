@@ -30,9 +30,9 @@
                     </el-upload>
                 </el-form-item>
                 <el-form-item label="预览数据">
-                    <div style="">
+                    <div>
                         <gf-button type="primary" @click="doView">读取数据</gf-button>
-                        <span Style="float:right; color: #8A8A8A">注：数据仅显示100条</span>
+                        <span style="float:right; color: #8A8A8A">注：数据仅显示100条</span>
                     </div>
                     <gf-grid
                             toolbar=""
@@ -259,7 +259,3 @@
     }
 
 </script>
-
-<style>
-</style>
-

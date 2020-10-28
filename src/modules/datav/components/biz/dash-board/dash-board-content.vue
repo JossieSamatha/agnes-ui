@@ -54,15 +54,6 @@
                 require: true
             }
         },
-        data: function () {
-            return {
-            }
-        },
-        mounted() {
-            this.draggableList
-        },
-        watch: {
-        },
         computed: {
             ifCloseIconShow(){
                 return this.isGridEdit;

@@ -113,10 +113,14 @@
             }
         },
         mounted() {
-            this.group.edit ? this.$refs.titleInput.focus() : false;
+            if(this.group.edit){
+                this.$refs.titleInput.focus()
+            }
         },
         updated() {
-            this.group.edit ? this.$refs.titleInput.focus() : false;
+            if(this.group.edit){
+                this.$refs.titleInput.focus()
+            }
         },
         computed: {
             groupOption(){

@@ -80,7 +80,6 @@
         <el-form-item label="是否需要审批">
             <gf-dict v-model="form.needApprove" dict-type="GF_BOOL_TYPE" style="width: 50%"/>
         </el-form-item>
-<!--        <el-checkbox v-model="form.needAppRove" style="margin-left: 60px;margin-bottom: 18px;width: 10%;">是否需要审批</el-checkbox>-->
         <el-row class="gf-form-btn2" style="margin-left: 25%" v-show="mode!=='view'">
             <el-button type="primary" @click="save()" icon="el-icon-success">提交</el-button>
             <el-button @click="close" icon="el-icon-circle-close">取消</el-button>

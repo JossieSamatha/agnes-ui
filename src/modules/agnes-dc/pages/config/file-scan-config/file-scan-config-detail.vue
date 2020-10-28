@@ -62,9 +62,6 @@
                 <p>如当天日期为20200925,该表达式解析为：/home/20200923/test</p>
             </el-popover>
         </el-form-item>
-<!--        <el-form-item label="基准日期" prop="baseDate">-->
-<!--            <gf-dict filterable clearable v-model="detailFormData.baseDate" dict-type="AGNES_BASE_DATE" style="width: 30%;"/>-->
-<!--        </el-form-item>-->
         <template >
             <el-form-item label="执行频率" prop="execScheduler">
                 <el-button type="text" @click="editExecTime('execScheduler', detailFormData.execScheduler)">

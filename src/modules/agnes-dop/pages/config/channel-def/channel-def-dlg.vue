@@ -12,7 +12,6 @@
             </el-form-item>
 
             <el-form-item label="渠道类型" prop="dopReChannel.channelType">
-<!--                <gf-input type="text" v-model="form.dopReChannel.channelType"/>-->
                 <gf-dict-select dict-type="AGNES_DOP_CHANNEL_TYPE" v-model="form.dopReChannel.channelType"/>
             </el-form-item>
 

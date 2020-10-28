@@ -37,7 +37,7 @@
             </el-row>
             <gf-grid ref="grid" :options="gridOptions" class="grid-class" :height="height">
             </gf-grid>
-            <el-row  style="marginTop:12px;marginLeft:-10px">
+            <el-row  style="margin-top:12px;margin-left:-10px">
                 <el-col :span="24">
                     <el-form-item label-width="0px"  label="" prop="remark" >
                         <gf-input

@@ -41,10 +41,8 @@
                 </div>
             </div>
         </div>
-<!--        <transition name="slide-fade">-->
-            <gf-side-menu v-if="showSideMenu" :sideMenu="curSideMenu"
-                          @markMenuChange="markMenuChange" @closeSideMenu="closeSideMenu"></gf-side-menu>
-<!--        </transition>-->
+        <gf-side-menu v-if="showSideMenu" :sideMenu="curSideMenu"
+                      @markMenuChange="markMenuChange" @closeSideMenu="closeSideMenu"></gf-side-menu>
     </div>
 </template>
 <script>

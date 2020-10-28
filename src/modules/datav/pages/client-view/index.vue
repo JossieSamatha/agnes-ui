@@ -102,13 +102,13 @@
                 this.$set(this.$refs.gridContainer, 'isGridEdit', true);
                 this.$set(this.$refs.gridContainer, 'isGridDefine', false);
                 let gridLayout =  JSON.parse(JSON.stringify(choosedBoard));
-                let boardData = gridLayout.boardData;
+                let boardDataArr = gridLayout.boardData;
                 let boardStyleArr = this.$refs.gridContainer.boardStyleArr;
                 let gridDataArr = {};
-                for(let i=0; i<boardData.length; i++){
+                for(let i=0; i<boardDataArr.length; i++){
                     if(boardStyleArr[i]){
                         const objArr = [boardStyleArr[i]];
-                        const gridLayoutObj = boardData[i];
+                        const gridLayoutObj = boardDataArr[i];
                         gridDataArr[gridLayoutObj.i] = objArr;
                     }
                 }
@@ -137,6 +137,3 @@
         }
     };
 </script>
-
-<style>
-</style>

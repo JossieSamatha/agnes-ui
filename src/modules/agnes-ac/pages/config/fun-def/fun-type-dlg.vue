@@ -45,26 +45,6 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <!--            <el-form-item label="传入参数" prop="fnArgs">-->
-      <!--                <el-select v-model="form.reFunDef.fnArgs" placeholder="选择业务对象" style="width: 100%" filterable>-->
-      <!--                    <el-option-->
-      <!--                            v-for="item in modelType"-->
-      <!--                            :key="item.modelTypeId"-->
-      <!--                            :label="item.typeName"-->
-      <!--                            :value="item.modelTypeId">-->
-      <!--                    </el-option>-->
-      <!--                </el-select>-->
-      <!--            </el-form-item>-->
-      <!--            <el-form-item label="返回参数" prop="fnReturn">-->
-      <!--                <el-select v-model="form.reFunDef.fnReturn" placeholder="选择业务对象" style="width: 100%" filterable>-->
-      <!--                    <el-option-->
-      <!--                            v-for="item in modelType"-->
-      <!--                            :key="item.modelTypeId"-->
-      <!--                            :label="item.typeName"-->
-      <!--                            :value="item.modelTypeId">-->
-      <!--                    </el-option>-->
-      <!--                </el-select>-->
-      <!--            </el-form-item>-->
       <el-form-item label="函数描述" prop="fnDesc">
         <gf-input type="textarea" v-model="form.reFunDef.fnDesc"
                   resize="none" :max-byte-len="128"
@@ -175,7 +155,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-
-</style>

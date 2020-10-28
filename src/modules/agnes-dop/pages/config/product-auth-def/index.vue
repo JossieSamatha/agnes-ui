@@ -12,7 +12,7 @@
             <el-row class="button-body">
                 <el-input v-model="filterText" size="mini" placeholder="检索..."
                           suffix-icon="fa fa-search"></el-input>
-                <gf-button style="marginLeft:12px" @click="saveAuth" class="action-btn" type="primary" size="mini">保存</gf-button>
+                <gf-button style="margin-left:12px" @click="saveAuth" class="action-btn" type="primary" size="mini">保存</gf-button>
             </el-row>
             <el-tree ref="tree"
                     v-loading="loading"

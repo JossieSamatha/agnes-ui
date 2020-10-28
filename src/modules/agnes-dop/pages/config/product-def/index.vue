@@ -1,30 +1,11 @@
 <template>
     <el-container>
-        <!-- <el-aside width="200px" class="el-border">
-            <el-row>
-                <el-input v-model="filterText" size="mini" placeholder="检索机构..."
-                          suffix-icon="fa fa-search"></el-input>
-            </el-row>
-            <el-tree ref="tree"
-                     :data="treeData"
-                     node-key="id"
-                     default-expand-all
-                     @node-click="handleNodeClick"
-                     :filter-node-method="filterNode"
-                     style="border: 1px solid #eee;border-radius: 0;overflow-y: auto;height: 97%;margin-top:4px">
-            </el-tree>
-        </el-aside> -->
-        <!-- <el-container style="height: 100%"> -->
-            <!-- <el-main height="100%" style="padding-top: 0px;padding-bottom: 0px" class="el-border"> -->
-                <ProductList></ProductList>
-            <!-- </el-main> -->
-        <!-- </el-container> -->
+        <ProductList></ProductList>
     </el-container>
 </template>
 
 <script>
     import ProductList from "./product-list"
-    // import LinkManGroup from "./product-group-dlg"
 
     export default {
         name: "index",

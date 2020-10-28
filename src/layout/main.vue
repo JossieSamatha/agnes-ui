@@ -107,8 +107,8 @@
                     });
                     const other = init.initMenus(toColumn(otherMenus));
                     if(other.allMenu.children){
-                        other.allMenu.children.forEach(data=>{
-                            _this.adminMenus.allMenu.children.push(data)
+                        other.allMenu.children.forEach(childData=>{
+                            _this.adminMenus.allMenu.children.push(childData)
                         })
                     }
                     this.studioTypeChange('appMenus');
@@ -235,6 +235,3 @@
         }
     };
 </script>
-
-<style>
-</style>

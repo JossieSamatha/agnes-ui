@@ -152,20 +152,16 @@
                             style="width: 100%">
                         <el-table-column prop="fileName" label="用印文件名">
                             <template slot-scope="scope">
-                                <!-- <ecm-upload-comp :style="!scope.row.fileName ? 'border:1px solid #f00':''" v-model="scope.row.fileName"></ecm-upload-comp> -->
-                                <!-- <span v-if="this.mode === 'view'">{{scope.row.fileName}}</span> -->
                                 <el-input :style="!scope.row.fileName ? 'border:1px solid #f00':''" v-model="scope.row.fileName"></el-input>
                             </template>
                         </el-table-column>
                         <el-table-column prop="fileNumber" label="份数">
                             <template slot-scope="scope">
-                                <!-- <span v-if="this.mode === 'view'">{{scope.row.fileNumber}}</span> -->
                                 <el-input type="number" :style="!scope.row.fileNumber ? 'border:1px solid #f00':''" v-model="scope.row.fileNumber"></el-input>
                             </template>
                         </el-table-column>
                         <el-table-column prop="fileRemark" label="备注">
                             <template slot-scope="scope">
-                                <!-- <span v-if="this.mode === 'view'">{{scope.row.fileRemark}}</span> -->
                                 <el-input v-model="scope.row.fileRemark"></el-input>
                             </template>
                         </el-table-column>
@@ -335,19 +331,15 @@
                                 <template slot-scope="scope">
                                     
                                     <upload-one limit=1 :style="!scope.row.fileName ? 'border:1px solid #f00':''" v-model="scope.row.fileName"></upload-one>
-                                    <!-- <span v-if="this.mode === 'view'">{{scope.row.fileName}}</span> -->
-                                    <!-- <el-input :style="!scope.row.fileName ? 'border:1px solid #f00':''" v-model="scope.row.fileName"></el-input> -->
                                 </template>
                             </el-table-column>
                             <el-table-column prop="fileNumber" label="份数">
                                 <template slot-scope="scope">
-                                    <!-- <span v-if="this.mode === 'view'">{{scope.row.fileNumber}}</span> -->
                                     <el-input type="number" :style="!scope.row.fileNumber ? 'border:1px solid #f00':''" v-model="scope.row.fileNumber"></el-input>
                                 </template>
                             </el-table-column>
                             <el-table-column prop="fileRemark" label="备注">
                                 <template slot-scope="scope">
-                                    <!-- <span v-if="this.mode === 'view'">{{scope.row.fileRemark}}</span> -->
                                     <el-input v-model="scope.row.fileRemark"></el-input>
                                 </template>
                             </el-table-column>
