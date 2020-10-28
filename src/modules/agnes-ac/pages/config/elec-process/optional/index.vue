@@ -45,9 +45,7 @@
                     <span v-if="currentTaskObj.taskName"> -- {{currentTaskObj.taskName}}</span>
                     <div class="flow-legend" :style="{right: ifRightExpand?'0':'35px'}">
                         <span v-for="(status, statusColor) in stageStatus" :key="statusColor">
-                            <i class="fa fa-circle"
-                               :style="{color: statusColor}"
-                            ></i>{{status}}
+                            <i class="fa fa-circle" :style="{color: statusColor}"></i>{{status}}
                         </span>
                     </div>
                 </div>
@@ -158,7 +156,7 @@
             const flowTypeDicts = this.$app.dict.getDictItems("AGNES_CASE_FLOWTYPE");
             if (flowTypeDicts.length > 0 && flowTypeDicts[0].dictId) {
                 this.flowType = flowTypeDicts[0].dictId;
-                this.getFLowbyType(flowTypeDicts[0].dictId);
+                this.getFLowbyType(flowTypeDicts[0].dictId, this.bizDate);
             }
             this.freshInterval = setInterval(() => {
                 if(!this.loading) {
@@ -196,14 +194,14 @@
         },
         methods: {
             // 根据流程类型加载对应流程数据
-            async getFLowbyType(firstFlowType) {
-                const flowDataList = await this.$api.elecProcessApi.getTaskByType(firstFlowType, this.bizDate);
+            async getFLowbyType(firstFlowType, bizDate) {
+                const flowDataList = await this.$api.elecProcessApi.getTaskByType(firstFlowType, bizDate);
                 if (flowDataList.data && flowDataList.data.length > 0) {
                     this.proTask = flowDataList.data;
                     // 默认加载第一项流程数据
                     this.choosedTaskId = this.proTask[0].taskId;
                     this.currentTaskObj = this.proTask[0];
-                    this.getFLowDetail(this.proTask[0].taskId, this.bizDate);
+                    this.getFLowDetail(this.proTask[0].taskId, bizDate);
                 } else {
                     this.proTask = [];
                     this.taskStage = [];
@@ -263,7 +261,7 @@
             // 流程类型切换
             flowTypeChange(val) {
                 this.curStage = {};
-                this.getFLowbyType(val);
+                this.getFLowbyType(val, this.bizDate);
             },
 
             // 任务流程 -- 选择
@@ -290,7 +288,8 @@
 
             // 业务日期切换
             bizDateChange(val) {
-                this.getFLowDetail(this.choosedTaskId, val);
+                this.getFLowbyType(this.flowType, val);
+                // this.getFLowDetail(this.choosedTaskId, val);
             },
 
             // 展开/收起底部右侧
