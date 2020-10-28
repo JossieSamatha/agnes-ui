@@ -105,7 +105,7 @@
 /*更改数据集*/
 .config-drawer .update-data-source ul li#data-source-table:hover {
     background-color: #ecf5ff;
-    color: #476DBE;;
+    color: #476DBE;
 }
 
 .config-drawer .dash-chart-content .el-tabs__active-bar {
@@ -1431,8 +1431,9 @@
     border-color: #476DBE;
 }
 
-.config-drawer .chart-axis .xAxisTag .edit-name .btn .el-button--small, .el-button--small.is-round,
-.config-drawer .chart-axis .yAxisTag .edit-name .btn .el-button--small, .el-button--small.is-round {
+.config-drawer .chart-axis .xAxisTag .edit-name .btn .el-button--small,
+.config-drawer .chart-axis .yAxisTag .edit-name .btn .el-button--small,
+.el-button--small.is-round {
     padding: 9px 37px;
 }
 
@@ -1470,7 +1471,7 @@
 
 .config-drawer .config-type .chart-type.disable svg.icon.type-icon,
 .config-drawer .chart-config .config-type .chart-type.disable .icon.type-icon:hover {
-    color: #666 !important;;
+    color: #666 !important;
 }
 
 /*左右指标*/

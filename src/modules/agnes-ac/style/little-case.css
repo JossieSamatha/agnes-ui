@@ -243,7 +243,7 @@
 }
 
 .little-case.work-flow-module > section.common-task-section > .stage-item:hover::-webkit-scrollbar-thumb {
-    background: rgba(135, 141, 153, .3);;
+    background: rgba(135, 141, 153, .3);
 }
 
 .little-case.work-flow-module > section.common-task-section > .stage-item

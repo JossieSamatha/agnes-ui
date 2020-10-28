@@ -12,7 +12,7 @@
                                      :step.sync="stageItem" :stepList.sync="stage.children" :stepIndex="stageItemIndex"
                                      :stepType.sync="stepType" @click.native.stop="chooseActive">
                             </stepDef>
-                            <groupDef ref="groupDef" :key="stageItem.defId" v-else
+                            <groupDef  ref="groupDef" :key="stageItem.defId" v-else
                                       :group.sync="stageItem"
                                       :groupList.sync="stage.children"
                                       :groupIndex="stageItemIndex"

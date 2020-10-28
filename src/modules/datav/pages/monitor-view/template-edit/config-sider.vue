@@ -1,6 +1,6 @@
 <template>
     <div class="template-config-sider common" :class="menuFold?'fold':''" >
-        <i class="menu-fold" v-html="svgImg['menu-fold']" @click="menuFold = !menuFold"></i>
+        <em class="menu-fold" v-html="svgImg['menu-fold']" @click="menuFold = !menuFold"></em>
         <section class="container" @mousedown.stop>
             <el-tabs class="darkTab" v-model="activeTab" type="border-card">
                 <el-tab-pane label="基础配置" name="displayconf">
