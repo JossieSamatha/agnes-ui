@@ -107,7 +107,7 @@
     }
 
     .elec-process-dashboard .card-container .module-card .content > p.title,
-    .elec-process-dashboard .card-container .module-card .content > p.imgContainer > i {
+    .elec-process-dashboard .card-container .module-card .content > p.imgContainer > em {
         transform: scale(0.9);
     }
 }
@@ -262,7 +262,7 @@
 }
 
 .elec-process-dashboard .card-container .module-card .content > p.title,
-.elec-process-dashboard .card-container .module-card .content > p.imgContainer > i {
+.elec-process-dashboard .card-container .module-card .content > p.imgContainer > em {
     color: #999;
     text-align: center;
 }
@@ -279,20 +279,20 @@
     height: 40%;
 }
 
-.elec-process-dashboard .card-container .module-card .content > p.imgContainer > i {
+.elec-process-dashboard .card-container .module-card .content > p.imgContainer > em {
     font-size: 24px;
 }
 
-.elec-process-dashboard .card-container .module-card .content > p.imgContainer > i.fa.fa-clock-o {
+.elec-process-dashboard .card-container .module-card .content > p.imgContainer > em.fa.fa-clock-o {
     font-size: 30px;
 }
 
 @media screen and (min-width: 1560px) {
-    .elec-process-dashboard .card-container .module-card .content > p.imgContainer > i {
+    .elec-process-dashboard .card-container .module-card .content > p.imgContainer > em {
         font-size: 32px;
     }
 
-    .elec-process-dashboard .card-container .module-card .content > p.imgContainer > i.fa.fa-clock-o {
+    .elec-process-dashboard .card-container .module-card .content > p.imgContainer > em.fa.fa-clock-o {
         font-size: 40px;
     }
 }
@@ -405,7 +405,7 @@
     padding-left: 10px;
 }
 
-.elec-process > section i.el-icon-refresh {
+.elec-process > section .el-icon-refresh {
     font-size: 18px;
     color: #999;
     font-weight: bold;
@@ -458,7 +458,7 @@
     margin-left: 5px;
 }
 
-.elec-process .flow-legend > span > i {
+.elec-process .flow-legend > span > em {
     margin-right: 3px;
 }
 
@@ -615,11 +615,11 @@
     padding-left: 0;
 }
 
-.elec-process .exec-type .el-checkbox.is-bordered .el-checkbox__label>i {
+.elec-process .exec-type .el-checkbox.is-bordered .el-checkbox__label>em {
     vertical-align: middle;
 }
 
-.elec-process .exec-type .el-checkbox.is-bordered .el-checkbox__label>i>svg {
+.elec-process .exec-type .el-checkbox.is-bordered .el-checkbox__label>em>svg {
     width: 14px;
     margin-right: 3px;
 }
@@ -662,7 +662,7 @@
     vertical-align: text-bottom;
 }
 
-.elec-process .bottom-section .exec-container .exec-ul .exec-li.nostart > i {
+.elec-process .bottom-section .exec-container .exec-ul .exec-li.nostart > em {
     color: #eee;
 }
 
@@ -976,7 +976,7 @@
 }
 
 
-.elec-process.board-detail .step-comp > i.step-icon {
+.elec-process.board-detail .step-comp > .step-icon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -987,28 +987,28 @@
     height: 33px;
 }
 
-.elec-process.board-detail .step-comp > i.step-icon>svg {
+.elec-process.board-detail .step-comp > .step-icon>svg {
     width: 22px;
     height: 20px;
 }
 
-.elec-process.board-detail .step-comp > i.step-icon.person>svg {
+.elec-process.board-detail .step-comp > .step-icon.person>svg {
     width: 22px;
     height: 18px;
     fill: #666;
 }
 
-.elec-process.board-detail .step-comp > i.step-icon.indicator>svg {
+.elec-process.board-detail .step-comp > .step-icon.indicator>svg {
     width: 25px;
     height: 25px;
     fill: #DB713E;
 }
 
-.elec-process.board-detail .step-comp > i.step-icon.robot>svg {
+.elec-process.board-detail .step-comp > .step-icon.robot>svg {
     fill: #67c23a;
 }
 
-.elec-process.board-detail .step-comp > i.step-icon.process>svg {
+.elec-process.board-detail .step-comp > .step-icon.process>svg {
     fill: #476DBE;
 }
 

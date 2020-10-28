@@ -2,47 +2,63 @@ import column from "../../../../../config/column"
 import Permission from "../../../../../utils/hasPermission"
 
 const colButtons = [
-    {key: 'editKpiTask', title: '编辑',disabled: (params)=>{
+    {
+        key: 'editKpiTask', title: '编辑', disabled: (params) => {
             let result = false;
-            if(params.data.reTaskDef.taskStatus === '03'){
-                result =true;
+            if (params.data.reTaskDef.taskStatus === '03') {
+                result = true;
             }
-            return result;}, visiable: () => {
+            return result;
+        }, visiable: () => {
             return Permission.hasPermission('agnes.kpi.task.def.edit');
-        }},
-    {key: 'deleteKpiTask', title: '删除', cellClass: 'red-cell',disabled: (params)=>{
+        }
+    },
+    {
+        key: 'deleteKpiTask', title: '删除', cellClass: 'red-cell', disabled: (params) => {
             let result = false;
-            if(params.data.reTaskDef.taskStatus === '03'){
-                result =true;
+            if (params.data.reTaskDef.taskStatus === '03') {
+                result = true;
             }
-            return result;}, visiable: () => {
+            return result;
+        }, visiable: () => {
             return Permission.hasPermission('agnes.kpi.task.def.delete');
-        }},
-    {key: 'checkKpiTask', title: '审核',disabled: (params)=>{
+        }
+    },
+    {
+        key: 'checkKpiTask', title: '审核', disabled: (params) => {
             let result = false;
-            if(params.data.reTaskDef.taskStatus === '00' ||params.data.reTaskDef.taskStatus === '02' || params.data.reTaskDef.taskStatus === '03'){
-                result =true;
+            if (params.data.reTaskDef.taskStatus === '00' || params.data.reTaskDef.taskStatus === '02' || params.data.reTaskDef.taskStatus === '03') {
+                result = true;
             }
-            return result;}, visiable: () => {
+            return result;
+        }, visiable: () => {
             return Permission.hasPermission('agnes.kpi.task.def.check');
-        }},
-    {key: 'checkBeforePulish', title: '发布',disabled: (params)=>{
+        }
+    },
+    {
+        key: 'checkBeforePulish', title: '发布', disabled: (params) => {
             let result = false;
-            if(params.data.reTaskDef.taskStatus === '00' ||params.data.reTaskDef.taskStatus === '01' || params.data.reTaskDef.taskStatus === '03'){
-                result =true;
+            if (params.data.reTaskDef.taskStatus === '00' || params.data.reTaskDef.taskStatus === '01' || params.data.reTaskDef.taskStatus === '03') {
+                result = true;
             }
-            return result;},visiable:(params)=>{
+            return result;
+        }, visiable: (params) => {
             let result = true;
-            if(!Permission.hasPermission('agnes.kpi.task.def.pulish') && params.data.reTaskDef.taskStatus === '03'){
-                result =false;
+            if (!Permission.hasPermission('agnes.kpi.task.def.pulish') && params.data.reTaskDef.taskStatus === '03') {
+                result = false;
             }
-            return result;}},
-    {key: 'stopAndCancelTask', title: '停止',visiable: (params)=>{
+            return result;
+        }
+    },
+    {
+        key: 'stopAndCancelTask', title: '停止', visiable: (params) => {
             let result = false;
-            if(Permission.hasPermission('agnes.kpi.task.def.stop') && params.data.reTaskDef.taskStatus === '03'){
-                result =true;
+            if (Permission.hasPermission('agnes.kpi.task.def.stop') && params.data.reTaskDef.taskStatus === '03') {
+                result = true;
             }
-            return result;}, cellClass: 'red-cell'},
+            return result;
+        }, cellClass: 'red-cell'
+    },
 
 ];
 
@@ -52,18 +68,20 @@ export default {
         {headerName: "任务名称", field: "reTaskDef.taskName"},
         {headerName: "任务编号", field: "reTaskDef.caseKey"},
         {headerName: "业务场景", field: "reTaskDef.bizType", dictType: 'AGNES_BIZ_CASE'},
-        {headerName: "业务标签", field: "reTaskDef.bizTag",
+        {
+            headerName: "业务标签", field: "reTaskDef.bizTag",
             valueFormatter: function (params) {
-            if(params.value){
-                let Ids = params.value.split(',');
-                return Ids.map((dictId) => {
-                    return  window.$gfui.$app.dict.getDictItem('AGNES_BIZ_TAG',dictId).dictName;
-                }).join(',');
+                if (params.value) {
+                    let Ids = params.value.split(',');
+                    return Ids.map((dictId) => {
+                        return window.$gfui.$app.dict.getDictItem('AGNES_BIZ_TAG', dictId).dictName;
+                    }).join(',');
+                }
+                return "";
             }
-            return "";
-        }},
+        },
         {headerName: "任务类型", field: "reTaskDef.taskType", formatType: 'dict', dictType: 'AGNES_TASK_TYPE'},
-        {headerName: "状态", field: "reTaskDef.taskStatus", formatType: 'dict',dictType: "AGNES_RELEASE_STATUS"},
+        {headerName: "状态", field: "reTaskDef.taskStatus", formatType: 'dict', dictType: "AGNES_RELEASE_STATUS"},
         {headerName: "创建时间", field: "reTaskDef.crtTs"},
         {headerName: "创建人", field: "reTaskDef.crtUser"}
     ],

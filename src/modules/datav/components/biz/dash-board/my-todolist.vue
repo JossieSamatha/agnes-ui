@@ -63,7 +63,7 @@
     .task-icon {
         margin-right: 10px;
     }
-    .task-icon > i {
+    .task-icon > em {
         font-size: 12px;
         color: #709FED;
         transform: scale(.6);

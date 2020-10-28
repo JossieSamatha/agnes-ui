@@ -30,8 +30,6 @@
                 this.$set(newGridOption,'rowData',JSON.parse(this.moduleObj.rowData));
                 return newGridOption;
             }
-        },
-        methods: {
         }
     }
 </script>

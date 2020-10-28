@@ -20,23 +20,6 @@
                 type: Object,
                 required: true
             },
-        },
-        data: function () {
-            return {
-
-            }
-        },
-        watch: {
-
-        },
-        computed:{
-
-        },
-
-        mounted: function () {
-
-        },
-        methods: {
         }
     }
 </script>
