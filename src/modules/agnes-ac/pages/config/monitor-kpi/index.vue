@@ -225,12 +225,6 @@
         border: none;
         color: #666;
         font-size: 12px;
-    }
-    .kpi-grid tr.el-table__row td {
-        padding: 0;
-        border: none;
-        color: #666;
-        font-size: 12px;
         height: 36px;
     }
 

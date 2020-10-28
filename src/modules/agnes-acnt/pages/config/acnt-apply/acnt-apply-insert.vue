@@ -111,8 +111,6 @@
                 <gf-input v-model.trim="detailFormBefore.fundAccName" placeholder="资金账户名称"/>
             </el-form-item>
             <el-form-item v-if="showRules.rateId&&showRules.rateId.isShow" label="利率" prop="rateId">
-<!--                <gf-input v-model.trim="detailFormBefore.rateId" placeholder="利率"/>-->
-
                 <el-select v-model="detailFormBefore.rateId"
                            clearable
                            placeholder="请选择">

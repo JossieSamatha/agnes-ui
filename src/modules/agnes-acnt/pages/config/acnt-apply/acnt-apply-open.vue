@@ -116,9 +116,6 @@
                 </el-form-item>
             </div>
             <div v-if="detailFormBefore.isSendOa==='1'" class="line">
-<!--                <el-form-item label="公司领导" prop="oaLeader">-->
-<!--                    <gf-input v-model.trim="detailFormBefore.oaLeader" placeholder="公司领导"/>-->
-<!--                </el-form-item>-->
                 <el-form-item label="是否需要合规法务审核" prop="oaIsNeedAudit">
                     <el-radio-group v-model="detailFormBefore.oaIsNeedAudit">
                         <el-radio label="1">是</el-radio>
@@ -300,9 +297,6 @@
                 </el-form-item>
             </div>
             <div v-if="detailForm.isSendOa==='1'" class="line">
-<!--                <el-form-item label="公司领导" prop="oaLeader">-->
-<!--                    <gf-input v-model.trim="detailForm.oaLeader" placeholder="公司领导"/>-->
-<!--                </el-form-item>-->
                 <el-form-item label="是否需要合规法务审核" prop="oaIsNeedAudit">
                     <el-radio-group v-model="detailForm.oaIsNeedAudit">
                         <el-radio label="1">是</el-radio>
