@@ -1,25 +1,33 @@
 import column from "../../../../../config/column"
-
+import Permission from "../../../../../utils/hasPermission";
 const colButtons = [
-    {key: 'editModel', title: '编辑'},
+    {key: 'editModel', title: '编辑', visiable: () => {
+            return Permission.hasPermission('agnes.config.model.edit');
+        }},
     {key: 'deleteModel', title: '删除', cellClass: 'red-cell',disabled: (params)=>{
             let result = false;
             if(params.data.status === '03'){
                 result =true;
             }
-            return result;}},
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.config.model.delete');
+        }},
     {key: 'approveModelDef', title: '审核',disabled: (params)=>{
         let result = false;
         if(params.data.status === '02' || params.data.status === '03'){
             result =true;
         }
-        return result;}},
+        return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.config.model.check');
+        }},
     {key: 'publishModelDef', title: '发布',disabled: (params)=>{
             let result = false;
             if(params.data.status === '01' || params.data.status === '03'){
                 result =true;
             }
-            return result;}}
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.config.model.publish');
+        }}
 ];
 
 export default {

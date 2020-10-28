@@ -2,8 +2,8 @@
     <div>
         <gf-grid ref="grid" grid-no="agnes-fun-type" @row-double-click="showModel">
             <template slot="left">
-                <gf-button class="action-btn" @click="addModel" size="mini">添加</gf-button>
-                <gf-button class="action-btn" @click="copyFun">复制</gf-button>
+                <gf-button class="action-btn" @click="addModel" v-if="$hasPermission('agnes.define.fun.add')" size="mini">添加</gf-button>
+                <gf-button class="action-btn" @click="copyFun" v-if="$hasPermission('agnes.define.fun.copy')">复制</gf-button>
             </template>
         </gf-grid>
     </div>
