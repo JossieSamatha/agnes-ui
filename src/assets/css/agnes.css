@@ -442,7 +442,7 @@
 
 .default-checked::before {
     content: "\f046";
-    font-family: 'fontawesome';
+    font: normal normal normal 14px/1 FontAwesome;
     position: absolute;
     left: 0;
     top: -2px;

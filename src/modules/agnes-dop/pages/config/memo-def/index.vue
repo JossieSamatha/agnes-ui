@@ -1,17 +1,5 @@
 <template>
     <div>
-<!--    后台查询条件 暂时先注释     -->
-<!--        <gf-date-picker v-model="queryParam.memoDt"-->
-<!--                type="date"-->
-<!--                value-format="yyyy-MM-dd"-->
-<!--                placeholder="提醒日期" >-->
-<!--            <template slot="prepend">提醒日期</template>-->
-<!--        </gf-date-picker>-->
-
-<!--         <gf-input v-model="queryParam.memoDesc" placeholder="请输入内容" style="width: 20%">-->
-<!--            <template slot="prepend">记录事项</template>-->
-<!--        </gf-input>-->
-
         <gf-grid ref="grid"
                  grid-no="agnes-dop-memo-list"
                  toolbar="find,refresh,more"

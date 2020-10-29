@@ -116,9 +116,6 @@
                 </el-form-item>
             </div>
             <div v-if="detailFormBefore.isSendOa==='1'" class="line">
-<!--                <el-form-item label="公司领导" prop="oaLeader">-->
-<!--                    <gf-input v-model.trim="detailFormBefore.oaLeader" placeholder="公司领导"/>-->
-<!--                </el-form-item>-->
                 <el-form-item label="是否需要合规法务审核" prop="oaIsNeedAudit">
                     <el-radio-group v-model="detailFormBefore.oaIsNeedAudit">
                         <el-radio label="1">是</el-radio>
@@ -155,20 +152,16 @@
                             style="width: 100%">
                         <el-table-column prop="fileName" label="用印文件名">
                             <template slot-scope="scope">
-                                <!-- <ecm-upload-comp :style="!scope.row.fileName ? 'border:1px solid #f00':''" v-model="scope.row.fileName"></ecm-upload-comp> -->
-                                <!-- <span v-if="this.mode === 'view'">{{scope.row.fileName}}</span> -->
                                 <el-input :style="!scope.row.fileName ? 'border:1px solid #f00':''" v-model="scope.row.fileName"></el-input>
                             </template>
                         </el-table-column>
                         <el-table-column prop="fileNumber" label="份数">
                             <template slot-scope="scope">
-                                <!-- <span v-if="this.mode === 'view'">{{scope.row.fileNumber}}</span> -->
                                 <el-input type="number" :style="!scope.row.fileNumber ? 'border:1px solid #f00':''" v-model="scope.row.fileNumber"></el-input>
                             </template>
                         </el-table-column>
                         <el-table-column prop="fileRemark" label="备注">
                             <template slot-scope="scope">
-                                <!-- <span v-if="this.mode === 'view'">{{scope.row.fileRemark}}</span> -->
                                 <el-input v-model="scope.row.fileRemark"></el-input>
                             </template>
                         </el-table-column>
@@ -300,9 +293,6 @@
                 </el-form-item>
             </div>
             <div v-if="detailForm.isSendOa==='1'" class="line">
-<!--                <el-form-item label="公司领导" prop="oaLeader">-->
-<!--                    <gf-input v-model.trim="detailForm.oaLeader" placeholder="公司领导"/>-->
-<!--                </el-form-item>-->
                 <el-form-item label="是否需要合规法务审核" prop="oaIsNeedAudit">
                     <el-radio-group v-model="detailForm.oaIsNeedAudit">
                         <el-radio label="1">是</el-radio>
@@ -341,19 +331,15 @@
                                 <template slot-scope="scope">
                                     
                                     <upload-one limit=1 :style="!scope.row.fileName ? 'border:1px solid #f00':''" v-model="scope.row.fileName"></upload-one>
-                                    <!-- <span v-if="this.mode === 'view'">{{scope.row.fileName}}</span> -->
-                                    <!-- <el-input :style="!scope.row.fileName ? 'border:1px solid #f00':''" v-model="scope.row.fileName"></el-input> -->
                                 </template>
                             </el-table-column>
                             <el-table-column prop="fileNumber" label="份数">
                                 <template slot-scope="scope">
-                                    <!-- <span v-if="this.mode === 'view'">{{scope.row.fileNumber}}</span> -->
                                     <el-input type="number" :style="!scope.row.fileNumber ? 'border:1px solid #f00':''" v-model="scope.row.fileNumber"></el-input>
                                 </template>
                             </el-table-column>
                             <el-table-column prop="fileRemark" label="备注">
                                 <template slot-scope="scope">
-                                    <!-- <span v-if="this.mode === 'view'">{{scope.row.fileRemark}}</span> -->
                                     <el-input v-model="scope.row.fileRemark"></el-input>
                                 </template>
                             </el-table-column>

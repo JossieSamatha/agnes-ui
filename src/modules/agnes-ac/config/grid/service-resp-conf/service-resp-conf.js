@@ -1,19 +1,24 @@
 import column from "../../../../../config/column"
+import Permission from "../../../../../utils/hasPermission";
 const colButtons = [
-    {key: 'editService', title: '编辑'},
-    {key: 'deleteService', title: '删除', cellClass: 'red-cell'},
+    {key: 'editService', title: '编辑',visiable: () => {
+            return Permission.hasPermission('agnes.service.resp.level.conf.edit')}},
+    {key: 'deleteService', title: '删除', cellClass: 'red-cell',visiable: () => {
+            return Permission.hasPermission('agnes.service.resp.level.conf.delete')}},
     {key: 'approveModelDef', title: '审核',disabled: (params)=>{
             let result = false;
             if(params.data.status === '02' || params.data.status === '03'){
                 result =true;
             }
-            return result;}},
+            return result;},visiable: () => {
+            return Permission.hasPermission('agnes.service.resp.level.conf.check')}},
     {key: 'publishModelDef', title: '发布',disabled: (params)=>{
             let result = false;
             if(params.data.status === '01' || params.data.status === '03'){
                 result =true;
             }
-            return result;}}
+            return result;},visiable: () => {
+            return Permission.hasPermission('agnes.service.resp.level.conf.publish')}}
 ];
 
 export default {

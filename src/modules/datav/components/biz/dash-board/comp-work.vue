@@ -3,7 +3,7 @@
         <div v-for="(item, index) in rosterList"
              :key="index" class="todolist-container">
             <div class="work-icon">
-                <img :src="getImgPath(item.rosterType)">
+                <img :src="getImgPath(item.rosterType)" alt="work-icon">
             </div>
             <div class="task-des">
                 <div>

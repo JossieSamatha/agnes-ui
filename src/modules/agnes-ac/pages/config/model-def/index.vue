@@ -2,8 +2,8 @@
     <div>
         <gf-grid @row-double-click="showModel" grid-no="agnes-model-type" ref="grid">
             <template slot="left">
-                <gf-button class="action-btn" @click="addModel">添加</gf-button>
-                <gf-button class="action-btn" @click="copyModel">复制</gf-button>
+                <gf-button class="action-btn" @click="addModel" v-if="$hasPermission('agnes.config.model.add')">添加</gf-button>
+                <gf-button class="action-btn" @click="copyModel" v-if="$hasPermission('agnes.config.model.copy')">复制</gf-button>
             </template>
         </gf-grid>
     </div>
@@ -101,7 +101,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>

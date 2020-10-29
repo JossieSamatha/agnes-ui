@@ -2,11 +2,11 @@
     <div class="template-item">
         <div>
             <div class="img-canvas">
-                <img :src="getImgPath(templateObj.img)" width="100%" height="100%"/>
+                <img :src="getImgPath(templateObj.img)" width="100%" height="100%" alt="template-img"/>
                 <div class="hover-mask">
                     <p class="option">
                         <span class="iconImg delete" title="删除" @click="deleteTemplate(templateObj.id)">
-                            <i class="fa fa-trash-o"></i>
+                            <em class="fa fa-trash-o"></em>
                         </span>
                         <span class="iconImg" title="复制" v-html="svgImg.copy" @click="templateCopy(templateObj)"></span>
                     </p>

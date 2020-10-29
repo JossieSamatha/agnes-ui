@@ -3,7 +3,7 @@
         <div v-for="(item, index) in taskDemoArr"
             :key="index" class="todolist-container">
             <div class="task-icon">
-                <i class="fa fa-circle"></i>
+                <em class="fa fa-circle"></em>
             </div>
             <div class="task-des">
                 <div :title="item.taskName">{{item.taskName}}</div>
@@ -63,7 +63,7 @@
     .task-icon {
         margin-right: 10px;
     }
-    .task-icon > i {
+    .task-icon > em {
         font-size: 12px;
         color: #709FED;
         transform: scale(.6);

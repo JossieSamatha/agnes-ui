@@ -3,8 +3,8 @@
         <el-tabs type="card" style="height: 290px;">
             <el-tab-pane v-for="(remindItem, remindIndex) in remindData" :key="remindIndex" :name="remindIndex+''">
                 <span class="tab-label" slot="label">
-                    <i :class="ifFill(remindItem, remindIndex) ? 'el-icon-circle-check' : 'el-icon-time'"
-                       :style="{color: ifFill(remindItem, remindIndex) ? '#67C23A' : '#999'}"></i>
+                    <em :class="ifFill(remindItem, remindIndex) ? 'el-icon-circle-check' : 'el-icon-time'"
+                       :style="{color: ifFill(remindItem, remindIndex) ? '#67C23A' : '#999'}"></em>
                     <span>{{remindType[remindIndex].label}}</span>
                 </span>
                 <el-form size="small" label-width="100px " :model="remindItem" style="padding: 0">

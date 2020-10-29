@@ -12,9 +12,9 @@
                         <ul class="second-menu" v-for="submenu in menu.children" :key="submenu.menuid">
                             <li class="menu-label">
                                 <span @click="showMenuTab(submenu)">{{submenu.menuname}}</span>
-                                <i class="star fa fa-star-o" v-if="submenu.collect != 'true'"
-                                   @click="collectChange('true',submenu)"></i>
-                                <i class="star fa fa-star" v-else @click="collectChange('false',submenu)"></i>
+                                <em class="star fa fa-star-o" v-if="submenu.collect != 'true'"
+                                   @click="collectChange('true',submenu)"></em>
+                                <em class="star fa fa-star" v-else @click="collectChange('false',submenu)"></em>
                             </li>
                         </ul>
                     </section>
@@ -24,7 +24,7 @@
         <div class="speedyMenu" v-if="false">
             <div class="gf-menu entrance-menu">
                 <div class="gf-menu-item speedy" @click="closeSideMenu">
-                    <i class="el-icon-close"></i>
+                    <em class="el-icon-close"></em>
                 </div>
             </div>
             <div class="gf-menu fast-entrance">
@@ -132,5 +132,3 @@
         }
     }
 </script>
-<style>
-</style>

@@ -1,21 +1,21 @@
 <template>
     <div class="elec-process board-detail">
         <div class="full-screen-btn">
-            <i v-show="!ifFullScreen" v-html="lcImg.fullScreen" @click="expandFullScreen(true)"></i>
-            <i v-show="ifFullScreen" v-html="lcImg.exitFullScreen" @click="expandFullScreen(false)"></i>
+            <em v-show="!ifFullScreen" v-html="lcImg.fullScreen" @click="expandFullScreen(true)"></em>
+            <em v-show="ifFullScreen" v-html="lcImg.exitFullScreen" @click="expandFullScreen(false)"></em>
         </div>
         <section class="bottom-section">
             <span class="rightExpandBtn" @click="foldBottomRight">
-                <i class="menuicon" v-html="ifRightExpand?svgImg.refoldIcon:svgImg.foldIcon"></i>
+                <em class="menuicon" v-html="ifRightExpand?svgImg.refoldIcon:svgImg.foldIcon"></em>
             </span>
             <div class="bottom left">
                 <div class="section-title">
                     <span>流程图</span>
                     <div class="flow-legend" :style="{right: ifRightExpand?'0':'35px'}">
                         <span v-for="(status, statusColor) in stageStatus" :key="statusColor">
-                            <i class="fa fa-circle"
+                            <em class="fa fa-circle"
                                :style="{color: statusColor}"
-                            ></i>{{status}}
+                            ></em>{{status}}
                         </span>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
                 </div>
                 <div v-show="ifGridExpand" class="drag-column" id="taskContainerLeft">
                     <div class="close-container">
-                        <i class="el-icon-circle-close" @click="closeTableDetail"></i>
+                        <em class="el-icon-circle-close" @click="closeTableDetail"></em>
                     </div>
                     <div class="drag-container" v-dragx="dragColumn" @bindUpdate="dragColumnUpdate" ref="dragColumn">
                         <gf-grid ref="monitorLeader"
@@ -32,8 +32,8 @@
                                  grid-no="agnes-monitor-leader-field">
                             <template slot="right-before">
                                 <span class="full-screen-btn">
-                                     <i v-show="!ifDetailFullScreen" v-html="lcImg.fullScreen" @click="expandDetailFullScreen(true)"></i>
-                                    <i v-show="ifDetailFullScreen" v-html="lcImg.exitFullScreen" @click="expandDetailFullScreen(false)"></i>
+                                     <em v-show="!ifDetailFullScreen" v-html="lcImg.fullScreen" @click="expandDetailFullScreen(true)"></em>
+                                    <em v-show="ifDetailFullScreen" v-html="lcImg.exitFullScreen" @click="expandDetailFullScreen(false)"></em>
                                 </span>
                             </template>
                         </gf-grid>
@@ -51,7 +51,7 @@
                         <span>执行情况</span>
                         <el-checkbox-group class="exec-type" v-model="execTypeChecked" size="small" @change="execTypeChange">
                             <el-checkbox v-for="exeType in execTypeOp" :key="exeType.id" :label="exeType.id" border>
-                                <i v-html="lcImg[exeType.icon]"></i><span>{{exeType.label}}</span>
+                                <em v-html="lcImg[exeType.icon]"></em><span>{{exeType.label}}</span>
                             </el-checkbox>
                         </el-checkbox-group>
                     </p>

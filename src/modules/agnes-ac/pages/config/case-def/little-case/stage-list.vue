@@ -12,7 +12,7 @@
                                      :step.sync="stageItem" :stepList.sync="stage.children" :stepIndex="stageItemIndex"
                                      :stepType.sync="stepType" @click.native.stop="chooseActive">
                             </stepDef>
-                            <groupDef ref="groupDef" :key="stageItem.defId" v-else
+                            <groupDef  ref="groupDef" :key="stageItem.defId" v-else
                                       :group.sync="stageItem"
                                       :groupList.sync="stage.children"
                                       :groupIndex="stageItemIndex"
@@ -25,7 +25,7 @@
         </draggable>
         <div class="stage-item add-btn" @click="addStage">
             <div class="stage-item-title">
-                <i class="el-icon-plus"></i>
+                <em class="el-icon-plus"></em>
                 <span class="title">stage</span>
             </div>
         </div>
@@ -95,6 +95,3 @@
         },
     }
 </script>
-<style>
-
-</style>

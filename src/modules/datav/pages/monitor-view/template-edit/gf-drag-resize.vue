@@ -20,8 +20,8 @@
                      @deactivated="deactivateEv"
                      @dragging="changePosition('drag', $event)"
                      @resizing="changePosition('resize', $event)">
-        <i class="optionIcon fa fa-close" @click="deleteComp"></i>
-        <i class="optionIcon fa fa-copy" @click="copyComp"></i>
+        <em class="optionIcon fa fa-close" @click="deleteComp"></em>
+        <em class="optionIcon fa fa-copy" @click="copyComp"></em>
         <slot name="drag-size-content" :compId="compId" :compName="compName" :optional="optional" :position="position"></slot>
     </vue-drag-resize>
 </template>

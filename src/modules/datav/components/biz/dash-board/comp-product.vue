@@ -2,7 +2,7 @@
     <div>
         <div class="linkman-list" v-for="(item, index) in productArr" :key="index">
             <div class="state-icon">
-                <i class="el-icon-price-tag"></i>
+                <em class="el-icon-price-tag"></em>
             </div>
             <div class="notice-info">
                 <p>({{item.productCode}}){{item.productShortName}}</p>

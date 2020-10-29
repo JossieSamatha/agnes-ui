@@ -10,8 +10,6 @@
                 </el-form-item>
 
                 <el-form-item label="账户类型">
-<!--                    <gf-dict filterable clearable v-model="queryArgs.typeCode" dict-type="AGNES_TASK_TYPE" />-->
-
                     <el-select class="multiple-select" v-model="queryArgs.typeCode"
                                filterable clearable
                                placeholder="请选择">

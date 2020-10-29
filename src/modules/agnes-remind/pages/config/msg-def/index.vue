@@ -19,7 +19,7 @@
         </el-form>
         <gf-grid  :query-args="queryArgs" @row-double-click="showMsg" grid-no="agnes-msg-type" ref="grid" toolbar="find,refresh,more">
             <template slot="left">
-                <gf-button class="action-btn" @click="batchRead" size="mini">批量读取</gf-button>
+                <gf-button class="action-btn" @click="batchRead" size="mini" v-if="$hasPermission('agnes.app.message.mgr.batch.read')">批量读取</gf-button>
             </template>
         </gf-grid>
     </div>
@@ -43,16 +43,6 @@
                 this.$msg.success('请选择一条记录');
                 return;
               }
-              // let t =0;
-              // for (let i=0;i<data.length;i++){
-              //     if (data[i].hasRead=="1"){
-              //         t+=1;
-              //     }
-              // }
-              // if (t!=0){
-              //     this.$msg.success('选中有'+t+'条已读数据');
-              //     return;
-              // }
               await this.$api.MsgApi.batchRead(data);
               await this.$refs.grid.reloadData();
             },
@@ -69,7 +59,3 @@
         },
     }
 </script>
-
-<style scoped>
-
-</style>

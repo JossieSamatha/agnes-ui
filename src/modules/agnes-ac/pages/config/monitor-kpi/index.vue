@@ -15,7 +15,7 @@
                                 @change="bizDateChange"
                 >
                 </el-date-picker>
-                <i class="el-icon-refresh" title="全部刷新" @click="init(bizDate)"></i>
+                <em class="el-icon-refresh" title="全部刷新" @click="init(bizDate)"></em>
             </span>
         </div>
         <div class="content" style="height: calc(100% - 30px)">
@@ -46,28 +46,28 @@
                 <el-table-column prop="taskName" label="指标名称">
                     <template slot-scope="scope">
                         <span class="kpi-level" v-if="scope.row.stepLevel">
-                            <i class="fa fa-star" style="color: #f5222e" v-for="i in Number(scope.row.stepLevel)" :key="i"></i>
+                            <em class="fa fa-star" style="color: #f5222e" v-for="i in Number(scope.row.stepLevel)" :key="i"></em>
                         </span>
                         <span>{{scope.row.taskName}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column prop="errNum" label="异常" width="100">
                     <template slot-scope="scope">
-                        <i class="circle-icon fa fa-circle" style="color: red"></i>
+                        <em class="circle-icon fa fa-circle" style="color: red"></em>
                         <a class="link-num" v-if="scope.row.errNum!==0 && !scope.row.errNum">--</a>
                         <a class="link-num" v-else @click="showKpiDetail(scope.row, 1)">{{scope.row.errNum}}</a>
                     </template>
                 </el-table-column>
                 <el-table-column prop="manualNum" label="干预通过" width="100">
                     <template slot-scope="scope">
-                        <i class="circle-icon fa fa-circle" style="color: #bba350"></i>
+                        <em class="circle-icon fa fa-circle" style="color: #bba350"></em>
                         <a class="link-num" v-if="scope.row.manualNum !==0 && !scope.row.manualNum">--</a>
                         <a class="link-num" v-else @click="showKpiDetail(scope.row, 2)">{{scope.row.manualNum}}</a>
                     </template>
                 </el-table-column>
                 <el-table-column prop="doneNum" label="正常" width="100">
                     <template slot-scope="scope">
-                        <i class="circle-icon fa fa-circle" style="color: green"></i>
+                        <em class="circle-icon fa fa-circle" style="color: green"></em>
                         <a class="link-num" v-if="scope.row.doneNum !==0 && !scope.row.doneNum">--</a>
                         <a class="link-num" v-else @click="showKpiDetail(scope.row, 0)">{{scope.row.doneNum}}</a>
                     </template>
@@ -75,6 +75,14 @@
                 <el-table-column prop="targetName" label="目标值" width="100">
                     <template slot-scope="scope">
                         <span v-if="scope.row.targetName">{{scope.row.targetName}}</span>
+                        <span v-else>--</span>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="execStartTime" label="计划完成时间">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.startTime">
+                            {{bizDate}}[{{scope.row.startTime}}-{{scope.row.endTime}}]
+                        </span>
                         <span v-else>--</span>
                     </template>
                 </el-table-column>
@@ -140,26 +148,29 @@
 
             // 强制通过
             async executeKpi(row) {
+                this.loading = true;
                 this.taskCommit.inst.taskId = row.taskId;
                 this.taskCommit.stepInfo.caseId = row.caseId;
                 this.taskCommit.stepInfo.stepCode = row.kpiCode;
                 this.taskCommit.stepInfo.remark = this.remark;
                 this.taskCommit.stepInfo.stepStatus = "07";
                 this.taskCommit.stepInfo.jobId = row.jobId;
+                this.taskCommit.stepInfo.bizDate = this.bizDate;
                 try {
-                    const p = this.$api.taskTodoApi.confirmKpiTask(this.taskCommit)
-                    const resp = await this.$app.blockingApp(p);
+                    const resp = await this.$api.taskTodoApi.confirmKpiTask(this.taskCommit);
                     if (resp.data) {
                         if (this.actionOk) {
                             await this.actionOk();
                         }
                         this.$msg.success('提交成功');
-                        this.$emit("onClose");
+                        this.loading = false;
                     } else {
                         this.$msg.warning('提交失败');
+                        this.loading = false;
                     }
                 } catch (e) {
                     this.$msg.error(e);
+                    this.loading = false;
                 }
             },
 
@@ -169,7 +180,7 @@
 
             // 重新执行
             exeTaskJob(row){
-                let _this=this;
+                this.loading = true;
                 let kpiTaskReq = {}
                 kpiTaskReq.caseId = row.caseId;
                 kpiTaskReq.stepCode = row.kpiCode;
@@ -177,10 +188,11 @@
                 kpiTaskReq.taskId = row.taskId;
                 this.$api.kpiDefineApi.execTask(kpiTaskReq).then((resp) => {
                     if(resp.status){
-                        _this.$message.success(resp.message);
-                        _this.reloadData();
+                        this.$message.success(resp.message);
+                        this.loading = false;
                     } else{
-                        _this.$message.error(resp.message);
+                        this.$message.error(resp.message);
+                        this.loading = false;
                     }
                 });
             },
@@ -225,17 +237,16 @@
         border: none;
         color: #666;
         font-size: 12px;
-    }
-    .kpi-grid tr.el-table__row td {
-        padding: 0;
-        border: none;
-        color: #666;
-        font-size: 12px;
         height: 36px;
     }
 
     .svg-btn.el-button.is-disabled .lcSvg.theme-color .cls-1{
         fill: #ccc;
+    }
+
+    .monitor-kpi-page.gf-tab-view .el-loading-mask{
+        z-index: inherit;
+        background-color: rgba(255, 255, 255, 0.7);
     }
 </style>
 
@@ -269,10 +280,5 @@
 
     .el-icon-refresh:hover {
         color: #476DBE;
-    }
-
-    .monitor-kpi-page.gf-tab-view .el-loading-mask{
-        z-index: inherit;
-        background-color: rgba(255, 255, 255, 0.7);
     }
 </style>

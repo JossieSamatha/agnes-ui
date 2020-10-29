@@ -7,7 +7,6 @@
                  @row-double-click="showDetail"
         >
             <template slot="left">
-                <!-- <gf-button class="action-btn" @click="addFileMove" size="mini">添加</gf-button> -->
             </template>
         </gf-grid>
     </div>

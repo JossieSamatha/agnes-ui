@@ -1,4 +1,5 @@
 import column from "../../../../../config/column";
+import Permission from "../../../../../utils/hasPermission";
 
 const colButtons = [
     {key: 'checkTask', title: '复核',disabled: (params)=>{
@@ -6,13 +7,15 @@ const colButtons = [
             if(params.data.taskStatus == '00'){
                 result = false;
             }
-            return result;}},
+            return result;},visiable: () => {
+            return Permission.hasPermission('agnes.app.task.mgr.check')}},
     {key: 'cancelTask', title: '作废', cellClass: 'red-cell',disabled: (params)=>{
             let result = true;
             if(params.data.taskStatus != '05'){
                 result =false;
             }
-            return result;}},
+            return result;},visiable: () => {
+            return Permission.hasPermission('agnes.app.task.mgr.cancal')}},
 ];
 
 export default {
