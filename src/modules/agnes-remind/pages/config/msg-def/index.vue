@@ -19,7 +19,7 @@
         </el-form>
         <gf-grid  :query-args="queryArgs" @row-double-click="showMsg" grid-no="agnes-msg-type" ref="grid" toolbar="find,refresh,more">
             <template slot="left">
-                <gf-button class="action-btn" @click="batchRead" size="mini">批量读取</gf-button>
+                <gf-button class="action-btn" @click="batchRead" size="mini" v-if="$hasPermission('agnes.app.message.mgr.batch.read')">批量读取</gf-button>
             </template>
         </gf-grid>
     </div>

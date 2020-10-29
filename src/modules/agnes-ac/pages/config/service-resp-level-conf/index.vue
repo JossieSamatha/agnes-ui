@@ -4,8 +4,8 @@
       <gf-grid grid-no="agnes-service-conf-list" ref="grid" quick-text-max-width="300px" height="100%"
                @row-double-click="editService" >
         <template slot="left">
-          <gf-button class="action-btn" @click="addService" >添加</gf-button>
-          <gf-button class="action-btn" @click="copyResp">复制</gf-button>
+          <gf-button class="action-btn" @click="addService" v-if="$hasPermission('agnes.service.resp.level.conf.add')">添加</gf-button>
+          <gf-button class="action-btn" @click="copyResp" v-if="$hasPermission('agnes.service.resp.level.conf.copy')">复制</gf-button>
         </template>
       </gf-grid>
     </template>

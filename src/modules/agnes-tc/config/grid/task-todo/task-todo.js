@@ -1,8 +1,10 @@
 import column from "../../../../../config/column";
+import Permission from "../../../../../utils/hasPermission";
 
 const colButtons = [
     // {key: 'confirmTask', title: '确认'},
-    {key: 'viewTask', title: '办理'},
+    {key: 'viewTask', title: '办理',visiable: () => {
+            return Permission.hasPermission('agnes.app.task.todo.handle')}},
 ];
 
 export default {
