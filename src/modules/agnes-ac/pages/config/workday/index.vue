@@ -21,7 +21,7 @@
                     <div class="popover-btn-container">
                         <el-button @click="onUpdateWorkday(currentDataObj,'0')">设置为节假日</el-button>
                         <el-button @click="onUpdateWorkday(currentDataObj,'1')">设置为工作日</el-button>
-                        <el-button @click="onUpdateWorkday(currentDataObj,'FridayTag')">设置为特殊星期五</el-button>
+                        <el-button @click="onUpdateWorkday(currentDataObj,'FridayTag')">设置为特殊周五</el-button>
                         <el-button @click="onUpdateWorkday(currentDataObj,'SundayTag')">设置为特殊周日</el-button>
                     </div>
                     <el-button class="popover-btn" slot="reference">
