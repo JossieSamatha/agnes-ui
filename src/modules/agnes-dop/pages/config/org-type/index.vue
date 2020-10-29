@@ -2,7 +2,7 @@
   <div>
     <gf-grid @row-double-click="showOrgType" grid-no="agnes-org-type-list" ref="grid">
       <template slot="left">
-        <gf-button @click="addOrgType" class="action-btn">添加</gf-button>
+        <gf-button v-if="$hasPermission('agnes.org.type.add')" @click="addOrgType" class="action-btn">添加</gf-button>
       </template>
     </gf-grid>
   </div>

@@ -1,8 +1,19 @@
 import column from "../../../../../config/column"
+import Permission from "../../../../../utils/hasPermission"
+
 
 const colButtons = [
-    {key: 'editBranch', title: '编辑'},
-    {key: 'deleteBranch', title: '删除', cellClass: 'red-cell'},
+    {
+        key: 'editBranch', title: '编辑', visiable: () => {
+            return Permission.hasPermission('agnes.dop.branch.edit');
+        }
+    },
+    {
+        key: 'deleteBranch', title: '删除', cellClass: 'red-cell', visiable: () => {
+            return Permission.hasPermission('agnes.dop.branch.delete');
+        }
+
+    },
 ];
 
 export default {

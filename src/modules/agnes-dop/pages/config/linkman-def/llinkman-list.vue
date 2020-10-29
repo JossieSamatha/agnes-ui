@@ -2,7 +2,9 @@
     <gf-grid grid-no="agnes-linkman-field" ref="grid" quick-text-max-width="300px"
               :query-args="queryArgs" height="100%" @row-double-click="showLinkman">
         <template slot="left">
-            <gf-button class="action-btn" @click="addLinkMan" size="mini">添加</gf-button>
+            <gf-button v-if="$hasPermission('agnes.dop.linkman.add')" class="action-btn" @click="addLinkMan"
+                       size="mini">添加
+            </gf-button>
         </template>
     </gf-grid>
 </template>

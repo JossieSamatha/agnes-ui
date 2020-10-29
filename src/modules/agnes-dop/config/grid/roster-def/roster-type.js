@@ -1,14 +1,29 @@
 import column from "../../../../../config/column"
+import Permission from "../../../../../utils/hasPermission"
 
 const colButtons = [
-    {key: 'editRoster', title: '编辑'},
-    {key: 'deleteRoster', title: '删除', cellClass: 'red-cell'},
+    {
+        key: 'editRoster', title: '编辑', visiable: () => {
+            return Permission.hasPermission('agnes.dop.roster.edit');
+        }
+    },
+    {
+        key: 'deleteRoster', title: '删除', cellClass: 'red-cell', visiable: () => {
+            return Permission.hasPermission('agnes.dop.roster.delete');
+        }
+    },
     {
         key: 'approveRoster', title: '审核', disabled: (params) => {
             return params.data.status === '04'
+        }, visiable: () => {
+            return Permission.hasPermission('agnes.dop.roster.approve');
         }
     },
-    {key: 'personnel', title: '值班人员'},
+    {
+        key: 'personnel', title: '值班人员', visiable: () => {
+            return Permission.hasPermission('agnes.dop.roster.personnel');
+        }
+    },
 ];
 
 export default {

@@ -2,7 +2,9 @@
     <div>
         <gf-grid @row-double-click="showRoster" grid-no="agnes-roster-type" ref="grid" toolbar="find,refresh,more">
             <template slot="left">
-                <gf-button class="action-btn" @click="addRoster" size="mini">添加</gf-button>
+                <gf-button v-if="$hasPermission('agnes.dop.roster.add')" class="action-btn" @click="addRoster"
+                           size="mini">添加
+                </gf-button>
             </template>
         </gf-grid>
     </div>
