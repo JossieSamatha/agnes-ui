@@ -690,7 +690,7 @@ form input[type=submit] {
     cursor: pointer;
 }
 
-.funBtn.feedback > i {
+.funBtn.feedback > em {
     font-size: 24px;
     color: #476DBE;
 }
