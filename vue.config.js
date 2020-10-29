@@ -6,11 +6,11 @@ module.exports = {
         port: 8006,
         proxy: {
             '/api/ecm': {
-                target: 'http://127.0.0.1:7002',
+                target: 'http://127.0.0.1:7002/api/ecm',
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/api/gf-ecm': '/'
+                    '^/api/ecm': '/'
                 }
             },
             '/api/agnes-ec': {
