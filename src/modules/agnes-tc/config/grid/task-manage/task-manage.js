@@ -8,7 +8,7 @@ const colButtons = [
                 result = false;
             }
             return result;},visiable: () => {
-            return Permission.hasPermission('aagnes.app.task.mgr.check')}},
+            return Permission.hasPermission('agnes.app.task.mgr.check')}},
     {key: 'cancelTask', title: '作废', cellClass: 'red-cell',disabled: (params)=>{
             let result = true;
             if(params.data.taskStatus != '05'){

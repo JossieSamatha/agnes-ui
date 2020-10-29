@@ -78,6 +78,14 @@
                         <span v-else>--</span>
                     </template>
                 </el-table-column>
+                <el-table-column prop="execStartTime" label="计划完成时间">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.startTime">
+                            {{bizDate}}[{{scope.row.startTime}}-{{scope.row.endTime}}]
+                        </span>
+                        <span v-else>--</span>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="execStartTime" label="最后更新时间">
                     <template slot-scope="scope">
                         <span v-if="scope.row.execStartTime">{{formatDate(scope.row.execStartTime)}}</span>
