@@ -1,48 +1,43 @@
 <template>
-    <div>
-        <el-row>
-            <el-col style="height:100%;" :span="4" >
-                <div  style="height:100%;border:1px solid #F6F8FA;border-radius:5px;background-color:#F6F8FA;margin-right:8px;padding-left:8px;padding-top:4px">
-                    <el-button size="small">同步</el-button>
-                    <el-button size="small" @click="initWork()">初始化</el-button>
-                    <div v-for="(item,index) in areaList" :key="index"
-                         :v-model="queryParam.workdayAreaCode"
-                         @click="choseOptions(index,item)"
-                         v-bind:class="{'act-button':flag==index}">
-                        <gf-button type="text" >{{item.dictName}}</gf-button>
+    <div class="row-container">
+        <div class="option-col">
+            <el-button size="small">同步</el-button>
+            <el-button size="small" @click="initWork()">初始化</el-button>
+            <div v-for="(item,index) in areaList" :key="index"
+                 :v-model="queryParam.workdayAreaCode"
+                 @click="choseOptions(index,item)"
+                 v-bind:class="{'act-button':flag==index}">
+                <gf-button type="text" >{{item.dictName}}</gf-button>
+            </div>
+        </div>
+        <el-calendar class="work-calendar">
+            <template slot="dateCell" slot-scope="{date, data}">
+                <el-popover placement="top-start"
+                        width="145"
+                        popper-class="work-calendar-popover"
+                        trigger="click"
+                        @show="popoverShow(data.day)"
+                >
+                    <div class="popover-btn-container">
+                        <el-button @click="onUpdateWorkday(currentDataObj,'0')">设置为节假日</el-button>
+                        <el-button @click="onUpdateWorkday(currentDataObj,'1')">设置为工作日</el-button>
+                        <el-button @click="onUpdateWorkday(currentDataObj,'FridayTag')">设置为特殊星期五</el-button>
+                        <el-button @click="onUpdateWorkday(currentDataObj,'SundayTag')">设置为特殊周日</el-button>
                     </div>
-                </div>
-            </el-col>
-            <el-col :span="20">
-                <div >
-                    <el-calendar>
-                        <template slot="dateCell" slot-scope="{date, data}">
-                            <el-popover
-                                    placement="top-start"
-                                    width="200"
-                                    trigger="click">
-                                <div>
-                                    <el-button @click="onUpdateWorkday(item,'0')">设置为节假日</el-button>
-                                    <el-button @click="onUpdateWorkday(item,'1')">设置为工作日</el-button>
-                                    <el-button @click="onUpdateWorkday(item,'FridayTag')">设置为特殊星期五</el-button>
-                                    <el-button @click="onUpdateWorkday(item,'SundayTag')">设置为特殊周日</el-button>
-                                </div>
-                                <el-button slot="reference">
-                                    <template v-for="item in calendarData">
-                                        <div v-if="data.day.toString()==item.bizDate" :key="item.day"
-                                             :class="item.workday==='0'?'txt-color':''">
-                                            {{ data.day.split('-').slice(2,3).toString()}}
-                                            <p v-if="item.paramCode==='FridayTag'">{{item.paramName}}</p>
-                                            <p v-if="item.paramCode==='SundayTag'">{{item.paramName}}</p>
-                                        </div>
-                                    </template>
-                                </el-button>
-                            </el-popover>
+                    <el-button class="popover-btn" slot="reference">
+                        <template v-for="item in calendarData">
+                            <div class="date-container" :key="item.day" v-if="data.day.toString()==item.bizDate">
+                                <p class="date-text" :class="item.workday==='0'?'work-day':''">
+                                    {{ data.day.split('-').slice(2,3).toString()}}
+                                </p>
+                                <p class="special-text" v-if="item.paramCode==='FridayTag'">{{item.paramName}}</p>
+                                <p class="special-text" v-if="item.paramCode==='SundayTag'">{{item.paramName}}</p>
+                            </div>
                         </template>
-                    </el-calendar>
-                </div>
-            </el-col>
-        </el-row>
+                    </el-button>
+                </el-popover>
+            </template>
+        </el-calendar>
     </div>
 </template>
 
@@ -61,11 +56,11 @@ export default {
             queryParam:{
                 workdayAreaCode :"01"
             },
-            flag:0
+            flag:0,
+            currentDataObj: {}
         }
     },
     mounted(){
-
         let dictTypeId="AC_AREA";
         this.areaList=this.$app.dict.getDictItems(dictTypeId);
         this.workday.workdayAreaCode=this.areaList[0].dictId;
@@ -76,9 +71,15 @@ export default {
         calendarData(val){
             this.calendarData=val;
         },
-
     },
     methods:{
+        popoverShow(date){
+            const currentDate = this.$lodash.find(this.calendarData, {bizDate: date.toString()} );
+            if(currentDate){
+                this.currentDataObj = currentDate
+            }
+        },
+
         list(workday){
           this.onListWorkday(workday);
         },
@@ -133,11 +134,87 @@ export default {
 }
 </script>
 
-<style >
-.txt-color{
-    color: red;
-}
-.act-button{
-    background-color:#F6F8FA;
-}
+<style scoped>
+    .row-container {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .row-container .option-col{
+        height:100%;
+        border:1px solid #F6F8FA;
+        border-radius:5px;
+        background-color:#F6F8FA;
+        margin-right:8px;
+        padding-left:8px;
+        padding-top:4px
+    }
+
+    .row-container .el-calendar{
+        flex: 1;
+    }
+</style>
+
+<style>
+    .work-day{
+        color: #f5222e;
+    }
+    .act-button{
+        background-color:#F6F8FA;
+    }
+
+    .work-calendar .el-calendar-table .el-calendar-day {
+        padding: 0;
+    }
+
+    .work-calendar .el-calendar-table:not(.is-range) td.next .el-calendar-day .popover-btn,
+    .work-calendar .el-calendar-table:not(.is-range) td.prev .el-calendar-day .popover-btn{
+        background: #f5f7fa;
+        color: #ccc;
+    }
+
+    .work-calendar .el-calendar-table:not(.is-range) td.next .el-calendar-day .popover-btn .work-day,
+    .work-calendar .el-calendar-table:not(.is-range) td.prev .el-calendar-day .popover-btn .work-day{
+        color: #ccc;
+    }
+
+    .work-calendar .el-calendar-day .popover-btn {
+        padding: 0;
+        border: none;
+        width: 100%;
+        height: 100%;
+    }
+
+    .work-calendar .el-calendar-day .popover-btn .date-container{
+        width: 100%;
+        height: 100%;
+    }
+
+    .work-calendar .el-calendar-day .popover-btn .date-text{
+        text-align: left;
+        padding: 5px;
+    }
+
+    .work-calendar .el-calendar-day .popover-btn .special-text{
+        text-align: center;
+        line-height: 35px;
+        color: #476dbe;
+        font-size: 12px;
+        font-weight: bold;
+        text-shadow: 2px 3px 3px rgba(0,0,0,.3);
+    }
+
+    .el-popover.work-calendar-popover {
+        padding: 0;
+    }
+
+    .work-calendar-popover .popover-btn-container button {
+        width: 100%;
+        border: none;
+        text-align: left;
+    }
+
+    .work-calendar-popover .popover-btn-container button+button {
+        margin-left: 0;
+    }
 </style>
