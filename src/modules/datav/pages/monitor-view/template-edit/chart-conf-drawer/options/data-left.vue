@@ -6,7 +6,7 @@
                 <span class="block-right block-link" @click="showDialog">更改数据集</span>
             </div>
             <div class="list-item" v-if="this.dataSetId ||this.checkId">
-                <i class="icon iconfont icon-shuju icon-dianpu block-icon-color icon-change"></i>
+                <em class="icon iconfont icon-shuju icon-dianpu block-icon-color icon-change"></em>
                 <el-tree
                         class="tree"
                         ref="dataTree"
@@ -35,9 +35,9 @@
                                    :options="{group:{name:'list', pull:'clone'},sort: false, draggable:'.item'}">
                             <div class="list-item item" v-for="(field,index) in columnDefsList"
                                  :key="field +index">
-                                <i v-if="field.typeName==='date'" class="icon iconfont icon-rili"></i>
-                                <i v-else-if="field.typeName==='number'" class="icon iconfont icon-number"></i>
-                                <i v-else class="icon iconfont icon-text"></i>
+                                <em v-if="field.typeName==='date'" class="icon iconfont icon-rili"></em>
+                                <em v-else-if="field.typeName==='number'" class="icon iconfont icon-number"></em>
+                                <em v-else class="icon iconfont icon-text"></em>
                                 <span class="item-title">{{field.headerName}}</span>
                             </div>
                         </draggable>

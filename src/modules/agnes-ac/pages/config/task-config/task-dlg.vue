@@ -1,6 +1,5 @@
 <template>
     <div>
-        <!-- <el-scrollbar style="height:500px"> -->
         <el-form :model="form" :disabled="mode==='view'" ref="form" :rules="rules" label-width="85px"
                  style="padding: 10px">
             <el-row>
@@ -47,7 +46,6 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="业务标签" prop="bizTag">
-                        <!-- <gf-dict dict-type="AC_BIZ_TAG" multiple v-model="form.bizTag"/> -->
                         <el-select v-model="form.bizTag"
                                 multiple
                                 placeholder="请选择">
@@ -160,7 +158,6 @@
         </el-row>
         </div>
         </el-form>
-        <!-- </el-scrollbar> -->
         <dialog-footer :on-save="save"></dialog-footer>
     </div>
 </template>
@@ -294,7 +291,3 @@ export default {
 
 }
 </script>
-
-<style scoped>
-
-</style>

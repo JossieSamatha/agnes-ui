@@ -3,7 +3,7 @@
         <el-tab-pane v-for="item in objData"
                      :name="item.name" :disabled="item.isDisabled" :key="item.name">
             <span slot="label">
-                <i class="tabIcon" :class="item.icon" v-if="item.icon"></i>
+                <em class="tabIcon" :class="item.icon" v-if="item.icon"></em>
                 <el-badge :value="item.num" :max="99" :hidden="item.isDisabled||!item.num">
                     <span v-if="item.span">{{item.span}}</span>
                 </el-badge>
@@ -48,6 +48,3 @@
         }
     }
 </script>
-<style>
-
-</style>

@@ -20,7 +20,7 @@
                                     closable
                                     @close="closeField(index, element)"
                                     style="margin-right:5px">
-                                <i class="el-icon-arrow-down" style="margin-right: 5px"></i>
+                                <em class="el-icon-arrow-down" style="margin-right: 5px"></em>
                                 {{element.columnLabel}}
                             </el-tag>
                         </template>

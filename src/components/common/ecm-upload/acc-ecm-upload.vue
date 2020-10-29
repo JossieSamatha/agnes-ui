@@ -18,7 +18,7 @@
                v-loading.fullscreen.lock="uploadFileLoading"
                element-loading-background="rgba(0, 0, 0, 0.3)" element-loading-text="文件上传中，请稍后">
         <div>
-            <i class="el-icon-upload"></i>
+            <em class="el-icon-upload"></em>
             <p style="color: #999">将文件拖到此处，或<em>点击上传</em></p>
         </div>
         <div slot="tip" class="el-upload__tip">

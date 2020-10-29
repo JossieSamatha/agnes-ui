@@ -193,7 +193,7 @@
 }
 
 
-.template-item .img-canvas .hover-mask .iconImg > i,
+.template-item .img-canvas .hover-mask .iconImg > em,
 .template-item .img-canvas .hover-mask .iconImg > svg {
     width: 20px;
     height: 20px;

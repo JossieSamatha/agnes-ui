@@ -2,7 +2,7 @@
     <div>
         <div class="linkman-list" v-for="(item, index) in linkmanArr" :key="index">
             <div class="state-icon">
-                <i class="fa fa-user-o"></i>
+                <em class="fa fa-user-o"></em>
             </div>
             <div class="notice-info">
                 <p><span style="color: #333">{{item.linkmanName}}</span>

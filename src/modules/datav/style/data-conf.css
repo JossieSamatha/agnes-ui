@@ -15,7 +15,6 @@
 }
 
 .config-drawer .dash-chart-content .dash-chart-left .data-block {
-    border-bottom: 1px solid #9999;
     flex: 1 1 auto;
     position: relative;
     margin-bottom: 15px;
@@ -106,7 +105,7 @@
 /*更改数据集*/
 .config-drawer .update-data-source ul li#data-source-table:hover {
     background-color: #ecf5ff;
-    color: #476DBE;;
+    color: #476DBE;
 }
 
 .config-drawer .dash-chart-content .el-tabs__active-bar {
@@ -133,11 +132,9 @@
     position: relative;
     line-height: 34px;
     background: #fff;
-    position: relative;
     margin-bottom: 10px;
     border: 1px dashed #D9D9D9;
     border-radius: 3px;
-    line-height: 34px;
 }
 
 .config-drawer .dash-chart-main .chart-axis .axis-head {
@@ -228,8 +225,9 @@
 /* 维度、指标*/
 .config-drawer .chart-axis .content-center i.el-tag__close.el-icon-close {
     opacity: 0;
-    padding-left: 5px;
     margin-bottom: 2px;
+    padding-left: 0px;
+    padding-top: 1px;
 }
 
 .config-drawer .chart-axis .xAxis-style .content-center span.el-tag:hover i.el-tag__close {
@@ -250,17 +248,11 @@
     color: #fff;
 }
 
-.config-drawer .chart-axis .content-center i.el-tag__close.el-icon-close {
-    padding-left: 0px;
-    padding-top: 1px;
-}
-
 .config-drawer .chart-axis .xAxis-style .content-center span.el-tag.el-tag--light {
     position: relative;
     border-radius: 20px;
     background-color: #476DBE;
     border-color: #476DBE;
-    color: #fff;
     color: #fff;
     cursor: pointer;
 }
@@ -727,11 +719,6 @@
 }
 
 .config-drawer .chart-config .config-type .chart-type .icon.type-icon:hover {
-    color: rgb(64, 158, 255) !important;
-}
-
-
-.config-drawer .chart-config .config-type .chart-type .icon.type-icon:hover {
     color: #476DBE !important;
 }
 
@@ -767,7 +754,7 @@
 }
 
 /*级联面板*/
-.config-drawer chart-axis .content-center .xAxisTag:hover > .el-cascader-panel.is-bordered {
+.config-drawer .chart-axis .content-center .xAxisTag:hover > .el-cascader-panel.is-bordered {
     display: flex;
 }
 
@@ -1131,7 +1118,7 @@
     width: 38px !important;
     font-size: 15px;
     line-height: 15px;
-    font-width: bolder;
+    font-weight: bolder;
     /*border: 1px solid #ccc !important;*/
     /*border-radius: 5px !important;*/
 }
@@ -1323,10 +1310,6 @@
     left: 0;
 }
 
-.config-drawer .fx-navigation-bar .nav.left .nav-title {
-    margin-left: 5px;
-}
-
 .config-drawer .fx-navigation-bar .nav-btn {
     cursor: pointer;
     position: relative;
@@ -1448,8 +1431,9 @@
     border-color: #476DBE;
 }
 
-.config-drawer .chart-axis .xAxisTag .edit-name .btn .el-button--small, .el-button--small.is-round,
-.config-drawer .chart-axis .yAxisTag .edit-name .btn .el-button--small, .el-button--small.is-round {
+.config-drawer .chart-axis .xAxisTag .edit-name .btn .el-button--small,
+.config-drawer .chart-axis .yAxisTag .edit-name .btn .el-button--small,
+.el-button--small.is-round {
     padding: 9px 37px;
 }
 
@@ -1459,8 +1443,9 @@
     border-color: #476DBE;
 }
 
-.config-drawer .chart-axis .xAxisTag .edit-name .btn .el-button.is-plain:focus, .chart-axis .xAxisTag .edit-name .btn .el-button.is-plain:hover,
-.config-drawer .chart-axis .yAxisTag .edit-name .btn .el-button.is-plain:focus, .chart-axis .xAxisTag .edit-name .btn .el-button.is-plain:hover {
+.config-drawer .chart-axis .xAxisTag .edit-name .btn .el-button.is-plain:focus,
+.config-drawer .chart-axis .yAxisTag .edit-name .btn .el-button.is-plain:focus,
+.chart-axis .xAxisTag .edit-name .btn .el-button.is-plain:hover {
     background: #ebebeb;
     border-color: #ccc;
     color: #333;
@@ -1486,7 +1471,7 @@
 
 .config-drawer .config-type .chart-type.disable svg.icon.type-icon,
 .config-drawer .chart-config .config-type .chart-type.disable .icon.type-icon:hover {
-    color: #666 !important;;
+    color: #666 !important;
 }
 
 /*左右指标*/

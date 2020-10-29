@@ -100,12 +100,12 @@
                     <span>颜色</span>
                     <div class="row-inp-line">
                         <div class="row-inp-absolute">
-                            <i v-html="svgImg['font-color']"></i>
+                            <em v-html="svgImg['font-color']"></em>
                             <div class="color-fill" :style="{background: componentMeta.color}"></div>
                             <color-picker class="hideDom" :componentMeta="componentMeta" type="color"></color-picker>
                         </div>
                         <div class="row-inp-absolute">
-                            <i v-html="svgImg['bg-color']"></i>
+                            <em v-html="svgImg['bg-color']"></em>
                             <div class="color-fill" :style="{background: componentMeta.background}"></div>
                             <color-picker class="hideDom" :componentMeta="componentMeta" type="background"></color-picker>
                         </div>
@@ -115,11 +115,11 @@
                     <span>样式</span>
                     <div class="button-group">
                         <el-checkbox-group v-model="componentMeta['font-style']">
-                            <el-checkbox-button label="bold"><i class="fa fa-bold"></i>
+                            <el-checkbox-button label="bold"><em class="fa fa-bold"></em>
                             </el-checkbox-button>
                             <template v-if="!componentMeta.digital">
                                 <el-checkbox-button v-for="item in fontStyleOp" :label="item" :key="item">
-                                    <i :class="'fa fa-'+item"></i>
+                                    <em :class="'fa fa-'+item"></em>
                                 </el-checkbox-button>
                             </template>
                         </el-checkbox-group>
@@ -133,7 +133,7 @@
                 <div class="row-inp">
                     <span>颜色</span>
                     <div class="row-inp-absolute">
-                        <i v-html="svgImg['bg-color']"></i>
+                        <em v-html="svgImg['bg-color']"></em>
                         <div class="color-fill" :style="{background: componentMeta.shadowColor}"></div>
                         <color-picker class="hideDom" :componentMeta="componentMeta" type="shadowColor"></color-picker>
                     </div>
@@ -170,7 +170,7 @@
                 <div class="row-inp">
                     <span>颜色</span>
                     <div class="row-inp-absolute">
-                        <i v-html="svgImg['bg-color']"></i>
+                        <em v-html="svgImg['bg-color']"></em>
                         <div class="color-fill" :style="{background: componentMeta.shadowColor}"></div>
                         <color-picker class="hideDom" :componentMeta="componentMeta" type="bgShadowColor"></color-picker>
                     </div>
@@ -249,7 +249,7 @@
                 <div class="row-inp">
                     <span>颜色</span>
                     <div class="row-inp-absolute">
-                        <i v-html="svgImg['font-color']"></i>
+                        <em v-html="svgImg['font-color']"></em>
                         <div class="color-fill" :style="{background: componentMeta['border-color']}"></div>
                         <color-picker class="hideDom" :componentMeta="componentMeta" type="border-color"></color-picker>
                     </div>
@@ -264,12 +264,12 @@
                     <div>
                         <el-radio-group v-if="!componentMeta.digital" class="icon-radio" v-model="componentMeta['justify-content']">
                             <el-radio v-for="(type, index) in justifyOptions" :key="index" :label="type.value">
-                                <i :class="type.icon"></i>
+                                <em :class="type.icon"></em>
                             </el-radio>
                         </el-radio-group>
                         <el-radio-group v-else class="icon-radio" v-model="componentMeta.textAlign">
                             <el-radio v-for="(type, index) in digitalOptions" :key="index" :label="type.value">
-                                <i :class="type.icon"></i>
+                                <em :class="type.icon"></em>
                             </el-radio>
                         </el-radio-group>
                     </div>
@@ -279,7 +279,7 @@
                     <div>
                         <el-radio-group class="icon-radio" v-model="componentMeta['align-items']">
                             <el-radio v-for="(type, index) in alignOptions" :key="index" :label="type.value">
-                                <i :class="type.icon"></i>
+                                <em :class="type.icon"></em>
                             </el-radio>
                         </el-radio-group>
                     </div>

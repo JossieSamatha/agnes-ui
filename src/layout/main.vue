@@ -44,8 +44,8 @@
                 </el-form-item>
             </el-form>
             <div class="funBtn feedback" slot="reference" title="意见反馈">
-                <i class="fa fa-envelope-o" v-if="!feedbackShow"></i>
-                <i class="fa fa-envelope-open-o" v-if="feedbackShow"></i>
+                <em class="fa fa-envelope-o" v-if="!feedbackShow"></em>
+                <em class="fa fa-envelope-open-o" v-if="feedbackShow"></em>
             </div>
         </el-popover>
     </gf-layout-default>
@@ -107,8 +107,8 @@
                     });
                     const other = init.initMenus(toColumn(otherMenus));
                     if(other.allMenu.children){
-                        other.allMenu.children.forEach(data=>{
-                            _this.adminMenus.allMenu.children.push(data)
+                        other.allMenu.children.forEach(childData=>{
+                            _this.adminMenus.allMenu.children.push(childData)
                         })
                     }
                     this.studioTypeChange('appMenus');
@@ -235,6 +235,3 @@
         }
     };
 </script>
-
-<style>
-</style>

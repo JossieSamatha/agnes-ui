@@ -1,26 +1,27 @@
 <template>
     <el-drawer class="noticeDrawer"
-            :with-header="false"
-            :visible.sync="showDrawer"
-            :direction="direction"
-            :before-close="handleClose">
+               :with-header="false"
+               :visible.sync="showDrawer"
+               :direction="direction"
+               :before-close="handleClose">
         <div class="slotCanve">
             <div class="top">
-                <el-input class="search-input" placeholder="请选择输入内容..." suffix-icon="el-icon-search" v-model="messageParam">
+                <el-input class="search-input" placeholder="请选择输入内容..." suffix-icon="el-icon-search"
+                          v-model="messageParam">
                 </el-input>
-                <li class="refreshIcon el-icon-refresh" title="刷新" @click="refreshNotice"></li>
+                <em class="refreshIcon el-icon-refresh" title="刷新" @click="refreshNotice"></em>
             </div>
             <div class="container">
                 <ul class="messagebox">
-                <li class="boxLi" v-for="notice in noticeData" :key="notice.pkId" @click="handelNotice(notice)">
-                    <p class="title">
-                        <el-badge :is-dot="notice.hasRead=='0'">{{notice.msgTitle}}</el-badge>
-                    </p>
-                    <div class="content">
-                        <span>{{notice.msgDetail}}</span>
-                    </div>
-                    <p class="footer">{{notice.remindTime}}</p>
-                </li>
+                    <li class="boxLi" v-for="notice in noticeData" :key="notice.pkId" @click="handelNotice(notice)">
+                        <p class="title">
+                            <el-badge :is-dot="notice.hasRead=='0'">{{notice.msgTitle}}</el-badge>
+                        </p>
+                        <div class="content">
+                            <span>{{notice.msgDetail}}</span>
+                        </div>
+                        <p class="footer">{{notice.remindTime}}</p>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -49,7 +50,7 @@
             }
         },
         methods: {
-            handelNotice(notice){
+            handelNotice(notice) {
                 this.$api.MsgApi.batchRead([notice]).then(() => {
                     notice.hasRead = '1';
                     this.$emit('getUnreadCount');
@@ -57,17 +58,14 @@
             },
 
             // 关闭消息盒子
-            handleClose(){
+            handleClose() {
                 this.$emit('noticeDrawerClose');
             },
 
             // 消息刷新
-            refreshNotice(){
+            refreshNotice() {
                 this.$emit('refreshNotice');
             }
         },
     };
 </script>
-
-<style>
-</style>

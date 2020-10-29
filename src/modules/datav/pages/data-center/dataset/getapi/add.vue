@@ -17,7 +17,7 @@
                     <el-input v-model="form.apiUrl" placeholder="请输入路径"></el-input>
                 </el-form-item>
                 <el-form-item label="预览数据">
-                    <div style="">
+                    <div>
                         <gf-button type="primary" @click="doView">读取数据</gf-button>
                         <span Style="float:right; color: #8A8A8A">注：数据仅显示100条</span>
                     </div>
@@ -224,7 +224,3 @@
     }
 
 </script>
-
-<style>
-</style>
-

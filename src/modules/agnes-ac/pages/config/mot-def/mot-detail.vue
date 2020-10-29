@@ -58,9 +58,6 @@
                 <gf-strbool-checkbox v-model="startAllTime" style="margin-left: 10px">永久有效</gf-strbool-checkbox>
             </div>
         </el-form-item>
-        <!--        <el-form-item label="基准日期" prop="dayendDefId">-->
-        <!--            <gf-dict filterable clearable v-model="detailForm.dayendDefId" dict-type="AGNES_BASE_DATE" style="width: 30%;"/>-->
-        <!--        </el-form-item>-->
         <el-form-item label="创建方式选择" prop="task_execMode">
             <el-radio-group v-model="detailForm.task_execMode">
                 <el-radio label="1">按运行周期创建一次</el-radio>
@@ -118,7 +115,6 @@
         <el-form-item label="任务控制参数">
             <gf-strbool-checkbox v-model="detailForm.needApprove">是否需要复核</gf-strbool-checkbox>
             <gf-strbool-checkbox v-model="detailForm.isTodo">是否进入待办</gf-strbool-checkbox>
-<!--            <gf-strbool-checkbox v-model="detailForm.allowManualConfirm">是否允许人工干预通过</gf-strbool-checkbox>-->
         </el-form-item>
         <el-form-item label="消息通知参数">
             <span class="default-checked">系统内部消息</span>

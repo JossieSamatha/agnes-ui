@@ -131,7 +131,7 @@ export default {
 }
 </script>
 
-<style >
+<style scoped>
 .txt-color{
     color: red;
 }

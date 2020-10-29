@@ -22,7 +22,7 @@
                 <template v-if="boardBigType == 'defineBoard'">
                     <p :class="choosedBoard.boardId==board.boardId?'active':''" v-for="board in boardArrDefine" :key="board.boardId" @click="chooseBoard(board)">
                     <span class="delUnitGrid" v-if="defineBoardSet" @click="removeDefineBoard(board)">
-                        <i class="fa fa-close"></i>
+                        <em class="fa fa-close"></em>
                     </span>
                         <dash-board-frame v-if="showDialog" ref="dialogGridLayout" :gridData="board.boardData" :gridMargin="[1,1]"></dash-board-frame>
                     </p>

@@ -15,10 +15,10 @@ export default (el, binding) => {
 
 // 获取目标元素 resize方向
     function getDirection(e) {
-        let el = e.currentTarget;
+        let elTar = e.currentTarget;
         let dir = '';
-        let rect = el.getBoundingClientRect();
-        let win = el.ownerDocument.defaultView;
+        let rect = elTar.getBoundingClientRect();
+        let win = elTar.ownerDocument.defaultView;
         let offset = {
             top: rect.top + win.pageYOffset,
             left: rect.left + win.pageXOffset,

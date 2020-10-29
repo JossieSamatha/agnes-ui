@@ -44,7 +44,9 @@
                 waitTime: this.compOption.waitTimeSec*1000
             };
             if(this.compOption.index){
-                !this.compOption.indexWidth ? this.compOption.indexWidth = 50 : false;
+                if(!this.compOption.indexWidth){
+                    this.compOption.indexWidth = 50;
+                }
                 config.columnWidth = [this.compOption.indexWidth];
             }
             this.configParam = config;
@@ -62,7 +64,9 @@
                         waitTime: val.waitTimeSec*1000
                     };
                     if(val.index){
-                        !val.indexWidth ? val.indexWidth = 50 : false;
+                        if(!val.indexWidth){
+                            val.indexWidth = 50;
+                        }
                         config.columnWidth = [val.indexWidth];
                     }else{
                         delete config.indexWidth;

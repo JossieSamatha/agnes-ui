@@ -188,7 +188,7 @@
 </script>
 
 <style>
-.el-border {
-  border: 1px solid rgb(238, 238, 238);
-}
+  .el-border {
+    border: 1px solid rgb(238, 238, 238);
+  }
 </style>

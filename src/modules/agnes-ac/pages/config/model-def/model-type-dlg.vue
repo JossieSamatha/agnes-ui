@@ -19,34 +19,22 @@
                     style="width: 100%">
             <el-table-column prop="fieldKey" label="属性编码">
               <template slot-scope="scope">
-                <!-- <span v-if="this.mode === 'view'">{{scope.row.fieldKey}}</span> -->
                 <el-input :style="!scope.row.fieldKey ? 'border:1px solid #f00':''" v-model="scope.row.fieldKey"></el-input>
               </template>
             </el-table-column>
             <el-table-column prop="fieldName" label="属性名称">
               <template slot-scope="scope">
-                <!-- <span v-if="this.mode === 'view'">{{scope.row.fieldName}}</span> -->
                 <el-input :style="!scope.row.fieldName ? 'border:1px solid #f00':''" v-model="scope.row.fieldName"></el-input>
               </template>
             </el-table-column>
             <el-table-column prop="fieldType" label="属性类型">
               <template slot-scope="scope">
-                <!-- <span v-if="this.mode === 'view'">{{scope.row.inputType}}</span> -->
                 <gf-dict-select :style="!scope.row.fieldType ? 'border:1px solid #f00':''" dict-type="AGNES_FIELD_TYPE" v-model="scope.row.fieldType"/>
               </template>
             </el-table-column>
             <el-table-column prop="mustFill" label="是否必填">
               <template slot-scope="scope">
                 <gf-dict-select :style="!scope.row.mustFill ? 'border:1px solid #f00':''" dict-type="GF_BOOL_TYPE" v-model="scope.row.mustFill"/>
-                <!--<el-select :style="!scope.row.mustFill||scope.row.mustFill.length===0? 'border:1px solid #f00':''" v-model="scope.row.mustFill" placeholder="请选择">
-                    <el-option
-                        v-for="item in mustOption"
-                        :key="item.id"
-                        :label="item.name"
-                        :value="item.id"
-                    >
-                    </el-option>
-                </el-select>-->
               </template>
             </el-table-column>
 

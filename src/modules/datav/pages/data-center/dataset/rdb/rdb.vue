@@ -22,7 +22,7 @@
                             <section>
                                 <p class="title">
                                     <span>1.选择数据源</span>
-                                    <span class="optionBtn" @click="newDataSource" title="新建数据源"><i class="el-icon-folder-add"></i></span>
+                                    <span class="optionBtn" @click="newDataSource" title="新建数据源"><em class="el-icon-folder-add"></em></span>
                                 </p>
                                 <div class="content">
                                     <el-select v-model="form.datasourceid" size="small" @change="changeDatasource">
@@ -47,7 +47,7 @@
                                 </div>
                             </section>
                         </div>
-                        <p class="img-container"><img src="../../../../assets/datacenter/arrow.png"></p>
+                        <p class="img-container"><img src="../../../../assets/datacenter/arrow.png" alt="arrow"></p>
                         <div class="right">
                             <section>
                                 <p class="title">

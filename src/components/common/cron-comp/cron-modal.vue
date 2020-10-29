@@ -1,6 +1,6 @@
 <template>
     <div class="cron-modal">
-        <i class="question el-icon-question" title="操作文档" @click="openHelpFile"></i>
+        <em class="question el-icon-question" title="操作文档" @click="openHelpFile"></em>
         <gf-cron class="gf-cron-tab"
                  ref="innerVueCron"
                  :cornObj="cron"
@@ -10,7 +10,7 @@
                  @close="onCancel">
             <el-tab-pane slot="extSetting" v-if="showType.includes('extSetting')">
                 <span slot="label">
-                    <i class="el-icon-setting"></i>
+                    <em class="el-icon-setting"></em>
                     <span class="requireStar" style="position: relative">
                         <span style="position: absolute;color: #f5222e;left: 0;top: -13px">*</span>
                         其他配置

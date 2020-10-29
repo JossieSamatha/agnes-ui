@@ -36,7 +36,7 @@
             :i="item.i"
             @resized="gridItemResized">
             <span class="delUnitGrid" @click="delBoardUnit(item.i, itemIndex)" v-if="ifCloseIconShow">
-                <i class="fa fa-close"></i>
+                <em class="fa fa-close"></em>
             </span>
             <slot name="grid-item-content" :unitGrid="item" :unitGridIndex="itemIndex"></slot>
         </grid-item>

@@ -115,7 +115,7 @@
                         <div class="row-inp">
                             <span>主色</span>
                             <div class="row-inp-absolute">
-                                <i v-html="svgImg['font-color']"></i>
+                                <em v-html="svgImg['font-color']"></em>
                                 <div class="color-fill" :style="{background: componentMeta.color1}"></div>
                                 <color-picker class="hideDom" :componentMeta="componentMeta" type="color1"></color-picker>
                             </div>
@@ -123,7 +123,7 @@
                         <div class="row-inp">
                             <span>副色</span>
                             <div class="row-inp-absolute">
-                                <i v-html="svgImg['font-color']"></i>
+                                <em v-html="svgImg['font-color']"></em>
                                 <div class="color-fill" :style="{background: componentMeta.color2}"></div>
                                 <color-picker class="hideDom" :componentMeta="componentMeta" type="color2"></color-picker>
                             </div>
@@ -131,7 +131,7 @@
                         <div class="row-inp">
                             <span>背景色</span>
                             <div class="row-inp-absolute">
-                                <i v-html="svgImg['bg-color']"></i>
+                                <em v-html="svgImg['bg-color']"></em>
                                 <div class="color-fill" :style="{background: componentMeta.backgroundColor}"></div>
                                 <color-picker class="hideDom" :componentMeta="componentMeta" type="backgroundColor"></color-picker>
                             </div>
@@ -167,17 +167,17 @@
                             <span>配色</span>
                             <div class="row-inp-line">
                                 <div class="row-inp-absolute">
-                                    <i v-html="svgImg['font-color']"></i>
+                                    <em v-html="svgImg['font-color']"></em>
                                     <div class="color-fill" :style="{background: componentMeta.fontColor}"></div>
                                     <color-picker class="hideDom" :componentMeta="componentMeta" type="fontColor"></color-picker>
                                 </div>
                                 <div class="row-inp-absolute">
-                                    <i v-html="svgImg['bg-color']"></i>
+                                    <em v-html="svgImg['bg-color']"></em>
                                     <div class="color-fill" :style="{background: componentMeta.color1}"></div>
                                     <color-picker class="hideDom" :componentMeta="componentMeta" type="color1"></color-picker>
                                 </div>
                                 <div class="row-inp-absolute">
-                                    <i v-html="svgImg['bg-color']"></i>
+                                    <em v-html="svgImg['bg-color']"></em>
                                     <div class="color-fill" :style="{background: componentMeta.color2}"></div>
                                     <color-picker class="hideDom" :componentMeta="componentMeta" type="color2"></color-picker>
                                 </div>
@@ -293,7 +293,7 @@
                             <span>文字颜色</span>
                             <div class="row-inp-line">
                                 <div class="row-inp-absolute">
-                                    <i v-html="svgImg['font-color']"></i>
+                                    <em v-html="svgImg['font-color']"></em>
                                     <div class="color-fill" :style="{background: componentMeta.textColor}"></div>
                                     <color-picker class="hideDom" :componentMeta="componentMeta" type="textColor"></color-picker>
                                 </div>
@@ -303,12 +303,12 @@
                             <span>配色</span>
                             <div class="row-inp-line">
                                 <div class="row-inp-absolute">
-                                    <i v-html="svgImg['bg-color']"></i>
+                                    <em v-html="svgImg['bg-color']"></em>
                                     <div class="color-fill" :style="{background: componentMeta.color1}"></div>
                                     <color-picker class="hideDom" :componentMeta="componentMeta" type="color1"></color-picker>
                                 </div>
                                 <div class="row-inp-absolute">
-                                    <i v-html="svgImg['bg-color']"></i>
+                                    <em v-html="svgImg['bg-color']"></em>
                                     <div class="color-fill" :style="{background: componentMeta.color2}"></div>
                                     <color-picker class="hideDom" :componentMeta="componentMeta" type="color2"></color-picker>
                                 </div>
@@ -380,12 +380,12 @@
                             <span>配色</span>
                             <div class="row-inp-line">
                                 <div class="row-inp-absolute">
-                                    <i v-html="svgImg['bg-color']"></i>
+                                    <em v-html="svgImg['bg-color']"></em>
                                     <div class="color-fill" :style="{background: componentMeta.color1}"></div>
                                     <color-picker class="hideDom" :componentMeta="componentMeta" type="color1"></color-picker>
                                 </div>
                                 <div class="row-inp-absolute">
-                                    <i v-html="svgImg['bg-color']"></i>
+                                    <em v-html="svgImg['bg-color']"></em>
                                     <div class="color-fill" :style="{background: componentMeta.color2}"></div>
                                     <color-picker class="hideDom" :componentMeta="componentMeta" type="color2"></color-picker>
                                 </div>
@@ -498,7 +498,7 @@
                         <div class="row-inp">
                             <span>表头背景色</span>
                             <div class="row-inp-absolute">
-                                <i v-html="svgImg['bg-color']"></i>
+                                <em v-html="svgImg['bg-color']"></em>
                                 <div class="color-fill" :style="{background: componentMeta.headerBGC}"></div>
                                 <color-picker class="hideDom" :componentMeta="componentMeta" type="headerBGC"></color-picker>
                             </div>
@@ -506,7 +506,7 @@
                         <div class="row-inp">
                             <span>奇数行背景色</span>
                             <div class="row-inp-absolute">
-                                <i v-html="svgImg['bg-color']"></i>
+                                <em v-html="svgImg['bg-color']"></em>
                                 <div class="color-fill" :style="{background: componentMeta.oddRowBGC}"></div>
                                 <color-picker class="hideDom" :componentMeta="componentMeta" type="oddRowBGC"></color-picker>
                             </div>
@@ -514,7 +514,7 @@
                         <div class="row-inp">
                             <span>偶数行背景色</span>
                             <div class="row-inp-absolute">
-                                <i v-html="svgImg['bg-color']"></i>
+                                <em v-html="svgImg['bg-color']"></em>
                                 <div class="color-fill" :style="{background: componentMeta.evenRowBGC}"></div>
                                 <color-picker class="hideDom" :componentMeta="componentMeta" type="evenRowBGC"></color-picker>
                             </div>
@@ -637,7 +637,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>

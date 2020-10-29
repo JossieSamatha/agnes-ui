@@ -22,11 +22,11 @@
         <div v-for="(unit,unitIndex) in draggableList" :key="unit.id">
             <template v-if="unitIndex == 0">
                 <span class="delUnitGrid" @click="delContent" v-if="ifCloseIconShow">
-                    <i class="fa fa-close"></i>
+                    <em class="fa fa-close"></em>
                 </span>
                 <span class="compEntrance" v-if="unit.arrowShow">
-                    <i class="el-icon-refresh" v-if="unit.type === 'calendar-def'" @click="calendarRefresh"></i>
-                    <i class="fa fa-angle-right" v-else @click="entranceMenu(unit.menuId)"></i>
+                    <em class="el-icon-refresh" v-if="unit.type === 'calendar-def'" @click="calendarRefresh"></em>
+                    <em class="fa fa-angle-right" v-else @click="entranceMenu(unit.menuId)"></em>
                 </span>
                 <module-card :title="unit.label">
                     <template slot="content">
@@ -53,15 +53,6 @@
                 type: String,
                 require: true
             }
-        },
-        data: function () {
-            return {
-            }
-        },
-        mounted() {
-            this.draggableList
-        },
-        watch: {
         },
         computed: {
             ifCloseIconShow(){

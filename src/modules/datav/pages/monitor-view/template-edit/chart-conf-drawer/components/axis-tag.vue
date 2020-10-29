@@ -7,11 +7,11 @@
                 @close="closeAxis"
                 style="margin-right:5px;margin-bottom: 6px"
                 :style="axisItem.color">
-            <i class="el-icon-arrow-down" style="margin-right: 5px"></i>
-            <i v-if="element.isDescending" class="icon iconfont icon-paixu-jiangxu"
-               style="margin-right: 5px"></i>
-            <i v-if="element.isAscending" class="icon iconfont icon-paixu-shengxu"
-               style="margin-right: 5px"></i>
+            <em class="el-icon-arrow-down" style="margin-right: 5px"></em>
+            <em v-if="element.isDescending" class="icon iconfont icon-paixu-jiangxu"
+               style="margin-right: 5px"></em>
+            <em v-if="element.isAscending" class="icon iconfont icon-paixu-shengxu"
+               style="margin-right: 5px"></em>
             {{element.headerName}}
             <!--
             1.指标的汇总方式标识：op  opName

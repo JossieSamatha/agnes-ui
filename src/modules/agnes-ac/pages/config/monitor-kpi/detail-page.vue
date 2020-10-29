@@ -113,7 +113,7 @@
                     colId: "#op", headerName: "操作", cellRenderer: "OpCellRender", pinned: "right",
                     cellClassRules: {
                         'invisible-cell': function(params) {
-                            return !(params.data.STATUS === "0");
+                            return params.data.STATUS !== "0";
                         },
                     },
                     cellRenderParams:{
@@ -152,7 +152,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>

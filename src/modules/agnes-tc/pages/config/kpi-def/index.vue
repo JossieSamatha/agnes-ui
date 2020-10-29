@@ -30,14 +30,14 @@
                     </div>
                     <div style="text-align: center">
                         <pie-chart v-show="showChar" :chart-data="charData" :color-set="colorSet"></pie-chart>
-                        <img v-show="!showChar" :src="require('../../../../../assets/img/no-data.png')" style="margin-top:-20px">
+                        <img v-show="!showChar" :src="require('../../../../../assets/img/no-data.png')" alt="no-data" style="margin-top:-20px">
                         <p v-show="!showChar" style="margin-top: 20px">未关联指标状态</p>
                     </div>
                 </el-card>
             </el-row>
             <gf-grid ref="grid" :options="gridOptions" class="grid-class" :height="height">
             </gf-grid>
-            <el-row  style="marginTop:12px;marginLeft:-10px">
+            <el-row  style="margin-top:12px;margin-left:-10px">
                 <el-col :span="24">
                     <el-form-item label-width="0px"  label="" prop="remark" >
                         <gf-input
@@ -217,7 +217,7 @@
                     colId: "#op", headerName: "操作", cellRenderer: "OpCellRender", pinned: "right",
                     cellClassRules: {
                         'invisible-cell': function(params) {
-                            return !(params.data.STATUS === "0");
+                            return params.data.STATUS !== "0";
                         },
                     },
                     cellRenderParams:{
@@ -316,7 +316,6 @@
     }
 
     .item {
-        /*margin-bottom: 18px;*/
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -340,8 +339,6 @@
         margin-left: 40px;
         margin-right: 40px;
         float: left;
-        /*width: 33%;*/
-        /*max-width: 180px;*/
     }
 
     .first{

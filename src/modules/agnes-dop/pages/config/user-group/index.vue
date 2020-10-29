@@ -119,10 +119,6 @@
         margin-bottom: 0px;
     }
 
-    /*.gf-auth-body .el-tabs__content {*/
-    /*    display: none;*/
-    /*}*/
-
     .gf-auth-content {
         display: flex;
         flex-direction: column;

@@ -10,7 +10,7 @@
                                      :step="{actionIndex: actionIndex,...action}" :stepIndex="actionIndex"></stepDef>
                         </draggable>
                         <div class="add-task" @click="addAction(caseModelData, 'actions')">
-                            <i class="el-icon-plus"></i>
+                            <em class="el-icon-plus"></em>
                             <span>添加任务</span>
                         </div>
                     </template>
@@ -182,6 +182,3 @@
         },
     }
 </script>
-<style>
-
-</style>

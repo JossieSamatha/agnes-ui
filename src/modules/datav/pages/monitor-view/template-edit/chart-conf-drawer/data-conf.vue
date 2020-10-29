@@ -72,7 +72,7 @@
                     </div>
                     <div v-if="!isUpdate && editType == 'chart'" class="chart-widget">
                         <div class="component-content">
-                            <img src="../../../../assets/drawericon/dash-guide.png" class="guide-image">
+                            <img src="../../../../assets/drawericon/dash-guide.png" class="guide-image" alt="guide-image">
                             <div class="guide-tip">
                                 拖拽左侧字段到上方
                                 <a href="#" class="guide-link">维度</a>、
@@ -314,7 +314,7 @@
                         <div class="">数据预警</div>
                         <div class="block-body">
                             <div class="body-btn">
-                                <i class="icon iconfont icon-icon_add "></i>
+                                <em class="icon iconfont icon-icon_add "></em>
                                 <span>添加预警</span>
                             </div>
                         </div>
@@ -642,7 +642,7 @@
                     this.editItemType = item.type;
                     this.compName = this.editItemType;
                     let typeArr = ["ct-bar", "ct-line", "ct-line-bar", "ct-pie", "ct-radar", 'ct-strip', 'ct-map', 'ct-area'];
-                    let type = item.type;
+                    let compType = item.type;
                     if (item.type === 'ct-line-bar' && this.metricsLeftIndex === -1 && this.metricsRightIndex === -1) {
                         this.doubleLineTip = true;
                     } else {
@@ -650,7 +650,7 @@
                         this.metricsLeftIndex = -1;
                         this.metricsRightIndex = -1;
                     }
-                    if (typeArr.includes(type)) {
+                    if (typeArr.includes(compType)) {
                         this.createChart();
                     }
                 } else {
@@ -658,8 +658,8 @@
                 }
                 /*坐标Y轴:非指定图表类型删除特定属性*/
                 let setting = this.dataOption.chartSettings;
-                let type = this.dataOption.type;
-                if (type !== 'ct-line' && type !== 'ct-bar' && type !== 'ct-area') {
+                let dataOptionType = this.dataOption.type;
+                if (dataOptionType !== 'ct-line' && dataOptionType !== 'ct-bar' && dataOptionType !== 'ct-area') {
                     if (setting.yAxisName) {
                         delete setting.yAxisName
                     }
@@ -1260,8 +1260,8 @@
                             let newRightItem = yData.map(item => {
                                 return item.field
                             });
-                            let data = {[newRightItem[0]]: newRightItem};
-                            this.$set(chartSettings, 'stack', data);
+                            let stackData = {[newRightItem[0]]: newRightItem};
+                            this.$set(chartSettings, 'stack', stackData);
                         }
                         if (rightType === 'ct-line') {
                             this.$set(chartSettings, 'showLine', this.cloneRightShowLine);
@@ -1346,8 +1346,8 @@
                             let newLeftItem = yData.map(item => {
                                 return item.field
                             });
-                            let data = {[newLeftItem[0]]: newLeftItem};
-                            this.$set(chartSettings, 'stack', data);
+                            let stackData = {[newLeftItem[0]]: newLeftItem};
+                            this.$set(chartSettings, 'stack', stackData);
                         }
                         if (leftType === 'ct-line') {
                             this.$set(chartSettings, 'showLine', this.cloneLeftShowLine);
@@ -1561,9 +1561,9 @@
                 }
                 //高级计算
                 if (data.length >= 2 && data[1] === 'proportion') {
-                    let option = mapNum.get('proportion');
+                    let proportion = mapNum.get('proportion');
                     this.$set(indexAxisData[index], 'hasPercent', true);
-                    indexAxisData[index]['hasPercentName'] = '-' + option;
+                    indexAxisData[index]['hasPercentName'] = '-' + proportion;
                 }
                 if (data.length >= 2 && data[1] === 'none') {
                     this.$set(indexAxisData[index], 'hasPercent', false);
@@ -1572,7 +1572,7 @@
                     }
                 }
                 //汇总方式
-                var option = '';
+                let option = '';
                 if (data.length >= 2 && data[0] === 'op') {
                     if (indexAxisData[index].typeName === 'number') {
                         option = mapNum.get(data[1]);

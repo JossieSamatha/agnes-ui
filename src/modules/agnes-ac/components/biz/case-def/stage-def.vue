@@ -1,13 +1,13 @@
 <template>
     <div class="stage-item" :class="{'edit':stage.edit}">
         <div class="stage-item-title" :title="stage.defName" @dblclick="editStageTitle" :style="titleStyle">
-            <i class="drag-bar fa fa-th" v-if="!preview"></i>
+            <em class="drag-bar fa fa-th" v-if="!preview"></em>
             <span class="title" v-if="!preview">
                 <el-input ref="titleInput" class="title-input" :title="stage.defName" v-model="stage.defName"
                           :disabled="!stage.edit" size="mini" clearable
                           @keyup.enter.native="saveStageTitle" @blur="saveStageTitle"></el-input>
                 <span class="edit" :class="{'is-disabled':!stage.edit}">
-                    <i class="fa fa-trash-o" @click="deleteStage"></i>
+                    <em class="fa fa-trash-o" @click="deleteStage"></em>
                 </span>
             </span>
             <span class="title" v-else>
@@ -15,7 +15,7 @@
                     <span class="name">{{stage.defName}}</span>
                     <span class="num"><span style="color:#52C41C">{{stage.completeNum}}</span>/{{stage.targetNum}}</span>
                 </span>
-                <span class="status" v-if="stage.status"><i v-html="getStatusIcon(stage.status).icon"></i></span>
+                <span class="status" v-if="stage.status"><em v-html="getStatusIcon(stage.status).icon"></em></span>
             </span>
         </div>
         <div class="stage-item-content">
@@ -23,12 +23,12 @@
         </div>
         <div class="add-task" v-if="!preview">
             <span class="stage-add">
-                <i class="el-icon-plus"></i>
+                <em class="el-icon-plus"></em>
                 <span class="title">STEP</span>
                 <step-act-type @addStep="addStep"></step-act-type>
             </span>
             <span @click="addGroup">
-                <i class="el-icon-plus"></i>
+                <em class="el-icon-plus"></em>
                 <span class="title">GROUP</span>
             </span>
         </div>
@@ -74,10 +74,14 @@
             }
         },
         mounted(){
-            this.stage.edit ? this.$refs.titleInput.focus() : false;
+            if(this.stage.edit){
+                this.$refs.titleInput.focus()
+            }
         },
         updated(){
-            this.stage.edit ? this.$refs.titleInput.focus() : false;
+            if(this.stage.edit){
+                this.$refs.titleInput.focus()
+            }
         },
         methods: {
             // 修改Stage标题

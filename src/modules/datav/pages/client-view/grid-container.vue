@@ -54,11 +54,11 @@
 
         },
         mounted(){
-            const boardData = this.gridLayout.boardData;
-            for(let i=0; i<boardData.length; i++){
+            const boardDataArr = this.gridLayout.boardData;
+            for(let i=0; i<boardDataArr.length; i++){
                 if(this.boardStyleArr[i]){
                     const objArr = [this.boardStyleArr[i]];
-                    const gridLayoutObj = boardData[i];
+                    const gridLayoutObj = boardDataArr[i];
                     this.$set(this.gridDataArr, gridLayoutObj.i, objArr);
                 }
             }

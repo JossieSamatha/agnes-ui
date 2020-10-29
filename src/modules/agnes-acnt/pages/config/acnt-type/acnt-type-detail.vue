@@ -10,7 +10,8 @@
                 <gf-input v-model.trim="form.acntReType.typeName" placeholder="类型名称" :max-byte-len="120"/>
             </el-form-item>
             <el-form-item label="流程类型" prop="acntReType.processType">
-                <gf-dict filterable clearable v-model="form.acntReType.processType" dict-type="AGNES_ACNT_PROCESS_TYPE"/>
+                <gf-dict filterable clearable v-model="form.acntReType.processType"
+                         dict-type="AGNES_ACNT_PROCESS_TYPE"/>
             </el-form-item>
 
             <el-form-item label="账户要素配置" prop="fileTable">
@@ -25,15 +26,16 @@
                         <el-table-column prop="factorCode" label="要素编码">
                             <template slot-scope="scope">
 
-                                <el-select :style="!scope.row.factorCode||scope.row.factorCode.length===0? 'border:1px solid #f00':''"
-                                           v-model="scope.row.factorCode" placeholder="请选择"
-                                           @change="onChange(scope.$index, scope.row)"
-                                           filterable>
+                                <el-select
+                                        :style="!scope.row.factorCode||scope.row.factorCode.length===0? 'border:1px solid #f00':''"
+                                        v-model="scope.row.factorCode" placeholder="请选择"
+                                        @change="onChange(scope.$index, scope.row)"
+                                        filterable>
                                     <el-option
-                                        v-for="item in typeFactorOp"
-                                        :key="item.dictId"
-                                        :label="`${item.dictId}/${item.dictName}`"
-                                        :value="item.dictId"
+                                            v-for="item in typeFactorOp"
+                                            :key="item.dictId"
+                                            :label="`${item.dictId}/${item.dictName}`"
+                                            :value="item.dictId"
                                     >
                                     </el-option>
                                 </el-select>
@@ -42,37 +44,38 @@
                         </el-table-column>
                         <el-table-column prop="factorName" label="要素名称">
                             <template slot-scope="scope">
-                                <!-- <span v-if="this.mode === 'view'">{{scope.row.fieldName}}</span> -->
-                                <el-input :style="!scope.row.factorName ? 'border:1px solid #f00':''" v-model="scope.row.factorName"
+                                <el-input :style="!scope.row.factorName ? 'border:1px solid #f00':''"
+                                          v-model="scope.row.factorName"
                                           :disabled="false"></el-input>
                             </template>
                         </el-table-column>
                         <el-table-column prop="isShow" label="是否显示">
                             <template slot-scope="scope">
-                                <gf-dict-select :style="!scope.row.isShow ? 'border:1px solid #f00':''" dict-type="GF_BOOL_TYPE" v-model="scope.row.isShow"/>
+                                <gf-dict-select :style="!scope.row.isShow ? 'border:1px solid #f00':''"
+                                                dict-type="GF_BOOL_TYPE" v-model="scope.row.isShow"/>
 
                             </template>
                         </el-table-column>
 
                         <el-table-column prop="mustFill" label="是否必填">
                             <template slot-scope="scope">
-                                <gf-dict-select :style="!scope.row.mustFill ? 'border:1px solid #f00':''" dict-type="GF_BOOL_TYPE" v-model="scope.row.mustFill"/>
+                                <gf-dict-select :style="!scope.row.mustFill ? 'border:1px solid #f00':''"
+                                                dict-type="GF_BOOL_TYPE" v-model="scope.row.mustFill"/>
 
                             </template>
                         </el-table-column>
 
-                        <el-table-column  prop="option" label="操作" width="52" align="center">
+                        <el-table-column prop="option" label="操作" width="52" align="center">
                             <template slot-scope="scope">
                                 <span class="option-span" @click="deleteRuleRow(scope.$index)">删除</span>
                             </template>
                         </el-table-column>
                     </el-table>
-                    <el-button  @click="addRule()" class="rule-add-btn" size="small" :disabled="mode==='view'">新增</el-button>
+                    <el-button @click="addRule()" class="rule-add-btn" size="small" :disabled="mode==='view'">新增
+                    </el-button>
                 </div>
             </el-form-item>
-
         </el-form>
-<!--        <dialog-footer :on-save="save" :ok-button-title="okTitle" :ok-button-visible="mode != 'view'"></dialog-footer>-->
     </div>
 
 </template>
@@ -91,19 +94,19 @@
         },
         data() {
             return {
-                form:{
-                    acntReType:{
-                        typeCode:'',
-                        typeName:'',
-                        processType:'TA',
+                form: {
+                    acntReType: {
+                        typeCode: '',
+                        typeName: '',
+                        processType: 'TA',
                     },
                     factors: []
                 },
-                okTitle:'保存',
-                variableOption:[],
-                analyRulesOption:[],
+                okTitle: '保存',
+                variableOption: [],
+                analyRulesOption: [],
                 typeFactorOp: this.$app.dict.getDictItems('AGNES_ACNT_TYPE_FACTOR'),
-                mustFillField: ['factorCode','factorName','isShow','mustFill'],
+                mustFillField: ['factorCode', 'factorName', 'isShow', 'mustFill'],
                 rules: {
                     'acntReType.typeName': [{required: true, message: "账户类型名称必填", trigger: 'blur'}],
                     'acntReType.typeCode': [{required: true, message: "账户类型编号必填", trigger: 'blur'}],
@@ -117,7 +120,7 @@
                 const p = this.fetchFactors();
                 this.$app.blockingApp(p);
             }
-            if(this.mode=='view' || this.mode=='check'){
+            if (this.mode == 'view' || this.mode == 'check') {
                 this.isNoEdit = true;
                 this.okTitle = '审核';
             }
@@ -132,7 +135,7 @@
                 }
             },
             // 新增服务行
-            addRule(){
+            addRule() {
                 const newFileTableObj = {
                     factorCode: '',
                     factorName: '',
@@ -142,7 +145,7 @@
                 this.form.factors.push(newFileTableObj);
             },
             // 删除行
-            deleteRuleRow(rowIndex){
+            deleteRuleRow(rowIndex) {
                 this.form.factors.splice(rowIndex, 1);
             },
 
@@ -158,15 +161,15 @@
                 }
                 try {
                     let validate = true;
-                    if(this.form.factors){
-                        for(let i =0;i<this.form.factors.length;i++){
+                    if (this.form.factors) {
+                        for (let i = 0; i < this.form.factors.length; i++) {
                             for (let key in this.form.factors[i]) {
-                                if(this.mustFillField.indexOf(key) !== -1 && loadsh.isEmpty(this.form.factors[i][key])){
+                                if (this.mustFillField.indexOf(key) !== -1 && loadsh.isEmpty(this.form.factors[i][key])) {
                                     validate = false;
                                 }
                             }
                         }
-                        if(!validate){
+                        if (!validate) {
                             this.$msg.warning("请补充完整必填项!");
                             return;
                         }
@@ -182,9 +185,9 @@
                     this.$msg.error(reason);
                 }
             },
-            onChange(rowIndex, rowInfo){
-                if(rowInfo.factorCode){
-                    let  selectedFactor = this.$lodash.find(this.typeFactorOp, { dictId: rowInfo.factorCode});
+            onChange(rowIndex, rowInfo) {
+                if (rowInfo.factorCode) {
+                    let selectedFactor = this.$lodash.find(this.typeFactorOp, {dictId: rowInfo.factorCode});
                     rowInfo.factorName = selectedFactor.dictName;
                 }
             }
