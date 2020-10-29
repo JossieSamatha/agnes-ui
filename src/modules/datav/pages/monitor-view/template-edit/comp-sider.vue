@@ -15,7 +15,6 @@
                 <span class="iconImg fa fa-close" @click="compPanelShow = false"></span>
             </div>
             <div class="content" v-if="activeCollapseObj.components">
-
                 <draggable class="compUl" v-model="activeCollapseObj.components" group="unitGroup"
                            @start="compDragStart">
                     <div class="compLi" v-for="comp in activeCollapseObj.components" :key="comp.icon"

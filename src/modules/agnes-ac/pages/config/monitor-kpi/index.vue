@@ -140,6 +140,7 @@
 
             // 强制通过
             async executeKpi(row) {
+                this.loading = true;
                 this.taskCommit.inst.taskId = row.taskId;
                 this.taskCommit.stepInfo.caseId = row.caseId;
                 this.taskCommit.stepInfo.stepCode = row.kpiCode;
@@ -147,19 +148,20 @@
                 this.taskCommit.stepInfo.stepStatus = "07";
                 this.taskCommit.stepInfo.jobId = row.jobId;
                 try {
-                    const p = this.$api.taskTodoApi.confirmKpiTask(this.taskCommit)
-                    const resp = await this.$app.blockingApp(p);
+                    const resp = await this.$api.taskTodoApi.confirmKpiTask(this.taskCommit);
                     if (resp.data) {
                         if (this.actionOk) {
                             await this.actionOk();
                         }
                         this.$msg.success('提交成功');
-                        this.$emit("onClose");
+                        this.loading = false;
                     } else {
                         this.$msg.warning('提交失败');
+                        this.loading = false;
                     }
                 } catch (e) {
                     this.$msg.error(e);
+                    this.loading = false;
                 }
             },
 
@@ -169,7 +171,7 @@
 
             // 重新执行
             exeTaskJob(row){
-                let _this=this;
+                this.loading = true;
                 let kpiTaskReq = {}
                 kpiTaskReq.caseId = row.caseId;
                 kpiTaskReq.stepCode = row.kpiCode;
@@ -177,10 +179,11 @@
                 kpiTaskReq.taskId = row.taskId;
                 this.$api.kpiDefineApi.execTask(kpiTaskReq).then((resp) => {
                     if(resp.status){
-                        _this.$message.success(resp.message);
-                        _this.reloadData();
+                        this.$message.success(resp.message);
+                        this.loading = false;
                     } else{
-                        _this.$message.error(resp.message);
+                        this.$message.error(resp.message);
+                        this.loading = false;
                     }
                 });
             },
@@ -231,6 +234,11 @@
     .svg-btn.el-button.is-disabled .lcSvg.theme-color .cls-1{
         fill: #ccc;
     }
+
+    .monitor-kpi-page.gf-tab-view .el-loading-mask{
+        z-index: inherit;
+        background-color: rgba(255, 255, 255, 0.7);
+    }
 </style>
 
 <style scoped>
@@ -263,10 +271,5 @@
 
     .el-icon-refresh:hover {
         color: #476DBE;
-    }
-
-    .monitor-kpi-page.gf-tab-view .el-loading-mask{
-        z-index: inherit;
-        background-color: rgba(255, 255, 255, 0.7);
     }
 </style>
