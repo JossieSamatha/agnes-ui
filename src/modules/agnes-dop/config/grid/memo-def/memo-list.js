@@ -1,11 +1,23 @@
 import column from "../../../../../config/column"
+import Permission from "../../../../../utils/hasPermission"
+
 
 const colButtons = [
-    {key: 'editMemo', title: '编辑'},
-    {key: 'deleteMemo', title: '删除', cellClass: 'red-cell'},
+    {
+        key: 'editMemo', title: '编辑', visiable: () => {
+            return Permission.hasPermission('agnes.dop.memo.edit');
+        }
+    },
+    {
+        key: 'deleteMemo', title: '删除', cellClass: 'red-cell', visiable: () => {
+            return Permission.hasPermission('agnes.dop.memo.delete');
+        }
+    },
     {
         key: 'approveMemo', title: '审核', disabled: (params) => {
             return params.data.memoStatus === '04'
+        }, visiable: () => {
+            return Permission.hasPermission('agnes.dop.memo.approve');
         }
     },
 ];

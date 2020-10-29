@@ -2,8 +2,11 @@
     <gf-grid grid-no="agnes-product-field" ref="grid" quick-text-max-width="300px"
              height="100%" @row-double-click="showProduct">
       <template slot="left">
-        <gf-button class="action-btn" @click="addProduct" size="mini">添加</gf-button>
-        <gf-button class="action-btn" size="mini">同步产品生命周期数据</gf-button>
+        <gf-button v-if="$hasPermission('agnes.dop.product.def.add')" class="action-btn" @click="addProduct"
+                   size="mini">添加
+        </gf-button>
+        <gf-button v-if="$hasPermission('agnes.dop.product.def.sync')" class="action-btn" size="mini">同步产品生命周期数据
+        </gf-button>
       </template>
     </gf-grid>
 </template>

@@ -8,10 +8,16 @@ const colButtons = [
             return Permission.hasPermission('agnes.dop.product.def.edit');
         }
     },
-    {key: 'deleteProduct', title: '删除', cellClass: 'red-cell'},
+    {
+        key: 'deleteProduct', title: '删除', cellClass: 'red-cell', visiable: () => {
+            return Permission.hasPermission('agnes.dop.product.def.delete');
+        }
+    },
     {
         key: 'checkProduct', title: '审核', disabled: (params) => {
             return params.data.productStatus === '04'
+        }, visiable: () => {
+            return Permission.hasPermission('agnes.dop.product.def.approve');
         }
     },
 ];

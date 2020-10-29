@@ -4,9 +4,13 @@
             <el-form class="list-body" ref="form" >
                 <div>
                     <el-row class="list-row" type="flex" justify="end" :gutter="3">
-                        <el-button size="small" @click="openChangeList" class="el-button">查看日切记录</el-button>
-                        <el-button size="small" @click="addChangeData" type="primary" class="el-button">日切</el-button>
-                        <el-button size="small" @click="addChangeRule" type="primary" class="el-button">日切规则</el-button>
+                      <el-button size="small" @click="openChangeList" class="el-button">查看日切记录</el-button>
+                      <el-button v-if="$hasPermission('agnes.app.conf.dayend.change')" size="small"
+                                 @click="addChangeData" type="primary" class="el-button">日切
+                      </el-button>
+                      <el-button v-if="$hasPermission('agnes.app.conf.dayend.rule')" size="small" @click="addChangeRule"
+                                 type="primary" class="el-button">日切规则
+                      </el-button>
                     </el-row>
                     <el-divider></el-divider>
                     <el-row class="list-row" type="flex" justify="space-between" >
@@ -35,7 +39,7 @@
             </el-form>
     </el-card>
     </div>
-    
+
 
 </template>
 
@@ -156,15 +160,15 @@
                 });
 
             },
-            async stopAndChangeDay(nowTaskData){                
-                try {
-                    await this.$api.changeDataApi.queryChangeData(nowTaskData);
-                    await this.$message({type: 'success',message: '切换成功!'});
-                    await this.loadChangeData();
-                } catch (e) {
-                    this.$msg.error(e);
-                }
-            },
+          async stopAndChangeDay(nowTaskData) {
+            try {
+              await this.$api.changeDataApi.queryChangeData(nowTaskData);
+              await this.$message({type: 'success', message: '切换成功!'});
+              await this.loadChangeData();
+            } catch (e) {
+              this.$msg.error(e);
+            }
+          },
             async changeWorkDay(nowTaskData){
                 let p = this.$api.changeDataApi.queryChangeData(nowTaskData);
                 await this.$app.blockingApp(p);
