@@ -60,8 +60,18 @@ export default {
                 }
             }
         },
+        {headerName: "最新更新时间", field: "updateTs",
+            cellRenderer: (params) => {
+                if (!params.value) {
+                    return ''
+                } else {
+                    let formatDate = '';
+                    formatDate = dateUtil.formatDate(params.value, 'yyyy-MM-dd HH:mm:ss')
+                    return formatDate;
+                }
+            }},
         {headerName: "任务类型", field: "stepActType", dictType: 'AGNES_CASE_STEPTYPE'},
-        {headerName: "执行人员", field: "updateUser"},
+        {headerName: "执行人员", field: "execUser"},
         {headerName: "备注", field: "remark", enableRowGroup: false},
     ],
     defaultColDef: {
