@@ -15,37 +15,29 @@
             </el-col>
             <el-col :span="20">
                 <div >
-                    <el-calendar >
-                        <template
-                                slot="dateCell"
-                                slot-scope="{date, data}" >
-                            <div v-for="item in calendarData"  v-bind:key="item.day">
-                                <div v-if="data.day.toString()==item.bizDate">
-                                    <div slot="reference"
-                                         :class="item.workday==='0'?'txt-color':''">
-                                        {{ data.day.split('-').slice(2,3).toString() }}
-                                    </div>
-                                    <el-popover
-                                            placement="top-start"
-                                            width="200"
-                                            trigger="hover">
-                                        <div >
-                                            <el-row>
-                                                <el-col>
-                                                    <el-button @click="onUpdateWorkday(item,'0')">设置为节假日</el-button>
-                                                </el-col>
-                                            </el-row>
-                                            <el-row>
-                                                <el-col>
-                                                    <el-button @click="onUpdateWorkday(item,'1')">设置为工作日</el-button>
-                                                </el-col>
-                                            </el-row>
-                                        </div>
-                                        <div style="height:300px;width:100%"  slot="reference">
-                                        </div>
-                                    </el-popover>
+                    <el-calendar>
+                        <template slot="dateCell" slot-scope="{date, data}">
+                            <el-popover
+                                    placement="top-start"
+                                    width="200"
+                                    trigger="click">
+                                <div>
+                                    <el-button @click="onUpdateWorkday(item,'0')">设置为节假日</el-button>
+                                    <el-button @click="onUpdateWorkday(item,'1')">设置为工作日</el-button>
+                                    <el-button @click="onUpdateWorkday(item,'FridayTag')">设置为特殊星期五</el-button>
+                                    <el-button @click="onUpdateWorkday(item,'SundayTag')">设置为特殊周日</el-button>
                                 </div>
-                            </div>
+                                <el-button slot="reference">
+                                    <template v-for="item in calendarData">
+                                        <div v-if="data.day.toString()==item.bizDate" :key="item.day"
+                                             :class="item.workday==='0'?'txt-color':''">
+                                            {{ data.day.split('-').slice(2,3).toString()}}
+                                            <p v-if="item.paramCode==='FridayTag'">{{item.paramName}}</p>
+                                            <p v-if="item.paramCode==='SundayTag'">{{item.paramName}}</p>
+                                        </div>
+                                    </template>
+                                </el-button>
+                            </el-popover>
                         </template>
                     </el-calendar>
                 </div>
@@ -112,7 +104,17 @@ export default {
         this.workday.workdayId = item.workdayId;
         this.workday.bizDate = item.bizDate;
         this.workday.workdayAreaCode = item.workdayAreaCode;
-        this.workday.workday = flag;
+        if(flag.match(/0|1/)){
+            this.workday.workday = flag;
+        }else {
+            if('FridayTag' === flag){
+                this.workday.paramName = "特殊周五";
+            }else {
+                this.workday.paramName = "特殊周日";
+            }
+            this.workday.paramCode = flag;
+            this.workday.paramId = item.paramId;
+        }
 
         try {
           await this.$api.workdayConfigApi.updateWorkday(this.workday);
