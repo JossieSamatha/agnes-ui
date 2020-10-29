@@ -110,8 +110,6 @@
                 this.showOpenDlg('addChange', params.data, this.onOpenApply.bind(this));
             },
 
-
-
             showInsertDlg(mode, row, actionOk) {
                 if (!row) {
                     this.$msg.warning("请选中一条记录!");

@@ -5,6 +5,9 @@ export default {
     queryChangeData(bizDate) {
         return request.post(`/agnes-app/v1/dop/dayend/bizdate`, {bizDate});
     },
+    changeDayendByJob(form) {
+        return request.post(`/agnes-app/v1/dop/dayend/change-by-job`, form);
+    },
     getChangeData() {
         return request.get(`/agnes-app/v1/dop/dayend/get`);
     },
