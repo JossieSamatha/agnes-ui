@@ -31,12 +31,12 @@
                 </li>
                 <template v-for="item in fileList">
                     <li class="upload-list content" :key="item.objectId">
-                        <span><a>{{item.name}}</a></span>
-                        <span class="piece"><el-input v-model="item.pieceNum" :disabled="disabled"></el-input></span>
+                        <span><a>{{item.fileName}}</a></span>
+                        <span class="piece"><el-input v-model="item.fileNum" :disabled="disabled"></el-input></span>
                         <span><el-input v-model="item.remark" :disabled="disabled"></el-input></span>
                         <span class="option">
-                            <a @click="fileDowload(item.objectId)">下载</a>
-                            <a @click="onRemove(item.objectId)">删除</a>
+                            <a v-if="showFileDowload" @click="fileDowload(item.objectId)">下载</a>
+                            <a v-if="showRemove" @click="onRemove(item.objectId)">删除</a>
                         </span>
                     </li>
                     <p v-if="fileList.length == 0" style="font-size: 14px;color: #333;text-align: center;" :key="item.objectId">暂无上传信息</p>
@@ -49,7 +49,7 @@
 <script>
     export default {
         model: {
-            prop: 'accFileList',
+            prop: 'fileList',
             event: 'listChange'
         },
         props: {
@@ -59,7 +59,7 @@
             },
             folder: {
                 type: String,
-                default: ''
+                default: '2'
             },
             format: {
                 type: Array,
@@ -73,6 +73,14 @@
                 type: Boolean,
                 default:true
             },
+            showFileDowload: {
+                type: Boolean,
+                default:true
+            },
+            showRemove: {
+                type: Boolean,
+                default:false
+            },
             changeRefreshFolder: {
                 type: Boolean,
                 default: true
@@ -83,15 +91,15 @@
             limit:{
                 type: Number
             },
-            accFileList: Array
+            fileList: Array
         },
         data() {
             return {
                 uploadData: {},
-                fileList: [
-                    {objectId: '001', name: '一级债券分销协议.docx', pieceNum: '1', remark: '一份用印'},
-                    {objectId: '002', name: '测试文档.docx', pieceNum: '1', remark: '一份用印'}
-                ],
+                // fileList: [
+                //     {objectId: '001', name: '一级债券分销协议.docx', pieceNum: '1', remark: '一份用印'},
+                //     {objectId: '002', name: '测试文档.docx', pieceNum: '1', remark: '一份用印'}
+                // ],
                 showList: true,
                 type: '',
                 getDisabled: false,
@@ -105,10 +113,12 @@
                 docId: this.srcDocId ? this.srcDocId : '',
                 folderTag: this.folder
             };
+
             //刷新文件夹
             if (this.srcDocId) {
                 this.refreshFolder(this.srcDocId);
             }
+
             this.getDisabled = this.disabled;
             //是否显示上传文件列表  默认true
             if (this.showUploadList != undefined && this.showUploadList !== "" && this.showUploadList !== null) {
@@ -194,13 +204,15 @@
                 if (ok) {
                     this.uploadFileLoading = true;
                     if (fileId) {
+
+                        let that = this;
                         //在doc中删除文件
-                        const p = await this.$api.ecmUploadApi.removeFile(fileId);
-                        p.then( (resp) => {
-                            if (resp.ok) {
-                                this.refreshFolder(this.srcDocId);
-                                this.$msg.success('删除成功!');
-                                this.uploadFileLoading = false;
+                        this.$api.ecmUploadApi.removeFile(fileId).then(function (resp) {
+                            if (resp.status) {
+                                // that.refreshFolder(that.srcDocId);
+                                that.refreshFolder(that.uploadData.docId);
+                                that.$msg.success('删除成功!');
+                                that.uploadFileLoading = false;
                             }
                         });
                     } else {
@@ -212,28 +224,70 @@
 
             fileDowload(fileId) {
                 const basePath = window.location.href.split("#/")[0];
-                window.open(basePath + 'ecm/file/download/' + fileId);
+                window.open(basePath + 'api/ecm/ecm/file/download/' + fileId);
             },
 
             //重置文件夹
+            // async refreshFolder(docId) {
+            //     docId = docId ? docId : '';
+            //     let that = this;
+            //     //获取文件列表
+            //     this.$api.ecmUploadApi.getOisFileList(docId).then(function (resp) {
+            //         if (resp) {
+            //             let files = resp.files;
+            //             //清空文件列表
+            //             const oldFileList = that.fileList;
+            //             that.fileList.splice(0, that.fileList.length);
+            //             if(files && files.length > 0) {
+            //                 for (let i = 0; i < files.length; i++) {
+            //                     let oldFile = that.$lodash.find(oldFileList, { 'docId': docId, 'objectId': files[i].objectId });
+            //                     let remark = '';
+            //                     if(oldFile.remark){
+            //                         remark = oldFile.remark;
+            //                     }
+            //                     const file = {
+            //                         name: files[i].name,
+            //                         objectId: files[i].objectId,
+            //                         docId: docId,
+            //                         remark: remark
+            //                     }
+            //                     that.fileList.push(file);
+            //                 }
+            //             }
+            //         }
+            //     });
+            // },
+
             async refreshFolder(docId) {
                 docId = docId ? docId : '';
                 //获取文件列表
-                const p = await this.$api.ecmUploadApi.getOisFileList(docId);
-                p.then((resp) => {
-                    if (resp.ok) {
-                        let files = resp.body.files;
-                        //清空文件列表
-                        this.fileList.splice(0, this.fileList.length);
-                        if(files && files.length > 0) {
-                            for (let i = 0; i < files.length; i++) {
-                                const file = {
-                                    name: files[i].name,
-                                    objectId: files[i].objectId,
-                                }
-                                this.fileList.push(file);
+                this.$api.ecmUploadApi.getOisFileList(docId).then( (resp) => {
+                    if (resp) {
+                        let files = resp.files;
+                        files.forEach((file)=>{
+                            const hasFile = this.$lodash.find(this.fileList, {objectId: file.objectId});
+                            if(!hasFile){
+                                this.fileList.push({
+                                    docId: docId,
+                                    objectId: file.objectId,
+                                    fileName: file.name,
+                                    fileNum: '',
+                                    remark: ''
+                                });
                             }
-                        }
+                        });
+                        //清空文件列表
+                        // this.fileList.splice(0, this.fileList.length);
+                        // if(files && files.length > 0) {
+                        //     for (let i = 0; i < files.length; i++) {
+                        //         const file = {
+                        //             name: files[i].name,
+                        //             objectId: files[i].objectId,
+                        //             docId: docId
+                        //         }
+                        //         this.fileList.push(file);
+                        //     }
+                        // }
                     }
                 });
             },
@@ -295,7 +349,8 @@
     }
 
     .acc-ecm-upload .el-upload__tip{
-        margin: 0 10px;
+        flex: 1;
+        margin: 0 0 0 10px;
     }
 
     .acc-ecm-upload .el-upload-list {

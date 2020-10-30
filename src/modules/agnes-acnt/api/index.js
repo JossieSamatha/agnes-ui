@@ -4,6 +4,7 @@ import linkmanRefApi from './linkman-ref-api';
 import acntApplyApi from './acnt-apply-api';
 import acntTypeApi from './acnt-type-api';
 import acntSchemeApi from './acnt-scheme-api';
+import acntMaterialApi from './acnt-material-api';
 
 export default {
     acntInfoApi,
@@ -11,5 +12,6 @@ export default {
     linkmanRefApi,
     acntApplyApi,
     acntTypeApi,
-    acntSchemeApi
+    acntSchemeApi,
+    acntMaterialApi
 };

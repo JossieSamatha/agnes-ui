@@ -2,12 +2,12 @@ import request from '@hex/gf-ui/src/util/request';
 
 
 export default {
-    removeFile() {
-        return request.get("");
+    removeFile(fileId) {
+        return request.post("/ecm/ecm/file/remove/" + fileId);
     },
 
     getOisFileList(docId) {
-        return request.get("http://192.168.8.113:7002/api/ecm/ecm/doc/get/" + docId);
+        return request.get("/ecm/ecm/doc/get/" + docId);
     },
 
 

@@ -441,7 +441,6 @@
                 <gf-input v-model.trim="detailForm.remark" placeholder="备注"/>
             </el-form-item>
         </el-form>
-        {{detailForm}}
 
     </div>
 
