@@ -42,13 +42,12 @@
 
                     </template>
                 </el-table-column>
-                <el-table-column prop="kpiCode" label="指标代码" width="100"></el-table-column>
                 <el-table-column prop="taskName" label="指标名称">
                     <template slot-scope="scope">
                         <span class="kpi-level" v-if="scope.row.stepLevel">
                             <em class="fa fa-star" style="color: #f5222e" v-for="i in Number(scope.row.stepLevel)" :key="i"></em>
                         </span>
-                        <span>{{scope.row.taskName}}</span>
+                        <span :title="scope.row.stepRemark">{{scope.row.taskName}}({{scope.row.kpiCode}})</span>
                     </template>
                 </el-table-column>
                 <el-table-column prop="errNum" label="异常" width="100">
