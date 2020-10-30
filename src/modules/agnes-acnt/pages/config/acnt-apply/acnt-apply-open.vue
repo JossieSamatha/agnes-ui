@@ -116,6 +116,9 @@
                 </el-form-item>
             </div>
             <div v-if="detailFormBefore.isSendOa==='1'" class="line">
+<!--                <el-form-item label="公司领导" prop="oaLeader">-->
+<!--                    <gf-input v-model.trim="detailFormBefore.oaLeader" placeholder="公司领导"/>-->
+<!--                </el-form-item>-->
                 <el-form-item label="是否需要合规法务审核" prop="oaIsNeedAudit">
                     <el-radio-group v-model="detailFormBefore.oaIsNeedAudit">
                         <el-radio label="1">是</el-radio>
@@ -152,16 +155,20 @@
                             style="width: 100%">
                         <el-table-column prop="fileName" label="用印文件名">
                             <template slot-scope="scope">
+                                <!-- <ecm-upload-comp :style="!scope.row.fileName ? 'border:1px solid #f00':''" v-model="scope.row.fileName"></ecm-upload-comp> -->
+                                <!-- <span v-if="this.mode === 'view'">{{scope.row.fileName}}</span> -->
                                 <el-input :style="!scope.row.fileName ? 'border:1px solid #f00':''" v-model="scope.row.fileName"></el-input>
                             </template>
                         </el-table-column>
                         <el-table-column prop="fileNumber" label="份数">
                             <template slot-scope="scope">
+                                <!-- <span v-if="this.mode === 'view'">{{scope.row.fileNumber}}</span> -->
                                 <el-input type="number" :style="!scope.row.fileNumber ? 'border:1px solid #f00':''" v-model="scope.row.fileNumber"></el-input>
                             </template>
                         </el-table-column>
                         <el-table-column prop="fileRemark" label="备注">
                             <template slot-scope="scope">
+                                <!-- <span v-if="this.mode === 'view'">{{scope.row.fileRemark}}</span> -->
                                 <el-input v-model="scope.row.fileRemark"></el-input>
                             </template>
                         </el-table-column>
@@ -293,6 +300,9 @@
                 </el-form-item>
             </div>
             <div v-if="detailForm.isSendOa==='1'" class="line">
+<!--                <el-form-item label="公司领导" prop="oaLeader">-->
+<!--                    <gf-input v-model.trim="detailForm.oaLeader" placeholder="公司领导"/>-->
+<!--                </el-form-item>-->
                 <el-form-item label="是否需要合规法务审核" prop="oaIsNeedAudit">
                     <el-radio-group v-model="detailForm.oaIsNeedAudit">
                         <el-radio label="1">是</el-radio>
@@ -319,41 +329,21 @@
 
             <div v-if="detailForm.isSendOa==='1'" class="line">
                 <el-form-item v-if="detailForm.isSendOa==='1'" label="用印文件" prop="fileTable">
+
                     <div class="rule-table">
-                        <el-table header-row-class-name="rule-header-row"
-                                header-cell-class-name="rule-header-cell"
-                                row-class-name="rule-row"
-                                cell-class-name="rule-cell"
-                                :data="detailForm.fields"
-                                border stripe
-                                style="width: 100%">
-                            <el-table-column prop="fileName" label="用印文件名">
-                                <template slot-scope="scope">
-                                    
-                                    <upload-one limit=1 :style="!scope.row.fileName ? 'border:1px solid #f00':''" v-model="scope.row.fileName"></upload-one>
-                                </template>
-                            </el-table-column>
-                            <el-table-column prop="fileNumber" label="份数">
-                                <template slot-scope="scope">
-                                    <el-input type="number" :style="!scope.row.fileNumber ? 'border:1px solid #f00':''" v-model="scope.row.fileNumber"></el-input>
-                                </template>
-                            </el-table-column>
-                            <el-table-column prop="fileRemark" label="备注">
-                                <template slot-scope="scope">
-                                    <el-input v-model="scope.row.fileRemark"></el-input>
-                                </template>
-                            </el-table-column>
-                            <el-table-column  prop="option" label="操作" width="52" align="center">
-                                <template slot-scope="scope">
-                                    <span class="option-span" @click="deleteRuleRow(scope.$index)">删除</span>
-                                </template>
-                            </el-table-column>
-                        </el-table>
-                        <el-button  @click="addRule()" class="rule-add-btn" size="small">新增</el-button>
+                        <acc-ecm-upload style="width: 100%;"
+                                        :disabled="this.mode !== 'add' && this.mode !=='addChange'"
+                                        :showRemove="this.mode === 'add' || this.mode ==='addChange'"
+                                        :src-doc-id="srcDocId" :file-list="detailForm.fileList">
+                        </acc-ecm-upload>
+
                     </div>
+
                 </el-form-item>
+
             </div>
         </el-form>
+
     </div>
    
 </template>
@@ -425,7 +415,12 @@
                     oaIsNeedStamp:'0',
                     oaPrintDt:'',
                     fields:[],
+                    fileList:[]
+                    // fileList:[ { "name": "1.ecmtest - 副本.txt", "objectId": "0801000017711", "docId": "09014b11", "uid": 1603950217954, "status": "success", "pieceNum": "1", "remark": "11" },
+                    //     { "name": "1.ecmtest.txt", "objectId": "0801000017721", "docId": "09014b11", "uid": 1603950217955, "status": "success", "pieceNum": "2", "remark": "22" } ]
                 },
+                srcDocId:'',
+                showEcmRemove:true,
                 showChange:false,
                 mustFillField: ['fileName','fileNumber'],
                 bizTagOption: [],        // 业务类型下拉
@@ -478,6 +473,17 @@
                     if(this.showChange){
                         let detailFormBefore = await this.$api.acntInfoApi.getAcntInfoByAcntId(this.detailForm.acntId);
                         this.detailFormBefore = detailFormBefore.data
+                    }
+
+                    //资料文件列表加载
+                    if(this.detailForm.applyId){
+                        let fileList = await this.$api.acntMaterialApi.getApplyMaterialList(this.detailForm.applyId,'0');
+                        if(fileList.data != null){
+                            this.detailForm.fileList = fileList.data;
+                            if(this.detailForm.fileList[0] != null){
+                                this.srcDocId = this.detailForm.fileList[0].docId;
+                            }
+                        }
                     }
 
                     this.loadProductName();
@@ -734,8 +740,9 @@
         /* margin-bottom: 22px; */
         width: 49%;
     }
-    .ecm-upload{
-        width: 200px;
-        height: 100px;
-    }
+    /*.ecm-upload{*/
+    /*    width: 200px;*/
+    /*    height: 100px;*/
+    /*    display: flex;*/
+    /*}*/
 </style>

@@ -6,7 +6,7 @@ module.exports = {
         port: 8006,
         proxy: {
             '/api/ecm': {
-                target: 'http://127.0.0.1:7002/api/ecm',
+                target: 'http://192.168.8.105:7002/api/ecm',
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {

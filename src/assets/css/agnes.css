@@ -64,6 +64,7 @@
 
 .el-form.task-def-form .el-date-editor.el-input {
     min-width: 235px;
+    width: 100%;
 }
 
 /*=====================================

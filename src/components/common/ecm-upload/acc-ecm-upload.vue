@@ -31,8 +31,8 @@
                 </li>
                 <template v-for="item in fileList">
                     <li class="upload-list content" :key="item.objectId">
-                        <span><a>{{item.name}}</a></span>
-                        <span class="piece"><el-input v-model="item.pieceNum" :disabled="disabled"></el-input></span>
+                        <span><a>{{item.fileName}}</a></span>
+                        <span class="piece"><el-input v-model="item.fileNum" :disabled="disabled"></el-input></span>
                         <span><el-input v-model="item.remark" :disabled="disabled"></el-input></span>
                         <span class="option">
                             <a v-if="showFileDowload" @click="fileDowload(item.objectId)">下载</a>
@@ -114,11 +114,10 @@
                 folderTag: this.folder
             };
 
-            //20201029 先注释 因为会覆盖份数和备注
             //刷新文件夹
-            // if (this.srcDocId) {
-            //     this.refreshFolder(this.srcDocId);
-            // }
+            if (this.srcDocId) {
+                this.refreshFolder(this.srcDocId);
+            }
 
             this.getDisabled = this.disabled;
             //是否显示上传文件列表  默认true
@@ -229,25 +228,66 @@
             },
 
             //重置文件夹
+            // async refreshFolder(docId) {
+            //     docId = docId ? docId : '';
+            //     let that = this;
+            //     //获取文件列表
+            //     this.$api.ecmUploadApi.getOisFileList(docId).then(function (resp) {
+            //         if (resp) {
+            //             let files = resp.files;
+            //             //清空文件列表
+            //             const oldFileList = that.fileList;
+            //             that.fileList.splice(0, that.fileList.length);
+            //             if(files && files.length > 0) {
+            //                 for (let i = 0; i < files.length; i++) {
+            //                     let oldFile = that.$lodash.find(oldFileList, { 'docId': docId, 'objectId': files[i].objectId });
+            //                     let remark = '';
+            //                     if(oldFile.remark){
+            //                         remark = oldFile.remark;
+            //                     }
+            //                     const file = {
+            //                         name: files[i].name,
+            //                         objectId: files[i].objectId,
+            //                         docId: docId,
+            //                         remark: remark
+            //                     }
+            //                     that.fileList.push(file);
+            //                 }
+            //             }
+            //         }
+            //     });
+            // },
+
             async refreshFolder(docId) {
                 docId = docId ? docId : '';
-                let that = this;
                 //获取文件列表
-                this.$api.ecmUploadApi.getOisFileList(docId).then(function (resp) {
+                this.$api.ecmUploadApi.getOisFileList(docId).then( (resp) => {
                     if (resp) {
                         let files = resp.files;
-                        //清空文件列表
-                        that.fileList.splice(0, that.fileList.length);
-                        if(files && files.length > 0) {
-                            for (let i = 0; i < files.length; i++) {
-                                const file = {
-                                    name: files[i].name,
-                                    objectId: files[i].objectId,
-                                    docId: docId
-                                }
-                                that.fileList.push(file);
+                        files.forEach((file)=>{
+                            const hasFile = this.$lodash.find(this.fileList, {objectId: file.objectId});
+                            if(!hasFile){
+                                this.fileList.push({
+                                    docId: docId,
+                                    objectId: file.objectId,
+                                    fileName: file.name,
+                                    fileNum: '',
+                                    remark: ''
+                                });
                             }
-                        }
+                        });
+                        //清空文件列表
+                        // this.fileList.splice(0, this.fileList.length);
+                        // if(files && files.length > 0) {
+                        //     for (let i = 0; i < files.length; i++) {
+                        //         const file = {
+                        //             name: files[i].name,
+                        //             objectId: files[i].objectId,
+                        //             docId: docId
+                        //         }
+                        //         this.fileList.push(file);
+                        //     }
+                        // }
                     }
                 });
             },
@@ -309,7 +349,8 @@
     }
 
     .acc-ecm-upload .el-upload__tip{
-        margin: 0 10px;
+        flex: 1;
+        margin: 0 0 0 10px;
     }
 
     .acc-ecm-upload .el-upload-list {
