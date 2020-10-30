@@ -1,43 +1,50 @@
 <template>
-    <div class="row-container">
-        <div class="option-col">
-            <el-button size="small">同步</el-button>
-            <el-button size="small" @click="initWork()">初始化</el-button>
-            <div v-for="(item,index) in areaList" :key="index"
-                 :v-model="queryParam.workdayAreaCode"
-                 @click="choseOptions(index,item)"
-                 v-bind:class="{'act-button':flag==index}">
-                <gf-button type="text" >{{item.dictName}}</gf-button>
-            </div>
+    <div>
+        <div class="option-panel">
+            <span></span>
+            <span><el-button size="small">同步</el-button>
+            <el-button size="small" @click="initWork()">初始化</el-button></span>
         </div>
-        <el-calendar class="work-calendar">
-            <template slot="dateCell" slot-scope="{date, data}">
-                <el-popover placement="top-start"
-                        width="145"
-                        popper-class="work-calendar-popover"
-                        trigger="click"
-                        @show="popoverShow(data.day)"
-                >
-                    <div class="popover-btn-container">
-                        <el-button @click="onUpdateWorkday(currentDataObj,'0')">设置为节假日</el-button>
-                        <el-button @click="onUpdateWorkday(currentDataObj,'1')">设置为工作日</el-button>
-                        <el-button @click="onUpdateWorkday(currentDataObj,'FridayTag')">设置为特殊周五</el-button>
-                        <el-button @click="onUpdateWorkday(currentDataObj,'SundayTag')">设置为特殊周日</el-button>
-                    </div>
-                    <el-button class="popover-btn" slot="reference">
-                        <template v-for="item in calendarData">
-                            <div class="date-container" :key="item.day" v-if="data.day.toString()==item.bizDate">
-                                <p class="date-text" :class="item.workday==='0'?'work-day':''">
-                                    {{ data.day.split('-').slice(2,3).toString()}}
-                                </p>
-                                <p class="special-text" v-if="item.paramCode==='FridayTag'">{{item.paramName}}</p>
-                                <p class="special-text" v-if="item.paramCode==='SundayTag'">{{item.paramName}}</p>
-                            </div>
-                        </template>
-                    </el-button>
-                </el-popover>
-            </template>
-        </el-calendar>
+        <div class="row-container">
+            <div class="option-col">
+                <div v-for="(item,index) in areaList" :key="index"
+                     :v-model="queryParam.workdayAreaCode"
+                     @click="choseOptions(index,item)"
+                     class="nation-button"
+                     :class="{'act-button':flag==index}">
+                    <span class="flag-svg" v-html="svgImg['flag-'+item.dictId]"></span>
+                    <gf-button type="text" >{{item.dictName}}</gf-button>
+                </div>
+            </div>
+            <el-calendar class="work-calendar">
+                <template slot="dateCell" slot-scope="{date, data}">
+                    <el-popover placement="top-start"
+                                width="145"
+                                popper-class="work-calendar-popover"
+                                trigger="click"
+                                @show="popoverShow(data.day)"
+                    >
+                        <div class="popover-btn-container">
+                            <el-button @click="onUpdateWorkday(currentDataObj,'0')">设置为节假日</el-button>
+                            <el-button @click="onUpdateWorkday(currentDataObj,'1')">设置为工作日</el-button>
+                            <el-button @click="onUpdateWorkday(currentDataObj,'FridayTag')">设置为特殊周五</el-button>
+                            <el-button @click="onUpdateWorkday(currentDataObj,'SundayTag')">设置为特殊周日</el-button>
+                        </div>
+                        <el-button class="popover-btn" slot="reference">
+                            <template v-for="item in calendarData">
+                                <div class="date-container" :key="item.day" v-if="data.day.toString()==item.bizDate">
+                                    <p class="date-text" :class="item.workday==='0'?'work-day':''">
+                                        {{ data.day.split('-').slice(2,3).toString()}}
+                                    </p>
+                                    <p class="special-text" v-if="item.paramCode==='FridayTag'">{{item.paramName}}</p>
+                                    <p class="special-text" v-if="item.paramCode==='SundayTag'">{{item.paramName}}</p>
+                                </div>
+                            </template>
+                        </el-button>
+                    </el-popover>
+                </template>
+            </el-calendar>
+        </div>
     </div>
 </template>
 
@@ -46,6 +53,7 @@ import initWorkDay from './init-workday-dlg'
 export default {
     data() {
         return {
+            svgImg: this.$lcImg,
             workday:{
                 workdayAreaCode:"01",
             },
@@ -141,6 +149,7 @@ export default {
     }
 
     .row-container .option-col{
+        width: 130px;
         height:100%;
         border:1px solid #F6F8FA;
         border-radius:5px;
@@ -159,8 +168,36 @@ export default {
     .work-day{
         color: #f5222e;
     }
-    .act-button{
-        background-color:#F6F8FA;
+
+    .nation-button {
+        background-color: #F6F8FA;
+        display: flex;
+        align-items: center;
+        height: 50px;
+        padding-left: 10px;
+        opacity: .3;
+    }
+
+    .nation-button:hover,
+    .nation-button.act-button {
+        opacity: 1;
+    }
+
+    .nation-button button {
+        color: #666;
+    }
+
+    .nation-button span.flag-svg {
+        margin-right: 5px;
+        display: flex;
+    }
+
+    .nation-button span.flag-svg>svg {
+        width: 22px;
+    }
+
+    .work-calendar .el-calendar__header {
+        padding-right: 0;
     }
 
     .work-calendar .el-calendar-table .el-calendar-day {
