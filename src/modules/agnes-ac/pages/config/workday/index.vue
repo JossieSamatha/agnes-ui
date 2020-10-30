@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="work-day-page" v-loading="!ifDataReady">
         <div class="option-panel">
             <span></span>
             <span><el-button size="small">同步</el-button>
@@ -16,31 +16,39 @@
                     <gf-button type="text" >{{item.dictName}}</gf-button>
                 </div>
             </div>
-            <el-calendar class="work-calendar">
+            <el-calendar class="work-calendar" v-if="ifDataReady">
                 <template slot="dateCell" slot-scope="{date, data}">
                     <el-popover placement="top-start"
                                 width="145"
                                 popper-class="work-calendar-popover"
                                 trigger="click"
-                                @show="popoverShow(data.day)"
                     >
-                        <div class="popover-btn-container">
-                            <el-button @click="onUpdateWorkday(currentDataObj,'0')">设置为节假日</el-button>
-                            <el-button @click="onUpdateWorkday(currentDataObj,'1')">设置为工作日</el-button>
-                            <el-button @click="onUpdateWorkday(currentDataObj,'FridayTag')">设置为特殊周五</el-button>
-                            <el-button @click="onUpdateWorkday(currentDataObj,'SundayTag')">设置为特殊周日</el-button>
-                            <el-button v-if="currentDataObj.paramCode" @click="onUpdateWorkday(currentDataObj,'cancel')">取消特殊日设置</el-button>
+                        <div class="popover-btn-container" v-if="calendarData[data.day]">
+                            <el-button @click="onUpdateWorkday(calendarData[data.day],'0')">设置为节假日</el-button>
+                            <el-button @click="onUpdateWorkday(calendarData[data.day],'1')">设置为工作日</el-button>
+                            <el-button v-show="calendarData[data.day].paramCode!=='FridayTag'"
+                                    @click="onUpdateWorkday(calendarData[data.day],'FridayTag')">设置为特殊周五</el-button>
+                            <el-button v-show="calendarData[data.day].paramCode!=='SundayTag'"
+                                    @click="onUpdateWorkday(calendarData[data.day],'SundayTag')">设置为特殊周日</el-button>
+                            <el-button v-show="calendarData[data.day].paramCode" @click="onUpdateWorkday(calendarData[data.day],'cancel')">取消特殊日设置</el-button>
                         </div>
-                        <el-button class="popover-btn" slot="reference">
-                            <template v-for="item in calendarData">
-                                <div class="date-container" :key="item.day" v-if="data.day.toString()==item.bizDate">
-                                    <p class="date-text" :class="item.workday==='0'?'work-day':''">
-                                        {{ data.day.split('-').slice(2,3).toString()}}
-                                    </p>
-                                    <p class="special-text" v-if="item.paramCode==='FridayTag'">{{item.paramName}}</p>
-                                    <p class="special-text" v-if="item.paramCode==='SundayTag'">{{item.paramName}}</p>
-                                </div>
-                            </template>
+                        <el-button class="popover-btn" slot="reference" v-if="calendarData[data.day]">
+                            <div class="date-container">
+                                <p class="date-text" :class="calendarData[data.day].workday==='0'?'work-day':''">
+                                    {{ data.day.split('-').slice(2,3).toString()}}
+                                </p>
+                                <p class="special-text" v-if="calendarData[data.day].paramCode==='FridayTag'">
+                                    {{calendarData[data.day].paramName}}</p>
+                                <p class="special-text" v-if="calendarData[data.day].paramCode==='SundayTag'">
+                                    {{calendarData[data.day].paramName}}</p>
+                            </div>
+                        </el-button>
+                        <el-button class="popover-btn" slot="reference" v-else>
+                            <div class="date-container">
+                                <p class="date-text">
+                                    {{ data.day.split('-').slice(2,3).toString()}}
+                                </p>
+                            </div>
                         </el-button>
                     </el-popover>
                 </template>
@@ -50,23 +58,22 @@
 </template>
 
 <script>
-import initWorkDay from './init-workday-dlg'
-export default {
+    import initWorkDay from './init-workday-dlg'
+
+    export default {
     data() {
         return {
             svgImg: this.$lcImg,
             workday:{
                 workdayAreaCode:"01",
             },
-            calendarData: {
-                data:[]
-            },
+            calendarData: {},
             areaList:[],
             queryParam:{
                 workdayAreaCode :"01"
             },
             flag:0,
-            currentDataObj: {}
+            ifDataReady: false
         }
     },
     mounted(){
@@ -74,7 +81,6 @@ export default {
         this.areaList=this.$app.dict.getDictItems(dictTypeId);
         this.workday.workdayAreaCode=this.areaList[0].dictId;
         this.onListWorkday(this.workday);
-
     },
     watch:{
         calendarData(val){
@@ -82,61 +88,67 @@ export default {
         },
     },
     methods:{
-        popoverShow(date){
-            const currentDate = this.$lodash.find(this.calendarData, {bizDate: date.toString()} );
-            if(currentDate){
-                this.currentDataObj = currentDate
-            }
-        },
-
         list(workday){
           this.onListWorkday(workday);
         },
-      async onListWorkday(workday) {
-        try {
-          const resp = await this.$api.workdayConfigApi.getWorkdayList(workday);
-          this.calendarData = resp.data;
-        } catch (reason) {
-          this.$msg.error(reason);
-        }
-      },
-      initWork() {
-        this.$nav.showDialog(
-            initWorkDay,
-            {
-              args: {},
-              width: '50%',
-              title: this.$dialog.formatTitle('初始化工作日', 'edit'),
-            }
-        );
-      },
-      async onUpdateWorkday(item, flag) {
-        this.workday.workdayId = item.workdayId;
-        this.workday.bizDate = item.bizDate;
-        this.workday.workdayAreaCode = item.workdayAreaCode;
-        if(flag.match(/0|1/)){
-            this.workday.workday = flag;
-        }else if(flag === 'cancel'){
-            await this.cancelSpecialDay(item);
-            return ;
-        }else {
-            if('FridayTag' === flag){
-                this.workday.paramName = "特殊周五";
-            }else {
-                this.workday.paramName = "特殊周日";
-            }
-            this.workday.paramCode = flag;
-            this.workday.paramId = item.paramId;
-        }
 
-        try {
-              await this.$api.workdayConfigApi.updateWorkday(this.workday);
-              this.list(this.workday)
-              this.$msg.success('保存成功');
+        async onListWorkday(workday) {
+            try {
+                const resp = await this.$api.workdayConfigApi.getWorkdayList(workday);
+                let calendarObj = {};
+                resp.data.forEach((calendarItem) => {
+                    if(!calendarObj[calendarItem.bizDate]){
+                        calendarObj[calendarItem.bizDate] = calendarItem;
+                    }
+                    this.calendarData = calendarObj;
+                });
+                this.ifDataReady = true;
+                console.log('this.calendarData', this.calendarData);
             } catch (reason) {
                 this.$msg.error(reason);
             }
         },
+        initWork() {
+            this.$nav.showDialog(
+                initWorkDay,
+                {
+                    args: {},
+                    width: '50%',
+                    title: this.$dialog.formatTitle('初始化工作日', 'edit'),
+                }
+            );
+        },
+        async onUpdateWorkday(item, flag) {
+            this.ifDataReady = false;
+            this.workday.workdayId = item.workdayId;
+            this.workday.bizDate = item.bizDate;
+            this.workday.workdayAreaCode = item.workdayAreaCode;
+            if (flag.match(/0|1/)) {
+                this.workday.workday = flag;
+            }else if(flag === 'cancel'){
+                await this.cancelSpecialDay(item);
+                this.ifDataReady = true;
+                return ;
+            } else {
+                if ('FridayTag' === flag) {
+                    this.workday.paramName = "特殊周五";
+                } else {
+                    this.workday.paramName = "特殊周日";
+                }
+                this.workday.paramCode = flag;
+                this.workday.paramId = item.paramId;
+            }
+
+            try {
+                await this.$api.workdayConfigApi.updateWorkday(this.workday);
+                await this.list(this.workday)
+                this.ifDataReady = true;
+                this.$msg.success('保存成功');
+            } catch (reason) {
+                this.$msg.error(reason);
+            }
+        },
+
         async cancelSpecialDay(item){
             try {
                 await this.$api.workdayConfigApi.deleteSpecial(item.paramId);
@@ -146,9 +158,10 @@ export default {
                 this.$msg.error(reason);
             }
         },
-        choseOptions(id,item){
-            this.flag=id;
-            this.queryParam.workdayAreaCode=item.dictId;
+
+        choseOptions(id, item) {
+            this.flag = id;
+            this.queryParam.workdayAreaCode = item.dictId;
             this.onListWorkday(this.queryParam);
         },
     }
@@ -159,6 +172,7 @@ export default {
     .row-container {
         display: flex;
         flex-direction: row;
+        height: 100%;
     }
 
     .row-container .option-col{
@@ -178,6 +192,11 @@ export default {
 </style>
 
 <style>
+    .work-day-page.gf-tab-view .el-loading-mask{
+        z-index: inherit;
+        background-color: rgba(255, 255, 255, 0.7);
+    }
+
     .work-day{
         color: #f5222e;
     }

@@ -336,10 +336,10 @@
                 kpiTaskReq.taskId = rowData.taskId;
                 this.$api.kpiDefineApi.execTask(kpiTaskReq).then((resp) => {
                     if (resp.status) {
-                        this.$msg.success(resp.message);
+                        this.$msg.success("重新执行成功");
                         this.freshFlowData();
                     } else {
-                        this.$msg.error(resp.message);
+                        this.$msg.error("操作失败");
                     }
                 });
             },
