@@ -29,6 +29,7 @@
                             <el-button @click="onUpdateWorkday(currentDataObj,'1')">设置为工作日</el-button>
                             <el-button @click="onUpdateWorkday(currentDataObj,'FridayTag')">设置为特殊周五</el-button>
                             <el-button @click="onUpdateWorkday(currentDataObj,'SundayTag')">设置为特殊周日</el-button>
+                            <el-button v-if="currentDataObj.paramCode" @click="onUpdateWorkday(currentDataObj,'cancel')">取消特殊日设置</el-button>
                         </div>
                         <el-button class="popover-btn" slot="reference">
                             <template v-for="item in calendarData">
@@ -115,6 +116,9 @@ export default {
         this.workday.workdayAreaCode = item.workdayAreaCode;
         if(flag.match(/0|1/)){
             this.workday.workday = flag;
+        }else if(flag === 'cancel'){
+            await this.cancelSpecialDay(item);
+            return ;
         }else {
             if('FridayTag' === flag){
                 this.workday.paramName = "特殊周五";
@@ -126,9 +130,18 @@ export default {
         }
 
         try {
-          await this.$api.workdayConfigApi.updateWorkday(this.workday);
-          this.list(this.workday)
-          this.$msg.success('保存成功');
+              await this.$api.workdayConfigApi.updateWorkday(this.workday);
+              this.list(this.workday)
+              this.$msg.success('保存成功');
+            } catch (reason) {
+                this.$msg.error(reason);
+            }
+        },
+        async cancelSpecialDay(item){
+            try {
+                await this.$api.workdayConfigApi.deleteSpecial(item.paramId);
+                this.list(this.workday)
+                this.$msg.success('取消成功');
             } catch (reason) {
                 this.$msg.error(reason);
             }
