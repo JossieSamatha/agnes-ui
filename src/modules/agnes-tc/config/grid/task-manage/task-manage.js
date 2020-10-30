@@ -11,7 +11,7 @@ const colButtons = [
             return Permission.hasPermission('agnes.app.task.mgr.check')}},
     {key: 'cancelTask', title: '作废', cellClass: 'red-cell',disabled: (params)=>{
             let result = true;
-            if(params.data.taskStatus != '05'){
+            if(params.data.taskStatus.match(/00|01|02|03|04|07/) ){
                 result =false;
             }
             return result;},visiable: () => {
