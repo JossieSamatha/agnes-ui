@@ -116,9 +116,6 @@
                 </el-form-item>
             </div>
             <div v-if="detailFormBefore.isSendOa==='1'" class="line">
-<!--                <el-form-item label="公司领导" prop="oaLeader">-->
-<!--                    <gf-input v-model.trim="detailFormBefore.oaLeader" placeholder="公司领导"/>-->
-<!--                </el-form-item>-->
                 <el-form-item label="是否需要合规法务审核" prop="oaIsNeedAudit">
                     <el-radio-group v-model="detailFormBefore.oaIsNeedAudit">
                         <el-radio label="1">是</el-radio>
@@ -142,8 +139,6 @@
                     </el-date-picker>
                 </el-form-item>
             </div>
-
-
             <el-form-item v-if="detailFormBefore.isSendOa==='1'" label="用印文件" prop="fileTable">
                 <div class="rule-table">
                     <el-table header-row-class-name="rule-header-row"
@@ -155,20 +150,16 @@
                             style="width: 100%">
                         <el-table-column prop="fileName" label="用印文件名">
                             <template slot-scope="scope">
-                                <!-- <ecm-upload-comp :style="!scope.row.fileName ? 'border:1px solid #f00':''" v-model="scope.row.fileName"></ecm-upload-comp> -->
-                                <!-- <span v-if="this.mode === 'view'">{{scope.row.fileName}}</span> -->
                                 <el-input :style="!scope.row.fileName ? 'border:1px solid #f00':''" v-model="scope.row.fileName"></el-input>
                             </template>
                         </el-table-column>
                         <el-table-column prop="fileNumber" label="份数">
                             <template slot-scope="scope">
-                                <!-- <span v-if="this.mode === 'view'">{{scope.row.fileNumber}}</span> -->
                                 <el-input type="number" :style="!scope.row.fileNumber ? 'border:1px solid #f00':''" v-model="scope.row.fileNumber"></el-input>
                             </template>
                         </el-table-column>
                         <el-table-column prop="fileRemark" label="备注">
                             <template slot-scope="scope">
-                                <!-- <span v-if="this.mode === 'view'">{{scope.row.fileRemark}}</span> -->
                                 <el-input v-model="scope.row.fileRemark"></el-input>
                             </template>
                         </el-table-column>
@@ -182,7 +173,6 @@
                 </div>
             </el-form-item>
         </el-form>
-    
         <div v-if="showChange" class="title-top">变更后</div>
         <el-divider v-if="showChange"></el-divider>
         <el-form ref="taskDefForm" class="task-def-form" :model="detailForm" :disabled="isDisabled"
@@ -300,9 +290,6 @@
                 </el-form-item>
             </div>
             <div v-if="detailForm.isSendOa==='1'" class="line">
-<!--                <el-form-item label="公司领导" prop="oaLeader">-->
-<!--                    <gf-input v-model.trim="detailForm.oaLeader" placeholder="公司领导"/>-->
-<!--                </el-form-item>-->
                 <el-form-item label="是否需要合规法务审核" prop="oaIsNeedAudit">
                     <el-radio-group v-model="detailForm.oaIsNeedAudit">
                         <el-radio label="1">是</el-radio>
@@ -326,26 +313,19 @@
                     </el-date-picker>
                 </el-form-item>
             </div>
-
             <div v-if="detailForm.isSendOa==='1'" class="line">
                 <el-form-item v-if="detailForm.isSendOa==='1'" label="用印文件" prop="fileTable">
-
                     <div class="rule-table">
                         <acc-ecm-upload style="width: 100%;"
                                         :disabled="this.mode !== 'add' && this.mode !=='addChange'"
                                         :showRemove="this.mode === 'add' || this.mode ==='addChange'"
                                         :src-doc-id="srcDocId" :file-list="detailForm.fileList">
                         </acc-ecm-upload>
-
                     </div>
-
                 </el-form-item>
-
             </div>
         </el-form>
-
     </div>
-   
 </template>
 
 <script>
