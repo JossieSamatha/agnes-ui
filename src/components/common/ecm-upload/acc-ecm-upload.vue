@@ -1,7 +1,7 @@
 <template>
     <el-upload class="ecm-upload acc-ecm-upload"
                :class="disabled ? 'is-disabled': ''"
-               action="/api/ecm/ecm/doc/upload"
+               action="/api/ecm-server/ecm/doc/upload"
                :drag="true"
                :data="uploadData"
                :before-upload="checkFile"
@@ -224,48 +224,21 @@
 
             fileDowload(fileId) {
                 const basePath = window.location.href.split("#/")[0];
-                window.open(basePath + 'api/ecm/ecm/file/download/' + fileId);
+                window.open(basePath + 'api/ecm-server/ecm/file/download/' + fileId);
             },
 
             //重置文件夹
-            // async refreshFolder(docId) {
-            //     docId = docId ? docId : '';
-            //     let that = this;
-            //     //获取文件列表
-            //     this.$api.ecmUploadApi.getOisFileList(docId).then(function (resp) {
-            //         if (resp) {
-            //             let files = resp.files;
-            //             //清空文件列表
-            //             const oldFileList = that.fileList;
-            //             that.fileList.splice(0, that.fileList.length);
-            //             if(files && files.length > 0) {
-            //                 for (let i = 0; i < files.length; i++) {
-            //                     let oldFile = that.$lodash.find(oldFileList, { 'docId': docId, 'objectId': files[i].objectId });
-            //                     let remark = '';
-            //                     if(oldFile.remark){
-            //                         remark = oldFile.remark;
-            //                     }
-            //                     const file = {
-            //                         name: files[i].name,
-            //                         objectId: files[i].objectId,
-            //                         docId: docId,
-            //                         remark: remark
-            //                     }
-            //                     that.fileList.push(file);
-            //                 }
-            //             }
-            //         }
-            //     });
-            // },
-
+            //20201031
             async refreshFolder(docId) {
                 docId = docId ? docId : '';
                 //获取文件列表
                 this.$api.ecmUploadApi.getOisFileList(docId).then( (resp) => {
                     if (resp) {
+
+                        let oldFileList = this.fileList.splice(0, this.fileList.length);
                         let files = resp.files;
                         files.forEach((file)=>{
-                            const hasFile = this.$lodash.find(this.fileList, {objectId: file.objectId});
+                            const hasFile = this.$lodash.find(oldFileList, {objectId: file.objectId});
                             if(!hasFile){
                                 this.fileList.push({
                                     docId: docId,
@@ -274,20 +247,11 @@
                                     fileNum: '',
                                     remark: ''
                                 });
+                            }else{
+                                this.fileList.push(hasFile);
                             }
                         });
-                        //清空文件列表
-                        // this.fileList.splice(0, this.fileList.length);
-                        // if(files && files.length > 0) {
-                        //     for (let i = 0; i < files.length; i++) {
-                        //         const file = {
-                        //             name: files[i].name,
-                        //             objectId: files[i].objectId,
-                        //             docId: docId
-                        //         }
-                        //         this.fileList.push(file);
-                        //     }
-                        // }
+
                     }
                 });
             },

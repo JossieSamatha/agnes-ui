@@ -317,8 +317,8 @@
                 <el-form-item v-if="detailForm.isSendOa==='1'" label="用印文件" prop="fileTable">
                     <div class="rule-table">
                         <acc-ecm-upload style="width: 100%;"
-                                        :disabled="this.mode !== 'add' && this.mode !=='addChange'"
-                                        :showRemove="this.mode === 'add' || this.mode ==='addChange'"
+                                        :disabled="this.mode !== 'add' && this.mode !=='addChange' && this.mode !=='edit' && this.mode !=='addInfo' && this.mode !=='deteleApply'"
+                                        :showRemove="this.mode === 'add' || this.mode ==='addChange' || this.mode ==='edit' || this.mode ==='addInfo'|| this.mode ==='deteleApply'"
                                         :src-doc-id="srcDocId" :file-list="detailForm.fileList">
                         </acc-ecm-upload>
                     </div>
@@ -435,8 +435,10 @@
             if(this.detailForm.bizType=='02'){
                 this.showChange = true;
             }
-            this.getOptionData()
+
             this.checkIsSub()
+            this.getOptionData()
+            // this.checkIsSub()
             this.loadShowRule()
         },
         methods: {
@@ -455,9 +457,17 @@
                         this.detailFormBefore = detailFormBefore.data
                     }
 
-                    //资料文件列表加载
-                    if(this.detailForm.applyId){
+                    //资料文件列表加载(主流程)
+                    if(this.detailForm.applyId && !this.isSubDis){
                         let fileList = await this.$api.acntMaterialApi.getApplyMaterialList(this.detailForm.applyId,'0');
+                        if(fileList.data != null){
+                            this.detailForm.fileList = fileList.data;
+                            if(this.detailForm.fileList[0] != null){
+                                this.srcDocId = this.detailForm.fileList[0].docId;
+                            }
+                        }
+                    }else if(this.detailForm.applySubId && this.isSubDis){
+                        let fileList = await this.$api.acntMaterialApi.getApplySubMaterialList(this.detailForm.applySubId);
                         if(fileList.data != null){
                             this.detailForm.fileList = fileList.data;
                             if(this.detailForm.fileList[0] != null){
