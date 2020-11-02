@@ -5,12 +5,12 @@ module.exports = {
     devServer: {
         port: 8006,
         proxy: {
-            '/api/ecm': {
-                target: 'http://192.168.8.105:7002/api/ecm',
+            '/api/ecm-server': {
+                target: 'http://127.0.0.1:8080/api/ecm-server',
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/api/ecm': '/'
+                    '^/api/ecm-server': '/'
                 }
             },
             '/api/agnes-ec': {

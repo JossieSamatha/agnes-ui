@@ -1,13 +1,27 @@
 <template>
    <div>
         <el-steps direction="vertical">
-            <el-step :status = statusList[0] title="申请"></el-step>
-            <el-step :status = statusList[1] title="待复核"></el-step>
-            <el-step :status = statusList[2] v-if="this.row.isSendOa==1" title="待提交OA"></el-step>
-            <el-step :status = statusList[3] title="资料准备"></el-step>
-            <el-step :status = statusList[4] v-if="this.row.isSendFinance==1" title="财务流程"></el-step>
-            <el-step :status = statusList[5] title="账户待录入"></el-step>
-            <el-step :status = statusList[6] title="账户待复核"></el-step>
+            <el-step :status = statusList[0] title="申请"
+                     v-if = "this.row.bizType !== '04'">
+            </el-step>
+            <el-step :status = statusList[1] title="待复核"
+                     v-if = "this.row.bizType !== '04'">
+            </el-step>
+            <el-step :status = statusList[2] title="待提交OA"
+                     v-if="this.row.isSendOa==1 && this.row.bizType !== '04'" >
+            </el-step>
+            <el-step :status = statusList[3] title="资料准备"
+                     v-if = "this.row.bizType !== '04' && !this.row.applySubId">
+            </el-step>
+            <el-step :status = statusList[4]  title="财务流程"
+                     v-if="this.row.isSendFinance==1 && this.row.bizType !== '04' && !this.row.applySubId">
+            </el-step>
+            <el-step :status = statusList[5] title="账户待录入"
+                     v-if = "this.row.bizType !== '04' && !this.row.applySubId">
+            </el-step>
+            <el-step :status = statusList[6] title="账户待复核"
+                     v-if = "!this.row.applySubId">
+            </el-step>
             <el-step :status = statusList[7] title="已归档"></el-step>
         </el-steps>
     </div>

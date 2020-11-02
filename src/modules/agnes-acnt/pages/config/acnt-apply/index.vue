@@ -219,10 +219,41 @@
 
                 // this.showOpenDlg('edit', params.data, this.onOpenApply.bind(this),false);
             },
-            submitOA() {
+
+            async submitOA() {
                 //此处通过该方法获取选中的数据，调用接口批量操作
-                // let data  = this.$refs.grid.getSelectedRows();
-                
+                let data  = this.$refs.grid.getSelectedRows();
+
+                let applyIds = [];
+                let applySubIds = [];
+                for(let i=0;i<data.length;i++){
+                    let item = data[i];
+                    //校验：节点状态 是否为待提交OA
+                    if(item.processStatus !== '03'){
+                        this.$msg.warning('所选数据流程节点必须为【待提交OA】');
+                        return;
+                    }
+
+                    //
+                    if(!this.$lodash.isEmpty(item.applySubId)){
+                        applySubIds.push(item.applySubId)
+                    }else if(!this.$lodash.isEmpty(item.applyId)){
+                        applyIds.push(item.applyId)
+                    }
+                }
+
+                const ok = await this.$msg.ask(`确认提交所选数据吗, 是否继续?`);
+                if (!ok) {
+                    return
+                }
+                try {
+                    const p = this.$api.acntApplyApi.submitOa(applyIds,applySubIds);
+                    await this.$app.blockingApp(p);
+                    this.$msg.success("提交成功!");
+                    this.reloadData();
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
             },
 
             showInsertDlg(mode, row, actionOk) {
