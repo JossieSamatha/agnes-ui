@@ -335,7 +335,7 @@
                 kpiTaskReq.bizDate = this.bizDate;
                 kpiTaskReq.taskId = rowData.taskId;
                 this.$api.kpiDefineApi.execTask(kpiTaskReq).then((resp) => {
-                    if (resp.status) {
+                    if (resp.data.status) {
                         this.$msg.success("重新执行成功");
                         this.freshFlowData();
                     } else {
