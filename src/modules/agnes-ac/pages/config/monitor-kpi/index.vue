@@ -20,7 +20,7 @@
         </div>
         <div class="content" style="height: calc(100% - 30px)">
             <el-table class="kpi-grid" :data="kpiData" stripe height="100%" style="width: 100%">
-                <el-table-column label="操作" width="100" :fit="false" header-align="center" align="center">
+                <el-table-column label="操作" width="75" :fit="false" header-align="center" align="center">
                     <template slot-scope="scope">
                         <el-popover ref="forcePassPopover" class="icon-popper" placement="bottom-start"
                                     title="备注"
@@ -52,34 +52,34 @@
                         <span :title="scope.row.stepRemark">{{scope.row.taskName}}({{scope.row.kpiCode}})</span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="errNum" label="异常" width="100">
+                <el-table-column prop="errNum" label="异常" width="75">
                     <template slot-scope="scope">
                         <em class="circle-icon fa fa-circle" style="color: red"></em>
                         <a class="link-num" v-if="scope.row.errNum!==0 && !scope.row.errNum">--</a>
                         <a class="link-num" v-else @click="showKpiDetail(scope.row, 1)">{{scope.row.errNum}}</a>
                     </template>
                 </el-table-column>
-                <el-table-column prop="manualNum" label="干预通过" width="100">
+                <el-table-column prop="manualNum" label="干预通过" width="75">
                     <template slot-scope="scope">
                         <em class="circle-icon fa fa-circle" style="color: #bba350"></em>
                         <a class="link-num" v-if="scope.row.manualNum !==0 && !scope.row.manualNum">--</a>
                         <a class="link-num" v-else @click="showKpiDetail(scope.row, 2)">{{scope.row.manualNum}}</a>
                     </template>
                 </el-table-column>
-                <el-table-column prop="doneNum" label="正常" width="100">
+                <el-table-column prop="doneNum" label="正常" width="75">
                     <template slot-scope="scope">
                         <em class="circle-icon fa fa-circle" style="color: green"></em>
                         <a class="link-num" v-if="scope.row.doneNum !==0 && !scope.row.doneNum">--</a>
                         <a class="link-num" v-else @click="showKpiDetail(scope.row, 0)">{{scope.row.doneNum}}</a>
                     </template>
                 </el-table-column>
-                <el-table-column prop="targetName" label="目标值" width="100">
+                <el-table-column prop="targetName" label="目标值" width="65">
                     <template slot-scope="scope">
                         <span v-if="scope.row.targetName">{{scope.row.targetName}}</span>
                         <span v-else>--</span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="execStartTime" label="计划执行时间" width="180">
+                <el-table-column prop="execStartTime" label="计划执行时间" width="155">
                     <template slot-scope="scope">
                         <span v-if="scope.row.startTime">
                             {{bizDate}}[{{scope.row.startTime}}-{{scope.row.endTime}}]
@@ -87,7 +87,7 @@
                         <span v-else>--</span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="execStartTime" label="最新更新时间" width="180">
+                <el-table-column prop="execStartTime" label="最新更新时间" width="145">
                     <template slot-scope="scope">
                         <span v-if="scope.row.updateTs">{{formatDate(scope.row.updateTs)}}</span>
                         <span v-else>--</span>
