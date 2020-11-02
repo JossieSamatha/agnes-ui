@@ -25,7 +25,7 @@ export default {
         fetchUrl: "/agnes-ac/v1/ac/flow/task/case/list?taskType=2",
         fetchMethod: 'get',
         pagingMode: true, //不分页
-        checkboxColumn: 1, //是否显示checkbox列,
+        checkboxColumn: 2, //是否显示checkbox列,
         autoFitColumnMode: 1,
         enableExportLocal: false,
         pageOptions: {

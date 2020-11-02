@@ -25,7 +25,7 @@ export default {
         fetchUrl: "/agnes-ac/v1/ac/kpi/task/case/list?taskType=1",    //后台查询数据的URL地址
         fetchMethod: 'get',
         pagingMode: true, //是否分页
-        checkboxColumn: 1, //是否显示checkbox列,
+        checkboxColumn: 2, //是否显示checkbox列,
         autoFitColumnMode: 1,
         enableExportLocal: false,
         pageOptions: {
