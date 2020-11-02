@@ -20,26 +20,28 @@
         </div>
         <div class="content" style="height: calc(100% - 30px)">
             <el-table class="kpi-grid" :data="kpiData" stripe height="100%" style="width: 100%">
-                <el-table-column label="操作" width="100" :fit="false" header-align="center" align="center" v-if="optionColShow">
+                <el-table-column label="操作" width="75" :fit="false" header-align="center" align="center">
                     <template slot-scope="scope">
-                        <el-popover class="icon-popper" placement="bottom-start"
+                        <el-popover ref="forcePassPopover" class="icon-popper" placement="bottom-start"
                                     title="备注"
                                     width="300"
-                                    trigger="click">
-                            <el-input type="textarea" :rows="1" placeholder="请输入备注内容" v-model="remark">
+                                    v-model="scope.row.popoverVisible"
+                                    trigger="manual">
+                            <el-input type="textarea" :rows="1" placeholder="请输入备注内容" v-model="scope.row.remark">
                             </el-input>
                             <div style="text-align: right; margin-top: 10px">
+                                <el-button class="op-btn" size="mini" type="text" @click="scope.row.popoverVisible = false">取消</el-button>
                                 <el-button class="op-btn primary" size="mini" @click="executeKpi(scope.row)">提交</el-button>
                             </div>
-                            <el-button class="svg-btn" slot="reference" size="mini" type="text" :disabled="!(scope.row.stepStatus === '03' || scope.row.stepStatus === '04')" @click="popoverClick(scope.row)" title="干预通过">
-                                <span class="svgSpan" v-html="svgImg.forcePass"></span>
-                            </el-button>
                         </el-popover>
-
-                        <el-button  class="icon-popper svg-btn" size="mini" type="text" :disabled="!(scope.row.stepStatus === '03' || scope.row.stepStatus === '04')" @click="exeTaskJob(scope.row)" title="重新执行">
+                        <el-button class="svg-btn" v-popover:forcePassPopover
+                                   @click="scope.row.popoverVisible = true"
+                                   size="mini" type="text" title="干预通过">
+                            <span class="svgSpan" v-html="svgImg.forcePass"></span>
+                        </el-button>
+                        <el-button class="icon-popper svg-btn" size="mini" type="text"  @click="exeTaskJob(scope.row)" title="重新执行">
                             <span class="svgSpan" v-html="svgImg.reExecute"></span>
                         </el-button>
-
                     </template>
                 </el-table-column>
                 <el-table-column prop="taskName" label="指标名称">
@@ -50,34 +52,34 @@
                         <span :title="scope.row.stepRemark">{{scope.row.taskName}}({{scope.row.kpiCode}})</span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="errNum" label="异常" width="100">
+                <el-table-column prop="errNum" label="异常" width="75">
                     <template slot-scope="scope">
                         <em class="circle-icon fa fa-circle" style="color: red"></em>
                         <a class="link-num" v-if="scope.row.errNum!==0 && !scope.row.errNum">--</a>
                         <a class="link-num" v-else @click="showKpiDetail(scope.row, 1)">{{scope.row.errNum}}</a>
                     </template>
                 </el-table-column>
-                <el-table-column prop="manualNum" label="干预通过" width="100">
+                <el-table-column prop="manualNum" label="干预通过" width="75">
                     <template slot-scope="scope">
                         <em class="circle-icon fa fa-circle" style="color: #bba350"></em>
                         <a class="link-num" v-if="scope.row.manualNum !==0 && !scope.row.manualNum">--</a>
                         <a class="link-num" v-else @click="showKpiDetail(scope.row, 2)">{{scope.row.manualNum}}</a>
                     </template>
                 </el-table-column>
-                <el-table-column prop="doneNum" label="正常" width="100">
+                <el-table-column prop="doneNum" label="正常" width="75">
                     <template slot-scope="scope">
                         <em class="circle-icon fa fa-circle" style="color: green"></em>
                         <a class="link-num" v-if="scope.row.doneNum !==0 && !scope.row.doneNum">--</a>
                         <a class="link-num" v-else @click="showKpiDetail(scope.row, 0)">{{scope.row.doneNum}}</a>
                     </template>
                 </el-table-column>
-                <el-table-column prop="targetName" label="目标值" width="100">
+                <el-table-column prop="targetName" label="目标值" width="65">
                     <template slot-scope="scope">
                         <span v-if="scope.row.targetName">{{scope.row.targetName}}</span>
                         <span v-else>--</span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="execStartTime" label="计划执行时间">
+                <el-table-column prop="execStartTime" label="计划执行时间" width="155">
                     <template slot-scope="scope">
                         <span v-if="scope.row.startTime">
                             {{bizDate}}[{{scope.row.startTime}}-{{scope.row.endTime}}]
@@ -85,7 +87,7 @@
                         <span v-else>--</span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="execStartTime" label="最新更新时间">
+                <el-table-column prop="execStartTime" label="最新更新时间" width="145">
                     <template slot-scope="scope">
                         <span v-if="scope.row.updateTs">{{formatDate(scope.row.updateTs)}}</span>
                         <span v-else>--</span>
@@ -105,9 +107,8 @@
                 bizDate: window.bizDate,
                 kpiData: [],
                 loading: false,
-                remark: '',
-                popoverVisible: false,
                 optionColShow: true,
+                remark: '',
                 taskCommit: {
                     inst: {
                         taskId: "",
@@ -151,7 +152,7 @@
                 this.taskCommit.inst.taskId = row.taskId;
                 this.taskCommit.stepInfo.caseId = row.caseId;
                 this.taskCommit.stepInfo.stepCode = row.kpiCode;
-                this.taskCommit.stepInfo.remark = this.remark;
+                this.taskCommit.stepInfo.remark = row.remark;
                 this.taskCommit.stepInfo.stepStatus = "07";
                 this.taskCommit.stepInfo.jobId = row.jobId;
                 this.taskCommit.stepInfo.bizDate = this.bizDate;
@@ -161,21 +162,20 @@
                         if (this.actionOk) {
                             await this.actionOk();
                         }
-                        this.$msg.success('提交成功');
                         this.init(this.bizDate);
+                        row.popoverVisible = false;
                         this.loading = false;
+                        this.$msg.success('提交成功');
                     } else {
-                        this.$msg.warning('提交失败');
+                        row.popoverVisible = false;
                         this.loading = false;
+                        this.$msg.error('提交失败');
                     }
                 } catch (e) {
-                    this.$msg.error(e);
+                    row.popoverVisible = false;
                     this.loading = false;
+                    this.$msg.error(e);
                 }
-            },
-
-            popoverClick(){
-                this.popoverVisible = true;
             },
 
             // 重新执行
@@ -192,8 +192,8 @@
                         this.init(this.bizDate);
                         this.loading = false;
                     } else{
-                        this.$msg.error("操作失败");
                         this.loading = false;
+                        this.$msg.error("操作失败");
                     }
                 });
             },
