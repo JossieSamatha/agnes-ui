@@ -87,7 +87,7 @@
                 </el-table-column>
                 <el-table-column prop="execStartTime" label="最新更新时间">
                     <template slot-scope="scope">
-                        <span v-if="scope.row.execStartTime">{{formatDate(scope.row.execStartTime)}}</span>
+                        <span v-if="scope.row.updateTs">{{formatDate(scope.row.updateTs)}}</span>
                         <span v-else>--</span>
                     </template>
                 </el-table-column>
