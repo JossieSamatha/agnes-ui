@@ -1,4 +1,5 @@
 import column from "../../../../../config/column"
+import Permission from "../../../../../utils/hasPermission";
 
 const colButtons = [
     {key: 'editMsg', title: '编辑', disabled: (params)=>{
@@ -6,25 +7,44 @@ const colButtons = [
             if(params.data.msgStatus === '03'){
                 result =true;
             }
-            return result;}},
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.msg.def.edit');
+        }},
     {key: 'deleteMsg', title: '删除',cellClass:'red-cell',disabled: (params)=>{
             let result = false;
             if(params.data.msgStatus === '03'){
                 result =true;
             }
-            return result;}},
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.msg.def.delete');
+        }},
     {key: 'approveMsg', title: '审核',disabled: (params)=>{
             let result = false;
             if(params.data.msgStatus === '02' || params.data.msgStatus === '03'){
                 result =true;
             }
-            return result;}},
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.msg.def.check');
+        }},
     {key: 'publishMsg', title: '发布',disabled: (params)=>{
             let result = false;
             if(params.data.msgStatus === '01' || params.data.msgStatus === '03'){
                 result =true;
             }
-            return result;}}
+            return result;}, visiable:(params)=>{
+            let result = true;
+            if(params.data.msgStatus === '03'
+                && !Permission.hasPermission('agnes.msg.def.publish')){
+                result =false;
+            }
+            return result;}},
+    {key: 'stopMsg', title: '停止',visiable: (params)=>{
+            let result = false;
+            if(params.data.msgStatus === '03'
+                && Permission.hasPermission('agnes.msg.def.stop')){
+                result =true;
+            }
+            return result;}, cellClass: 'red-cell'}
 ];
 
 export default {

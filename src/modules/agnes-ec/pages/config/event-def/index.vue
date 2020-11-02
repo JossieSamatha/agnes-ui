@@ -2,8 +2,10 @@
     <div>
         <gf-grid @row-double-click="showEventDef" grid-no="agnes-event-def" ref="grid">
             <template slot="left">
-                <gf-button class="action-btn" @click="addEventDef" size="mini">添加</gf-button>
-                <gf-button class="action-btn" @click="copyEventDef" size="mini">复制</gf-button>
+                <gf-button class="action-btn" @click="addEventDef" size="mini"
+                           v-if="$hasPermission('agnes.config.event.add')" >添加</gf-button>
+                <gf-button class="action-btn" @click="copyEventDef" size="mini"
+                           v-if="$hasPermission('agnes.config.event.copy')">复制</gf-button>
             </template>
         </gf-grid>
     </div>
@@ -172,7 +174,7 @@
                 try {
                     const p = this.$api.eventlDefConfigApi.stopEventDef(row.eventId);
                     await this.$app.blockingApp(p);
-                    this.$msg.success("发布成功!");
+                    this.$msg.success("停用成功!");
                     this.reloadData();
                 } catch (reason) {
                     this.$msg.error(reason);
