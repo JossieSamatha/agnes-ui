@@ -162,6 +162,7 @@
                             await this.actionOk();
                         }
                         this.$msg.success('提交成功');
+                        this.init(this.bizDate);
                         this.loading = false;
                     } else {
                         this.$msg.warning('提交失败');
@@ -186,11 +187,12 @@
                 kpiTaskReq.bizDate = this.bizDate;
                 kpiTaskReq.taskId = row.taskId;
                 this.$api.kpiDefineApi.execTask(kpiTaskReq).then((resp) => {
-                    if(resp.status){
-                        this.$message.success(resp.message);
+                    if(resp.data.status){
+                        this.$msg.success("重新执行成功");
+                        this.init(this.bizDate);
                         this.loading = false;
                     } else{
-                        this.$message.error(resp.message);
+                        this.$msg.error("操作失败");
                         this.loading = false;
                     }
                 });
