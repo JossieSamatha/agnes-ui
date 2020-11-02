@@ -20,6 +20,11 @@ export default {
     cancelApply(form) {
         return request.post(`agnes-app/v1/acnt/apply/cancel/acnt-apply`,form);
     },
+
+    submitOa(applyIds,applySubIds) {
+        return request.post(`agnes-app/v1/acnt/apply/submitOa`,{'applyIds':applyIds,'applySubIds':applySubIds});
+    },
+
     saveSubApply(form) {
         return request.post(`agnes-app/v1/acnt/apply/sub/save`,form);
     },
