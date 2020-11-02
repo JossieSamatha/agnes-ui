@@ -2,8 +2,10 @@
     <div>
         <gf-grid @row-double-click="showMsg" grid-no="agnes-msg-def" ref="grid">
             <template slot="left">
-                <gf-button @click="addMsg" class="action-btn">添加</gf-button>
-                <gf-button class="action-btn" @click="copyMsg" size="mini">复制</gf-button>
+                <gf-button @click="addMsg" class="action-btn"
+                           v-if="$hasPermission('agnes.msg.def.add')">添加</gf-button>
+                <gf-button class="action-btn" @click="copyMsg" size="mini"
+                           v-if="$hasPermission('agnes.msg.def.copy')">复制</gf-button>
             </template>
         </gf-grid>
     </div>
@@ -99,6 +101,26 @@
                     const p = this.$api.msgDefineApi.publishMsg(row.msgId);
                     await this.$app.blockingApp(p);
                     this.$msg.success("发布成功!");
+                    this.reloadData();
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
+            async stopMsg(params) {
+                const row = params.data;
+                if(params.data.msgStatus !== '03'){
+                    this.$msg.warning("该状态无法停止!");
+                    return;
+                }
+
+                const ok = await this.$msg.ask(`确认停用消息:[${row.msgName}]吗, 是否继续?`);
+                if (!ok) {
+                    return
+                }
+                try {
+                    const p = this.$api.msgDefineApi.stopMsg(row.msgId);
+                    await this.$app.blockingApp(p);
+                    this.$msg.success("停用成功!");
                     this.reloadData();
                 } catch (reason) {
                     this.$msg.error(reason);
