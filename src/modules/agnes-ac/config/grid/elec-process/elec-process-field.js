@@ -59,7 +59,7 @@ export default {
         {
             headerName: "完成进度", field: "finishedRate", enableRowGroup: false,
             cellRenderer: 'processRenderer',
-            minWidth: '160',
+            width: '120',
             suppressSizeToFit: true,
             tooltipField: 'proportion',
         },
