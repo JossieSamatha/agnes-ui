@@ -1,6 +1,6 @@
 <template>
     <div style="height: 100%; padding: 10px;">
-        <gf-grid ref="grid" height="100%" :option="gridOptions"></gf-grid>
+        <gf-grid ref="grid" height="100%" grid-no="kpi-detail-list"></gf-grid>
     </div>
 </template>
 
@@ -13,14 +13,6 @@
         },
         data(){
             return {
-                gridOptions: {
-                    columnDefs: [],
-                    rowData:[],
-                    ext: {
-                        checkboxColumn: 2,
-                        pagingMode: false,
-                    },
-                },
                 charData:[],
                 colorSet:[],
                 form:{kpiName:"",createTime:"",bizDate:"",normal:0,abnormal:0,artificialCon:0,remark:''},
