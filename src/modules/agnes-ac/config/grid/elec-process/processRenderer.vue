@@ -3,7 +3,7 @@
                  :percentage="percentage"
                  show-text
                  :color="getStatusColor"
-                 style="width: 150px" :title="`${percentage}%`">
+                 style="width: 120px" :title="`${percentage}%`">
     </el-progress>
 </template>
 
