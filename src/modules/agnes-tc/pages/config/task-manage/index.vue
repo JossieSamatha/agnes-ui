@@ -95,7 +95,12 @@
                 }
                 try {
                     const p = this.$api.taskManageApi.cancelTask(rowData);
-                    await this.$app.blockingApp(p);
+                    const resp = await this.$app.blockingApp(p);
+                    if(resp.code === 'error'){
+                        this.$msg.warning(resp.message);
+                        this.reloadData();
+                        return ;
+                    }
                     this.$msg.success('作废成功');
                     this.reloadData();
                 } catch (reason) {
