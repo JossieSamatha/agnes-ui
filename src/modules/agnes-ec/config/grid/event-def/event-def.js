@@ -1,4 +1,5 @@
 import column from "../../../../../config/column"
+import Permission from "../../../../../utils/hasPermission";
 
 const colButtons = [
     {key: 'editEventDef', title: '编辑', disabled: (params)=>{
@@ -6,37 +7,44 @@ const colButtons = [
             if(params.data.eventStatus === '03'){
                 result =true;
             }
-            return result;}},
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.config.event.edit');
+        }},
     {key: 'deleteEventDef', title: '删除',cellClass:'red-cell', disabled: (params)=>{
             let result = false;
             if(params.data.eventStatus === '03'){
                 result =true;
             }
-            return result;}},
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.config.event.delete');
+        }},
     {key: 'approveEventDef', title: '审核',disabled: (params)=>{
             let result = false;
             if(params.data.eventStatus === '02' || params.data.eventStatus === '03'){
                 result =true;
             }
-            return result;}},
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.config.event.check');
+        }},
     {key: 'publishEventDef', title: '发布',disabled: (params)=>{
             let result = false;
             if(params.data.eventStatus === '01' || params.data.eventStatus === '03'){
                 result =true;
             }
-            return result;},
-        visiable:(params)=>{
+            return result;}, visiable:(params)=>{
             let result = true;
-            if(params.data.eventStatus === '03'){
+            if(params.data.eventStatus === '03'
+                && !Permission.hasPermission('agnes.config.event.pulish')){
                 result =false;
             }
             return result;}},
     {key: 'stopEventDef', title: '停止',visiable: (params)=>{
             let result = false;
-            if(params.data.eventStatus === '03'){
+            if(params.data.eventStatus === '03'
+                && Permission.hasPermission('agnes.config.event.stop')){
                 result =true;
             }
-            return result;}, cellClass: 'red-cell'},
+            return result;}, cellClass: 'red-cell'}
 ];
 
 export default {

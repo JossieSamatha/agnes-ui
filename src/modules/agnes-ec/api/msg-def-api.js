@@ -19,6 +19,9 @@ export default {
     publishMsg(msgId) {
         return request.post("/agnes-ac/v1/ec/msg/publish", null, {params: {msgId}});
     },
+    stopMsg(msgId) {
+        return request.post("/agnes-ac/v1/ec/msg/stop", null, {params: {msgId}});
+    },
     check(form) {
         return request.post("/agnes-ac/v1/ec/msg/check", form);
     },

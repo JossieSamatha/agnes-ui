@@ -75,9 +75,10 @@
                     </div>
                 </div>
                 <div v-show="ifGridExpand" class="drag-column">
-                    <gf-grid ref="elecGrid"
+                    <gf-grid ref="elecGrid" class="kpi-grid"
                              height="100%"
                              grid-no="agnes-elec-process-field"
+                             :options="kpiGridOption"
                     ></gf-grid>
                 </div>
             </div>
@@ -146,7 +147,14 @@
                     {id: 'OVERTIME', label: '超时', icon: 'outTime'}, {id: 'EXCEPTION', label: '异常', icon: 'abnormal'}
                   ],
                 taskIdList: [],
-                loading: false
+                loading: false,
+                kpiGridOption: function (){
+                    return {
+                        onFirstDataRendered(params){
+                            params.columnApi.columnController.autoSizeFitColumns();
+                        }
+                    }
+                }
             }
         },
         created() {
@@ -335,7 +343,7 @@
                 kpiTaskReq.bizDate = this.bizDate;
                 kpiTaskReq.taskId = rowData.taskId;
                 this.$api.kpiDefineApi.execTask(kpiTaskReq).then((resp) => {
-                    if (resp.status) {
+                    if (resp.data.status) {
                         this.$msg.success("重新执行成功");
                         this.freshFlowData();
                     } else {

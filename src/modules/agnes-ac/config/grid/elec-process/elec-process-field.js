@@ -39,13 +39,32 @@ export default {
         {headerName: "任务编号", field: "stepCode"},
         {
             headerName: "任务名称", field: "stepName",
+            cellRenderer: (params)=>{
+                let eGui = document.createElement('div');
+                eGui.className = 'star-cell';
+                const spanNode = document.createElement("span");
+                spanNode.innerHTML = params.value;
+                spanNode.style.marginLeft = '2px'
+                const starLength = params.data.stepLevel ? params.data.stepLevel : 0;
+                for (let i = 0; i < starLength; i++) {
+                    const iNode = document.createElement("i");
+                    iNode.className = 'fa fa-star';
+                    eGui.appendChild(iNode);
+                }
+                eGui.appendChild(spanNode);
+                if (params.api.rowRenderer.lastRenderedRow === params.rowIndex) {
+                    params.columnApi.columnController.autoSizeFitColumns();
+                }
+                return eGui;
+            },
             tooltipField: 'stepRemark',
         },
         {
             headerName: "完成进度", field: "finishedRate", enableRowGroup: false,
             cellRenderer: 'processRenderer',
-            minWidth: '160',
+            width: '120',
             suppressSizeToFit: true,
+            tooltipField: 'proportion',
         },
         {headerName: "计划执行时间", field: "planTime"},
         {

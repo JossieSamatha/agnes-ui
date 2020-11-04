@@ -1,6 +1,7 @@
 import ModelDef from "./model-def"
 import Task from "./task"
 import KpiTaskDef from "./kpi-task-def";
+import monitorKip from './monitor-kpi-def'
 import TaskDef from "./task-def";
 import FunDef from "./fun-def"
 import Workday from "./workday"
@@ -14,6 +15,7 @@ const Loading = {
     load: function (Gfui) {
         Gfui.use(ModelDef);
         Gfui.use(KpiTaskDef);
+        Gfui.use(monitorKip);
         Gfui.use(TaskDef);
         Gfui.use(FunDef);
         Gfui.use(Task);
