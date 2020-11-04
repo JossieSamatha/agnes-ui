@@ -46,12 +46,15 @@ export default {
                 spanNode.innerHTML = params.value;
                 spanNode.style.marginLeft = '2px'
                 const starLength = params.data.stepLevel ? params.data.stepLevel : 0;
-                for(let i=0; i<starLength; i++){
+                for (let i = 0; i < starLength; i++) {
                     const iNode = document.createElement("i");
                     iNode.className = 'fa fa-star';
                     eGui.appendChild(iNode);
                 }
                 eGui.appendChild(spanNode);
+                if (params.api.rowRenderer.lastRenderedRow === params.rowIndex) {
+                    params.columnApi.columnController.autoSizeFitColumns();
+                }
                 return eGui;
             },
             tooltipField: 'stepRemark',
