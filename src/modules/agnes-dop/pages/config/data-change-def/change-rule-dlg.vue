@@ -6,6 +6,9 @@
                 <el-button type="text" @click="editExecTime(form.execScheduler)">
                     {{form.execScheduler}}点击配置
                 </el-button>
+                <el-button type="text" v-show="form.execScheduler" @click="clearExecScheduler">
+                    清空
+                </el-button>
             </el-form-item>
         </el-form>
         <dialog-footer :on-save="onSave" ok-button-title="确定"></dialog-footer>
@@ -38,6 +41,9 @@
         methods: {
             editExecTime(execScheduler) {
                 this.showDlg(execScheduler, this.setExecScheduler.bind(this));
+            },
+            clearExecScheduler(){
+                this.form.execScheduler = null;
             },
             showDlg(data, action) {
                 this.$nav.showDialog(
