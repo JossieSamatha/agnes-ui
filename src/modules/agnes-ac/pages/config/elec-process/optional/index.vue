@@ -71,14 +71,13 @@
                         <p @click="ifGridExpand = !ifGridExpand">
                             <em class="fa fa-caret-down"></em>
                             <em class="fa fa-caret-up"></em>
-                        </p>
+                s        </p>
                     </div>
                 </div>
                 <div v-show="ifGridExpand" class="drag-column">
-                    <gf-grid ref="elecGrid" class="kpi-grid"
+                    <gf-grid ref="elecGrid" class="elec-grid"
                              height="100%"
                              grid-no="agnes-elec-process-field"
-                             :options="kpiGridOption"
                     ></gf-grid>
                 </div>
             </div>
@@ -148,13 +147,6 @@
                   ],
                 taskIdList: [],
                 loading: false,
-                kpiGridOption: function (){
-                    return {
-                        onFirstDataRendered(params){
-                            params.columnApi.columnController.autoSizeFitColumns();
-                        }
-                    }
-                }
             }
         },
         created() {
@@ -291,7 +283,6 @@
             // 表格数据塞入
             setGridData(data) {
                 this.$refs.elecGrid.setRowData(data);
-                this.$refs.elecGrid.gridController.columnApi.columnController.autoSizeFitColumns();
             },
 
             // 业务日期切换
@@ -417,6 +408,20 @@
                 } catch (e) {
                     this.$msg.error(e);
                 }
+            },
+
+            // 查看指标详情
+            showIndexDetail(params){
+                const row = params.data;
+                this.$drawerPage.create({
+                    className: 'elec-dashboard-drawer',
+                    width: 'calc(97% - 215px)',
+                    title: [row.stepName],
+                    component: 'monitor-detail-page',
+                    args: {kpiCode: row.kpiCode, bizDate: this.bizDate, status: 3},
+                    cancelButtonTitle: '返回',
+                    okButtonVisible: false
+                });
             },
 
             // 获取任务进度

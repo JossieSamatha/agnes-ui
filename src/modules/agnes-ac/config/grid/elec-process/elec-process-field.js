@@ -52,9 +52,6 @@ export default {
                     eGui.appendChild(iNode);
                 }
                 eGui.appendChild(spanNode);
-                if (params.api.rowRenderer.lastRenderedRow === params.rowIndex) {
-                    params.columnApi.columnController.autoSizeFitColumns();
-                }
                 return eGui;
             },
             tooltipField: 'stepRemark',
