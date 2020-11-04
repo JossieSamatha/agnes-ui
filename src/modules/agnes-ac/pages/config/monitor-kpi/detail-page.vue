@@ -63,6 +63,20 @@
                         if(this.opStatus){
                             this.$refs.grid.gridController.gridApi.setColumnDefs(this.setColumnFiled(columnDefsArray));
                         }else{
+                            columnDefsArray.splice(0, 0, {
+                                checkboxSelection: true,
+                                headerCheckboxSelection: true, //列头全选
+                                colId: "#cbox",
+                                headerName: "#",
+                                suppressMenu: true,
+                                width: 32,
+                                maxWidth: 32,
+                                resizable: true,
+                                pinned: "left",
+                                suppressSizeToFit: true,
+                                suppressToolPanel: true,
+                                sortable: false
+                            });
                             this.$refs.grid.gridController.gridApi.setColumnDefs(columnDefsArray);
                         }
                     }
@@ -92,7 +106,15 @@
             getKpiGridOptions(resp) {
                 return resp.map((item)=>{return {headerName: item.columnName, field: item.fieldName, cellClass: "left", suppressMovable:true,
                     valueFormatter:function (params){
-                        if(params.colDef.field === 'C_STATUS'){
+                        if(params.type === "excel"){
+                            if(params.column.colDef.field === 'C_STATUS'){
+                                if (params.value) {
+                                    return window.$gfui.$app.dict.getDictItem('OPDS_KPI_STATUS', params.value).dictName;
+                                }
+                            }else{
+                                return params.value;
+                            }
+                        }else if(params.column.colDef.field === 'C_STATUS'){
                             if (params.value) {
                                 return window.$gfui.$app.dict.getDictItem('OPDS_KPI_STATUS', params.value).dictName;
                             }
