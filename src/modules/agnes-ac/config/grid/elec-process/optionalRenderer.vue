@@ -78,7 +78,7 @@
                 return this.params.data.stepActType === '7';
             },
             isDisabled() {
-                return this.params.data.buttonStatus;
+                return !this.params.data.buttonStatus;
             }
         },
         methods: {
