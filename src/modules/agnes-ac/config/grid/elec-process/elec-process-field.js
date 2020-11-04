@@ -105,7 +105,6 @@ export default {
         optionalRenderer,
         processRenderer,
     },
-    rowData: [],
     groupDefaultExpanded: -1,
     rowSelection: 'multiple',
     ext: {
