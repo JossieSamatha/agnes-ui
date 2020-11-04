@@ -162,9 +162,16 @@
             },
           async stopAndChangeDay(nowTaskData) {
             try {
-              await this.$api.changeDataApi.queryChangeData(nowTaskData);
-              await this.$message({type: 'success', message: '切换成功!'});
-              await this.loadChangeData();
+                let p = this.$api.changeDataApi.deleteTaskJobByBizDate(nowTaskData);
+                let res = await this.$app.blockingApp(p);
+                if(res.code==='success'){
+                    await this.$api.changeDataApi.queryChangeData(nowTaskData);
+                    await this.$message({type: 'success',message: '切换成功!'});
+                    await this.loadChangeData();
+                }else{
+                    this.$msg.error('切换失败!');
+                }
+
             } catch (e) {
               this.$msg.error(e);
             }
