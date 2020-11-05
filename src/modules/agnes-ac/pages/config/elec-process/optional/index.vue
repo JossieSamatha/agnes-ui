@@ -78,6 +78,7 @@
                     <gf-grid ref="elecGrid" class="elec-grid"
                              height="100%"
                              grid-no="agnes-elec-process-field"
+                             :options="elecGridOptions"
                     ></gf-grid>
                 </div>
             </div>
@@ -147,6 +148,11 @@
                   ],
                 taskIdList: [],
                 loading: false,
+                elecGridOptions: {
+                    onRowDataChanged: (params)=>{
+                        params.columnApi.columnController.autoSizeAllColumns()
+                    }
+                }
             }
         },
         created() {
