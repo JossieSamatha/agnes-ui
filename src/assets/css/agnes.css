@@ -29,6 +29,7 @@
 }
 
 .el-form.task-def-form .el-rate{
+    display: inline;
     height: 28px;
     line-height: 26px;
 }

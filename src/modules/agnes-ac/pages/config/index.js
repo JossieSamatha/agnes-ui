@@ -14,12 +14,14 @@ import ElecProcessDB from './elec-process/dashboard/index'
 import ServiceRespLevelConf from "./service-resp-level-conf/index";
 
 import MonitorKPI from './monitor-kpi/index.vue'
+import MonitorDetailPage from './monitor-kpi/detail-page'
 
 
 const Loading = {
     install: function(Vue){
         Vue.component('step-act-type', stepActType);
         Vue.component('case-config-index', CaseConfigIndex);
+        Vue.component('monitor-detail-page', MonitorDetailPage);
     },
     load: function (Gfui) {
         Gfui.componentView('agnes.config.model', ModelDef, {title: '业务对象定义'});

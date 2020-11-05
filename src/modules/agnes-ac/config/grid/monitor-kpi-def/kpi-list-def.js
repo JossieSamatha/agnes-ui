@@ -33,8 +33,10 @@ export default {
                 },
             },
             valueFormatter: function (params) {
-                if (params.data.errNum !==0 && !params.data.errNum) {
+                if (params.data && params.data.errNum !==0 && !params.data.errNum) {
                     return "--";
+                }else{
+                    return params.value;
                 }
             }
         },
@@ -45,8 +47,10 @@ export default {
                 },
             },
             valueFormatter: function (params) {
-                if (params.data.manualNum !==0 && !params.data.manualNum) {
+                if (params.data && params.data.manualNum !==0 && !params.data.manualNum) {
                     return "--";
+                }else{
+                    return params.value;
                 }
             }
         },
@@ -57,8 +61,10 @@ export default {
                 },
             },
             valueFormatter: function (params) {
-                if (params.data.doneNum !==0 && !params.data.doneNum) {
+                if (params.data && params.data.doneNum !==0 && !params.data.doneNum) {
                     return "--";
+                }else{
+                    return params.value;
                 }
             }
         },
@@ -66,6 +72,8 @@ export default {
             valueFormatter: function (params) {
                 if (!params.value) {
                     return "--";
+                }else{
+                    return params.value;
                 }
             }},
         {headerName: "计划执行时间", field: "startTime",
@@ -73,7 +81,9 @@ export default {
                 if (!params.value) {
                     return "--";
                 }else{
-                    return `${window.bizDate}[${params.data.startTime}-${params.data.endTime}]`
+                    if(params.node.data){
+                        return `${window.bizDate}[${params.node.data.startTime}-${params.node.data.endTime}]`
+                    }
                 }
             }},
         {headerName: "最新更新时间", field: "updateTs",
