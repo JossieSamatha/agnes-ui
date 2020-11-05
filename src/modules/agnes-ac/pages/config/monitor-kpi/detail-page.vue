@@ -7,9 +7,10 @@
 <script>
     export default {
         props: {
-            kpiCode: String,
+            stepCode: String,
             bizDate: String,
-            status: Number
+            status: Number,
+            stepActKey: String
         },
         data(){
             return {
@@ -25,7 +26,7 @@
         },
         methods: {
             async init(){
-                this.kpiDetail.kpiCode = this.kpiCode
+                this.kpiDetail.kpiCode = this.stepActKey
                 this.kpiDetail.bizDate = this.bizDate
                 this.kpiDetail.status = this.status.toString()
                 try {
@@ -42,7 +43,8 @@
                     this.data.q.kpiCode =this.kpiDetail.kpiCode;
                     this.data.q.status = this.status.toString();
                     this.data.q.bizDate = this.bizDate;
-                    const p2 = this.$api.kpiDefineApi.getKpiDetails(this.data);
+                    this.data.q.stepCode = this.stepCode;
+                    const p2 = this.$api.kpiDefineApi.getMonitorKpiDetails(this.data);
                     const resp2 = await this.$app.blockingApp(p2);
                     if(resp2.data && resp2.data.length>0){
                         const rows=resp2.data;
@@ -86,7 +88,7 @@
             },
             reloadData() {
                 let _this =this;
-                this.$api.kpiDefineApi.getKpiDetails(this.data).then((resp) => {
+                this.$api.kpiDefineApi.getMonitorKpiDetails(this.data).then((resp) => {
                     if(resp.data && resp.data.length>0){
                         _this.$refs.grid.setRowData(resp.data);
                     }
@@ -147,7 +149,7 @@
             updateManul(param){
                 let _this=this;
                 const factor ={};
-                factor.kpiCode=this.kpiCode;
+                factor.kpiCode=this.stepActKey;
                 factor.bizDate=new Date(this.bizDate);
                 factor.bizKey=param.data.PRODUCT_CODE;
                 const factors =[];
