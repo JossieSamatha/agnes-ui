@@ -52,6 +52,7 @@
         <el-button v-if="indexSetShow" class="detail-btn" size="mini" type="text" icon="fa fa-eye"
                    @click="indexDetail('showIndexDetail')"
                    title="查看明细"
+                   :disabled="isKpiDisabled"
         >
         </el-button>
     </div>
@@ -84,6 +85,9 @@
             },
             isDisabled() {
                 return !this.params.data.buttonStatus;
+            },
+            isKpiDisabled() {
+                return this.params.data.stepStatus === '01';
             }
         },
         methods: {
