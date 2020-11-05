@@ -50,10 +50,11 @@
 
 <style scoped>
     .todolist-container {
-        display: flex;
-        width: 100%;
-        height: 70px;
-        align-items: center;
+      display: flex;
+      width: 100%;
+      height: 70px;
+      align-items: center;
+      border-bottom: 1px dashed #eaeaea;
     }
     .task-icon,
     .task-des,

@@ -55,8 +55,9 @@
 
 <style scoped>
     .notice-list {
-        width: 100%;
-        margin: 20px 10px;
+      width: 100%;
+      margin: 20px 10px;
+      border-bottom: 1px dashed #eaeaea;
     }
     .el-icon-chat-line-square,
     .notice-date,

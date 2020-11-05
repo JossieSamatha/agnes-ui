@@ -48,13 +48,14 @@
 
 <style scoped>
     .linkman-list {
-        display: flex;
-        width: 100%;
-        align-items: center;
-        margin-bottom: 15px;
-        min-height: 40px;
-        max-height: 60px;
-        padding: 0 10px 0 0;
+      display: flex;
+      width: 100%;
+      align-items: center;
+      margin-bottom: 15px;
+      min-height: 40px;
+      max-height: 60px;
+      padding: 0 10px 0 0;
+      border-bottom: 1px dashed #eaeaea;
     }
     .state-icon,
     .notice-info,
