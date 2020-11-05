@@ -71,7 +71,7 @@
                         <p @click="ifGridExpand = !ifGridExpand">
                             <em class="fa fa-caret-down"></em>
                             <em class="fa fa-caret-up"></em>
-                s        </p>
+                        </p>
                     </div>
                 </div>
                 <div v-show="ifGridExpand" class="drag-column">

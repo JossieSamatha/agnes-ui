@@ -4,6 +4,9 @@ export default {
     getKpiDetails(form) {
         return request.post(`/dop-kpi/kpi/dashboard/getKpiDetails`,form);
     },
+    getMonitorKpiDetails(form) {
+        return request.post(`/dop-kpi/kpi/dashboard/getMonitorKpiDetails`,form);
+    },
     queryKpiInfoMation(form) {
         return request.post(`/dop-kpi/kpi/kpi/queryKpiInfoMation`,form);
     },
