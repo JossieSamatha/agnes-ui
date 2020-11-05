@@ -1,15 +1,47 @@
 import column from "../../../../../config/column"
 
+// const colButtons = [
+//     {key: 'edit', title: '编辑',visiable: (params)=>{return params.data.processStatus === '01';}},
+//     {key: 'detele', title: '作废',visiable: (params)=>{return params.data.processStatus === '01'&&!params.data.applySubId;}},
+//     {key: 'check', title: '复核',visiable: (params)=>{return params.data.processStatus === '02';}},
+//     {key: 'addInfo', title: '资料准备',visiable: (params)=>{return params.data.processStatus === '04';}},
+//     {key: 'nextaddInfo', title: '资料准备完成',visiable: (params)=>{return params.data.processStatus === '04';}},
+//     {key: 'checkFund', title: '财务审核',visiable: (params)=>{return params.data.processStatus === '05';}},
+//     {key: 'addAcc', title: '账户录入',visiable: (params)=>{return params.data.processStatus === '06';}},
+//     {key: 'checkAcc', title: '账户复核',visiable: (params)=>{return params.data.processStatus === '07';}},
+//     {key: 'showSteps', title: '查看流程',visiable: (params)=>{return params.data.processStatus != '09';}},
+// ];
+
+//流程查看  编辑  作废  审核
 const colButtons = [
-    {key: 'edit', title: '编辑',visiable: (params)=>{return params.data.processStatus === '01';}},
-    {key: 'detele', title: '作废',visiable: (params)=>{return params.data.processStatus === '01'&&!params.data.applySubId;}},
-    {key: 'check', title: '复核',visiable: (params)=>{return params.data.processStatus === '02';}},
-    {key: 'addInfo', title: '资料准备',visiable: (params)=>{return params.data.processStatus === '04';}},
-    {key: 'nextaddInfo', title: '资料准备完成',visiable: (params)=>{return params.data.processStatus === '04';}},
-    {key: 'checkFund', title: '财务审核',visiable: (params)=>{return params.data.processStatus === '05';}},
-    {key: 'addAcc', title: '账户录入',visiable: (params)=>{return params.data.processStatus === '06';}},
-    {key: 'checkAcc', title: '账户复核',visiable: (params)=>{return params.data.processStatus === '07';}},
-    {key: 'showSteps', title: '查看流程',visiable: (params)=>{return params.data.processStatus != '09';}},
+    {key: 'showSteps', title: '查看流程', disabled: (params)=>{
+            let result = false;
+            if(params.data.processStatus === '09'){
+                result =true;
+            }
+            return result;}},
+    {key: 'edit', title: '编辑', disabled: (params)=>{
+            let result = false;
+            if(params.data.processStatus !== '01' && params.data.processStatus !== '06'){
+                result =true;
+            }
+            return result;}},//编辑  账户录入
+    {key: 'detele', title: '作废', disabled: (params)=>{
+            let result = false;
+            if(!(params.data.processStatus === '01'&&!params.data.applySubId)){
+            // if(!(params.data.processStatus === '01')){
+                result =true;
+            }
+            return result;}},//作废
+    {key: 'check', title: '审核', disabled: (params)=>{
+            let result = false;
+            if(params.data.processStatus !== '02' && params.data.processStatus !== '04'
+                && params.data.processStatus !== '05'&& params.data.processStatus !== '07'){
+                result =true;
+            }
+            return result;}},//复核 资料准备完成 财务审核 账户复核
+
+
 ];
 export default {
     columnDefs: [

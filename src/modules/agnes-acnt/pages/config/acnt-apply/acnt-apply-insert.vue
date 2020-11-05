@@ -10,17 +10,20 @@
                 <el-select class="multiple-select" v-model="detailFormBefore.typeCode"
                         filterable clearable
                         placeholder="请选择">
-                    <gf-filter-option
-                            v-for="item in bizTagOption"
-                            :key="item.typeCode"
-                            :label="item.typeName"
-                            :value="item.typeCode">
-                    </gf-filter-option>
+                    <el-option-group
+                            v-for="group in bizTagOption"
+                            :key="group.label"
+                            :label="group.label">
+                        <el-option
+                                v-for="item in group.options"
+                                :key="item.typeCode"
+                                :label="`${group.label} - ${item.typeName}`"
+                                :value="item.typeCode">
+                        </el-option>
+                    </el-option-group>
                 </el-select>
             </el-form-item>
-            <el-form-item label="业务类型" prop="bizType">
-                <gf-dict disabled filterable clearable v-model="detailFormBefore.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
-            </el-form-item>
+            <el-form-item></el-form-item>
             <el-form-item label="业务发起部门" prop="baseStartDept">
                 <gf-dict filterable clearable v-model="detailFormBefore.baseStartDept" dict-type="AGNES_ROSTER_DEPT" />
             </el-form-item>
@@ -67,7 +70,7 @@
                     <gf-filter-option
                             v-for="item in productList"
                             :key="item.productCode"
-                            :label="item.productCode"
+                            :label="`${item.productCode} - ${item.productName}`"
                             :value="item.productCode">
                     </gf-filter-option>
                 </el-select>
@@ -229,12 +232,17 @@
                         filterable clearable
                         placeholder="请选择"
                         @change="loadShowRule">
-                    <gf-filter-option
-                            v-for="item in bizTagOption"
-                            :key="item.typeCode"
-                            :label="item.typeName"
-                            :value="item.typeCode">
-                    </gf-filter-option>
+                    <el-option-group
+                            v-for="group in bizTagOption"
+                            :key="group.label"
+                            :label="group.label">
+                        <el-option
+                                v-for="item in group.options"
+                                :key="item.typeCode"
+                                :label="`${group.label} - ${item.typeName}`"
+                                :value="item.typeCode">
+                        </el-option>
+                    </el-option-group>
                 </el-select>
             </el-form-item>
             <el-form-item label="业务类型" prop="bizType">
@@ -291,7 +299,7 @@
                     <gf-filter-option
                             v-for="item in productList"
                             :key="item.productCode"
-                            :label="item.productCode"
+                            :label="`${item.productCode} - ${item.productName}`"
                             :value="item.productCode">
                     </gf-filter-option>
                 </el-select>
@@ -469,10 +477,10 @@
                     applyId:'',
                     typeCode:'', 
                     bizType:'', 
-                    baseStartDept:'', 
+                    baseStartDept:'00',
                     baseStartDeptLinkman:'', 
                     setTlementNo:'',
-                    baseAcceptDept:'',
+                    baseAcceptDept:'00',
                     stampInfo:'',
                     stampLegalPersonInfo:'', 
                     threeLicenseInfo:'',
@@ -544,7 +552,14 @@
                     other:'',
                 },
                 showChange:false,
-                bizTagOption: [],        // 业务类型下拉
+                // 业务类型下拉
+                bizTagOption: [{
+                    label: 'TA',
+                    options: []
+                },{
+                    label: 'FA',
+                    options: []
+                }],
                 groupOption: [],        // 群组下拉
                 productList:[],     //产品代码群组
                 OrgList:[],         //机构列表
@@ -587,7 +602,14 @@
             async getOptionData(){
                 try {
                     let bizTagOption = await this.$api.acntApplyApi.getAcntTypeList();
-                    this.bizTagOption = bizTagOption.data
+                    // this.bizTagOption = bizTagOption.data
+                    bizTagOption.data.forEach(item=>{
+                        if(item.processType === 'TA'){
+                            this.bizTagOption[0].options.push(item);
+                        }else if(item.processType === 'FA'){
+                            this.bizTagOption[1].options.push(item);
+                        }
+                    });
                     // let groupOption = await this.$api.userGroupApi.getAllGfUserGroup();
                     let groupOption = await this.$api.userGroupApi.getAllUserGroup();
                     this.groupOption = groupOption.data
