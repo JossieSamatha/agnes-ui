@@ -176,4 +176,8 @@
         color: #476dbe;
         line-height: 17px;
     }
+
+    .detail-btn.is-disabled>>>.fa.fa-eye {
+        color: #ccc;
+    }
 </style>
