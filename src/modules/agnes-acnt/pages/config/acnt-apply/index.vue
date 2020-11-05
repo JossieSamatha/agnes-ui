@@ -52,6 +52,7 @@
             <template slot="left">
                 <gf-button  class="action-btn" @click="openApply">开户</gf-button>
                 <gf-button  class="action-btn" @click="submitOA">提交OA</gf-button>
+                <gf-button  class="action-btn" @click="addInfoFile">资料准备</gf-button>
             </template>
         </gf-grid>
     </div>
@@ -171,15 +172,6 @@
             },
             openApply() {
                 this.showOpenDlg('add', {}, this.onOpenApply.bind(this));
-            },
-            check(params) {
-                this.showOpenDlg('check', params.data, this.onOpenApply.bind(this),true);
-            },
-            edit(params) {
-                this.showOpenDlg('edit', params.data, this.onOpenApply.bind(this));
-            },
-            detele(params) {
-                this.showOpenDlg('detele', params.data, this.onOpenApply.bind(this),true);
             },
 
             checkFund(params) {
@@ -303,6 +295,56 @@
             showSteps(params) {
                 this.showStepsDlg('add', params.data, this.onStepsApply.bind(this));
             },
+
+            //整合编辑按钮：编辑 账户录入
+            edit(params) {
+                if(params.data.processStatus === '01'){
+                    //edit 编辑
+                    this.showOpenDlg('edit', params.data, this.onOpenApply.bind(this));
+                }else if(params.data.processStatus === '06'){
+                    //addAcc 账户录入
+                    this.showInsertDlg('add', params.data, this.onOpenApply.bind(this));
+                }
+            },
+
+            detele(params) {
+                this.showOpenDlg('detele', params.data, this.onOpenApply.bind(this),true);
+            },
+
+            //整合审核按钮：编辑
+            check(params) {
+                if(params.data.processStatus === '02'){
+                    //check 复核
+                    this.showOpenDlg('check', params.data, this.onOpenApply.bind(this),true);
+                }else if(params.data.processStatus === '04'){
+                    //nextaddInfo 资料准备完成
+                    this.nextaddInfo(params);
+                }else if(params.data.processStatus === '05'){
+                    //checkFund 财务审核
+                    this.showOpenDlg('checkFund', params.data, this.onOpenApply.bind(this),true);
+                }else if(params.data.processStatus === '07'){
+                    //checkAcc 账户复核
+                    this.showInsertDlg('check', params.data, this.onOpenApply.bind(this));
+                }
+
+            },
+
+
+            async addInfoFile() {
+                //此处通过该方法获取选中的数据，调用接口批量操作
+                let selectedRows  = this.$refs.grid.getSelectedRows();
+                if (selectedRows.length !== 1) {
+                    this.$msg.warning('请选择一条数据');
+                    return;
+                }
+                if (selectedRows[0].applySubId) {
+                    this.$msg.warning('请选择账户申请主流程');
+                    return;
+                }
+
+                this.showOpenDlg('addInfo', selectedRows[0], this.onOpenApply.bind(this),false);
+
+            }
         }
     }
 </script>
