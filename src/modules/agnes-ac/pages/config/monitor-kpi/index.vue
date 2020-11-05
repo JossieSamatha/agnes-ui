@@ -26,7 +26,6 @@
 </template>
 
 <script>
-    import detailPage from './detail-page'
     export default {
         data() {
             return {
@@ -127,7 +126,7 @@
                     className: 'elec-dashboard-drawer',
                     width: 'calc(97% - 215px)',
                     title: [`${row.taskName}-${statusObj[status]}`],
-                    component: detailPage,
+                    component: 'monitor-detail-page',
                     args: {kpiCode: row.kpiCode, bizDate: this.bizDate, status},
                     cancelButtonTitle: '返回',
                     okButtonVisible: false
@@ -147,6 +146,7 @@
         background-color: rgba(255, 255, 255, 0.7);
     }
 
+    .elec-grid .gf-ag-grid.ag-theme-balham .star-cell .fa.fa-star,
     .kpi-grid .gf-ag-grid.ag-theme-balham .star-cell .fa.fa-star,
     .kpi-grid .gf-ag-grid.ag-theme-balham .status-circle-cell.red-cell {
         color: #f5222e;

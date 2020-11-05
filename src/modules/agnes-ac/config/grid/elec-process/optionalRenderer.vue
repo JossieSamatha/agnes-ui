@@ -49,6 +49,11 @@
         >
             <span class="svgSpan" v-html="svgImg.reExecute"></span>
         </el-button>
+        <el-button v-if="indexSetShow" class="detail-btn" size="mini" type="text" icon="fa fa-eye"
+                   @click="indexDetail('showIndexDetail')"
+                   title="查看明细"
+        >
+        </el-button>
     </div>
 </template>
 
@@ -94,6 +99,10 @@
                 if (ok) {
                     this.handleCmd(this.actionType);
                 }
+            },
+
+            indexDetail(actionType){
+                this.handleCmd(actionType);
             },
 
             // 备注确定 -- 保存
@@ -151,5 +160,16 @@
         color: #fff;
         background: #476DBE;
         border-color: #476DBE;
+    }
+
+    .detail-btn {
+        padding: 0;
+    }
+
+    .detail-btn>>>.fa.fa-eye{
+        font-size: 15px;
+        vertical-align: text-bottom;
+        color: #476dbe;
+        line-height: 17px;
     }
 </style>

@@ -14,8 +14,10 @@
                          :max="max"
                          show-text
                          :texts="texts"
-                         :colors="rateColor">
+                         :colors="rateColor"
+                >
                 </el-rate>
+                <em class="el-icon-refresh-left" @click="caseStepDef.stepLevel = 0"></em>
             </el-form-item>
             <el-form-item label="任务编号" prop="stepCode">
                 <gf-input v-model="caseStepDef.stepCode" clear-regex="[^0-9]" :max-byte-len="8" :min-byte-len="8"
@@ -259,7 +261,7 @@
             stepFormInfo: {
                 caseStepDef: {
                     dayendDefId: '',
-                    stepLevel: 1,
+                    stepLevel: 0,
                     stepTag: '',
                     stepActOwner: '',
                     execMode: '1',
@@ -626,3 +628,14 @@
         }
     }
 </script>
+
+<style scoped>
+    .el-icon-refresh-left {
+        color: #476DBE;
+        margin-left:10px;
+        vertical-align: text-top;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+</style>
