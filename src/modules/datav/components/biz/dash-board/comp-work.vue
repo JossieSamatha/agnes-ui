@@ -74,10 +74,11 @@
 
 <style scoped>
     .todolist-container {
-        display: flex;
-        align-items: center;
-        width: 100%;
-        height: 60px;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 60px;
+      border-bottom: 1px dashed #eaeaea;
     }
     .work-icon,
     .task-des,
