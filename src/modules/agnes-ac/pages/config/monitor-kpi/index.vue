@@ -127,7 +127,7 @@
                     width: 'calc(97% - 215px)',
                     title: [`${row.taskName}-${statusObj[status]}`],
                     component: 'monitor-detail-page',
-                    args: {stepCode: row.kpiCode,stepActKey:row.stepActKey, bizDate: this.bizDate, status},
+                    args: {stepCode: row.stepCode,stepActKey:row.stepActKey, bizDate: this.bizDate, status},
                     cancelButtonTitle: '返回',
                     okButtonVisible: false
                 });
