@@ -227,7 +227,12 @@
                         if (flowDetailParse && flowDetailParse.stages.length > 0) {
                             this.taskStage = flowDetailParse.stages;
                             if(this.curStage && this.curStage.defId){
-                                this.curStage = this.$lodash.find(flowDetailParse.stages, {defId: this.curStage.defId});
+                                const hasStage = this.$lodash.find(flowDetailParse.stages, {defId: this.curStage.defId});
+                                if(hasStage){
+                                    this.curStage = hasStage;
+                                }else{
+                                    this.curStage = flowDetailParse.stages[0];
+                                }
                             }else{
                                 this.curStage = flowDetailParse.stages[0];
                             }
@@ -239,10 +244,11 @@
                                 {name: '未完成', value: (allTaskNum-targetNum)}
                             ];
                             this.executePieData = executePieData;
-                          // 获取执行情况
+
+                            // 获取执行情况
                             this.taskIdList = flowDetailParse.taskIdList;
                             this.getExecuteData(flowDetailParse.taskIdList, this.execTypeChecked);
-                            if(this.curStage.ruCaseStepList){
+                            if(this.curStage && this.curStage.ruCaseStepList){
                                 this.setGridData(this.curStage.ruCaseStepList);
                             }
                             this.loading = false;

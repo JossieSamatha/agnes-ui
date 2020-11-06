@@ -16,7 +16,7 @@
                     <gf-button type="text" >{{item.dictName}}</gf-button>
                 </div>
             </div>
-            <el-calendar class="work-calendar" v-if="ifDataReady">
+            <el-calendar ref="workCalendar" class="work-calendar">
                 <template slot="dateCell" slot-scope="{date, data}">
                     <el-popover placement="top-start"
                                 width="145"
@@ -88,11 +88,11 @@
         },
     },
     methods:{
-        list(workday){
-          this.onListWorkday(workday);
+        list(workday, bizDate){
+          this.onListWorkday(workday, bizDate);
         },
 
-        async onListWorkday(workday) {
+        async onListWorkday(workday, bizDate) {
             try {
                 const resp = await this.$api.workdayConfigApi.getWorkdayList(workday);
                 let calendarObj = {};
@@ -102,10 +102,14 @@
                     }
                     this.calendarData = calendarObj;
                 });
-                this.ifDataReady = true;
+                if(bizDate){
+                    this.$refs.workCalendar.pickDay(bizDate);
+                }
                 console.log('this.calendarData', this.calendarData);
+                this.ifDataReady = true;
             } catch (reason) {
                 this.$msg.error(reason);
+                this.ifDataReady = true;
             }
         },
         initWork() {
@@ -120,6 +124,7 @@
         },
         async onUpdateWorkday(item, flag) {
             this.ifDataReady = false;
+            this.$refs.workCalendar.$el.click();
             this.workday.workdayId = item.workdayId;
             this.workday.bizDate = item.bizDate;
             this.workday.workdayAreaCode = item.workdayAreaCode;
@@ -127,7 +132,6 @@
                 this.workday.workday = flag;
             }else if(flag === 'cancel'){
                 await this.cancelSpecialDay(item);
-                this.ifDataReady = true;
                 return ;
             } else {
                 if ('FridayTag' === flag) {
@@ -141,10 +145,11 @@
 
             try {
                 await this.$api.workdayConfigApi.updateWorkday(this.workday);
-                await this.list(this.workday)
-                this.ifDataReady = true;
+                this.calendarData[item.bizDate] = this.workday;
+                await this.list(this.workday, item.bizDate)
                 this.$msg.success('保存成功');
             } catch (reason) {
+                this.ifDataReady = true;
                 this.$msg.error(reason);
             }
         },
@@ -152,9 +157,10 @@
         async cancelSpecialDay(item){
             try {
                 await this.$api.workdayConfigApi.deleteSpecial(item.paramId);
-                this.list(this.workday)
+                this.list(this.workday, item.bizDate)
                 this.$msg.success('取消成功');
             } catch (reason) {
+                this.ifDataReady = true;
                 this.$msg.error(reason);
             }
         },
@@ -163,7 +169,7 @@
             this.flag = id;
             this.queryParam.workdayAreaCode = item.dictId;
             this.onListWorkday(this.queryParam);
-        },
+        }
     }
 }
 </script>
