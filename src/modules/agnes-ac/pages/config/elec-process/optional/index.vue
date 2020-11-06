@@ -430,7 +430,7 @@
                     width: 'calc(97% - 215px)',
                     title: [row.stepName],
                     component: 'monitor-detail-page',
-                    args: {stepCode: row.kpiCode,stepActKey:row.stepActKey, bizDate: this.bizDate, status: 3},
+                    args: {stepCode: row.stepCode,stepActKey:row.stepActKey, bizDate: this.bizDate, status: 3},
                     cancelButtonTitle: '返回',
                     okButtonVisible: false
                 });
