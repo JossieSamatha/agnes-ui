@@ -23,8 +23,12 @@
         },
         methods: {
             getStatusColor(){
-                const colorSet = this.$agnesAcUtils.getStepStatusMap();
-                return colorSet.get(this.params.data.stepStatus).color;
+                if(this.percentage > 100){
+                    return '#F5222E';
+                }else{
+                    const colorSet = this.$agnesAcUtils.getStepStatusMap();
+                    return colorSet.get(this.params.data.stepStatus).color;
+                }
             }
         }
     }
