@@ -26,7 +26,9 @@ export default {
             },
             tooltipField: 'stepRemark',
         },
-        { headerName: "异常", field: "errNum", cellClass: 'red-cell',
+        { headerName: "异常", field: "errNum", cellClass: (params)=>{
+                return params.value === 0 ? 'grey-cell' : 'red-cell'
+            },
             cellClassRules: {
                 'fa fa-circle status-circle-cell': function(params) {
                     return !(params.data.errNum !==0 && !params.data.errNum);
@@ -40,7 +42,9 @@ export default {
                 }
             }
         },
-        {headerName: "干预通过", field: "manualNum", cellClass: 'yellow-cell',
+        {headerName: "干预通过", field: "manualNum", cellClass: (params)=>{
+                return params.value === 0 ? 'grey-cell' : 'yellow-cell'
+            },
             cellClassRules: {
                 'fa fa-circle status-circle-cell': function(params) {
                     return !(params.data.manualNum !==0 && !params.data.manualNum);
@@ -54,7 +58,9 @@ export default {
                 }
             }
         },
-        {headerName: "正常", field: "doneNum", cellClass: 'green-cell',
+        {headerName: "正常", field: "doneNum", cellClass: (params)=>{
+                return params.value === 0 ? 'grey-cell' : 'green-cell'
+            },
             cellClassRules: {
                 'fa fa-circle status-circle-cell': function(params) {
                     return !(params.data.doneNum !==0 && !params.data.doneNum);

@@ -160,9 +160,17 @@
         color: green;
     }
 
-    .kpi-grid .gf-ag-grid.ag-theme-balham .status-circle-cell:hover .ag-cell-value{
+    .kpi-grid .gf-ag-grid.ag-theme-balham .status-circle-cell.grey-cell,
+    .kpi-grid .gf-ag-grid.ag-theme-balham .status-circle-cell.grey-cell .ag-cell-value {
+        color: #ccc;
+    }
+
+    .kpi-grid .gf-ag-grid.ag-theme-balham .status-circle-cell:not(.grey-cell):hover {
+        cursor: pointer;
+    }
+
+    .kpi-grid .gf-ag-grid.ag-theme-balham .status-circle-cell:not(.grey-cell):hover .ag-cell-value{
         color: inherit;
         text-decoration: underline;
-        cursor: pointer;
     }
 </style>
