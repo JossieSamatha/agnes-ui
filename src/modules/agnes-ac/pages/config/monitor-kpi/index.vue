@@ -162,7 +162,7 @@
 
     .kpi-grid .gf-ag-grid.ag-theme-balham .status-circle-cell.grey-cell,
     .kpi-grid .gf-ag-grid.ag-theme-balham .status-circle-cell.grey-cell .ag-cell-value {
-        color: #ccc;
+        opacity: .3;
     }
 
     .kpi-grid .gf-ag-grid.ag-theme-balham .status-circle-cell:not(.grey-cell):hover {

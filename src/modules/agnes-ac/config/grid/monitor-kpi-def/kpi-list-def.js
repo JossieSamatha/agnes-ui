@@ -26,13 +26,14 @@ export default {
             },
             tooltipField: 'stepRemark',
         },
-        { headerName: "异常", field: "errNum", cellClass: (params)=>{
-                return params.value === 0 ? 'grey-cell' : 'red-cell'
-            },
+        { headerName: "异常", field: "errNum", cellClass: 'red-cell',
             cellClassRules: {
                 'fa fa-circle status-circle-cell': function(params) {
                     return !(params.data.errNum !==0 && !params.data.errNum);
                 },
+                'grey-cell': (params)=>{
+                    return params.value === 0 ;
+                }
             },
             valueFormatter: function (params) {
                 if (params.data && params.data.errNum !==0 && !params.data.errNum) {
@@ -42,12 +43,13 @@ export default {
                 }
             }
         },
-        {headerName: "干预通过", field: "manualNum", cellClass: (params)=>{
-                return params.value === 0 ? 'grey-cell' : 'yellow-cell'
-            },
+        {headerName: "干预通过", field: "manualNum", cellClass: 'yellow-cell',
             cellClassRules: {
                 'fa fa-circle status-circle-cell': function(params) {
                     return !(params.data.manualNum !==0 && !params.data.manualNum);
+                },
+                'grey-cell': (params)=>{
+                    return params.value === 0;
                 },
             },
             valueFormatter: function (params) {
@@ -58,13 +60,14 @@ export default {
                 }
             }
         },
-        {headerName: "正常", field: "doneNum", cellClass: (params)=>{
-                return params.value === 0 ? 'grey-cell' : 'green-cell'
-            },
+        {headerName: "正常", field: "doneNum", cellClass: 'green-cell' ,
             cellClassRules: {
                 'fa fa-circle status-circle-cell': function(params) {
                     return !(params.data.doneNum !==0 && !params.data.doneNum);
                 },
+                'grey-cell': (params)=>{
+                    return params.value === 0;
+                }
             },
             valueFormatter: function (params) {
                 if (params.data && params.data.doneNum !==0 && !params.data.doneNum) {
