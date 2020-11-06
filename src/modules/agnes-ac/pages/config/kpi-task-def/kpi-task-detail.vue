@@ -12,6 +12,7 @@
                      :texts="['一般', '重要', '紧急']"
                      :colors="detailForm.rateColor">
             </el-rate>
+            <em class="el-icon-refresh-left" @click="detailForm.stepLevel = 0"></em>
         </el-form-item>
         <el-form-item label="任务编号" prop="caseKey">
             <gf-input v-model.trim="detailForm.caseKey" clear-regex="[^0-9]" placeholder="任务编号" :max-byte-len="8" />
@@ -695,3 +696,14 @@
         }
     }
 </script>
+
+<style scoped>
+    .el-icon-refresh-left {
+        color: #476DBE;
+        margin-left:10px;
+        vertical-align: text-top;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+</style>
