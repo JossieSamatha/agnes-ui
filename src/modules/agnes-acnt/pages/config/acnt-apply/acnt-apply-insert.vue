@@ -202,15 +202,15 @@
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
-            <el-form-item v-if="showRules.productCode&&showRules.productCode.isShow" label="卡账户对应的对公户" prop="productCode">
-                <el-select class="multiple-select" v-model="detailFormBefore.productCode"
-                        filterable clearable
-                        placeholder="请选择">
+            <el-form-item v-if="showRules.cardCorporateAcntId&&showRules.cardCorporateAcntId.isShow" label="卡账户对应的对公户" prop="productCode">
+                <el-select style="width: 100%" class="multiple-select" v-model="detailFormBefore.cardCorporateAcntId"
+                           filterable clearable
+                           placeholder="请选择">
                     <gf-filter-option
-                            v-for="item in productList"
-                            :key="item.productCode"
-                            :label="item.productCode"
-                            :value="item.productCode">
+                            v-for="item in acntList"
+                            :key="item.acntId"
+                            :label="item.acntName"
+                            :value="item.acntId">
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
@@ -430,15 +430,15 @@
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
-            <el-form-item v-if="showRules.productCode&&showRules.productCode.isShow" label="卡账户对应的对公户" prop="productCode">
-                <el-select class="multiple-select" v-model="detailForm.productCode"
-                        filterable clearable
-                        placeholder="请选择">
+            <el-form-item v-if="showRules.cardCorporateAcntId&&showRules.cardCorporateAcntId.isShow" label="卡账户对应的对公户" prop="productCode">
+                <el-select style="width: 100%"  class="multiple-select" v-model="detailForm.cardCorporateAcntId"
+                           filterable clearable
+                           placeholder="请选择">
                     <gf-filter-option
-                            v-for="item in productList"
-                            :key="item.productCode"
-                            :label="item.productCode"
-                            :value="item.productCode">
+                            v-for="item in acntList"
+                            :key="item.acntId"
+                            :label="item.acntName"
+                            :value="item.acntId">
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
@@ -511,6 +511,7 @@
                     openManPhone:'',
                     remark:'',
                     other:'',
+                    cardCorporateAcntId:''
                 },
                 detailFormBefore: {
                     typeCode:'', 
@@ -550,6 +551,7 @@
                     openManPhone:'',
                     remark:'',
                     other:'',
+                    cardCorporateAcntId:''
                 },
                 showChange:false,
                 // 业务类型下拉
@@ -565,6 +567,7 @@
                 OrgList:[],         //机构列表
                 linkManList:[],     //机构联系人列表
                 rateList:[],     //利率列表
+                acntList:[],    //账户列表
                 showRules:{
            
                 },
@@ -619,10 +622,13 @@
                     this.OrgList = OrgList.data
 
                     let linkManList = await this.$api.acntApplyApi.getLinkMan(this.detailForm.baseOrgId);
-
                     this.linkManList = linkManList.data
+
                     let rateList = await this.$api.rateDefApi.getAllPulishRateList();
-                    this.rateList = rateList.data
+                    this.rateList = rateList.data;
+
+                    let acntList = await this.$api.acntInfoApi.getAcntInfoList();
+                    this.acntList = acntList.data;
 
                     if(this.showChange){
                         let detailFormBefore = await this.$api.acntInfoApi.getAcntInfoByAcntId(this.detailForm.acntId);
@@ -726,7 +732,7 @@
             async onCancel() {
                 try {
                     if(this.detailForm.processStatus=='07'){
-                        let form =  JSON.parse(JSON.stringify(this.detailForm)) 
+                        let form =  JSON.parse(JSON.stringify(this.detailForm))
                         form.processStatus = '06';
                         const p = this.$api.acntApplyApi.cancelApply(form);
                         await this.$app.blockingApp(p);

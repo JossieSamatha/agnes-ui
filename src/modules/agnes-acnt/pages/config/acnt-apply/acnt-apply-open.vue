@@ -524,7 +524,9 @@
                 }
                 // this.detailFormRules = detailFormRules;
 
-                this.detailForm.isSendFinance = '0';
+                if(this.detailForm.processStatus === '01'){
+                    this.detailForm.isSendFinance = '0';
+                }
                 if( !loadsh.isEmpty(showRules) &&
                     !loadsh.isEmpty(showRules.isSendFinance) &&
                     !loadsh.isEmpty(showRules.isSendFinance.isShow)
@@ -603,6 +605,11 @@
                     if(!loadsh.isEmpty(this.detailForm.applySubId)){
                         openSub = true;
                     }
+
+                    //对于作废 这里不控制节点，作废按钮处已控制
+                    if(this.mode=='detele'){
+                        isdel = true;
+                    }
                     form.processStatus = '02';
                     if(!loadsh.isEmpty(this.detailForm.processStatus)){
                         //状态机控制
@@ -638,9 +645,17 @@
                     }
                     if(isdel){
                         form.processStatus = '09';
-                        const p = this.$api.acntApplyApi.cancelApply(form);
-                        await this.$app.blockingApp(p);
-                        this.$msg.success('作废成功');
+
+                        if(openSub){
+                            const p = this.$api.acntApplyApi.cancelSubApply(form);
+                            await this.$app.blockingApp(p);
+                            this.$msg.success('作废成功');
+                        }else{
+                            const p = this.$api.acntApplyApi.cancelApply(form);
+                            await this.$app.blockingApp(p);
+                            this.$msg.success('作废成功');
+                        }
+
                     }else{
                         if(openSub){
                             const p = this.$api.acntApplyApi.saveSubApply(form);
