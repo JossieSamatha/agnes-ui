@@ -135,8 +135,8 @@
             <el-form-item v-if="showRules.bigPayNo&&showRules.bigPayNo.isShow" label="大额支付号" prop="bigPayNo">
                 <gf-input v-model.trim="detailFormBefore.bigPayNo" placeholder="大额支付号"/>
             </el-form-item>
-            <el-form-item v-if="showRules.openBack&&showRules.openBack.isShow" label="开户网点/开户单位" prop="openBack">
-                <gf-input v-model.trim="detailFormBefore.openBack" placeholder="开户网点/开户单位"/>
+            <el-form-item v-if="showRules.openBank&&showRules.openBank.isShow" label="开户网点/开户单位" prop="openBank">
+                <gf-input v-model.trim="detailFormBefore.openBank" placeholder="开户网点/开户单位"/>
             </el-form-item>
             <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号" prop="fundAccNo">
                 <gf-input v-model.trim="detailFormBefore.fundAccNo" placeholder="资金账号"/>
@@ -360,8 +360,8 @@
             <el-form-item v-if="showRules.bigPayNo&&showRules.bigPayNo.isShow" label="大额支付号" prop="bigPayNo">
                 <gf-input v-model.trim="detailForm.bigPayNo" placeholder="大额支付号"/>
             </el-form-item>
-            <el-form-item v-if="showRules.openBack&&showRules.openBack.isShow" label="开户网点/开户单位" prop="openBack">
-                <gf-input v-model.trim="detailForm.openBack" placeholder="开户网点/开户单位"/>
+            <el-form-item v-if="showRules.openBank&&showRules.openBank.isShow" label="开户网点/开户单位" prop="openBank">
+                <gf-input v-model.trim="detailForm.openBank" placeholder="开户网点/开户单位"/>
             </el-form-item>
             <el-form-item v-if="showRules.acntStartDt&&showRules.acntStartDt.isShow" label="账户启用日期" prop="acntStartDt">
                 <el-date-picker
@@ -556,7 +556,7 @@
                     acntPurpose:'',
                     rateId:'',
                     bigPayNo:'',
-                    openBack:'',
+                    openBank:'',
                     fundAccNo:'',
                     isOpenEBank:'',
                     acntStartDt:'',
@@ -596,7 +596,7 @@
                     acntPurpose:'',
                     rateId:'',
                     bigPayNo:'',
-                    openBack:'',
+                    openBank:'',
                     fundAccNo:'',
                     isOpenEBank:'',
                     acntStartDt:'',
