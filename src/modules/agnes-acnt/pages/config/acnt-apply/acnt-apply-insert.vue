@@ -135,8 +135,8 @@
             <el-form-item v-if="showRules.bigPayNo&&showRules.bigPayNo.isShow" label="大额支付号" prop="bigPayNo">
                 <gf-input v-model.trim="detailFormBefore.bigPayNo" placeholder="大额支付号"/>
             </el-form-item>
-            <el-form-item v-if="showRules.openBack&&showRules.openBack.isShow" label="开户网点/开户单位" prop="openBack">
-                <gf-input v-model.trim="detailFormBefore.openBack" placeholder="开户网点/开户单位"/>
+            <el-form-item v-if="showRules.openBank&&showRules.openBank.isShow" label="开户网点/开户单位" prop="openBank">
+                <gf-input v-model.trim="detailFormBefore.openBank" placeholder="开户网点/开户单位"/>
             </el-form-item>
             <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号" prop="fundAccNo">
                 <gf-input v-model.trim="detailFormBefore.fundAccNo" placeholder="资金账号"/>
@@ -327,9 +327,6 @@
             <el-form-item v-if="showRules.stampInfo&&showRules.stampInfo.isShow" label="预留印鉴信息" prop="stampInfo">
                 <gf-input v-model.trim="detailForm.stampInfo" placeholder="预留印鉴信息"/>
             </el-form-item>
-            <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="账号" prop="accNo">
-                <gf-input v-model.trim="detailForm.accNo" placeholder="账号"/>
-            </el-form-item>
             <el-form-item v-if="showRules.market&&showRules.market.isShow" label="市场" prop="market">
                 <gf-dict filterable clearable v-model="detailForm.market" dict-type="AGNES_ACNT_MARKET" />
             </el-form-item>
@@ -363,11 +360,8 @@
             <el-form-item v-if="showRules.bigPayNo&&showRules.bigPayNo.isShow" label="大额支付号" prop="bigPayNo">
                 <gf-input v-model.trim="detailForm.bigPayNo" placeholder="大额支付号"/>
             </el-form-item>
-            <el-form-item v-if="showRules.openBack&&showRules.openBack.isShow" label="开户网点/开户单位" prop="openBack">
-                <gf-input v-model.trim="detailForm.openBack" placeholder="开户网点/开户单位"/>
-            </el-form-item>
-            <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号" prop="fundAccNo">
-                <gf-input v-model.trim="detailForm.fundAccNo" placeholder="资金帐号"/>
+            <el-form-item v-if="showRules.openBank&&showRules.openBank.isShow" label="开户网点/开户单位" prop="openBank">
+                <gf-input v-model.trim="detailForm.openBank" placeholder="开户网点/开户单位"/>
             </el-form-item>
             <el-form-item v-if="showRules.acntStartDt&&showRules.acntStartDt.isShow" label="账户启用日期" prop="acntStartDt">
                 <el-date-picker
@@ -448,6 +442,67 @@
             <el-form-item v-if="showRules.remark&&showRules.remark.isShow" label="备注" prop="remark">
                 <gf-input v-model.trim="detailForm.remark" placeholder="备注"/>
             </el-form-item>
+            <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="账号">
+                <div class="rule-table">
+                    <el-table header-row-class-name="rule-header-row"
+                              header-cell-class-name="rule-header-cell"
+                              row-class-name="rule-row"
+                              cell-class-name="rule-cell"
+                              :data="accNoList"
+                              border stripe
+                              style="width: 100%">
+                        <el-table-column prop="fileName" label="账号">
+                            <template slot-scope="scope">
+                                <el-input v-model="scope.row.accNo"></el-input>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="fileNumber" label="市场">
+                            <template slot-scope="scope">
+                                <gf-dict filterable clearable v-model="scope.row.market" dict-type="AGNES_ACNT_MARKET" />
+                            </template>
+                        </el-table-column>
+                        <el-table-column  prop="option" label="操作" width="52" align="center">
+                            <template slot-scope="scope">
+                                <span class="option-span" @click="deleteAccRuleRow(scope.$index)">删除</span>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                    <el-button  @click="addAccRule()" class="rule-add-btn" size="small">新增</el-button>
+                </div>
+            </el-form-item>
+            <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号">
+                <div class="rule-table">
+                    <el-table header-row-class-name="rule-header-row"
+                              header-cell-class-name="rule-header-cell"
+                              row-class-name="rule-row"
+                              cell-class-name="rule-cell"
+                              :data="moneyAccNoList"
+                              border stripe
+                              style="width: 100%">
+                        <el-table-column prop="fileName" label="资金帐号">
+                            <template slot-scope="scope">
+                                <el-input v-model="scope.row.accNo"></el-input>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="fileName" label="资金账户名称">
+                            <template slot-scope="scope">
+                                <el-input v-model="scope.row.accName"></el-input>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="fileNumber" label="币种">
+                            <template slot-scope="scope">
+                                <gf-dict filterable clearable v-model="scope.row.currency" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
+                            </template>
+                        </el-table-column>
+                        <el-table-column  prop="option" label="操作" width="52" align="center">
+                            <template slot-scope="scope">
+                                <span class="option-span" @click="deleteMoneyAccRuleRow(scope.$index)">删除</span>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                    <el-button  @click="addMoneyAccRule" class="rule-add-btn" size="small">新增</el-button>
+                </div>
+            </el-form-item>
         </el-form>
 
     </div>
@@ -494,13 +549,14 @@
                     baseOperator:this.$app.session.data.user.userName,
                     accNo:'',
                     market:'',
+                    accNoMarket:'',
                     region:'',
                     currency:'',
                     fundAccName:'',
                     acntPurpose:'',
                     rateId:'',
                     bigPayNo:'',
-                    openBack:'',
+                    openBank:'',
                     fundAccNo:'',
                     isOpenEBank:'',
                     acntStartDt:'',
@@ -511,7 +567,8 @@
                     openManPhone:'',
                     remark:'',
                     other:'',
-                    cardCorporateAcntId:''
+                    cardCorporateAcntId:'',
+                    fields:[],
                 },
                 detailFormBefore: {
                     typeCode:'', 
@@ -533,13 +590,14 @@
                     baseOperator:this.$app.session.data.user.userName,
                     accNo:'',
                     market:'',
+                    accNoMarket:'',
                     region:'',
                     currency:'',
                     fundAccName:'',
                     acntPurpose:'',
                     rateId:'',
                     bigPayNo:'',
-                    openBack:'',
+                    openBank:'',
                     fundAccNo:'',
                     isOpenEBank:'',
                     acntStartDt:'',
@@ -551,9 +609,12 @@
                     openManPhone:'',
                     remark:'',
                     other:'',
+                    fields:[],
                     cardCorporateAcntId:''
                 },
                 showChange:false,
+                isAccNoMustFill:false,
+                isMoneyAccNoMustFill:false,
                 // 业务类型下拉
                 bizTagOption: [{
                     label: 'TA',
@@ -567,6 +628,8 @@
                 OrgList:[],         //机构列表
                 linkManList:[],     //机构联系人列表
                 rateList:[],     //利率列表
+                accNoList:[],
+                moneyAccNoList:[],
                 acntList:[],    //账户列表
                 showRules:{
            
@@ -600,8 +663,36 @@
             const p2 = this.loadShowRule();
             this.$app.blockingApp(p2);
 
+            const p3 = this.loadAccNoRefList();
+            this.$app.blockingApp(p3);
+
         },
         methods: {
+            // 账号新增、删除服务行
+            addAccRule(){
+                const newAccTableObj = {
+                    accNo: '',
+                    market: '',
+                    accNoType: '01',
+                };
+                this.accNoList.push(newAccTableObj);
+            },
+            deleteAccRuleRow(rowIndex){
+                this.accNoList.splice(rowIndex, 1);
+            },
+            // 资金账号新增、删除服务行
+            addMoneyAccRule(){
+                const newMoneyTableObj = {
+                    accNo: '',
+                    accName: '',
+                    currency: '',
+                    accNoType: '02',
+                };
+                this.moneyAccNoList.push(newMoneyTableObj);
+            },
+            deleteMoneyAccRuleRow(rowIndex){
+                this.moneyAccNoList.splice(rowIndex, 1);
+            },
             async getOptionData(){
                 try {
                     let bizTagOption = await this.$api.acntApplyApi.getAcntTypeList();
@@ -657,6 +748,18 @@
                     this.$msg.error(reason);
                 }
             },
+            async loadAccNoRefList(){
+                let resp = await this.$api.acntApplyApi.getAcntRuApplyAccNoRefListByApplyId({'applyId':this.detailForm.applyId});
+                let allList = resp.data;
+                for(let i=0;i< allList.length;i++){
+                    if(allList[i].accNoType === '01'){
+                        this.accNoList.push(allList[i]);
+                    }else {
+                        this.moneyAccNoList.push(allList[i]);
+                    }
+                }
+
+            },
             async loadShowRule(){
                 let resp = await this.$api.acntApplyApi.getConfig(this.detailForm.typeCode);
                 let showRules = resp.data;
@@ -672,6 +775,12 @@
                     detailFormRulesOne.required = showRules[key].mustFill=='1';
                     detailFormRulesOne.trigger = 'blur';
                     this.detailFormRules[key] = [detailFormRulesOne]
+                    if(key === 'accNo' && showRules[key].mustFill === '1'){
+                        this.isAccNoMustFill = true;
+                    }
+                    if(key === 'fundAccNo' && showRules[key].mustFill === '1'){
+                        this.isMoneyAccNoMustFill = true;
+                    }
                 }
                 // this.detailFormRules = detailFormRules;
             },
@@ -704,10 +813,21 @@
                 if (!ok) {
                     return;
                 }
-
+                const accNoHasValue = await this.isTableHasValues(this.accNoList,this.isAccNoMustFill);
+                if (!accNoHasValue) {
+                    this.$msg.warning("请将账号信息补充完整!");
+                    return;
+                }
+                const applyAccNoHasValue = await this.isTableHasValues(this.moneyAccNoList,this.isMoneyAccNoMustFill);
+                if (!applyAccNoHasValue) {
+                    this.$msg.warning("请将资金账号信息补充完整!");
+                    return;
+                }
                 try {
                     let form =  JSON.parse(JSON.stringify(this.detailForm)) 
                     form.processStatus = '07';
+                    form.accNoList = this.accNoList;
+                    form.moneyAccNoList = this.moneyAccNoList;
                     if(!loadsh.isEmpty(this.detailForm.processStatus)){
                         //状态机控制
                         if(this.detailForm.processStatus=='06'){
@@ -750,6 +870,21 @@
                 let linkManList = await this.$api.acntApplyApi.getLinkMan(this.detailForm.baseOrgId);
                 this.linkManList = linkManList.data;
                 this.detailForm.bankLinkMan = [];
+            },
+            async isTableHasValues(fields,mustFill){
+                let validate = true;
+                for(let i =0;i<fields.length;i++){
+                    if(fields[i].accNo === ''){
+                        validate = false;
+                    }
+                    if(!validate && mustFill){
+                        return false;
+                    }
+                }
+                if(fields.length === 0 && mustFill){
+                    return false;
+                }
+                return true;
             }
 
         },

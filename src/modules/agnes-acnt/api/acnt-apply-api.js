@@ -34,6 +34,9 @@ export default {
     getConfig(typeCode) {
         return request.post(`agnes-app/v1/acnt/type/factor/show/config`,null,{params:{typeCode}});
     },
+    getAcntRuApplyAccNoRefListByApplyId(form) {
+        return request.post(`agnes-app/v1/acnt/apply/list/apply-acc-no/by-apply-id`,form);
+    },
 
     getApplyLinkmanRefIdsByApplyId(applyId) {
         return request.get(`agnes-app/v1/acnt/apply/linkman/ref/ids/acntid`, {params: {applyId}});
