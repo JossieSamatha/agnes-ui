@@ -745,11 +745,11 @@
             async loadAccNoRefList(){
                 let resp = await this.$api.acntApplyApi.getAcntRuApplyAccNoRefListByApplyId({'applyId':this.detailForm.applyId});
                 let allList = resp.data;
-                for(let key in allList){
-                    if(key.accNoType === '01'){
-                        this.accNoList.push(key);
+                for(let i=0;i< allList.length;i++){
+                    if(allList[i].accNoType === '01'){
+                        this.accNoList.push(allList[i]);
                     }else {
-                        this.moneyAccNoList.push(key);
+                        this.moneyAccNoList.push(allList[i]);
                     }
                 }
 
