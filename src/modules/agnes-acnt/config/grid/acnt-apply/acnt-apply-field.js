@@ -28,7 +28,9 @@ const colButtons = [
             return result;}},//编辑  账户录入
     {key: 'detele', title: '作废', disabled: (params)=>{
             let result = false;
-            if(!(params.data.processStatus === '01'&&!params.data.applySubId)){
+            if(params.data.processStatus !== '01' && params.data.processStatus !== '02'
+                && params.data.processStatus !== '03'){
+                // if(!(params.data.processStatus === '01'&&!params.data.applySubId)){
             // if(!(params.data.processStatus === '01')){
                 result =true;
             }

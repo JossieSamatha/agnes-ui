@@ -91,7 +91,7 @@ export default {
                     return "--";
                 }else{
                     if(params.node.data){
-                        return `${window.bizDate}[${params.node.data.startTime}-${params.node.data.endTime}]`
+                        return `${dateUtil.formatDate(params.node.data.execStartTime,'yyyy-MM-dd')}[${params.node.data.startTime}-${params.node.data.endTime}]`
                     }
                 }
             }},

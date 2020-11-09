@@ -41,7 +41,7 @@
                 ></el-button>
                 <p>格式：${yyyymmdd/yyyy-mm-dd,-1/0/1,D/W,CN};</p>
                 <p>-1/0/1：前一天/当天/后一天;D:自然日、W:工作(注：选择当天，该参数应为D);CN:中国大陆</p>
-                <p>例如：/home/${[yyyymmdd],-2,D,CN}/test</p>
+                <p>例如：/home/${yyyymmdd,-2,D,CN}/test</p>
                 <p>如当天日期为20200925,该表达式解析为：/home/20200923/test</p>
             </el-popover>
         </el-form-item>
@@ -58,7 +58,7 @@
                 ></el-button>
                 <p>格式：${yyyymmdd/yyyy-mm-dd,-1/0/1,D/W,CN};</p>
                 <p>-1/0/1：前一天/当天/后一天;D:自然日、W:工作(注：选择当天，该参数应为D);CN:中国大陆</p>
-                <p>例如：/home/${[yyyymmdd],-2,D,CN}/test</p>
+                <p>例如：/home/${yyyymmdd,-2,D,CN}/test</p>
                 <p>如当天日期为20200925,该表达式解析为：/home/20200923/test</p>
             </el-popover>
         </el-form-item>

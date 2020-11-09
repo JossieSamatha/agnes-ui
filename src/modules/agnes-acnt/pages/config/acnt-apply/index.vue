@@ -184,7 +184,8 @@
                 let token = true; //是否允许下一步
                 if(params.data.children&&params.data.children.length>0){
                     for(let i=0;i<params.data.children.length;i++){
-                        if(params.data.children[i].processStatus!='08'){
+                        if(params.data.children[i].processStatus!='08'
+                            && params.data.children[i].processStatus!='09'){
                             token = false
                         }
                     }
@@ -339,6 +340,10 @@
                 }
                 if (selectedRows[0].applySubId) {
                     this.$msg.warning('请选择账户申请主流程');
+                    return;
+                }
+                if (selectedRows[0].processStatus !== '04') {
+                    this.$msg.warning('请选择流程节点为资料准备数据');
                     return;
                 }
 
