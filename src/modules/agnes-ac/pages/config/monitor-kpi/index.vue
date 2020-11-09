@@ -147,7 +147,9 @@
     }
 
     .elec-grid .gf-ag-grid.ag-theme-balham .star-cell .fa.fa-star,
-    .kpi-grid .gf-ag-grid.ag-theme-balham .star-cell .fa.fa-star,
+    .kpi-grid .gf-ag-grid.ag-theme-balham .star-cell .fa.fa-star{
+        color: #4A8EF0;
+    }
     .kpi-grid .gf-ag-grid.ag-theme-balham .status-circle-cell.red-cell {
         color: #f5222e;
     }
