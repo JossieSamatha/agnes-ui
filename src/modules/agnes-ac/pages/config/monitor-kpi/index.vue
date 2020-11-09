@@ -127,7 +127,7 @@
                     width: 'calc(97% - 215px)',
                     title: [`${row.taskName}-${statusObj[status]}`],
                     component: 'monitor-detail-page',
-                    args: {stepCode: row.stepCode,stepActKey:row.stepActKey, bizDate: this.bizDate, status},
+                    args: {stepCode: row.kpiCode,stepActKey:row.stepActKey, bizDate: this.bizDate, status},
                     cancelButtonTitle: '返回',
                     okButtonVisible: false
                 });
@@ -160,9 +160,17 @@
         color: green;
     }
 
-    .kpi-grid .gf-ag-grid.ag-theme-balham .status-circle-cell:hover .ag-cell-value{
+    .kpi-grid .gf-ag-grid.ag-theme-balham .status-circle-cell.grey-cell,
+    .kpi-grid .gf-ag-grid.ag-theme-balham .status-circle-cell.grey-cell .ag-cell-value {
+        opacity: .3;
+    }
+
+    .kpi-grid .gf-ag-grid.ag-theme-balham .status-circle-cell:not(.grey-cell):hover {
+        cursor: pointer;
+    }
+
+    .kpi-grid .gf-ag-grid.ag-theme-balham .status-circle-cell:not(.grey-cell):hover .ag-cell-value{
         color: inherit;
         text-decoration: underline;
-        cursor: pointer;
     }
 </style>

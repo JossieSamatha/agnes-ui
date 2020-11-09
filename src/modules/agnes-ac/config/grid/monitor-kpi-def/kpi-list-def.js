@@ -31,6 +31,9 @@ export default {
                 'fa fa-circle status-circle-cell': function(params) {
                     return !(params.data.errNum !==0 && !params.data.errNum);
                 },
+                'grey-cell': (params)=>{
+                    return params.value === 0 ;
+                }
             },
             valueFormatter: function (params) {
                 if (params.data && params.data.errNum !==0 && !params.data.errNum) {
@@ -45,6 +48,9 @@ export default {
                 'fa fa-circle status-circle-cell': function(params) {
                     return !(params.data.manualNum !==0 && !params.data.manualNum);
                 },
+                'grey-cell': (params)=>{
+                    return params.value === 0;
+                },
             },
             valueFormatter: function (params) {
                 if (params.data && params.data.manualNum !==0 && !params.data.manualNum) {
@@ -54,11 +60,14 @@ export default {
                 }
             }
         },
-        {headerName: "正常", field: "doneNum", cellClass: 'green-cell',
+        {headerName: "正常", field: "doneNum", cellClass: 'green-cell' ,
             cellClassRules: {
                 'fa fa-circle status-circle-cell': function(params) {
                     return !(params.data.doneNum !==0 && !params.data.doneNum);
                 },
+                'grey-cell': (params)=>{
+                    return params.value === 0;
+                }
             },
             valueFormatter: function (params) {
                 if (params.data && params.data.doneNum !==0 && !params.data.doneNum) {
