@@ -23,22 +23,22 @@ export default {
     },
 
     // 排班管理列表
-    getRosterList(){
+    getRosterList() {
         return request.get("/agnes-app/v1/dop/roster/list?pageIndex=0&pageSize=50")
     },
 
     // 排班管理列表
-    getUserOfToday(rosterDate) {
-        return request.post("/agnes-app/v1/dop/roster/user/today", null, {params: {rosterDate}});
+    getUserOfToday(rosterDate, pageType) {
+        return request.post("/agnes-app/v1/dop/roster/user/today", null, {params: {rosterDate, pageType}});
     },
 
     // 异常管理列表
-    getErrList(){
+    getErrList() {
         return request.post("/agnes-app/v1/dop/err/query?pageIndex=0&pageSize=50")
     },
 
     // 风险管理列表
-    getRiskList(){
+    getRiskList() {
         return request.post("/agnes-app/v1/dop/risk/query?pageIndex=0&pageSize=50")
     },
 

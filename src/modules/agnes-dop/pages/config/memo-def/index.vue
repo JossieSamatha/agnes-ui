@@ -4,7 +4,6 @@
                  grid-no="agnes-dop-memo-list"
                  toolbar="find,refresh,more"
                  @row-double-click="showMemo"
-                 :query-args="queryParam"
          >
             <template slot="left">
                 <gf-button v-if="$hasPermission('agnes.dop.memo.add')" class="action-btn" @click="addMemo" size="mini">
