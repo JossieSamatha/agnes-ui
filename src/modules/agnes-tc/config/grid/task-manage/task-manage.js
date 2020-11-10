@@ -31,7 +31,7 @@ export default {
     headerHeight: 40,
     rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-app/v1/task/manage/list",    //后台查询数据的URL地址
+        fetchUrl: "/agnes-ac/v1/ac/task/manage/list",    //后台查询数据的URL地址
         fetchMethod: 'post',
         pagingMode: true, //分页
         checkboxColumn: 1, //是否显示checkbox列,
