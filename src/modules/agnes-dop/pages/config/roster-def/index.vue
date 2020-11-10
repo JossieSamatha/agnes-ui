@@ -1,12 +1,13 @@
 <template>
     <div>
-        <gf-grid @row-double-click="showRoster" grid-no="agnes-roster-type" ref="grid" toolbar="find,refresh,more">
-            <template slot="left">
-                <gf-button v-if="$hasPermission('agnes.dop.roster.add')" class="action-btn" @click="addRoster"
-                           size="mini">添加
-                </gf-button>
-            </template>
-        </gf-grid>
+      <gf-grid @row-double-click="showRoster" grid-no="agnes-roster-type" ref="grid" toolbar="find,refresh,more"
+               :query-args="queryParam">
+        <template slot="left">
+          <gf-button v-if="$hasPermission('agnes.dop.roster.add')" class="action-btn" @click="addRoster"
+                     size="mini">添加
+          </gf-button>
+        </template>
+      </gf-grid>
     </div>
 </template>
 
@@ -15,16 +16,23 @@
     import RosterList from "./roster-list";
 
     export default {
-        methods: {
+      data() {
+        return {
+          queryParam: {
+            pageType: 'personal'
+          }
+        }
+      },
+      methods: {
 
-            reloadData() {
-                this.$refs.grid.reloadData();
-            },
-            showDlg(mode, row, actionOk) {
-                if (mode !== 'add' && !row) {
-                    this.$msg.warning("请选中一条记录!");
-                    return;
-                }
+        reloadData() {
+          this.$refs.grid.reloadData();
+        },
+        showDlg(mode, row, actionOk) {
+          if (mode !== 'add' && !row) {
+            this.$msg.warning("请选中一条记录!");
+            return;
+          }
                 this.$nav.showDialog(
                     RosterTypeDlg,
                     {
