@@ -6,7 +6,7 @@ import AcUtil from '../../../util/common'
 export default {
     columnDefs: [
         {
-            headerName: "操作", field: "option", width: 70, enableRowGroup: false,
+            headerName: "操作", field: "option", enableRowGroup: false,
             cellRenderer: 'optionalRenderer'
         },
         {
