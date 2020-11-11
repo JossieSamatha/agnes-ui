@@ -84,6 +84,9 @@ const boardStyleArr = [
         id: '3', label: '今日排班',
         type: 'comp-work',
         menuId: 'agnes.dop.roster',
+        moduleArgs: {
+            pageType: 'personal'
+        },
         arrowShow: true,
         data: {
             pageType: 'personal'
@@ -127,9 +130,12 @@ const boardStyleDep = [
         id: '1', label: '今日排班',
         type: 'comp-work',
         menuId: 'agnes.dop.roster',
+        moduleArgs: {
+            pageType: 'department'
+        },
         arrowShow: true,
         data: {
-            personal: 'department'
+            pageType: 'department'
         },
         img: 'unit05'
     },
