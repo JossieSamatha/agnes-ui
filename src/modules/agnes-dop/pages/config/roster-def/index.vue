@@ -17,7 +17,11 @@
 
     export default {
       props: {
-        pageType: Object,
+        pageType: {
+          type: Object,
+          default: null
+        }
+
       },
       data() {
         return {
@@ -27,7 +31,9 @@
         }
       },
       mounted() {
-        this.queryParam.pageType = this.pageType;
+        if (this.pageType !== null && this.pageType !== '') {
+          this.queryParam.pageType = this.pageType;
+        }
       },
       methods: {
 
