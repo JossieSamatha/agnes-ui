@@ -76,6 +76,7 @@
                 </div>
                 <div v-show="ifGridExpand" class="drag-column">
                     <gf-grid ref="elecGrid" class="elec-grid"
+                             :class="isBizDate ? 'isBizDate': ''"
                              height="100%"
                              grid-no="agnes-elec-process-field"
                              :options="elecGridOptions"
@@ -186,16 +187,11 @@
                         }
                     }, 60000);
                 }
-            },
-
-            bizDate(val){
-                if(this.$refs.elecGrid && this.$refs.elecGrid.gridController.columnApi){
-                    if(val !== window.bizDate){
-                        this.$refs.elecGrid.gridController.columnApi.setColumnsVisible(['option'], false);
-                    }else{
-                        this.$refs.elecGrid.gridController.columnApi.setColumnsVisible(['option'], true);
-                    }
-                }
+            }
+        },
+        computed: {
+            isBizDate(){
+                return this.bizDate && this.bizDate === window.bizDate;
             }
         },
         methods: {
@@ -479,5 +475,9 @@
     .elec-process.gf-tab-view .el-loading-mask{
         z-index: inherit;
         background-color: rgba(255, 255, 255, 0.7);
+    }
+
+    .elec-process .elec-grid:not(.isBizDate) .optional-cell .el-button:not(.detail-btn){
+        display: none;
     }
 </style>
