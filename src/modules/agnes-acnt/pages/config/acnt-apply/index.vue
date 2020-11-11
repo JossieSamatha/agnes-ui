@@ -283,7 +283,7 @@
 
             showStepsDlg(mode, row, actionOk) {
                 this.$drawerPage.create({
-                    width: '215px',
+                    width: '300px',
                     title: ['流程节点'],
                     component: AcntApplySteps,
                     args: {row, mode, actionOk},

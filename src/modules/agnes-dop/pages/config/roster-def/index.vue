@@ -53,7 +53,6 @@
                 title: this.$dialog.formatTitle('值班信息', mode),
               }
           );
-          ``
         },
         async onAddRoster() {
           await this.reloadData();

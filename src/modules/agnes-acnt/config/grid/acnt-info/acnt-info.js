@@ -35,7 +35,10 @@ export default {
     //     checkboxColumn: 1, //是否显示checkbox列,
     //     enableExportLocal: true
     // }
-
+    defaultColDef: {
+        enableRowGroup: true,
+        menuTabs: ['generalMenuTab', 'filterMenuTab', 'columnsMenuTab'],
+    },
     ext: {
         fetchUrl: "/agnes-app/v1/acnt/info/list/page",
         fetchMethod: 'post',
