@@ -1,12 +1,13 @@
 <template>
     <div>
-        <gf-grid @row-double-click="showRoster" grid-no="agnes-roster-type" ref="grid" toolbar="find,refresh,more">
-            <template slot="left">
-                <gf-button v-if="$hasPermission('agnes.dop.roster.add')" class="action-btn" @click="addRoster"
-                           size="mini">添加
-                </gf-button>
-            </template>
-        </gf-grid>
+      <gf-grid @row-double-click="showRoster" grid-no="agnes-roster-type" ref="grid" toolbar="find,refresh,more"
+               :query-args="queryParam">
+        <template slot="left">
+          <gf-button v-if="$hasPermission('agnes.dop.roster.add')" class="action-btn" @click="addRoster"
+                     size="mini">添加
+          </gf-button>
+        </template>
+      </gf-grid>
     </div>
 </template>
 
@@ -15,45 +16,65 @@
     import RosterList from "./roster-list";
 
     export default {
-        methods: {
+      props: {
+        pageType: {
+          type: Object,
+          default: null
+        }
 
-            reloadData() {
-                this.$refs.grid.reloadData();
-            },
-            showDlg(mode, row, actionOk) {
-                if (mode !== 'add' && !row) {
-                    this.$msg.warning("请选中一条记录!");
-                    return;
-                }
-                this.$nav.showDialog(
-                    RosterTypeDlg,
-                    {
-                        args: {row, mode, actionOk},
-                        width: '50%',
-                        title: this.$dialog.formatTitle('值班信息', mode),
-                    }
-                );
-            },
-            async onAddRoster() {
-                await this.reloadData();
-            },
+      },
+      data() {
+        return {
+          queryParam: {
+            pageType: 'personal'
+          }
+        }
+      },
+      mounted() {
+        if (this.pageType !== null && this.pageType !== '') {
+          this.queryParam.pageType = this.pageType;
+        }
+      },
+      methods: {
 
-            async onEditRoster() {
-                await this.reloadData();
-            },
+        reloadData() {
+          this.$refs.grid.reloadData();
+        },
+        showDlg(mode, row, actionOk) {
+          if (mode !== 'add' && !row) {
+            this.$msg.warning("请选中一条记录!");
+            return;
+          }
+          this.$nav.showDialog(
+              RosterTypeDlg,
+              {
+                args: {row, mode, actionOk},
+                width: '50%',
+                title: this.$dialog.formatTitle('值班信息', mode),
+              }
+          );
+          ``
+        },
+        async onAddRoster() {
+          await this.reloadData();
+        },
 
-            addRoster() {
-                this.showDlg('add', {}, this.onAddRoster.bind(this));
-            },
-            personnel(param) {
-                this.showDrawer('check', param.data, this.onEditRoster.bind(this));
-            },
-            showDrawer(mode, row, actionOk) {
-                this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
-                    title: ['值班人员', 'view'],
-                    component: RosterList,
-                    args: {row, mode, actionOk},
+        async onEditRoster() {
+          await this.reloadData();
+        },
+
+        addRoster() {
+          this.showDlg('add', {}, this.onAddRoster.bind(this));
+        },
+        personnel(param) {
+          this.showDrawer('check', param.data, this.onEditRoster.bind(this));
+        },
+        showDrawer(mode, row, actionOk) {
+          this.$drawerPage.create({
+            width: 'calc(97% - 215px)',
+            title: ['值班人员', 'view'],
+            component: RosterList,
+            args: {row, mode, actionOk},
                     okButtonVisible: false,
                     cancelButtonTitle: '取消',
                 });

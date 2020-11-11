@@ -26,7 +26,7 @@
                 </span>
                 <span class="compEntrance" v-if="unit.arrowShow">
                     <em class="el-icon-refresh" v-if="unit.type === 'calendar-def'" @click="calendarRefresh"></em>
-                    <em class="fa fa-angle-right" v-else @click="entranceMenu(unit.menuId)"></em>
+                    <em class="fa fa-angle-right" v-else @click="entranceMenu(unit)"></em>
                 </span>
                 <module-card :title="unit.label">
                     <template slot="content">
@@ -80,26 +80,29 @@
             },
 
             // 面板grid -- 单元draggable数组新增
-            gridUnitDragAdd(newArr, evt){
-                if(newArr.length == 2){
-                    if(evt.from.className.indexOf('menuContent') == -1) {
-                        newArr.splice(1,1);
-                    } else {
-                        const changeData = newArr.splice(0,1);
-                        this.$emit('gridUnitDragAdd', changeData);
-                    }
+            gridUnitDragAdd(newArr, evt) {
+              if (newArr.length == 2) {
+                if (evt.from.className.indexOf('menuContent') == -1) {
+                  newArr.splice(1, 1);
+                } else {
+                  const changeData = newArr.splice(0, 1);
+                  this.$emit('gridUnitDragAdd', changeData);
                 }
+              }
             },
 
-            entranceMenu(menuId){
-                let clientView = this.$app.views.getView(menuId);
-                let clientTabView = Object.assign({args: {}, id: menuId}, clientView);
-                this.$nav.showView(clientTabView);
-            },
-
-            calendarRefresh(){
-                this.$dataVBus.$emit('clientCalendarRefresh');
+          entranceMenu(moduleItem) {
+            const {menuId, moduleArgs} = moduleItem
+            if (menuId) {
+              let clientView = this.$app.views.getView(menuId);
+              let clientTabView = Object.assign({args: moduleArgs, id: menuId}, clientView);
+              this.$nav.showView(clientTabView);
             }
+          },
+
+          calendarRefresh() {
+            this.$dataVBus.$emit('clientCalendarRefresh');
+          }
 
         }
     }

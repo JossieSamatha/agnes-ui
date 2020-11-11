@@ -59,7 +59,8 @@ const boardStyleArr = [
         arrowShow: true,
         data: {
             calendarVal: '',
-            module: 'datav.client.view'
+            module: 'datav.client.view',
+            pageType: 'personal'
         },
         img: 'unit01'
     },
@@ -83,8 +84,13 @@ const boardStyleArr = [
         id: '3', label: '今日排班',
         type: 'comp-work',
         menuId: 'agnes.dop.roster',
+        moduleArgs: {
+            pageType: 'personal'
+        },
         arrowShow: true,
-        data: {},
+        data: {
+            pageType: 'personal'
+        },
         img: 'unit03'
     },
     {
@@ -115,7 +121,8 @@ const boardStyleDep = [
         type: 'calendar-def',
         data: {
             calendarVal: '',
-            module: 'datav.dep.view'
+            module: 'datav.dep.view',
+            pageType: 'department'
         },
         img: 'unit01'
     },
@@ -123,8 +130,12 @@ const boardStyleDep = [
         id: '1', label: '今日排班',
         type: 'comp-work',
         menuId: 'agnes.dop.roster',
+        moduleArgs: {
+            pageType: 'department'
+        },
         arrowShow: true,
         data: {
+            pageType: 'department'
         },
         img: 'unit05'
     },
