@@ -1,71 +1,66 @@
 <template>
-   <div>
-        <el-steps direction="vertical">
-            <el-step :status = statusList[0] title="申请"
-                     v-if = "this.row.bizType !== '04'">
-            </el-step>
-            <el-step :status = statusList[1] title="待复核"
-                     v-if = "this.row.bizType !== '04'">
-            </el-step>
-            <el-step :status = statusList[2] title="待提交OA"
-                     v-if="this.row.isSendOa==1 && this.row.bizType !== '04'" >
-            </el-step>
-            <el-step :status = statusList[3] title="资料准备"
-                     v-if = "this.row.bizType !== '04' && !this.row.applySubId">
-            </el-step>
-            <el-step :status = statusList[4]  title="财务流程"
-                     v-if="this.row.isSendFinance==1 && this.row.bizType !== '04' && !this.row.applySubId">
-            </el-step>
-            <el-step :status = statusList[5] title="账户待录入"
-                     v-if = "this.row.bizType !== '04' && !this.row.applySubId">
-            </el-step>
-            <el-step :status = statusList[6] title="账户待复核"
-                     v-if = "!this.row.applySubId">
-            </el-step>
-            <el-step :status = statusList[7] title="已归档"></el-step>
+   <div style="height: 100%">
+        <el-steps class="step-vertical" direction="vertical" :active="activeStep" :space="50">
+            <el-step v-for="(step, stepIndex) in stepArr"
+                     :key="step.stepId"
+                     :title="step.stepTitle"
+            >{{stepIndex}}</el-step>
         </el-steps>
     </div>
 </template>
 
 <script>
-
     export default {
         name: "apply-define",
         props: {
             mode: {
                 type: String,
-                default: 'add'
+                default: 'view'
             },
             row: Object,
             actionOk: Function
         },
         data() {
             return {
-                nowStep:3,
-                statusList:[
-                'wait',
-                'wait',
-                'wait',
-                'wait',
-                'wait',
-                'wait',
-                'wait',
-                'wait',
-                ]
+                stepArr: this.$app.dict.getDictItems('AGNES_ACNT_APPLY_STATUS'),
+                activeStep: 0,
+                nowStep:3
             }
         },
         beforeMount() {
-            let nowStep = this.row.processStatus;
-            nowStep = nowStep*1-1;
-            for(let i = 0;i<this.statusList.length;i++){
-                if(i<nowStep){
-                    this.statusList[i] = 'finish'
-                }else if(i==nowStep){
-                    this.statusList[i] = 'process'
-                }
+            // 流程过滤条件
+            const validateArr = [
+                this.row.bizType !== '04',
+                this.row.bizType !== '04',
+                this.row.isSendOa==1 && this.row.bizType !== '04',
+                this.row.bizType !== '04' && !this.row.applySubId,
+                this.row.isSendFinance==1 && this.row.bizType !== '04' && !this.row.applySubId,
+                this.row.bizType !== '04' && !this.row.applySubId,
+                !this.row.applySubId,
+                true,
+                true
+            ];
+            // 获取流程节点
+            const processStep = this.$app.dict.getDictItems('AGNES_ACNT_APPLY_STATUS');
+            if(processStep && processStep.length>0){
+                this.stepArr = processStep.filter(
+                    (x, index) =>  {
+                        return validateArr[index];
+                    }
+                ).map((step)=>{
+                    return {
+                        stepId: step.dictId,
+                        stepTitle: step.dictName
+                    }
+                });
             }
-            // Object.assign(this.detailForm, this.row);
-           
+
+            const activeIndex = this.$lodash.findIndex(this.stepArr, {stepId: this.row.processStatus});
+            if(activeIndex){
+                this.activeStep = activeIndex;
+            }else{
+                this.activeStep = 0;
+            }
         },
         methods: {
            
@@ -81,9 +76,54 @@
            
             },
         },
-
-        watch: {
-  
-        }
     }
 </script>
+
+<style>
+    .step-vertical .el-step__head .el-step__icon.is-text
+    .el-step__icon-inner{
+        font-weight: normal;
+    }
+
+    .step-vertical .el-step__head.is-finish .el-step__icon.is-text
+    .el-step__icon-inner{
+        display: none;
+    }
+
+    .step-vertical .el-step__head.is-finish .el-step__icon,
+    .step-vertical .el-step__head.is-process .el-step__icon {
+        color: #fff;
+        font-weight: bold;
+        background: #476DBE;
+        border-color: #476DBE;
+    }
+
+    .step-vertical .el-step__head.is-wait .el-step__icon {
+        color: #ccc;
+        border-color: #ccc;
+    }
+
+    .step-vertical .el-step__head.is-finish .el-step__icon.is-text::before{
+        content: "\e6da";
+        font-size: 16px;
+        font-family: "element-icons";
+    }
+
+    .step-vertical .el-step__head.is-finish .el-step__line,
+    .step-vertical .el-step__head.is-process .el-step__line {
+        border-color: #476DBE;
+    }
+
+    .step-vertical .el-step__main .el-step__title {
+        color: #666;
+        font-size: 14px;
+    }
+
+    .step-vertical .el-step__main .el-step__title.is-finish {
+        color: #476Dbe;
+    }
+
+    .step-vertical .el-step__main .el-step__title.is-wait {
+        color: #ccc;
+    }
+</style>
