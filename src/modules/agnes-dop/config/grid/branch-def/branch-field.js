@@ -18,7 +18,7 @@ const colButtons = [
 
 export default {
     columnDefs: [
-        column.buildOpCol(160, colButtons),
+        column.buildOpCol(60, colButtons),
         {headerName: "网点名称", field: "branchName"},
         {headerName: "网点代码", field: "branchCode"},
         {headerName: "大额支付号", field: "bigPayNo"},

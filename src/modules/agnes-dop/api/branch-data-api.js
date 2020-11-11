@@ -8,5 +8,8 @@ export default {
     deteleData(branchId) {
         return request.post('/agnes-app/v1/dop/bank/dele?branchId='+branchId);
     },
+    searchByPayNo(payNo){
+        return request.post('/agnes-app/v1/dop/bank/search?payNo='+payNo);
+    }
 
 }
