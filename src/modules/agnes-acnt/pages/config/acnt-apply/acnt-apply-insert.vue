@@ -362,6 +362,8 @@
             </el-form-item>
             <el-form-item v-if="showRules.openBank&&showRules.openBank.isShow" label="开户网点/开户单位" prop="openBank">
                 <gf-input v-model.trim="detailForm.openBank" placeholder="开户网点/开户单位"/>
+                <em class="el-icon-refresh-left" @click="loadNameByBigPayNo"/>
+                <el-button style="border: none;padding-left: 5px;font-size: 17px;vertical-align: middle" icon="el-icon-edit-outline" @click="defendOpenBank"/>
             </el-form-item>
             <el-form-item v-if="showRules.acntStartDt&&showRules.acntStartDt.isShow" label="账户启用日期" prop="acntStartDt">
                 <el-date-picker
@@ -511,6 +513,7 @@
 
 <script>
     import loadsh from 'lodash';
+    import BranchDetail from "../../../../agnes-dop/pages/config/branch/branch-detail";
 
     export default {
         name: "apply-define",
@@ -692,6 +695,29 @@
             },
             deleteMoneyAccRuleRow(rowIndex){
                 this.moneyAccNoList.splice(rowIndex, 1);
+            },
+            async loadNameByBigPayNo(){
+                if(this.detailForm.bigPayNo){
+                    let resp = await this.$api.branchApi.searchByPayNo(this.detailForm.bigPayNo);
+                    if(resp.data){
+                        this.detailForm.openBank = resp.data.branchName;
+                    }else {
+                        this.$msg.success('该大额支付号未匹配到网点机构！');
+                    }
+                }
+            },
+            defendOpenBank(){
+                this.defendOpenBankDlg(null,'add',null);
+            },
+            defendOpenBankDlg(row, mode, actionOk){
+                // 抽屉创建
+                this.$drawerPage.create({
+                    width: 'calc(97% - 215px)',
+                    title: ['网点维护',mode],
+                    component: BranchDetail,
+                    args: {row, mode, actionOk},
+                    okButtonVisible:mode!=='view'
+                })
             },
             async getOptionData(){
                 try {
@@ -927,4 +953,12 @@
         /* margin-bottom: 22px; */
         width: 49%;
     }
+     .el-icon-refresh-left {
+         color: #476DBE;
+         margin-left:10px;
+         vertical-align: middle;
+         font-size: 16px;
+         font-weight: bold;
+         cursor: pointer;
+     }
 </style>
