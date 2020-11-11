@@ -105,7 +105,6 @@
                 if(bizDate){
                     this.$refs.workCalendar.pickDay(bizDate);
                 }
-                console.log('this.calendarData', this.calendarData);
                 this.ifDataReady = true;
             } catch (reason) {
                 this.$msg.error(reason);

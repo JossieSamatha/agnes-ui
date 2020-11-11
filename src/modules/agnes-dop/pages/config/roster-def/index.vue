@@ -16,12 +16,18 @@
     import RosterList from "./roster-list";
 
     export default {
+      props: {
+        pageType: Object,
+      },
       data() {
         return {
           queryParam: {
             pageType: 'personal'
           }
         }
+      },
+      mounted() {
+        this.queryParam.pageType = this.pageType;
       },
       methods: {
 
@@ -33,35 +39,36 @@
             this.$msg.warning("请选中一条记录!");
             return;
           }
-                this.$nav.showDialog(
-                    RosterTypeDlg,
-                    {
-                        args: {row, mode, actionOk},
-                        width: '50%',
-                        title: this.$dialog.formatTitle('值班信息', mode),
-                    }
-                );
-            },
-            async onAddRoster() {
-                await this.reloadData();
-            },
+          this.$nav.showDialog(
+              RosterTypeDlg,
+              {
+                args: {row, mode, actionOk},
+                width: '50%',
+                title: this.$dialog.formatTitle('值班信息', mode),
+              }
+          );
+          ``
+        },
+        async onAddRoster() {
+          await this.reloadData();
+        },
 
-            async onEditRoster() {
-                await this.reloadData();
-            },
+        async onEditRoster() {
+          await this.reloadData();
+        },
 
-            addRoster() {
-                this.showDlg('add', {}, this.onAddRoster.bind(this));
-            },
-            personnel(param) {
-                this.showDrawer('check', param.data, this.onEditRoster.bind(this));
-            },
-            showDrawer(mode, row, actionOk) {
-                this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
-                    title: ['值班人员', 'view'],
-                    component: RosterList,
-                    args: {row, mode, actionOk},
+        addRoster() {
+          this.showDlg('add', {}, this.onAddRoster.bind(this));
+        },
+        personnel(param) {
+          this.showDrawer('check', param.data, this.onEditRoster.bind(this));
+        },
+        showDrawer(mode, row, actionOk) {
+          this.$drawerPage.create({
+            width: 'calc(97% - 215px)',
+            title: ['值班人员', 'view'],
+            component: RosterList,
+            args: {row, mode, actionOk},
                     okButtonVisible: false,
                     cancelButtonTitle: '取消',
                 });

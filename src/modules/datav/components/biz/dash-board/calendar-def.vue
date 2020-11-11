@@ -51,7 +51,6 @@
             },
 
             async getCalendarData(date){
-              console.log(this.moduleObj.pageType)
               if (this.moduleObj.pageType === 'personal') {
                 const res = await this.$api.memoApi.getMemoListByUser(date, '04');
                 this.memoNum = res.data.length;
