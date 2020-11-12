@@ -27,6 +27,7 @@
 
 <script>
     import loadsh from'lodash';
+    import dateUtils from "@hex/gf-ui/src/util/date-utils";
     export default {
         data() {
             return {
@@ -35,6 +36,9 @@
                     'remindTime':''
                 }
             }
+        },
+        beforeMount() {
+          this.getExeTime();
         },
         methods: {
             async batchRead() {
@@ -56,6 +60,10 @@
                 };
                 this.$refs.grid.reloadData();
             },
+          async getExeTime() {
+            this.queryArgs.remindTime = dateUtils.formatDate(window.bizDate,"yyyyMMdd");
+            await this.reloadData();
+          },
         },
     }
 </script>
