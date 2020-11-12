@@ -1,11 +1,27 @@
 import optionalRenderer from './optionalRenderer'
 import dateUtil from '@hex/gf-ui/src/util/date-utils'
+import AcUtil from "../../../util/common";
 
 export default {
     columnDefs: [
         {
             headerName: "操作", field: "option", width: 70, enableRowGroup: false,
             cellRenderer: 'optionalRenderer'
+        },
+        {
+            headerName: "状态", field: "stepStatus", width: 95,
+            suppressSizeToFit: true,
+            dictType: 'AGNES_TASK_STEP_STATUS',
+            cellStyle: function (params) {
+                if (!params.value) {
+                    return {display: 'none'}
+                } else {
+                    const colorSet = AcUtil.getStepStatusMap();
+                    const color = colorSet.get(params.value).color
+                    return {color: color};
+                }
+            },
+            cellClass: ['fa fa-circle', 'status-circle-cell'],
         },
         {headerName: "任务编号", field: "kpiCode"},
         {headerName: "任务名称", field: "taskName", width:180,
@@ -26,7 +42,7 @@ export default {
             },
             tooltipField: 'stepRemark',
         },
-        { headerName: "异常", field: "errNum", cellClass: 'red-cell',
+        { headerName: "异常", field: "errNum", cellClass: 'red-cell link-cell',
             cellClassRules: {
                 'fa fa-circle status-circle-cell': function(params) {
                     return !(params.data.errNum !==0 && !params.data.errNum);
@@ -43,7 +59,7 @@ export default {
                 }
             }
         },
-        {headerName: "干预通过", field: "manualNum", cellClass: 'yellow-cell',
+        {headerName: "干预通过", field: "manualNum", cellClass: 'yellow-cell link-cell',
             cellClassRules: {
                 'fa fa-circle status-circle-cell': function(params) {
                     return !(params.data.manualNum !==0 && !params.data.manualNum);
@@ -60,7 +76,7 @@ export default {
                 }
             }
         },
-        {headerName: "正常", field: "doneNum", cellClass: 'green-cell' ,
+        {headerName: "正常", field: "doneNum", cellClass: 'green-cell link-cell' ,
             cellClassRules: {
                 'fa fa-circle status-circle-cell': function(params) {
                     return !(params.data.doneNum !==0 && !params.data.doneNum);
@@ -85,14 +101,12 @@ export default {
                     return params.value;
                 }
             }},
-        {headerName: "计划执行时间", field: "startTime",
+        {headerName: "计划执行时间", field: "planTime",
             valueFormatter: function (params) {
                 if (!params.value) {
                     return "--";
                 }else{
-                    if(params.node.data){
-                        return `${dateUtil.formatDate(params.node.data.execStartTime,'yyyy-MM-dd')}[${params.node.data.startTime}-${params.node.data.endTime}]`
-                    }
+                    return params.value;
                 }
             }},
         {headerName: "最新更新时间", field: "updateTs",

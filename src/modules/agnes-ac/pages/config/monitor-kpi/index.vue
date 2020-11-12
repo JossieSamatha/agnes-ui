@@ -171,7 +171,7 @@
         cursor: pointer;
     }
 
-    .kpi-grid .gf-ag-grid.ag-theme-balham .status-circle-cell:not(.grey-cell):hover .ag-cell-value{
+    .kpi-grid .gf-ag-grid.ag-theme-balham .link-cell.status-circle-cell:not(.grey-cell):hover .ag-cell-value{
         color: inherit;
         text-decoration: underline;
     }
