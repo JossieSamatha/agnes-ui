@@ -24,7 +24,7 @@ export default {
         {headerName: "基金代码", field: "productCode"},
         {headerName: "基金名称", field: "productName"},
 
-        {headerName: "账号", field: "acc_nos"},
+        {headerName: "账号", field: "accNos"},
         {headerName: "市场", field: "markets"},
 
         {headerName: "清算编号", field: "settlementNo"},
