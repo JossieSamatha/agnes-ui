@@ -53,7 +53,7 @@
                 this.$refs.grid.reloadData();
             },
           async getExeTime() {
-            this.queryArgs.execBizDt = dateUtils.formatDate(window.bizDate,"yyyyMMdd");
+            this.queryArgs.execBizDt = dateUtils.formatDate(window.bizDate,"yyyy-MM-dd");
             await this.reloadData();
           },
         }
