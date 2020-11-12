@@ -34,6 +34,10 @@
             },
 
             addRow() {
+                if(this.row===null){
+                    this.$msg.warning("请选择群组!");
+                    return;
+                }
                 // 查询用户
                 let fieldData = {dataType: this.$store.getters.appConfig.orgType, multiSelect: true, users: []};
                 let _this = this;
