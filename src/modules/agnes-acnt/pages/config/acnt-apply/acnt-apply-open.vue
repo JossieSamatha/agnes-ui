@@ -687,7 +687,7 @@
             async onCancel() {
                 try {
                
-                    if(this.detailForm.processStatus=='02'){
+                    if(this.detailForm.processStatus=='02' && this.mode!=='view'){
                         let openSub = false;
                         if(!loadsh.isEmpty(this.detailForm.applySubId)){
                             openSub = true;
@@ -703,7 +703,6 @@
                             await this.$app.blockingApp(p);
                             this.$msg.success('提交成功');
                         }
-  
                     }
                     if (this.actionOk) {
                         await this.actionOk();

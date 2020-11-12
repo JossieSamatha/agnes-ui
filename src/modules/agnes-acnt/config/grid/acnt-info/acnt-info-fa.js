@@ -37,7 +37,7 @@ export default {
         {headerName: "利率", field: "rateLabel"},
         {headerName: "账户启用日期", field: "acntStartDt"},
 
-        {headerName: "是否开通银企直连", field: "isOpenBankCorDirect"},
+        {headerName: "是否开通银企直连", field: "isOpenBankCorDirect", dictType:"OPDS_YES_NO"},
         {headerName: "到期提醒", field: "maturityDt"},
 
         {headerName: "银行联系人", field: "linkmanNames"},
