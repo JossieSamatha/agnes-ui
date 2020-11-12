@@ -145,7 +145,7 @@
                             <gf-input v-model.trim="detailFormBefore.stampLegalPersonInfo" placeholder="印鉴法人变更情况"/>
                         </el-form-item>
                         <el-form-item v-if="showRules.threeLicenseInfo&&showRules.threeLicenseInfo.isShow" label="三证合一变更情况" prop="threeLicenseInfo">
-                            <gf-input v-model.trim="detailFormBefore.threeLicenseInfo" placeholder="预留印鉴信息"/>
+                            <gf-input v-model.trim="detailFormBefore.threeLicenseInfo" placeholder="三证合一变更情况"/>
                         </el-form-item>
                         <el-form-item v-if="showRules.bigPayNo&&showRules.bigPayNo.isShow" label="大额支付号" prop="bigPayNo">
                             <gf-input v-model.trim="detailFormBefore.bigPayNo" placeholder="大额支付号"/>
@@ -205,15 +205,15 @@
                                 </gf-filter-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item v-if="showRules.productCode&&showRules.productCode.isShow" label="备付金账户对应的银行账户" prop="baseOperator">
-                            <el-select class="multiple-select" v-model="detailFormBefore.productCode"
-                                    filterable clearable
-                                    placeholder="请选择">
+                        <el-form-item v-if="showRules.provisionBankAcntIds&&showRules.provisionBankAcntIds.isShow" label="备付金账户对应的银行账户" prop="baseOperator">
+                            <el-select style="width: 100%" class="multiple-select" v-model="detailFormBefore.provisionBankAcntIds"
+                                       filterable clearable multiple
+                                       placeholder="请选择">
                                 <gf-filter-option
-                                        v-for="item in productList"
-                                        :key="item.productCode"
-                                        :label="item.productCode"
-                                        :value="item.productCode">
+                                        v-for="item in acntList"
+                                        :key="item.acntId"
+                                        :label="item.acntName"
+                                        :value="item.acntId">
                                 </gf-filter-option>
                             </el-select>
                         </el-form-item>
@@ -235,7 +235,70 @@
                         <el-form-item v-if="showRules.remark&&showRules.remark.isShow" label="备注" prop="remark">
                             <gf-input v-model.trim="detailFormBefore.remark" placeholder="备注"/>
                         </el-form-item>
+
                     </div>
+                    <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="账号">
+                        <div class="rule-table">
+                            <el-table header-row-class-name="rule-header-row"
+                                      header-cell-class-name="rule-header-cell"
+                                      row-class-name="rule-row"
+                                      cell-class-name="rule-cell"
+                                      :data="detailFormBefore.accNoList"
+                                      border stripe
+                                      style="width: 100%">
+                                <el-table-column prop="accNo" label="账号">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.accNo"></el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="market" label="市场">
+                                    <template slot-scope="scope">
+                                        <gf-dict filterable clearable v-model="scope.row.market" dict-type="AGNES_ACNT_MARKET" />
+                                    </template>
+                                </el-table-column>
+                                <!--                        <el-table-column  prop="option" label="操作" width="52" align="center">-->
+                                <!--                            <template slot-scope="scope">-->
+                                <!--                                <span class="option-span" @click="deleteAccRuleRow(scope.$index)">删除</span>-->
+                                <!--                            </template>-->
+                                <!--                        </el-table-column>-->
+                            </el-table>
+                            <!--                    <el-button  @click="addAccRule()" class="rule-add-btn" size="small">新增</el-button>-->
+                        </div>
+                    </el-form-item>
+
+                    <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号">
+                        <div class="rule-table">
+                            <el-table header-row-class-name="rule-header-row"
+                                      header-cell-class-name="rule-header-cell"
+                                      row-class-name="rule-row"
+                                      cell-class-name="rule-cell"
+                                      :data="detailFormBefore.moneyAccNoList"
+                                      border stripe
+                                      style="width: 100%">
+                                <el-table-column prop="accNo" label="资金帐号">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.accNo"></el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="accName" label="资金账户名称">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.accName"></el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="currency" label="币种">
+                                    <template slot-scope="scope">
+                                        <gf-dict filterable clearable v-model="scope.row.currency" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
+                                    </template>
+                                </el-table-column>
+                                <!--                        <el-table-column  prop="option" label="操作" width="52" align="center">-->
+                                <!--                            <template slot-scope="scope">-->
+                                <!--                                <span class="option-span" @click="deleteMoneyAccRuleRow(scope.$index)">删除</span>-->
+                                <!--                            </template>-->
+                                <!--                        </el-table-column>-->
+                            </el-table>
+                            <!--                    <el-button  @click="addMoneyAccRule" class="rule-add-btn" size="small">新增</el-button>-->
+                        </div>
+                    </el-form-item>
                 </template>
             </module-card>
         </el-form>
@@ -389,7 +452,7 @@
                             <gf-input v-model.trim="detailForm.stampLegalPersonInfo" placeholder="印鉴法人变更情况"/>
                         </el-form-item>
                         <el-form-item v-if="showRules.threeLicenseInfo&&showRules.threeLicenseInfo.isShow" label="三证合一变更情况" prop="threeLicenseInfo">
-                            <gf-input v-model.trim="detailForm.threeLicenseInfo" placeholder="预留印鉴信息"/>
+                            <gf-input v-model.trim="detailForm.threeLicenseInfo" placeholder="三证合一变更情况"/>
                         </el-form-item>
                         <el-form-item v-if="showRules.bigPayNo&&showRules.bigPayNo.isShow" label="大额支付号" prop="bigPayNo">
                             <gf-input v-model.trim="detailForm.bigPayNo" placeholder="大额支付号"/>
@@ -448,15 +511,15 @@
                                 </gf-filter-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item v-if="showRules.productCode&&showRules.productCode.isShow" label="备付金账户对应的银行账户" prop="baseOperator">
-                            <el-select class="multiple-select" v-model="detailForm.productCode"
-                                       filterable clearable
+                        <el-form-item v-if="showRules.provisionBankAcntIds&&showRules.provisionBankAcntIds.isShow" label="备付金账户对应的银行账户" prop="baseOperator">
+                            <el-select style="width: 100%" class="multiple-select" v-model="detailForm.provisionBankAcntIds"
+                                       filterable clearable multiple
                                        placeholder="请选择">
                                 <gf-filter-option
-                                        v-for="item in productList"
-                                        :key="item.productCode"
-                                        :label="item.productCode"
-                                        :value="item.productCode">
+                                        v-for="item in acntList"
+                                        :key="item.acntId"
+                                        :label="item.acntName"
+                                        :value="item.acntId">
                                 </gf-filter-option>
                             </el-select>
                         </el-form-item>
@@ -488,12 +551,12 @@
                                       :data="accNoList"
                                       border stripe
                                       style="width: 100%">
-                                <el-table-column prop="fileName" label="账号">
+                                <el-table-column prop="accNo" label="账号">
                                     <template slot-scope="scope">
                                         <el-input v-model="scope.row.accNo"></el-input>
                                     </template>
                                 </el-table-column>
-                                <el-table-column prop="fileNumber" label="市场">
+                                <el-table-column prop="market" label="市场">
                                     <template slot-scope="scope">
                                         <gf-dict filterable clearable v-model="scope.row.market" dict-type="AGNES_ACNT_MARKET" />
                                     </template>
@@ -516,17 +579,17 @@
                                       :data="moneyAccNoList"
                                       border stripe
                                       style="width: 100%">
-                                <el-table-column prop="fileName" label="资金帐号">
+                                <el-table-column prop="accNo" label="资金帐号">
                                     <template slot-scope="scope">
                                         <el-input v-model="scope.row.accNo"></el-input>
                                     </template>
                                 </el-table-column>
-                                <el-table-column prop="fileName" label="资金账户名称">
+                                <el-table-column prop="accName" label="资金账户名称">
                                     <template slot-scope="scope">
                                         <el-input v-model="scope.row.accName"></el-input>
                                     </template>
                                 </el-table-column>
-                                <el-table-column prop="fileNumber" label="币种">
+                                <el-table-column prop="currency" label="币种">
                                     <template slot-scope="scope">
                                         <gf-dict filterable clearable v-model="scope.row.currency" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
                                     </template>
@@ -608,6 +671,7 @@
                     remark:'',
                     other:'',
                     cardCorporateAcntId:'',
+                    provisionBankAcntIds:[],
                     fields:[],
                 },
                 detailFormBefore: {
@@ -649,10 +713,13 @@
                     openManPhone:'',
                     remark:'',
                     other:'',
-                    fields:[],
-                    cardCorporateAcntId:''
+                    cardCorporateAcntId:'',
+                    provisionBankAcntIds:[],
+                    accNoList:[],
+                    moneyAccNoList:[],
+                    fields:[]
                 },
-                showChange: false,
+                showChange:false,
                 isAccNoMustFill:false,
                 isMoneyAccNoMustFill:false,
                 // 业务类型下拉
@@ -703,8 +770,8 @@
             const p2 = this.loadShowRule();
             this.$app.blockingApp(p2);
 
-            const p3 = this.loadAccNoRefList();
-            this.$app.blockingApp(p3);
+            // const p3 = this.loadAccNoRefList();
+            // this.$app.blockingApp(p3);
 
         },
         methods: {
@@ -784,24 +851,28 @@
                     let acntList = await this.$api.acntInfoApi.getAcntInfoList();
                     this.acntList = acntList.data;
 
+                    //以下加载填写的数据
                     if(this.showChange){
                         let detailFormBefore = await this.$api.acntInfoApi.getAcntInfoByAcntId(this.detailForm.acntId);
                         this.detailFormBefore = detailFormBefore.data
-
-                        let bankLinkMan = await this.$api.linkmanRefApi.queryAcntLinkmanRefIdsByApplyId(this.detailForm.acntId);
-                        this.detailFormBefore.bankLinkMan = bankLinkMan.data;
                     }
 
-                    if(this.showChang && this.detailForm.processStatus=='06'){
-                        let bankLinkMan = await this.$api.linkmanRefApi.queryAcntLinkmanRefIdsByApplyId(this.detailForm.acntId);
-                        this.detailForm.bankLinkMan = bankLinkMan.data;
-                    }else{
-                        let bankLinkMan = await this.$api.acntApplyApi.getApplyLinkmanRefIdsByApplyId(this.detailForm.applyId);
-                        this.detailForm.bankLinkMan = bankLinkMan.data;
-                    }
+                    //获取账户关联表数据
+                    let bankLinkMan = await this.$api.acntApplyApi.getApplyLinkmanRefIdsByApplyId(this.detailForm.applyId);
+                    this.detailForm.bankLinkMan = bankLinkMan.data;
 
-                    // let bankLinkMan = await this.$api.acntApplyApi.getApplyLinkmanRefIdsByApplyId(this.detailForm.applyId);
-                    // this.detailForm.bankLinkMan = bankLinkMan.data;
+                    let provisionBankAcntIds = await this.$api.acntApplyApi.getApplyProvisionBankAcntIdsByApplyId(this.detailForm.applyId);
+                    this.detailForm.provisionBankAcntIds = provisionBankAcntIds.data;
+
+                    let resp = await this.$api.acntApplyApi.getAcntRuApplyAccNoRefListByApplyId({'applyId':this.detailForm.applyId});
+                    let allList = resp.data;
+                    for(let i=0;i< allList.length;i++){
+                        if(allList[i].accNoType === '01'){
+                            this.accNoList.push(allList[i]);
+                        }else {
+                            this.moneyAccNoList.push(allList[i]);
+                        }
+                    }
 
 
                     this.loadProductName();
@@ -811,18 +882,29 @@
                     this.$msg.error(reason);
                 }
             },
-            async loadAccNoRefList(){
-                let resp = await this.$api.acntApplyApi.getAcntRuApplyAccNoRefListByApplyId({'applyId':this.detailForm.applyId});
-                let allList = resp.data;
-                for(let i=0;i< allList.length;i++){
-                    if(allList[i].accNoType === '01'){
-                        this.accNoList.push(allList[i]);
-                    }else {
-                        this.moneyAccNoList.push(allList[i]);
-                    }
-                }
-
-            },
+            // async loadAccNoRefList(){
+            //     let resp = await this.$api.acntApplyApi.getAcntRuApplyAccNoRefListByApplyId({'applyId':this.detailForm.applyId});
+            //     let allList = resp.data;
+            //     for(let i=0;i< allList.length;i++){
+            //         if(allList[i].accNoType === '01'){
+            //             this.accNoList.push(allList[i]);
+            //         }else {
+            //             this.moneyAccNoList.push(allList[i]);
+            //         }
+            //     }
+            //
+            // },
+            // async loadAccNoRefListBefore(){
+            //     let resp = await this.$api.acntApplyApi.getAcntRuAccNoRefListByAcntId({'acntId':this.detailForm.acntId});
+            //     let allList = resp.data;
+            //     for(let i=0;i< allList.length;i++){
+            //         if(allList[i].accNoType === '01'){
+            //             this.detailFormBefore.accNoList.push(allList[i]);
+            //         }else {
+            //             this.detailFormBefore.moneyAccNoList.push(allList[i]);
+            //         }
+            //     }
+            // },
             async loadShowRule(){
                 let resp = await this.$api.acntApplyApi.getConfig(this.detailForm.typeCode);
                 let showRules = resp.data;
@@ -981,6 +1063,10 @@
         font-size: 16px;
         margin-top: 20px;
         width: 100%;
+    }
+
+    .acnt-apply-insert-form {
+        padding: 0;
     }
 
     .acnt-apply-insert-form .line.wrap {

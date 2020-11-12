@@ -1108,9 +1108,16 @@ form input[type=submit] {
     border-radius: 2px;
 }
 
-.el-form .el-form-item .el-form-item__content .el-input.is-disabled,
+.el-form .el-form-item .el-form-item__content .el-input.is-disabled .el-input__suffix,
 .el-form .el-form-item .el-form-item__content .el-textarea.is-disabled {
-    opacity: 0;
+    display: none;
+}
+
+.el-form .el-form-item .el-form-item__content .el-input.is-disabled
+.el-input__inner::-webkit-input-placeholder,
+.el-form .el-form-item .el-form-item__content .el-textarea.is-disabled
+.el-input__inner::-webkit-input-placeholder {
+    color: transparent;
 }
 
 .el-form .el-form-item .el-form-item__content .el-input.is-disabled .el-input__inner,

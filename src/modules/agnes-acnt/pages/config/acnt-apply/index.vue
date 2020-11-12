@@ -216,6 +216,10 @@
             async submitOA() {
                 //此处通过该方法获取选中的数据，调用接口批量操作
                 let data  = this.$refs.grid.getSelectedRows();
+                if (data.length === 0) {
+                    this.$msg.warning('请选择数据');
+                    return;
+                }
 
                 let applyIds = [];
                 let applySubIds = [];

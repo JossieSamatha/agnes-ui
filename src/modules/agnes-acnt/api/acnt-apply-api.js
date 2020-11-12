@@ -37,8 +37,14 @@ export default {
     getAcntRuApplyAccNoRefListByApplyId(form) {
         return request.post(`agnes-app/v1/acnt/apply/list/apply-acc-no/by-apply-id`,form);
     },
+    // getAcntRuAccNoRefListByAcntId(form) {
+    //     return request.post(`agnes-app/v1/acnt/apply/list/acc-no/by-acnt-id`,form);
+    // },
 
     getApplyLinkmanRefIdsByApplyId(applyId) {
-        return request.get(`agnes-app/v1/acnt/apply/linkman/ref/ids/acntid`, {params: {applyId}});
+        return request.get(`agnes-app/v1/acnt/apply/linkman/ref/ids/applyid`, {params: {applyId}});
+    },
+    getApplyProvisionBankAcntIdsByApplyId(applyId) {
+        return request.get(`agnes-app/v1/acnt/apply/provision-bank-acnt/ref/ids/applyid`, {params: {applyId}});
     }
 };

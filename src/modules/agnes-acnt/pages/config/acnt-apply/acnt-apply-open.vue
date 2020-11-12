@@ -765,12 +765,9 @@
         margin-top: 20px;
         width: 100%;
     }
-    .acnt-apply-insert-form{
-        display: flex;
-        flex-wrap: wrap;
-    }
-    .el-form-item {
-        width: 49%;
+
+    .el-form.task-def-form {
+        width: 100%;
     }
 
     .module-card {
