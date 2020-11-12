@@ -52,6 +52,10 @@ import BranchDetail from './branch-detail'
                 })
             },
             async deleteBranch(params){
+                const ok = await this.$msg.ask(`确认删除网点信息:[${params.data.branchName}]吗, 是否继续?`);
+                if (!ok) {
+                    return
+                }
                 const p = this.$api.branchApi.deteleData(params.data.bankBranchId);
                 await this.$app.blockingApp(p);
                 this.reloadData();
