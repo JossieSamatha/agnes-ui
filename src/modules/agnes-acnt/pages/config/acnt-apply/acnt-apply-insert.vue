@@ -806,7 +806,7 @@
                     if(resp.data){
                         this.detailForm.openBank = resp.data.branchName;
                     }else {
-                        this.$msg.warning('该大额支付号未匹配到网点机构！');
+                        this.$msg.warning('该大额支付号未匹配到相应的网点信息！');
                     }
                 }
             },
