@@ -60,16 +60,13 @@
             approveErr(params){
                 this.showDlg('check', params.data, "2", this.onAddErr.bind(this));
             },
-            publishErr(params){
-                this.showDlg('check', params.data, "3", this.onAddErr.bind(this));
-            },
             transferErr(){
                 let t = this.$refs.grid.getSelectedRows();
                 if(loadsh.isEmpty(t)){
                     this.$msg.warning("请中一条记录!");
                     return;
                 }
-                if (t[0].isRisk.match(/0/) && t[0].status.match(/03/)){
+                if (t[0].isRisk.match(/0/) && t[0].status.match(/04/)){
                     this.showDlg('edit',t[0],null,this.onAddErr.bind(this),'transfer');
                 }else {
                     this.$msg.warning("该状态无法调入!");

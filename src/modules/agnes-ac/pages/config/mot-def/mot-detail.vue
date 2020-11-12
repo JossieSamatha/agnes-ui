@@ -185,12 +185,12 @@
                         <el-form-item v-if="detailForm.isRecordTimeoutError === '1'">
                             <el-form-item label="异常类型">
                                 <el-select v-model="detailForm.timeoutErrorType" placeholder="请选择">
-                                    <el-option
-                                            v-for="item in detailForm.errorTypeData"
-                                            :key="item.value"
-                                            :label="item.label"
-                                            :value="item.value">
-                                    </el-option>
+                                    <gf-filter-option
+                                            v-for="item in errorTypeData"
+                                            :key="item.dictId"
+                                            :label="item.dictName"
+                                            :value="item.dictId">
+                                    </gf-filter-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="异常内容">
@@ -209,12 +209,12 @@
                         <el-form-item v-if="detailForm.isRecordError === '1'">
                             <el-form-item label="异常类型">
                                 <el-select v-model="detailForm.errorType" placeholder="请选择">
-                                    <el-option
-                                            v-for="item in detailForm.errorTypeData"
-                                            :key="item.value"
-                                            :label="item.label"
-                                            :value="item.value">
-                                    </el-option>
+                                    <gf-filter-option
+                                            v-for="item in errorTypeData"
+                                            :key="item.dictId"
+                                            :label="item.dictName"
+                                            :value="item.dictId">
+                                    </gf-filter-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="异常内容">
@@ -287,6 +287,7 @@
                 msgInformParam: [],      // 消息通知参数类型数组
                 startAllTime: '0',       // 是否永久有效
                 bizTagOption: [],        // 业务类型下拉
+                errorTypeData:[],
                 // 消息配置类型类型选项
                 msgInformOp: [{label: '提前通知', value: '0'}, {label: '完成通知', value: '1'}, {label: '超时通知', value: '2'},
                     {label: '异常通知', value: '3'}],
@@ -351,6 +352,7 @@
             }
         },
         beforeMount() {
+            this.errorTypeData = this.$app.dict.getDictItems("AGNES_DOP_ERR_TYPE");
             this.startTimeForDay = {selectableRange:`00:00:00-${this.detailForm.step_endTime ? this.detailForm.step_endTime + ':00' : '23:59:59'}`};
             this.endTimeForDay = {selectableRange:`${this.detailForm.step_startTime ? this.detailForm.step_startTime + ':00' : '00:00:00'}-23:59:59`};
             this.reDataTransfer();
