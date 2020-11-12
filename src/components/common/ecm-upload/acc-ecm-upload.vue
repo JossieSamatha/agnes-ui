@@ -318,7 +318,7 @@
     }
 
     .acc-ecm-upload .el-upload-list {
-        border: 1px solid #EAEDF1;
+        border: 1px solid #ccc;
     }
 
     .el-upload-list>.upload-list {
@@ -329,7 +329,7 @@
     }
 
     .el-upload-list>.upload-list:not(:last-child) {
-        border-bottom: 1px solid #EAEDF1;
+        border-bottom: 1px solid #ccc;
     }
 
     .el-upload-list>.upload-list.head {
@@ -367,7 +367,7 @@
         height: 100%;
         line-height: 1;
         border: none;
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid #666!important;
         border-radius: 0;
         font-size: 12px;
     }
