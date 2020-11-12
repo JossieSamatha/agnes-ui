@@ -561,7 +561,7 @@
                                         <gf-dict filterable clearable v-model="scope.row.market" dict-type="AGNES_ACNT_MARKET" />
                                     </template>
                                 </el-table-column>
-                                <el-table-column  prop="option" label="操作" width="52" align="center">
+                                <el-table-column  v-if="mode!=='view'" prop="option" label="操作" width="52" align="center">
                                     <template slot-scope="scope">
                                         <span class="option-span" @click="deleteAccRuleRow(scope.$index)">删除</span>
                                     </template>
@@ -594,7 +594,7 @@
                                         <gf-dict filterable clearable v-model="scope.row.currency" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
                                     </template>
                                 </el-table-column>
-                                <el-table-column  prop="option" label="操作" width="52" align="center">
+                                <el-table-column  v-if="mode!=='view'"  prop="option" label="操作" width="52" align="center">
                                     <template slot-scope="scope">
                                         <span class="option-span" @click="deleteMoneyAccRuleRow(scope.$index)">删除</span>
                                     </template>
@@ -996,7 +996,7 @@
             // 保存onCancel事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
             async onCancel() {
                 try {
-                    if(this.detailForm.processStatus=='07'){
+                    if(this.detailForm.processStatus=='07' && this.mode!=='view'){
                         let form =  JSON.parse(JSON.stringify(this.detailForm))
                         form.processStatus = '06';
                         const p = this.$api.acntApplyApi.cancelApply(form);
