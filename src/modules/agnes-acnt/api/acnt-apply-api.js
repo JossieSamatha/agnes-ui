@@ -37,6 +37,9 @@ export default {
     getAcntRuApplyAccNoRefListByApplyId(form) {
         return request.post(`agnes-app/v1/acnt/apply/list/apply-acc-no/by-apply-id`,form);
     },
+    checkAcntName(form) {
+        return request.post(`agnes-app/v1/acnt/apply/check-acnt/by-name`,form);
+    },
     // getAcntRuAccNoRefListByAcntId(form) {
     //     return request.post(`agnes-app/v1/acnt/apply/list/acc-no/by-acnt-id`,form);
     // },

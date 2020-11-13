@@ -383,6 +383,7 @@
                     oaIsNeedAudit:'0',
                     oaIsNeedStamp:'0',
                     oaPrintDt:'',
+                    crtUser:'',
                     fields:[],
                 },
                 detailForm: {
@@ -407,6 +408,7 @@
                     oaIsNeedStamp:'0',
                     oaPrintDt:'',
                     fields:[],
+                    crtUser:'',
                     fileList:[]
                     // fileList:[ { "name": "1.ecmtest - 副本.txt", "objectId": "0801000017711", "docId": "09014b11", "uid": 1603950217954, "status": "success", "pieceNum": "1", "remark": "11" },
                     //     { "name": "1.ecmtest.txt", "objectId": "0801000017721", "docId": "09014b11", "uid": 1603950217955, "status": "success", "pieceNum": "2", "remark": "22" } ]
@@ -649,7 +651,6 @@
                     }
                     if(isdel){
                         form.processStatus = '09';
-
                         if(openSub){
                             const p = this.$api.acntApplyApi.cancelSubApply(form);
                             await this.$app.blockingApp(p);
@@ -661,6 +662,10 @@
                         }
 
                     }else{
+                        if(form.processStatus === '04' && form.crtUser === this.$app.session.data.user.userId){
+                            this.$msg.warning('您无法对该岗进行操作！');
+                            return ;
+                        }
                         if(openSub){
                             const p = this.$api.acntApplyApi.saveSubApply(form);
                             await this.$app.blockingApp(p);
