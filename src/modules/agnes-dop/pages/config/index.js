@@ -3,6 +3,7 @@ import OrgType from "./org-type/index";
 import Linkman from "./linkman-def/index"
 import GroupUser from "./user-group/index"
 import Product from "./product-def/index"
+import HelpDef from "./help-def/index"
 // import ProductParam from "./product-param-def/index"
 import ProductAuth from "./product-auth-def/index"
 import DataChange from "./data-change-def/index"
@@ -30,6 +31,7 @@ const Loading = {
         Gfui.componentView('agnes.app.monitor.risk', MonitorRiskDef, {title: '风险管理'});
         Gfui.componentView('agnes.app.monitor.error', MonitorErrDef, {title: '异常管理'});
         Gfui.componentView('agnes.dop.branch', Branch, {title: '网点信息维护'});
+        Gfui.componentView('agnes.dop.help', HelpDef, {title: '帮助文档维护'});
     }
 };
 
