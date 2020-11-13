@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-html="helpHtml"></div>
+        <div class="ql-editor" v-html="helpHtml"></div>
     </div>
 </template>
 
