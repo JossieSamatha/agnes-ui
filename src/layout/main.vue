@@ -41,17 +41,17 @@
                     @getUnreadCount="getUnreadCount"
                     @noticeDrawerClose="noticeDrawerClose"
         ></notice-box>
-        <el-popover popper-class="feedbackPopover" width="300" placement="right" trigger="click"
-                    @show="handelfeedback(true)" @hide="handelfeedback(false)">
+        <el-popover popper-class="feedbackPopover" width="300" placement="right" trigger="click" @show="handelfeedback(true)" @hide="handelfeedback(false)">
             <el-form ref="feedbackForm" label-position="top" size="mini">
                 <el-form-item label="聆听:意见反馈" prop="name">
                     <el-input type="textarea"
-                              :rows="2"
-                              placeholder="请留下您的宝贵意见"
-                              v-model="feedbackContent">
+                            :rows="2"
+                            placeholder="请留下您的宝贵意见"
+                            v-model="content">
                     </el-input>
                 </el-form-item>
             </el-form>
+            <p><el-button @click="feedbackSubmit">提交</el-button></p>
             <div class="funBtn feedback" slot="reference" title="意见反馈">
                 <em class="fa fa-envelope-o" v-if="!feedbackShow"></em>
                 <em class="fa fa-envelope-open-o" v-if="feedbackShow"></em>
@@ -63,7 +63,6 @@
 <script>
     import {toColumn} from "./menus";
     import init from './init-menus'
-
     export default {
         data() {
             return {
@@ -79,10 +78,10 @@
                 studioType: 'appMenus',
                 searchValue: '',
                 showNoticeDrawer: false,
-                feedbackContent: '',
+                content: '',
                 feedbackShow: false,
                 bizDateTimer: null, // 日切日期定时器
-                unreadCount: ""
+                unreadCount:""
             }
         },
         methods: {
@@ -219,6 +218,17 @@
                     this.$msg.error(reason);
                 }
             },
+            async feedbackSubmit(){
+                let mailTo = this.$app.dict.getDictName("AGNES_FEEDBACK_MAIL",'to');
+                let mailCc = this.$app.dict.getDictName("AGNES_FEEDBACK_MAIL",'cc');
+                let from = {mailTo:mailTo,mailCc:mailCc,content:this.content}
+                try {
+                    await this.$api.ruleTableApi.feedbackSubmit(from);
+                    this.$msg.success('提交成功');
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            }
         },
         async mounted() {
             //加载菜单

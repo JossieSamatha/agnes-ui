@@ -8,12 +8,6 @@ const colButtons = [
             if(params.data.status === '02' || params.data.status === '03' || params.data.status === '00'){
                 result =true;
             }
-            return result;}},
-    {key: 'publishRisk', title: '发布',disabled: (params)=>{
-            let result = false;
-            if(params.data.status === '01' || params.data.status === '03' || params.data.status === '00'){
-                result =true;
-            }
             return result;}}
 ];
 

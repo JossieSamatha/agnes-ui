@@ -21,26 +21,43 @@
             <template slot="left">
                 <gf-button class="action-btn" @click="batchRead" size="mini" v-if="$hasPermission('agnes.app.message.mgr.batch.read')">批量读取</gf-button>
             </template>
+            <template slot="right-before">
+                <el-switch class="inner-switch"
+                        v-model="queryArgs.hasRead"
+                        width="50"
+                        active-text="全部"
+                        inactive-text="未读"
+                        active-value=""
+                        inactive-value="0"
+                        @change="switchChange">
+                </el-switch>
+            </template>
         </gf-grid>
     </div>
 </template>
 
 <script>
     import loadsh from'lodash';
-    import dateUtils from "@hex/gf-ui/src/util/date-utils";
     export default {
         data() {
             return {
                 queryArgs:{
                     'msgName':'',
-                    'remindTime':''
-                }
+                    'remindTime':'',
+                    'hasRead':'1'
+                },
             }
         },
         beforeMount() {
           this.getExeTime();
         },
         methods: {
+            switchChange(){
+                if(this.queryArgs.hasRead === true){
+                    this.queryArgs.hasRead = ""
+                }
+                this.reloadData();
+            },
             async batchRead() {
               let data = this.$refs.grid.getSelectedRows();
               if (loadsh.isEmpty(data)) {
@@ -61,9 +78,34 @@
                 this.$refs.grid.reloadData();
             },
           async getExeTime() {
-            this.queryArgs.remindTime = dateUtils.formatDate(window.bizDate,"yyyyMMdd");
+            this.queryArgs.remindTime = window.bizDate;
             await this.reloadData();
           },
         },
     }
 </script>
+
+<style>
+    .inner-switch .el-switch__label {
+        display: none;
+        position: absolute;
+        margin: 0;
+        font-size: 12px;
+        transform: scale(.8);
+    }
+
+    .inner-switch .el-switch__label.el-switch__label--right{
+        left: 3px;
+    }
+
+    .inner-switch .el-switch__label.el-switch__label--left{
+        right: 3px;
+        z-index: 1;
+    }
+
+    .inner-switch .el-switch__label.is-active {
+        display: block;
+        color: #fff;
+    }
+
+</style>

@@ -167,12 +167,12 @@
                             <el-form-item v-if="caseStepDef.isRecordTimeoutError === '1'">
                                 <el-form-item label="异常类型">
                                     <el-select v-model="caseStepDef.timeoutErrorType" placeholder="请选择">
-                                        <el-option
+                                        <gf-filter-option
                                                 v-for="item in errorTypeData"
-                                                :key="item.value"
-                                                :label="item.label"
-                                                :value="item.value">
-                                        </el-option>
+                                                :key="item.dictId"
+                                                :label="item.dictName"
+                                                :value="item.dictId">
+                                        </gf-filter-option>
                                     </el-select>
                                 </el-form-item>
                                 <el-form-item label="异常内容">
@@ -192,12 +192,12 @@
                             <el-form-item v-if="caseStepDef.isRecordError === '1'">
                                 <el-form-item label="异常类型">
                                     <el-select v-model="caseStepDef.errorType" placeholder="请选择">
-                                        <el-option
+                                        <gf-filter-option
                                                 v-for="item in errorTypeData"
-                                                :key="item.value"
-                                                :label="item.label"
-                                                :value="item.value">
-                                        </el-option>
+                                                :key="item.dictId"
+                                                :label="item.dictName"
+                                                :value="item.dictId">
+                                        </gf-filter-option>
                                     </el-select>
                                 </el-form-item>
                                 <el-form-item label="异常内容">
@@ -338,7 +338,7 @@
                 }],
                 dataType: [{value: ' 2001', label: '业务日期'}, {value: ' 2002', label: '系统日期'}],
                 kpiData: [{value: ' 3001', label: 'FA指标'}, {value: ' 3002', label: 'TA指标'}],
-                errorTypeData: [{value: ' 4001', label: '业务异常'}, {value: ' 4002', label: '系统异常'}],
+                errorTypeData: [],
                 timeTypeData: [{value: '1', label: '分钟'}, {value: '2', label: '小时'}, {value: '3', label: '天'}],
                 // 业务场景
                 bizType: '',
@@ -419,6 +419,7 @@
             this.getKpiData();
             this.getServiceResponse();
             this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
+            this.errorTypeData = this.$app.dict.getDictItems("AGNES_DOP_ERR_TYPE");
             this.rosterDate = window.bizDate
         },
         methods: {

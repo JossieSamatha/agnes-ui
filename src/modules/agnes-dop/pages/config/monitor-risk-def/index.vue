@@ -43,9 +43,6 @@
                 this.showDlg('check', params.data, "2", this.onAddRisk.bind(this));
 
             },
-            publishRisk(params){
-                this.showDlg('check', params.data, "3", this.onAddRisk.bind(this));
-            },
             async deleteRisk(params) {
                 const row = params.data;
                 const ok = await this.$msg.ask(`确认删除选中风险信息?`);
