@@ -110,9 +110,18 @@
                 this.$emit("closeSideMenu");
             },
 
-            collectChange(type, menu) {
+            async collectChange(type, menu) {
+                if(type==='true'){
+                    const resp = await this.$api.menuUserRefApi.saveMenuUserRefList(menu);
+                    if(resp.code==='repeat'){
+                        this.$msg.warning(resp.message);
+                        return ;
+                    }
+                }else {
+                    await this.$api.menuUserRefApi.deleteMenuUserRefList(menu);
+                }
                 this.$set(menu, 'collect', type);
-                this.$emit('markMenuChange', {type: type, menu: menu})
+                this.$emit('markMenuChange')
             }
         },
         watch: {
