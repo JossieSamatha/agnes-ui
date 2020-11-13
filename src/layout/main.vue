@@ -3,10 +3,18 @@
         <template slot="logo">
             <img :src="require('../assets/img/login-logo.png')" alt="logo" class="gf-app-logo">
         </template>
-        <template slot="menu"><span></span></template>
+        <template slot="menu">
+            <span></span>
+        </template>
         <div class="top-menu-right" slot="nav-user-before">
             <div class="top-menu-item search-item">
-                <el-input class="search" placeholder="全局搜索" suffix-icon="el-icon-search" v-model="searchValue"></el-input>
+                <gf-global-search class="search"
+                                  v-model="searchValue"
+                                  placeholder="全局搜索"
+                                  :appMenus="appMenus"
+                                  :adminMenus="adminMenus"
+                                  suffix-icon="el-icon-search"
+                ></gf-global-search>
             </div>
             <div class="top-menu-item">
                 <span class="iconImg" title="帮助" v-html="svgImg.helpIcon"></span>
@@ -88,27 +96,24 @@
                 const tabView = Object.assign({args: {data: {}}}, pageView, {id: viewId || ''});
                 this.$nav.showView(tabView);
             },
-            loadMenus(){
+            loadMenus() {
                 //初始化菜单
                 let _this = this;
                 let otherMenus = [];
                 let data = this.$store.getters.menus;
-                if(data){
-
-                    data.forEach(menu=> {
-                            if (menu.resCode === 'app') {
-                                Object.assign(_this.appMenus,init.initMenus(toColumn(menu.children)))
-                            }
-                            else if(menu.resCode === 'admin'){
-                                Object.assign(_this.adminMenus,init.initMenus(toColumn(menu.children)))
-                            }
-                            else {
-                                otherMenus.push(menu)
-                            }
+                if (data) {
+                    data.forEach(menu => {
+                        if (menu.resCode === 'app') {
+                            Object.assign(_this.appMenus, init.initMenus(toColumn(menu.children)))
+                        } else if (menu.resCode === 'admin') {
+                            Object.assign(_this.adminMenus, init.initMenus(toColumn(menu.children)))
+                        } else {
+                            otherMenus.push(menu)
+                        }
                     });
                     const other = init.initMenus(toColumn(otherMenus));
-                    if(other.allMenu.children){
-                        other.allMenu.children.forEach(childData=>{
+                    if (other.allMenu.children) {
+                        other.allMenu.children.forEach(childData => {
                             _this.adminMenus.allMenu.children.push(childData)
                         })
                     }
@@ -133,8 +138,8 @@
             logout: function () {
                 // 判断是否有抽屉存在，若有，移除
                 const drawerList = document.getElementsByClassName('gf-page-drawer');
-                if(drawerList.length > 0){
-                    drawerList.forEach(x=>{
+                if (drawerList.length > 0) {
+                    drawerList.forEach(x => {
                         document.body.removeChild(x);
                     });
                 }
@@ -157,13 +162,13 @@
                 this.$nav.showView(depTabView);
             },
             studioTypeChange(val) {
-                if(val === 'appMenus'){
+                if (val === 'appMenus') {
                     this.menus = this.appMenus;
-                }else{
+                } else {
                     this.menus = this.adminMenus;
                 }
             },
-            async handelNotice(){
+            async handelNotice() {
                 this.showNoticeDrawer = true;
                 const resp = await this.$api.ruleTableApi.getMsgBoxList();
                 this.noticeData = resp.data;
@@ -177,15 +182,15 @@
                 this.feedbackShow = ifShow;
             },
 
-            async resize(){
+            async resize() {
                 // 拉伸结束后，触发窗口resize监听事件
                 await this.$nextTick(function () {
                     // 兼容IE
-                    if(document.createEvent) {
+                    if (document.createEvent) {
                         let event = document.createEvent("HTMLEvents");
                         event.initEvent("resize", true, true);
                         window.dispatchEvent(event);
-                    } else if(document.createEventObject) {
+                    } else if (document.createEventObject) {
                         window.fireEvent("onresize");
                     }
                 });
@@ -196,7 +201,7 @@
                 try {
                     const resp = await this.$api.changeDataApi.getChangeData();
                     const resChangeData = resp.data;
-                    if(resChangeData.bizDate && resChangeData.bizDate !== window.bizDate){
+                    if (resChangeData.bizDate && resChangeData.bizDate !== window.bizDate) {
                         window.bizDate = resChangeData.bizDate;
                     }
                 } catch (reason) {
@@ -231,7 +236,7 @@
             // 获取日切值
             this.getChangeDate();
             this.getUnreadCount();
-            this.bizDateTimer = setInterval(()=>{
+            this.bizDateTimer = setInterval(() => {
                 this.getChangeDate();
                 this.getUnreadCount();
             }, 300000)
@@ -241,7 +246,7 @@
             this.$app.registerCmd('gf.changePwd', () => this.changePwd());
             this.$app.registerCmd('gf.logout', () => this.logout());
             this.$app.registerCmd('gf.bizDateChange', () => this.getChangeDate());
-            this.$nav.tabBar.chromeTabs.$on("activeTabChange", ()=>{
+            this.$nav.tabBar.chromeTabs.$on("activeTabChange", () => {
                 this.resize();
             });
         }
