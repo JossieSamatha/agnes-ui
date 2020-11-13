@@ -673,6 +673,7 @@
                     cardCorporateAcntId:'',
                     provisionBankAcntIds:[],
                     fields:[],
+                    updateUser:'',
                 },
                 detailFormBefore: {
                     typeCode:'', 
@@ -717,7 +718,8 @@
                     provisionBankAcntIds:[],
                     accNoList:[],
                     moneyAccNoList:[],
-                    fields:[]
+                    fields:[],
+                    updateUser:'',
                 },
                 showChange:false,
                 isAccNoMustFill:false,
@@ -976,7 +978,22 @@
                             form.processStatus = '08';
                         }
                     }
-                    const p = this.$api.acntApplyApi.saveApply(form);
+                    if(form.processStatus === '08'){
+                        if(form.updateUser === this.$app.session.data.user.userId){
+                            this.$msg.warning('您不能进行该岗操作！');
+                            return ;
+                        }
+                        const check = await this.$api.acntApplyApi.checkAcntName(form);
+                        if(form.bizType.match(/01|04/) && check.code==='exit'){
+                            this.$msg.warning(check.message);
+                            return ;
+                        }
+                        if(form.bizType === '02' && form.acntName !== this.row.acntName && check.code==='exit'){
+                            this.$msg.warning(check.message);
+                            return ;
+                        }
+                    }
+                    const p = await this.$api.acntApplyApi.saveApply(form);
                     await this.$app.blockingApp(p);
                     this.$msg.success('提交成功');
                     if (this.actionOk) {
