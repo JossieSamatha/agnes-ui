@@ -129,16 +129,14 @@
                 }
             },
 
-            markMenuChange(data){
-                if(data.type == 'true'){
-                    this.markMenu.push(data.menu);
-                }else{
-                    this.$utils.removeFromArray(this.markMenu, data.menu);
-                }
+            async markMenuChange(){
+                let menuList = await this.$api.menuUserRefApi.getMenuUserRefList();
+                this.markMenu = menuList.data;
             },
 
-            cancelMark(menu){
-                this.$utils.removeFromArray(this.markMenu, menu);
+            async cancelMark(menu){
+                await this.$api.menuUserRefApi.deleteMenuUserRefList(menu);
+                this.markMenuChange();
                 this.editMenuCollect(menu, this.allMenu.children, 'false');
             },
 

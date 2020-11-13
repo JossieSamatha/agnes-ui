@@ -75,7 +75,16 @@
                 unreadCount:""
             }
         },
+
+        beforeMount() {
+            const p = this.getMenuUserRefList();
+            this.$app.blockingApp(p);
+        },
         methods: {
+            async getMenuUserRefList(){
+                let menuList = await this.$api.menuUserRefApi.getMenuUserRefList();
+                this.menus.markMenu = menuList.data;
+            },
             showView(viewId) {
                 this.view = viewId;
             },
