@@ -307,9 +307,11 @@ form input[type=submit] {
 }
 
 .gf-vertical-expand .gf-menu.mark-menu {
-    height: 100%;
-    flex: 1;
+    height: 50%;
+    min-height: 105px;
+    padding-top: 10px;
     overflow-y: auto;
+    box-shadow: 0px -3px 7px 0px rgba(0, 0, 0, 0.13);
 }
 
 .gf-side-menu .speedyMenu {
@@ -418,11 +420,15 @@ form input[type=submit] {
 }
 
 .left-side-container .gf-menu.footer {
-    display: flex;
-    flex-direction: column;
-    height: 40px;
-    line-height: 40px;
-    box-shadow: 0px -3px 7px 0px rgba(0, 0, 0, 0.13);
+    height: 45px;
+    line-height: 45px;
+    flex: none;
+}
+
+.left-side-container .gf-menu.normal {
+    flex: 1;
+    height: 100%;
+    overflow-y: auto;
     transition: 1s all ease;
 }
 
@@ -436,21 +442,6 @@ form input[type=submit] {
 .gf-vertical-expand .gf-menu.footer .header {
     background: #fff;
     border-bottom: 1px solid #EFF2F7;
-}
-
-.gf-vertical-expand .gf-menu.footer .content {
-    flex: 1;
-    height: 100%;
-    margin-right: -7px;
-    overflow-y: scroll;
-}
-
-.gf-vertical-expand .gf-menu.footer .content::-webkit-scrollbar-thumb {
-    background: transparent;
-}
-
-.gf-vertical-expand .gf-menu.footer .content:hover::-webkit-scrollbar-thumb {
-    background: rgba(135, 141, 153, .3);
 }
 
 .left-side-container .gf-menu.footer .flodBtn .menuicon {

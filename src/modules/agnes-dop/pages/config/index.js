@@ -4,6 +4,7 @@ import Linkman from "./linkman-def/index"
 import GroupUser from "./user-group/index"
 import Product from "./product-def/index"
 import HelpDef from "./help-def/index"
+import helpInfoPage from "./help-def/help-info-page"
 // import ProductParam from "./product-param-def/index"
 import ProductAuth from "./product-auth-def/index"
 import DataChange from "./data-change-def/index"
@@ -16,6 +17,9 @@ import MonitorErrDef from "./monitor-err-def/index";
 import Branch from "./branch/index";
 
 const Loading = {
+    install: function(Vue){
+        Vue.component('help-info-page', helpInfoPage);
+    },
     load: function (Gfui) {
         Gfui.componentView('agnes.org.def', OrgDef, {title: '外部机构维护'});
         Gfui.componentView('agnes.org.type', OrgType, {title: '机构类型维护'});

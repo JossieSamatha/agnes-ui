@@ -1206,6 +1206,16 @@
 }
 
 
+.gf-quill-editor {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 30px);
+}
 
+.gf-quill-editor .ql-container {
+    flex: 1;
+    height: calc(100% - 70px);
+}
 
 

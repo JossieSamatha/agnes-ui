@@ -13,15 +13,21 @@
             </div>
             <div class="container">
                 <ul class="messagebox">
-                    <li class="boxLi" v-for="notice in noticeData" :key="notice.pkId" @click="handelNotice(notice)">
-                        <p class="title">
-                            <el-badge :is-dot="notice.hasRead=='0'">{{notice.msgTitle}}</el-badge>
-                        </p>
-                        <div class="content">
-                            <span>{{notice.msgDetail}}</span>
-                        </div>
-                        <p class="footer">{{notice.remindTime}}</p>
-                    </li>
+                    <transition-group name="slide">
+                        <li class="boxLi"
+                            v-for="(notice, index) in noticeData"
+                            :key="notice.pkId"
+                            @click="handelNotice(notice, index)"
+                        >
+                            <p class="title">
+                                <el-badge :is-dot="notice.hasRead=='0'">{{notice.msgTitle}}</el-badge>
+                            </p>
+                            <div class="content">
+                                <span>{{notice.msgDetail}}</span>
+                            </div>
+                            <p class="footer">{{notice.remindTime}}</p>
+                        </li>
+                    </transition-group>
                 </ul>
             </div>
         </div>
@@ -50,11 +56,13 @@
             }
         },
         methods: {
-            handelNotice(notice) {
+            handelNotice(notice, index) {
                 this.$api.MsgApi.batchRead([notice]).then(() => {
                     notice.hasRead = '1';
                     this.$emit('getUnreadCount');
                 });
+
+                this.noticeData.splice(index, 1);
             },
 
             // 关闭消息盒子
@@ -69,3 +77,23 @@
         },
     };
 </script>
+
+<style scoped>
+    .slide-move {
+        transition: all 1s;
+    }
+
+    .slide-leave-active {
+        position: absolute;
+        animation: slide-out 1s ease-out;
+    }
+
+    @keyframes slide-out {
+        from {
+            transform: translateX(0)
+        }
+        to {
+            transform: translateX(-1000px)
+        }
+    }
+</style>
