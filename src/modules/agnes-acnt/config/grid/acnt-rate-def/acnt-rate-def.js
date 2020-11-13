@@ -19,7 +19,7 @@ const colButtons = [
                 result =true;
             }
             return result;}},
-    {key: 'startRateScheme', title: '启用',disabled: (params)=>{
+    {key: 'startRateScheme', title: '发布',disabled: (params)=>{
             let result = false;
             if(params.data.status === '01'|| params.data.status === '05'){
                 result =true;
@@ -30,7 +30,7 @@ const colButtons = [
                 result =false;
             }
             return result;}},
-    {key: 'stopRateScheme', title: '停用',visiable: (params)=>{
+    {key: 'stopRateScheme', title: '停止',visiable: (params)=>{
             let result = false;
             if(params.data.status === '03'){
                 result =true;

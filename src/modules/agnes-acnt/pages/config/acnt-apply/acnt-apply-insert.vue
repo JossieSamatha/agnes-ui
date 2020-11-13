@@ -446,7 +446,8 @@
                             <gf-input v-model.trim="detailForm.bigPayNo" placeholder="大额支付号"/>
                         </el-form-item>
                         <el-form-item v-if="showRules.openBank&&showRules.openBank.isShow" label="开户网点/开户单位" prop="openBank">
-                            <gf-input v-model.trim="detailForm.openBank" placeholder="开户网点/开户单位"/>
+                            <gf-input v-model.trim="detailForm.openBank" placeholder="开户网点/开户单位"
+                                      :disabled="showRules.bigPayNo&&showRules.bigPayNo.isShow"/>
                             <em class="el-icon-refresh-left" @click="loadNameByBigPayNo"/>
                             <el-button style="border: none;padding-left: 5px;font-size: 17px;vertical-align: middle" icon="el-icon-edit-outline" @click="defendOpenBank"/>
                         </el-form-item>
@@ -661,7 +662,8 @@
                     cardCorporateAcntId:'',
                     provisionBankAcntIds:[],
                     fields:[],
-                    updateUser:'',
+                    crtUser:'',
+                    updateUser:''
                 },
                 detailFormBefore: {
                     typeCode:'', 
@@ -707,7 +709,8 @@
                     accNoList:[],
                     moneyAccNoList:[],
                     fields:[],
-                    updateUser:'',
+                    crtUser:'',
+                    updateUser:''
                 },
                 showChange:false,
                 isAccNoMustFill:false,
@@ -966,11 +969,19 @@
                             form.processStatus = '08';
                         }
                     }
-                    if(form.processStatus === '08'){
-                        if(form.updateUser === this.$app.session.data.user.userId){
+                    if(!loadsh.isEmpty(this.detailForm.processStatus) && this.detailForm.processStatus=='07'){
+                        let opUser = form.updateUser;
+                        if(this.$lodash.isEmpty(opUser)){
+                            opUser = form.crtUser;
+                        }
+                        // alert(opUser);
+                        if(opUser === this.$app.session.data.user.userId){
                             this.$msg.warning('您不能进行该岗操作！');
                             return ;
                         }
+                    }
+
+                    if(form.processStatus === '07' && !this.$lodash.isEmpty(form.acntName)){
                         const check = await this.$api.acntApplyApi.checkAcntName(form);
                         if(form.bizType.match(/01|04/) && check.code==='exit'){
                             this.$msg.warning(check.message);
@@ -981,7 +992,7 @@
                             return ;
                         }
                     }
-                    const p = await this.$api.acntApplyApi.saveApply(form);
+                    const p = this.$api.acntApplyApi.saveApply(form);
                     await this.$app.blockingApp(p);
                     this.$msg.success('提交成功');
                     if (this.actionOk) {

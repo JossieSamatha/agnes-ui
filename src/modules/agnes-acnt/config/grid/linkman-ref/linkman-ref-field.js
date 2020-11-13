@@ -19,7 +19,7 @@ const colButtons = [
                 result =true;
             }
             return result;}},
-    {key: 'startLinkman', title: '启用',disabled: (params)=>{
+    {key: 'startLinkman', title: '发布',disabled: (params)=>{
             let result = false;
             if(params.data.status === '01'|| params.data.status === '05'){
                 result =true;
@@ -30,7 +30,7 @@ const colButtons = [
                 result =false;
             }
             return result;}},
-    {key: 'stopLinkman', title: '停用',visiable: (params)=>{
+    {key: 'stopLinkman', title: '停止',visiable: (params)=>{
             let result = false;
             if(params.data.status === '03'){
                 result =true;

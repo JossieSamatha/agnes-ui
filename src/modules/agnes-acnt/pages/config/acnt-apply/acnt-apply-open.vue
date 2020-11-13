@@ -277,7 +277,7 @@
                     </div>
                     <div class="line">
                         <el-form-item label="提交OA流程" prop="isSendOa">
-                            <el-radio-group v-model="detailForm.isSendOa">
+                            <el-radio-group v-model="detailForm.isSendOa" :disabled="this.mode === 'addInfo'">
                                 <el-radio label="1">是</el-radio>
                                 <el-radio label="0">否</el-radio>
                             </el-radio-group>
@@ -384,7 +384,8 @@
                     oaIsNeedStamp:'0',
                     oaPrintDt:'',
                     crtUser:'',
-                    fields:[],
+                    updateUser:'',
+                    fields:[]
                 },
                 detailForm: {
                     typeCode:'',
@@ -409,6 +410,7 @@
                     oaPrintDt:'',
                     fields:[],
                     crtUser:'',
+                    updateUser:'',
                     fileList:[]
                     // fileList:[ { "name": "1.ecmtest - 副本.txt", "objectId": "0801000017711", "docId": "09014b11", "uid": 1603950217954, "status": "success", "pieceNum": "1", "remark": "11" },
                     //     { "name": "1.ecmtest.txt", "objectId": "0801000017721", "docId": "09014b11", "uid": 1603950217955, "status": "success", "pieceNum": "2", "remark": "22" } ]
@@ -457,7 +459,7 @@
             if(this.detailForm.bizType=='02'){
                 this.showChange = true;
             }
-
+            this.setSubApplyOA();
             this.checkIsSub()
             this.getOptionData()
             // this.checkIsSub()
@@ -565,6 +567,12 @@
                 }
             },
 
+            setSubApplyOA(){
+                if(this.mode=='addInfo'){
+                    this.detailForm.isSendOa = "1";
+                }
+            },
+
             checkIsSub(){
                 if(!loadsh.isEmpty(this.row.applySubId)||this.mode==='addInfo'){
                     this.isSubDis = true;
@@ -604,6 +612,14 @@
                         return;
                     }
                 }
+
+                if(this.detailForm.isSendOa==='1'){
+                    if(!this.detailForm.fileList || this.detailForm.fileList.length === 0){
+                        this.$msg.warning("请上传文件!");
+                        return;
+                    }
+                }
+
                 try {
                     let form =  JSON.parse(JSON.stringify(this.detailForm)) 
                     let openSub = false;
@@ -616,6 +632,9 @@
                     if(this.mode=='detele'){
                         isdel = true;
                     }
+
+
+
                     form.processStatus = '02';
                     if(!loadsh.isEmpty(this.detailForm.processStatus)){
                         //状态机控制
@@ -662,10 +681,18 @@
                         }
 
                     }else{
-                        if(form.processStatus === '04' && form.crtUser === this.$app.session.data.user.userId){
-                            this.$msg.warning('您无法对该岗进行操作！');
-                            return ;
+                        if(!loadsh.isEmpty(this.detailForm.processStatus) && this.detailForm.processStatus=='02'){
+                            let opUser = form.updateUser;
+                            if(this.$lodash.isEmpty(opUser)){
+                                opUser = form.crtUser;
+                            }
+                            // alert(opUser);
+                            if(opUser === this.$app.session.data.user.userId){
+                                this.$msg.warning('您无法对该岗进行操作！');
+                                return ;
+                            }
                         }
+
                         if(openSub){
                             const p = this.$api.acntApplyApi.saveSubApply(form);
                             await this.$app.blockingApp(p);
