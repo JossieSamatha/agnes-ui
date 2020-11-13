@@ -33,7 +33,8 @@
     "vue-drag-resize": "^1.3.2",
     "vue-grid-layout": "^2.3.7",
     "vuedraggable": "^2.23.2",
-    "vuex": "^3.1.2"
+    "vuex": "^3.1.2",
+    "vue-quill-editor": "^3.0.6"
   },
   "devDependencies": {
     "@hex/swagger-api": "1.0.6",

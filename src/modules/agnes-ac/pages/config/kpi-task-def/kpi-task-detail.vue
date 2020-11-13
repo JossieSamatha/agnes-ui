@@ -144,7 +144,7 @@
             </el-checkbox-group>
         </el-form-item>
         <el-form-item v-if="msgInformParam.length>0">
-            <el-tabs type="card" style="height: 290px;">
+            <el-tabs class="scroll-content-tab" type="card" style="height: 290px;">
                 <el-tab-pane v-for="(msgInformItem, msgInformIndex) in msgInformParam" :key="msgInformIndex"
                              :name="msgInformIndex+''">
                     <span class="tab-label" slot="label">
@@ -707,5 +707,12 @@
         font-size: 16px;
         font-weight: bold;
         cursor: pointer;
+    }
+</style>
+
+<style>
+    .task-def-form .el-tabs.scroll-content-tab .el-tab-pane .el-form{
+        height: 100%;
+        overflow: auto;
     }
 </style>
