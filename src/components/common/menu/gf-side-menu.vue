@@ -12,9 +12,9 @@
                         <ul class="second-menu" v-for="submenu in menu.children" :key="submenu.menuid">
                             <li class="menu-label">
                                 <span @click="showMenuTab(submenu)">{{submenu.menuname}}</span>
-                                <em class="star fa fa-star-o" v-if="submenu.collect != 'true'"
-                                   @click="collectChange('true',submenu)"></em>
-                                <em class="star fa fa-star" v-else @click="collectChange('false',submenu)"></em>
+                                <em class="star fa fa-star" v-if="isMenuMarked(submenu.menucode)" @click="collectChange('false',submenu)"></em>
+                                <em class="star fa fa-star-o" v-else
+                                    @click="collectChange('true',submenu)"></em>
                             </li>
                         </ul>
                     </section>
@@ -120,8 +120,18 @@
                 }else {
                     await this.$api.menuUserRefApi.deleteMenuUserRefList(menu);
                 }
-                this.$set(menu, 'collect', type);
                 this.$emit('markMenuChange')
+            },
+
+            isMenuMarked(menucode){
+                let isMarked = false;
+                if(menucode){
+                    const find = this.$lodash.findIndex(this.markMenu, {menucode: menucode})
+                    if(find > -1) {
+                        isMarked = true;
+                    }
+                }
+                return isMarked;
             }
         },
         watch: {
@@ -137,7 +147,7 @@
             },
             'sideMenu'(val) {
                 this.showMenu = this.$utils.deepClone(val);
-            },
+            }
         }
     }
 </script>

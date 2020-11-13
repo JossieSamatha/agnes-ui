@@ -30,6 +30,14 @@ import './assets/css/component.css';
 import './assets/css/agnes.css';
 import './assets/css/dash-board.css';
 
+// 引入富文本编辑器
+import VueQuillEditor from 'vue-quill-editor'
+// require styles 引入样式
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+Vue.use(VueQuillEditor)
+
 
 Vue.use(ElementUI);
 Vue.use(echarts);
