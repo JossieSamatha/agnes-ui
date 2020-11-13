@@ -256,13 +256,7 @@
                                         <gf-dict filterable clearable v-model="scope.row.market" dict-type="AGNES_ACNT_MARKET" />
                                     </template>
                                 </el-table-column>
-                                <!--                        <el-table-column  prop="option" label="操作" width="52" align="center">-->
-                                <!--                            <template slot-scope="scope">-->
-                                <!--                                <span class="option-span" @click="deleteAccRuleRow(scope.$index)">删除</span>-->
-                                <!--                            </template>-->
-                                <!--                        </el-table-column>-->
                             </el-table>
-                            <!--                    <el-button  @click="addAccRule()" class="rule-add-btn" size="small">新增</el-button>-->
                         </div>
                     </el-form-item>
 
@@ -290,13 +284,7 @@
                                         <gf-dict filterable clearable v-model="scope.row.currency" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
                                     </template>
                                 </el-table-column>
-                                <!--                        <el-table-column  prop="option" label="操作" width="52" align="center">-->
-                                <!--                            <template slot-scope="scope">-->
-                                <!--                                <span class="option-span" @click="deleteMoneyAccRuleRow(scope.$index)">删除</span>-->
-                                <!--                            </template>-->
-                                <!--                        </el-table-column>-->
                             </el-table>
-                            <!--                    <el-button  @click="addMoneyAccRule" class="rule-add-btn" size="small">新增</el-button>-->
                         </div>
                     </el-form-item>
                 </template>
