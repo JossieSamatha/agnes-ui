@@ -24,7 +24,7 @@ export default {
         {headerName: "基金代码", field: "productCode"},
         {headerName: "基金名称", field: "productName"},
 
-        {headerName: "账号", field: "acc_nos"},
+        {headerName: "账号", field: "accNos"},
         {headerName: "市场", field: "markets"},
 
         {headerName: "清算编号", field: "settlementNo"},
@@ -40,8 +40,8 @@ export default {
         {headerName: "三证合一变更情况", field: "threeLicenseInfo"},
         {headerName: "账户启用日期", field: "acntStartDt"},
         {headerName: "账户用途描述", field: "acntPurpose"},
-        {headerName: "是否开立网银", field: "isOpenEbank"},
-        {headerName: "是否开立银企直联", field: "isOpenBankCorDirect"},
+        {headerName: "是否开立网银", field: "isOpenEbank", dictType:"OPDS_YES_NO"},
+        {headerName: "是否开立银企直联", field: "isOpenBankCorDirect", dictType:"OPDS_YES_NO"},
         {headerName: "备付金账户对应的银行账户", field: "provisionBankAcntNames"},
         {headerName: "卡账户对应的对公户", field: "cardCorporateAcntName"},
         {headerName: "银行联系人", field: "linkmanNames"},

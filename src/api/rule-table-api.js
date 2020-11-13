@@ -49,6 +49,9 @@ export default {
     //消息盒子未读数据
     getUnreadCount(){
         return request.post("/agnes-remind/v1/remind/msg/query/unread/count")
-    }
+    },
+    feedbackSubmit(form){
+        return request.post("/agnes-app/v1/dop/feedback/send",form)
+    },
 
 };

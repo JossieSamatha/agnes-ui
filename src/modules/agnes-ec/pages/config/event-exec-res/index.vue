@@ -27,6 +27,8 @@
 
 <script>
 
+    import dateUtils from "@hex/gf-ui/src/util/date-utils";
+
     export default {
         data() {
             return {
@@ -36,6 +38,9 @@
                 }
             }
         },
+      beforeMount() {
+        this.getExeTime();
+      },
         methods: {
             reloadData() {
                 this.$refs.grid.reloadData();
@@ -47,6 +52,10 @@
                 };
                 this.$refs.grid.reloadData();
             },
+          async getExeTime() {
+            this.queryArgs.execBizDt = dateUtils.formatDate(window.bizDate,"yyyy-MM-dd");
+            await this.reloadData();
+          },
         }
     }
 </script>

@@ -1937,6 +1937,11 @@ form input[type=submit] {
     height: 100%;
 }
 
+.el-tabs.el-tabs--card .el-tabs__content .el-tab-pane .el-form{
+    height: 100%;
+    overflow: auto;
+}
+
 .flex-fix-center {
     display: flex;
     justify-content: center;

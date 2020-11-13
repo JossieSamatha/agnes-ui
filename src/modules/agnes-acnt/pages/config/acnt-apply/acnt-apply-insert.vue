@@ -561,7 +561,7 @@
                                         <gf-dict filterable clearable v-model="scope.row.market" dict-type="AGNES_ACNT_MARKET" />
                                     </template>
                                 </el-table-column>
-                                <el-table-column  prop="option" label="操作" width="52" align="center">
+                                <el-table-column  v-if="mode!=='view'" prop="option" label="操作" width="52" align="center">
                                     <template slot-scope="scope">
                                         <span class="option-span" @click="deleteAccRuleRow(scope.$index)">删除</span>
                                     </template>
@@ -594,7 +594,7 @@
                                         <gf-dict filterable clearable v-model="scope.row.currency" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
                                     </template>
                                 </el-table-column>
-                                <el-table-column  prop="option" label="操作" width="52" align="center">
+                                <el-table-column  v-if="mode!=='view'"  prop="option" label="操作" width="52" align="center">
                                     <template slot-scope="scope">
                                         <span class="option-span" @click="deleteMoneyAccRuleRow(scope.$index)">删除</span>
                                     </template>
@@ -722,6 +722,8 @@
                 showChange:false,
                 isAccNoMustFill:false,
                 isMoneyAccNoMustFill:false,
+                isBankLinkManMustFill:false,
+                isProvisionBankAcntIdsMustFill:false,
                 // 业务类型下拉
                 bizTagOption: [{
                     label: 'TA',
@@ -882,29 +884,7 @@
                     this.$msg.error(reason);
                 }
             },
-            // async loadAccNoRefList(){
-            //     let resp = await this.$api.acntApplyApi.getAcntRuApplyAccNoRefListByApplyId({'applyId':this.detailForm.applyId});
-            //     let allList = resp.data;
-            //     for(let i=0;i< allList.length;i++){
-            //         if(allList[i].accNoType === '01'){
-            //             this.accNoList.push(allList[i]);
-            //         }else {
-            //             this.moneyAccNoList.push(allList[i]);
-            //         }
-            //     }
-            //
-            // },
-            // async loadAccNoRefListBefore(){
-            //     let resp = await this.$api.acntApplyApi.getAcntRuAccNoRefListByAcntId({'acntId':this.detailForm.acntId});
-            //     let allList = resp.data;
-            //     for(let i=0;i< allList.length;i++){
-            //         if(allList[i].accNoType === '01'){
-            //             this.detailFormBefore.accNoList.push(allList[i]);
-            //         }else {
-            //             this.detailFormBefore.moneyAccNoList.push(allList[i]);
-            //         }
-            //     }
-            // },
+
             async loadShowRule(){
                 let resp = await this.$api.acntApplyApi.getConfig(this.detailForm.typeCode);
                 let showRules = resp.data;
@@ -913,7 +893,6 @@
                 //     acntShortName:{isShow:true,required:true},
                 // };
                 this.showRules = showRules;
-                // let detailFormRules = {};
                 for(let key  in showRules){
                     let detailFormRulesOne = showRules[key];
                     detailFormRulesOne.message = '必填';
@@ -926,8 +905,13 @@
                     if(key === 'fundAccNo' && showRules[key].mustFill === '1'){
                         this.isMoneyAccNoMustFill = true;
                     }
+                    if(key === 'bankLinkMan' && showRules[key].mustFill === '1'){
+                        this.isBankLinkManMustFill = true;
+                    }
+                    if(key === 'provisionBankAcntIds' && showRules[key].mustFill === '1'){
+                        this.isProvisionBankAcntIdsMustFill = true;
+                    }
                 }
-                // this.detailFormRules = detailFormRules;
             },
             async loadProductName(){
                 if(loadsh.isEmpty(this.detailForm.productCode)){
@@ -968,6 +952,17 @@
                     this.$msg.warning("请将资金账号信息补充完整!");
                     return;
                 }
+                if(this.isBankLinkManMustFill
+                    && (!this.detailForm.bankLinkMan || this.detailForm.bankLinkMan.length === 0)){
+                    this.$msg.warning("银行联系人必填!");
+                    return;
+                }
+                if(this.isProvisionBankAcntIdsMustFill
+                    && (!this.detailForm.provisionBankAcntIds || this.detailForm.provisionBankAcntIds.length === 0)){
+                    this.$msg.warning("备付金账户对应的银行账户必填!");
+                    return;
+                }
+
                 try {
                     let form =  JSON.parse(JSON.stringify(this.detailForm)) 
                     form.processStatus = '07';
@@ -996,7 +991,7 @@
             // 保存onCancel事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
             async onCancel() {
                 try {
-                    if(this.detailForm.processStatus=='07'){
+                    if(this.detailForm.processStatus=='07' && this.mode!=='view'){
                         let form =  JSON.parse(JSON.stringify(this.detailForm))
                         form.processStatus = '06';
                         const p = this.$api.acntApplyApi.cancelApply(form);

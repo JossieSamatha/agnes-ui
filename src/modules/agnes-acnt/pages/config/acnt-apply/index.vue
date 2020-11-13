@@ -48,7 +48,8 @@
                 <el-button @click="reSetSearch" class="option-btn">重置</el-button>
             </div>
         </el-form>
-        <gf-grid grid-no="acnt-apply-field" @load-data="dataChange" :query-args="queryArgs" ref="grid">
+        <gf-grid grid-no="acnt-apply-field" @load-data="dataChange" :query-args="queryArgs" ref="grid"
+                 @row-double-click="showDetail">
             <template slot="left">
                 <gf-button  class="action-btn" @click="openApply">开户</gf-button>
                 <gf-button  class="action-btn" @click="submitOA">提交OA</gf-button>
@@ -148,22 +149,32 @@
                     return;
                 }
                 let title = '账户开户';
+                let okButtonTitle = '保存';//add addInfo edit
                 if(mode==='check'){
                     title = '账户审核';
+                    okButtonTitle = '审核';
                 }else if(mode==='detele'){
                     title = '账户作废';
+                    okButtonTitle = '作废';
                 }else if(mode==='addInfo'){
                     title = '资料准备';
+                    okButtonTitle = '保存';
                 }else if(mode==='checkFund'){
                     title = '财务审核';
+                    okButtonTitle = '审核';
                 }
+
+                if(!this.$lodash.isEmpty(row.applySubId)){
+                    title = title + '-子流程'
+                }
+
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
                     title: [title],
                     component: AcntApplyOpen,
                     args: {row, mode, actionOk,isDisabled},
                     okButtonVisible:mode!=='view',
-                    okButtonTitle:mode==='add'||mode==='addInfo'?'保存':'审核',
+                    okButtonTitle:okButtonTitle,
                     cancelButtonTitle:mode==='check'?'反审核':'关闭'
                 })
             },
@@ -299,6 +310,18 @@
             },
             showSteps(params) {
                 this.showStepsDlg('add', params.data, this.onStepsApply.bind(this));
+            },
+
+            //整合编辑按钮：编辑 账户录入
+            showDetail(params) {
+                if(params.data.processStatus === '01' || params.data.processStatus === '02'
+                    || params.data.processStatus === '03'|| params.data.processStatus === '04'
+                    || params.data.processStatus === '05' || !this.$lodash.isEmpty(params.data.applySubId)){
+                    this.showOpenDlg('view', params.data, this.onOpenApply.bind(this),true);
+                }else if(params.data.processStatus === '06' || params.data.processStatus === '07'
+                    || params.data.processStatus === '08'){
+                    this.showInsertDlg('view', params.data, this.onOpenApply.bind(this));
+                }
             },
 
             //整合编辑按钮：编辑 账户录入
