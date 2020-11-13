@@ -1,12 +1,16 @@
 <template>
-    <div>
-        <div>
-            <el-button style="float: right;" @click="onSave"> 保存 </el-button>
-        </div>
+    <div style="height: 100%">
+        <p class="action-panel" style="text-align: right">
+            <el-button type="primary" @click="onSave"> 保存 </el-button>
+        </p>
+        <quill-editor class="gf-quill-editor"
+                      ref="myTextEditor"
+                      :options="editorOption"
+                      v-model="helpInfo.content"
+                      :config="editorOption"
+                      style="margin-top: 5px"
+        ></quill-editor>
 
-        <div>
-            <quill-editor ref="myTextEditor" :options="editorOption" v-model="helpInfo.content" :config="editorOption"></quill-editor>
-        </div>
     </div>
 </template>
 <script>

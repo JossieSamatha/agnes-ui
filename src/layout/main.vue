@@ -17,7 +17,7 @@
                 ></gf-global-search>
             </div>
             <div class="top-menu-item">
-                <span class="iconImg" title="帮助" v-html="svgImg.helpIcon"></span>
+                <span class="iconImg" title="帮助" v-html="svgImg.helpIcon" @click="openHelpPage"></span>
             </div>
             <div class="top-menu-item" @click="handelNotice">
                 <el-badge :value=unreadCount>
@@ -26,7 +26,10 @@
             </div>
         </div>
         <template slot="sidebar-menu" slot-scope="props">
-            <gf-vertical-expand v-show="!props.maximizeView" :allMenu="menus.allMenu" :markMenu="menus.markMenu">
+            <gf-vertical-expand v-show="!props.maximizeView"
+                                :allMenu="menus.allMenu"
+                                :markMenu="menus.markMenu"
+            >
             </gf-vertical-expand>
         </template>
         <template slot="tab-bar-left">
@@ -51,7 +54,9 @@
                     </el-input>
                 </el-form-item>
             </el-form>
-            <p><el-button @click="feedbackSubmit">提交</el-button></p>
+            <p class="action-panel">
+                <el-button type="primary" size="mini" @click="feedbackSubmit" icon="fa fa-paper-plane-o">发送反馈</el-button>
+            </p>
             <div class="funBtn feedback" slot="reference" title="意见反馈">
                 <em class="fa fa-envelope-o" v-if="!feedbackShow"></em>
                 <em class="fa fa-envelope-open-o" v-if="feedbackShow"></em>
@@ -85,15 +90,7 @@
             }
         },
 
-        beforeMount() {
-            const p = this.getMenuUserRefList();
-            this.$app.blockingApp(p);
-        },
         methods: {
-            async getMenuUserRefList(){
-                let menuList = await this.$api.menuUserRefApi.getMenuUserRefList();
-                this.menus.markMenu = menuList.data;
-            },
             showView(viewId) {
                 this.view = viewId;
             },
@@ -237,6 +234,15 @@
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
+            },
+
+            openHelpPage(){
+                this.$drawerPage.create({
+                    width: 'calc(97% - 215px)',
+                    title: ['帮助文档', 'view'],
+                    component: 'help-info-page',
+                    okButtonVisible: false
+                })
             }
         },
         async mounted() {
