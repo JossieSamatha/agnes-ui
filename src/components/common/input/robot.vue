@@ -1,7 +1,7 @@
 <template>
     <div ref="spig" class="spig" :class="ifShowInput ? '' : 'messageType'">
         <div ref="littleW" class="little-W"
-             @dblclick="ifShowInput = !ifShowInput"
+             @click="ifShowInput = !ifShowInput"
              :style="{'background-image': robotImg}"
         >
         </div>
@@ -74,6 +74,7 @@
             this.init();
             this.robotImg = this.getRobotImg('wisdom_happy');
             this.robotChange();
+            this.messageChange();
         },
 
         methods: {
