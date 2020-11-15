@@ -1,5 +1,5 @@
 <template>
-    <div class="datav_client_view" ref="datav_client_view">
+    <div class="datav_client_view" ref="datav_client_view" style="padding:0">
         <div class="topPanel">
             <div class="optionPanel">
                 <span></span>
