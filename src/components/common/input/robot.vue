@@ -87,10 +87,10 @@
                     case (nowHour > 7 && nowHour <= 10):
                         this.message = `太阳当空照，花儿对我笑，小鸟说，${this.userName}早！早！早！`;
                         break;
-                    case ((nowHour > 10 && nowHour <= 14)):
+                    case (nowHour > 10 && nowHour <= 14):
                         this.message = `${this.userName}！中午好！`;
                         break;
-                    case ((nowHour > 14 && nowHour <= 18)):
+                    case (nowHour > 14 && nowHour <= 18):
                         this.message = `人的一生，是他所抓住的时间。${this.userName}！下午好！`;
                         break;
                     default:
