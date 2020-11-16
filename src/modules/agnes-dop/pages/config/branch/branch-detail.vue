@@ -91,10 +91,10 @@
                 }
                 try {
                     let formData = JSON.parse(JSON.stringify(this.detailFormData))
-                    if(this.detailFormData.branchCode == this.row.branchCode){
-                       formData.isCheck = false 
+                    if(this.mode!=='add' && this.detailFormData.branchCode !== this.row.branchCode){
+                       formData.isCheck = true
                     }else{
-                        formData.isCheck = true 
+                       formData.isCheck = false
                     }
                     const p = this.$api.branchApi.saveData(formData);
                     const resp = await this.$app.blockingApp(p);

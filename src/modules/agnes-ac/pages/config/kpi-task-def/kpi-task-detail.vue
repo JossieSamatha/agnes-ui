@@ -144,7 +144,7 @@
             </el-checkbox-group>
         </el-form-item>
         <el-form-item v-if="msgInformParam.length>0">
-            <el-tabs type="card" style="height: 290px;">
+            <el-tabs class="scroll-content-tab" type="card" style="height: 290px;">
                 <el-tab-pane v-for="(msgInformItem, msgInformIndex) in msgInformParam" :key="msgInformIndex"
                              :name="msgInformIndex+''">
                     <span class="tab-label" slot="label">
@@ -201,12 +201,12 @@
                         <el-form-item v-if="detailForm.isRecordTimeoutError === '1'">
                             <el-form-item label="异常类型">
                                 <el-select v-model="detailForm.timeoutErrorType" placeholder="请选择">
-                                    <el-option
-                                            v-for="item in detailForm.errorTypeData"
-                                            :key="item.value"
-                                            :label="item.label"
-                                            :value="item.value">
-                                    </el-option>
+                                    <gf-filter-option
+                                            v-for="item in errorTypeData"
+                                            :key="item.dictId"
+                                            :label="item.dictName"
+                                            :value="item.dictId">
+                                    </gf-filter-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="异常内容">
@@ -225,12 +225,12 @@
                         <el-form-item v-if="detailForm.isRecordError === '1'">
                             <el-form-item label="异常类型">
                                 <el-select v-model="detailForm.errorType" placeholder="请选择">
-                                    <el-option
-                                            v-for="item in detailForm.errorTypeData"
-                                            :key="item.value"
-                                            :label="item.label"
-                                            :value="item.value">
-                                    </el-option>
+                                    <gf-filter-option
+                                            v-for="item in errorTypeData"
+                                            :key="item.dictId"
+                                            :label="item.dictName"
+                                            :value="item.dictId">
+                                    </gf-filter-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="异常内容">
@@ -306,6 +306,7 @@
                 msgInformParam: [],      // 消息通知参数类型数组
                 startAllTime: '0',       // 是否永久有效
                 bizTagOption: [],        // 业务类型下拉
+                errorTypeData:[],
                 msgInfoStr: ['warningRemind', 'finishRemind', 'timeoutRemind', 'exceptionRemind'],
                 // 规则选择类型选项
                 ruleTypeOp: [{label: '默认完成规则', value: '0'}, {label: '自定义完成规则', value: '1'}],
@@ -371,6 +372,7 @@
             }
         },
         beforeMount() {
+            this.errorTypeData = this.$app.dict.getDictItems("AGNES_DOP_ERR_TYPE");
             this.reDataTransfer();
             this.getOptions();
             this.getServiceResponse();
@@ -705,5 +707,12 @@
         font-size: 16px;
         font-weight: bold;
         cursor: pointer;
+    }
+</style>
+
+<style>
+    .task-def-form .el-tabs.scroll-content-tab .el-tab-pane .el-form{
+        height: 100%;
+        overflow: auto;
     }
 </style>

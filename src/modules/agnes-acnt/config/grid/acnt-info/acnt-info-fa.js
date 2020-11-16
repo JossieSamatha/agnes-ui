@@ -9,47 +9,45 @@ const colButtons = [
             if(params.data.processStatus === '02'){
                 result =true;
             }
-            return result;}},
-
-    // {key: 'registration', title: '账户登记'},
-    // {key: 'check', title: '复核'},
+            return result;}}
 ];
 
 export default {
     columnDefs: [
         column.buildOpCol(180, colButtons),
         {headerName: "账户名称", field: "acntName"},
-        {headerName: "账号", field: "accNo"},
+        {headerName: "账户简称", field: "acntShortName"},
+        {headerName: "归属机构", field: "extOrgName"},
+
         {headerName: "流程类型", field: "processType"},
         {headerName: "账户类型", field: "typeName"},
-        {headerName: "状态", field: "acntStatus", dictType:"AGNES_ACNT_INFO_STATUS"},
-        {headerName: "归属机构", field: "extOrgName"},
-        {headerName: "开户机构", field: "openBank"},
-        {headerName: "账户对方联系人", field: "openLinkMan"},
-        {headerName: "币种", field: "currency" , dictType:"AGNES_ACNT_CURRENCY_TYPE"},
-        {headerName: "账户启用日期", field: "acntStartDt"},
+        {headerName: "账户状态", field: "acntStatus", dictType:"AGNES_ACNT_INFO_STATUS"},
+        {headerName: "基金代码", field: "productCode"},
+        {headerName: "基金名称", field: "productName"},
 
-        {headerName: "利率", field: "rateLabel"},
-        {headerName: "银行联系人", field: "linkmanNames"},
-        {headerName: "备付金账户对应的银行账户", field: "provisionBankAcntNames"},
         {headerName: "账号", field: "acc_nos"},
         {headerName: "市场", field: "markets"},
+
         {headerName: "资金账号", field: "fundAccNos"},
         {headerName: "资金账号名称", field: "fundAccNames"},
         {headerName: "币种", field: "fundCurrencys"},
+
+        {headerName: "开户网点", field: "openBank"},
+        {headerName: "大额支付号", field: "bigPayNo"},
+        {headerName: "利率", field: "rateLabel"},
+        {headerName: "账户启用日期", field: "acntStartDt"},
+
+        {headerName: "是否开通银企直连", field: "isOpenBankCorDirect", dictType:"OPDS_YES_NO"},
+        {headerName: "到期提醒", field: "maturityDt"},
+
+        {headerName: "银行联系人", field: "linkmanNames"},
+        {headerName: "备注", field: "remark"},
 
         column.colCrtUser,
         column.colCrtTm,
         column.colUpdUser,
         column.colUpdTm
     ],
-    // ext: {
-    //     fetchUrl: "/agnes-app/v1/acnt/info/list/page",    //后台查询数据的URL地址
-    //     fetchMethod: 'post',
-    //     pagingMode: true, //不分页
-    //     checkboxColumn: 1, //是否显示checkbox列,
-    //     enableExportLocal: true
-    // }
     defaultColDef: {
         enableRowGroup: true,
         menuTabs: ['generalMenuTab', 'filterMenuTab', 'columnsMenuTab'],

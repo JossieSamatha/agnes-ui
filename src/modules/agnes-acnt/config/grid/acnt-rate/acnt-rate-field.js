@@ -19,7 +19,7 @@ const colButtons = [
                 result =true;
             }
             return result;}},
-    {key: 'start', title: '启用',disabled: (params)=>{
+    {key: 'start', title: '发布',disabled: (params)=>{
             let result = false;
             if(params.data.status === '01'){
                 result =true;
@@ -31,7 +31,7 @@ const colButtons = [
                 result =false;
             }
             return result;}},
-    {key: 'stop', title: '停用',visiable: (params)=>{
+    {key: 'stop', title: '停止',visiable: (params)=>{
             let result = false;
             if(params.data.status === '03'){
                 result =true;

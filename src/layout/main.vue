@@ -3,22 +3,37 @@
         <template slot="logo">
             <img :src="require('../assets/img/login-logo.png')" alt="logo" class="gf-app-logo">
         </template>
-        <template slot="menu"><span></span></template>
+        <template slot="menu">
+            <span></span>
+        </template>
         <div class="top-menu-right" slot="nav-user-before">
             <div class="top-menu-item search-item">
-                <el-input class="search" placeholder="全局搜索" suffix-icon="el-icon-search" v-model="searchValue"></el-input>
+                <robot-wisdom>
+                    <template v-slot:default="{ ifShowInput }">
+                        <gf-global-search class="search"
+                                          v-model="searchValue"
+                                          placeholder="全局搜索"
+                                          :appMenus="appMenus"
+                                          :adminMenus="adminMenus"
+                                          v-show="ifShowInput"
+                        ></gf-global-search>
+                    </template>
+                </robot-wisdom>
             </div>
             <div class="top-menu-item">
-                <span class="iconImg" title="帮助" v-html="svgImg.helpIcon"></span>
+                <span class="iconImg" title="帮助" v-html="svgImg.helpIcon" @click="openHelpPage"></span>
             </div>
             <div class="top-menu-item" @click="handelNotice">
-                <el-badge :value=unreadCount>
+                <el-badge :value=unreadCount :hidden="!unreadCount">
                     <span class="iconImg" title="消息提醒" v-html="svgImg.noticeIcon"></span>
                 </el-badge>
             </div>
         </div>
         <template slot="sidebar-menu" slot-scope="props">
-            <gf-vertical-expand v-show="!props.maximizeView" :allMenu="menus.allMenu" :markMenu="menus.markMenu">
+            <gf-vertical-expand v-show="!props.maximizeView"
+                                :allMenu="menus.allMenu"
+                                :markMenu="menus.markMenu"
+            >
             </gf-vertical-expand>
         </template>
         <template slot="tab-bar-left">
@@ -27,22 +42,31 @@
                 <el-option value="appMenus" label="应用模式（APP STUDIO）"></el-option>
                 <el-option value="adminMenus" label="管理模式（DEV STUDIO）"></el-option>
             </el-select>
+            <div class="biz-date-square">{{bizDateComplete}}</div>
         </template>
         <notice-box :noticeData="noticeData" :showDrawer="showNoticeDrawer"
                     @refreshNotice="handelNotice"
                     @getUnreadCount="getUnreadCount"
                     @noticeDrawerClose="noticeDrawerClose"
         ></notice-box>
-        <el-popover popper-class="feedbackPopover" width="300" placement="right" trigger="click" @show="handelfeedback(true)" @hide="handelfeedback(false)">
+        <el-popover popper-class="feedbackPopover"
+                    width="300"
+                    placement="right"
+                    trigger="click"
+                    @show="handelfeedback(true)"
+                    @hide="handelfeedback(false)">
             <el-form ref="feedbackForm" label-position="top" size="mini">
                 <el-form-item label="聆听:意见反馈" prop="name">
                     <el-input type="textarea"
                             :rows="2"
                             placeholder="请留下您的宝贵意见"
-                            v-model="feedbackContent">
+                            v-model="content">
                     </el-input>
                 </el-form-item>
             </el-form>
+            <p class="action-panel">
+                <el-button type="primary" size="mini" @click="feedbackSubmit" icon="fa fa-paper-plane-o">发送反馈</el-button>
+            </p>
             <div class="funBtn feedback" slot="reference" title="意见反馈">
                 <em class="fa fa-envelope-o" v-if="!feedbackShow"></em>
                 <em class="fa fa-envelope-open-o" v-if="feedbackShow"></em>
@@ -53,7 +77,7 @@
 
 <script>
     import {toColumn} from "./menus";
-    import init from './init-menus'
+    import init from './init-menus';
     export default {
         data() {
             return {
@@ -69,12 +93,25 @@
                 studioType: 'appMenus',
                 searchValue: '',
                 showNoticeDrawer: false,
-                feedbackContent: '',
+                content: '',
                 feedbackShow: false,
                 bizDateTimer: null, // 日切日期定时器
-                unreadCount:""
+                unreadCount:"",
+                localTime: ''
             }
         },
+
+        computed: {
+            bizDateComplete() {
+                let bizdate = this.$dateUtils.formatDate(this.localTime, 'HH:mm:ss yyyy/MM/dd');
+                if(window.bizDate){
+                    const recode = window.bizDate.replace('-','/').replace('-','/');
+                    bizdate = bizdate.slice(0, 9)+recode;
+                }
+                return bizdate;
+            }
+        },
+
         methods: {
             showView(viewId) {
                 this.view = viewId;
@@ -87,27 +124,24 @@
                 const tabView = Object.assign({args: {data: {}}}, pageView, {id: viewId || ''});
                 this.$nav.showView(tabView);
             },
-            loadMenus(){
+            loadMenus() {
                 //初始化菜单
                 let _this = this;
                 let otherMenus = [];
                 let data = this.$store.getters.menus;
-                if(data){
-
-                    data.forEach(menu=> {
-                            if (menu.resCode === 'app') {
-                                Object.assign(_this.appMenus,init.initMenus(toColumn(menu.children)))
-                            }
-                            else if(menu.resCode === 'admin'){
-                                Object.assign(_this.adminMenus,init.initMenus(toColumn(menu.children)))
-                            }
-                            else {
-                                otherMenus.push(menu)
-                            }
+                if (data) {
+                    data.forEach(menu => {
+                        if (menu.resCode === 'app') {
+                            Object.assign(_this.appMenus, init.initMenus(toColumn(menu.children)))
+                        } else if (menu.resCode === 'admin') {
+                            Object.assign(_this.adminMenus, init.initMenus(toColumn(menu.children)))
+                        } else {
+                            otherMenus.push(menu)
+                        }
                     });
                     const other = init.initMenus(toColumn(otherMenus));
-                    if(other.allMenu.children){
-                        other.allMenu.children.forEach(childData=>{
+                    if (other.allMenu.children) {
+                        other.allMenu.children.forEach(childData => {
                             _this.adminMenus.allMenu.children.push(childData)
                         })
                     }
@@ -132,13 +166,14 @@
             logout: function () {
                 // 判断是否有抽屉存在，若有，移除
                 const drawerList = document.getElementsByClassName('gf-page-drawer');
-                if(drawerList.length > 0){
-                    drawerList.forEach(x=>{
+                if (drawerList.length > 0) {
+                    drawerList.forEach(x => {
                         document.body.removeChild(x);
                     });
                 }
                 // 退出登录后清楚定时器
                 clearInterval(this.bizDateTimer);
+                clearInterval(this.localTimer);
 
                 this.$store.dispatch('logout').then(() => {
                     this.$router.push({path: '/login'});
@@ -156,16 +191,16 @@
                 this.$nav.showView(depTabView);
             },
             studioTypeChange(val) {
-                if(val === 'appMenus'){
+                if (val === 'appMenus') {
                     this.menus = this.appMenus;
-                }else{
+                } else {
                     this.menus = this.adminMenus;
                 }
             },
-            async handelNotice(){
+            async handelNotice() {
                 this.showNoticeDrawer = true;
                 const resp = await this.$api.ruleTableApi.getMsgBoxList();
-                this.noticeData = resp.data;
+                this.noticeData = resp.data.splice(0,9);
             },
 
             noticeDrawerClose() {
@@ -176,15 +211,15 @@
                 this.feedbackShow = ifShow;
             },
 
-            async resize(){
+            async resize() {
                 // 拉伸结束后，触发窗口resize监听事件
                 await this.$nextTick(function () {
                     // 兼容IE
-                    if(document.createEvent) {
+                    if (document.createEvent) {
                         let event = document.createEvent("HTMLEvents");
                         event.initEvent("resize", true, true);
                         window.dispatchEvent(event);
-                    } else if(document.createEventObject) {
+                    } else if (document.createEventObject) {
                         window.fireEvent("onresize");
                     }
                 });
@@ -195,7 +230,7 @@
                 try {
                     const resp = await this.$api.changeDataApi.getChangeData();
                     const resChangeData = resp.data;
-                    if(resChangeData.bizDate && resChangeData.bizDate !== window.bizDate){
+                    if (resChangeData.bizDate && resChangeData.bizDate !== window.bizDate) {
                         window.bizDate = resChangeData.bizDate;
                     }
                 } catch (reason) {
@@ -212,24 +247,48 @@
                     this.$msg.error(reason);
                 }
             },
+            async feedbackSubmit(){
+                let mailTo = this.$app.dict.getDictName("AGNES_FEEDBACK_MAIL",'to');
+                let mailCc = this.$app.dict.getDictName("AGNES_FEEDBACK_MAIL",'cc');
+                let from = {mailTo:mailTo,mailCc:mailCc,content:this.content}
+                try {
+                    await this.$api.ruleTableApi.feedbackSubmit(from);
+                    this.$msg.success('提交成功');
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
+
+            openHelpPage(){
+                this.$drawerPage.create({
+                    width: 'calc(97% - 215px)',
+                    title: ['帮助文档', 'view'],
+                    component: 'help-info-page',
+                    okButtonVisible: false
+                })
+            }
         },
         async mounted() {
             //加载菜单
             this.loadMenus();
             // 获取日切值
+            this.localTime = new Date();
             this.getChangeDate();
             this.getUnreadCount();
-            this.bizDateTimer = setInterval(()=>{
+            this.bizDateTimer = setInterval(() => {
                 this.getChangeDate();
                 this.getUnreadCount();
-            }, 300000)
+            }, 300000);
+            this.localTimer = setInterval( ()=> {
+                this.localTime = new Date();
+            }, 1000);
             //默认加载首页、部门首页
             this.$nav.closeAllTab();
             this.showMain();
             this.$app.registerCmd('gf.changePwd', () => this.changePwd());
             this.$app.registerCmd('gf.logout', () => this.logout());
             this.$app.registerCmd('gf.bizDateChange', () => this.getChangeDate());
-            this.$nav.tabBar.chromeTabs.$on("activeTabChange", ()=>{
+            this.$nav.tabBar.chromeTabs.$on("activeTabChange", () => {
                 this.resize();
             });
         }

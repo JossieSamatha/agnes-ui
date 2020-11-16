@@ -1,7 +1,7 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'editType', title: '修改'},
+    {key: 'editType', title: '编辑'},
     {key: 'deleteType', title: '删除', cellClass: 'red-cell'}
 ];
 export default {

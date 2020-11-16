@@ -48,7 +48,6 @@ export default {
     });
   },
   mounted() {
-    this.moduleObj
     this.$api.ruleTableApi.getUserOfToday(this.todayDate, this.moduleObj.pageType).then(res => {
       this.rosterList = res.data;
     });

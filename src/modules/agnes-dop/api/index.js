@@ -13,6 +13,7 @@ import productApi from './product-api';
 import monitorRiskApi from './monitor-risk-api';
 import monitorErrApi from './monitor-err-api';
 import branchApi from './branch-data-api';
+import helpDefApi from './help-def-api';
 
 export default {
     orgDefineApi,
@@ -30,4 +31,5 @@ export default {
     monitorRiskApi,
     monitorErrApi,
     branchApi,
+    helpDefApi
 };
