@@ -28,10 +28,9 @@
         watch: {
             reqData:{
                 handler() {
-                    if (this.reqData.extOrgId) {
-                        this.queryArgs.extOrgId = this.reqData.extOrgId;
-                        this.reloadData();
-                    }
+                    this.queryArgs.extOrgId = this.reqData.extOrgId;
+                    this.reloadData();
+
                 },
                 deep:true
             }
