@@ -6,11 +6,9 @@
                     <span class="gf-menu-item flodBtn" @click="foldSideMenu">
                         <em class="menuicon" v-html="ifSideMenuFlod?svgImg.refoldIcon:svgImg.foldIcon"></em>
                     </span>
-                    <span class="setting" @click="showFastMenu">
+                    <span class="setting">
                         <em class="fa fa-star"></em>
                         <span>常用功能</span>
-                        <em class="el-icon-arrow-down" v-if="foldFastMenu"></em>
-                        <em class="el-icon-arrow-up" v-else></em>
                     </span>
                 </div>
             </div>
@@ -21,6 +19,18 @@
                         <span class="menuname" @click="markMenuChoose(menu)">{{menu.menuname}}</span>
                         <em class="el-icon-close" @click="cancelMark(menu)"></em>
                     </div>
+                </div>
+            </div>
+            <div class="gf-menu footer">
+                <div class="header">
+                    <span class="gf-menu-item flodBtn">
+                        <em class="menuicon" v-html="svgImg.overviewMenuIcon"></em>
+                    </span>
+                    <span class="setting" @click="showFastMenu">
+                        <span>功能菜单</span>
+                        <em class="el-icon-arrow-down" v-if="foldFastMenu"></em>
+                        <em class="el-icon-arrow-up" v-else></em>
+                    </span>
                 </div>
             </div>
             <div v-if="false" class="gf-menu entrance-menu" @click="menuChoose(allMenu)">

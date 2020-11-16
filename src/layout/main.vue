@@ -8,19 +8,23 @@
         </template>
         <div class="top-menu-right" slot="nav-user-before">
             <div class="top-menu-item search-item">
-                <gf-global-search class="search"
-                                  v-model="searchValue"
-                                  placeholder="全局搜索"
-                                  :appMenus="appMenus"
-                                  :adminMenus="adminMenus"
-                                  suffix-icon="el-icon-search"
-                ></gf-global-search>
+                <robot-wisdom>
+                    <template v-slot:default="{ ifShowInput }">
+                        <gf-global-search class="search"
+                                          v-model="searchValue"
+                                          placeholder="全局搜索"
+                                          :appMenus="appMenus"
+                                          :adminMenus="adminMenus"
+                                          v-show="ifShowInput"
+                        ></gf-global-search>
+                    </template>
+                </robot-wisdom>
             </div>
             <div class="top-menu-item">
                 <span class="iconImg" title="帮助" v-html="svgImg.helpIcon" @click="openHelpPage"></span>
             </div>
             <div class="top-menu-item" @click="handelNotice">
-                <el-badge :value=unreadCount>
+                <el-badge :value=unreadCount :hidden="!unreadCount">
                     <span class="iconImg" title="消息提醒" v-html="svgImg.noticeIcon"></span>
                 </el-badge>
             </div>
@@ -38,13 +42,19 @@
                 <el-option value="appMenus" label="应用模式（APP STUDIO）"></el-option>
                 <el-option value="adminMenus" label="管理模式（DEV STUDIO）"></el-option>
             </el-select>
+            <div class="biz-date-square">{{bizDateComplete}}</div>
         </template>
         <notice-box :noticeData="noticeData" :showDrawer="showNoticeDrawer"
                     @refreshNotice="handelNotice"
                     @getUnreadCount="getUnreadCount"
                     @noticeDrawerClose="noticeDrawerClose"
         ></notice-box>
-        <el-popover popper-class="feedbackPopover" width="300" placement="right" trigger="click" @show="handelfeedback(true)" @hide="handelfeedback(false)">
+        <el-popover popper-class="feedbackPopover"
+                    width="300"
+                    placement="right"
+                    trigger="click"
+                    @show="handelfeedback(true)"
+                    @hide="handelfeedback(false)">
             <el-form ref="feedbackForm" label-position="top" size="mini">
                 <el-form-item label="聆听:意见反馈" prop="name">
                     <el-input type="textarea"
@@ -67,7 +77,7 @@
 
 <script>
     import {toColumn} from "./menus";
-    import init from './init-menus'
+    import init from './init-menus';
     export default {
         data() {
             return {
@@ -86,7 +96,19 @@
                 content: '',
                 feedbackShow: false,
                 bizDateTimer: null, // 日切日期定时器
-                unreadCount:""
+                unreadCount:"",
+                localTime: ''
+            }
+        },
+
+        computed: {
+            bizDateComplete() {
+                let bizdate = this.$dateUtils.formatDate(this.localTime, 'HH:mm:ss yyyy/MM/dd');
+                if(window.bizDate){
+                    const recode = window.bizDate.replace('-','/').replace('-','/');
+                    bizdate = bizdate.slice(0, 9)+recode;
+                }
+                return bizdate;
             }
         },
 
@@ -151,6 +173,7 @@
                 }
                 // 退出登录后清楚定时器
                 clearInterval(this.bizDateTimer);
+                clearInterval(this.localTimer);
 
                 this.$store.dispatch('logout').then(() => {
                     this.$router.push({path: '/login'});
@@ -177,7 +200,7 @@
             async handelNotice() {
                 this.showNoticeDrawer = true;
                 const resp = await this.$api.ruleTableApi.getMsgBoxList();
-                this.noticeData = resp.data;
+                this.noticeData = resp.data.splice(0,9);
             },
 
             noticeDrawerClose() {
@@ -249,12 +272,16 @@
             //加载菜单
             this.loadMenus();
             // 获取日切值
+            this.localTime = new Date();
             this.getChangeDate();
             this.getUnreadCount();
             this.bizDateTimer = setInterval(() => {
                 this.getChangeDate();
                 this.getUnreadCount();
-            }, 300000)
+            }, 300000);
+            this.localTimer = setInterval( ()=> {
+                this.localTime = new Date();
+            }, 1000);
             //默认加载首页、部门首页
             this.$nav.closeAllTab();
             this.showMain();

@@ -8,6 +8,8 @@ import cronModal from "./cron-comp/cron-modal";
 import accEcmUpload from './ecm-upload/acc-ecm-upload';
 import inputComp from './input/index'
 
+import robotWisdom from './input/robot'
+
 const Loading = {
     install: function (Vue) {
         Vue.use(menu);
@@ -19,6 +21,7 @@ const Loading = {
         Vue.component('gf-filter-option',GfFilterOption);
         Vue.component('gf-strbool-checkbox',GfStrBoolCheckBox);
         Vue.component('acc-ecm-upload',accEcmUpload);
+        Vue.component('robot-wisdom',robotWisdom);
     }
 };
 
