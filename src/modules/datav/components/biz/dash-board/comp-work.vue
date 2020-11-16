@@ -10,10 +10,10 @@
           {{ item.userName }}&nbsp;
           <span style="color:#9a9a9a;">({{ item.userId }})</span>
         </div>
-        <div>{{ getRosterType(item.rosterType) }}</div>
+        <div>Tel:{{ item.oTel }}</div>
       </div>
       <div class="task-time">
-        <div>{{ item.rosterTs }}</div>
+        <div>{{ getRosterType(item.rosterType) }}</div>
       </div>
     </div>
   </div>
