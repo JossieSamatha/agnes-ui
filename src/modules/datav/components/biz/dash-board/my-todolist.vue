@@ -7,11 +7,10 @@
             </div>
             <div class="task-des">
                 <div :title="item.taskName">{{item.taskName}}</div>
-                <div :title="item.stepName">{{item.stepName}}</div>
+                <div :title="item.stepName">计划时间:{{ item.startDay }}[{{ item.planTime }}]</div>
             </div>
             <div class="task-time">
-                <div>{{getTaskDate(item.bizDt)}}</div>
-                <div>{{getTaskTime(item.taskStartTm)}}</div>
+              <div>{{ getCaseStepType(item.taskType) }}</div>
             </div>
         </div>
     </div>
@@ -28,7 +27,9 @@
         },
         data(){
             return {
-                taskDemoArr: []
+              taskDemoArr: [],
+              bizdate: null,
+              caseStepTypeDict: this.$app.dict.getDictItems('AGNES_CASE_STEPTYPE'),
             }
         },
         created(){
@@ -37,13 +38,21 @@
             })
         },
         methods: {
-            getTaskDate(taskDate){
-                return taskDate ? taskDate.slice(5,11) : '';
-            },
+          getTaskDate(taskDate) {
+            return taskDate ? taskDate.slice(5, 11) : '';
+          },
 
-            getTaskTime(taskTime){
-                return taskTime ? taskTime.slice(11) : '';
+          getTaskTime(taskTime) {
+            return taskTime ? taskTime.slice(11) : '';
+          },
+          getCaseStepType(caseStepType) {
+            if (caseStepType) {
+              const dictObj = this.$lodash.find(this.caseStepTypeDict, {dictId: caseStepType});
+              if (dictObj) {
+                return dictObj.dictName;
+              }
             }
+          },
         }
     }
 </script>
