@@ -2,7 +2,8 @@
     <div>
         <gf-grid grid-no="acnt-rate-field" ref="grid" toolbar="find,refresh,more">
             <template slot="left">
-                    <gf-button class="action-btn" @click="addRate" size="mini">添加</gf-button>
+                    <gf-button class="action-btn" @click="addRate" size="mini"
+                               v-if="$hasPermission('agnes.acnt.rate.add')">添加</gf-button>
             </template>
         </gf-grid>
     </div>

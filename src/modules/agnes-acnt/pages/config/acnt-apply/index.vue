@@ -51,9 +51,12 @@
         <gf-grid grid-no="acnt-apply-field" @load-data="dataChange" :query-args="queryArgs" ref="grid"
                  @row-double-click="showDetail">
             <template slot="left">
-                <gf-button  class="action-btn" @click="openApply">开户</gf-button>
-                <gf-button  class="action-btn" @click="submitOA">提交OA</gf-button>
-                <gf-button  class="action-btn" @click="addInfoFile">资料准备</gf-button>
+                <gf-button  class="action-btn" @click="openApply"
+                            v-if="$hasPermission('agnes.acnt.apply.openApply')">开户</gf-button>
+                <gf-button  class="action-btn" @click="submitOA"
+                            v-if="$hasPermission('agnes.acnt.apply.submitOA')">提交OA</gf-button>
+                <gf-button  class="action-btn" @click="addInfoFile"
+                            v-if="$hasPermission('agnes.acnt.apply.addInfoFile')">资料准备</gf-button>
             </template>
         </gf-grid>
     </div>
