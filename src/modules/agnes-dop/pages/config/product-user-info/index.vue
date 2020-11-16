@@ -41,12 +41,8 @@
                 this.$refs.grid.reloadData();
             },
             reSetSearch() {
-                this.queryArgs = {
-                    'taskName':'',
-                    'execStartTime':'',
-                    'taskType':'',
-                    'taskStatus':'',
-                };
+                this.queryArgs.userId = '';
+                this.queryArgs.productCode = '';
                 this.reloadData();
             },
         },

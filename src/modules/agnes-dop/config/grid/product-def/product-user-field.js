@@ -12,7 +12,7 @@ export default {
         fetchUrl: "/agnes-app/v1/prdt/info/user/list",
         fetchMethod: 'post',
         pagingMode: true, //不分页
-        checkboxColumn: 1, //是否显示checkbox列,
+        checkboxColumn: 2, //是否显示checkbox列,
         enableExportLocal: true,
         autoFitColumnMode: 1,
         pageOptions: {
