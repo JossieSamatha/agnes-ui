@@ -1,4 +1,5 @@
 import column from "../../../../../config/column"
+import Permission from "../../../../../utils/hasPermission";
 
 // const colButtons = [
 //     {key: 'edit', title: '编辑',visiable: (params)=>{return params.data.processStatus === '01';}},
@@ -19,14 +20,18 @@ const colButtons = [
             if(params.data.processStatus === '09'){
                 result =true;
             }
-            return result;}},
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.acnt.apply.showSteps');
+        }},
     {key: 'edit', title: '编辑', disabled: (params)=>{
             let result = false;
             if(params.data.processStatus !== '01' && params.data.processStatus !== '06'){
                 result =true;
             }
-            return result;}},//编辑  账户录入
-    {key: 'detele', title: '作废', disabled: (params)=>{
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.acnt.apply.edit');
+        }},//编辑  账户录入
+    {key: 'detele', title: '作废', cellClass: 'red-cell', disabled: (params)=>{
             let result = false;
             if(params.data.processStatus !== '01' && params.data.processStatus !== '02'
                 && params.data.processStatus !== '03'){
@@ -34,14 +39,18 @@ const colButtons = [
             // if(!(params.data.processStatus === '01')){
                 result =true;
             }
-            return result;}},//作废
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.acnt.apply.delete');
+        }},//作废
     {key: 'check', title: '审核', disabled: (params)=>{
             let result = false;
             if(params.data.processStatus !== '02' && params.data.processStatus !== '04'
                 && params.data.processStatus !== '05'&& params.data.processStatus !== '07'){
                 result =true;
             }
-            return result;}},//复核 资料准备完成 财务审核 账户复核
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.acnt.apply.check');
+        }},//复核 资料准备完成 财务审核 账户复核
 
 
 ];

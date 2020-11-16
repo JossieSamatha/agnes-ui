@@ -1,8 +1,13 @@
 import column from "../../../../../config/column"
+import Permission from "../../../../../utils/hasPermission";
 
 const colButtons = [
-    {key: 'editType', title: '编辑'},
-    {key: 'deleteType', title: '删除', cellClass: 'red-cell'}
+    {key: 'editType', title: '编辑', visiable: () => {
+            return Permission.hasPermission('agnes.acnt.type.edit');
+        }},
+    {key: 'deleteType', title: '删除', cellClass: 'red-cell', visiable: () => {
+            return Permission.hasPermission('agnes.acnt.type.delete');
+        }}
 ];
 export default {
     columnDefs: [

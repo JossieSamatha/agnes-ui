@@ -974,7 +974,7 @@
                         if(this.$lodash.isEmpty(opUser)){
                             opUser = form.crtUser;
                         }
-                        // alert(opUser);
+
                         if(opUser === this.$app.session.data.user.userId){
                             this.$msg.warning('您不能进行该岗操作！');
                             return ;

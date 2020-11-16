@@ -1,4 +1,5 @@
 import column from "../../../../../config/column"
+import Permission from "../../../../../utils/hasPermission";
 
 const colButtons = [
     {key: 'editRate', title: '编辑',disabled: (params)=>{
@@ -6,19 +7,25 @@ const colButtons = [
             if(params.data.status === '03'){
                 result =true;
             }
-            return result;}},
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.acnt.rate.edit');
+        }},
     {key: 'deleteRate', title: '删除', cellClass: 'red-cell',disabled: (params)=>{
             let result = false;
             if(params.data.status === '03'){
                 result =true;
             }
-            return result;}},
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.acnt.rate.delete');
+        }},
     {key: 'check', title: '审核',disabled: (params)=>{
             let result = false;
             if(params.data.status === '02'|| params.data.status === '03'|| params.data.status === '05'){
                 result =true;
             }
-            return result;}},
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.acnt.rate.check');
+        }},
     {key: 'start', title: '发布',disabled: (params)=>{
             let result = false;
             if(params.data.status === '01'){
@@ -27,16 +34,18 @@ const colButtons = [
             return result;},
         visiable:(params)=>{
             let result = true;
-            if(params.data.status === '03'){
+            if(params.data.status === '03'
+                || !Permission.hasPermission('agnes.acnt.rate.publish')){
                 result =false;
             }
             return result;}},
-    {key: 'stop', title: '停止',visiable: (params)=>{
+    {key: 'stop', title: '停止', cellClass: 'red-cell',visiable: (params)=>{
             let result = false;
-            if(params.data.status === '03'){
+            if(params.data.status === '03'
+                && Permission.hasPermission('agnes.acnt.rate.stop')){
                 result =true;
             }
-            return result;}, cellClass: 'red-cell'},
+            return result;}},
 ];
 export default {
     columnDefs: [

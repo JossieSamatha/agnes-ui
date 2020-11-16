@@ -34,7 +34,7 @@ const colButtons = [
             return result;}, visiable:(params)=>{
             let result = true;
             if(params.data.msgStatus === '03'
-                && !Permission.hasPermission('agnes.msg.def.publish')){
+                || !Permission.hasPermission('agnes.msg.def.publish')){
                 result =false;
             }
             return result;}},
