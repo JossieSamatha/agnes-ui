@@ -20,6 +20,29 @@
                     </template>
                 </robot-wisdom>
             </div>
+            <el-popover popper-class="feedbackPopover"
+                        width="300"
+                        placement="bottom"
+                        trigger="click"
+                        @show="handelfeedback(true)"
+                        @hide="handelfeedback(false)">
+                <el-form ref="feedbackForm" label-position="top" size="mini">
+                    <el-form-item label="聆听:意见反馈" prop="name">
+                        <el-input type="textarea"
+                                  :rows="2"
+                                  placeholder="请留下您的宝贵意见"
+                                  v-model="content">
+                        </el-input>
+                    </el-form-item>
+                </el-form>
+                <p class="action-panel">
+                    <el-button type="primary" size="mini" @click="feedbackSubmit" icon="fa fa-paper-plane-o">发送反馈</el-button>
+                </p>
+                <div class="top-menu-item feedback" style="font-size: 18px" slot="reference" title="意见反馈">
+                    <em class="fa fa-envelope-o" v-if="!feedbackShow"></em>
+                    <em class="fa fa-envelope-open-o" v-if="feedbackShow"></em>
+                </div>
+            </el-popover>
             <div class="top-menu-item">
                 <span class="iconImg" title="帮助" v-html="svgImg.helpIcon" @click="openHelpPage"></span>
             </div>
@@ -49,29 +72,6 @@
                     @getUnreadCount="getUnreadCount"
                     @noticeDrawerClose="noticeDrawerClose"
         ></notice-box>
-        <el-popover popper-class="feedbackPopover"
-                    width="300"
-                    placement="right"
-                    trigger="click"
-                    @show="handelfeedback(true)"
-                    @hide="handelfeedback(false)">
-            <el-form ref="feedbackForm" label-position="top" size="mini">
-                <el-form-item label="聆听:意见反馈" prop="name">
-                    <el-input type="textarea"
-                            :rows="2"
-                            placeholder="请留下您的宝贵意见"
-                            v-model="content">
-                    </el-input>
-                </el-form-item>
-            </el-form>
-            <p class="action-panel">
-                <el-button type="primary" size="mini" @click="feedbackSubmit" icon="fa fa-paper-plane-o">发送反馈</el-button>
-            </p>
-            <div class="funBtn feedback" slot="reference" title="意见反馈">
-                <em class="fa fa-envelope-o" v-if="!feedbackShow"></em>
-                <em class="fa fa-envelope-open-o" v-if="feedbackShow"></em>
-            </div>
-        </el-popover>
     </gf-layout-default>
 </template>
 

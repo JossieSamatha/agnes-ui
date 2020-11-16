@@ -3,13 +3,19 @@
         <section class="top-section">
             <div class="flow-type">
                 <p class="section-label">流程类型</p>
-                <gf-dict class="flow-type-select"
-                         clearable
-                         dict-type="AGNES_CASE_FLOWTYPE"
-                         size="mini"
-                         v-model="flowType"
-                         @change="flowTypeChange"
-                         style="width: 175px;margin-right: 12px;"/>
+                <el-select class="flow-type-select"
+                           v-model="flowType"
+                           clearable
+                           size="mini"
+                           @change="flowTypeChange"
+                           style="width: 175px;margin-right: 12px;"
+                >
+                    <el-option v-for="type in flowTypeOp"
+                            :key="type.typeId"
+                            :label="type.typeName"
+                            :value="type.typeId">
+                    </el-option>
+                </el-select>
             </div>
             <el-radio-group class="task-board" v-model="choosedTaskId" size="mini" @change="chooseTask">
                 <el-radio v-for="task in proTask" :key="task.taskId" :label="task.taskId" :title="task.taskName"
@@ -32,7 +38,7 @@
                                 @change="bizDateChange"
                 >
                 </el-date-picker>
-                <em class="el-icon-refresh" title="全部刷新" @click="freshFlowData()"></em>
+                <em class="el-icon-refresh" title="全部刷新" @click="freshFlowData(true)"></em>
             </div>
         </section>
         <section class="bottom-section">
@@ -86,7 +92,7 @@
             <div class="bottom right" v-show="ifRightExpand">
                 <div class="chart-container">
                     <p class="section-title">任务进度</p>
-                    <pie-chart ref="pieChart" :chart-data="executePieData"
+                    <pie-chart ref="pieChart" :chart-data="executePieData" :title="pieTitle"
                                :color-set="['#476DBE','#E0E0E0']"></pie-chart>
                 </div>
                 <div class="exec-container">
@@ -125,10 +131,13 @@
                 dragColumn: {dragContainerId: "taskContainerLeft", dragDirection: 's'},
                 bizDate: '',
                 flowType: '',
+                flowTypeOp: [],
+                flowTypeDict: [],
                 currentTaskObj: {},
-                  choosedTaskId: '',
-                  proTask: [],
-                  executePieData: [],
+                choosedTaskId: '',
+                proTask: [],
+                executePieData: [],
+                pieTitle: '',
                   taskStage: [],
                   execLog: [],
                   ifRightExpand: false,
@@ -141,10 +150,8 @@
                       '#FAAE14': '干预通过',
                       '#52C41C': '已完成'
                   },
-                  freshInterval: null,
                   execTypeChecked: ['OVERTIME', 'EXCEPTION'],
-                  execTypeOp: [{id: 'AHEAD', label: '提前', icon: 'executing'},
-                      {id: 'LAUNCH', label: '启动', icon: 'executing'}, {id: 'FINISHED', label: '完成', icon: 'finish'},
+                  execTypeOp: [{id: 'AHEAD', label: '提前', icon: 'executing'},{id: 'FINISHED', label: '完成', icon: 'finish'},
                     {id: 'OVERTIME', label: '超时', icon: 'outTime'}, {id: 'EXCEPTION', label: '异常', icon: 'abnormal'}
                   ],
                 taskIdList: [],
@@ -160,34 +167,14 @@
             // 默认系统业务日期
             this.bizDate = window.bizDate;
             // 默认加载首个流程类型流程数据
-            const flowTypeDicts = this.$app.dict.getDictItems("AGNES_CASE_FLOWTYPE");
-            if (flowTypeDicts.length > 0 && flowTypeDicts[0].dictId) {
-                this.flowType = flowTypeDicts[0].dictId;
-                this.getFLowbyType(flowTypeDicts[0].dictId, this.bizDate);
-            }
-            this.freshInterval = setInterval(() => {
-                if(!this.loading) {
-                    this.freshFlowData();
+            this.flowTypeDict = this.$app.dict.getDictItems("AGNES_CASE_FLOWTYPE").map((dictItem)=>{
+                return {
+                    typeId: dictItem.dictId,
+                    typeName: dictItem.dictName
                 }
-            }, 60000);
-        },
-        beforeDestroy() {
-            clearInterval(this.freshInterval);
-        },
-        watch:{
-            // 监听,当路由发生变化的时候执行
-            $route(to,from){
-                if(from.path === '/agnes.elec.operate') {
-                    clearInterval(this.freshInterval);
-                }
-                if(to.path === '/agnes.elec.operate'){
-                    this.freshInterval = setInterval(() => {
-                        if(!this.loading){
-                            this.freshFlowData();
-                        }
-                    }, 60000);
-                }
-            }
+            });
+            this.getAllFlow(this.bizDate);
+
         },
         computed: {
             isBizDate(){
@@ -195,27 +182,51 @@
             }
         },
         methods: {
-            // 根据流程类型加载对应流程数据
-            async getFLowbyType(firstFlowType, bizDate) {
-                const flowDataList = await this.$api.elecProcessApi.getTaskByType(firstFlowType, bizDate);
+            // 获取所有流程数据
+            async getAllFlow(bizDate) {
+                const flowDataList = await this.$api.elecProcessApi.getTaskByType(bizDate);
                 if (flowDataList.data && flowDataList.data.length > 0) {
-                    this.proTask = flowDataList.data;
+                    this.flowTypeOp = this.getNeedFlowType(flowDataList.data);
+                    this.flowType = this.flowTypeOp[0].typeId;
+                    this.proTask = this.flowTypeOp[0].proTask;
                     // 默认加载第一项流程数据
                     this.choosedTaskId = this.proTask[0].taskId;
                     this.currentTaskObj = this.proTask[0];
-                    this.getFLowDetail(this.proTask[0].taskId, bizDate);
+                    this.getFLowDetail(this.proTask[0].taskId, bizDate, true);
                 } else {
+                    this.flowType = '';
+                    this.flowTypeOp = [];
                     this.proTask = [];
                     this.taskStage = [];
                     this.executePieData = [];
+                    this.pieTitle = '';
                     this.execLog = [];
                     this.setGridData([]);
                 }
             },
 
+
+            getNeedFlowType(flowDataList){
+                const flowTypeOp = this.$lodash.cloneDeep(this.flowTypeDict);
+                flowDataList.forEach((dataItem)=>{
+                    const dataIndex = this.$lodash.findIndex(flowTypeOp, {typeId: dataItem.flowType});
+                    if(flowTypeOp[dataIndex]) {
+                        if(!flowTypeOp[dataIndex].proTask){
+                            flowTypeOp[dataIndex].proTask = [];
+                        }
+                        flowTypeOp[dataIndex].proTask.push(dataItem);
+                    }
+                });
+                return flowTypeOp.filter((flowItem)=>{
+                    return flowItem.proTask && flowItem.proTask.length>0;
+                })
+            },
+
             // 根据流程id及业务日期加载流程信息{"taskId":"","bizDate":""}、获取任务状态、获取执行情况
-            async getFLowDetail(taskId, bizDate) {
-                this.loading = true;
+            async getFLowDetail(taskId, bizDate, ifLoading) {
+                if(ifLoading) {
+                    this.loading = true;
+                }
                 try {
                     const flowDetailStr = await this.$api.elecProcessApi.getExecProcessBrief({taskId, bizDate});
                     if (flowDetailStr.data) {
@@ -240,6 +251,7 @@
                                 {name: '未完成', value: (allTaskNum-targetNum)}
                             ];
                             this.executePieData = executePieData;
+                            this.pieTitle = Math.floor(targetNum/allTaskNum*100)+'%';
 
                             // 获取执行情况
                             this.taskIdList = flowDetailParse.taskIdList;
@@ -269,13 +281,17 @@
             // 流程类型切换
             flowTypeChange(val) {
                 this.curStage = {};
-                this.getFLowbyType(val, this.bizDate);
+                this.proTask = this.$lodash.find(this.flowTypeOp, {typeId: val}).proTask;
+                // 默认加载第一项流程数据
+                this.choosedTaskId = this.proTask[0].taskId;
+                this.currentTaskObj = this.proTask[0];
+                this.getFLowDetail(this.proTask[0].taskId, this.bizDate, true);
             },
 
             // 任务流程 -- 选择
             chooseTask(taskId) {
                 this.curStage = {};
-                this.getFLowDetail(taskId, this.bizDate);
+                this.getFLowDetail(taskId, this.bizDate, true);
                 this.currentTaskObj = this.$lodash.find(this.proTask, {taskId});
                 this.choosedTaskId = taskId;
             },
@@ -295,8 +311,7 @@
 
             // 业务日期切换
             bizDateChange(val) {
-                this.getFLowbyType(this.flowType, val);
-                // this.getFLowDetail(this.choosedTaskId, val);
+                this.getAllFlow(val);
             },
 
             // 展开/收起底部右侧
@@ -344,7 +359,7 @@
                 this.$api.kpiDefineApi.execTask(kpiTaskReq).then((resp) => {
                     if (resp.data.status) {
                         this.$msg.success("重新执行成功");
-                        this.freshFlowData();
+                        this.freshFlowData(false);
                     } else {
                         this.$msg.error("操作失败");
                     }
@@ -374,7 +389,7 @@
                     await this.actionOk();
                   }
                   this.$msg.success('提交成功');
-                  this.freshFlowData(); // 刷新页面数据
+                  this.freshFlowData(false); // 刷新页面数据
                   this.$emit("onClose");
                     } else {
                         this.$msg.warning('提交失败');
@@ -408,7 +423,7 @@
                     await this.actionOk();
                   }
                   this.$msg.success('提交成功');
-                  this.freshFlowData(); // 刷新页面数据
+                  this.freshFlowData(false); // 刷新页面数据
                   this.$emit("onClose");
                     } else {
                         this.$msg.warning('提交失败');
@@ -459,8 +474,8 @@
             this.getExecuteData(this.taskIdList, val);
           },
 
-          freshFlowData() {
-            this.getFLowDetail(this.choosedTaskId, this.bizDate);
+          freshFlowData(ifLoading) {
+            this.getFLowDetail(this.choosedTaskId, this.bizDate, ifLoading);
           },
 
           getExecIcon(status) {
