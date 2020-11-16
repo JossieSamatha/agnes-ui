@@ -192,7 +192,7 @@
                     // 默认加载第一项流程数据
                     this.choosedTaskId = this.proTask[0].taskId;
                     this.currentTaskObj = this.proTask[0];
-                    this.getFLowDetail(this.proTask[0].taskId, bizDate);
+                    this.getFLowDetail(this.proTask[0].taskId, bizDate, true);
                 } else {
                     this.flowType = '';
                     this.flowTypeOp = [];
@@ -285,13 +285,13 @@
                 // 默认加载第一项流程数据
                 this.choosedTaskId = this.proTask[0].taskId;
                 this.currentTaskObj = this.proTask[0];
-                this.getFLowDetail(this.proTask[0].taskId, this.bizDate);
+                this.getFLowDetail(this.proTask[0].taskId, this.bizDate, true);
             },
 
             // 任务流程 -- 选择
             chooseTask(taskId) {
                 this.curStage = {};
-                this.getFLowDetail(taskId, this.bizDate);
+                this.getFLowDetail(taskId, this.bizDate, true);
                 this.currentTaskObj = this.$lodash.find(this.proTask, {taskId});
                 this.choosedTaskId = taskId;
             },
