@@ -40,7 +40,7 @@ export default {
       if (!ok) {
         return;
       }
-      const init = await this.$msg.ask("初始化将清除" + this.form.year + "年度所有数据, 是否继续?")
+      const init = await this.$msg.ask("初始化将重置"+this.form.year+"年度所有数据, 是否继续?");
       if (!init) {
         return;
       }

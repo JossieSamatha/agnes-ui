@@ -1,7 +1,8 @@
 <template>
     <gf-grid grid-no="agnes-acnt-linkman-ref" ref="grid" toolbar="find,refresh,more" quick-text-max-width="300px" height="100%">
         <template slot="left">
-            <gf-button class="action-btn" @click="onAddLinkman" size="mini">添加</gf-button>
+            <gf-button class="action-btn" @click="onAddLinkman" size="mini"
+                       v-if="$hasPermission('agnes.acnt.linkman.ref.add')">添加</gf-button>
         </template>
     </gf-grid>
 </template>

@@ -12,7 +12,7 @@
                 <p v-if="item.linkmanPhone">Tel: {{item.linkmanPhone}}</p>
             </div>
             <div class="notice-state">
-                {{getDictName(item.linkmanStatus, 'statusDict')}}
+                {{item.extOrgName}}
             </div>
         </div>
     </div>

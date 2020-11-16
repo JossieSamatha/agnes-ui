@@ -1,4 +1,5 @@
 import column from "../../../../../config/column";
+import Permission from "../../../../../utils/hasPermission";
 
 const colButtons = [
     {key: 'editLinkman', title: '编辑',disabled: (params)=>{
@@ -6,19 +7,25 @@ const colButtons = [
             if(params.data.status === '03'||params.data.status === '05'){
                 result =true;
             }
-            return result;}},
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.acnt.linkman.ref.edit');
+        }},
     {key: 'deleteLinkman', title: '删除',cellClass:'red-cell',disabled: (params)=>{
             let result = false;
             if(params.data.status === '03'){
                 result =true;
             }
-            return result;}},
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.acnt.linkman.ref.delete');
+        }},
     {key: 'checkLinkman', title: '审核',disabled: (params)=>{
             let result = false;
             if(params.data.status === '02'||params.data.status === '03'||params.data.status === '05'){
                 result =true;
             }
-            return result;}},
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.acnt.linkman.ref.check');
+        }},
     {key: 'startLinkman', title: '发布',disabled: (params)=>{
             let result = false;
             if(params.data.status === '01'|| params.data.status === '05'){
@@ -26,13 +33,15 @@ const colButtons = [
             }
             return result;},visiable: (params)=>{
             let result = true;
-            if(params.data.status === '03'){
+            if(params.data.status === '03'
+                || !Permission.hasPermission('agnes.acnt.linkman.ref.publish')){
                 result =false;
             }
             return result;}},
-    {key: 'stopLinkman', title: '停止',visiable: (params)=>{
+    {key: 'stopLinkman', title: '停止', cellClass: 'red-cell',visiable: (params)=>{
             let result = false;
-            if(params.data.status === '03'){
+            if(params.data.status === '03'
+                && Permission.hasPermission('agnes.acnt.linkman.ref.stop')){
                 result =true;
             }
             return result;}},

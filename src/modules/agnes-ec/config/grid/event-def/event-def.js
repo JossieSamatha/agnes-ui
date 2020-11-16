@@ -34,7 +34,7 @@ const colButtons = [
             return result;}, visiable:(params)=>{
             let result = true;
             if(params.data.eventStatus === '03'
-                && !Permission.hasPermission('agnes.config.event.pulish')){
+                || !Permission.hasPermission('agnes.config.event.publish')){
                 result =false;
             }
             return result;}},

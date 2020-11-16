@@ -7,7 +7,8 @@
                  @row-double-click="showDetail"
         >
             <template slot="left">
-                <gf-button class="action-btn" @click="addType" size="mini">添加</gf-button>
+                <gf-button class="action-btn" @click="addType" size="mini"
+                           v-if="$hasPermission('agnes.acnt.type.add')">添加</gf-button>
             </template>
         </gf-grid>
     </div>

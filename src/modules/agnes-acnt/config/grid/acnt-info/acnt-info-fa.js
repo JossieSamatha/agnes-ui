@@ -1,15 +1,20 @@
 import column from "../../../../../config/column"
+import Permission from "../../../../../utils/hasPermission";
 
 const colButtons = [
     // {key: 'queryRate', title: '查看利率'},
     // {key: 'queryLinkman', title: '查看联系人'},
-    {key: 'changeData', title: '变更资料'},
-    {key: 'delete', title: '销户',disabled: (params)=>{
+    {key: 'changeData', title: '变更资料', visiable: () => {
+            return Permission.hasPermission('agnes.acnt.info.fa.changeData');
+        }},
+    {key: 'delete', title: '销户', cellClass: 'red-cell',disabled: (params)=>{
             let result = false;
             if(params.data.processStatus === '02'){
                 result =true;
             }
-            return result;}}
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.acnt.info.fa.delete');
+        }}
 ];
 
 export default {
