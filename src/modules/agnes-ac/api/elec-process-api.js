@@ -2,8 +2,8 @@ import request from '@hex/gf-ui/src/util/request';
 
 
 export default {
-    getTaskByType(flowType,bizDate) {
-        return request.post("/agnes-ac/v1/config/task/list/type", null, {params:{flowType, bizDate}});
+    getTaskByType(bizDate) {
+        return request.post("/agnes-ac/v1/config/task/list/type", null, {params:{ bizDate}});
     },
 
     // 根据业务日期查询当日的运行中的任务列表

@@ -4,7 +4,7 @@
             :key="index" class="notice-list"
         >
             <div class="state-icon">
-                <img :src="getImgPath(item.msgName)" alt="notice-img">
+                <em v-html="lcImg[execTypeOp[item.msgType]]"></em>
             </div>
             <div class="notice-state">
                 {{item.msgTitle}}
@@ -27,7 +27,14 @@
         },
         data(){
             return {
-                msgDemoArr: []
+                lcImg: this.$lcImg,
+                msgDemoArr: [],
+                execTypeOp: {
+                    'AHEAD': 'executing',
+                    'FINISHED': 'finish',
+                    'OVERTIME': 'outTime',
+                    'EXCEPTION': 'abnormal'
+                },
             }
         },
         created(){
@@ -36,18 +43,6 @@
             })
         },
         methods: {
-            getImgPath(val) {
-                if (val.includes("完成")) {
-                    return require("../../../assets/done.png")
-                } else
-                if (val.includes("超时")) {
-                    return require("../../../assets/overtime.png")
-                } else
-                if (val.includes("提醒")) {
-                    return require("../../../assets/clock.png")
-                }
-            },
-
             getNoticeDate(noticeTime){
                 return noticeTime ? noticeTime.slice(5,11) : '';
             }
@@ -69,6 +64,7 @@
         font-size: 12px;
     }
     .state-icon {
+        width: 14px;
         margin-right: 10px;
     }
     .notice-state {
