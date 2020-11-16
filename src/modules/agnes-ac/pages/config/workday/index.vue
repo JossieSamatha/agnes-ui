@@ -100,8 +100,8 @@
                     if(!calendarObj[calendarItem.bizDate]){
                         calendarObj[calendarItem.bizDate] = calendarItem;
                     }
-                    this.calendarData = calendarObj;
                 });
+                this.calendarData = calendarObj;
                 if(bizDate){
                     this.$refs.workCalendar.pickDay(bizDate);
                 }
@@ -164,10 +164,12 @@
             }
         },
 
-        choseOptions(id, item) {
+        async choseOptions(id, item) {
+            this.ifDataReady = false;
             this.flag = id;
             this.queryParam.workdayAreaCode = item.dictId;
-            this.onListWorkday(this.queryParam);
+            await this.onListWorkday(this.queryParam);
+            this.ifDataReady = true;
         }
     }
 }
