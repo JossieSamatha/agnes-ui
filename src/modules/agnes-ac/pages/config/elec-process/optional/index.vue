@@ -446,7 +446,7 @@
 
             // 获取执行情况
           async getExecuteData(taskIds, msgType) {
-            const resp = this.$api.elecProcessApi.getMsgNameAndType({taskIds, msgType})
+            const resp = await this.$api.elecProcessApi.getMsgNameAndType({taskIds, msgType});
             if (resp.data) {
               this.execLog = resp.data;
             } else {
