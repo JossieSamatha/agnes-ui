@@ -469,6 +469,7 @@
             }
           },
 
+
           // 执行情况类型切换
           execTypeChange(val) {
             this.getExecuteData(this.taskIdList, val);
