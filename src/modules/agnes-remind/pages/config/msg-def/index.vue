@@ -24,7 +24,7 @@
             <template slot="right-before">
                 <el-switch class="inner-switch"
                         v-model="queryArgs.hasRead"
-                        width="50"
+                        width = 50
                         active-text="全部"
                         inactive-text="未读"
                         active-value=""
@@ -99,13 +99,16 @@
     }
 
     .inner-switch .el-switch__label.el-switch__label--left{
-        right: 3px;
+        right: 12px;
         z-index: 1;
     }
 
     .inner-switch .el-switch__label.is-active {
         display: block;
         color: #fff;
+    }
+    .inner-switch{
+        padding-right: 10px;
     }
 
 </style>
