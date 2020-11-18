@@ -6,25 +6,33 @@
                     <el-input v-model="queryArgs.acntName"></el-input>
                 </el-form-item>
                 <el-form-item label="账号" >
-                    <el-input v-model="queryArgs.accNo"></el-input>
+                    <el-input v-model="queryArgs.accNos"></el-input>
                 </el-form-item>
-
-                <el-form-item label="账户类型">
-                    <el-select class="multiple-select" v-model="queryArgs.typeCode"
-                               filterable clearable
-                               placeholder="请选择">
-                        <gf-filter-option
-                                v-for="item in typeCodeOption"
-                                :key="item.typeCode"
-                                :label="item.typeName"
-                                :value="item.typeCode">
-                        </gf-filter-option>
-                    </el-select>
+                <el-form-item label="资金账号" >
+                    <el-input v-model="queryArgs.fundAccNos"></el-input>
                 </el-form-item>
 
                 <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
             </div>
             <div class="line">
+                <el-form-item label="账户类型">
+                    <el-select class="multiple-select" v-model="queryArgs.typeCode"
+                               filterable clearable
+                               placeholder="请选择">
+                        <el-option-group
+                                v-for="group in typeCodeOption"
+                                :key="group.label"
+                                :label="group.label">
+                            <el-option
+                                    v-for="item in group.options"
+                                    :key="item.typeCode"
+                                    :label="`${group.label} - ${item.typeName}`"
+                                    :value="item.typeCode">
+                            </el-option>
+                        </el-option-group>
+                    </el-select>
+                </el-form-item>
+
                 <el-form-item label="业务类型">
                     <gf-dict filterable clearable v-model="queryArgs.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
                 </el-form-item>
@@ -72,7 +80,8 @@
                 queryArgs:{
                     'typeCode':'',
                     'acntName':'',
-                    'accNo':'',
+                    'accNos':'',
+                    'fundAccNos':'',
                     'processStatus':'',
                     'bizType':''
                 },
@@ -99,8 +108,13 @@
                     {value: '08', label: '已归档'},
                     {value: '09', label: '已作废'},
                 ],
-                typeCodeOption:[]
-
+                typeCodeOption: [{
+                    label: 'TA',
+                    options: []
+                },{
+                    label: 'FA',
+                    options: []
+                }]
             }
         },
         beforeMount() {
@@ -111,7 +125,13 @@
             async getOptionData(){
                 try {
                     let typeCodeOption = await this.$api.acntApplyApi.getAcntTypeList();
-                    this.typeCodeOption = typeCodeOption.data
+                    typeCodeOption.data.forEach(item=>{
+                        if(item.processType === 'TA'){
+                            this.typeCodeOption[0].options.push(item);
+                        }else if(item.processType === 'FA'){
+                            this.typeCodeOption[1].options.push(item);
+                        }
+                    });
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
@@ -140,7 +160,8 @@
                 this.queryArgs = {
                     'typeCode':'',
                     'acntName':'',
-                    'accNo':'',
+                    'accNos':'',
+                    'fundAccNos':'',
                     'processStatus':'',
                     'bizType':''
                 };

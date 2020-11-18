@@ -6,7 +6,10 @@
                     <el-input v-model="queryArgs.acntName"></el-input>
                 </el-form-item>
                 <el-form-item label="账号" >
-                    <el-input v-model="queryArgs.accNo"></el-input>
+                    <el-input v-model="queryArgs.accNos"></el-input>
+                </el-form-item>
+                <el-form-item label="资金账号" >
+                    <el-input v-model="queryArgs.fundAccNos"></el-input>
                 </el-form-item>
                 <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
             </div>
@@ -15,12 +18,17 @@
                     <el-select class="multiple-select" v-model="queryArgs.typeCode"
                                filterable clearable
                                placeholder="请选择">
-                        <gf-filter-option
-                                v-for="item in typeCodeOption"
-                                :key="item.typeCode"
-                                :label="item.typeName"
-                                :value="item.typeCode">
-                        </gf-filter-option>
+                        <el-option-group
+                                v-for="group in typeCodeOption"
+                                :key="group.label"
+                                :label="group.label">
+                            <el-option
+                                    v-for="item in group.options"
+                                    :key="item.typeCode"
+                                    :label="`${group.label} - ${item.typeName}`"
+                                    :value="item.typeCode">
+                            </el-option>
+                        </el-option-group>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="状态">
@@ -53,10 +61,17 @@
                     'processType':'FA',
                     'typeCode':'',
                     'acntName':'',
-                    'accNo':'',
+                    'accNos':'',
+                    'fundAccNos':'',
                     'acntStatus':''
                 },
-                typeCodeOption:[]
+                typeCodeOption: [{
+                    label: 'TA',
+                    options: []
+                },{
+                    label: 'FA',
+                    options: []
+                }]
             }
         },
         beforeMount() {
@@ -68,7 +83,11 @@
             async getOptionData(){
                 try {
                     let typeCodeOption = await this.$api.acntApplyApi.getAcntTypeList();
-                    this.typeCodeOption = typeCodeOption.data
+                    typeCodeOption.data.forEach(item=>{
+                        if(item.processType === 'FA'){
+                            this.typeCodeOption[1].options.push(item);
+                        }
+                    });
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
@@ -82,7 +101,8 @@
                     'processType':'FA',
                     'typeCode':'',
                     'acntName':'',
-                    'accNo':'',
+                    'accNos':'',
+                    'fundAccNos':'',
                     'acntStatus':''
                 };
                 this.reloadData();
