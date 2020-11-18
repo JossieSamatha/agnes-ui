@@ -56,7 +56,7 @@ const colButtons = [
 ];
 export default {
     columnDefs: [
-        column.buildOpCol(200, colButtons),
+        column.buildOpCol(180, colButtons),
         // {headerName: "账户类型", field: "typeName"},
         {headerName: "账户名称", field: "acntName"},
         {headerName: "账号", field: "accNo"},
