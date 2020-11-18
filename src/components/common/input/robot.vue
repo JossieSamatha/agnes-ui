@@ -171,7 +171,7 @@
         cursor: pointer;
         background-repeat: no-repeat;
         background-size: contain;
-        -webkit-animation: jump 1.5s linear infinite;
+        -webkit-animation: jump 1s linear infinite;
     }
 
     .little-W>img {
@@ -184,7 +184,7 @@
         left: -4px;
         height: auto;
         top: 20px;
-        -webkit-animation: shadow 1.5s linear infinite;
+        -webkit-animation: shadow 1s linear infinite;
     }
 
     @-webkit-keyframes jump {
