@@ -93,7 +93,7 @@
         },
         computed: {
             fastMenuHeight(){
-                return this.foldFastMenu ? '50%' : '100%';
+                return this.foldFastMenu ? '62%' : '100%';
             }
         },
         watch:{
@@ -118,7 +118,6 @@
             menuChoose(menu) {
                 this.curSideMenu = menu;
                 this.showSideMenu = true;
-                this.foldFastMenu = false;
             },
 
             markMenuChoose(menu){
@@ -135,7 +134,7 @@
 
             foldSideMenu(){
                 this.ifSideMenuFlod = !this.ifSideMenuFlod;
-                this.foldFastMenu = false;
+                this.foldFastMenu = !this.ifSideMenuFlod;
             },
 
             closeSideMenu(){

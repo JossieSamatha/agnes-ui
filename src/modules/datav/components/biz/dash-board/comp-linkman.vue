@@ -60,10 +60,8 @@
     .linkman-list {
         display: flex;
         width: 100%;
+        height: 70px;
         align-items: center;
-        margin-bottom: 15px;
-        min-height: 40px;
-        max-height: 60px;
         padding: 0 10px 0 0;
         border-bottom: 1px dashed #eaeaea;
     }
