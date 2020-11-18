@@ -59,7 +59,10 @@ export default {
         column.buildOpCol(180, colButtons),
         // {headerName: "账户类型", field: "typeName"},
         {headerName: "账户名称", field: "acntName"},
-        {headerName: "账号", field: "accNo"},
+        // {headerName: "账号", field: "accNo"},
+        {headerName: "账号", field: "accNos"},
+        {headerName: "资金账号", field: "fundAccNos"},
+
         {headerName: "归属机构", field: "orgName"},
         {headerName: "业务类型", field: "bizType",dictType:"AGNES_ACNT_BIZ_TYPE"},
         {headerName: "流程节点", field: "processStatus",dictType:"AGNES_ACNT_APPLY_STATUS"},
