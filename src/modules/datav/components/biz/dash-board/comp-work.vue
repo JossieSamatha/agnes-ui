@@ -78,7 +78,7 @@ export default {
   display: flex;
   align-items: center;
   width: 100%;
-  height: 60px;
+  height: 70px;
   border-bottom: 1px dashed #eaeaea;
 }
 
@@ -102,9 +102,12 @@ export default {
   padding: 0 10px;
 }
 
+.task-des > div {
+  line-height: 25px;
+}
+
 .task-time > div:nth-child(1) {
   color: #9a9a9a;
-  margin-bottom: 6px;
 }
 
 .task-time > div:nth-child(2) {
