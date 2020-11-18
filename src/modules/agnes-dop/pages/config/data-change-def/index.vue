@@ -162,7 +162,8 @@
             },
           async stopAndChangeDay(nowTaskData) {
             try {
-                let p = this.$api.changeDataApi.deleteTaskJobByBizDate(nowTaskData);
+                let forwardBizDate = window.bizDate;
+                let p = this.$api.changeDataApi.deleteTaskJobByBizDate(nowTaskData,forwardBizDate);
                 let res = await this.$app.blockingApp(p);
                 if(res.code==='success'){
                     await this.$api.changeDataApi.queryChangeData(nowTaskData);
