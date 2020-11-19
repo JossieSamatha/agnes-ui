@@ -1,6 +1,9 @@
 <template>
     <div style="height: 100%">
         <el-form label-width="60px">
+            <el-form-item label="主标题" prop="name">
+                <el-input :disabled=true v-model="helpInfo.title" />
+            </el-form-item>
             <el-form-item label="发件人" prop="name">
                 <gf-dict :disabled=true v-model="helpInfo.cc" dict-type="AGNES_FEEDBACK_MAIL"/>
             </el-form-item>
@@ -26,7 +29,7 @@
             return {
                 editorOption: {
                 },
-                helpInfo:{cc:'cc',to:'to',content: "",pkId:""}
+                helpInfo:{cc:'cc',to:'to',content: "",pkId:"",title:this.$app.session.data.user.userName+'提的关于智能运营平台意见'}
             };
         },
         components: {
