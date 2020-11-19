@@ -13,5 +13,8 @@ export default {
     },
     listByPayNo(payNo){
         return request.post('/agnes-app/v1/dop/bank/list/by/payno?payNo='+payNo);
+    },
+    existsBigPayNo(bigPayNo,bankBranchId) {
+        return request.post("/agnes-app/v1/dop/bank/existsBigPayNo", null, {params: {bigPayNo,bankBranchId}});
     }
 }

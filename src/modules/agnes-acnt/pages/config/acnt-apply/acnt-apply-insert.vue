@@ -277,11 +277,11 @@
                                         <el-input v-model="scope.row.accNo"></el-input>
                                     </template>
                                 </el-table-column>
-                                <el-table-column prop="accName" label="资金账户名称">
-                                    <template slot-scope="scope">
-                                        <el-input v-model="scope.row.accName"></el-input>
-                                    </template>
-                                </el-table-column>
+<!--                                <el-table-column prop="accName" label="资金账户名称">-->
+<!--                                    <template slot-scope="scope">-->
+<!--                                        <el-input v-model="scope.row.accName"></el-input>-->
+<!--                                    </template>-->
+<!--                                </el-table-column>-->
                                 <el-table-column prop="currency" label="币种">
                                     <template slot-scope="scope">
                                         <gf-dict filterable clearable v-model="scope.row.currency" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
