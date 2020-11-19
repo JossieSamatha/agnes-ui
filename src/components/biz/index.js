@@ -4,8 +4,11 @@ import GfPersonChosen from './person-chosen/gf-person-chosen'
 import personChoseDialog from './person-chosen/person-chosen-dialog'
 import personGroupAdd from './person-chosen/person-group-add'
 
+import chartComp from './chart-comp/index'
+
 const Loading = {
     install: function (Vue) {
+        Vue.use(chartComp);
         Vue.component('rule-table', ruleTable);
         Vue.component('remind-def',RemindDef);
         Vue.component('gf-person-chosen',GfPersonChosen);
