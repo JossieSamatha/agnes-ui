@@ -1,10 +1,12 @@
 <template>
     <div ref="spig" class="spig" :class="ifShowInput ? '' : 'messageType'">
         <div ref="littleW" class="little-W"
-             @click="ifShowInput = !ifShowInput"
-             :style="{'background-image': robotImg}"
-        >
+             @click="ifShowInput = !ifShowInput">
+            <img :src="getRobotImg('wisdom_happy', true)" alt="robot" v-show="robotImg === 'happy'" />
+            <img :src="getRobotImg('wisdom_laugh', true)" alt="robot" v-show="robotImg === 'laugh'" />
+            <img :src="getRobotImg('wisdom_smile', true)" alt="robot" v-show="robotImg === 'smile'" />
         </div>
+        <img class="little-W-shadow" :src="getRobotImg('wisdom_shadow', true)" alt="shadow" />
         <slot :ifShowInput="ifShowInput"></slot>
         <transition name="slide-fade interval-fade">
             <div ref="message" class="message" v-show="!ifShowInput">{{message}}</div>
@@ -72,7 +74,7 @@
         mounted() {
             this.userName = this.$app.session.data.user.userName;
             this.init();
-            this.robotImg = this.getRobotImg('wisdom_happy');
+            this.robotImg = 'happy';
             this.robotChange();
             this.messageChange();
         },
@@ -98,15 +100,20 @@
                 }
             },
 
-            getRobotImg(img) {
+            getRobotImg(img, ifImg) {
                 let urlStr = require('../../../assets/img/' + img + '.png');
-                return 'url(' + urlStr + ')';
+                if(ifImg){
+                    return urlStr;
+                }else{
+                    return 'url(' + urlStr + ')';
+                }
             },
 
             robotChange() {
-                const imgName = ['wisdom_giggle', 'wisdom_happy', 'wisdom_laugh', 'wisdom_smile'];
+                const imgName = ['happy', 'laugh', 'smile'];
                 this.robotInterval = setInterval(() => {
-                    this.robotImg = this.getRobotImg(imgName[Math.floor((Math.random() * imgName.length))]);
+                    this.robotImg = imgName[Math.floor((Math.random() * imgName.length))];
+
                 }, 30000);
             },
 
@@ -144,16 +151,14 @@
         -webkit-line-clamp: 2;
         text-overflow: ellipsis;
         max-height: 46px;
-        color: #191919;
-        border: 1px solid #eeeeee;
+        color: #476dbe;
         border-left: none;
-        background: #ddd;
-        border-radius: 5px;
+        border-radius: 10px;
         padding: 5px 10px;
         z-index: 10000;
-        box-shadow: 0 0 15px #eeeeee;
         outline: none;
         overflow: hidden;
+        box-shadow: 0px 0px 5px rgba(28, 157, 247, .5);
     }
 
     .little-W {
@@ -166,21 +171,41 @@
         cursor: pointer;
         background-repeat: no-repeat;
         background-size: contain;
-        transition: all 1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-        -webkit-animation: jump 1s infinite;
+        -webkit-animation: jump 1s linear infinite;
+    }
+
+    .little-W>img {
+        width: 100%;
+    }
+
+    .little-W-shadow {
+        position: absolute;
+        width: 60px;
+        left: -4px;
+        height: auto;
+        top: 20px;
+        -webkit-animation: shadow 1s linear infinite;
     }
 
     @-webkit-keyframes jump {
-        0% {
-            top: calc(50% - 22px);
+        0%, 100% {
+            top: calc(50% - 20px);
         }
 
         50% {
             top: calc(50% - 30px);
         }
+    }
 
-        100% {
-            top: calc(50% - 22px);
+    @-webkit-keyframes shadow {
+        0%,100%{
+            left: -7px;
+            width: 65px;
+        }
+
+        50%{
+            left: 1px;
+            width: 50px;
         }
     }
 

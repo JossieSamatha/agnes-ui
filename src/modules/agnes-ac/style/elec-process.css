@@ -531,7 +531,53 @@
 .elec-process .top-section .flow-type,
 .elec-process .top-section .date-search{
     display: flex;
+    align-items: center;
     margin-bottom: 5px;
+}
+
+.elec-process .interval-ctrl{
+    position: relative;
+    width: 15px;
+    height: 15px;
+    margin-left: 3px;
+    cursor: pointer;
+}
+
+.elec-process .interval-list{
+    position: absolute;
+    width: 50px;
+    top: 20px;
+    left: -15px;
+    padding: 2px;
+    font-size: 12px;
+    text-align: center;
+    border: 1px solid #E4E7ED;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+    z-index: 100;
+}
+
+.elec-process .interval-list::before{
+    content: '';
+    display: block;
+    position: absolute;
+    top: -4px;
+    left: calc(50% - 2px);
+    width: 6px;
+    height: 6px;
+    background: #fff;
+    border-top: 1px solid #E4E7ED;
+    border-right: 1px solid #E4E7ED;
+    transform: rotate(-45deg);
+}
+
+.elec-process .interval-list>li:hover{
+    background-color: #F5F7FA;
+}
+
+.elec-process .interval-list>li.is-select{
+    color: #476Dbe;
 }
 
 .elec-process .top-section .task-board{

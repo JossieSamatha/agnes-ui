@@ -23,10 +23,10 @@ export default {
         {headerName: "账户名称", field: "acntName"},
 
         {headerName: "资金账号", field: "fundAccNos"},
-        {headerName: "资金账号名称", field: "fundAccNames"},
+        {headerName: "资金账号名称", field: "fundAccName"},
         {headerName: "币种", field: "fundCurrencys"},
 
-        {headerName: "账号", field: "acc_nos"},
+        {headerName: "账号", field: "accNos"},
         {headerName: "市场", field: "markets"},
 
         {headerName: "归属机构", field: "extOrgName"},
