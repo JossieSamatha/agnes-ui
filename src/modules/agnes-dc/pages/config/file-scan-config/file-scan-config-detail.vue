@@ -30,37 +30,10 @@
         </el-form-item>
         <el-form-item label="文件路径" prop="filePath">
             <gf-input v-model.trim="detailFormData.filePath" placeholder="文件路径" style="width: calc(100% - 30px); margin-right: 10px"/>
-            <el-popover placement="bottom"
-                        title="日期通配符配置说明"
-                        width="220"
-                        trigger="click"
-                        popper-class="question-popover">
-                <el-button slot="reference"
-                           icon="fa fa-question-circle-o"
-                           style="border: none;padding: 0;font-size: 20px;vertical-align: middle"
-                ></el-button>
-                <p>格式：${yyyymmdd/yyyy-mm-dd,-1/0/1,D/W,CN};</p>
-                <p>-1/0/1：前一天/当天/后一天;D:自然日、W:工作(注：选择当天，该参数应为D);CN:中国大陆</p>
-                <p>例如：/home/${yyyymmdd,-2,D,CN}/test</p>
-                <p>如当天日期为20200925,该表达式解析为：/home/20200923/test</p>
-            </el-popover>
+            <em class="question el-icon-question" title="操作文档" @click="openHelpFile"></em>
         </el-form-item>
         <el-form-item label="文件名称" prop="fileName">
             <gf-input v-model.trim="detailFormData.fileName" placeholder="文件名称" style="width: calc(100% - 30px); margin-right: 10px"/>
-            <el-popover placement="bottom"
-                        title="日期通配符配置说明"
-                        width="220"
-                        trigger="click"
-                        popper-class="question-popover">
-                <el-button slot="reference"
-                           icon="fa fa-question-circle-o"
-                           style="border: none;padding: 0;font-size: 20px;vertical-align: middle"
-                ></el-button>
-                <p>格式：${yyyymmdd/yyyy-mm-dd,-1/0/1,D/W,CN};</p>
-                <p>-1/0/1：前一天/当天/后一天;D:自然日、W:工作(注：选择当天，该参数应为D);CN:中国大陆</p>
-                <p>例如：/home/${yyyymmdd,-2,D,CN}/test</p>
-                <p>如当天日期为20200925,该表达式解析为：/home/20200923/test</p>
-            </el-popover>
         </el-form-item>
         <template >
             <el-form-item label="执行频率" prop="execScheduler">
@@ -88,6 +61,8 @@
 </template>
 
 <script>
+    import readMeStr from "./configHelpStr";
+
     export default {
         name: "file-scan-detail",
         props: {
@@ -100,6 +75,7 @@
         },
         data() {
             return {
+                helpNotify: null,
                 detailFormData:{
                     scanCode:'',
                     scanName:'',
@@ -241,6 +217,20 @@
                 this.curExecScheduler = curObj;
                 this.showDlg(execScheduler, this.setExecScheduler.bind(this));
             },
+            // 打开帮助文档
+            openHelpFile(){
+                if(this.helpNotify && this.helpNotify.close){
+                    this.helpNotify.close();
+                }
+                this.helpNotify = this.$notify({
+                    width: 400,
+                    title: '日期通配符配置操作文档',
+                    customClass: 'cronHelpNotify',
+                    dangerouslyUseHTMLString: true,
+                    duration: 0,
+                    message: readMeStr()
+                });
+            },
             showDlg(data, action) {
                 if (this.mode === 'view') {
                     return;
@@ -262,3 +252,14 @@
 
     }
 </script>
+
+
+<style scoped>
+    .question {
+        top: 15px;
+        right: 165px;
+        font-size: 20px;
+        color: #476Dbe;
+        cursor: pointer;
+    }
+</style>
