@@ -108,13 +108,21 @@
         methods: {
             showView: function (menu) {
                 const viewId = menu.menucode;
-                const pageView = this.$app.views.getView(viewId);
-                if (!pageView) {
-                    return;
+                let tabObj = {};
+                if(menu.actionUrl && menu.actionUrl.indexOf('goframe/p') !== -1){
+                    tabObj = menu;
+                    tabObj.title = menu.menuname;
+                    tabObj.ifIframe = true;
+                }else{
+                    tabObj = this.$app.views.getView(viewId);
                 }
-                const tabView = Object.assign({args: {data: menu}}, pageView, {id: viewId || ''});
+                if(!tabObj){
+                    return false;
+                }
+                const tabView = Object.assign({args: {data: menu}}, tabObj, {id: viewId || ''});
                 this.$nav.showView(tabView);
             },
+
             menuChoose(menu) {
                 this.curSideMenu = menu;
                 this.showSideMenu = true;
