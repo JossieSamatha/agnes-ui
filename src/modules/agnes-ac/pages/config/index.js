@@ -28,7 +28,7 @@ const Loading = {
         Gfui.componentView('agnes.define.task', TaskDef, {title: '任务定义配置'});
         Gfui.componentView('agnes.config.task', TaskConfig, {title: '任务执行列表'});
         Gfui.componentView('agnes.define.fun', FunDef, {title: '函数定义配置'});
-        Gfui.componentView('agnes.config.workday', WorkDay, {title: '工作日'});
+        Gfui.componentView('agnes.config.workday', WorkDay, {title: '工作日表维护'});
         Gfui.componentView('agnes.config.case', CaseDef, {title: 'case定义'});
         Gfui.componentView('agnes.config.mot', MotDef, {title: 'MOT任务配置'});
 

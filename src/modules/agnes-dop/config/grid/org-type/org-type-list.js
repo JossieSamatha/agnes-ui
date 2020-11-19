@@ -23,26 +23,26 @@ const colButtons = [
 
 export default {
     columnDefs: [
-        column.buildOpCol(160, colButtons),
+        column.buildOpCol(110, colButtons),
         {headerName: "机构类型代码", field: "orgTypeCode"},
         {headerName: "机构类型名称", field: "orgTypeName"},
         {headerName: "状态", field: "status" ,formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
         column.colCrtUser,
         column.colCrtTm
     ],
-    headerHeight: 40,
-    rowHeight: 37,
+    // headerHeight: 40,
+    // rowHeight: 37,
     ext: {
         fetchUrl: "/agnes-app/v1/dop/org/type/page/list",    //后台查询数据的URL地址
         pagingMode: true, //是否分页
-        checkboxColumn: 1, //是否显示checkbox列,
+        checkboxColumn: 2, //是否显示checkbox列,
         autoFitColumnMode: 1,
         enableExportLocal: true,
         pageOptions: {
             // 分页大小
-            pageSize: 50,
+            pageSize: 100,
             // 可供选择的分页大小（下拉切换分页值）
-            pageSizes: [10, 20, 50, 100],
+            pageSizes: [50, 100, 150, 200],
             // 显示在状态栏上的页数字的个数
             pageCount: 0,
             prevText: "上一页",

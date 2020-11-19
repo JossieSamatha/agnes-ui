@@ -56,7 +56,7 @@ const colButtons = [
 ];
 export default {
     columnDefs: [
-        column.buildOpCol(200, colButtons),
+        column.buildOpCol(160, colButtons),
         // {headerName: "账户类型", field: "typeName"},
         {headerName: "账户名称", field: "acntName"},
         {headerName: "账号", field: "accNo"},
@@ -127,7 +127,7 @@ export default {
         fetchUrl: "/agnes-app/v1/acnt/apply/getAcntApplyVoList",
         fetchMethod: 'post',
         pagingMode: false, //不分页
-        checkboxColumn: 1, //是否显示checkbox列,
+        checkboxColumn: 2, //是否显示checkbox列,
         enableExportLocal: true,
         autoFitColumnMode: 1,
         // pageOptions: {

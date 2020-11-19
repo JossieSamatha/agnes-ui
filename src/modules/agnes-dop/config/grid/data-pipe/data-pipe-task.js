@@ -1,6 +1,9 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
+
+    {key: 'editTask', title: '编辑'},
+    {key: 'deleteTask', title: '删除', cellClass: 'red-cell'},
     {
         key: 'start', title: '停用', visiable: (params) => {
             return params.data.status === '01'
@@ -11,8 +14,6 @@ const colButtons = [
             return params.data.status === '02'
         }
     },
-    {key: 'editTask', title: '编辑'},
-    {key: 'deleteTask', title: '删除', cellClass: 'red-cell'}
 ];
 export default {
     columnDefs: [
@@ -20,7 +21,7 @@ export default {
         {headerName: "任务代码", field: "taskCode"},
         {headerName: "执行频率", field: "exeCron"},
         {headerName: "状态", field: "status", dictType: 'DATA_PIPE_TASK_STATUS'},
-        column.buildOpCol(120, colButtons),
+        column.buildOpCol(110, colButtons),
     ],
     ext: {
 
@@ -32,9 +33,9 @@ export default {
         autoFitColumnMode: 1,
         pageOptions: {
             // 分页大小
-            pageSize: 50,
+            pageSize: 100,
             // 可供选择的分页大小（下拉切换分页值）
-            pageSizes: [10, 20, 50, 100],
+            pageSizes: [50, 100, 150, 200],
             // 显示在状态栏上的页数字的个数
             pageCount: 0,
             prevText: "上一页",

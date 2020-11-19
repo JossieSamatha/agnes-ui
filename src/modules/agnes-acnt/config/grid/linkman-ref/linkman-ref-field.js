@@ -49,7 +49,7 @@ const colButtons = [
 
 export default {
     columnDefs: [
-        column.buildOpCol(160, colButtons),
+        column.buildOpCol(140, colButtons),
         {headerName: "账户名称", field: "acntName"},
         {headerName: "账号", field: "accNo"},
         {headerName: "开户机构", field: "extOrgName"},
@@ -64,15 +64,15 @@ export default {
     ext: {
         fetchUrl: "/agnes-app/v1/acnt/linkman/ref/list",
         fetchMethod: 'post',
-        pagingMode: true, //不分页
-        checkboxColumn: 3, //是否显示checkbox列,
+        pagingMode: false, //不分页
+        checkboxColumn: 2, //是否显示checkbox列,
         enableExportLocal: true,
         autoFitColumnMode: 1,
         pageOptions: {
             // 分页大小
-            pageSize: 50,
+            pageSize: 100,
             // 可供选择的分页大小（下拉切换分页值）
-            pageSizes: [10, 20, 50, 100],
+            pageSizes: [50, 100, 150, 200],
             // 显示在状态栏上的页数字的个数
             pageCount: 0,
             prevText: "上一页",

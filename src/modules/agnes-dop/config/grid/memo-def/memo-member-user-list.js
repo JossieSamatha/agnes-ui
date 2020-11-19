@@ -6,7 +6,7 @@ const colButtons = [
 
 export default {
     columnDefs: [
-        column.buildOpCol(80, colButtons),
+        column.buildOpCol(60, colButtons),
         {headerName: "用户ID", field: "userId"},
         {headerName: "用户名", field: "userName"},
         {headerName: "所属机构", field: "orgName"},
@@ -17,14 +17,14 @@ export default {
         fetchUrl: "/gf-admin/gf/user/queryUserList",
         fetchMethod: 'post',
         pagingMode: true, //分页
-        checkboxColumn: 0, //是否显示checkbox列,
+        checkboxColumn: 2, //是否显示checkbox列,
         autoFitColumnMode: 1,
         enableExportLocal: false,
         pageOptions: {
             // 分页大小
-            pageSize: 50,
+            pageSize: 100,
             // 可供选择的分页大小（下拉切换分页值）
-            pageSizes: [10, 20, 50, 100],
+            pageSizes: [50, 100, 150, 200],
             // 显示在状态栏上的页数字的个数
             pageCount: 0,
             prevText: "上一页",

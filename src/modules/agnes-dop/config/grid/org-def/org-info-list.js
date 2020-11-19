@@ -25,7 +25,7 @@ const colButtons = [
 
 export default {
     columnDefs: [
-        column.buildOpCol(160, colButtons),
+        column.buildOpCol(110, colButtons),
         // {headerName: '序号', field: "rowindex",valueGetter:params=>params.node.rowIndex+1},
         {headerName: "机构编码", field: "extOrgCode"},
         {headerName: "机构类型", field: "orgTypeName"},
@@ -36,19 +36,19 @@ export default {
         column.colUpdTm,
 
     ],
-    headerHeight: 40,
-    rowHeight: 37,
+    // headerHeight: 40,
+    // rowHeight: 37,
     ext: {
         // fetchUrl: "/agnes-app/v1/dop/org/list",    //后台查询数据的URL地址
         pagingMode: true, //是否分页
-        checkboxColumn: 1, //是否显示checkbox列,
+        checkboxColumn: 2, //是否显示checkbox列,
         autoFitColumnMode: 1,
         enableExportLocal: true,
         pageOptions: {
             // 分页大小
-            pageSize: 50,
+            pageSize: 100,
             // 可供选择的分页大小（下拉切换分页值）
-            pageSizes: [10, 20, 50, 100],
+            pageSizes: [50, 100, 150, 200],
             // 显示在状态栏上的页数字的个数
             pageCount: 0,
             prevText: "上一页",

@@ -45,7 +45,7 @@ const colButtons = [
 ];
 export default {
     columnDefs: [
-        column.buildOpCol(160, colButtons),
+        column.buildOpCol(140, colButtons),
         {headerName: "任务名称", field: "reTaskDef.taskName"},
         {headerName: "任务编号", field: "reTaskDef.caseKey"},
         {headerName: "流程类型", field: "reTaskDef.flowType",formatType: 'dict', dictType: 'AGNES_CASE_FLOWTYPE'},
@@ -65,20 +65,20 @@ export default {
         {headerName: "创建时间", field: "reTaskDef.crtTs"},
         {headerName: "创建人", field: "reTaskDef.crtUser"}
     ],
-    headerHeight: 40,
-    rowHeight: 37,
+    // headerHeight: 40,
+    // rowHeight: 37,
     ext: {
         fetchUrl: "/agnes-ac/v1/ac/flow/task/case/list?taskType=2",
         fetchMethod: 'get',
         pagingMode: true, //不分页
-        checkboxColumn: 1, //是否显示checkbox列,
+        checkboxColumn: 2, //是否显示checkbox列,
         autoFitColumnMode: 1,
         enableExportLocal: true,
         pageOptions: {
             // 分页大小
-            pageSize: 50,
+            pageSize: 100,
             // 可供选择的分页大小（下拉切换分页值）
-            pageSizes: [10, 20, 50, 100],
+            pageSizes: [50, 100, 150, 200],
             // 显示在状态栏上的页数字的个数
             pageCount: 0,
             prevText: "上一页",
