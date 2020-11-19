@@ -6,7 +6,7 @@ const colButtons = [
 
 export default {
     columnDefs: [
-        column.buildOpCol(80, colButtons),
+        column.buildOpCol(60, colButtons),
         // {headerName: "部门", field: "deptId", dictType: 'AGNES_ROSTER_DEPT'},
         {headerName: "值班类型", field: "rosterType", dictType: 'AGNES_ROSTER_TYPE'},
         {headerName: "值班日期", field: "rosterDate"},
@@ -25,14 +25,14 @@ export default {
         fetchUrl: "/agnes-app/v1/dop/roster/list/page",    //后台查询数据的URL地址
         fetchMethod: 'get',
         pagingMode: true, //分页
-        checkboxColumn: 0, //是否显示checkbox列,
+        checkboxColumn: 2, //是否显示checkbox列,
         autoFitColumnMode: 1,
         enableExportLocal: false,
         pageOptions: {
             // 分页大小
-            pageSize: 50,
+            pageSize: 100,
             // 可供选择的分页大小（下拉切换分页值）
-            pageSizes: [10, 20, 50, 100],
+            pageSizes: [50, 100, 150, 200],
             // 显示在状态栏上的页数字的个数
             pageCount: 0,
             prevText: "上一页",

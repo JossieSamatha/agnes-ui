@@ -49,7 +49,7 @@ const colButtons = [
 ];
 export default {
     columnDefs: [
-        column.buildOpCol(160, colButtons),
+        column.buildOpCol(140, colButtons),
         {headerName: "方案代码", field: "rateCode"},
         {headerName: "方案名称", field: "rateName"},
         {headerName: "网点代码", field: "branchCode"},
@@ -64,16 +64,16 @@ export default {
         fetchUrl: "/agnes-app/v1/acnt/rate/info/list",
         fetchMethod: 'post',
         pagingMode: true, //不分页
-        checkboxColumn: 1, //是否显示checkbox列,
+        checkboxColumn: 2, //是否显示checkbox列,
         enableExportLocal: true,
         autoFitColumnMode: 1,
         pageOptions: {
             // 分页大小
-            pageSize: 50,
+            pageSize: 100,
             // 可供选择的分页大小（下拉切换分页值）
-            pageSizes: [10, 20, 50, 100],
+            pageSizes: [50, 100, 150, 200],
             // 显示在状态栏上的页数字的个数
-            pageCount: 5,
+            pageCount: 0,
             prevText: "上一页",
             nextText: "下一页",
             // 分页工具显示项，例如总页数、当前页、上一页、下一页、等分页功能按钮
