@@ -96,7 +96,7 @@ export default {
                 {
                     type: 'pie',
                     radius: ['45%', '60%'],
-                    center: 'center',
+                    center: ['50%', '50%'],
                     hoverAnimation: false,
                     itemStyle: {
                         emphasis: {
@@ -124,7 +124,11 @@ export default {
             ];
             const grid = {
                 y: 35,
-                y2: 35
+                y2: 35,
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0
             };
             const option={
                 legend:legend,

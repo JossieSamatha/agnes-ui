@@ -244,7 +244,7 @@ form input[type=submit] {
     background: transparent;
     border-color: transparent;
     border-radius: 15px;
-    box-shadow: 0px 0px 12px rgba(28, 157, 247, .5);
+    box-shadow: 0px 0px 5px rgba(28, 157, 247, .5);
 }
 
 .gf-top-menubar .gf-nav-right .top-menu-item .search input:focus {
@@ -290,7 +290,7 @@ form input[type=submit] {
     position: relative;
     height: 100%;
     margin-right: 10px;
-    box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.1);
+    /*box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.1);*/
 }
 
 .gf-vertical-expand {
@@ -709,7 +709,7 @@ form input[type=submit] {
 }
 
 .gf-layout-default-content-tabs {
-    box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.1);
+    /*box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.1);*/
 }
 
 .gf-layout-default-content-tabs .gf-tab-bar {

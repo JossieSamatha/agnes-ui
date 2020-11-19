@@ -20,15 +20,40 @@
                                 @change="bizDateChange"
                 >
                 </el-date-picker>
+                <em class="el-icon-refresh refresh-btn" title="刷新" @click="freshGridData"></em>
+                <div class="interval-ctrl">
+                    <span v-html="svgImg.startInterval"
+                          v-show="ifIntervalStart"
+                          title="定时刷新已开启"
+                          @contextmenu.prevent="intervalListShow = true"
+                          @click="clearFreshInterval(true)"
+                    ></span>
+                    <span v-html="svgImg.stopInterval"
+                          v-show="!ifIntervalStart"
+                          title="定时刷新已暂停"
+                          @contextmenu.prevent="intervalListShow = true"
+                          @click="startFreshInterval(true)"
+                    ></span>
+                    <ul class="interval-list" v-show="intervalListShow" v-clickoutside="outsideClick">
+                        <li v-for="inter in intervalList"
+                            :class="intervalMin === inter.value ? 'is-select' : ''"
+                            :key="inter.value"
+                            @click="chooseIntervalMin(inter.value)"
+                        >
+                            {{inter.label}}
+                        </li>
+                    </ul>
+                </div>
             </template>
         </gf-grid>
-        </div>
+    </div>
 </template>
 
 <script>
     export default {
         data() {
             return {
+                svgImg: this.$svgImg,
                 bizDate: window.bizDate,
                 remark: '',
                 taskCommit: {
@@ -56,10 +81,34 @@
                 },
                 queryParam: {
                     bizDate: window.bizDate
-                }
+                },
+                freshInterval: null,
+                ifIntervalStart: true,
+                intervalMin: 1,
+                intervalList: [{label: '1分钟', value: 1}, {label: '3分钟', value: 3}, {label: '5分钟', value: 5}],
+                intervalListShow: false
             }
         },
+
+        created(){
+            this.startFreshInterval();
+        },
+
+        beforeDestroy() {
+            this.clearFreshInterval();
+        },
+
         watch: {
+            // 监听,当路由发生变化的时候执行
+            $route(to, from) {
+                if (from.path === '/agnes.monitor.kpi') {
+                    this.clearFreshInterval();
+                }
+                if (to.path === '/agnes.monitor.kpi') {
+                    this.startFreshInterval();
+                }
+            },
+
             bizDate(val){
                 if(this.$refs.kpiGrid && this.$refs.kpiGrid.gridController.columnApi){
                     if(val !== window.bizDate){
@@ -74,6 +123,12 @@
             // 业务日期切换
             bizDateChange(val){
                 this.queryParam.bizDate = val;
+                this.$refs.kpiGrid.reloadData();
+            },
+
+            // 刷新表格
+            freshGridData(){
+                this.queryParam.bizDate = this.bizDate;
                 this.$refs.kpiGrid.reloadData();
             },
 
@@ -132,6 +187,51 @@
                     okButtonVisible: false
                 });
             },
+
+            // 开启刷新定时器
+            async startFreshInterval(ifAsk){
+                if(ifAsk){
+                    const ok = await this.$msg.ask('是否开启定时刷新？');
+                    if (!ok) {
+                        return
+                    }
+                    this.ifIntervalStart = true;
+                }
+                const intervalMin = this.intervalMin*60*1000;
+                this.freshInterval = setInterval(() => {
+                    this.freshGridData();
+                }, intervalMin);
+            },
+
+            // 关闭刷新定时器
+            async clearFreshInterval(ifAsk){
+                if(ifAsk){
+                    const ok = await this.$msg.ask('是否关闭定时刷新？');
+                    if (!ok) {
+                        return
+                    }
+                    this.ifIntervalStart = false;
+                }
+                clearInterval(this.freshInterval);
+            },
+
+            // 定时频率选择
+            async chooseIntervalMin(chooseMin){
+                const ok = await this.$msg.ask(`是否切换刷新频率为${chooseMin}分钟？`);
+                if (!ok) {
+                    return
+                }
+                this.clearFreshInterval();
+                this.intervalMin = chooseMin;
+                if(this.ifIntervalStart){
+                    this.startFreshInterval();
+                }
+                this.$msg.success('刷新频率设置成功！');
+            },
+
+            outsideClick(){
+                this.intervalListShow = false;
+            }
         }
     }
 </script>
@@ -144,6 +244,10 @@
     .monitor-kpi-page.gf-tab-view .el-loading-mask{
         z-index: inherit;
         background-color: rgba(255, 255, 255, 0.7);
+    }
+
+    .kpi-grid .grid-action-panel .grid-toolbar-button[title="刷新"]{
+        display: none;
     }
 
     .elec-grid .gf-ag-grid.ag-theme-balham .star-cell .fa.fa-star,

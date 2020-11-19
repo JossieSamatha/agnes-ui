@@ -59,6 +59,7 @@
         },
         data() {
             return {
+                helpNotify: null,
                 cron: this.cornObj,
                 baseDate: '00',
                 dateType: '00',
@@ -98,7 +99,10 @@
             },
             // 打开帮助文档
             openHelpFile(){
-                this.$notify({
+                if(this.helpNotify && this.helpNotify.close){
+                    this.helpNotify.close();
+                }
+                this.helpNotify = this.$notify({
                     width: 400,
                     title: 'Cron时间频率组件操作文档',
                     customClass: 'cronHelpNotify',

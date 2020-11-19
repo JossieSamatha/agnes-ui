@@ -21,32 +21,35 @@ export default {
     columnDefs: [
         column.buildOpCol(100, colButtons),
         {headerName: "账户名称", field: "acntName"},
-        {headerName: "账户简称", field: "acntShortName"},
-        {headerName: "归属机构", field: "extOrgName"},
 
-        {headerName: "流程类型", field: "processType"},
+        {headerName: "资金账号", field: "fundAccNos"},
+        {headerName: "资金账号名称", field: "fundAccName"},
+        {headerName: "币种", field: "fundCurrencys"},
+
+        {headerName: "账号", field: "accNos"},
+        {headerName: "市场", field: "markets"},
+
+        {headerName: "归属机构", field: "extOrgName"},
         {headerName: "账户类型", field: "typeName"},
         {headerName: "账户状态", field: "acntStatus", dictType:"AGNES_ACNT_INFO_STATUS"},
+
+        {headerName: "大额支付号", field: "bigPayNo"},
+        {headerName: "开户网点", field: "openBank"},
+
         {headerName: "基金代码", field: "productCode"},
         {headerName: "基金名称", field: "productName"},
 
-        {headerName: "账号", field: "acc_nos"},
-        {headerName: "市场", field: "markets"},
-
-        {headerName: "资金账号", field: "fundAccNos"},
-        {headerName: "资金账号名称", field: "fundAccNames"},
-        {headerName: "币种", field: "fundCurrencys"},
-
-        {headerName: "开户网点", field: "openBank"},
-        {headerName: "大额支付号", field: "bigPayNo"},
+        {headerName: "银行联系人", field: "linkmanNames"},
         {headerName: "利率", field: "rateLabel"},
-        {headerName: "账户启用日期", field: "acntStartDt"},
 
+
+        {headerName: "账户简称", field: "acntShortName"},
+        {headerName: "账户启用日期", field: "acntStartDt"},
         {headerName: "是否开通银企直连", field: "isOpenBankCorDirect", dictType:"OPDS_YES_NO"},
         {headerName: "到期提醒", field: "maturityDt"},
-
-        {headerName: "银行联系人", field: "linkmanNames"},
         {headerName: "备注", field: "remark"},
+
+        {headerName: "流程类型", field: "processType"},
 
         column.colCrtUser,
         column.colCrtTm,

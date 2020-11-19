@@ -114,9 +114,9 @@
                         <el-form-item v-if="showRules.stampInfo&&showRules.stampInfo.isShow" label="预留印鉴信息" prop="stampInfo">
                             <gf-input v-model.trim="detailFormBefore.stampInfo" placeholder="预留印鉴信息"/>
                         </el-form-item>
-                        <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="账号" prop="accNo">
-                            <gf-input v-model.trim="detailFormBefore.accNo" placeholder="账号"/>
-                        </el-form-item>
+<!--                        <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="账号" prop="accNo">-->
+<!--                            <gf-input v-model.trim="detailFormBefore.accNo" placeholder="账号"/>-->
+<!--                        </el-form-item>-->
                         <el-form-item v-if="showRules.market&&showRules.market.isShow" label="市场" prop="market">
                             <gf-dict filterable clearable v-model="detailFormBefore.market" dict-type="AGNES_ACNT_MARKET" />
                         </el-form-item>
@@ -153,9 +153,9 @@
                         <el-form-item v-if="showRules.openBank&&showRules.openBank.isShow" label="开户网点/开户单位" prop="openBank">
                             <gf-input v-model.trim="detailFormBefore.openBank" placeholder="开户网点/开户单位"/>
                         </el-form-item>
-                        <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号" prop="fundAccNo">
-                            <gf-input v-model.trim="detailFormBefore.fundAccNo" placeholder="资金账号"/>
-                        </el-form-item>
+<!--                        <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号" prop="fundAccNo">-->
+<!--                            <gf-input v-model.trim="detailFormBefore.fundAccNo" placeholder="资金账号"/>-->
+<!--                        </el-form-item>-->
                         <el-form-item v-if="showRules.acntStartDt&&showRules.acntStartDt.isShow" label="账户启用日期" prop="acntStartDt">
                             <el-date-picker
                                 v-model="detailFormBefore.acntStartDt"
@@ -192,6 +192,9 @@
                                 value-format="yyyy-MM-dd"
                                 placeholder="到期提醒">
                             </el-date-picker>
+                        </el-form-item>
+                        <el-form-item v-if="showRules.futuresCompany&&showRules.futuresCompany.isShow" label="期货公司" prop="futuresCompany">
+                            <gf-input v-model.trim="detailFormBefore.futuresCompany" placeholder="期货公司"/>
                         </el-form-item>
                         <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人" prop="bankLinkMan">
                             <el-select class="multiple-select" v-model="detailFormBefore.bankLinkMan"
@@ -274,11 +277,11 @@
                                         <el-input v-model="scope.row.accNo"></el-input>
                                     </template>
                                 </el-table-column>
-                                <el-table-column prop="accName" label="资金账户名称">
-                                    <template slot-scope="scope">
-                                        <el-input v-model="scope.row.accName"></el-input>
-                                    </template>
-                                </el-table-column>
+<!--                                <el-table-column prop="accName" label="资金账户名称">-->
+<!--                                    <template slot-scope="scope">-->
+<!--                                        <el-input v-model="scope.row.accName"></el-input>-->
+<!--                                    </template>-->
+<!--                                </el-table-column>-->
                                 <el-table-column prop="currency" label="币种">
                                     <template slot-scope="scope">
                                         <gf-dict filterable clearable v-model="scope.row.currency" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
@@ -443,13 +446,29 @@
                             <gf-input v-model.trim="detailForm.threeLicenseInfo" placeholder="三证合一变更情况"/>
                         </el-form-item>
                         <el-form-item v-if="showRules.bigPayNo&&showRules.bigPayNo.isShow" label="大额支付号" prop="bigPayNo">
-                            <gf-input v-model.trim="detailForm.bigPayNo" placeholder="大额支付号"/>
+                            <gf-input v-model.trim="detailForm.bigPayNo" placeholder="大额支付号"
+                                @change="loadOpenBankListByBigPayNo"/>
                         </el-form-item>
                         <el-form-item v-if="showRules.openBank&&showRules.openBank.isShow" label="开户网点/开户单位" prop="openBank">
-                            <gf-input v-model.trim="detailForm.openBank" placeholder="开户网点/开户单位"
-                                      :disabled="showRules.bigPayNo&&showRules.bigPayNo.isShow"/>
-                            <em class="el-icon-refresh-left" @click="loadNameByBigPayNo"/>
-                            <el-button style="border: none;padding-left: 5px;font-size: 17px;vertical-align: middle" icon="el-icon-edit-outline" @click="defendOpenBank"/>
+<!--                            <gf-input v-model.trim="detailForm.openBank" placeholder="开户网点/开户单位" style="width: 80%"-->
+<!--                                      :disabled="showRules.bigPayNo&&showRules.bigPayNo.isShow"/>-->
+
+                            <div class="line">
+                                <el-select class="multiple-select" v-model="detailForm.openBank" style="width: 90%"
+                                           filterable clearable
+                                           placeholder="请选择">
+                                    <gf-filter-option
+                                            v-for="item in openBankList"
+                                            :key="item.bankBranchId"
+                                            :label="item.branchName"
+                                            :value="item.branchName">
+                                    </gf-filter-option>
+                                </el-select>
+
+                                <!--<em class="el-icon-refresh-left" @click="loadNameByBigPayNo"/>-->
+                                <el-button style="border: none;padding-left: 5px;font-size: 17px;vertical-align: middle" icon="el-icon-edit-outline" @click="defendOpenBank"/>
+                            </div>
+
                         </el-form-item>
                         <el-form-item v-if="showRules.acntStartDt&&showRules.acntStartDt.isShow" label="账户启用日期" prop="acntStartDt">
                             <el-date-picker
@@ -487,6 +506,9 @@
                                     value-format="yyyy-MM-dd"
                                     placeholder="到期提醒">
                             </el-date-picker>
+                        </el-form-item>
+                        <el-form-item v-if="showRules.futuresCompany&&showRules.futuresCompany.isShow" label="期货公司" prop="futuresCompany">
+                            <gf-input v-model.trim="detailForm.futuresCompany" placeholder="期货公司"/>
                         </el-form-item>
                         <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人" prop="detailForm.bankLinkMan">
                             <el-select class="multiple-select" v-model="detailForm.bankLinkMan"
@@ -573,11 +595,11 @@
                                         <el-input v-model="scope.row.accNo"></el-input>
                                     </template>
                                 </el-table-column>
-                                <el-table-column prop="accName" label="资金账户名称">
-                                    <template slot-scope="scope">
-                                        <el-input v-model="scope.row.accName"></el-input>
-                                    </template>
-                                </el-table-column>
+<!--                                <el-table-column prop="accName" label="资金账户名称">-->
+<!--                                    <template slot-scope="scope">-->
+<!--                                        <el-input v-model="scope.row.accName"></el-input>-->
+<!--                                    </template>-->
+<!--                                </el-table-column>-->
                                 <el-table-column prop="currency" label="币种">
                                     <template slot-scope="scope">
                                         <gf-dict filterable clearable v-model="scope.row.currency" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
@@ -659,6 +681,7 @@
                     openManPhone:'',
                     remark:'',
                     other:'',
+                    futuresCompany:'',
                     cardCorporateAcntId:'',
                     provisionBankAcntIds:[],
                     fields:[],
@@ -704,6 +727,7 @@
                     openManPhone:'',
                     remark:'',
                     other:'',
+                    futuresCompany:'',
                     cardCorporateAcntId:'',
                     provisionBankAcntIds:[],
                     accNoList:[],
@@ -733,6 +757,7 @@
                 accNoList:[],
                 moneyAccNoList:[],
                 acntList:[],    //账户列表
+                openBankList:[],
                 showRules:{
            
                 },
@@ -805,8 +830,17 @@
                     }
                 }
             },
+
+            async loadOpenBankListByBigPayNo(){
+                this.detailForm.openBank = '';
+                let openBankList = await this.$api.branchApi.listByPayNo(this.detailForm.bigPayNo);
+                this.openBankList = openBankList.data
+            },
+
             defendOpenBank(){
-                this.defendOpenBankDlg(null,'add',null);
+                this.defendOpenBankDlg(null,'add',() => {
+                    this.loadOpenBankListByBigPayNo();
+                });
             },
             defendOpenBankDlg(row, mode, actionOk){
                 // 抽屉创建
@@ -845,6 +879,9 @@
 
                     let acntList = await this.$api.acntInfoApi.getAcntInfoList();
                     this.acntList = acntList.data;
+
+                    let openBankList = await this.$api.branchApi.listByPayNo(this.detailForm.bigPayNo);
+                    this.openBankList = openBankList.data
 
                     //以下加载填写的数据
                     if(this.showChange){

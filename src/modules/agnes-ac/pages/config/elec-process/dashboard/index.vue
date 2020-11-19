@@ -25,6 +25,29 @@
                 >
                 </el-date-picker>
                 <em class="el-icon-refresh" title="全部刷新" @click="getFLowsbyType(bizDate)"></em>
+                <div class="interval-ctrl">
+                    <span v-html="svgImg.startInterval"
+                          v-show="ifIntervalStart"
+                          title="定时刷新已开启"
+                          @contextmenu.prevent="intervalListShow = true"
+                          @click="clearFreshInterval(true)"
+                    ></span>
+                    <span v-html="svgImg.stopInterval"
+                          v-show="!ifIntervalStart"
+                          title="定时刷新已暂停"
+                          @contextmenu.prevent="intervalListShow = true"
+                          @click="startFreshInterval(true)"
+                    ></span>
+                    <ul class="interval-list" v-show="intervalListShow" v-clickoutside="outsideClick">
+                        <li v-for="inter in intervalList"
+                            :class="intervalMin === inter.value ? 'is-select' : ''"
+                            :key="inter.value"
+                            @click="chooseIntervalMin(inter.value)"
+                        >
+                            {{inter.label}}
+                        </li>
+                    </ul>
+                </div>
             </div>
         </section>
         <section class="board-container" ref="contentSection">
@@ -44,7 +67,7 @@
                                         <em v-if="task.taskIcon" :class="task.taskIcon"></em>
                                         <em v-else class="fa fa-cogs"></em>
                                     </p>
-                                    <p class="title" title="task.taskName">{{task.taskName}}</p>
+                                    <p class="title" :title="task.taskName">{{task.taskName}}</p>
                                     <p style="height: 15px">
                                         <el-progress v-if="task.finishedRate" class="monitor-progress" show-text
                                                      :percentage="getPercentage(task.finishedRate)"
@@ -60,10 +83,10 @@
             </el-carousel>
             <div class="card-detail" v-if="curTask.taskId">
                 <div class="chart-container">
-                    <pie-chart ref="pieChart" :chart-data="executePieData" :title="pieTitle" pieHeight="70%"
-                               legendPosX="right" legendPosY="top" :color-set="['#476DBE','#E0E0E0']"
+                   <pie-chart ref="pieChart" :chart-data="executePieData" :title="pieTitle" pieHeight="300px"
+                               legendPosX="left" legendPosY="top" :color-set="['#476DBE','#E0E0E0']" style="width: 300px"
                     ></pie-chart>
-                    <p class="detail-btn" @click="reivewDetail">查看详情</p>
+                    <p class="detail-btn" @click="reivewDetail" v-if="false">查看详情</p>
                 </div>
                 <div class="process-container">
                     <div class="flow-legend">
@@ -113,8 +136,8 @@
                          grid-no="agnes-monitor-leader-field">
                     <template slot="right-before">
                         <span class="full-screen-btn">
-                             <em v-show="!ifDetailFullScreen" v-html="svgImg.fullScreen" @click="expandDetailFullScreen(true)"></em>
-                            <em v-show="ifDetailFullScreen" v-html="svgImg.exitFullScreen" @click="expandDetailFullScreen(false)"></em>
+                             <em v-show="!ifDetailFullScreen" v-html="lcImg.fullScreen" @click="expandDetailFullScreen(true)"></em>
+                            <em v-show="ifDetailFullScreen" v-html="lcImg.exitFullScreen" @click="expandDetailFullScreen(false)"></em>
                         </span>
                     </template>
                 </gf-grid>
@@ -128,7 +151,8 @@ import boardDetail from './board-detail';
 export default {
     data(){
         return {
-            svgImg: this.$lcImg,
+            svgImg: this.$svgImg,
+            lcImg: this.$lcImg,
             dragColumn: {dragContainerId: "taskContainerLeft", dragDirection: 'n'},
             carouselHeight: 0,
             flowType: '',
@@ -139,25 +163,46 @@ export default {
             stageStatus: {
                 '#4A8EF0': '已完成',
                 '#E0E0E0': '未完成',
-                '#F5222E': '异常'
+                '#F5222E': '有异常'
             },
             stageList: [],
             pieTitle: '',
             ifGridExpand: false,
             setPos: "relative",
-            ifDetailFullScreen: false
+            ifDetailFullScreen: false,
+            freshInterval: null,
+            ifIntervalStart: true,
+            intervalMin: 1,
+            intervalList: [{label: '1分钟', value: 1}, {label: '3分钟', value: 3}, {label: '5分钟', value: 5}],
+            intervalListShow: false
         }
     },
     async created(){
         // 默认系统业务日期--默认系统当前业务日期
         this.bizDate = window.bizDate;
         this.getFLowsbyType(this.bizDate);
+        this.startFreshInterval();
     },
     mounted(){
         this.$nextTick(()=>{
-            this.bizDate = window.bizDate;
             this.getCarouselHeight();
         });
+    },
+
+    beforeDestroy() {
+        this.clearFreshInterval();
+    },
+
+    watch: {
+        // 监听,当路由发生变化的时候执行
+        $route(to, from) {
+            if (from.path === '/agnes.app.monitor.leader') {
+                this.clearFreshInterval();
+            }
+            if (to.path === '/agnes.app.monitor.leader') {
+                this.startFreshInterval();
+            }
+        }
     },
     methods: {
         // 业务日期切换
@@ -318,6 +363,51 @@ export default {
             }else{
                 this.$refs.dragColumn.style.height = '450px';
             }
+        },
+
+        // 开启刷新定时器
+        async startFreshInterval(ifAsk){
+            if(ifAsk){
+                const ok = await this.$msg.ask('是否开启定时刷新？');
+                if (!ok) {
+                    return
+                }
+                this.ifIntervalStart = true;
+            }
+            const intervalMin = this.intervalMin*60*1000;
+            this.freshInterval = setInterval(() => {
+                this.getFLowsbyType(this.bizDate);
+            }, intervalMin);
+        },
+
+        // 关闭刷新定时器
+        async clearFreshInterval(ifAsk){
+            if(ifAsk){
+                const ok = await this.$msg.ask('是否关闭定时刷新？');
+                if (!ok) {
+                    return
+                }
+                this.ifIntervalStart = false;
+            }
+            clearInterval(this.freshInterval);
+        },
+
+        // 定时频率选择
+        async chooseIntervalMin(chooseMin){
+            const ok = await this.$msg.ask(`是否切换刷新频率为${chooseMin}分钟？`);
+            if (!ok) {
+                return
+            }
+            this.clearFreshInterval();
+            this.intervalMin = chooseMin;
+            if(this.ifIntervalStart){
+                this.startFreshInterval();
+            }
+            this.$msg.success('刷新频率设置成功！');
+        },
+
+        outsideClick(){
+            this.intervalListShow = false;
         }
     }
 }

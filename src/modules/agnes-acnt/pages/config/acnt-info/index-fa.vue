@@ -6,7 +6,10 @@
                     <el-input v-model="queryArgs.acntName"></el-input>
                 </el-form-item>
                 <el-form-item label="账号" >
-                    <el-input v-model="queryArgs.accNo"></el-input>
+                    <el-input v-model="queryArgs.accNos"></el-input>
+                </el-form-item>
+                <el-form-item label="资金账号" >
+                    <el-input v-model="queryArgs.fundAccNos"></el-input>
                 </el-form-item>
                 <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
             </div>
@@ -15,12 +18,17 @@
                     <el-select class="multiple-select" v-model="queryArgs.typeCode"
                                filterable clearable
                                placeholder="请选择">
-                        <gf-filter-option
-                                v-for="item in typeCodeOption"
-                                :key="item.typeCode"
-                                :label="item.typeName"
-                                :value="item.typeCode">
-                        </gf-filter-option>
+                        <el-option-group
+                                v-for="group in typeCodeOption"
+                                :key="group.label"
+                                :label="group.label">
+                            <el-option
+                                    v-for="item in group.options"
+                                    :key="item.typeCode"
+                                    :label="`${group.label} - ${item.typeName}`"
+                                    :value="item.typeCode">
+                            </el-option>
+                        </el-option-group>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="状态">
@@ -30,12 +38,12 @@
             </div>
         </el-form>
         <gf-grid ref="grid" height="calc(100% - 70px)"
-                @row-double-click="editEventDef"
+                 @row-double-click="showDetail"
                 :query-args="queryArgs"
                 grid-no="agnes-acnt-info-fa">
             <template slot="left">
                <gf-button class="action-btn" @click="exoprtV45" size="mini"
-                          v-if="$hasPermission('agnes.acnt.info.fa.exoprtV45')">导出v45</gf-button>
+                          v-if="$hasPermission('agnes.acnt.info.fa.exportV45')">导出v45</gf-button>
                <gf-button class="action-btn" @click="registration" size="mini"
                           v-if="$hasPermission('agnes.acnt.info.fa.registration')">账户登记</gf-button>
             </template>
@@ -46,6 +54,7 @@
 <script>
     import AcntApplyOpen from "../acnt-apply/acnt-apply-open";
     import AcntApplyInsert from "../acnt-apply/acnt-apply-insert";
+    import AcntInfoDetail from "../acnt-info/acnt-info-detail";
     export default {
         data() {
             return {
@@ -53,10 +62,17 @@
                     'processType':'FA',
                     'typeCode':'',
                     'acntName':'',
-                    'accNo':'',
+                    'accNos':'',
+                    'fundAccNos':'',
                     'acntStatus':''
                 },
-                typeCodeOption:[]
+                typeCodeOption: [{
+                    label: 'TA',
+                    options: []
+                },{
+                    label: 'FA',
+                    options: []
+                }]
             }
         },
         beforeMount() {
@@ -68,7 +84,11 @@
             async getOptionData(){
                 try {
                     let typeCodeOption = await this.$api.acntApplyApi.getAcntTypeList();
-                    this.typeCodeOption = typeCodeOption.data
+                    typeCodeOption.data.forEach(item=>{
+                        if(item.processType === 'FA'){
+                            this.typeCodeOption[1].options.push(item);
+                        }
+                    });
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
@@ -82,7 +102,8 @@
                     'processType':'FA',
                     'typeCode':'',
                     'acntName':'',
-                    'accNo':'',
+                    'accNos':'',
+                    'fundAccNos':'',
                     'acntStatus':''
                 };
                 this.reloadData();
@@ -139,6 +160,25 @@
             //     this.showInsertDlg('check', params.data, this.onOpenApply.bind(this));
             // },
 
+            showAcntInfoDlg(mode, row, actionOk,isDisabled=false) {
+                if (!row) {
+                    this.$msg.warning("请选中一条记录!");
+                    return;
+                }
+                let title = '账户信息';
+                this.$drawerPage.create({
+                    width: 'calc(97% - 215px)',
+                    title: [title],
+                    component: AcntInfoDetail,
+                    args: {row, mode, actionOk,isDisabled},
+                    okButtonVisible:mode!=='view',
+                    okButtonTitle:mode==='detele'?'提交':'保存'
+                })
+            },
+
+            showDetail(params) {
+                this.showAcntInfoDlg('view', params.data, this.onOpenApply.bind(this),true);
+            },
         }
     }
 </script>

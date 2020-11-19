@@ -11,9 +11,9 @@
                            style="width: 175px;margin-right: 12px;"
                 >
                     <el-option v-for="type in flowTypeOp"
-                            :key="type.typeId"
-                            :label="type.typeName"
-                            :value="type.typeId">
+                               :key="type.typeId"
+                               :label="type.typeName"
+                               :value="type.typeId">
                     </el-option>
                 </el-select>
             </div>
@@ -39,6 +39,29 @@
                 >
                 </el-date-picker>
                 <em class="el-icon-refresh" title="全部刷新" @click="freshFlowData(true)"></em>
+                <div class="interval-ctrl">
+                    <span v-html="svgImg.startInterval"
+                          v-show="ifIntervalStart"
+                          title="定时刷新已开启"
+                          @contextmenu.prevent="intervalListShow = true"
+                          @click="clearFreshInterval(true)"
+                    ></span>
+                    <span v-html="svgImg.stopInterval"
+                          v-show="!ifIntervalStart"
+                          title="定时刷新已暂停"
+                          @contextmenu.prevent="intervalListShow = true"
+                          @click="startFreshInterval(true)"
+                    ></span>
+                    <ul class="interval-list" v-show="intervalListShow" v-clickoutside="outsideClick">
+                        <li v-for="inter in intervalList"
+                            :class="intervalMin === inter.value ? 'is-select' : ''"
+                            :key="inter.value"
+                            @click="chooseIntervalMin(inter.value)"
+                        >
+                            {{inter.label}}
+                        </li>
+                    </ul>
+                </div>
             </div>
         </section>
         <section class="bottom-section">
@@ -98,7 +121,8 @@
                 <div class="exec-container">
                     <p class="section-title">
                         <span>执行情况</span>
-                        <el-checkbox-group class="exec-type" v-model="execTypeChecked" size="small" @change="execTypeChange">
+                        <el-checkbox-group class="exec-type" v-model="execTypeChecked" size="small"
+                                           @change="execTypeChange">
                             <el-checkbox v-for="exeType in execTypeOp" :key="exeType.id" :label="exeType.id" border>
                                 <em v-html="lcImg[exeType.icon]"></em><span>{{exeType.label}}</span>
                             </el-checkbox>
@@ -138,26 +162,35 @@
                 proTask: [],
                 executePieData: [],
                 pieTitle: '',
-                  taskStage: [],
-                  execLog: [],
-                  ifRightExpand: false,
-                  ifGridExpand: true,
-                  curStage: {},
-                  stageStatus: {
-                      '#DFE1E5': '未开始',
-                      '#4A8EF0': '执行中',
-                      '#F5222E': '已异常/已超时',
-                      '#FAAE14': '干预通过',
-                      '#52C41C': '已完成'
-                  },
-                  execTypeChecked: ['OVERTIME', 'EXCEPTION'],
-                  execTypeOp: [{id: 'AHEAD', label: '提前', icon: 'executing'},{id: 'FINISHED', label: '完成', icon: 'finish'},
+                taskStage: [],
+                execLog: [],
+                ifRightExpand: false,
+                ifGridExpand: true,
+                curStage: {},
+                stageStatus: {
+                    '#DFE1E5': '未开始',
+                    '#4A8EF0': '执行中',
+                    '#F5222E': '已异常/已超时',
+                    '#FAAE14': '干预通过',
+                    '#52C41C': '已完成'
+                },
+                freshInterval: null,
+                ifIntervalStart: true,
+                intervalMin: 1,
+                intervalList: [{label: '1分钟', value: 1}, {label: '3分钟', value: 3}, {label: '5分钟', value: 5}],
+                intervalListShow: false,
+                execTypeChecked: ['OVERTIME', 'EXCEPTION'],
+                execTypeOp: [{id: 'AHEAD', label: '提前', icon: 'executing'}, {
+                    id: 'FINISHED',
+                    label: '完成',
+                    icon: 'finish'
+                },
                     {id: 'OVERTIME', label: '超时', icon: 'outTime'}, {id: 'EXCEPTION', label: '异常', icon: 'abnormal'}
-                  ],
+                ],
                 taskIdList: [],
                 loading: false,
                 elecGridOptions: {
-                    onRowDataChanged: (params)=>{
+                    onRowDataChanged: (params) => {
                         params.columnApi.columnController.autoSizeAllColumns()
                     }
                 }
@@ -167,17 +200,32 @@
             // 默认系统业务日期
             this.bizDate = window.bizDate;
             // 默认加载首个流程类型流程数据
-            this.flowTypeDict = this.$app.dict.getDictItems("AGNES_CASE_FLOWTYPE").map((dictItem)=>{
+            this.flowTypeDict = this.$app.dict.getDictItems("AGNES_CASE_FLOWTYPE").map((dictItem) => {
                 return {
                     typeId: dictItem.dictId,
                     typeName: dictItem.dictName
                 }
             });
             this.getAllFlow(this.bizDate);
-
+            this.startFreshInterval();
         },
+        beforeDestroy() {
+            this.clearFreshInterval();
+        },
+        watch: {
+            // 监听,当路由发生变化的时候执行
+            $route(to, from) {
+                if (from.path === '/agnes.elec.operate') {
+                    this.clearFreshInterval();
+                }
+                if (to.path === '/agnes.elec.operate') {
+                    this.startFreshInterval();
+                }
+            }
+        },
+
         computed: {
-            isBizDate(){
+            isBizDate() {
                 return this.bizDate && this.bizDate === window.bizDate;
             }
         },
@@ -206,25 +254,25 @@
             },
 
 
-            getNeedFlowType(flowDataList){
+            getNeedFlowType(flowDataList) {
                 const flowTypeOp = this.$lodash.cloneDeep(this.flowTypeDict);
-                flowDataList.forEach((dataItem)=>{
+                flowDataList.forEach((dataItem) => {
                     const dataIndex = this.$lodash.findIndex(flowTypeOp, {typeId: dataItem.flowType});
-                    if(flowTypeOp[dataIndex]) {
-                        if(!flowTypeOp[dataIndex].proTask){
+                    if (flowTypeOp[dataIndex]) {
+                        if (!flowTypeOp[dataIndex].proTask) {
                             flowTypeOp[dataIndex].proTask = [];
                         }
                         flowTypeOp[dataIndex].proTask.push(dataItem);
                     }
                 });
-                return flowTypeOp.filter((flowItem)=>{
-                    return flowItem.proTask && flowItem.proTask.length>0;
+                return flowTypeOp.filter((flowItem) => {
+                    return flowItem.proTask && flowItem.proTask.length > 0;
                 })
             },
 
             // 根据流程id及业务日期加载流程信息{"taskId":"","bizDate":""}、获取任务状态、获取执行情况
             async getFLowDetail(taskId, bizDate, ifLoading) {
-                if(ifLoading) {
+                if (ifLoading) {
                     this.loading = true;
                 }
                 try {
@@ -233,14 +281,14 @@
                         const flowDetailParse = this.$utils.fromJson(flowDetailStr.data);
                         if (flowDetailParse && flowDetailParse.stages.length > 0) {
                             this.taskStage = flowDetailParse.stages;
-                            if(this.curStage && this.curStage.defId){
+                            if (this.curStage && this.curStage.defId) {
                                 const hasStage = this.$lodash.find(flowDetailParse.stages, {defId: this.curStage.defId});
-                                if(hasStage){
+                                if (hasStage) {
                                     this.curStage = hasStage;
-                                }else{
+                                } else {
                                     this.curStage = flowDetailParse.stages[0];
                                 }
-                            }else{
+                            } else {
                                 this.curStage = flowDetailParse.stages[0];
                             }
                             // 获取任务状态
@@ -248,15 +296,15 @@
                             const allTaskNum = flowDetailParse.processTargetNum;
                             const executePieData = [
                                 {name: '完成', value: targetNum},
-                                {name: '未完成', value: (allTaskNum-targetNum)}
+                                {name: '未完成', value: (allTaskNum - targetNum)}
                             ];
                             this.executePieData = executePieData;
-                            this.pieTitle = Math.floor(targetNum/allTaskNum*100)+'%';
+                            this.pieTitle = Math.floor(targetNum / allTaskNum * 100) + '%';
 
                             // 获取执行情况
                             this.taskIdList = flowDetailParse.taskIdList;
                             this.getExecuteData(flowDetailParse.taskIdList, this.execTypeChecked);
-                            if(this.curStage && this.curStage.ruCaseStepList){
+                            if (this.curStage && this.curStage.ruCaseStepList) {
                                 this.setGridData(this.curStage.ruCaseStepList);
                             }
                             this.loading = false;
@@ -266,7 +314,7 @@
                             this.taskIdList = [];
                             this.loading = false;
                         }
-                    }else{
+                    } else {
                         this.taskStage = [];
                         this.executePieData = [];
                         this.execLog = [];
@@ -299,7 +347,7 @@
             // 任务流程 -- 指定stage -- 选择
             chooseTaskStage(stage) {
                 this.curStage = stage;
-                if(stage.ruCaseStepList){
+                if (stage.ruCaseStepList) {
                     this.setGridData(stage.ruCaseStepList);
                 }
             },
@@ -340,7 +388,7 @@
             },
 
             getPercentage(percentage) {
-                return parseInt(percentage* 100) ;
+                return parseInt(percentage * 100);
             },
 
             getStatusColor(statusId) {
@@ -369,28 +417,28 @@
             // 手工确认
             async actionConfirm(params) {
                 let taskCommit = {
-                  stepInfo: {},
-                  inst: {
-                    taskId: "",
-                  },
+                    stepInfo: {},
+                    inst: {
+                        taskId: "",
+                    },
                 };
-              taskCommit.stepInfo.remark = params.data.remark;
-              taskCommit.stepInfo.stepStatus = "06";
-              taskCommit.stepInfo.jobId = params.data.jobId;
-              taskCommit.inst.taskId = params.data.taskId;
-              taskCommit.stepInfo.stepCode = params.data.stepCode;
-              taskCommit.stepInfo.bizDate = this.bizDate;
-              taskCommit.stepInfo.caseId = params.data.caseId;
-              try {
-                const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
-                const resp = await this.$app.blockingApp(p);
-                if (resp.data) {
-                  if (this.actionOk) {
-                    await this.actionOk();
-                  }
-                  this.$msg.success('提交成功');
-                  this.freshFlowData(false); // 刷新页面数据
-                  this.$emit("onClose");
+                taskCommit.stepInfo.remark = params.data.remark;
+                taskCommit.stepInfo.stepStatus = "06";
+                taskCommit.stepInfo.jobId = params.data.jobId;
+                taskCommit.inst.taskId = params.data.taskId;
+                taskCommit.stepInfo.stepCode = params.data.stepCode;
+                taskCommit.stepInfo.bizDate = this.bizDate;
+                taskCommit.stepInfo.caseId = params.data.caseId;
+                try {
+                    const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
+                    const resp = await this.$app.blockingApp(p);
+                    if (resp.data) {
+                        if (this.actionOk) {
+                            await this.actionOk();
+                        }
+                        this.$msg.success('提交成功');
+                        this.freshFlowData(false); // 刷新页面数据
+                        this.$emit("onClose");
                     } else {
                         this.$msg.warning('提交失败');
                     }
@@ -402,29 +450,29 @@
             // 干预通过
             async forcePass(params) {
                 let taskCommit = {
-                  stepInfo: {},
-                  inst: {
-                    taskId: "",
-                  },
+                    stepInfo: {},
+                    inst: {
+                        taskId: "",
+                    },
                 };
 
-              taskCommit.stepInfo.remark = params.data.remark;
-              taskCommit.stepInfo.stepStatus = "07";
-              taskCommit.stepInfo.jobId = params.data.jobId;
-              taskCommit.inst.taskId = params.data.taskId;
-              taskCommit.stepInfo.stepCode = params.data.stepCode;
-              taskCommit.stepInfo.bizDate = this.bizDate;
-              taskCommit.stepInfo.caseId = params.data.caseId;
-              try {
-                const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
-                const resp = await this.$app.blockingApp(p);
-                if (resp.data) {
-                  if (this.actionOk) {
-                    await this.actionOk();
-                  }
-                  this.$msg.success('提交成功');
-                  this.freshFlowData(false); // 刷新页面数据
-                  this.$emit("onClose");
+                taskCommit.stepInfo.remark = params.data.remark;
+                taskCommit.stepInfo.stepStatus = "07";
+                taskCommit.stepInfo.jobId = params.data.jobId;
+                taskCommit.inst.taskId = params.data.taskId;
+                taskCommit.stepInfo.stepCode = params.data.stepCode;
+                taskCommit.stepInfo.bizDate = this.bizDate;
+                taskCommit.stepInfo.caseId = params.data.caseId;
+                try {
+                    const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
+                    const resp = await this.$app.blockingApp(p);
+                    if (resp.data) {
+                        if (this.actionOk) {
+                            await this.actionOk();
+                        }
+                        this.$msg.success('提交成功');
+                        this.freshFlowData(false); // 刷新页面数据
+                        this.$emit("onClose");
                     } else {
                         this.$msg.warning('提交失败');
                     }
@@ -434,14 +482,14 @@
             },
 
             // 查看指标详情
-            showIndexDetail(params){
+            showIndexDetail(params) {
                 const row = params.data;
                 this.$drawerPage.create({
                     className: 'elec-dashboard-drawer',
                     width: 'calc(97% - 215px)',
                     title: [row.stepName],
                     component: 'monitor-detail-page',
-                    args: {stepCode: row.stepCode,stepActKey:row.stepActKey, bizDate: this.bizDate, status: 3},
+                    args: {stepCode: row.stepCode, stepActKey: row.stepActKey, bizDate: this.bizDate, status: 3},
                     cancelButtonTitle: '返回',
                     okButtonVisible: false
                 });
@@ -460,39 +508,86 @@
             },
 
             // 获取执行情况
-          async getExecuteData(taskIds, msgType) {
-            const resp = this.$api.elecProcessApi.getMsgNameAndType({taskIds, msgType})
-            if (resp.data) {
-              this.execLog = resp.data;
-            } else {
-              this.execLog = [];
-            }
-          },
+            async getExecuteData(taskIds, msgType) {
+                const resp = await this.$api.elecProcessApi.getMsgNameAndType({taskIds, msgType});
+                if (resp.data) {
+                    this.execLog = resp.data;
+                } else {
+                    this.execLog = [];
+                }
+            },
 
-          // 执行情况类型切换
-          execTypeChange(val) {
-            this.getExecuteData(this.taskIdList, val);
-          },
+            // 执行情况类型切换
+            execTypeChange(val) {
+                this.getExecuteData(this.taskIdList, val);
+            },
 
-          freshFlowData(ifLoading) {
-            this.getFLowDetail(this.choosedTaskId, this.bizDate, ifLoading);
-          },
+            freshFlowData(ifLoading) {
+                this.getFLowDetail(this.choosedTaskId, this.bizDate, ifLoading);
+            },
 
-          getExecIcon(status) {
-            const icon = this.$lodash.find(this.execTypeOp, {id: status}).icon;
+            getExecIcon(status) {
+                const icon = this.$lodash.find(this.execTypeOp, {id: status}).icon;
                 return this.lcImg[icon];
+            },
+
+            // 开启刷新定时器
+            async startFreshInterval(ifAsk){
+                if(ifAsk){
+                    const ok = await this.$msg.ask('是否开启定时刷新？');
+                    if (!ok) {
+                        return
+                    }
+                    this.ifIntervalStart = true;
+                }
+                const intervalMin = this.intervalMin*60*1000;
+                this.freshInterval = setInterval(() => {
+                    if (!this.loading) {
+                        this.freshFlowData(true);
+                    }
+                }, intervalMin);
+            },
+
+            // 关闭刷新定时器
+            async clearFreshInterval(ifAsk){
+                if(ifAsk){
+                    const ok = await this.$msg.ask('是否关闭定时刷新？');
+                    if (!ok) {
+                        return
+                    }
+                    this.ifIntervalStart = false;
+                }
+                clearInterval(this.freshInterval);
+            },
+
+            // 定时频率选择
+            async chooseIntervalMin(chooseMin){
+                const ok = await this.$msg.ask(`是否切换刷新频率为${chooseMin}分钟？`);
+                if (!ok) {
+                    return
+                }
+                this.clearFreshInterval();
+                this.intervalMin = chooseMin;
+                if(this.ifIntervalStart){
+                    this.startFreshInterval();
+                }
+                this.$msg.success('刷新频率设置成功！');
+            },
+
+            outsideClick(){
+                this.intervalListShow = false;
             }
-        }
+        },
     }
 </script>
 
 <style>
-    .elec-process.gf-tab-view .el-loading-mask{
+    .elec-process.gf-tab-view .el-loading-mask {
         z-index: inherit;
         background-color: rgba(255, 255, 255, 0.7);
     }
 
-    .elec-process .elec-grid:not(.isBizDate) .optional-cell .el-button:not(.detail-btn){
+    .elec-process .elec-grid:not(.isBizDate) .optional-cell .el-button:not(.detail-btn) {
         display: none;
     }
 </style>

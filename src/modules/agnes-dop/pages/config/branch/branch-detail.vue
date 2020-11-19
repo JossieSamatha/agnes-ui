@@ -37,6 +37,14 @@
             actionOk: Function
         },
         data() {
+            var checkExistsBigPayNo = async (rule, value, callback) => {
+                const resp = await this.$api.branchApi.existsBigPayNo(this.detailFormData.bigPayNo, this.detailFormData.bankBranchId);
+                if (!this.detailFormData.bigPayNo) {
+                    callback(new Error('大额支付号必填！'));
+                } else if (resp.data === true) {
+                    callback(new Error('大额支付号已存在！'));
+                }
+            };
             return {
                 detailFormData:{
                     bankBranchId:'',
@@ -58,12 +66,13 @@
                     ],
                     bigPayNo: [
                         {required: true, message: '大额支付号必填', trigger: 'blur'},
+                        {validator: checkExistsBigPayNo, trigger: 'blur'}
                     ],
                     extOrgId: [
                         {required: true, message: '归属机构必填', trigger: 'blur'},
                     ],
                   
-                },
+                }
             }
         },
         beforeMount() {
