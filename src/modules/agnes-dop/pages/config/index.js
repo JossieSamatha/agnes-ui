@@ -16,10 +16,12 @@ import DataPipeTask from "./data-pipe/index";
 import MonitorRiskDef from "./monitor-risk-def/index";
 import MonitorErrDef from "./monitor-err-def/index";
 import Branch from "./branch/index";
+import Msg from "./msg/send-msg";
 
 const Loading = {
     install: function(Vue){
         Vue.component('help-info-page', helpInfoPage);
+        Vue.component("agnes-msg-send", Msg);
     },
     load: function (Gfui) {
         Gfui.componentView('agnes.org.def', OrgDef, {title: '外部机构维护'});
