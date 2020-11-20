@@ -35,7 +35,7 @@
             </div>
         </el-form>
         <gf-grid ref="grid" height="calc(100% - 70px)"
-                @row-double-click="editEventDef"
+                @row-double-click="showDetail"
                 :query-args="queryArgs"
                 grid-no="agnes-acnt-info-ta">
             <template slot="left">
@@ -51,6 +51,7 @@
 <script>
     import AcntApplyOpen from "../acnt-apply/acnt-apply-open";
     import AcntApplyInsert from "../acnt-apply/acnt-apply-insert";
+    import AcntInfoDetail from "./acnt-info-detail";
     export default {
         data() {
             return {
@@ -153,7 +154,25 @@
             // check(params) {
             //     this.showInsertDlg('check', params.data, this.onOpenApply.bind(this));
             // },
+            showAcntInfoDlg(mode, row, actionOk,isDisabled=false) {
+                if (!row) {
+                    this.$msg.warning("请选中一条记录!");
+                    return;
+                }
+                let title = '账户信息';
+                this.$drawerPage.create({
+                    width: 'calc(97% - 215px)',
+                    title: [title],
+                    component: AcntInfoDetail,
+                    args: {row, mode, actionOk,isDisabled},
+                    okButtonVisible:mode!=='view',
+                    okButtonTitle:mode==='detele'?'提交':'保存'
+                })
+            },
 
+            showDetail(params) {
+                this.showAcntInfoDlg('view', params.data, this.onOpenApply.bind(this),true);
+            },
         }
     }
 </script>

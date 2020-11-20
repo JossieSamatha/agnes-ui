@@ -87,14 +87,12 @@
 
 .elec-process-dashboard .board-container .card-detail {
     display: flex;
-    flex-direction: row;
-    flex: 1;
-    height: 100%;
-    margin: 32px 50px;
+    height: 397px;
+    margin: 20px 50px 10px;
     padding: 30px;
     box-shadow: 0px 0px 8px 0px rgba(13, 30, 65, 0.4);
     border-radius: 4px;
-    overflow: scroll;
+    overflow: hidden;
 }
 
 @media screen and (max-width: 1200px) {
@@ -117,15 +115,18 @@
 }
 
 .elec-process-dashboard .board-container .card-detail .chart-container{
+    position: relative;
     flex: 0 0 45%;
 }
 
 
 .elec-process-dashboard .board-container .card-detail .chart-container .detail-btn{
+    position: absolute;
+    bottom: 20px;
+    left: calc(50% - 38px);
     text-align: center;
     color: #476DBE;
     cursor: pointer;
-    margin-top: 0px;
 }
 
 .elec-process-dashboard .board-container .card-detail .process-container{
@@ -134,7 +135,6 @@
     justify-content: flex-start;
     position: relative;
     flex: 1 0 55%;
-    border-left: 1px solid #F1F1F1;
     padding-left: 50px;
 }
 
@@ -221,13 +221,13 @@
     content: '';
     position: absolute;
     display: block;
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     border: 2px solid transparent;
     border-right-color: #486EBE;
     border-bottom-color: #486EBE;
     left: calc(50% - 5px);
-    bottom: -5px;
+    bottom: -6px;
     transform: rotate(45deg);
     background: #fff;
 }
@@ -405,7 +405,8 @@
     padding-left: 10px;
 }
 
-.elec-process > section .el-icon-refresh {
+.elec-process > section .el-icon-refresh,
+.el-icon-refresh.refresh-btn {
     font-size: 18px;
     color: #999;
     font-weight: bold;
@@ -414,7 +415,8 @@
     cursor: pointer;
 }
 
-.elec-process > section .el-icon-refresh:hover {
+.elec-process > section .el-icon-refresh:hover,
+.el-icon-refresh.refresh-btn:hover {
     color: #476DBE;
 }
 
@@ -535,7 +537,8 @@
     margin-bottom: 5px;
 }
 
-.elec-process .interval-ctrl{
+.elec-process .interval-ctrl,
+.monitor-kpi-page .interval-ctrl {
     position: relative;
     width: 15px;
     height: 15px;
@@ -543,12 +546,13 @@
     cursor: pointer;
 }
 
-.elec-process .interval-list{
+.elec-process .interval-list,
+.monitor-kpi-page .interval-list{
     position: absolute;
     width: 50px;
     top: 20px;
     left: -15px;
-    padding: 2px;
+    padding: 2px 0;
     font-size: 12px;
     text-align: center;
     border: 1px solid #E4E7ED;
@@ -558,7 +562,8 @@
     z-index: 100;
 }
 
-.elec-process .interval-list::before{
+.elec-process .interval-list::before,
+.monitor-kpi-page .interval-list::before{
     content: '';
     display: block;
     position: absolute;
@@ -572,12 +577,26 @@
     transform: rotate(-45deg);
 }
 
-.elec-process .interval-list>li:hover{
+.elec-process .interval-list>li:hover,
+.monitor-kpi-page .interval-list>li:hover{
     background-color: #F5F7FA;
 }
 
-.elec-process .interval-list>li.is-select{
+.elec-process .interval-list>li.is-select,
+.monitor-kpi-page .interval-list>li.is-select{
+    position: relative;
     color: #476Dbe;
+    background: #f3f8ff;
+}
+
+.elec-process .interval-list>li.is-select::before,
+.monitor-kpi-page .interval-list>li.is-select::before {
+    position: absolute;
+    content: '';
+    border: 5px solid transparent;
+    border-left-color: #476DBE;
+    left: 0;
+    top: 4px;
 }
 
 .elec-process .top-section .task-board{

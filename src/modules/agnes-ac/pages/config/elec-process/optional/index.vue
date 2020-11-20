@@ -548,7 +548,7 @@
                 }, intervalMin);
             },
 
-            // 开启刷新定时器
+            // 关闭刷新定时器
             async clearFreshInterval(ifAsk){
                 if(ifAsk){
                     const ok = await this.$msg.ask('是否关闭定时刷新？');

@@ -2,11 +2,11 @@
     <div ref="spig" class="spig" :class="ifShowInput ? '' : 'messageType'">
         <div ref="littleW" class="little-W"
              @click="ifShowInput = !ifShowInput">
-            <img :src="getRobotImg('wisdom_happy', true)" alt="robot" v-show="robotImg === 'happy'" />
-            <img :src="getRobotImg('wisdom_laugh', true)" alt="robot" v-show="robotImg === 'laugh'" />
-            <img :src="getRobotImg('wisdom_smile', true)" alt="robot" v-show="robotImg === 'smile'" />
+            <img :src="getRobotImg('wisdom_happy')" alt="robot" v-show="robotImg === 'happy'" />
+            <img :src="getRobotImg('wisdom_laugh')" alt="robot" v-show="robotImg === 'laugh'" />
+            <img :src="getRobotImg('wisdom_smile')" alt="robot" v-show="robotImg === 'smile'" />
         </div>
-        <img class="little-W-shadow" :src="getRobotImg('wisdom_shadow', true)" alt="shadow" />
+        <img class="little-W-shadow" :src="getRobotImg('wisdom_shadow')" alt="shadow" />
         <slot :ifShowInput="ifShowInput"></slot>
         <transition name="slide-fade interval-fade">
             <div ref="message" class="message" v-show="!ifShowInput">{{message}}</div>
@@ -100,12 +100,10 @@
                 }
             },
 
-            getRobotImg(img, ifImg) {
+            getRobotImg(img) {
                 let urlStr = require('../../../assets/img/' + img + '.png');
-                if(ifImg){
+                if(urlStr){
                     return urlStr;
-                }else{
-                    return 'url(' + urlStr + ')';
                 }
             },
 
@@ -155,7 +153,6 @@
         border-left: none;
         border-radius: 10px;
         padding: 5px 10px;
-        z-index: 10000;
         outline: none;
         overflow: hidden;
         box-shadow: 0px 0px 5px rgba(28, 157, 247, .5);

@@ -11,7 +11,7 @@ const colButtons = [
 ];
 export default {
     columnDefs: [
-        column.buildOpCol(120, colButtons),
+        column.buildOpCol(100, colButtons),
         {headerName: "账户类型代码", field: "typeCode"},
         {headerName: "账户类型名称", field: "typeName"},
         {headerName: "流程类型", field: "processType",valueFormatter:function(params){
@@ -33,11 +33,11 @@ export default {
         autoFitColumnMode: 1,
         pageOptions: {
             // 分页大小
-            pageSize: 50,
+            pageSize: 100,
             // 可供选择的分页大小（下拉切换分页值）
-            pageSizes: [10, 20, 50, 100],
+            pageSizes: [50, 100, 150, 200],
             // 显示在状态栏上的页数字的个数
-            pageCount: 5,
+            pageCount: 0,
             prevText: "上一页",
             nextText: "下一页",
             // 分页工具显示项，例如总页数、当前页、上一页、下一页、等分页功能按钮
