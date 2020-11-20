@@ -200,7 +200,9 @@ export default {
                 this.clearFreshInterval();
             }
             if (to.path === '/agnes.app.monitor.leader') {
-                this.startFreshInterval();
+                if(this.ifIntervalStart) {
+                    this.startFreshInterval();
+                }
             }
         }
     },
