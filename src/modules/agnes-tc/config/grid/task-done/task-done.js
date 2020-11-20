@@ -18,7 +18,8 @@ export default {
                 const statusColor = { '06': 'green', '05': 'red', '07': 'orange'};
                 iNode.className = 'fa fa-circle ' + statusColor[params.data.stepStatus];
                 const spanNode = document.createElement("span");
-                spanNode.innerHTML = params.value + '<br/>' + params.data.taskRemark;
+                spanNode.innerHTML = params.value;
+                    // + '<br/>' + params.data.taskRemark;
 
                 eGui.appendChild(iNode);
                 eGui.appendChild(spanNode);
