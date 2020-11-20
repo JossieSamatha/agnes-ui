@@ -1,6 +1,23 @@
 <template>
     <div>
-        <gf-grid ref="grid"
+        <el-form class="search-panel" label-width="100px">
+            <div class="line">
+                <el-form-item label="网点名称">
+                    <el-input v-model="queryArgs.branchName"></el-input>
+                </el-form-item>
+                <el-form-item label="网点代码" >
+                    <el-input v-model="queryArgs.branchCode"></el-input>
+                </el-form-item>
+                <el-form-item label="大额支付号" >
+                    <el-input v-model="queryArgs.bigPayNo"></el-input>
+                </el-form-item>
+
+                <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
+                <el-button @click="reSetSearch" class="option-btn">重置</el-button>
+            </div>
+        </el-form>
+
+        <gf-grid ref="grid" :query-args="queryArgs"
                  grid-no="branch-field"
                  toolbar="find,refresh,more"
                  quick-text-max-width="300px"
@@ -18,9 +35,26 @@
 <script>
 import BranchDetail from './branch-detail'
     export default {
+        data(){
+            return {
+                queryArgs:{
+                    'branchCode':'',
+                    'branchName':'',
+                    'bigPayNo':''
+                }
+            }
+        },
         methods: {
             reloadData() {
                 this.$refs.grid.reloadData();
+            },
+            reSetSearch() {
+                this.queryArgs = {
+                    'branchCode':'',
+                    'branchName':'',
+                    'bigPayNo':''
+                };
+                this.reloadData();
             },
             async onAdd() {
                 await this.reloadData();
