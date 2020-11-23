@@ -160,7 +160,7 @@
                 const isLtM = file.size / 1024 / 1024 < 100;
 
                 if (!isLtM) {
-                    this.$message.error('文件不能超过 100MB!');
+                    this.$msg.error('文件不能超过 100MB!');
                 }
                 return isLtM;
             },
