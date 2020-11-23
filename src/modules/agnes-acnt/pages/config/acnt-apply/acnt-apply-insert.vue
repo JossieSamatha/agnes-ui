@@ -455,8 +455,13 @@
 
                             <div class="line">
                                 <el-select class="multiple-select" v-model="detailForm.openBank" style="width: 90%"
-                                           filterable clearable
-                                           placeholder="请选择">
+                                        clearable
+                                        filterable
+                                        remote
+                                        reserve-keyword
+                                        placeholder="请输入关键词或空格搜索"
+                                        :remote-method="remoteLoadOpenBankList"
+                                        :loading="loading">
                                     <gf-filter-option
                                             v-for="item in openBankList"
                                             :key="item.bankBranchId"
@@ -638,6 +643,7 @@
         },
         data() {
             return {
+                loading: false,
                 rosterDate:'',
                 memberRefList:[],
                 serviceRes:[],
@@ -831,9 +837,16 @@
                 }
             },
 
+            async remoteLoadOpenBankList(query){
+                this.loading = true;
+                let openBankList = await this.$api.branchApi.listByBigPayNoAndBranchName(this.detailForm.bigPayNo,query);
+                this.openBankList = openBankList.data
+                this.loading = false;
+            },
+
             async loadOpenBankListByBigPayNo(){
                 this.detailForm.openBank = '';
-                let openBankList = await this.$api.branchApi.listByPayNo(this.detailForm.bigPayNo);
+                let openBankList = await this.$api.branchApi.listByBigPayNoAndBranchName(this.detailForm.bigPayNo,"");
                 this.openBankList = openBankList.data
             },
 
@@ -880,8 +893,8 @@
                     let acntList = await this.$api.acntInfoApi.getAcntInfoList();
                     this.acntList = acntList.data;
 
-                    let openBankList = await this.$api.branchApi.listByPayNo(this.detailForm.bigPayNo);
-                    this.openBankList = openBankList.data
+                    // let openBankList = await this.$api.branchApi.listByPayNo(this.detailForm.bigPayNo);
+                    // this.openBankList = openBankList.data
 
                     //以下加载填写的数据
                     if(this.showChange){
