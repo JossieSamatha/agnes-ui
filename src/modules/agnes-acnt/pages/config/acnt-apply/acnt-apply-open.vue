@@ -60,7 +60,7 @@
                                 <gf-filter-option
                                         v-for="item in OrgList"
                                         :key="item.extOrgId"
-                                        :label="item.extOrgName"
+                                        :label="`${item.extOrgCode} - ${item.extOrgName}`"
                                         :value="item.extOrgId">
                                 </gf-filter-option>
                             </el-select>
@@ -241,7 +241,7 @@
                                 <gf-filter-option
                                         v-for="item in OrgList"
                                         :key="item.extOrgId"
-                                        :label="item.extOrgName"
+                                        :label="`${item.extOrgCode} - ${item.extOrgName}`"
                                         :value="item.extOrgId">
                                 </gf-filter-option>
                             </el-select>
@@ -718,19 +718,30 @@
             // 保存onCancel事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
             async onCancel() {
                 try {
-               
-                    if(this.detailForm.processStatus=='02' && this.mode!=='view'){
+                    this.$emit("onClose");
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
+
+            async onCancelCheck() {
+                try {
+                    if((this.detailForm.processStatus=='02' || this.detailForm.processStatus=='05') && this.mode!=='view'){
+                        alert("onCancelCheck");
                         let openSub = false;
                         if(!loadsh.isEmpty(this.detailForm.applySubId)){
                             openSub = true;
                         }
-                        let form =  JSON.parse(JSON.stringify(this.detailForm)) 
+                        let form =  JSON.parse(JSON.stringify(this.detailForm))
                         form.processStatus = '01';
                         if(openSub){
                             const p = this.$api.acntApplyApi.cancelSubApply(form);
                             await this.$app.blockingApp(p);
                             this.$msg.success('提交成功');
                         }else{
+                            if(this.detailForm.processStatus=='05'){
+                                form.processStatus = '04';
+                            }
                             const p = this.$api.acntApplyApi.cancelApply(form);
                             await this.$app.blockingApp(p);
                             this.$msg.success('提交成功');
@@ -744,6 +755,7 @@
                     this.$msg.error(reason);
                 }
             },
+
             showInsertDlg(mode, row, actionOk) {
                 if (mode !== 'add' && !row) {
                     this.$msg.warning("请选中一条记录!");

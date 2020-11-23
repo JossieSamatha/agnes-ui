@@ -17,7 +17,7 @@
                 <gf-filter-option
                         v-for="item in OrgList"
                         :key="item.extOrgId"
-                        :label="item.extOrgName"
+                        :label="`${item.extOrgCode} - ${item.extOrgName}`"
                         :value="item.extOrgId">
                 </gf-filter-option>
             </el-select>

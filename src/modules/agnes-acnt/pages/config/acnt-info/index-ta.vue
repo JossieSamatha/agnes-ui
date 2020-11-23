@@ -166,7 +166,8 @@
                     component: AcntInfoDetail,
                     args: {row, mode, actionOk,isDisabled},
                     okButtonVisible:mode!=='view',
-                    okButtonTitle:mode==='detele'?'提交':'保存'
+                    okButtonTitle:mode==='detele'?'提交':'保存',
+                    cancelButtonTitle:mode==='view'?'关闭':'取消'
                 })
             },
 
