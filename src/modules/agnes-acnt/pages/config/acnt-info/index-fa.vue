@@ -34,6 +34,8 @@
                 <el-form-item label="状态">
                     <gf-dict filterable clearable v-model="queryArgs.acntStatus" dict-type="AGNES_ACNT_INFO_STATUS"/>
                 </el-form-item>
+
+                <el-form-item label=""></el-form-item>
                 <el-button @click="reSetSearch" class="option-btn">重置</el-button>
             </div>
         </el-form>
