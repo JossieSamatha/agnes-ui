@@ -13,6 +13,7 @@ import DataPipe from "./data-pipe"
 import MonitorRiskDef from "./monitor-risk-def"
 import MonitorErrDef from "./monitor-err-def"
 import BranchDef from "./branch-def"
+import FuncConfig from "./func-config"
 
 const Loading = {
     load: function (Gfui) {
@@ -31,6 +32,7 @@ const Loading = {
         Gfui.use(MonitorRiskDef);
         Gfui.use(MonitorErrDef);
         Gfui.use(BranchDef);
+        Gfui.use(FuncConfig);
     }
 };
 

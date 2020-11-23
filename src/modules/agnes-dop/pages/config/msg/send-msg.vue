@@ -41,7 +41,7 @@
             async onSave(){
                 let mailTo = this.$app.dict.getDictName("AGNES_FEEDBACK_MAIL",'to');
                 let mailCc = this.$app.dict.getDictName("AGNES_FEEDBACK_MAIL",'cc');
-                let from = {mailTo:mailTo,mailCc:mailCc,content:this.helpInfo.content}
+                let from = {mailTo:mailTo,mailCc:mailCc,content:this.helpInfo.content,title:this.helpInfo.title}
                 try {
                     await this.$api.ruleTableApi.feedbackSubmit(from);
                     this.$msg.success('提交成功');
