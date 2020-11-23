@@ -49,10 +49,6 @@
                         </gf-filter-option>
                     </el-select>
                 </el-form-item>
-
-                <el-form-item label="">
-                </el-form-item>
-
                 <el-button @click="reSetSearch" class="option-btn">重置</el-button>
             </div>
         </el-form>
