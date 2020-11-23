@@ -62,7 +62,7 @@
                                 <gf-filter-option
                                         v-for="item in OrgList"
                                         :key="item.extOrgId"
-                                        :label="item.extOrgName"
+                                        :label="`${item.extOrgCode} - ${item.extOrgName}`"
                                         :value="item.extOrgId">
                                 </gf-filter-option>
                             </el-select>
@@ -108,8 +108,8 @@
                         <el-form-item v-if="showRules.acntShortName&&showRules.acntShortName.isShow" label="账户简称" prop="acntShortName">
                             <gf-input v-model.trim="detailFormBefore.acntShortName" placeholder="账户简称"/>
                         </el-form-item>
-                        <el-form-item v-if="showRules.setTlementNo&&showRules.setTlementNo.isShow" label="清算编号" prop="setTlementNo">
-                            <gf-input v-model.trim="detailFormBefore.setTlementNo" placeholder="清算编号"/>
+                        <el-form-item v-if="showRules.settlementNo&&showRules.settlementNo.isShow" label="清算编号" prop="settlementNo">
+                            <gf-input v-model.trim="detailFormBefore.settlementNo" placeholder="清算编号"/>
                         </el-form-item>
                         <el-form-item v-if="showRules.stampInfo&&showRules.stampInfo.isShow" label="预留印鉴信息" prop="stampInfo">
                             <gf-input v-model.trim="detailFormBefore.stampInfo" placeholder="预留印鉴信息"/>
@@ -170,8 +170,8 @@
                                 <el-radio label="0">否</el-radio>
                             </el-radio-group>
                         </el-form-item>
-                        <el-form-item v-if="showRules.isOpenEBank&&showRules.isOpenEBank.isShow" label="是否开立网银" prop="isOpenEBank">
-                            <el-radio-group v-model="detailFormBefore.isOpenEBank">
+                        <el-form-item v-if="showRules.isOpenEbank&&showRules.isOpenEbank.isShow" label="是否开立网银" prop="isOpenEbank">
+                            <el-radio-group v-model="detailFormBefore.isOpenEbank">
                                 <el-radio label="1">是</el-radio>
                                 <el-radio label="0">否</el-radio>
                             </el-radio-group>
@@ -363,7 +363,7 @@
                                 <gf-filter-option
                                         v-for="item in OrgList"
                                         :key="item.extOrgId"
-                                        :label="item.extOrgName"
+                                        :label="`${item.extOrgCode} - ${item.extOrgName}`"
                                         :value="item.extOrgId">
                                 </gf-filter-option>
                             </el-select>
@@ -409,8 +409,8 @@
                         <el-form-item v-if="showRules.acntShortName&&showRules.acntShortName.isShow" label="账户简称" prop="acntShortName">
                             <gf-input v-model.trim="detailForm.acntShortName" placeholder="账户简称"/>
                         </el-form-item>
-                        <el-form-item v-if="showRules.setTlementNo&&showRules.setTlementNo.isShow" label="清算编号" prop="setTlementNo">
-                            <gf-input v-model.trim="detailForm.setTlementNo" placeholder="清算编号"/>
+                        <el-form-item v-if="showRules.settlementNo&&showRules.settlementNo.isShow" label="清算编号" prop="settlementNo">
+                            <gf-input v-model.trim="detailForm.settlementNo" placeholder="清算编号"/>
                         </el-form-item>
                         <el-form-item v-if="showRules.stampInfo&&showRules.stampInfo.isShow" label="预留印鉴信息" prop="stampInfo">
                             <gf-input v-model.trim="detailForm.stampInfo" placeholder="预留印鉴信息"/>
@@ -489,8 +489,8 @@
                                 <el-radio label="0">否</el-radio>
                             </el-radio-group>
                         </el-form-item>
-                        <el-form-item v-if="showRules.isOpenEBank&&showRules.isOpenEBank.isShow" label="是否开立网银" prop="isOpenEBank">
-                            <el-radio-group v-model="detailForm.isOpenEBank">
+                        <el-form-item v-if="showRules.isOpenEbank&&showRules.isOpenEbank.isShow" label="是否开立网银" prop="isOpenEbank">
+                            <el-radio-group v-model="detailForm.isOpenEbank">
                                 <el-radio label="1">是</el-radio>
                                 <el-radio label="0">否</el-radio>
                             </el-radio-group>
@@ -654,7 +654,7 @@
                     bizType:'', 
                     baseStartDept:'00',
                     baseStartDeptLinkman:'', 
-                    setTlementNo:'',
+                    settlementNo:'',
                     baseAcceptDept:'00',
                     stampInfo:'',
                     stampLegalPersonInfo:'', 
@@ -678,7 +678,7 @@
                     bigPayNo:'',
                     openBank:'',
                     fundAccNo:'',
-                    isOpenEBank:'',
+                    isOpenEbank:'',
                     acntStartDt:'',
                     isOpenBankCorDirect:'',
                     maturityDt:'',
@@ -699,7 +699,7 @@
                     bizType:'', 
                     baseStartDept:'', 
                     baseStartDeptLinkman:'', 
-                    setTlementNo:'',
+                    settlementNo:'',
                     baseAcceptDept:'',
                     stampInfo:'',
                     stampLegalPersonInfo:'', 
@@ -723,7 +723,7 @@
                     bigPayNo:'',
                     openBank:'',
                     fundAccNo:'',
-                    isOpenEBank:'',
+                    isOpenEbank:'',
                     acntStartDt:'',
                     isOpenBankCorDirect:'',
                     maturityDt:'',
@@ -1057,6 +1057,14 @@
             // 保存onCancel事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
             async onCancel() {
                 try {
+                    this.$emit("onClose");
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
+
+            async onCancelCheck() {
+                try {
                     if(this.detailForm.processStatus=='07' && this.mode!=='view'){
                         let form =  JSON.parse(JSON.stringify(this.detailForm))
                         form.processStatus = '06';
@@ -1072,6 +1080,7 @@
                     this.$msg.error(reason);
                 }
             },
+
             async onBaseOrgIdChange(){
                 let linkManList = await this.$api.acntApplyApi.getLinkMan(this.detailForm.baseOrgId);
                 this.linkManList = linkManList.data;
