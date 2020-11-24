@@ -1121,10 +1121,6 @@ form input[type=submit] {
     border-radius: 2px;
 }
 
-.el-form .el-form-item .el-form-item__content .el-input.is-disabled .el-input__suffix,
-.el-form .el-form-item .el-form-item__content .el-textarea.is-disabled {
-    display: none;
-}
 
 .el-form .el-form-item .el-form-item__content .el-input.is-disabled
 .el-input__inner::-webkit-input-placeholder,

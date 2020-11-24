@@ -172,10 +172,11 @@
             //上传错误
             uploadError() {
                 this.$msg.error('上传失败!');
+                this.uploadFileLoading = false;
             },
             //文件大小错误
             sizeExp() {
-                this.$msg.success('文件超出大小!');
+                this.$msg.warning('文件超出大小!');
             },
             FormatError() {
                 this.$msg.warning("文件格式不对!");

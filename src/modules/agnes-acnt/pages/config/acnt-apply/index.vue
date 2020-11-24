@@ -188,6 +188,24 @@
                     title = title + '-子流程'
                 }
 
+                let customOpBtn = [];
+                if(mode==='check' || mode==='checkFund'){
+                    customOpBtn = [
+                        {title: okButtonTitle, className: 'primary', action: 'onSave'},
+                        {title: '反审核', className: 'primary', action: 'onCancelCheck'},
+                        {title: '取消', action: 'onCancel'},
+                    ]
+                }else if(mode==='view'){
+                    customOpBtn = [
+                        {title: '关闭', action: 'onCancel'}
+                    ]
+                }else{
+                    customOpBtn = [
+                        {title: okButtonTitle, className: 'primary', action: 'onSave'},
+                        {title: '取消', action: 'onCancel'}
+                    ]
+                }
+
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
                     title: [title],
@@ -195,7 +213,8 @@
                     args: {row, mode, actionOk,isDisabled},
                     okButtonVisible:mode!=='view',
                     okButtonTitle:okButtonTitle,
-                    cancelButtonTitle:mode==='check'?'反审核':'关闭'
+                    cancelButtonTitle:mode==='view'?'关闭':'取消',
+                    customOpBtn: customOpBtn
                 })
             },
             onOpenApply(){
@@ -285,22 +304,43 @@
             },
 
             showInsertDlg(mode, row, actionOk) {
-                let title = '账户录入';
                 if (mode !== 'add' && !row) {
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
+
+                let title = '账户录入';
                 if(mode === 'check'){
                     title = '账户复核';
                 }
+
+                let customOpBtn = [];
+                if(mode==='check'){
+                    customOpBtn = [
+                        {title: '审核', className: 'primary', action: 'onSave'},
+                        {title: '反审核', className: 'primary', action: 'onCancelCheck'},
+                        {title: '取消', action: 'onCancel'},
+                    ]
+                }else if(mode==='view'){
+                    customOpBtn = [
+                        {title: '关闭', action: 'onCancel'}
+                    ]
+                }else{
+                    customOpBtn = [
+                        {title: '保存', className: 'primary', action: 'onSave'},
+                        {title: '取消', action: 'onCancel'}
+                    ]
+                }
+
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
                     title: [title],
                     component: AcntApplyInsert,
                     args: {row, mode, actionOk},
                     okButtonVisible:mode!=='view',
-                    okButtonTitle:mode==='add'?'保存':'审核',
-                    cancelButtonTitle:mode==='check'?'反审核':'关闭'
+                    okButtonTitle:mode==='check'?'审核':'保存',
+                    cancelButtonTitle:mode==='view'?'关闭':'取消',
+                    customOpBtn: customOpBtn
                 })
             },
             onInsertApply(){
@@ -318,7 +358,7 @@
 
             showStepsDlg(mode, row, actionOk) {
                 this.$drawerPage.create({
-                    width: '300px',
+                    width: '200px',
                     title: ['流程节点'],
                     component: AcntApplySteps,
                     args: {row, mode, actionOk},
@@ -329,7 +369,7 @@
                 this.reloadData();
             },
             showSteps(params) {
-                this.showStepsDlg('add', params.data, this.onStepsApply.bind(this));
+                this.showStepsDlg('view', params.data, this.onStepsApply.bind(this));
             },
 
             //整合编辑按钮：编辑 账户录入

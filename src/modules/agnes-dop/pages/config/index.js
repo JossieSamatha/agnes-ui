@@ -17,14 +17,18 @@ import MonitorRiskDef from "./monitor-risk-def/index";
 import MonitorErrDef from "./monitor-err-def/index";
 import Branch from "./branch/index";
 import Msg from "./msg/send-msg";
+import FuncConfig from "./func-config/index";
+import FuncConfigAdd from "./func-config/add-config";
 
 const Loading = {
     install: function(Vue){
         Vue.component('help-info-page', helpInfoPage);
         Vue.component("agnes-msg-send", Msg);
+        Vue.component("agnes-func-config-add", FuncConfigAdd);
     },
     load: function (Gfui) {
         Gfui.componentView('agnes.org.def', OrgDef, {title: '外部机构维护'});
+        Gfui.componentView('agnes.dop.func.config', FuncConfig, {title: '功能帮助配置维护'});
         Gfui.componentView('agnes.org.type', OrgType, {title: '机构类型维护'});
         Gfui.componentView('agnes.dop.product.def', Product, {title: '产品信息维护'});
         Gfui.componentView('agnes.dop.product.user', ProductAuth, {title: '产品核算员维护'});
