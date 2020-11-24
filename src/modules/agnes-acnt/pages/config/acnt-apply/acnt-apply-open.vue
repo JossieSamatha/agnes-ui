@@ -771,7 +771,7 @@
                 this.reloadData();
             },
             insertApply() {
-                this.showInsertDlg('add', {}, this.onInsertApply.bind(this));
+                this.showInsertDlg('view', {}, this.onInsertApply.bind(this));
             },
 
         },

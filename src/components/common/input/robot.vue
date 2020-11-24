@@ -1,15 +1,22 @@
 <template>
     <div ref="spig" class="spig" :class="ifShowInput ? '' : 'messageType'">
-        <div ref="littleW" class="little-W"
-             @click="ifShowInput = !ifShowInput">
+        <div ref="littleW" class="little-W">
             <img :src="getRobotImg('wisdom_happy')" alt="robot" v-show="robotImg === 'happy'" />
             <img :src="getRobotImg('wisdom_laugh')" alt="robot" v-show="robotImg === 'laugh'" />
             <img :src="getRobotImg('wisdom_smile')" alt="robot" v-show="robotImg === 'smile'" />
         </div>
         <img class="little-W-shadow" :src="getRobotImg('wisdom_shadow')" alt="shadow" />
-        <slot :ifShowInput="ifShowInput"></slot>
-        <transition name="slide-fade interval-fade">
-            <div ref="message" class="message" v-show="!ifShowInput">{{message}}</div>
+        <slot :ifShowInput="ifShowInput" ></slot>
+        <em class="fa fa-reply"
+            v-show="ifShowInput"
+            @click="ifShowInput = false"
+            style="margin-left: 15px; color: rgba(28,157,247,0.5);"
+        ></em>
+        <transition name="fade">
+            <div ref="message" class="message"
+                 v-show="!ifShowInput && messageShow"
+                 @click="ifShowInput = true"
+            >{{message}}</div>
         </transition>
     </div>
 </template>
@@ -66,6 +73,7 @@
                     '加油！打工人！'
                 ],
                 ifShowInput: false,
+                messageShow: true,
                 bizDate: window.bizDate,
                 anaInterval: null,
                 robotImg: ''
@@ -117,7 +125,11 @@
 
             messageChange() {
                 this.anaInterval = setInterval(() => {
-                    this.message = this.ana[Math.floor((Math.random() * this.ana.length))];
+                    this.messageShow = false;
+                    setTimeout(()=>{
+                        this.message = this.ana[Math.floor((Math.random() * this.ana.length))];
+                        this.messageShow = true;
+                    }, 1200);
                 }, 30000);
             }
         },
@@ -139,6 +151,7 @@
         display: flex;
         align-items: center;
         width: 80%;
+        height: 45px;
         padding-left: 60px;
         margin-right: 10px;
     }
@@ -177,10 +190,10 @@
 
     .little-W-shadow {
         position: absolute;
-        width: 60px;
+        width: 61px;
         left: -4px;
         height: auto;
-        top: 20px;
+        top: 30px;
         -webkit-animation: shadow 1s linear infinite;
     }
 
@@ -206,16 +219,15 @@
         }
     }
 
-    .slide-fade-enter-active {
-        transition: all 1s ease;
-    }
-
-    .slide-fade-leave-active {
+    .fade-enter-active{
         transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
     }
 
-    .slide-fade-enter, .slide-fade-leave-to {
-        transform: translateX(380px);
+    .fade-leave-active {
+        transition: opacity 1s;
+    }
+
+    .fade-enter, .fade-leave-to {
         opacity: 0;
     }
 
