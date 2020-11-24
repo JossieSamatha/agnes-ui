@@ -121,13 +121,14 @@
 }
 
 
-.elec-process-dashboard .board-container .card-detail .chart-container .detail-btn{
+.elec-process-dashboard .board-container .card-detail .detail-btn{
     position: absolute;
-    bottom: 20px;
-    left: calc(50% - 38px);
+    bottom: -20px;
+    left: calc(50% - 30px);
     text-align: center;
     color: #476DBE;
     cursor: pointer;
+    margin-top: -10px;
 }
 
 .elec-process-dashboard .board-container .card-detail .process-container{

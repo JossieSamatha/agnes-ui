@@ -81,12 +81,17 @@
                 </el-carousel-item>
             </el-carousel>
             <div class="card-detail" v-if="curTask.taskId">
-<!--                <pie-chart ref="pieChart" :chart-data="executePieData" :title="pieTitle" pieHeight="200px"-->
-<!--                           legendPosX="left" legendPos.dv-water-pond-level svgY="top" :color-set="['#476DBE','#E0E0E0']" style="width: 200px"-->
-<!--                ></pie-chart>-->
-                <div>
-                    <dv-water-level-pond :config="{data: [getPercentage(curTask.finishedRate)], shape: 'round', colors: ['#3DE7C9', '#4a8ef0'], waveNum:2, waveHeight: 8, waveOpacity: .5}"
-                                         style="width:200px; height: 200px" />
+                <div style="position: relative">
+                    <dv-water-level-pond v-if="true"
+                            :config="{data: [getPercentage(curTask.finishedRate)], shape: 'round', colors: ['#3DE7C9', '#4a8ef0'], waveNum:2, waveHeight: 8, waveOpacity: .5}"
+                                         style="width:200px; height: 200px; cursor: pointer"
+                    />
+                    <template v-else>
+                        <pie-chart ref="pieChart" :chart-data="executePieData" :title="pieTitle" pieHeight="200px"
+                                   legendPosX="left" legendPos.dv-water-pond-level svgY="top" :color-set="['#476DBE','#E0E0E0']" style="width: 200px"
+                        ></pie-chart>
+                        <p class="detail-btn" @click="reivewDetail">查看详情</p>
+                    </template>
                 </div>
                 <div class="process-container">
                     <div class="flow-legend">
