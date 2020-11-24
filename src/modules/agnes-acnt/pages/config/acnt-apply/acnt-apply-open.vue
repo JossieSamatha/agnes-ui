@@ -633,8 +633,6 @@
                         isdel = true;
                     }
 
-
-
                     form.processStatus = '02';
                     if(!loadsh.isEmpty(this.detailForm.processStatus)){
                         //状态机控制

@@ -38,16 +38,7 @@
                 </el-form-item>
 
                 <el-form-item label="流程节点">
-                    <el-select class="multiple-select" v-model="queryArgs.processStatus"
-                               filterable clearable
-                               placeholder="请选择">
-                        <gf-filter-option
-                                v-for="item in processStatusOptions"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
-                        </gf-filter-option>
-                    </el-select>
+                    <gf-dict filterable clearable v-model="queryArgs.processStatus" dict-type="AGNES_ACNT_APPLY_STATUS" />
                 </el-form-item>
                 <el-button @click="reSetSearch" class="option-btn">重置</el-button>
             </div>
@@ -93,17 +84,6 @@
                     '08':'已归档',
                     '09':'已作废',
                 },
-                processStatusOptions: [
-                    {value: '01', label: '发起申请'},
-                    {value: '02', label: '待复核'},
-                    {value: '03', label: '待提交OA'},
-                    {value: '04', label: '资料准备'},
-                    {value: '05', label: '财务流程'},
-                    {value: '06', label: '账户待录入'},
-                    {value: '07', label: '账户待复核'},
-                    {value: '08', label: '已归档'},
-                    {value: '09', label: '已作废'},
-                ],
                 typeCodeOption: [{
                     label: 'TA',
                     options: []
@@ -273,11 +253,18 @@
 
                 let applyIds = [];
                 let applySubIds = [];
+
+                let firstTypeCode = data[0].typeCode;
                 for(let i=0;i<data.length;i++){
                     let item = data[i];
                     //校验：节点状态 是否为待提交OA
                     if(item.processStatus !== '03'){
                         this.$msg.warning('所选数据流程节点必须为【待提交OA】');
+                        return;
+                    }
+
+                    if(firstTypeCode !== item.typeCode){
+                        this.$msg.warning('所选数据必须为同一账户类型');
                         return;
                     }
 
