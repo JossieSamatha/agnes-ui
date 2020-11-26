@@ -26,9 +26,9 @@ export default {
         enableExportLocal: true, // 是否显示下载按钮（有勾选则下载勾选项，没勾选则下载所有）
         pageOptions: {
             // 分页大小
-            pageSize: 100,
+            pageSize: 500,
             // 可供选择的分页大小（下拉切换分页值）
-            pageSizes: [50, 100, 150, 200],
+            pageSizes: [100, 300, 500, 700],
             // 显示在状态栏上的页数字的个数
             pageCount: 0,
             prevText: "上一页",
