@@ -10,15 +10,16 @@ const colButtons = [
         key: 'deleteOrgType', title: '删除', cellClass: 'red-cell', visiable: () => {
             return Permission.hasPermission('agnes.org.type.delete');
         }
-    },
-    {
-        key: 'approveOrgType', title: '审核', disabled: (params) => {
-            return params.data.status === '04'
-        },
-        visiable: () => {
-            return Permission.hasPermission('agnes.org.type.approve');
-        }
-    },
+    }
+    // ,
+    // {
+    //     key: 'approveOrgType', title: '审核', disabled: (params) => {
+    //         return params.data.status === '04'
+    //     },
+    //     visiable: () => {
+    //         return Permission.hasPermission('agnes.org.type.approve');
+    //     }
+    // },
 ];
 
 export default {
@@ -26,7 +27,7 @@ export default {
         column.buildOpCol(110, colButtons),
         {headerName: "机构类型代码", field: "orgTypeCode"},
         {headerName: "机构类型名称", field: "orgTypeName"},
-        {headerName: "状态", field: "status" ,formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
+        // {headerName: "状态", field: "status" ,formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
         column.colCrtUser,
         column.colCrtTm
     ],

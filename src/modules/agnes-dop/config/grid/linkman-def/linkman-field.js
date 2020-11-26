@@ -11,14 +11,15 @@ const colButtons = [
         key: 'deleteLinkMan', title: '删除', cellClass: 'red-cell', visiable: () => {
             return Permission.hasPermission('agnes.dop.linkman.delete');
         }
-    },
-    {
-        key: 'approveLinkman', title: '审核', disabled: (params) => {
-            return params.data.status === '04'
-        }, visiable: () => {
-            return Permission.hasPermission('agnes.dop.linkman.edit');
-        }
     }
+    // ,
+    // {
+    //     key: 'approveLinkman', title: '审核', disabled: (params) => {
+    //         return params.data.status === '04'
+    //     }, visiable: () => {
+    //         return Permission.hasPermission('agnes.dop.linkman.edit');
+    //     }
+    // }
 ];
 export default {
     columnDefs: [
@@ -28,7 +29,7 @@ export default {
         {headerName: "部门", field: "linkmanDept", dictType: "AGNES_ROSTER_DEPT"},
         {headerName: "状态", field: "linkmanStatus", formatType: 'dict', dictType: 'DOP_LINKMAN_STATUS'},
         {headerName: "电话", field: "linkmanPhone"},
-        {headerName: "操作状态", field: "status", formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
+        // {headerName: "操作状态", field: "status", formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
         column.colUpdUser,
         column.colUpdTm,
     ],
