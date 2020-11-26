@@ -90,13 +90,14 @@ export default {
                 y: this.legendPosY,
                 itemWidth: 8,
                 itemGap: 20,
-                data: legendName
+                data: legendName,
+                show: false,
             };
             const series=[
                 {
                     type: 'pie',
-                    radius: ['45%', '60%'],
-                    center: ['50%', '50%'],
+                    radius: ['75%', '100%'],
+                    center: ['center', 'center'],
                     hoverAnimation: false,
                     itemStyle: {
                         emphasis: {
@@ -127,7 +128,7 @@ export default {
                 y2: 35,
                 left: 0,
                 right: 0,
-                top: 0,
+                top: 30,
                 bottom: 0
             };
             const option={

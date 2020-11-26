@@ -23,13 +23,14 @@
                     <stageList class="lifeRecycle" :stageList="taskStage" :preview="true" @showTableDetail="showTableDetail"></stageList>
                 </div>
                 <div v-show="ifGridExpand" class="drag-column" id="taskContainerLeft">
-                    <div class="close-container">
-                        <em class="el-icon-circle-close" @click="closeTableDetail"></em>
-                    </div>
+                    <div class="close-container" @click="closeTableDetail"></div>
                     <div class="drag-container" v-dragx="dragColumn" @bindUpdate="dragColumnUpdate" ref="dragColumn">
                         <gf-grid ref="monitorLeader"
                                  height="100%"
                                  grid-no="agnes-monitor-leader-field">
+                            <template slot="left">
+                                <el-button type="text" icon="fa fa-reply" style="color: #476dbe;" @click="closeTableDetail">  返回</el-button>
+                            </template>
                             <template slot="right-before">
                                 <span class="full-screen-btn">
                                      <em v-show="!ifDetailFullScreen" v-html="lcImg.fullScreen" @click="expandDetailFullScreen(true)"></em>
@@ -223,7 +224,7 @@
             expandDetailFullScreen(status){
                 this.ifDetailFullScreen = status;
                 if(status){
-                    this.$refs.dragColumn.style.height = 'calc(100% - 70px)';
+                    this.$refs.dragColumn.style.height = '100%';
                 }else{
                     this.$refs.dragColumn.style.height = '450px';
                 }

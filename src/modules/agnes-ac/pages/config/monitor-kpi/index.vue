@@ -105,7 +105,9 @@
                     this.clearFreshInterval();
                 }
                 if (to.path === '/agnes.monitor.kpi') {
-                    this.startFreshInterval();
+                    if(this.ifIntervalStart) {
+                        this.startFreshInterval();
+                    }
                 }
             },
 

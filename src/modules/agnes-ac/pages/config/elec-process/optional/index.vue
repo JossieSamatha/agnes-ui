@@ -219,7 +219,9 @@
                     this.clearFreshInterval();
                 }
                 if (to.path === '/agnes.elec.operate') {
-                    this.startFreshInterval();
+                    if(this.ifIntervalStart) {
+                        this.startFreshInterval();
+                    }
                 }
             }
         },

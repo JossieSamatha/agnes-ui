@@ -52,8 +52,7 @@
         </section>
         <section class="board-container" ref="contentSection">
             <el-carousel v-if="proTask && proTask.length>0"
-                         style="width: 100%;flex: 0 0 auto;"
-                         :style="{height: carouselHeight + 'px'}"
+                         style="width: 100%; height: 32%; flex: 0 0 auto;"
                          height="100%"
                          arrow="always"
                          :autoplay="false">
@@ -82,11 +81,17 @@
                 </el-carousel-item>
             </el-carousel>
             <div class="card-detail" v-if="curTask.taskId">
-                <div class="chart-container">
-                   <pie-chart ref="pieChart" :chart-data="executePieData" :title="pieTitle" pieHeight="300px"
-                               legendPosX="left" legendPosY="top" :color-set="['#476DBE','#E0E0E0']" style="width: 300px"
-                    ></pie-chart>
-                    <p class="detail-btn" @click="reivewDetail" v-if="false">查看详情</p>
+                <div style="position: relative">
+                    <dv-water-level-pond v-if="true"
+                            :config="{data: [getPercentage(curTask.finishedRate)], shape: 'round', colors: ['#3DE7C9', '#4a8ef0'], waveNum:2, waveHeight: 8, waveOpacity: .5}"
+                                         style="width:200px; height: 200px; cursor: pointer"
+                    />
+                    <template v-else>
+                        <pie-chart ref="pieChart" :chart-data="executePieData" :title="pieTitle" pieHeight="200px"
+                                   legendPosX="left" legendPos.dv-water-pond-level svgY="top" :color-set="['#476DBE','#E0E0E0']" style="width: 200px"
+                        ></pie-chart>
+                        <p class="detail-btn" @click="reivewDetail">查看详情</p>
+                    </template>
                 </div>
                 <div class="process-container">
                     <div class="flow-legend">
@@ -125,15 +130,17 @@
             </div>
         </section>
         <div v-show="ifGridExpand" class="drag-column" id="taskContainerLeft">
-            <div class="close-container">
-                <em class="el-icon-circle-close" @click="closeTableDetail"></em>
-            </div>
+            <div class="close-container" @click="closeTableDetail"></div>
             <div class="drag-container" v-dragx="dragColumn"
                  @bindUpdate="dragColumnUpdate"
                  ref="dragColumn">
-                <gf-grid ref="monitorLeader"
+                <gf-grid class="elec-grid"
+                         ref="monitorLeader"
                          height="100%"
-                         grid-no="agnes-monitor-leader-field">
+                         grid-no="agnes-elec-process-field">
+                    <template slot="left">
+                        <el-button type="text" icon="fa fa-reply" style="color: #476dbe;" @click="closeTableDetail">  返回</el-button>
+                    </template>
                     <template slot="right-before">
                         <span class="full-screen-btn">
                              <em v-show="!ifDetailFullScreen" v-html="lcImg.fullScreen" @click="expandDetailFullScreen(true)"></em>
@@ -154,7 +161,6 @@ export default {
             svgImg: this.$svgImg,
             lcImg: this.$lcImg,
             dragColumn: {dragContainerId: "taskContainerLeft", dragDirection: 'n'},
-            carouselHeight: 0,
             flowType: '',
             proTask: [],
             executePieData: [],
@@ -183,11 +189,6 @@ export default {
         this.getFLowsbyType(this.bizDate);
         this.startFreshInterval();
     },
-    mounted(){
-        this.$nextTick(()=>{
-            this.getCarouselHeight();
-        });
-    },
 
     beforeDestroy() {
         this.clearFreshInterval();
@@ -200,7 +201,9 @@ export default {
                 this.clearFreshInterval();
             }
             if (to.path === '/agnes.app.monitor.leader') {
-                this.startFreshInterval();
+                if(this.ifIntervalStart) {
+                    this.startFreshInterval();
+                }
             }
         }
     },
@@ -208,12 +211,6 @@ export default {
         // 业务日期切换
         bizDateChange(val) {
             this.getFLowsbyType(val);
-        },
-        
-        getCarouselHeight(){
-            if(this.$refs.contentSection){
-                this.carouselHeight =  (this.$refs.contentSection.clientWidth - 60) * 0.12 + 40;
-            }
         },
         
         calcCardLength(length){
@@ -243,7 +240,6 @@ export default {
             }else{
                 this.proTask = [];
             }
-            this.getCarouselHeight();
         },
         
         // 选择流程-流程类型的取值字段更改 同步分支版本
@@ -359,7 +355,7 @@ export default {
         expandDetailFullScreen(status){
             this.ifDetailFullScreen = status;
             if(status){
-                this.$refs.dragColumn.style.height = 'calc(100% - 70px)';
+                this.$refs.dragColumn.style.height = '100%';
             }else{
                 this.$refs.dragColumn.style.height = '450px';
             }
@@ -408,7 +404,21 @@ export default {
 
         outsideClick(){
             this.intervalListShow = false;
-        }
+        },
+
+        // 查看指标详情
+        showIndexDetail(params) {
+            const row = params.data;
+            this.$drawerPage.create({
+                className: 'elec-dashboard-drawer',
+                width: 'calc(97% - 215px)',
+                title: [row.stepName],
+                component: 'monitor-detail-page',
+                args: {stepCode: row.stepCode, stepActKey: row.stepActKey, bizDate: this.bizDate, status: 3},
+                cancelButtonTitle: '返回',
+                okButtonVisible: false
+            });
+        },
     }
 }
 </script>
