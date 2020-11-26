@@ -43,17 +43,32 @@
                 <el-button @click="reSetSearch" class="option-btn">重置</el-button>
             </div>
         </el-form>
-        <gf-grid grid-no="acnt-apply-field" @load-data="dataChange" :query-args="queryArgs" ref="grid"
-                 @row-double-click="showDetail">
-            <template slot="left">
-                <gf-button  class="action-btn" @click="openApply"
-                            v-if="$hasPermission('agnes.acnt.apply.openApply')">开户</gf-button>
-                <gf-button  class="action-btn" @click="submitOA"
-                            v-if="$hasPermission('agnes.acnt.apply.submitOA')">提交OA</gf-button>
-                <gf-button  class="action-btn" @click="addInfoFile"
-                            v-if="$hasPermission('agnes.acnt.apply.addInfoFile')">资料准备</gf-button>
-            </template>
-        </gf-grid>
+        <div class="acnt-apply-container">
+            <gf-grid ref="grid"
+                     grid-no="acnt-apply-field"
+                     @load-data="dataChange"
+                     :query-args="queryArgs"
+                     @row-double-click="showDetail"
+                     :options="applyGridOption(this)"
+                     height="100%">
+                <template slot="left">
+                    <gf-button class="action-btn" @click="openApply"
+                                v-if="$hasPermission('agnes.acnt.apply.openApply')">开户</gf-button>
+                    <gf-button class="action-btn" @click="submitOA"
+                                v-if="$hasPermission('agnes.acnt.apply.submitOA')">提交OA</gf-button>
+                    <gf-button class="action-btn" @click="addInfoFile"
+                                v-if="$hasPermission('agnes.acnt.apply.addInfoFile')">资料准备</gf-button>
+                </template>
+            </gf-grid>
+            <acnt-apply-steps v-if="crtStepRow"
+                              class="steps-comp"
+                              :stepData="crtStepRow"
+                              @stepEdit="edit"
+                              @stepCheck="check"
+                              @stepDelete="detele"
+            >
+            </acnt-apply-steps>
+        </div>
     </div>
 </template>
 
@@ -90,8 +105,19 @@
                 },{
                     label: 'FA',
                     options: []
-                }]
+                }],
+                crtStepRow: null,
+                applyGridOption: (_that)=>{
+                    return {
+                        onRowClicked: (params)=>{
+                            _that.crtStepRow = params.data
+                        }
+                    }
+                }
             }
+        },
+        components: {
+            'acnt-apply-steps': AcntApplySteps
         },
         beforeMount() {
             const p = this.getOptionData();
@@ -117,18 +143,19 @@
             },
             dataChange(params) {
                 this.tableData = [];
-                this.forEach(params.rows, []);
+                this.orgHierarchyFunc(params.rows, []);
                 params.rows = this.tableData;
                 params.total = this.tableData.length;
+                this.crtStepRow = params.rows[0];
                 this.$refs.grid.$emit("data-loaded", params);
             },
-            forEach(data, orgHierarchy) {
+            orgHierarchyFunc(data, orgHierarchy) {
                 if (data&&data.length > 0) {
                     for (let i = 0; i < data.length; i++) {
                         data[i].orgHierarchy = JSON.parse(JSON.stringify(orgHierarchy));
                         data[i].orgHierarchy.push(data[i].resId);
                         this.tableData.push(data[i]);
-                        this.forEach(data[i].children, data[i].orgHierarchy);
+                        this.orgHierarchyFunc(data[i].children, data[i].orgHierarchy);
                     }
                 }
             },
@@ -343,20 +370,11 @@
             //     this.showInsertDlg('check', params.data, this.onOpenApply.bind(this));
             // },
 
-            showStepsDlg(mode, row, actionOk) {
-                this.$drawerPage.create({
-                    width: '200px',
-                    title: ['流程节点'],
-                    component: AcntApplySteps,
-                    args: {row, mode, actionOk},
-                    okButtonVisible:false,
-                })
+            showStepsDlg(params) {
+                this.crtStepRow = params.data;
             },
             onStepsApply(){
                 this.reloadData();
-            },
-            showSteps(params) {
-                this.showStepsDlg('view', params.data, this.onStepsApply.bind(this));
             },
 
             //整合编辑按钮：编辑 账户录入
@@ -427,3 +445,17 @@
         }
     }
 </script>
+
+<style scoped>
+    .acnt-apply-container {
+        display: flex;
+        height: 100%;
+    }
+
+    .acnt-apply-container .steps-comp {
+        flex: none;
+        width: 150px;
+        height: 100%;
+        padding: 30px 0 30px 20px;
+    }
+</style>
