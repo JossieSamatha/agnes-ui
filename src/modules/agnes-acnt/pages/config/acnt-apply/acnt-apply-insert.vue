@@ -101,146 +101,7 @@
 
             <module-card title="账户信息" shadow="never">
                 <template slot="content">
-                    <div class="line wrap">
-                        <el-form-item v-if="showRules.acntName&&showRules.acntName.isShow" label="账户名称" prop="acntName">
-                            <gf-input v-model.trim="detailFormBefore.acntName" placeholder="账户名称"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.acntShortName&&showRules.acntShortName.isShow" label="账户简称" prop="acntShortName">
-                            <gf-input v-model.trim="detailFormBefore.acntShortName" placeholder="账户简称"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.settlementNo&&showRules.settlementNo.isShow" label="清算编号" prop="settlementNo">
-                            <gf-input v-model.trim="detailFormBefore.settlementNo" placeholder="清算编号"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.stampInfo&&showRules.stampInfo.isShow" label="预留印鉴信息" prop="stampInfo">
-                            <gf-input v-model.trim="detailFormBefore.stampInfo" placeholder="预留印鉴信息"/>
-                        </el-form-item>
-<!--                        <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="账号" prop="accNo">-->
-<!--                            <gf-input v-model.trim="detailFormBefore.accNo" placeholder="账号"/>-->
-<!--                        </el-form-item>-->
-                        <el-form-item v-if="showRules.market&&showRules.market.isShow" label="市场" prop="market">
-                            <gf-dict filterable clearable v-model="detailFormBefore.market" dict-type="AGNES_ACNT_MARKET" />
-                        </el-form-item>
-                        <el-form-item v-if="showRules.region&&showRules.region.isShow" label="账户所属地区" prop="region">
-                            <gf-input v-model.trim="detailFormBefore.region" placeholder="账户所属地区"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.currency&&showRules.currency.isShow" label="币种" prop="currency">
-                            <gf-dict filterable clearable v-model="detailFormBefore.currency" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
-                        </el-form-item>
-                        <el-form-item v-if="showRules.fundAccName&&showRules.fundAccName.isShow" label="资金账户名称" prop="fundAccName">
-                            <gf-input v-model.trim="detailFormBefore.fundAccName" placeholder="资金账户名称"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.rateId&&showRules.rateId.isShow" label="利率" prop="rateId">
-                            <el-select v-model="detailFormBefore.rateId"
-                                       clearable
-                                       placeholder="请选择">
-                                <gf-filter-option
-                                        v-for="item in rateList"
-                                        :key="item.rateId"
-                                        :label="item.rateName"
-                                        :value="item.rateId">
-                                </gf-filter-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.stampLegalPersonInfo&&showRules.stampLegalPersonInfo.isShow" label="印鉴法人变更情况" prop="stampLegalPersonInfo">
-                            <gf-input v-model.trim="detailFormBefore.stampLegalPersonInfo" placeholder="印鉴法人变更情况"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.threeLicenseInfo&&showRules.threeLicenseInfo.isShow" label="三证合一变更情况" prop="threeLicenseInfo">
-                            <gf-input v-model.trim="detailFormBefore.threeLicenseInfo" placeholder="三证合一变更情况"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.bigPayNo&&showRules.bigPayNo.isShow" label="大额支付号" prop="bigPayNo">
-                            <gf-input v-model.trim="detailFormBefore.bigPayNo" placeholder="大额支付号"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.openBank&&showRules.openBank.isShow" label="开户网点/开户单位" prop="openBank">
-                            <gf-input v-model.trim="detailFormBefore.openBank" placeholder="开户网点/开户单位"/>
-                        </el-form-item>
-<!--                        <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号" prop="fundAccNo">-->
-<!--                            <gf-input v-model.trim="detailFormBefore.fundAccNo" placeholder="资金账号"/>-->
-<!--                        </el-form-item>-->
-                        <el-form-item v-if="showRules.acntStartDt&&showRules.acntStartDt.isShow" label="账户启用日期" prop="acntStartDt">
-                            <el-date-picker
-                                v-model="detailFormBefore.acntStartDt"
-                                type="date"
-                                value-format="yyyy-MM-dd"
-                                placeholder="账户启用日期">
-                            </el-date-picker>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.isOpenBankCorDirect&&showRules.isOpenBankCorDirect.isShow" label="是否开立银企直联" prop="isOpenBankCorDirect">
-                            <el-radio-group v-model="detailFormBefore.isOpenBankCorDirect">
-                                <el-radio label="1">是</el-radio>
-                                <el-radio label="0">否</el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.isOpenEbank&&showRules.isOpenEbank.isShow" label="是否开立网银" prop="isOpenEbank">
-                            <el-radio-group v-model="detailFormBefore.isOpenEbank">
-                                <el-radio label="1">是</el-radio>
-                                <el-radio label="0">否</el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.other&&showRules.other.isShow" label="其他" prop="other">
-                            <gf-input v-model.trim="detailFormBefore.other" placeholder="其他"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.acntPurpose&&showRules.acntPurpose.isShow" label="账户用途描述" prop="acntPurpose">
-                            <gf-input v-model.trim="detailFormBefore.acntPurpose" placeholder="账户用途描述"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.acntStatus&&showRules.acntStatus.isShow" label="账户状态" prop="acntStatus">
-                            <gf-dict filterable clearable v-model="detailFormBefore.acntStatus" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
-                        </el-form-item>
-                        <el-form-item v-if="showRules.maturityDt&&showRules.maturityDt.isShow" label="到期提醒" prop="maturityDt">
-                            <el-date-picker
-                                v-model="detailFormBefore.maturityDt"
-                                type="date"
-                                value-format="yyyy-MM-dd"
-                                placeholder="到期提醒">
-                            </el-date-picker>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.futuresCompany&&showRules.futuresCompany.isShow" label="期货公司" prop="futuresCompany">
-                            <gf-input v-model.trim="detailFormBefore.futuresCompany" placeholder="期货公司"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人" prop="bankLinkMan">
-                            <el-select class="multiple-select" v-model="detailFormBefore.bankLinkMan"
-                                    filterable clearable multiple
-                                    placeholder="请选择">
-                                <gf-filter-option
-                                        v-for="item in linkManList"
-                                        :key="item.linkmanId"
-                                        :label="item.linkmanName"
-                                        :value="item.linkmanId">
-                                </gf-filter-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.provisionBankAcntIds&&showRules.provisionBankAcntIds.isShow" label="备付金账户对应的银行账户" prop="baseOperator">
-                            <el-select style="width: 100%" class="multiple-select" v-model="detailFormBefore.provisionBankAcntIds"
-                                       filterable clearable multiple
-                                       placeholder="请选择">
-                                <gf-filter-option
-                                        v-for="item in acntList"
-                                        :key="item.acntId"
-                                        :label="item.acntName"
-                                        :value="item.acntId">
-                                </gf-filter-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.cardCorporateAcntId&&showRules.cardCorporateAcntId.isShow" label="卡账户对应的对公户" prop="productCode">
-                            <el-select style="width: 100%" class="multiple-select" v-model="detailFormBefore.cardCorporateAcntId"
-                                       filterable clearable
-                                       placeholder="请选择">
-                                <gf-filter-option
-                                        v-for="item in acntList"
-                                        :key="item.acntId"
-                                        :label="item.acntName"
-                                        :value="item.acntId">
-                                </gf-filter-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.openManPhone&&showRules.openManPhone.isShow" label="开户时对方联系人联系电话" prop="openManPhone">
-                            <gf-input v-model.trim="detailFormBefore.openManPhone" placeholder="开户时对方联系人联系电话"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.remark&&showRules.remark.isShow" label="备注" prop="remark">
-                            <gf-input v-model.trim="detailFormBefore.remark" placeholder="备注"/>
-                        </el-form-item>
-
-                    </div>
-                    <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="账号">
+                    <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="证券账号">
                         <div class="rule-table">
                             <el-table header-row-class-name="rule-header-row"
                                       header-cell-class-name="rule-header-cell"
@@ -249,7 +110,7 @@
                                       :data="detailFormBefore.accNoList"
                                       border stripe
                                       style="width: 100%">
-                                <el-table-column prop="accNo" label="账号">
+                                <el-table-column prop="accNo" label="证券账号">
                                     <template slot-scope="scope">
                                         <el-input v-model="scope.row.accNo"></el-input>
                                     </template>
@@ -277,11 +138,11 @@
                                         <el-input v-model="scope.row.accNo"></el-input>
                                     </template>
                                 </el-table-column>
-<!--                                <el-table-column prop="accName" label="资金账户名称">-->
-<!--                                    <template slot-scope="scope">-->
-<!--                                        <el-input v-model="scope.row.accName"></el-input>-->
-<!--                                    </template>-->
-<!--                                </el-table-column>-->
+                                <!--                                <el-table-column prop="accName" label="资金账户名称">-->
+                                <!--                                    <template slot-scope="scope">-->
+                                <!--                                        <el-input v-model="scope.row.accName"></el-input>-->
+                                <!--                                    </template>-->
+                                <!--                                </el-table-column>-->
                                 <el-table-column prop="currency" label="币种">
                                     <template slot-scope="scope">
                                         <gf-dict filterable clearable v-model="scope.row.currency" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
@@ -290,6 +151,173 @@
                             </el-table>
                         </div>
                     </el-form-item>
+                    <div class="line wrap">
+                        <el-form-item v-if="showRules.acntName&&showRules.acntName.isShow" label="账户名称" prop="acntName">
+                            <gf-input v-model.trim="detailFormBefore.acntName" placeholder="账户名称"/>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.acntShortName&&showRules.acntShortName.isShow" label="账户简称" prop="acntShortName">
+                            <gf-input v-model.trim="detailFormBefore.acntShortName" placeholder="账户简称"/>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.fundAccName&&showRules.fundAccName.isShow" label="资金账户名称" prop="fundAccName">
+                            <gf-input v-model.trim="detailFormBefore.fundAccName" placeholder="资金账户名称"/>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.market&&showRules.market.isShow" label="市场" prop="market">
+                            <gf-dict filterable clearable v-model="detailFormBefore.market" dict-type="AGNES_ACNT_MARKET" />
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.acntStatus&&showRules.acntStatus.isShow" label="账户状态" prop="acntStatus">
+                            <gf-dict filterable clearable v-model="detailFormBefore.acntStatus" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.settlementNo&&showRules.settlementNo.isShow" label="清算编号" prop="settlementNo">
+                            <gf-input v-model.trim="detailFormBefore.settlementNo" placeholder="清算编号"/>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.bigPayNo&&showRules.bigPayNo.isShow" label="大额支付号" prop="bigPayNo">
+                            <gf-input v-model.trim="detailFormBefore.bigPayNo" placeholder="大额支付号"/>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.openBank&&showRules.openBank.isShow" label="开户网点/开户单位" prop="openBank">
+                            <gf-input v-model.trim="detailFormBefore.openBank" placeholder="开户网点/开户单位"/>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.region&&showRules.region.isShow" label="账户所属地区" prop="region">
+                            <gf-input v-model.trim="detailFormBefore.region" placeholder="账户所属地区"/>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.currency&&showRules.currency.isShow" label="币种" prop="currency">
+                            <gf-dict filterable clearable v-model="detailFormBefore.currency" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.rateId&&showRules.rateId.isShow" label="利率" prop="rateId">
+                            <el-select v-model="detailFormBefore.rateId"
+                                       clearable
+                                       placeholder="请选择">
+                                <gf-filter-option
+                                        v-for="item in rateList"
+                                        :key="item.rateId"
+                                        :label="item.rateName"
+                                        :value="item.rateId">
+                                </gf-filter-option>
+                            </el-select>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.stampInfo&&showRules.stampInfo.isShow" label="预留印鉴信息" prop="stampInfo">
+                            <gf-input v-model.trim="detailFormBefore.stampInfo" placeholder="预留印鉴信息"/>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.stampLegalPersonInfo&&showRules.stampLegalPersonInfo.isShow" label="印鉴法人变更情况" prop="stampLegalPersonInfo">
+                            <gf-input v-model.trim="detailFormBefore.stampLegalPersonInfo" placeholder="印鉴法人变更情况"/>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.threeLicenseInfo&&showRules.threeLicenseInfo.isShow" label="三证合一变更情况" prop="threeLicenseInfo">
+                            <gf-input v-model.trim="detailFormBefore.threeLicenseInfo" placeholder="三证合一变更情况"/>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.acntStartDt&&showRules.acntStartDt.isShow" label="账户启用日期" prop="acntStartDt">
+                            <el-date-picker
+                                    v-model="detailFormBefore.acntStartDt"
+                                    type="date"
+                                    value-format="yyyy-MM-dd"
+                                    placeholder="账户启用日期">
+                            </el-date-picker>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.acntPurpose&&showRules.acntPurpose.isShow" label="账户用途描述" prop="acntPurpose">
+                            <gf-input v-model.trim="detailFormBefore.acntPurpose" placeholder="账户用途描述"/>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.isOpenEbank&&showRules.isOpenEbank.isShow" label="是否开立网银" prop="isOpenEbank">
+                            <el-radio-group v-model="detailFormBefore.isOpenEbank">
+                                <el-radio label="1">是</el-radio>
+                                <el-radio label="0">否</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.isOpenBankCorDirect&&showRules.isOpenBankCorDirect.isShow" label="是否开立银企直联" prop="isOpenBankCorDirect">
+                            <el-radio-group v-model="detailFormBefore.isOpenBankCorDirect">
+                                <el-radio label="1">是</el-radio>
+                                <el-radio label="0">否</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.provisionBankAcntIds&&showRules.provisionBankAcntIds.isShow" label="备付金账户对应的银行账户" prop="baseOperator">
+                            <el-select style="width: 100%" class="multiple-select" v-model="detailFormBefore.provisionBankAcntIds"
+                                       filterable clearable multiple
+                                       placeholder="请选择">
+                                <gf-filter-option
+                                        v-for="item in acntList"
+                                        :key="item.acntId"
+                                        :label="item.acntName"
+                                        :value="item.acntId">
+                                </gf-filter-option>
+                            </el-select>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.cardCorporateAcntId&&showRules.cardCorporateAcntId.isShow" label="卡账户对应的对公户" prop="productCode">
+                            <el-select style="width: 100%" class="multiple-select" v-model="detailFormBefore.cardCorporateAcntId"
+                                       filterable clearable
+                                       placeholder="请选择">
+                                <gf-filter-option
+                                        v-for="item in acntList"
+                                        :key="item.acntId"
+                                        :label="item.acntName"
+                                        :value="item.acntId">
+                                </gf-filter-option>
+                            </el-select>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.maturityDt&&showRules.maturityDt.isShow" label="到期提醒" prop="maturityDt">
+                            <el-date-picker
+                                    v-model="detailFormBefore.maturityDt"
+                                    type="date"
+                                    value-format="yyyy-MM-dd"
+                                    placeholder="到期提醒">
+                            </el-date-picker>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.futuresCompany&&showRules.futuresCompany.isShow" label="期货公司" prop="futuresCompany">
+                            <gf-input v-model.trim="detailFormBefore.futuresCompany" placeholder="期货公司"/>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人/开户时对方联系人" prop="bankLinkMan">
+                            <el-select class="multiple-select" v-model="detailFormBefore.bankLinkMan"
+                                       filterable clearable multiple
+                                       placeholder="请选择">
+                                <gf-filter-option
+                                        v-for="item in linkManList"
+                                        :key="item.linkmanId"
+                                        :label="item.linkmanName"
+                                        :value="item.linkmanId">
+                                </gf-filter-option>
+                            </el-select>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.other&&showRules.other.isShow" label="其他" prop="other">
+                            <gf-input v-model.trim="detailFormBefore.other" placeholder="其他"/>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.remark&&showRules.remark.isShow" label="备注" prop="remark">
+                            <gf-input v-model.trim="detailFormBefore.remark" placeholder="备注"/>
+                        </el-form-item>
+
+<!--                        <el-form-item v-if="showRules.openManPhone&&showRules.openManPhone.isShow" label="开户时对方联系人联系电话" prop="openManPhone">-->
+<!--                            <gf-input v-model.trim="detailFormBefore.openManPhone" placeholder="开户时对方联系人联系电话"/>-->
+<!--                        </el-form-item>-->
+
+<!--                        <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="账号" prop="accNo">-->
+<!--                            <gf-input v-model.trim="detailFormBefore.accNo" placeholder="账号"/>-->
+<!--                        </el-form-item>-->
+
+<!--                        <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号" prop="fundAccNo">-->
+<!--                            <gf-input v-model.trim="detailFormBefore.fundAccNo" placeholder="资金账号"/>-->
+<!--                        </el-form-item>-->
+
+                    </div>
+
                 </template>
             </module-card>
         </el-form>
@@ -402,163 +430,7 @@
 
             <module-card title="账户信息" shadow="never" v-if="detailForm.typeCode">
                 <template slot="content">
-                    <div class="line wrap">
-                        <el-form-item v-if="showRules.acntName&&showRules.acntName.isShow" label="账户名称" prop="acntName">
-                            <gf-input v-model.trim="detailForm.acntName" placeholder="账户名称"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.acntShortName&&showRules.acntShortName.isShow" label="账户简称" prop="acntShortName">
-                            <gf-input v-model.trim="detailForm.acntShortName" placeholder="账户简称"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.settlementNo&&showRules.settlementNo.isShow" label="清算编号" prop="settlementNo">
-                            <gf-input v-model.trim="detailForm.settlementNo" placeholder="清算编号"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.stampInfo&&showRules.stampInfo.isShow" label="预留印鉴信息" prop="stampInfo">
-                            <gf-input v-model.trim="detailForm.stampInfo" placeholder="预留印鉴信息"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.market&&showRules.market.isShow" label="市场" prop="market">
-                            <gf-dict filterable clearable v-model="detailForm.market" dict-type="AGNES_ACNT_MARKET" />
-                        </el-form-item>
-                        <el-form-item v-if="showRules.region&&showRules.region.isShow" label="账户所属地区" prop="region">
-                            <gf-input v-model.trim="detailForm.region" placeholder="账户所属地区"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.currency&&showRules.currency.isShow" label="币种" prop="currency">
-                            <gf-dict filterable clearable v-model="detailForm.currency" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
-                        </el-form-item>
-                        <el-form-item v-if="showRules.fundAccName&&showRules.fundAccName.isShow" label="资金账户名称" prop="fundAccName">
-                            <gf-input v-model.trim="detailForm.fundAccName" placeholder="资金账户名称"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.rateId&&showRules.rateId.isShow" label="利率" prop="rateId">
-                            <el-select v-model="detailForm.rateId"
-                                       clearable
-                                       placeholder="请选择">
-                                <gf-filter-option
-                                        v-for="item in rateList"
-                                        :key="item.rateId"
-                                        :label="item.rateName"
-                                        :value="item.rateId">
-                                </gf-filter-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.stampLegalPersonInfo&&showRules.stampLegalPersonInfo.isShow" label="印鉴法人变更情况" prop="stampLegalPersonInfo">
-                            <gf-input v-model.trim="detailForm.stampLegalPersonInfo" placeholder="印鉴法人变更情况"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.threeLicenseInfo&&showRules.threeLicenseInfo.isShow" label="三证合一变更情况" prop="threeLicenseInfo">
-                            <gf-input v-model.trim="detailForm.threeLicenseInfo" placeholder="三证合一变更情况"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.bigPayNo&&showRules.bigPayNo.isShow" label="大额支付号" prop="bigPayNo">
-                            <gf-input v-model.trim="detailForm.bigPayNo" placeholder="大额支付号"
-                                @change="loadOpenBankListByBigPayNo"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.openBank&&showRules.openBank.isShow" label="开户网点/开户单位" prop="openBank">
-<!--                            <gf-input v-model.trim="detailForm.openBank" placeholder="开户网点/开户单位" style="width: 80%"-->
-<!--                                      :disabled="showRules.bigPayNo&&showRules.bigPayNo.isShow"/>-->
-
-                            <div class="line">
-                                <el-select class="multiple-select" v-model="detailForm.openBank" style="width: 90%"
-                                        clearable
-                                        filterable
-                                        remote
-                                        reserve-keyword
-                                        placeholder="请输入关键词或空格搜索"
-                                        :remote-method="remoteLoadOpenBankList"
-                                        :loading="loading">
-                                    <gf-filter-option
-                                            v-for="item in openBankList"
-                                            :key="item.bankBranchId"
-                                            :label="item.branchName"
-                                            :value="item.branchName">
-                                    </gf-filter-option>
-                                </el-select>
-
-                                <!--<em class="el-icon-refresh-left" @click="loadNameByBigPayNo"/>-->
-                                <el-button style="border: none;padding-left: 5px;font-size: 17px;vertical-align: middle" icon="el-icon-edit-outline" @click="defendOpenBank"/>
-                            </div>
-
-                        </el-form-item>
-                        <el-form-item v-if="showRules.acntStartDt&&showRules.acntStartDt.isShow" label="账户启用日期" prop="acntStartDt">
-                            <el-date-picker
-                                    v-model="detailForm.acntStartDt"
-                                    type="date"
-                                    value-format="yyyy-MM-dd"
-                                    placeholder="账户启用日期">
-                            </el-date-picker>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.isOpenBankCorDirect&&showRules.isOpenBankCorDirect.isShow" label="是否开立银企直联" prop="isOpenBankCorDirect">
-                            <el-radio-group v-model="detailForm.isOpenBankCorDirect">
-                                <el-radio label="1">是</el-radio>
-                                <el-radio label="0">否</el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.isOpenEbank&&showRules.isOpenEbank.isShow" label="是否开立网银" prop="isOpenEbank">
-                            <el-radio-group v-model="detailForm.isOpenEbank">
-                                <el-radio label="1">是</el-radio>
-                                <el-radio label="0">否</el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.other&&showRules.other.isShow" label="其他" prop="other">
-                            <gf-input v-model.trim="detailForm.other" placeholder="其他"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.acntPurpose&&showRules.acntPurpose.isShow" label="账户用途描述" prop="acntPurpose">
-                            <gf-input v-model.trim="detailForm.acntPurpose" placeholder="账户用途描述"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.acntStatus&&showRules.acntStatus.isShow" label="账户状态" prop="acntStatus">
-                            <gf-dict filterable clearable v-model="detailForm.acntStatus" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
-                        </el-form-item>
-                        <el-form-item v-if="showRules.maturityDt&&showRules.maturityDt.isShow" label="到期提醒" prop="maturityDt">
-                            <el-date-picker
-                                    v-model="detailForm.maturityDt"
-                                    type="date"
-                                    value-format="yyyy-MM-dd"
-                                    placeholder="到期提醒">
-                            </el-date-picker>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.futuresCompany&&showRules.futuresCompany.isShow" label="期货公司" prop="futuresCompany">
-                            <gf-input v-model.trim="detailForm.futuresCompany" placeholder="期货公司"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人" prop="detailForm.bankLinkMan">
-                            <el-select class="multiple-select" v-model="detailForm.bankLinkMan"
-                                       filterable clearable multiple
-                                       placeholder="请选择">
-                                <gf-filter-option
-                                        v-for="item in linkManList"
-                                        :key="item.linkmanId"
-                                        :label="item.linkmanName"
-                                        :value="item.linkmanId">
-                                </gf-filter-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.provisionBankAcntIds&&showRules.provisionBankAcntIds.isShow" label="备付金账户对应的银行账户" prop="baseOperator">
-                            <el-select style="width: 100%" class="multiple-select" v-model="detailForm.provisionBankAcntIds"
-                                       filterable clearable multiple
-                                       placeholder="请选择">
-                                <gf-filter-option
-                                        v-for="item in acntList"
-                                        :key="item.acntId"
-                                        :label="item.acntName"
-                                        :value="item.acntId">
-                                </gf-filter-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.cardCorporateAcntId&&showRules.cardCorporateAcntId.isShow" label="卡账户对应的对公户" prop="productCode">
-                            <el-select style="width: 100%"  class="multiple-select" v-model="detailForm.cardCorporateAcntId"
-                                       filterable clearable
-                                       placeholder="请选择">
-                                <gf-filter-option
-                                        v-for="item in acntList"
-                                        :key="item.acntId"
-                                        :label="item.acntName"
-                                        :value="item.acntId">
-                                </gf-filter-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.openManPhone&&showRules.openManPhone.isShow" label="开户时对方联系人联系电话" prop="openManPhone">
-                            <gf-input v-model.trim="detailForm.openManPhone" placeholder="开户时对方联系人联系电话"/>
-                        </el-form-item>
-                        <el-form-item v-if="showRules.remark&&showRules.remark.isShow" label="备注" prop="remark">
-                            <gf-input v-model.trim="detailForm.remark" placeholder="备注"/>
-                        </el-form-item>
-                    </div>
-                    <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="账号">
+                    <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="证券账号">
                         <div class="rule-table">
                             <el-table header-row-class-name="rule-header-row"
                                       header-cell-class-name="rule-header-cell"
@@ -567,7 +439,7 @@
                                       :data="accNoList"
                                       border stripe
                                       style="width: 100%">
-                                <el-table-column prop="accNo" label="账号">
+                                <el-table-column prop="accNo" label="证券账号">
                                     <template slot-scope="scope">
                                         <el-input v-model="scope.row.accNo"></el-input>
                                     </template>
@@ -600,11 +472,11 @@
                                         <el-input v-model="scope.row.accNo"></el-input>
                                     </template>
                                 </el-table-column>
-<!--                                <el-table-column prop="accName" label="资金账户名称">-->
-<!--                                    <template slot-scope="scope">-->
-<!--                                        <el-input v-model="scope.row.accName"></el-input>-->
-<!--                                    </template>-->
-<!--                                </el-table-column>-->
+                                <!--                                <el-table-column prop="accName" label="资金账户名称">-->
+                                <!--                                    <template slot-scope="scope">-->
+                                <!--                                        <el-input v-model="scope.row.accName"></el-input>-->
+                                <!--                                    </template>-->
+                                <!--                                </el-table-column>-->
                                 <el-table-column prop="currency" label="币种">
                                     <template slot-scope="scope">
                                         <gf-dict filterable clearable v-model="scope.row.currency" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
@@ -619,6 +491,184 @@
                             <el-button  @click="addMoneyAccRule" class="rule-add-btn" size="small">新增</el-button>
                         </div>
                     </el-form-item>
+                    <div class="line wrap">
+                        <el-form-item v-if="showRules.acntName&&showRules.acntName.isShow" label="账户名称" prop="acntName">
+                            <gf-input v-model.trim="detailForm.acntName" placeholder="账户名称"/>
+                        </el-form-item>
+                        <el-form-item v-if="showRules.acntShortName&&showRules.acntShortName.isShow" label="账户简称" prop="acntShortName">
+                            <gf-input v-model.trim="detailForm.acntShortName" placeholder="账户简称"/>
+                        </el-form-item>
+                        <el-form-item v-if="showRules.fundAccName&&showRules.fundAccName.isShow" label="资金账户名称" prop="fundAccName">
+                            <gf-input v-model.trim="detailForm.fundAccName" placeholder="资金账户名称"/>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.market&&showRules.market.isShow" label="市场" prop="market">
+                            <gf-dict filterable clearable v-model="detailForm.market" dict-type="AGNES_ACNT_MARKET" />
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.acntStatus&&showRules.acntStatus.isShow" label="账户状态" prop="acntStatus">
+                            <gf-dict filterable clearable v-model="detailForm.acntStatus" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.settlementNo&&showRules.settlementNo.isShow" label="清算编号" prop="settlementNo">
+                            <gf-input v-model.trim="detailForm.settlementNo" placeholder="清算编号"/>
+                        </el-form-item>
+                        <el-form-item v-if="showRules.bigPayNo&&showRules.bigPayNo.isShow" label="大额支付号" prop="bigPayNo">
+                            <gf-input v-model.trim="detailForm.bigPayNo" placeholder="大额支付号"
+                                      @change="loadOpenBankListByBigPayNo"/>
+                        </el-form-item>
+                        <el-form-item v-if="showRules.openBank&&showRules.openBank.isShow" label="开户网点/开户单位" prop="openBank">
+                            <!--                            <gf-input v-model.trim="detailForm.openBank" placeholder="开户网点/开户单位" style="width: 80%"-->
+                            <!--                                      :disabled="showRules.bigPayNo&&showRules.bigPayNo.isShow"/>-->
+
+                            <div class="line">
+                                <el-select class="multiple-select" v-model="detailForm.openBank" style="width: 90%"
+                                           clearable
+                                           filterable
+                                           remote
+                                           reserve-keyword
+                                           placeholder="请输入关键词或空格搜索"
+                                           :remote-method="remoteLoadOpenBankList"
+                                           :loading="loading">
+                                    <gf-filter-option
+                                            v-for="item in openBankList"
+                                            :key="item.bankBranchId"
+                                            :label="item.branchName"
+                                            :value="item.branchName">
+                                    </gf-filter-option>
+                                </el-select>
+
+                                <!--<em class="el-icon-refresh-left" @click="loadNameByBigPayNo"/>-->
+                                <el-button style="border: none;padding-left: 5px;font-size: 17px;vertical-align: middle" icon="el-icon-edit-outline" @click="defendOpenBank"/>
+                            </div>
+
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.region&&showRules.region.isShow" label="账户所属地区" prop="region">
+                            <gf-input v-model.trim="detailForm.region" placeholder="账户所属地区"/>
+                        </el-form-item>
+                        <el-form-item v-if="showRules.currency&&showRules.currency.isShow" label="币种" prop="currency">
+                            <gf-dict filterable clearable v-model="detailForm.currency" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.rateId&&showRules.rateId.isShow" label="利率" prop="rateId">
+                            <el-select v-model="detailForm.rateId"
+                                       clearable
+                                       placeholder="请选择">
+                                <gf-filter-option
+                                        v-for="item in rateList"
+                                        :key="item.rateId"
+                                        :label="item.rateName"
+                                        :value="item.rateId">
+                                </gf-filter-option>
+                            </el-select>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.stampInfo&&showRules.stampInfo.isShow" label="预留印鉴信息" prop="stampInfo">
+                            <gf-input v-model.trim="detailForm.stampInfo" placeholder="预留印鉴信息"/>
+                        </el-form-item>
+
+
+                        <el-form-item v-if="showRules.stampLegalPersonInfo&&showRules.stampLegalPersonInfo.isShow" label="印鉴法人变更情况" prop="stampLegalPersonInfo">
+                            <gf-input v-model.trim="detailForm.stampLegalPersonInfo" placeholder="印鉴法人变更情况"/>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.threeLicenseInfo&&showRules.threeLicenseInfo.isShow" label="三证合一变更情况" prop="threeLicenseInfo">
+                            <gf-input v-model.trim="detailForm.threeLicenseInfo" placeholder="三证合一变更情况"/>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.acntStartDt&&showRules.acntStartDt.isShow" label="账户启用日期" prop="acntStartDt">
+                            <el-date-picker
+                                    v-model="detailForm.acntStartDt"
+                                    type="date"
+                                    value-format="yyyy-MM-dd"
+                                    placeholder="账户启用日期">
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item v-if="showRules.acntPurpose&&showRules.acntPurpose.isShow" label="账户用途描述" prop="acntPurpose">
+                            <gf-input v-model.trim="detailForm.acntPurpose" placeholder="账户用途描述"/>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.isOpenEbank&&showRules.isOpenEbank.isShow" label="是否开立网银" prop="isOpenEbank">
+                            <el-radio-group v-model="detailForm.isOpenEbank">
+                                <el-radio label="1">是</el-radio>
+                                <el-radio label="0">否</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.isOpenBankCorDirect&&showRules.isOpenBankCorDirect.isShow" label="是否开立银企直联" prop="isOpenBankCorDirect">
+                            <el-radio-group v-model="detailForm.isOpenBankCorDirect">
+                                <el-radio label="1">是</el-radio>
+                                <el-radio label="0">否</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.provisionBankAcntIds&&showRules.provisionBankAcntIds.isShow" label="备付金账户对应的银行账户" prop="baseOperator">
+                            <el-select style="width: 100%" class="multiple-select" v-model="detailForm.provisionBankAcntIds"
+                                       filterable clearable multiple
+                                       placeholder="请选择">
+                                <gf-filter-option
+                                        v-for="item in acntList"
+                                        :key="item.acntId"
+                                        :label="item.acntName"
+                                        :value="item.acntId">
+                                </gf-filter-option>
+                            </el-select>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.cardCorporateAcntId&&showRules.cardCorporateAcntId.isShow" label="卡账户对应的对公户" prop="productCode">
+                            <el-select style="width: 100%"  class="multiple-select" v-model="detailForm.cardCorporateAcntId"
+                                       filterable clearable
+                                       placeholder="请选择">
+                                <gf-filter-option
+                                        v-for="item in acntList"
+                                        :key="item.acntId"
+                                        :label="item.acntName"
+                                        :value="item.acntId">
+                                </gf-filter-option>
+                            </el-select>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.maturityDt&&showRules.maturityDt.isShow" label="到期提醒" prop="maturityDt">
+                            <el-date-picker
+                                    v-model="detailForm.maturityDt"
+                                    type="date"
+                                    value-format="yyyy-MM-dd"
+                                    placeholder="到期提醒">
+                            </el-date-picker>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.futuresCompany&&showRules.futuresCompany.isShow" label="期货公司" prop="futuresCompany">
+                            <gf-input v-model.trim="detailForm.futuresCompany" placeholder="期货公司"/>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人/开户时对方联系人" prop="detailForm.bankLinkMan">
+                            <el-select class="multiple-select" v-model="detailForm.bankLinkMan"
+                                       filterable clearable multiple
+                                       placeholder="请选择">
+                                <gf-filter-option
+                                        v-for="item in linkManList"
+                                        :key="item.linkmanId"
+                                        :label="item.linkmanName"
+                                        :value="item.linkmanId">
+                                </gf-filter-option>
+                            </el-select>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.other&&showRules.other.isShow" label="其他" prop="other">
+                            <gf-input v-model.trim="detailForm.other" placeholder="其他"/>
+                        </el-form-item>
+
+                        <el-form-item v-if="showRules.remark&&showRules.remark.isShow" label="备注" prop="remark">
+                            <gf-input v-model.trim="detailForm.remark" placeholder="备注"/>
+                        </el-form-item>
+
+<!--                        <el-form-item v-if="showRules.openManPhone&&showRules.openManPhone.isShow" label="开户时对方联系人联系电话" prop="openManPhone">-->
+<!--                            <gf-input v-model.trim="detailForm.openManPhone" placeholder="开户时对方联系人联系电话"/>-->
+<!--                        </el-form-item>-->
+
+                    </div>
+
                 </template>
             </module-card>
         </el-form>
