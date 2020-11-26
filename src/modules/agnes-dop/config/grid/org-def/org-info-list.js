@@ -12,15 +12,16 @@ const colButtons = [
         key: 'deleteOrg', title: '删除', cellClass: 'red-cell', visiable: () => {
             return Permission.hasPermission('agnes.org.def.delete');
         }
-    },
-    {
-        key: 'approveExOrg', title: '审核', disabled: (params) => {
-            return params.data.status === '04'
-        },
-        visiable: () => {
-            return Permission.hasPermission('agnes.org.def.approve');
-        }
     }
+    // ,
+    // {
+    //     key: 'approveExOrg', title: '审核', disabled: (params) => {
+    //         return params.data.status === '04'
+    //     },
+    //     visiable: () => {
+    //         return Permission.hasPermission('agnes.org.def.approve');
+    //     }
+    // }
 ]
 
 export default {
@@ -31,7 +32,7 @@ export default {
         {headerName: "机构类型", field: "orgTypeName"},
         {headerName: "机构简称", field: "extOrgNameShort"},
         {headerName: "机构全称", field: "extOrgName"},
-        {headerName: "状态", field: "status", formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
+        // {headerName: "状态", field: "status", formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
         column.colUpdUser,
         column.colUpdTm,
 
