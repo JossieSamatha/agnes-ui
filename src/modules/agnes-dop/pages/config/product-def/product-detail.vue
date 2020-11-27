@@ -70,7 +70,7 @@
         <el-tabs>
           <el-tab-pane label="FA专用">
             <el-table
-                :data="detailForm.fAPrdtRuInfoParam"
+                :data="this.detailForm.fAPrdtRuInfoParamRefVo"
                 border stripe
                 style="width: 100%"
                 header-row-class-name="rule-header-row"
@@ -79,42 +79,55 @@
                 cell-class-name="rule-cell">
               <el-table-column prop="paramBizType" label="业务归属" min-width="100">
                 <template slot-scope="scope">
-                  <el-input :style="!scope.row.paramBizType ? 'border:1px solid #f00':''"
-                            v-model="scope.row.paramBizType" disabled></el-input>
-                </template>
-              </el-table-column>
-              <el-table-column prop="paramCode" label="参数代码" min-width="100">
-                <template slot-scope="scope">
-                  <el-input :style="!scope.row.paramCode ? 'border:1px solid #f00':''"
-                            v-model="scope.row.paramCode"></el-input>
+                  <gf-dict v-model="scope.row.paramBizType" dict-type="AGNES_PRODUCT_PARAM_BIZTYPE" disabled></gf-dict>
                 </template>
               </el-table-column>
               <el-table-column prop="paramName" label="参数名称" min-width="100">
                 <template slot-scope="scope">
-                  <el-input :style="!scope.row.paramName ? 'border:1px solid #f00':''"
-                            v-model="scope.row.paramName"></el-input>
+                  <el-select v-model="scope.row.paramName" placeholder="请选择" @change="faChanges(scope.row)">
+                    <el-option
+                        v-for="item in faProductParams"
+                        :key="item.productParamId"
+                        :label="item.paramName"
+                        :value="item.paramName"
+                    >
+                    </el-option>
+                  </el-select>
+                </template>
+
+              </el-table-column>
+              <el-table-column prop="paramCode" label="参数代码" min-width="100">
+                <template slot-scope="scope">
+                  <el-input v-model="scope.row.paramCode" disabled></el-input>
                 </template>
               </el-table-column>
               <el-table-column prop="paramType" label="参数类型" min-width="100">
                 <template slot-scope="scope">
-                  <gf-dict-select :style="!scope.row.paramType ? 'border:1px solid #f00':''"
-                                  dict-type="AGNES_PRODUCT_PARAM_TYPE" v-model="scope.row.paramType"
-                                  @change="changes(scope.row)"/>
+                  <gf-dict v-model="scope.row.paramType" dict-type="AGNES_PRODUCT_PARAM_TYPE" disabled/>
                 </template>
               </el-table-column>
               <el-table-column prop="paramValue" label="参数值" min-width="100">
                 <template slot-scope="scope">
-                  <el-input type="number" :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
-                            v-model="scope.row.paramValue" v-if="scope.row.paramType === 'number'"/>
-                  <el-input :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
-                            v-model="scope.row.paramValue" v-if="scope.row.paramType === 'str'"/>
-                  <gf-dict-select :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
-                                  dict-type="GF_BOOL_TYPE" v-model="scope.row.paramValue"
-                                  v-if="scope.row.paramType === 'boolean'"/>
+                  <el-input v-model="scope.row.paramValue" v-if="scope.row.paramType !== 'boolean'" disabled/>
+                  <gf-dict v-model="scope.row.paramValue" v-if="scope.row.paramType === 'boolean'"
+                           dict-type="AGNES_PRODUCT_BOOLEAN" disabled/>
+                </template>
+              </el-table-column>
+              <el-table-column prop="effectiveDate" label="生效时间" min-width="100">
+                <template slot-scope="scope">
                   <el-date-picker
-                      v-if="scope.row.paramType==='date'"
-                      v-model="scope.row.paramValue"
-                      :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
+                      v-model="scope.row.effectiveDate"
+                      :style="!scope.row.effectiveDate ? 'border:1px solid #f00':''"
+                      type="date"
+                      value-format="yyyy-MM-dd">
+                  </el-date-picker>
+                </template>
+              </el-table-column>
+              <el-table-column prop="failureDate" label="失效时间" min-width="100">
+                <template slot-scope="scope">
+                  <el-date-picker
+                      v-model="scope.row.failureDate"
+                      :style="!scope.row.failureDate ? 'border:1px solid #f00':''"
                       type="date"
                       value-format="yyyy-MM-dd">
                   </el-date-picker>
@@ -130,7 +143,7 @@
           </el-tab-pane>
           <el-tab-pane label="TA专用">
             <el-table
-                :data="detailForm.tAPrdtRuInfoParam"
+                :data="this.detailForm.tAPrdtRuInfoParamRefVo"
                 border stripe
                 style="width: 100%"
                 header-row-class-name="rule-header-row"
@@ -139,43 +152,55 @@
                 cell-class-name="rule-cell">
               <el-table-column prop="paramBizType" label="业务归属" min-width="100">
                 <template slot-scope="scope">
-                  <el-input :style="!scope.row.paramBizType ? 'border:1px solid #f00':''"
-                            v-model="scope.row.paramBizType" disabled></el-input>
+                  <gf-dict v-model="scope.row.paramBizType" dict-type="AGNES_PRODUCT_PARAM_BIZTYPE" disabled></gf-dict>
                 </template>
-              </el-table-column>
-              <el-table-column prop="paramCode" label="参数代码" min-width="100">
-                <template slot-scope="scope">
-                  <el-input :style="!scope.row.paramCode ? 'border:1px solid #f00':''"
-                            v-model="scope.row.paramCode"></el-input>
-                </template>
-
               </el-table-column>
               <el-table-column prop="paramName" label="参数名称" min-width="100">
                 <template slot-scope="scope">
-                  <el-input :style="!scope.row.paramName ? 'border:1px solid #f00':''"
-                            v-model="scope.row.paramName"></el-input>
+                  <el-select v-model="scope.row.paramName" placeholder="请选择" @change="taChanges(scope.row)">
+                    <el-option
+                        v-for="item in taProductParams"
+                        :key="item.productParamId"
+                        :label="item.paramName"
+                        :value="item.paramName"
+                    >
+                    </el-option>
+                  </el-select>
+                </template>
+
+              </el-table-column>
+              <el-table-column prop="paramCode" label="参数代码" min-width="100">
+                <template slot-scope="scope">
+                  <el-input v-model="scope.row.paramCode" disabled></el-input>
                 </template>
               </el-table-column>
               <el-table-column prop="paramType" label="参数类型" min-width="100">
                 <template slot-scope="scope">
-                  <gf-dict-select :style="!scope.row.paramType ? 'border:1px solid #f00':''"
-                                  dict-type="AGNES_PRODUCT_PARAM_TYPE" v-model="scope.row.paramType"
-                                  @change="changes(scope.row)"/>
+                  <gf-dict v-model="scope.row.paramType" dict-type="AGNES_PRODUCT_PARAM_TYPE" disabled/>
                 </template>
               </el-table-column>
               <el-table-column prop="paramValue" label="参数值" min-width="100">
                 <template slot-scope="scope">
-                  <el-input type="number" :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
-                            v-model="scope.row.paramValue" v-if="scope.row.paramType === 'number'"/>
-                  <el-input :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
-                            v-model="scope.row.paramValue" v-if="scope.row.paramType === 'str'"/>
-                  <gf-dict-select :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
-                                  dict-type="GF_BOOL_TYPE" v-model="scope.row.paramValue"
-                                  v-if="scope.row.paramType === 'boolean'"/>
+                  <el-input v-model="scope.row.paramValue" v-if="scope.row.paramType !== 'boolean'" disabled/>
+                  <gf-dict v-model="scope.row.paramValue" v-if="scope.row.paramType === 'boolean'"
+                           dict-type="AGNES_PRODUCT_BOOLEAN" disabled/>
+                </template>
+              </el-table-column>
+              <el-table-column prop="effectiveDate" label="生效时间" min-width="100">
+                <template slot-scope="scope">
                   <el-date-picker
-                      v-if="scope.row.paramType==='date'"
-                      v-model="scope.row.paramValue"
-                      :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
+                      v-model="scope.row.effectiveDate"
+                      :style="!scope.row.effectiveDate ? 'border:1px solid #f00':''"
+                      type="date"
+                      value-format="yyyy-MM-dd">
+                  </el-date-picker>
+                </template>
+              </el-table-column>
+              <el-table-column prop="failureDate" label="失效时间" min-width="100">
+                <template slot-scope="scope">
+                  <el-date-picker
+                      v-model="scope.row.failureDate"
+                      :style="!scope.row.failureDate ? 'border:1px solid #f00':''"
                       type="date"
                       value-format="yyyy-MM-dd">
                   </el-date-picker>
@@ -183,7 +208,7 @@
               </el-table-column>
               <el-table-column prop="option" label="操作" width="60" align="center">
                 <template slot-scope="scope">
-                  <span class="option-span" @click="deleteFA(scope.$index)">删除</span>
+                  <span class="option-span" @click="deleteTA(scope.$index)">删除</span>
                 </template>
               </el-table-column>
             </el-table>
@@ -229,9 +254,11 @@ export default {
         productAccountFirm: '',
         redemptionTransConfirmDays: '',
         redemptionSettlementDays: '',
-        fAPrdtRuInfoParam: [],
-        tAPrdtRuInfoParam: [],
+        tAPrdtRuInfoParamRefVo: [],
+        fAPrdtRuInfoParamRefVo: [],
       },
+      taProductParams: [],
+      faProductParams: [],
       detailFormRules: {
         productName: [
           {required: true, message: '产品名称必填', trigger: 'blur'},
@@ -254,11 +281,48 @@ export default {
   beforeMount() {
     if (this.mode !== "add") {
       Object.assign(this.detailForm, this.row);
+      console.log(this.detailForm);
     }
   },
+  mounted() {
+    this.getParams();
+  },
   methods: {
-    changes(params) {
-      params.paramValue = '';
+    async getParams() {
+      this.taProductParams = [];
+      this.faProductParams = [];
+      const taRes = await this.$api.productParamApi.getParamList("TA");
+      if (taRes.data) {
+        this.taProductParams = taRes.data;
+      }
+      const faRes = await this.$api.productParamApi.getParamList("FA");
+      if (faRes.data) {
+        this.faProductParams = faRes.data;
+      }
+    },
+    faChanges(params) {
+      let _that = this;
+      const productParam = lodash.find(_that.faProductParams, function (item) {
+        return item.paramName === params.paramName
+      });
+      params.paramCode = productParam.paramCode;
+      params.paramType = productParam.paramType;
+      params.paramValue = productParam.paramValue;
+      params.effectiveDate = productParam.effectiveDate;
+      params.failureDate = productParam.failureDate;
+      params.productParamId = productParam.productParamId;
+    },
+    taChanges(params) {
+      let _that = this;
+      const productParam = lodash.find(_that.taProductParams, function (item) {
+        return item.paramName === params.paramName
+      });
+      params.paramCode = productParam.paramCode;
+      params.paramType = productParam.paramType;
+      params.paramValue = productParam.paramValue;
+      params.effectiveDate = productParam.effectiveDate;
+      params.failureDate = productParam.failureDate;
+      params.productParamId = productParam.productParamId;
     },
     // 取消onCancel事件，触发抽屉关闭事件this.$emit("onClose");
     async onCancel() {
@@ -269,27 +333,31 @@ export default {
         paramBizType: 'FA',
         paramCode: '',
         paramName: '',
-        paramType: 'str',
-        paramValue: ''
+        paramType: '',
+        paramValue: '',
+        effectiveDate: '',
+        failureDate: '',
       };
-      this.detailForm.fAPrdtRuInfoParam.push(newFileTableObj);
+      this.detailForm.fAPrdtRuInfoParamRefVo.push(newFileTableObj);
     },
     addTA() {
       const newFileTableObj = {
         paramBizType: 'TA',
         paramCode: '',
         paramName: '',
-        paramType: 'str',
-        paramValue: ''
+        paramType: '',
+        paramValue: '',
+        effectiveDate: '',
+        failureDate: '',
       };
-      this.detailForm.tAPrdtRuInfoParam.push(newFileTableObj);
+      this.detailForm.tAPrdtRuInfoParamRefVo.push(newFileTableObj);
     },
     // 删除行
     deleteFA(rowIndex) {
-      this.detailForm.fAPrdtRuInfoParam.splice(rowIndex, 1);
+      this.detailForm.fAPrdtRuInfoParamRefVo.splice(rowIndex, 1);
     },
     deleteTA(rowIndex) {
-      this.detailForm.tAPrdtRuInfoParam.splice(rowIndex, 1);
+      this.detailForm.tAPrdtRuInfoParamRefVo.splice(rowIndex, 1);
     },
     // 保存onSave事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
     async onSave() {
@@ -298,13 +366,15 @@ export default {
         return;
       }
       let validate = true;
-      const prdtRuInfoParam = lodash.concat(this.detailForm.fAPrdtRuInfoParam, this.detailForm.tAPrdtRuInfoParam);
+      const prdtRuInfoParam = lodash.concat(this.detailForm.fAPrdtRuInfoParamRefVo, this.detailForm.tAPrdtRuInfoParamRefVo);
       if (prdtRuInfoParam) {
         for (let i = 0; i < prdtRuInfoParam.length; i++) {
           if (prdtRuInfoParam[i].paramCode === '' ||
               prdtRuInfoParam[i].paramName === '' ||
               prdtRuInfoParam[i].paramType === '' ||
-              prdtRuInfoParam[i].paramValue === '') {
+              prdtRuInfoParam[i].paramValue === '' ||
+              prdtRuInfoParam[i].effectiveDate === '' ||
+              prdtRuInfoParam[i].failureDate === '') {
             validate = false;
             break;
           }
