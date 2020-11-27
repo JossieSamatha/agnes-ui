@@ -71,7 +71,6 @@ export default {
       if (!ok) {
         return;
       }
-      console.log("保存")
       try {
         let that = this;
         const productInfos = this.$refs.grid.getSelectedRows();
@@ -90,14 +89,5 @@ export default {
       }
     },
   },
-  watch: {
-    'detailForm.paramType': {
-      handler: function (val) {
-        console.log(val)
-        this.detailForm.paramValue = '';
-        this.detailForm.paramType = val;
-      }
-    }
-  }
 }
 </script>

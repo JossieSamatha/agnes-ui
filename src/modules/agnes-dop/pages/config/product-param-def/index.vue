@@ -55,7 +55,6 @@ export default {
       this.showDlg('view', params.data, this.onLoad.bind(this));
     },
     editParam(params) {
-      console.log(params.data)
       this.showDlg('edit', params.data, this.onLoad.bind(this));
     },
     async deleteParam(params) {

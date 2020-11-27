@@ -281,7 +281,6 @@ export default {
   beforeMount() {
     if (this.mode !== "add") {
       Object.assign(this.detailForm, this.row);
-      console.log(this.detailForm);
     }
   },
   mounted() {
