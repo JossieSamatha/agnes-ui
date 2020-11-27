@@ -118,17 +118,17 @@
                         {required: true, message: '执行频率必填', trigger: 'blur'},
                     ],
                     codeType: [
-                        {required: true, message: '编码类型必填', trigger: 'blur'},
+                      {required: true, message: '编码类型必填', trigger: 'blur'},
                     ],
-                    varId:[
-                        {required: true, message: '业务编号必填', trigger: 'blur'},
-                    ],
-                    userName:[
-                        {required: true, message: '用户名必填', trigger: 'blur'},
-                    ],
-                    password:[
-                        {required: true, message: '密码必填', trigger: 'blur'},
-                    ],                    
+                  varId: [
+                    {required: true, message: '业务编号必填', trigger: 'blur'},
+                  ],
+                  userName: [
+                    {required: true, message: '用户名必填', trigger: 'blur'},
+                  ],
+                  password: [
+                    {required: true, message: '密码必填', trigger: 'blur'},
+                  ],
                 },
             }
         },
@@ -190,7 +190,6 @@
                         }
                         const p = this.$api.fileScan.saveFileScan(moveForm);
                         const resp = await this.$app.blockingApp(p);
-                        console.log(resp);
                         if(resp.data == 'success'){
                             this.$msg.success('修改成功');
                             this.$emit("onClose");

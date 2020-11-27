@@ -5,7 +5,7 @@ import GroupUser from "./user-group/index"
 import Product from "./product-def/index"
 import HelpDef from "./help-def/index"
 import helpInfoPage from "./help-def/help-info-page"
-// import ProductParam from "./product-param-def/index"
+import ProductParam from "./product-param-def/index"
 import ProductAuth from "./product-auth-def/index"
 import ProductUserInfo from "./product-user-info/index"
 import DataChange from "./data-change-def/index"
@@ -31,6 +31,7 @@ const Loading = {
         Gfui.componentView('agnes.dop.func.config', FuncConfig, {title: '功能帮助配置维护'});
         Gfui.componentView('agnes.org.type', OrgType, {title: '机构类型维护'});
         Gfui.componentView('agnes.dop.product.def', Product, {title: '产品信息维护'});
+        Gfui.componentView('agnes.dop.product.param.ref', ProductParam, {title: '产品参数关系维护'});
         Gfui.componentView('agnes.dop.product.user', ProductAuth, {title: '产品核算员维护'});
         Gfui.componentView('agnes.dop.product.user.info', ProductUserInfo, {title: '产品核算员查询'});
         Gfui.componentView('agnes.app.conf.channel', Channel, {title: '渠道表维护'});
