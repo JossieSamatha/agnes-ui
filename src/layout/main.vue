@@ -7,7 +7,7 @@
             <span></span>
         </template>
         <div class="top-menu-right" slot="nav-user-before">
-            <div class="top-menu-item search-item">
+            <div class="top-menu-item search-item" style="cursor: default">
                 <robot-wisdom>
                     <template v-slot:default="{ ifShowInput }">
                         <gf-global-search class="search"

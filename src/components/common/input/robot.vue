@@ -16,7 +16,7 @@
             <div ref="message" class="message"
                  v-show="!ifShowInput && messageShow"
                  @click="ifShowInput = true"
-            >{{message}}</div>
+            ><span>{{message}}</span></div>
         </transition>
     </div>
 </template>
@@ -119,7 +119,6 @@
                 const imgName = ['happy', 'laugh', 'smile'];
                 this.robotInterval = setInterval(() => {
                     this.robotImg = imgName[Math.floor((Math.random() * imgName.length))];
-
                 }, 30000);
             },
 
@@ -171,6 +170,26 @@
         box-shadow: 0px 0px 5px rgba(28, 157, 247, .5);
     }
 
+    .spig .message>span {
+        display: block;
+        white-space: nowrap;
+        border-right: 2px solid transparent;
+        animation: typing 3.5s steps(37, end), blink-caret .75s step-end infinite;
+        overflow: hidden;
+        cursor: text;
+    }
+
+    /* 打印效果 */
+    @keyframes typing {
+        from { width: 0; }
+        to { width: 100%; }
+    }
+    /* 光标闪啊闪 */
+    @keyframes blink-caret {
+        from, to { box-shadow: 1px 0 0 0 transparent; }
+        50% { box-shadow: 1px 0 0 0; }
+    }
+
     .little-W {
         position: absolute;
         left: 0;
@@ -178,7 +197,7 @@
         flex: none;
         width: 50px;
         height: 50px;
-        cursor: pointer;
+        cursor: grab;
         background-repeat: no-repeat;
         background-size: contain;
         -webkit-animation: jump 1s linear infinite;
