@@ -514,12 +514,34 @@
                             <gf-input v-model.trim="detailForm.settlementNo" placeholder="清算编号"/>
                         </el-form-item>
                         <el-form-item v-if="showRules.bigPayNo&&showRules.bigPayNo.isShow" label="大额支付号" prop="bigPayNo">
-                            <gf-input v-model.trim="detailForm.bigPayNo" placeholder="大额支付号"
-                                      @change="loadOpenBankListByBigPayNo"/>
+
+                            <div class="line">
+                                <el-select class="multiple-select" v-model="detailForm.bigPayNo" style="width: 90%"
+                                           clearable
+                                           filterable
+                                           remote
+                                           reserve-keyword
+                                           placeholder="请输入关键词或空格搜索"
+                                           :remote-method="remoteLoadOpenBankList"
+                                           :loading="loading"
+                                           @change="loadNameByBigPayNo">
+                                    <gf-filter-option
+                                            v-for="item in openBankList"
+                                            :key="item.bigPayNo"
+                                            :label="`${item.bigPayNo} - ${item.branchName}`"
+                                            :value="item.bigPayNo">
+                                    </gf-filter-option>
+                                </el-select>
+
+                                <!--<em class="el-icon-refresh-left" @click="loadNameByBigPayNo"/>-->
+                                <el-button style="border: none;padding-left: 5px;font-size: 17px;vertical-align: middle" icon="el-icon-edit-outline" @click="defendOpenBank"/>
+                            </div>
                         </el-form-item>
                         <el-form-item v-if="showRules.openBank&&showRules.openBank.isShow" label="开户网点/开户单位" prop="openBank">
                             <!--                            <gf-input v-model.trim="detailForm.openBank" placeholder="开户网点/开户单位" style="width: 80%"-->
                             <!--                                      :disabled="showRules.bigPayNo&&showRules.bigPayNo.isShow"/>-->
+
+<!--                            <gf-input v-model.trim="detailForm.openBank" placeholder="开户网点/开户单位" :disabled="true"/>-->
 
                             <div class="line">
                                 <el-select class="multiple-select" v-model="detailForm.openBank" style="width: 90%"
@@ -529,19 +551,17 @@
                                            reserve-keyword
                                            placeholder="请输入关键词或空格搜索"
                                            :remote-method="remoteLoadOpenBankList"
-                                           :loading="loading">
+                                           :loading="loading"
+                                           :disabled="showRules.bigPayNo && showRules.bigPayNo.isShow">
                                     <gf-filter-option
                                             v-for="item in openBankList"
-                                            :key="item.bankBranchId"
-                                            :label="item.branchName"
+                                            :key="item.bigPayNo"
+                                            :label="`${item.bigPayNo} - ${item.branchName}`"
                                             :value="item.branchName">
                                     </gf-filter-option>
                                 </el-select>
-
-                                <!--<em class="el-icon-refresh-left" @click="loadNameByBigPayNo"/>-->
-                                <el-button style="border: none;padding-left: 5px;font-size: 17px;vertical-align: middle" icon="el-icon-edit-outline" @click="defendOpenBank"/>
+                                <el-button v-if="!showRules.bigPayNo || !showRules.bigPayNo.isShow" style="border: none;padding-left: 5px;font-size: 17px;vertical-align: middle" icon="el-icon-edit-outline" @click="defendOpenBank"/>
                             </div>
-
                         </el-form-item>
 
                         <el-form-item v-if="showRules.region&&showRules.region.isShow" label="账户所属地区" prop="region">
@@ -882,14 +902,17 @@
                     if(resp.data){
                         this.detailForm.openBank = resp.data.branchName;
                     }else {
+                        this.detailForm.openBank = '';
                         this.$msg.warning('该大额支付号未匹配到相应的网点信息！');
                     }
+                }else{
+                    this.detailForm.openBank = '';
                 }
             },
 
             async remoteLoadOpenBankList(query){
                 this.loading = true;
-                let openBankList = await this.$api.branchApi.listByBigPayNoAndBranchName(this.detailForm.bigPayNo,query);
+                let openBankList = await this.$api.branchApi.listByBigPayNoAndBranchName(query,query);
                 this.openBankList = openBankList.data
                 this.loading = false;
             },
@@ -901,9 +924,10 @@
             },
 
             defendOpenBank(){
-                this.defendOpenBankDlg(null,'add',() => {
-                    this.loadOpenBankListByBigPayNo();
-                });
+                // this.defendOpenBankDlg(null,'add',() => {
+                //     this.loadOpenBankListByBigPayNo();
+                // });
+                this.defendOpenBankDlg(null,'add',null);
             },
             defendOpenBankDlg(row, mode, actionOk){
                 // 抽屉创建
