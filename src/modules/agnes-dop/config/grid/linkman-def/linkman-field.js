@@ -23,7 +23,7 @@ const colButtons = [
 ];
 export default {
     columnDefs: [
-        column.buildOpCol(110, colButtons),
+        column.buildOpCol(80, colButtons),
         {headerName: "姓名", field: "linkmanName"},
         {headerName: "岗位", field: "linkmanRoleId", dictType: "AGNES_ROSTER_POST"},
         {headerName: "部门", field: "linkmanDept", dictType: "AGNES_ROSTER_DEPT"},

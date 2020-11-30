@@ -24,7 +24,7 @@ const colButtons = [
 
 export default {
     columnDefs: [
-        column.buildOpCol(110, colButtons),
+        column.buildOpCol(80, colButtons),
         {headerName: "机构类型代码", field: "orgTypeCode"},
         {headerName: "机构类型名称", field: "orgTypeName"},
         // {headerName: "状态", field: "status" ,formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
