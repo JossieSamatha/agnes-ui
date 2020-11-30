@@ -2,17 +2,17 @@
 <template>
     <el-container>
         <el-container style="height: 100%;width:60%">
-            <el-main height="100%" style="padding-top: 0px;padding-bottom: 0px" class="el-border">
+            <el-main height="100%" style="padding: 0;">
                 <gf-grid grid-no="agnes-product-auth-field" ref="grid" quick-text-max-width="300px"
                         height="100%">
                 </gf-grid>
             </el-main>
         </el-container>
-        <el-aside width="40%" class="el-border">
-            <el-row class="button-body">
+        <el-aside width="40%" style="margin-left:5px">
+            <el-row class="button-body" style="padding-bottom: 2px;">
                 <el-input v-model="filterText" size="mini" placeholder="检索..."
                           suffix-icon="fa fa-search"></el-input>
-                <gf-button style="margin-left:12px" @click="saveAuth" class="action-btn" type="primary" size="mini">保存</gf-button>
+                <gf-button class="action-btn" style="margin-left:5px" @click="saveAuth" size="mini">保存</gf-button>
             </el-row>
             <el-tree ref="tree"
                     v-loading="loading"
@@ -23,7 +23,7 @@
                     default-expand-all
                     @node-click="handleNodeClick"
                     :filter-node-method="filterNode"
-                    style="border: 1px solid #eee;border-radius: 0;overflow-y: auto;height: 97%;margin-top:4px">
+                    style="border: 1px solid #ccc;border-radius: 0;overflow-y: auto;height: calc(100% - 30px);">
             </el-tree>
         </el-aside>
 

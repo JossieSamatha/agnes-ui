@@ -44,7 +44,7 @@
             </div>
         </el-form>
         <div class="acnt-apply-container">
-            <gf-grid ref="grid"
+            <gf-grid class="acnt-apply-grid" ref="grid"
                      grid-no="acnt-apply-field"
                      @load-data="dataChange"
                      :query-args="queryArgs"
@@ -455,7 +455,44 @@
     .acnt-apply-container .steps-comp {
         flex: none;
         width: 150px;
-        height: 100%;
-        padding: 30px 0 30px 20px;
+        height: calc(100% - 30px);
+        padding: 0 10px 30px;
+        margin-top: 30px;
+        margin-left: 5px;
+        border: 1px solid #ccc;
+    }
+</style>
+
+<style>
+    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-expanded,
+    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-contracted{
+        margin-right: 0;
+    }
+
+    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-expanded .ag-icon,
+    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-contracted .ag-icon{
+        color: blue;
+    }
+
+    .acnt-apply-grid .ag-theme-balham .ag-row-group-expanded .ag-cell:not([col-id="#cbox"]),
+    .acnt-apply-grid .ag-theme-balham .ag-row-group-contracted .ag-cell:not([col-id="#cbox"]){
+        color: blue;
+        background: #F6F8FA;
+    }
+
+    .acnt-apply-grid .gf-ag-grid.ag-theme-balham .ag-row-even,
+    .acnt-apply-grid .gf-ag-grid.ag-theme-balham .ag-row-odd {
+        background: #fff;
+    }
+
+    .acnt-apply-grid .gf-ag-grid.ag-theme-balham .ag-row.ag-row-level-1 {
+        border: none;
+    }
+    .acnt-apply-grid .ag-cell .ag-group-value{
+        margin-left: 0!important;
+    }
+
+    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-row-level-1 .ag-row-group-leaf-indent {
+        margin-left: 0;
     }
 </style>
