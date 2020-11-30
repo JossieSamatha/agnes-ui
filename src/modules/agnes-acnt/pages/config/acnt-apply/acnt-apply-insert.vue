@@ -192,15 +192,15 @@
                             <gf-dict filterable clearable v-model="detailFormBefore.currency" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
                         </el-form-item>
 
-                        <el-form-item v-if="showRules.rateId&&showRules.rateId.isShow" label="利率" prop="rateId">
-                            <el-select v-model="detailFormBefore.rateId"
+                        <el-form-item v-if="showRules.rateCode&&showRules.rateCode.isShow" label="利率" prop="rateCode">
+                            <el-select v-model="detailFormBefore.rateCode"
                                        clearable
                                        placeholder="请选择">
                                 <gf-filter-option
                                         v-for="item in rateList"
-                                        :key="item.rateId"
-                                        :label="item.rateName"
-                                        :value="item.rateId">
+                                        :key="item.rateCode"
+                                        :label="`${item.rateCode} - ${item.rateName} - ${item.rate}`"
+                                        :value="item.rateCode">
                                 </gf-filter-option>
                             </el-select>
                         </el-form-item>
@@ -571,15 +571,16 @@
                             <gf-dict filterable clearable v-model="detailForm.currency" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
                         </el-form-item>
 
-                        <el-form-item v-if="showRules.rateId&&showRules.rateId.isShow" label="利率" prop="rateId">
-                            <el-select v-model="detailForm.rateId"
+                        <el-form-item v-if="showRules.rateCode&&showRules.rateCode.isShow" label="利率" prop="rateCode">
+                            <el-select v-model="detailForm.rateCode"
                                        clearable
+                                       filterable
                                        placeholder="请选择">
                                 <gf-filter-option
                                         v-for="item in rateList"
-                                        :key="item.rateId"
-                                        :label="item.rateName"
-                                        :value="item.rateId">
+                                        :key="item.rateCode"
+                                        :label="`${item.rateCode} - ${item.rateName} - ${item.rate}`"
+                                        :value="item.rateCode">
                                 </gf-filter-option>
                             </el-select>
                         </el-form-item>
@@ -745,6 +746,7 @@
                     fundAccName:'',
                     acntPurpose:'',
                     rateId:'',
+                    rateCode:'',
                     bigPayNo:'',
                     openBank:'',
                     fundAccNo:'',
@@ -790,6 +792,7 @@
                     fundAccName:'',
                     acntPurpose:'',
                     rateId:'',
+                    rateCode:'',
                     bigPayNo:'',
                     openBank:'',
                     fundAccNo:'',

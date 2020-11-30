@@ -26,7 +26,7 @@ export default {
         {headerName: "资金账号名称", field: "fundAccName"},
         {headerName: "币种", field: "fundCurrencys"},
 
-        {headerName: "账号", field: "accNos"},
+        {headerName: "证券账号", field: "accNos"},
         {headerName: "市场", field: "markets"},
 
         {headerName: "归属机构", field: "extOrgName"},

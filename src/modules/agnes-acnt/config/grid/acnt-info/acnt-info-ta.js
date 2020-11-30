@@ -22,7 +22,9 @@ export default {
         column.buildOpCol(100, colButtons),
         {headerName: "账户名称", field: "acntName"},
 
-        {headerName: "账号", field: "accNos"},
+        // {headerName: "证券账号", field: "accNos"},
+        {headerName: "资金账号", field: "fundAccNos"},
+        {headerName: "资金账号名称", field: "fundAccName"},
         {headerName: "市场", field: "markets"},
         {headerName: "币种", field: "currency", dictType:"AGNES_ACNT_CURRENCY_TYPE"},
 

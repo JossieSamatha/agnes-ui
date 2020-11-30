@@ -30,7 +30,7 @@
 
             </el-form-item>
             <el-form-item label="利率" prop="rate">
-                <gf-input v-model="form.rate" placeholder="利率" style="width: 80%" />
+                <gf-input v-model="form.rate" placeholder="利率" oninput ="value=value.replace(/[^0-9.]/g,'')" style="width: 80%" />
             </el-form-item>
             <el-form-item label="有效日期" prop="startDt">
                 <div class="line none-shrink">
