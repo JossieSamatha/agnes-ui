@@ -478,7 +478,7 @@
                         }
                     });
 
-                    let groupOption = await this.$api.userGroupApi.getAllUserGroup();
+                    let groupOption = await this.$api.userGroupApi.getAllUserGroupForAcnt();
                     this.groupOption = groupOption.data
                     let productList = await this.$api.acntApplyApi.getProductCodeList();
                     this.productList = productList.data
