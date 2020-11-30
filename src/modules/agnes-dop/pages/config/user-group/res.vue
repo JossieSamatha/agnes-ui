@@ -22,6 +22,14 @@
                                              height="100%" >
                                     </gf-grid>
                                 </div>
+                                <div class="gf-role-auth-form" v-if="app.appCode==='zhlx'">
+                                    <gf-grid grid-no="group-acnt-type"
+                                             ref="acntTypeGrid"
+                                             :options="rowClassOption()"
+                                             @load-data="(params)=>{acntTypeGridLoadData(taskList, params)}"
+                                             height="100%" >
+                                    </gf-grid>
+                                </div>
                                 <el-row class="gf-role-auth-btns gf-form-btn">
                                     <el-button  type="primary" :disabled="disabled" size="mini" @click="submitForm()">保存</el-button>
                                 </el-row>
@@ -67,7 +75,7 @@
         },
         methods: {
             async loadAppList() {
-                this.apps = [{"appCode":"lc","appName":"流程任务","taskType":"2"},{"appCode":"zb","appName":"指标任务","taskType":"1"}];
+                this.apps = [{"appCode":"lc","appName":"流程任务","taskType":"2"},{"appCode":"zb","appName":"指标任务","taskType":"1"},{"appCode":"zhlx","appName":"账户类型","taskType":"3"}];
                 this.currentApp = 'zb';
             },
             // 表格数据初始加载 -- 已勾选项赋值
@@ -80,6 +88,15 @@
                     }
                 });
             },
+            acntTypeGridLoadData(list, params){
+                params.rows.forEach((oneData)=>{
+                    let acntType = oneData;
+                    const hasChecked = this.$lodash.find(list, {taskId: acntType.typeCode});
+                    if(hasChecked){
+                        oneData.checked = true;
+                    }
+                });
+            },
             async initResList(row) {
                 if(row){
                     this.disabled=false;
@@ -87,6 +104,7 @@
                     this.taskList = authData.data;
                     this.$refs.kpiGrid[0].reloadData();
                     this.$refs.flowGrid[0].reloadData();
+                    this.$refs.acntTypeGrid[0].reloadData();
                 }
             },
             async submitForm() {
@@ -98,12 +116,19 @@
                         });
                         const p = this.$api.userGroupApi.saveAuthData({"userGroupId":this.row.userGroupId,"taskIds":taskIds,"taskType":"1"});
                         await this.$app.blockingApp(p);
-                    } else {
+                    } else if(this.currentApp === "lc"){
                         let rows = this.$refs.flowGrid[0].getSelectedRows();
                         let taskIds = rows.map((item)=>{
                             return item.reTaskDef.taskId;
                         });
                         const p = this.$api.userGroupApi.saveAuthData({"userGroupId":this.row.userGroupId,"taskIds":taskIds,"taskType":"2"});
+                        await this.$app.blockingApp(p);
+                    }else {
+                        let rows = this.$refs.acntTypeGrid[0].getSelectedRows();
+                        let typeIds = rows.map((item)=>{
+                            return item.typeCode;
+                        });
+                        const p = this.$api.userGroupApi.saveAuthData({"userGroupId":this.row.userGroupId,"taskIds":typeIds,"taskType":"3"});
                         await this.$app.blockingApp(p);
                     }
                     this.$msg.success('保存成功');
