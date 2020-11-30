@@ -10,23 +10,24 @@ const colButtons = [
         key: 'deleteOrgType', title: '删除', cellClass: 'red-cell', visiable: () => {
             return Permission.hasPermission('agnes.org.type.delete');
         }
-    },
-    {
-        key: 'approveOrgType', title: '审核', disabled: (params) => {
-            return params.data.status === '04'
-        },
-        visiable: () => {
-            return Permission.hasPermission('agnes.org.type.approve');
-        }
-    },
+    }
+    // ,
+    // {
+    //     key: 'approveOrgType', title: '审核', disabled: (params) => {
+    //         return params.data.status === '04'
+    //     },
+    //     visiable: () => {
+    //         return Permission.hasPermission('agnes.org.type.approve');
+    //     }
+    // },
 ];
 
 export default {
     columnDefs: [
-        column.buildOpCol(110, colButtons),
+        column.buildOpCol(80, colButtons),
         {headerName: "机构类型代码", field: "orgTypeCode"},
         {headerName: "机构类型名称", field: "orgTypeName"},
-        {headerName: "状态", field: "status" ,formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
+        // {headerName: "状态", field: "status" ,formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
         column.colCrtUser,
         column.colCrtTm
     ],
@@ -40,9 +41,9 @@ export default {
         enableExportLocal: true,
         pageOptions: {
             // 分页大小
-            pageSize: 100,
+            pageSize: 500,
             // 可供选择的分页大小（下拉切换分页值）
-            pageSizes: [50, 100, 150, 200],
+            pageSizes: [100, 300, 500, 700],
             // 显示在状态栏上的页数字的个数
             pageCount: 0,
             prevText: "上一页",

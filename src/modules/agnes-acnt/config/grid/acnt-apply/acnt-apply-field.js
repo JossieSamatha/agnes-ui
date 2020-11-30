@@ -1,62 +1,7 @@
 import column from "../../../../../config/column"
-import Permission from "../../../../../utils/hasPermission";
 
-// const colButtons = [
-//     {key: 'edit', title: '编辑',visiable: (params)=>{return params.data.processStatus === '01';}},
-//     {key: 'detele', title: '作废',visiable: (params)=>{return params.data.processStatus === '01'&&!params.data.applySubId;}},
-//     {key: 'check', title: '复核',visiable: (params)=>{return params.data.processStatus === '02';}},
-//     {key: 'addInfo', title: '资料准备',visiable: (params)=>{return params.data.processStatus === '04';}},
-//     {key: 'nextaddInfo', title: '资料准备完成',visiable: (params)=>{return params.data.processStatus === '04';}},
-//     {key: 'checkFund', title: '财务审核',visiable: (params)=>{return params.data.processStatus === '05';}},
-//     {key: 'addAcc', title: '账户录入',visiable: (params)=>{return params.data.processStatus === '06';}},
-//     {key: 'checkAcc', title: '账户复核',visiable: (params)=>{return params.data.processStatus === '07';}},
-//     {key: 'showSteps', title: '查看流程',visiable: (params)=>{return params.data.processStatus != '09';}},
-// ];
-
-//流程查看  编辑  作废  审核
-const colButtons = [
-    {key: 'showSteps', title: '查看流程', disabled: (params)=>{
-            let result = false;
-            if(params.data.processStatus === '09'){
-                result =true;
-            }
-            return result;}, visiable: () => {
-            return Permission.hasPermission('agnes.acnt.apply.showSteps');
-        }},
-    {key: 'edit', title: '编辑', disabled: (params)=>{
-            let result = false;
-            if(params.data.processStatus !== '01' && params.data.processStatus !== '06'){
-                result =true;
-            }
-            return result;}, visiable: () => {
-            return Permission.hasPermission('agnes.acnt.apply.edit');
-        }},//编辑  账户录入
-    {key: 'detele', title: '作废', cellClass: 'red-cell', disabled: (params)=>{
-            let result = false;
-            if(params.data.processStatus !== '01' && params.data.processStatus !== '02'
-                && params.data.processStatus !== '03'){
-                // if(!(params.data.processStatus === '01'&&!params.data.applySubId)){
-            // if(!(params.data.processStatus === '01')){
-                result =true;
-            }
-            return result;}, visiable: () => {
-            return Permission.hasPermission('agnes.acnt.apply.delete');
-        }},//作废
-    {key: 'check', title: '审核', disabled: (params)=>{
-            let result = false;
-            if(params.data.processStatus !== '02' && params.data.processStatus !== '04'
-                && params.data.processStatus !== '05'&& params.data.processStatus !== '07'){
-                result =true;
-            }
-            return result;}, visiable: () => {
-            return Permission.hasPermission('agnes.acnt.apply.check');
-        }},//复核 资料准备完成 财务审核 账户复核
-
-
-];
 export default {
     columnDefs: [
-        column.buildOpCol(160, colButtons),
         // {headerName: "账户类型", field: "typeName"},
         {headerName: "账户名称", field: "acntName"},
         // {headerName: "账号", field: "accNo"},
@@ -79,7 +24,7 @@ export default {
         column.colUpdTm
     ],
     defaultColDef: {
-        flex: 1,
+        menuTabs: ['generalMenuTab', 'filterMenuTab', 'columnsMenuTab'],
     },
     autoGroupColumnDef: {
         headerName: '账户类型',
@@ -91,7 +36,7 @@ export default {
     },
     treeData: true, // enable Tree Data mode
     animateRows: true,
-    groupDefaultExpanded: 0, // expand all groups by default
+    groupDefaultExpanded: -1, // expand all groups by default
     getDataPath: function(data) {
         return data.orgHierarchy;
     },

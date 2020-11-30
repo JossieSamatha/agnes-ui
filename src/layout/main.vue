@@ -7,7 +7,7 @@
             <span></span>
         </template>
         <div class="top-menu-right" slot="nav-user-before">
-            <div class="top-menu-item search-item">
+            <div class="top-menu-item search-item" style="cursor: default">
                 <robot-wisdom>
                     <template v-slot:default="{ ifShowInput }">
                         <gf-global-search class="search"
@@ -19,6 +19,9 @@
                         ></gf-global-search>
                     </template>
                 </robot-wisdom>
+            </div>
+            <div class="top-menu-item" style="font-size: 18px;height: 21px" title="测试效果图" @click="designSketchShow = true">
+                <em class="el-icon-picture-outline"></em>
             </div>
             <div class="top-menu-item feedback" style="font-size: 18px;height: 21px" title="意见反馈" @click="handelfeedback">
                 <em class="fa fa-envelope-o"></em>
@@ -52,6 +55,10 @@
                     @getUnreadCount="getUnreadCount"
                     @noticeDrawerClose="noticeDrawerClose"
         ></notice-box>
+        <img class="design-sketch-img" src="../assets/indexPage.png" alt="测试效果图"
+             v-show="designSketchShow"
+             @click="designSketchShow = false"
+        >
     </gf-layout-default>
 </template>
 
@@ -77,7 +84,8 @@
                 feedbackShow: false,
                 bizDateTimer: null, // 日切日期定时器
                 unreadCount:"",
-                localTime: ''
+                localTime: '',
+                designSketchShow: false
             }
         },
 
@@ -279,3 +287,14 @@
         }
     };
 </script>
+
+<style scoped>
+    .design-sketch-img {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: auto;
+        height: 100%;
+        z-index: 1000;
+    }
+</style>

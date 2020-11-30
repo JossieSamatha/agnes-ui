@@ -1,29 +1,18 @@
-import column from "../../../../../config/column"
-
-const colButtons = [
-    {key: 'editParam', title: '修改'},
-    {key: 'checkParam', title: '复核'},
-];
 export default {
     columnDefs: [
-        column.buildOpCol(80, colButtons),
-        {headerName: "业务归属", field: "paramBizType"},
-        {headerName: "参数代码", field: "paramCode"},
-        {headerName: "参数名称", field: "paramName"},
-        {headerName: "参数类型", field: "paramType"},
-        {headerName: "参数值", field: "paramValue"},
-        {headerName: "更新人", field: "crtUser"},
-        {headerName: "更新时间", field: "crtTs"},
+        {headerName: "产品代码", field: "productCode"},
+        {headerName: "产品全称", field: "productName"},
+        {headerName: "产品种类", field: "productClass", dictType: "AGNES_PRODUCT_CLASS"},
+        {headerName: "产品类型", field: "productType", dictType: "AGNES_PRODUCT_TYPE"},
+        {headerName: "生效时间", field: "effectiveDate"},
+        {headerName: "失效时间", field: "failureDate"},
     ],
-    // headerHeight: 40,
-    // rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-app/v1/prdt/param/list/page",
+        fetchUrl: "/agnes-app/v1/prdt/param/info/beyond/param",
         fetchMethod: 'get',
-        pagingMode: true, //不分页
+        pagingMode: false, //不分页
         checkboxColumn: 2, //是否显示checkbox列,
         enableExportLocal: true,
-        loadDataOnReady:false,
         autoFitColumnMode: 1,
         pageOptions: {
             // 分页大小

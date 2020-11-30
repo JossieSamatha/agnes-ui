@@ -91,6 +91,7 @@ export default {
         {headerName: "备注", field: "remark", enableRowGroup: false},
     ],
     defaultColDef: {
+        filter: true,
         enableRowGroup: true,
         menuTabs: ['generalMenuTab', 'filterMenuTab', 'columnsMenuTab'],
     },

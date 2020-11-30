@@ -38,31 +38,37 @@
                 </el-form-item>
 
                 <el-form-item label="流程节点">
-                    <el-select class="multiple-select" v-model="queryArgs.processStatus"
-                               filterable clearable
-                               placeholder="请选择">
-                        <gf-filter-option
-                                v-for="item in processStatusOptions"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
-                        </gf-filter-option>
-                    </el-select>
+                    <gf-dict filterable clearable v-model="queryArgs.processStatus" dict-type="AGNES_ACNT_APPLY_STATUS" />
                 </el-form-item>
                 <el-button @click="reSetSearch" class="option-btn">重置</el-button>
             </div>
         </el-form>
-        <gf-grid grid-no="acnt-apply-field" @load-data="dataChange" :query-args="queryArgs" ref="grid"
-                 @row-double-click="showDetail">
-            <template slot="left">
-                <gf-button  class="action-btn" @click="openApply"
-                            v-if="$hasPermission('agnes.acnt.apply.openApply')">开户</gf-button>
-                <gf-button  class="action-btn" @click="submitOA"
-                            v-if="$hasPermission('agnes.acnt.apply.submitOA')">提交OA</gf-button>
-                <gf-button  class="action-btn" @click="addInfoFile"
-                            v-if="$hasPermission('agnes.acnt.apply.addInfoFile')">资料准备</gf-button>
-            </template>
-        </gf-grid>
+        <div class="acnt-apply-container">
+            <gf-grid ref="grid"
+                     grid-no="acnt-apply-field"
+                     @load-data="dataChange"
+                     :query-args="queryArgs"
+                     @row-double-click="showDetail"
+                     :options="applyGridOption(this)"
+                     height="100%">
+                <template slot="left">
+                    <gf-button class="action-btn" @click="openApply"
+                                v-if="$hasPermission('agnes.acnt.apply.openApply')">开户</gf-button>
+                    <gf-button class="action-btn" @click="submitOA"
+                                v-if="$hasPermission('agnes.acnt.apply.submitOA')">提交OA</gf-button>
+                    <gf-button class="action-btn" @click="addInfoFile"
+                                v-if="$hasPermission('agnes.acnt.apply.addInfoFile')">资料准备</gf-button>
+                </template>
+            </gf-grid>
+            <acnt-apply-steps v-if="crtStepRow"
+                              class="steps-comp"
+                              :stepData="crtStepRow"
+                              @stepEdit="edit"
+                              @stepCheck="check"
+                              @stepDelete="detele"
+            >
+            </acnt-apply-steps>
+        </div>
     </div>
 </template>
 
@@ -93,25 +99,25 @@
                     '08':'已归档',
                     '09':'已作废',
                 },
-                processStatusOptions: [
-                    {value: '01', label: '发起申请'},
-                    {value: '02', label: '待复核'},
-                    {value: '03', label: '待提交OA'},
-                    {value: '04', label: '资料准备'},
-                    {value: '05', label: '财务流程'},
-                    {value: '06', label: '账户待录入'},
-                    {value: '07', label: '账户待复核'},
-                    {value: '08', label: '已归档'},
-                    {value: '09', label: '已作废'},
-                ],
                 typeCodeOption: [{
                     label: 'TA',
                     options: []
                 },{
                     label: 'FA',
                     options: []
-                }]
+                }],
+                crtStepRow: null,
+                applyGridOption: (_that)=>{
+                    return {
+                        onRowClicked: (params)=>{
+                            _that.crtStepRow = params.data
+                        }
+                    }
+                }
             }
+        },
+        components: {
+            'acnt-apply-steps': AcntApplySteps
         },
         beforeMount() {
             const p = this.getOptionData();
@@ -137,18 +143,19 @@
             },
             dataChange(params) {
                 this.tableData = [];
-                this.forEach(params.rows, []);
+                this.orgHierarchyFunc(params.rows, []);
                 params.rows = this.tableData;
                 params.total = this.tableData.length;
+                this.crtStepRow = params.rows[0];
                 this.$refs.grid.$emit("data-loaded", params);
             },
-            forEach(data, orgHierarchy) {
+            orgHierarchyFunc(data, orgHierarchy) {
                 if (data&&data.length > 0) {
                     for (let i = 0; i < data.length; i++) {
                         data[i].orgHierarchy = JSON.parse(JSON.stringify(orgHierarchy));
                         data[i].orgHierarchy.push(data[i].resId);
                         this.tableData.push(data[i]);
-                        this.forEach(data[i].children, data[i].orgHierarchy);
+                        this.orgHierarchyFunc(data[i].children, data[i].orgHierarchy);
                     }
                 }
             },
@@ -188,6 +195,24 @@
                     title = title + '-子流程'
                 }
 
+                let customOpBtn = [];
+                if(mode==='check' || mode==='checkFund'){
+                    customOpBtn = [
+                        {title: okButtonTitle, className: 'primary', action: 'onSave'},
+                        {title: '反审核', className: 'primary', action: 'onCancelCheck'},
+                        {title: '取消', action: 'onCancel'},
+                    ]
+                }else if(mode==='view'){
+                    customOpBtn = [
+                        {title: '关闭', action: 'onCancel'}
+                    ]
+                }else{
+                    customOpBtn = [
+                        {title: okButtonTitle, className: 'primary', action: 'onSave'},
+                        {title: '取消', action: 'onCancel'}
+                    ]
+                }
+
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
                     title: [title],
@@ -195,7 +220,8 @@
                     args: {row, mode, actionOk,isDisabled},
                     okButtonVisible:mode!=='view',
                     okButtonTitle:okButtonTitle,
-                    cancelButtonTitle:mode==='check'?'反审核':'关闭'
+                    cancelButtonTitle:mode==='view'?'关闭':'取消',
+                    customOpBtn: customOpBtn
                 })
             },
             onOpenApply(){
@@ -254,11 +280,18 @@
 
                 let applyIds = [];
                 let applySubIds = [];
+
+                let firstTypeCode = data[0].typeCode;
                 for(let i=0;i<data.length;i++){
                     let item = data[i];
                     //校验：节点状态 是否为待提交OA
                     if(item.processStatus !== '03'){
                         this.$msg.warning('所选数据流程节点必须为【待提交OA】');
+                        return;
+                    }
+
+                    if(firstTypeCode !== item.typeCode){
+                        this.$msg.warning('所选数据必须为同一账户类型');
                         return;
                     }
 
@@ -285,22 +318,43 @@
             },
 
             showInsertDlg(mode, row, actionOk) {
-                let title = '账户录入';
                 if (mode !== 'add' && !row) {
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
+
+                let title = '账户录入';
                 if(mode === 'check'){
                     title = '账户复核';
                 }
+
+                let customOpBtn = [];
+                if(mode==='check'){
+                    customOpBtn = [
+                        {title: '审核', className: 'primary', action: 'onSave'},
+                        {title: '反审核', className: 'primary', action: 'onCancelCheck'},
+                        {title: '取消', action: 'onCancel'},
+                    ]
+                }else if(mode==='view'){
+                    customOpBtn = [
+                        {title: '关闭', action: 'onCancel'}
+                    ]
+                }else{
+                    customOpBtn = [
+                        {title: '保存', className: 'primary', action: 'onSave'},
+                        {title: '取消', action: 'onCancel'}
+                    ]
+                }
+
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',
                     title: [title],
                     component: AcntApplyInsert,
                     args: {row, mode, actionOk},
                     okButtonVisible:mode!=='view',
-                    okButtonTitle:mode==='add'?'保存':'审核',
-                    cancelButtonTitle:mode==='check'?'反审核':'关闭'
+                    okButtonTitle:mode==='check'?'审核':'保存',
+                    cancelButtonTitle:mode==='view'?'关闭':'取消',
+                    customOpBtn: customOpBtn
                 })
             },
             onInsertApply(){
@@ -316,20 +370,11 @@
             //     this.showInsertDlg('check', params.data, this.onOpenApply.bind(this));
             // },
 
-            showStepsDlg(mode, row, actionOk) {
-                this.$drawerPage.create({
-                    width: '300px',
-                    title: ['流程节点'],
-                    component: AcntApplySteps,
-                    args: {row, mode, actionOk},
-                    okButtonVisible:false,
-                })
+            showStepsDlg(params) {
+                this.crtStepRow = params.data;
             },
             onStepsApply(){
                 this.reloadData();
-            },
-            showSteps(params) {
-                this.showStepsDlg('add', params.data, this.onStepsApply.bind(this));
             },
 
             //整合编辑按钮：编辑 账户录入
@@ -400,3 +445,17 @@
         }
     }
 </script>
+
+<style scoped>
+    .acnt-apply-container {
+        display: flex;
+        height: 100%;
+    }
+
+    .acnt-apply-container .steps-comp {
+        flex: none;
+        width: 150px;
+        height: 100%;
+        padding: 30px 0 30px 20px;
+    }
+</style>

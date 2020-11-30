@@ -24,9 +24,9 @@ const colButtons = [
 export default {
     columnDefs: [
         column.buildOpCol(110, colButtons),
-        {headerName: "产品代码", field: "productCode"},
-        {headerName: "产品简称", field: "productShortName"},
-        {headerName: "产品全称", field: "productName"},
+        {headerName: "产品代码", field: "productCode", enableRowGroup: false},
+        {headerName: "产品简称", field: "productShortName", enableRowGroup: false},
+        {headerName: "产品全称", field: "productName", enableRowGroup: false},
         {headerName: "产品种类", field: "productClass", dictType: "AGNES_PRODUCT_CLASS"},
         {headerName: "产品类型", field: "productType", dictType: "AGNES_PRODUCT_TYPE"},
         {headerName: "产品阶段", field: "productStage", dictType: "AGNES_PRODUCT_STAGE"},
@@ -47,22 +47,20 @@ export default {
         {headerName: "基金会计事务所", field: "productAccountFirm"},
         {headerName: "申赎交易确认天数", field: "redemptionTransConfirmDays"},
         {headerName: "赎回清算天数", field: "redemptionSettlementDays"},
-        // {headerName: "管理费率", field: "linkmanPhone"},
-        // {headerName: "托管费率", field: "linkmanPhone"},
-        // {headerName: "浮动管理费", field: "linkmanPhone"},
-        // {headerName: "浮动管理费描述", field: "linkmanPhone"},
-        // {headerName: "其他费率描述", field: "linkmanPhone"},
-        // {headerName: "业绩比较基准", field: "linkmanPhone"},
-        // {headerName: "是否需要ZXA头寸管控", field: "linkmanPhone"},
-        // {headerName: "是否需要出赎回款指令", field: "linkmanPhone"},
-        // {headerName: "是否需要出新股指令", field: "linkmanPhone"},
-        // {headerName: "新基金发行参数检查日", field: "linkmanPhone"},
         {headerName: "更新人", field: "updateUser"},
         {headerName: "更新时间", field: "updateTs"},
     ],
     // headerHeight: 40,
     // rowHeight: 37,
     // rowSelection: 'multiple',
+    defaultColDef: {
+        enableRowGroup: true,
+        menuTabs: ['generalMenuTab', 'filterMenuTab', 'columnsMenuTab'],
+    },
+    groupUseEntireRow: true,
+    rowGroupPanelShow: "always",
+    suppressDragLeaveHidesColumns: true,
+    groupDefaultExpanded: -1,
     ext: {
         fetchUrl: "/agnes-app/v1/prdt/info/list/page",
         fetchMethod: 'post',
@@ -72,9 +70,9 @@ export default {
         autoFitColumnMode: 1,
         pageOptions: {
             // 分页大小
-            pageSize: 100,
+            pageSize: 500,
             // 可供选择的分页大小（下拉切换分页值）
-            pageSizes: [50, 100, 150, 200],
+            pageSizes: [100, 300, 500, 700],
             // 显示在状态栏上的页数字的个数
             pageCount: 0,
             prevText: "上一页",

@@ -2,23 +2,32 @@
     <div>
         <el-form class="fit-box" :disabled="mode==='view'" :model="form" ref="form" :rules="rules" label-width="85px"
                  style="padding: 10px;">
-            <el-form-item label="方案代码" prop="rateCode">
-                <gf-input v-model="form.rateCode" style="width: 80%" placeholder="方案代码" />
+            <el-form-item label="方案代码" prop="rateCode" v-if="mode!=='add'">
+                <gf-input v-model="form.rateCode" style="width: 80%" placeholder="方案代码" :disabled="true"/>
             </el-form-item>
             <el-form-item label="方案名称" prop="rateName">
                 <gf-input v-model="form.rateName" placeholder="方案名称" style="width: 80%" />
             </el-form-item>
             <el-form-item label="网点名称" prop="bankBranchId">
-                <el-select style="width: 80%"  class="multiple-select" v-model="form.bankBranchId"
-                           filterable clearable
-                           placeholder="请选择">
-                    <gf-filter-option
-                            v-for="item in branchList"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                    </gf-filter-option>
-                </el-select>
+                <div class="line">
+                    <el-select class="multiple-select" v-model="form.bankBranchId" style="width: 80%"
+                               clearable
+                               filterable
+                               remote
+                               reserve-keyword
+                               placeholder="请输入关键词或空格搜索"
+                               :remote-method="remoteLoadOpenBankList"
+                               :loading="loading">
+                        <gf-filter-option
+                                v-for="item in branchList"
+                                :key="item.bankBranchId"
+                                :label="`${item.bigPayNo} - ${item.branchName}`"
+                                :value="item.bankBranchId">
+                        </gf-filter-option>
+                    </el-select>
+                    <el-button style="border: none;padding-left: 5px;font-size: 17px;vertical-align: middle" icon="el-icon-edit-outline" @click="defendOpenBank"/>
+                </div>
+
             </el-form-item>
             <el-form-item label="利率" prop="rate">
                 <gf-input v-model="form.rate" placeholder="利率" style="width: 80%" />
@@ -52,6 +61,8 @@
 </template>
 
 <script>
+    import BranchDetail from "../../../../agnes-dop/pages/config/branch/branch-detail";
+
     export default {
         props: {
             mode: {
@@ -69,8 +80,8 @@
                     rateName: '',
                     branchCode: '',
                     branchName: '',
-                    startDt: null,
-                    endDt: null,
+                    startDt: window.bizDate,
+                    endDt: '9999-12-31',
                     rate: '',
                     status: '',
                     bankBranchId: '',
@@ -78,9 +89,7 @@
                 },
                 branchList: [],
                 rules: {
-                    'rateCode': [{required: true, message: "方案代码不能为空"}],
                     'rateName': [{required: true, message: "方案名称不能为空"}],
-                    'bankBranchId': [{required: true, message: "网点名称不能为空"}],
                     'startDt': [{required: true, message: "开始日期不能为空"}],
                     'endDt': [{required: true, message: "结束日期不能为空"}],
                     'rate': [{required: true, message: "方案利率不能为空"}],
@@ -109,22 +118,30 @@
         },
         beforeMount() {
             Object.assign(this.form, this.row);
-            this.getOptionData()
+            this.remoteLoadOpenBankList(this.row.bigPayNo);
         },
 
         methods: {
-            async getOptionData() {
-                try {
-                    let groupOption = await this.$api.rateDefApi.getBranchList();
-                    let list = groupOption.data;
-                    list.forEach((item) => {
-                        let branchName = '(' + item.branchCode + ')' + item.branchName;
-                        this.branchList.push({label: branchName, value: item.bankBranchId});
-                    });
-                } catch (reason) {
-                    this.$msg.error(reason);
-                }
+            async remoteLoadOpenBankList(query){
+                this.loading = true;
+                let openBankList = await this.$api.branchApi.listByBigPayNoAndBranchName(query,query);
+                this.branchList = openBankList.data
+                this.loading = false;
             },
+            defendOpenBank(){
+                this.defendOpenBankDlg(null,'add',null);
+            },
+            defendOpenBankDlg(row, mode, actionOk){
+                // 抽屉创建
+                this.$drawerPage.create({
+                    width: 'calc(97% - 215px)',
+                    title: ['网点维护',mode],
+                    component: BranchDetail,
+                    args: {row, mode, actionOk},
+                    okButtonVisible:mode!=='view'
+                })
+            },
+
             async onSave() {
                 const ok = await this.$refs['form'].validate();
                 if (!ok) {
@@ -148,8 +165,8 @@
                 } catch (e) {
                     this.$msg.error(e);
                 }
-            },
-        },
+            }
+        }
 
 
     }

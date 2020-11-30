@@ -11,24 +11,25 @@ const colButtons = [
         key: 'deleteLinkMan', title: '删除', cellClass: 'red-cell', visiable: () => {
             return Permission.hasPermission('agnes.dop.linkman.delete');
         }
-    },
-    {
-        key: 'approveLinkman', title: '审核', disabled: (params) => {
-            return params.data.status === '04'
-        }, visiable: () => {
-            return Permission.hasPermission('agnes.dop.linkman.edit');
-        }
     }
+    // ,
+    // {
+    //     key: 'approveLinkman', title: '审核', disabled: (params) => {
+    //         return params.data.status === '04'
+    //     }, visiable: () => {
+    //         return Permission.hasPermission('agnes.dop.linkman.edit');
+    //     }
+    // }
 ];
 export default {
     columnDefs: [
-        column.buildOpCol(110, colButtons),
+        column.buildOpCol(80, colButtons),
         {headerName: "姓名", field: "linkmanName"},
         {headerName: "岗位", field: "linkmanRoleId", dictType: "AGNES_ROSTER_POST"},
         {headerName: "部门", field: "linkmanDept", dictType: "AGNES_ROSTER_DEPT"},
         {headerName: "状态", field: "linkmanStatus", formatType: 'dict', dictType: 'DOP_LINKMAN_STATUS'},
         {headerName: "电话", field: "linkmanPhone"},
-        {headerName: "操作状态", field: "status", formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
+        // {headerName: "操作状态", field: "status", formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
         column.colUpdUser,
         column.colUpdTm,
     ],
@@ -44,9 +45,9 @@ export default {
         enableExportLocal: true,
         pageOptions: {
             // 分页大小
-            pageSize: 100,
+            pageSize: 500,
             // 可供选择的分页大小（下拉切换分页值）
-            pageSizes: [50, 100, 150, 200],
+            pageSizes: [100, 300, 500, 700],
             // 显示在状态栏上的页数字的个数
             pageCount: 0,
             prevText: "上一页",

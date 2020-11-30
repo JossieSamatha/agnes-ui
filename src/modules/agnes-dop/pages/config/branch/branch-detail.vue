@@ -4,7 +4,7 @@
         <el-form-item label="网点名称" prop="branchName">
             <gf-input v-model.trim="detailFormData.branchName" placeholder="网点名称" />
         </el-form-item>
-        <el-form-item label="网点代码" prop="branchCode">
+        <el-form-item label="网点代码" prop="branchCode" v-if="false">
             <gf-input v-model.trim="detailFormData.branchCode" placeholder="网点代码" />
         </el-form-item>
         <el-form-item label="大额支付号" prop="bigPayNo">
@@ -17,7 +17,7 @@
                 <gf-filter-option
                         v-for="item in OrgList"
                         :key="item.extOrgId"
-                        :label="item.extOrgName"
+                        :label="`${item.extOrgCode} - ${item.extOrgName} - ${item.orgTypeName}`"
                         :value="item.extOrgId">
                 </gf-filter-option>
             </el-select>
@@ -67,11 +67,10 @@
                     bigPayNo: [
                         {required: true, message: '大额支付号必填', trigger: 'blur'},
                         {validator: checkExistsBigPayNo, trigger: 'blur'}
-                    ],
-                    extOrgId: [
-                        {required: true, message: '归属机构必填', trigger: 'blur'},
-                    ],
-                  
+                    ]
+                    // extOrgId: [
+                    //     {required: true, message: '归属机构必填', trigger: 'blur'},
+                    // ],
                 }
             }
         },
@@ -94,6 +93,8 @@
             },
             // 保存onSave事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
             async onSave() {
+                this.detailFormData.branchCode = this.detailFormData.bigPayNo;
+
                 const ok = await this.$refs['fileScanForm'].validate();
                 if (!ok) {
                     return;
