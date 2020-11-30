@@ -20,7 +20,7 @@
                     </template>
                 </robot-wisdom>
             </div>
-            <div class="top-menu-item" v-if="true" style="font-size: 18px;height: 21px" title="测试效果图" @click="designSketchShow = true">
+            <div class="top-menu-item" v-if="false" style="font-size: 18px;height: 21px" title="测试效果图" @click="designSketchShow = true">
                 <em class="el-icon-picture-outline"></em>
             </div>
             <div class="top-menu-item feedback" style="font-size: 18px;height: 21px" title="意见反馈" @click="handelfeedback">
