@@ -20,8 +20,8 @@ export default {
     deleteUser(form) {
         return request.post("/agnes-app/v1/dop/user/group/delete-user", form);
     },
-    getAllUserGroup() {
-        return request.get("/agnes-app/v1/dop/user/group/list/all");
+    getAllUserGroupForAcnt() {
+        return request.get("/agnes-app/v1/dop/user/group/list/for-acnt");
     },
     getAllGfUserGroup() {
         return request.get("/agnes-app/v1/dop/user/group/list/alls");
