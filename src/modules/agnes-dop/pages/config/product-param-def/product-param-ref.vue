@@ -5,7 +5,9 @@
         <gf-grid grid-no="agnes-product-param-ref" ref="grid" quick-text-max-width="300px"
                  :query-args="queryArgs" height="100%">
           <template slot="left">
-            <gf-button class="action-btn" size="mini" @click="associated">添加</gf-button>
+            <gf-button class="action-btn" v-if="$hasPermission('agnes.dop.product.param.ref.addRef')" size="mini"
+                       @click="associated">添加
+            </gf-button>
           </template>
         </gf-grid>
       </div>
