@@ -1,5 +1,6 @@
 <template>
-    <div style="height: 100%">
+    <div>
+        <p class="pro-title">操作流程</p>
         <el-steps class="step-vertical" direction="vertical" :active="activeStep" :space="50">
             <template v-for="(step, stepIndex) in stepArr">
                 <el-step :key="stepIndex"
@@ -115,6 +116,14 @@
 </script>
 
 <style>
+    .pro-title {
+        line-height: 32px;
+        border-bottom: 1px solid #ccc;
+        text-align: center;
+        background: #eaedf1;
+        margin: 0 -10px 10px;
+    }
+
     .step-vertical.el-steps.el-steps--vertical {
         height: auto;
     }

@@ -115,8 +115,12 @@
             <div class="bottom right" v-show="ifRightExpand">
                 <div class="chart-container">
                     <p class="section-title">任务进度</p>
-                    <pie-chart ref="pieChart" :chart-data="executePieData" :title="pieTitle"
-                               :color-set="['#476DBE','#E0E0E0']"></pie-chart>
+                    <pie-chart ref="pieChart"
+                               :chart-data="executePieData"
+                               :title="pieTitle"
+                               :color-set="['#476DBE','#E0E0E0']"
+                               style="width: 180px;margin: auto"
+                    ></pie-chart>
                 </div>
                 <div class="exec-container">
                     <p class="section-title">
