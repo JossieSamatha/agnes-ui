@@ -725,7 +725,6 @@
             async onCancelCheck() {
                 try {
                     if((this.detailForm.processStatus=='02' || this.detailForm.processStatus=='05') && this.mode!=='view'){
-                        alert("onCancelCheck");
                         let openSub = false;
                         if(!loadsh.isEmpty(this.detailForm.applySubId)){
                             openSub = true;

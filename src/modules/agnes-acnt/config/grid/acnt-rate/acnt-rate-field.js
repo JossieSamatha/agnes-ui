@@ -4,7 +4,7 @@ import Permission from "../../../../../utils/hasPermission";
 const colButtons = [
     {key: 'editRate', title: '编辑',disabled: (params)=>{
             let result = false;
-            if(params.data.status === '03'){
+            if(params.data.status === '03'||params.data.status === '05'){
                 result =true;
             }
             return result;}, visiable: () => {
@@ -28,7 +28,7 @@ const colButtons = [
         }},
     {key: 'start', title: '发布',disabled: (params)=>{
             let result = false;
-            if(params.data.status === '01'){
+            if(params.data.status === '01' || params.data.status === '05'){
                 result =true;
             }
             return result;},
@@ -39,7 +39,7 @@ const colButtons = [
                 result =false;
             }
             return result;}},
-    {key: 'stop', title: '停止', cellClass: 'red-cell',visiable: (params)=>{
+    {key: 'stop', title: '停用', cellClass: 'red-cell',visiable: (params)=>{
             let result = false;
             if(params.data.status === '03'
                 && Permission.hasPermission('agnes.acnt.rate.stop')){
@@ -52,11 +52,12 @@ export default {
         column.buildOpCol(140, colButtons),
         {headerName: "方案代码", field: "rateCode"},
         {headerName: "方案名称", field: "rateName"},
-        {headerName: "网点代码", field: "branchCode"},
-        {headerName: "网点名称", field: "branchName"},
         {headerName: "利率", field: "rate"},
+        {headerName: "大额支付号", field: "bigPayNo"},
+        {headerName: "网点名称", field: "branchName"},
         {headerName: "状态", field: "status" , dictType: "AGNES_RELEASE_STATUS"},
         {headerName: "生效日期", field: "startDt"},
+        {headerName: "失效日期", field: "endDt"},
         column.colUpdUser,
         column.colUpdTm
     ],
