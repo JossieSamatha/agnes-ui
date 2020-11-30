@@ -63,7 +63,7 @@ import LinkmanBaseDlg from "../../../../agnes-dop/pages/config/linkman-def/linkm
                   linkmanId: '',
                   status: '',
                   startDt: window.bizDate,
-                  endDt: '9999-12-30'
+                  endDt: '9999-12-31'
                 },
                 acntList: [],
                 linkList: [],
