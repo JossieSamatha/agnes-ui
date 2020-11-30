@@ -38,33 +38,35 @@ const colButtons = [
                 result =false;
             }
             return result;}},
-    {key: 'stopLinkman', title: '停止', cellClass: 'red-cell',visiable: (params)=>{
+    {
+        key: 'stopLinkman', title: '停用', cellClass: 'red-cell', visiable: (params) => {
             let result = false;
-            if(params.data.status === '03'
-                && Permission.hasPermission('agnes.acnt.linkman.ref.stop')){
-                result =true;
+            if (params.data.status === '03'
+                && Permission.hasPermission('agnes.acnt.linkman.ref.stop')) {
+                result = true;
             }
-            return result;}},
+            return result;
+        }
+    },
 ];
 
 export default {
     columnDefs: [
         column.buildOpCol(140, colButtons),
         {headerName: "账户名称", field: "acntName"},
-        {headerName: "账号", field: "accNo"},
-        {headerName: "开户机构", field: "extOrgName"},
+        {headerName: "归属机构", field: "extOrgName"},
         {headerName: "联系人姓名", field: "linkmanName"},
         {headerName: "联系方式", field: "linkmanMobile"},
         {headerName: "状态", field: "status", dictType: 'AGNES_RELEASE_STATUS'},
-        {headerName: "启用日期", field: "startDt"},
-        {headerName: "停用日期", field: "endDt"},
+        {headerName: "生效日期", field: "startDt"},
+        {headerName: "失效日期", field: "endDt"},
         column.colUpdUser,
         column.colUpdTm,
     ],
     ext: {
         fetchUrl: "/agnes-app/v1/acnt/linkman/ref/list",
         fetchMethod: 'post',
-        pagingMode: false, //不分页
+        pagingMode: true, //不分页
         checkboxColumn: 2, //是否显示checkbox列,
         enableExportLocal: true,
         autoFitColumnMode: 1,
