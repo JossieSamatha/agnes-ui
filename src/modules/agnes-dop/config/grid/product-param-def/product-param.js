@@ -1,8 +1,16 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'editParam', title: '编辑'},
-    {key: 'deleteParam', title: '删除', cellClass: 'red-cell'},
+    {
+        key: 'editParam', title: '编辑', visiable: () => {
+            return Permission.hasPermission('agnes.dop.product.param.ref.edit');
+        }
+    },
+    {
+        key: 'deleteParam', title: '删除', cellClass: 'red-cell', visiable: () => {
+            return Permission.hasPermission('agnes.dop.product.param.ref.delete');
+        }
+    },
 
 ];
 export default {

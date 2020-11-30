@@ -1,7 +1,11 @@
 import column from "../../../../../config/column"
 
 const colButtons = [
-    {key: 'deleteProductParamRef', title: '删除', cellClass: 'red-cell'},
+    {
+        key: 'deleteProductParamRef', title: '删除', cellClass: 'red-cell', visiable: () => {
+            return Permission.hasPermission('agnes.dop.product.param.ref.deleteRef');
+        }
+    },
 ];
 export default {
     columnDefs: [
