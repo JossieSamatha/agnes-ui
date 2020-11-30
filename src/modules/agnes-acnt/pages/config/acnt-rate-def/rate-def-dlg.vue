@@ -4,7 +4,7 @@
                  style="padding: 10px;">
             <el-form-item label="账户名称"  prop="acntId">
                 <el-select style="width: 80%"  class="multiple-select" v-model="form.acntId"
-                           filterable clearable
+                           filterable clearable :disabled="mode==='edit'"
                            placeholder="请选择账户名称">
                     <gf-filter-option
                             v-for="item in acntList"
@@ -15,8 +15,8 @@
                 </el-select>
             </el-form-item>
 
-            <el-form-item label="利率" prop="rateId">
-                    <el-select style="width: 80%" class="multiple-select" v-model="form.rateId"
+            <el-form-item label="利率" prop="rateCode">
+                    <el-select style="width: 80%" class="multiple-select" v-model="form.rateCode"
                                clearable filterable
                                placeholder="请选择">
                         <gf-filter-option
@@ -27,7 +27,29 @@
                         </gf-filter-option>
                     </el-select>
             </el-form-item>
-
+            <el-form-item label="有效日期" prop="startDt">
+                <div class="line none-shrink">
+                    <el-form-item prop="startDt">
+                        <el-date-picker
+                                v-model="form.startDt"
+                                type="date"
+                                value-format="yyyy-MM-dd"
+                                :picker-options="pickerOptionsStart"
+                                placeholder="开始日期">
+                        </el-date-picker>
+                    </el-form-item>
+                    <span style="margin: 0 10px">~</span>
+                    <el-form-item prop="endDt">
+                        <el-date-picker
+                                v-model="form.endDt"
+                                type="date"
+                                value-format="yyyy-MM-dd"
+                                :picker-options="pickerOptionsEnd"
+                                placeholder="结束日期">
+                        </el-date-picker>
+                    </el-form-item>
+                </div>
+            </el-form-item>
         </el-form>
         <dialog-footer :ok-button-visible="mode !== 'view'" :on-save="onSave" ok-button-title="确定"></dialog-footer>
     </div>
@@ -49,8 +71,9 @@
                 form: {
                     acntId: '',
                     rateId: '',
-                    startDt: '',
-                    endDt: '',
+                    rateCode: '',
+                    startDt: window.bizDate,
+                    endDt: '9999-12-31',
                     acntName: '',
                     rateName: '',
                     accountNo: '',
@@ -87,7 +110,7 @@
                     let rateList = await this.$api.rateDefApi.getAllPulishRateList();
                     let list = rateList.data
                     list.forEach((item) => {
-                        this.rateList.push({label:item.rateName, value: item.rateId});
+                        this.rateList.push({label:item.rateCode+'-'+item.rateName+'-'+item.rate, value: item.rateCode});
                     });
                 } catch (reason) {
                     this.$msg.error(reason);

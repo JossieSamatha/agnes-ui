@@ -42,7 +42,7 @@
                     '04': 'proPrepare', // 资料准备（审核）
                     '05': 'proFinancial', // 财务流程（审核）
                     '06': 'proAccount', // 账户信息录入（编辑）
-                    '07': 'proAccountCheck', // 账户信息复核（审核）
+                    '07': 'proCheck', // 账户信息复核（审核）
                     '08': 'proArchive', // 归档()
                     '09': 'proObsolete', // 作废
                 },

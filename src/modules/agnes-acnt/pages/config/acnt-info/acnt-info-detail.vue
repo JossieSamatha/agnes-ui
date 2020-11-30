@@ -127,15 +127,15 @@
                         <el-form-item v-if="showRules.fundAccName&&showRules.fundAccName.isShow" label="资金账户名称" prop="fundAccName">
                             <gf-input v-model.trim="detailFormBefore.fundAccName" placeholder="资金账户名称"/>
                         </el-form-item>
-                        <el-form-item v-if="showRules.rateId&&showRules.rateId.isShow" label="利率" prop="rateId">
-                            <el-select v-model="detailFormBefore.rateId"
+                        <el-form-item v-if="showRules.rateCode&&showRules.rateCode.isShow" label="利率" prop="rateCode">
+                            <el-select v-model="detailFormBefore.rateCode"
                                        clearable
                                        placeholder="请选择">
                                 <gf-filter-option
                                         v-for="item in rateList"
-                                        :key="item.rateId"
-                                        :label="item.rateName"
-                                        :value="item.rateId">
+                                        :key="item.rateCode"
+                                        :label="`${item.rateCode} - ${item.rateName} - ${item.rate}`"
+                                        :value="item.rateCode">
                                 </gf-filter-option>
                             </el-select>
                         </el-form-item>
@@ -343,6 +343,7 @@
                     fundAccName:'',
                     acntPurpose:'',
                     rateId:'',
+                    rateCode:'',
                     bigPayNo:'',
                     openBank:'',
                     fundAccNo:'',
@@ -388,6 +389,7 @@
                     fundAccName:'',
                     acntPurpose:'',
                     rateId:'',
+                    rateCode:'',
                     bigPayNo:'',
                     openBank:'',
                     fundAccNo:'',
