@@ -1,29 +1,25 @@
 <template>
   <div class="gf-fit">
-    <el-tabs v-model="this.app.code" tab-position="left" class="gf-role-auth-apps" type="border-card">
-      <el-tab-pane :key="this.app.code" :label='this.app.name' :name="this.app.code">
-        <div class="gf-fit">
-          <div class="gf-role-auth">
-            <div class="gf-role-auth-form">
-              <gf-grid grid-no="agnes-product-param-ref" ref="grid" quick-text-max-width="300px"
-                       :query-args="queryArgs" height="100%">
-              </gf-grid>
-            </div>
-          </div>
-        </div>
-      </el-tab-pane>
-    </el-tabs>
+    <div class="gf-role-auth">
+      <div class="gf-role-auth-form">
+        <gf-grid grid-no="agnes-product-param-ref" ref="grid" quick-text-max-width="300px"
+                 :query-args="queryArgs" height="100%">
+          <template slot="left">
+            <gf-button class="action-btn" size="mini" @click="associated">添加</gf-button>
+          </template>
+        </gf-grid>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import ProductParamRefDlg from "./product-param-ref-dlg"
+
 export default {
   data() {
     return {
-      app: {
-        name: '流程列表',
-        code: 'product',
-      },
+
       form: {
         linkManIdList: []
       },
@@ -52,8 +48,25 @@ export default {
   mounted() {
   },
   methods: {
+    associatedProduct(row, actionOk) {
+      this.$nav.showDialog(
+          ProductParamRefDlg,
+          {
+            args: {row, actionOk},
+            width: '50%',
+            title: this.$dialog.formatTitle('产品参数关联', 'edit'),
+          }
+      );
+    },
+    associated() {
+
+      this.associatedProduct({"productParamId": this.queryArgs.productParamId}, this.onLoad.bind(this));
+    },
     reloadData() {
       this.$refs.grid.reloadData();
+    },
+    async onLoad() {
+      this.reloadData();
     },
     async deleteProductParamRef(params) {
       const ok = await this.$msg.ask(`确认删除此关联产品?`);

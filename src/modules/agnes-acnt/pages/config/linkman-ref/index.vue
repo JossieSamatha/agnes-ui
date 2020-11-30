@@ -1,29 +1,71 @@
 <template>
-    <gf-grid grid-no="agnes-acnt-linkman-ref" ref="grid" toolbar="find,refresh,more" quick-text-max-width="300px" height="100%">
-        <template slot="left">
-            <gf-button class="action-btn" @click="onAddLinkman" size="mini"
-                       v-if="$hasPermission('agnes.acnt.linkman.ref.add')">添加</gf-button>
-        </template>
+  <div>
+    <el-form class="search-panel" label-width="100px">
+      <div class="line">
+        <el-form-item label="账户名称">
+          <el-input v-model="queryArgs.acntName"></el-input>
+        </el-form-item>
+        <el-form-item label="联系人名称">
+          <el-input v-model="queryArgs.linkmanName"></el-input>
+        </el-form-item>
+        <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
+      </div>
+      <div class="line">
+        <el-form-item label="归属机构">
+          <el-input v-model="queryArgs.extOrgName"></el-input>
+        </el-form-item>
+        <el-form-item label="状态">
+          <gf-dict filterable clearable v-model="queryArgs.status" dict-type="AGNES_RELEASE_STATUS"/>
+        </el-form-item>
+        <el-button @click="reSetSearch" class="option-btn">重置</el-button>
+      </div>
+    </el-form>
+    <gf-grid grid-no="agnes-acnt-linkman-ref" ref="grid" toolbar="find,refresh,more" quick-text-max-width="300px"
+             height="100%" :query-args="queryArgs">
+      <template slot="left">
+        <gf-button class="action-btn" @click="onAddLinkman" size="mini"
+                   v-if="$hasPermission('agnes.acnt.linkman.ref.add')">添加
+        </gf-button>
+      </template>
     </gf-grid>
+  </div>
 </template>
 
 <script>
     import linkmanRefAddDlg from './linkman-ref-add-dlg'
 
     export default {
-        methods: {
-
-            reloadData() {
-                this.$refs.grid.reloadData();
-            },
-            showDlg(mode, row, ui, actionOk) {
-                if (mode !== 'add' && !row) {
-                    this.$msg.warning("请选中一条记录!");
-                    return;
-                }
-                let title = this.$dialog.formatTitle("账户联系人关系维护",mode);
-                if(mode == 'check'){
-                    title = '';
+      data() {
+        return {
+          queryArgs: {
+            'acntName': '',
+            'linkmanName': '',
+            'extOrgName': '',
+            'status': '',
+          }
+        }
+      },
+      methods: {
+        reSetSearch() {
+          this.queryArgs = {
+            'acntName': '',
+            'linkmanName': '',
+            'extOrgName': '',
+            'status': '',
+          };
+          this.reloadData();
+        },
+        reloadData() {
+          this.$refs.grid.reloadData();
+        },
+        showDlg(mode, row, ui, actionOk) {
+          if (mode !== 'add' && !row) {
+            this.$msg.warning("请选中一条记录!");
+            return;
+          }
+          let title = this.$dialog.formatTitle("账户联系人关系维护", mode);
+          if (mode == 'check') {
+            title = '账户联系人关系维护-审核';
                 }
                 this.$nav.showDialog(
                     linkmanRefAddDlg,
@@ -54,7 +96,7 @@
             },
 
             async startLinkman(params) {
-                let msg = "确认启用吗, 是否继续?";
+              let msg = "确认发布吗, 是否继续?";
                 if(params.data.status == '03'){
                     msg = "确认停用吗, 是否继续?";
                 }
