@@ -7,12 +7,15 @@
                  @load-data="dataLoaded"
         >
           <template slot="left">
-            <gf-button class="action-btn" style="margin-right: 20px" @click="addParams">添加</gf-button>
+            <gf-button class="action-btn" size="mini" @click="addParams">添加</gf-button>
           </template>
         </gf-grid>
       </div>
       <div class="gf-auth-body">
         <div class="gf-auth-content">
+          <el-tabs v-model="authType">
+            <el-tab-pane label="产品列表" name="res" :lazy="true"></el-tab-pane>
+          </el-tabs>
           <div class="gf-auth-content-data">
             <ProductParamRef ref="productParamRef" :reqData="reqData"/>
           </div>
@@ -38,6 +41,7 @@ export default {
       reqData: {
         productParamId: '',
       },
+      authType: 'res',
     }
   },
   mounted() {
@@ -80,9 +84,7 @@ export default {
         this.$msg.error("审核失败");
       }
     },
-    associated(params) {
-      this.associatedProduct(params.data, this.onLoad.bind(this));
-    },
+
     showDlg(mode, row, actionOk) {
       if (mode !== 'add' && !row) {
         this.$msg.warning("请选中一条记录!");
@@ -132,7 +134,7 @@ export default {
 
 .gf-auth-role {
   flex-grow: 0;
-  width: 550px;
+  width: 430px;
   padding-right: 5px;
 }
 

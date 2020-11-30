@@ -71,6 +71,11 @@ export default {
       if (!ok) {
         return;
       }
+      const row = this.$refs.grid.getSelectedRows();
+      if (row.length === 0) {
+        this.$msg.warning("关联产品不可为空")
+        return;
+      }
       try {
         let that = this;
         const productInfos = this.$refs.grid.getSelectedRows();
