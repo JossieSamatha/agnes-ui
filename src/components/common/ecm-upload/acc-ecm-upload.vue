@@ -7,7 +7,6 @@
                :before-upload="checkFile"
                :on-progress="uploadProgress"
                :on-success="uploadSuccess"
-               :on-remove="onRemove"
                :on-error="uploadError"
                :on-exceed="sizeExp"
                :multiple="true"
@@ -157,10 +156,11 @@
             //上传之前
             checkFile(file) {
                 this.uploadFileLoading = true;
-                const isLtM = file.size / 1024 / 1024 < 100;
+                const isLtM = file.size / 1024 / 1024 < 200;
 
                 if (!isLtM) {
-                    this.$msg.error('文件不能超过 100MB!');
+                    this.$msg.error('文件不能超过 200MB!');
+                    this.uploadFileLoading = false;
                 }
                 return isLtM;
             },
