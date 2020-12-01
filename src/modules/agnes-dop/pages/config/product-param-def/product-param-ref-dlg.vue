@@ -16,6 +16,21 @@
             value-format="yyyy-MM-dd"
             placeholder="失效时间"/>
       </el-form-item>
+      <el-form-item label="参数值" prop="paramValue">
+        <gf-input v-if="detailForm.paramType==='str'" v-model.trim="detailForm.paramValue" placeholder="参数值"/>
+        <el-input v-if="detailForm.paramType==='number'" v-model="detailForm.paramValue"
+                  placeholder="参数值"/>
+        <el-date-picker
+            v-if="detailForm.paramType==='date'"
+            v-model="detailForm.paramValue"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="参数值">
+        </el-date-picker>
+        <gf-dict v-model="detailForm.paramValue" v-if="detailForm.paramType==='boolean'"
+                 dict-type="AGNES_PRODUCT_BOOLEAN"/>
+
+      </el-form-item>
       <el-form-item label="关联产品">
         <gf-grid grid-no="agnes-product-info-beyond-param" ref="grid" quick-text-max-width="300px"
                  :query-args="queryArgs">
@@ -39,13 +54,14 @@ export default {
   data() {
     return {
       queryArgs: {
-        productParamId: '',
+        paramCode: '',
       },
       detailForm: {
-        productParamId: '',
+        paramCode: '',
         effectiveDate: '',
         failureDate: '',
-        productIds: [],
+        paramType: '',
+        productCodes: [],
       },
       detailFormRules: {
         effectiveDate: [
@@ -58,8 +74,9 @@ export default {
     }
   },
   mounted() {
-    this.queryArgs.productParamId = this.row.productParamId;
-    this.detailForm.productParamId = this.row.productParamId;
+    this.queryArgs.paramCode = this.row.paramCode;
+    this.detailForm.paramCode = this.row.paramCode;
+    this.detailForm.paramType = this.row.paramType;
   },
   methods: {
     addProduct() {
@@ -80,8 +97,8 @@ export default {
         let that = this;
         const productInfos = this.$refs.grid.getSelectedRows();
         productInfos.forEach(productInfo => {
-          that.detailForm.productIds.push(productInfo.productId)
-        })
+          that.detailForm.productCodes.push(productInfo.productCode)
+        });
         const req = this.$api.productParamApi.saveProductParamRef(that.detailForm);
         await this.$app.blockingApp(req);
         this.$msg.success('保存成功');
