@@ -21,6 +21,7 @@ export default {
     columnDefs: [
         column.buildOpCol(100, colButtons),
         {headerName: "账户名称", field: "acntName"},
+        {headerName: "账户类型", field: "typeName"},
 
         {headerName: "资金账号", field: "fundAccNos"},
         {headerName: "资金账号名称", field: "fundAccName"},
@@ -30,7 +31,6 @@ export default {
         {headerName: "市场", field: "markets"},
 
         {headerName: "归属机构", field: "extOrgName"},
-        {headerName: "账户类型", field: "typeName"},
         {headerName: "账户状态", field: "acntStatus", dictType:"AGNES_ACNT_INFO_STATUS"},
 
         {headerName: "大额支付号", field: "bigPayNo"},
