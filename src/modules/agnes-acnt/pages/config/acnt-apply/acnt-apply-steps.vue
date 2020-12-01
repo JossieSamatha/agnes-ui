@@ -65,7 +65,7 @@
                     stepData.isSendOa==1 && stepData.bizType !== '04',
                     stepData.bizType !== '04' && !stepData.applySubId,
                     stepData.isSendFinance==1 && stepData.bizType !== '04' && !stepData.applySubId,
-                    stepData.bizType !== '04' && !stepData.applySubId,
+                    !stepData.applySubId,
                     !stepData.applySubId,
                     true,
                     true

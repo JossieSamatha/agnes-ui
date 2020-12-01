@@ -5,8 +5,8 @@
                 <el-form-item label="账户名称">
                     <el-input v-model="queryArgs.acntName"></el-input>
                 </el-form-item>
-                <el-form-item label="账号" >
-                    <el-input v-model="queryArgs.accNos"></el-input>
+                <el-form-item label="资金账号" >
+                    <el-input v-model="queryArgs.fundAccNos"></el-input>
                 </el-form-item>
                 <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
             </div>
@@ -60,6 +60,7 @@
                     'typeCode':'',
                     'acntName':'',
                     'accNos':'',
+                    'fundAccNos':'',
                     'acntStatus':''
                 },
                 typeCodeOption: [{
@@ -99,6 +100,7 @@
                     'typeCode':'',
                     'acntName':'',
                     'accNos':'',
+                    'fundAccNos':'',
                     'acntStatus':''
                 };
                 this.reloadData();

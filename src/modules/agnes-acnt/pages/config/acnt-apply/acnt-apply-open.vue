@@ -268,16 +268,26 @@
                         <el-form-item label="基金名称" prop="productName">
                             <gf-input disabled v-model.trim="detailForm.productName" placeholder="基金名称"/>
                         </el-form-item>
-                        <el-form-item label="提交财务流程" prop="isSendFinance">
-                            <el-radio-group :disabled="isSubDis || isSendFinanceDis" v-model="detailForm.isSendFinance">
-                                <el-radio label="1">是</el-radio>
-                                <el-radio label="0">否</el-radio>
-                            </el-radio-group>
+
+                        <el-form-item label="申请截止日期" prop="applyDeadlineDt">
+                            <el-date-picker
+                                    v-model="detailForm.applyDeadlineDt"
+                                    type="date"
+                                    value-format="yyyy-MM-dd"
+                                    placeholder="申请日期">
+                            </el-date-picker>
                         </el-form-item>
                     </div>
                     <div class="line">
                         <el-form-item label="提交OA流程" prop="isSendOa">
                             <el-radio-group v-model="detailForm.isSendOa" :disabled="this.mode === 'addInfo'">
+                                <el-radio label="1">是</el-radio>
+                                <el-radio label="0">否</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+
+                        <el-form-item label="提交财务流程" prop="isSendFinance">
+                            <el-radio-group :disabled="isSubDis || isSendFinanceDis" v-model="detailForm.isSendFinance">
                                 <el-radio label="1">是</el-radio>
                                 <el-radio label="0">否</el-radio>
                             </el-radio-group>
@@ -388,6 +398,7 @@
                     fields:[]
                 },
                 detailForm: {
+                    applyDeadlineDt:'',
                     typeCode:'',
                     bizType:'01',
                     baseStartDept:'00',
@@ -436,6 +447,9 @@
                 detailFormRules: {
                     typeCode: [
                         {required: true, message: '账户类型必填', trigger: 'blur'},
+                    ],
+                    applyDeadlineDt: [
+                        {required: true, message: '申请截止日期必填', trigger: 'blur'},
                     ],
                     baseStartDept: [
                         {required: true, message: '必填', trigger: 'blur'},
