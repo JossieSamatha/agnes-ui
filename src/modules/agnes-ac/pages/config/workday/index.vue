@@ -2,7 +2,8 @@
     <div class="work-day-page" v-loading="!ifDataReady">
         <div class="option-panel">
             <span></span>
-            <span><el-button size="small">同步</el-button>
+            <span>
+<!--              <el-button size="small">同步</el-button>-->
             <el-button size="small" @click="initWork()">初始化</el-button></span>
         </div>
         <div class="row-container">
