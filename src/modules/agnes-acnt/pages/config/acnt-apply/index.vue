@@ -45,7 +45,7 @@
                     <gf-dict filterable clearable v-model="queryArgs.processStatus" dict-type="AGNES_ACNT_APPLY_STATUS" />
                 </el-form-item>
 
-                <el-form-item></el-form-item>
+<!--                <el-form-item></el-form-item>-->
                 <el-button @click="reSetSearch" class="option-btn">重置</el-button>
             </div>
         </el-form>
