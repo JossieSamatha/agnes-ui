@@ -18,7 +18,7 @@
              :class="canObsolete?'':'disabled'"
         >
             <span class="icon" v-html="lcImg.proObsolete"></span>
-            <span class="title" @click="canObsolete ? stepDelete() : false">作废</span>
+            <span class="title" @click="canObsolete ? stepDelete() : false">作废申请</span>
         </div>
     </div>
 
