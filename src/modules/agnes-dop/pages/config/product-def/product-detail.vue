@@ -77,14 +77,14 @@
                 header-cell-class-name="rule-header-cell"
                 row-class-name="rule-row"
                 cell-class-name="rule-cell">
-              <el-table-column prop="paramBizType" label="业务归属" min-width="100">
-                <template slot-scope="scope">
-                  <gf-dict v-model="scope.row.paramBizType" dict-type="AGNES_PRODUCT_PARAM_BIZTYPE" disabled></gf-dict>
-                </template>
-              </el-table-column>
+              <!--              <el-table-column prop="paramBizType" label="业务归属" min-width="100">-->
+              <!--                <template slot-scope="scope">-->
+              <!--                  <gf-dict v-model="scope.row.paramBizType" dict-type="AGNES_PRODUCT_PARAM_BIZTYPE" disabled></gf-dict>-->
+              <!--                </template>-->
+              <!--              </el-table-column>-->
               <el-table-column prop="paramName" label="参数名称" min-width="100">
                 <template slot-scope="scope">
-                  <el-select v-model="scope.row.paramName" placeholder="请选择" @change="faChanges(scope.row)">
+                  <el-select v-model="scope.row.paramName" filterable placeholder="请选择" @change="faChanges(scope.row)">
                     <el-option
                         v-for="item in faProductParams"
                         :key="item.productParamId"
@@ -96,21 +96,39 @@
                 </template>
 
               </el-table-column>
-              <el-table-column prop="paramCode" label="参数代码" min-width="100">
-                <template slot-scope="scope">
-                  <el-input v-model="scope.row.paramCode" disabled></el-input>
-                </template>
-              </el-table-column>
-              <el-table-column prop="paramType" label="参数类型" min-width="100">
-                <template slot-scope="scope">
-                  <gf-dict v-model="scope.row.paramType" dict-type="AGNES_PRODUCT_PARAM_TYPE" disabled/>
-                </template>
-              </el-table-column>
+              <!--              <el-table-column prop="paramCode" label="参数代码" min-width="100">-->
+              <!--                <template slot-scope="scope">-->
+              <!--                  <el-input v-model="scope.row.paramCode" disabled></el-input>-->
+              <!--                </template>-->
+              <!--              </el-table-column>-->
+              <!--              <el-table-column prop="paramType" label="参数类型" min-width="100">-->
+              <!--                <template slot-scope="scope">-->
+              <!--                  <gf-dict v-model="scope.row.paramType" dict-type="AGNES_PRODUCT_PARAM_TYPE" disabled/>-->
+              <!--                </template>-->
+              <!--              </el-table-column>-->
+              <!--              <el-table-column prop="paramValue" label="参数值" min-width="100">-->
+              <!--                <template slot-scope="scope">-->
+              <!--                  <el-input v-model="scope.row.paramValue" v-if="scope.row.paramType !== 'boolean'" disabled/>-->
+              <!--                  <gf-dict v-model="scope.row.paramValue" v-if="scope.row.paramType === 'boolean'"-->
+              <!--                           dict-type="AGNES_PRODUCT_BOOLEAN" />-->
+              <!--                </template>-->
+              <!--              </el-table-column>-->
               <el-table-column prop="paramValue" label="参数值" min-width="100">
                 <template slot-scope="scope">
-                  <el-input v-model="scope.row.paramValue" v-if="scope.row.paramType !== 'boolean'" disabled/>
-                  <gf-dict v-model="scope.row.paramValue" v-if="scope.row.paramType === 'boolean'"
-                           dict-type="AGNES_PRODUCT_BOOLEAN" disabled/>
+                  <el-input type="number" :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
+                            v-model="scope.row.paramValue" v-if="scope.row.paramType === 'number'"/>
+                  <el-input :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
+                            v-model="scope.row.paramValue" v-if="scope.row.paramType === 'str'"/>
+                  <gf-dict-select :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
+                                  dict-type="AGNES_PRODUCT_BOOLEAN" v-model="scope.row.paramValue"
+                                  v-if="scope.row.paramType === 'boolean'"/>
+                  <el-date-picker
+                      v-if="scope.row.paramType==='date'"
+                      v-model="scope.row.paramValue"
+                      :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
+                      type="date"
+                      value-format="yyyy-MM-dd">
+                  </el-date-picker>
                 </template>
               </el-table-column>
               <el-table-column prop="effectiveDate" label="生效时间" min-width="100">
@@ -150,14 +168,14 @@
                 header-cell-class-name="rule-header-cell"
                 row-class-name="rule-row"
                 cell-class-name="rule-cell">
-              <el-table-column prop="paramBizType" label="业务归属" min-width="100">
-                <template slot-scope="scope">
-                  <gf-dict v-model="scope.row.paramBizType" dict-type="AGNES_PRODUCT_PARAM_BIZTYPE" disabled></gf-dict>
-                </template>
-              </el-table-column>
+              <!--              <el-table-column prop="paramBizType" label="业务归属" min-width="100">-->
+              <!--                <template slot-scope="scope">-->
+              <!--                  <gf-dict v-model="scope.row.paramBizType" dict-type="AGNES_PRODUCT_PARAM_BIZTYPE" disabled></gf-dict>-->
+              <!--                </template>-->
+              <!--              </el-table-column>-->
               <el-table-column prop="paramName" label="参数名称" min-width="100">
                 <template slot-scope="scope">
-                  <el-select v-model="scope.row.paramName" placeholder="请选择" @change="taChanges(scope.row)">
+                  <el-select v-model="scope.row.paramName" filterable placeholder="请选择" @change="taChanges(scope.row)">
                     <el-option
                         v-for="item in taProductParams"
                         :key="item.productParamId"
@@ -169,21 +187,39 @@
                 </template>
 
               </el-table-column>
-              <el-table-column prop="paramCode" label="参数代码" min-width="100">
-                <template slot-scope="scope">
-                  <el-input v-model="scope.row.paramCode" disabled></el-input>
-                </template>
-              </el-table-column>
-              <el-table-column prop="paramType" label="参数类型" min-width="100">
-                <template slot-scope="scope">
-                  <gf-dict v-model="scope.row.paramType" dict-type="AGNES_PRODUCT_PARAM_TYPE" disabled/>
-                </template>
-              </el-table-column>
+              <!--              <el-table-column prop="paramCode" label="参数代码" min-width="100">-->
+              <!--                <template slot-scope="scope">-->
+              <!--                  <el-input v-model="scope.row.paramCode" disabled></el-input>-->
+              <!--                </template>-->
+              <!--              </el-table-column>-->
+              <!--              <el-table-column prop="paramType" label="参数类型" min-width="100">-->
+              <!--                <template slot-scope="scope">-->
+              <!--                  <gf-dict v-model="scope.row.paramType" dict-type="AGNES_PRODUCT_PARAM_TYPE" disabled/>-->
+              <!--                </template>-->
+              <!--              </el-table-column>-->
+              <!--              <el-table-column prop="paramValue" label="参数值" min-width="100">-->
+              <!--                <template slot-scope="scope">-->
+              <!--                  <el-input v-model="scope.row.paramValue" v-if="scope.row.paramType !== 'boolean'" disabled/>-->
+              <!--                  <gf-dict v-model="scope.row.paramValue" v-if="scope.row.paramType === 'boolean'"-->
+              <!--                           dict-type="AGNES_PRODUCT_BOOLEAN" />-->
+              <!--                </template>-->
+              <!--              </el-table-column>-->
               <el-table-column prop="paramValue" label="参数值" min-width="100">
                 <template slot-scope="scope">
-                  <el-input v-model="scope.row.paramValue" v-if="scope.row.paramType !== 'boolean'" disabled/>
-                  <gf-dict v-model="scope.row.paramValue" v-if="scope.row.paramType === 'boolean'"
-                           dict-type="AGNES_PRODUCT_BOOLEAN" disabled/>
+                  <el-input type="number" :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
+                            v-model="scope.row.paramValue" v-if="scope.row.paramType === 'number'"/>
+                  <el-input :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
+                            v-model="scope.row.paramValue" v-if="scope.row.paramType === 'str'"/>
+                  <gf-dict-select :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
+                                  dict-type="AGNES_PRODUCT_BOOLEAN" v-model="scope.row.paramValue"
+                                  v-if="scope.row.paramType === 'boolean'"/>
+                  <el-date-picker
+                      v-if="scope.row.paramType==='date'"
+                      v-model="scope.row.paramValue"
+                      :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
+                      type="date"
+                      value-format="yyyy-MM-dd">
+                  </el-date-picker>
                 </template>
               </el-table-column>
               <el-table-column prop="effectiveDate" label="生效时间" min-width="100">

@@ -7,7 +7,7 @@
                  @load-data="dataLoaded"
         >
           <template slot="left">
-            <gf-button class="action-btn" v-if="$hasPermission('agnes.dop.product.param.ref.add')" size="mini"
+            <gf-button class="action-btn" size="mini"
                        @click="addParams">添加
             </gf-button>
           </template>
@@ -41,7 +41,8 @@ export default {
   data() {
     return {
       reqData: {
-        productParamId: '',
+        paramCode: '',
+        paramType: '',
       },
       authType: 'res',
     }
@@ -51,7 +52,8 @@ export default {
   methods: {
     initReqDate(gridState) {
       if (gridState.selectedRow) {
-        this.reqData.productParamId = gridState.selectedRow.productParamId;
+        this.reqData.paramCode = gridState.selectedRow.paramCode;
+        this.reqData.paramType = gridState.selectedRow.paramType;
       }
     },
     addParams() {
@@ -69,7 +71,7 @@ export default {
         return
       }
       try {
-        const p = this.$api.productParamApi.deleteParam(params.data.productParamId);
+        const p = this.$api.productParamApi.deleteParam(params.data.paramCode, params.data.pkId);
         await this.$app.blockingApp(p);
         this.$msg.success('删除成功');
       } catch (reason) {
@@ -98,7 +100,7 @@ export default {
           {
             args: {row: rowData, mode, actionOk},
             width: '50%%',
-            title: this.$dialog.formatTitle('联系人信息', mode),
+            title: this.$dialog.formatTitle('产品参数维护', mode),
           }
       );
     },
@@ -116,12 +118,14 @@ export default {
       this.$refs.grid.reloadData();
     },
     async onLoad() {
-      this.reqData.productParamId = ''
+      this.reqData.paramCode = ''
+      this.reqData.paramType = ''
       this.reloadData();
     },
     dataLoaded() {
       if (this.$refs.productParamRef && this.$refs.productParamRef.$refs.grid) {
-        this.$refs.productParamRef.queryArgs.productParamId = '';
+        this.$refs.productParamRef.queryArgs.paramCode = '';
+        this.$refs.productParamRef.queryArgs.paramType = '';
         this.$refs.productParamRef.$refs.grid.reloadData();
       }
     }

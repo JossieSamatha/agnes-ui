@@ -14,16 +14,16 @@ export default {
     getParamList(paramBizType) {
         return request.post("/agnes-app/v1/prdt/param/list/all", null, {params: {paramBizType}});
     },
-    getProductInfoOfParam(productParamId) {
-        return request.get("/agnes-app/v1/prdt/param/info/list", null, {params: {productParamId}});
+    getProductInfoOfParam(paramCode) {
+        return request.get("/agnes-app/v1/prdt/param/info/list", null, {params: {paramCode}});
     },
-    deleteParam(productParamId) {
-        return request.post("/agnes-app/v1/prdt/param/delete", null, {params: {productParamId}});
+    deleteParam(paramCode, pkId) {
+        return request.post("/agnes-app/v1/prdt/param/delete", null, {params: {paramCode, pkId}});
     },
     saveProductParamRef(from) {
         return request.post("/agnes-app/v1/prdt/param/save/ref", from);
     },
-    removeRef(productParamId, productId) {
-        return request.post("/agnes-app/v1/prdt/param/remove/ref", null, {params: {productParamId, productId}});
+    removeRef(paramCode, productCode) {
+        return request.post("/agnes-app/v1/prdt/param/remove/ref", null, {params: {paramCode, productCode}});
     }
 };
