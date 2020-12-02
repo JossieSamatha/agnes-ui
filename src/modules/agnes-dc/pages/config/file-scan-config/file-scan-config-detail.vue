@@ -196,8 +196,10 @@
                             if (this.actionOk) {
                                 await this.actionOk();
                             }
-                        }else {
+                        }else if(resp.data == 'bmycz'){
                             this.$msg.error("该编码已存在");
+                        }else {
+                            this.$msg.error("请配置正确的文件路径或者文件名称！");
                         }
                     }else if(this.mode==='check'){
                         // let updateParam = {
