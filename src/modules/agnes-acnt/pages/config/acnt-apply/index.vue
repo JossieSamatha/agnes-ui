@@ -60,8 +60,12 @@
                 <template slot="left">
                     <gf-button class="action-btn" @click="openApply"
                                 v-if="$hasPermission('agnes.acnt.apply.openApply')">开户</gf-button>
-                    <gf-button class="action-btn" @click="submitOA"
-                                v-if="$hasPermission('agnes.acnt.apply.submitOA')">批量提交OA</gf-button>
+                    <gf-button class="action-btn" @click="submitOA" style="position: relative;"
+                                v-if="$hasPermission('agnes.acnt.apply.submitOA')">
+                        <span>提交OA</span>
+                        <span v-show="pointerShow" class="svg-pointer" v-html="svgImg.pointer"></span>
+                        <div v-show="pointerShow" class="pointer-mask" @click.prevent.stop="pointerShow = false"></div>
+                    </gf-button>
                     <gf-button class="action-btn" @click="addInfoFile"
                                 v-if="$hasPermission('agnes.acnt.apply.addInfoFile')">资料补充</gf-button>
                 </template>
@@ -83,6 +87,7 @@
                               @stepEdit="edit"
                               @stepCheck="check"
                               @stepDelete="detele"
+                              @submitOA="setPointerAni"
             >
             </acnt-apply-steps>
         </div>
@@ -96,6 +101,7 @@
     export default {
         data() {
             return {
+                svgImg: this.$svgImg,
                 queryArgs:{
                     'typeCode':'',
                     'acntName':'',
@@ -132,7 +138,8 @@
                             _that.crtStepRow = params.data
                         }
                     }
-                }
+                },
+                pointerShow: false
             }
         },
         components: {
@@ -468,6 +475,13 @@
 
                 this.showOpenDlg('addInfo', selectedRows[0], this.onOpenApply.bind(this),false);
 
+            },
+
+            setPointerAni(){
+                this.pointerShow = true;
+                setTimeout(()=>{
+                    this.pointerShow = false;
+                }, 4500)
             }
         }
     }
@@ -481,12 +495,60 @@
 
     .acnt-apply-container .steps-comp {
         flex: none;
-        width: 150px;
+        width: 200px;
         height: calc(100% - 30px);
-        padding: 0 10px 30px;
+        padding: 0 20px 30px;
         margin-top: 30px;
-        margin-left: 5px;
-        border: 1px solid #ccc;
+        margin-left: 20px;
+        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.16);
+    }
+
+    .ag-grid-box.acnt-apply-grid {
+        overflow: initial;
+    }
+
+    .action-btn .svg-pointer {
+        position: absolute;
+        top: -40px;
+        right: -30px;
+        width: 30px;
+        height: auto;
+        animation: moveVertical 1.5s infinite linear;
+        animation-iteration-count:3;
+        z-index: 1005;
+    }
+
+    .action-btn .pointer-mask {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background: rgba(0, 0, 0, .3);
+        z-index: 1000;
+    }
+
+    @keyframes moveVertical {
+        0% {
+            top: -40px;
+            right: -30px;
+        }
+        25% {
+            top: -30px;
+            right: -20px;
+        }
+        50% {
+            top: -20px;
+            right: -10px;
+        }
+        75% {
+            top: -30px;
+            right: -20px;
+        }
+        100% {
+            top: -40px;
+            right: -30px;
+        }
     }
 </style>
 

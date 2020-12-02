@@ -1078,6 +1078,19 @@
     font-size: 12px;
 }
 
+.rule-table .rule-cell > .cell .el-date-editor {
+    min-width: auto;
+}
+
+.rule-table .rule-cell > .cell .el-date-editor .el-input__prefix{
+    display: none;
+}
+
+.rule-table .rule-cell > .cell .el-date-editor .el-input__suffix .el-input__icon{
+    width: 12px;
+    line-height: 30px;
+}
+
 .rule-table .rule-cell > .cell>span {
     font-size: 12px;
     margin-left: 6px;
