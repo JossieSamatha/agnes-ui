@@ -14,8 +14,8 @@ export default {
     deleteWorkday(workdayId) {
         return request.post("/agnes-app/v1/config/workday/delete", null, {params: {workdayId}});
     },
-    deleteSpecial(paramId) {
-        return request.post("/agnes-app/v1/config/workday/delete-special", null, {params: {paramId}});
+    deleteSpecial(bizDate) {
+        return request.post("/agnes-app/v1/config/workday/delete-special", null, {params: {bizDate}});
     },
     initWorkDay(areaCode, year) {
         return request.post("/agnes-app/v1/config/workday/init", null, {params: {areaCode, year}});

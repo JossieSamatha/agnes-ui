@@ -25,9 +25,11 @@ export default {
 
         // {headerName: "证券账号", field: "accNos"},
         {headerName: "资金账号", field: "fundAccNos"},
-        {headerName: "资金账号名称", field: "fundAccName"},
-        {headerName: "市场", field: "markets"},
-        {headerName: "币种", field: "currency", dictType:"AGNES_ACNT_CURRENCY_TYPE"},
+        {headerName: "币种", field: "fundCurrencys"},
+        // {headerName: "资金账号名称", field: "fundAccName"},
+        // {headerName: "市场", field: "markets"},
+        // {headerName: "币种", field: "currency", dictType:"AGNES_ACNT_CURRENCY_TYPE"},
+
 
         {headerName: "归属机构", field: "extOrgName"},
         {headerName: "账户状态", field: "acntStatus", dictType:"AGNES_ACNT_INFO_STATUS"},

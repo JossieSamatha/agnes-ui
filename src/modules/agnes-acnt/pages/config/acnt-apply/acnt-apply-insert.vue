@@ -332,7 +332,7 @@
                             <el-select class="multiple-select" v-model="detailForm.typeCode" :disabled="mode!=='registration'"
                                        filterable clearable
                                        placeholder="请选择"
-                                       @change="loadShowRule">
+                                       @change="onTypeCodeChange">
                                 <el-option-group
                                         v-for="group in bizTagOption"
                                         :key="group.label"
@@ -677,14 +677,18 @@
                         <el-form-item :required="true" v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人/开户时对方联系人" prop="detailForm.bankLinkMan">
                             <el-select class="multiple-select" v-model="detailForm.bankLinkMan"
                                        filterable clearable multiple
-                                       placeholder="请选择">
-                                <gf-filter-option
-                                        v-for="item in linkManList"
-                                        :key="item.linkmanId"
-                                        :label="item.linkmanName"
-                                        :value="item.linkmanId">
-                                </gf-filter-option>
+                                       placeholder="请选择"
+                                       style="width: 90%">
+                              <gf-filter-option
+                                  v-for="item in linkManList"
+                                  :key="item.linkmanId"
+                                  :label="item.linkmanName"
+                                  :value="item.linkmanId">
+                              </gf-filter-option>
                             </el-select>
+                            <el-button style="border: none;padding-left: 5px;font-size: 17px;vertical-align: middle"
+                                       icon="el-icon-edit-outline" @click="addLinKman"/>
+                          </div>
                         </el-form-item>
 
                         <el-form-item v-if="showRules.other&&showRules.other.isShow" label="其他" prop="other">
@@ -710,17 +714,19 @@
 </template>
 
 <script>
-    import loadsh from 'lodash';
-    import BranchDetail from "../../../../agnes-dop/pages/config/branch/branch-detail";
+import loadsh from 'lodash';
+import BranchDetail from "../../../../agnes-dop/pages/config/branch/branch-detail";
+import LinkmanBaseDlg from "../../../../agnes-dop/pages/config/linkman-def/linkman-base-dlg"
 
-    export default {
-        name: "apply-define",
-        props: {
-            mode: {
-                type: String,
-                default: 'add'
-            },
-            row: Object,
+
+export default {
+  name: "apply-define",
+  props: {
+    mode: {
+      type: String,
+      default: 'add'
+    },
+    row: Object,
             actionOk: Function
         },
         data() {
@@ -731,33 +737,33 @@
                 serviceRes:[],
                 staticData: {},
                 detailForm: {
-                    applyId:'',
-                    applyDeadlineDt:'',
-                    typeCode:'', 
-                    bizType:'', 
-                    baseStartDept:'00',
-                    baseStartDeptLinkman:'', 
-                    settlementNo:'',
-                    baseAcceptDept:'00',
-                    stampInfo:'',
-                    stampLegalPersonInfo:'', 
-                    threeLicenseInfo:'',
-                    baseAcceptGroup:'', 
-                    baseOrgId:'', 
-                    productCode:'', 
-                    productName:'',
-                    isSendFinance:'0', 
-                    acntName:'', 
-                    acntShortName:'',
-                    baseOperator:this.$app.session.data.user.userName,
-                    accNo:'',
-                    market:'',
-                    accNoMarket:'',
-                    region:'',
-                    currency:'',
-                    fundAccName:'',
-                    acntPurpose:'',
-                    rateId:'',
+                  applyId: '',
+                  applyDeadlineDt: '',
+                  typeCode: '',
+                  bizType: '',
+                  baseStartDept: '00',
+                  baseStartDeptLinkman: '',
+                  settlementNo: '',
+                  baseAcceptDept: '00',
+                  stampInfo: '',
+                  stampLegalPersonInfo: '',
+                  threeLicenseInfo: '',
+                  baseAcceptGroup: '',
+                  baseOrgId: '',
+                  productCode: '',
+                  productName: '',
+                  isSendFinance: '0',
+                  acntName: '',
+                  acntShortName: '',
+                  baseOperator: this.$app.session.data.user.userName,
+                  accNo: '',
+                  market: '',
+                  accNoMarket: '',
+                  region: '',
+                  currency: '',
+                  fundAccName: '',
+                  acntPurpose: '',
+                  rateId: '',
                     rateCode:'',
                     bigPayNo:'',
                     openBank:'',
@@ -779,31 +785,31 @@
                     updateUser:''
                 },
                 detailFormBefore: {
-                    typeCode:'', 
-                    bizType:'', 
-                    baseStartDept:'', 
-                    baseStartDeptLinkman:'', 
-                    settlementNo:'',
-                    baseAcceptDept:'',
-                    stampInfo:'',
-                    stampLegalPersonInfo:'', 
-                    threeLicenseInfo:'',
-                    baseAcceptGroup:'', 
-                    baseOrgId:'', 
-                    productCode:'', 
-                    productName:'',
-                    isSendFinance:'0', 
-                    acntName:'', 
-                    acntShortName:'',
-                    baseOperator:this.$app.session.data.user.userName,
-                    accNo:'',
-                    market:'',
-                    accNoMarket:'',
-                    region:'',
-                    currency:'',
-                    fundAccName:'',
-                    acntPurpose:'',
-                    rateId:'',
+                  typeCode: '',
+                  bizType: '',
+                  baseStartDept: '',
+                  baseStartDeptLinkman: '',
+                  settlementNo: '',
+                  baseAcceptDept: '',
+                  stampInfo: '',
+                  stampLegalPersonInfo: '',
+                  threeLicenseInfo: '',
+                  baseAcceptGroup: '',
+                  baseOrgId: '',
+                  productCode: '',
+                  productName: '',
+                  isSendFinance: '0',
+                  acntName: '',
+                  acntShortName: '',
+                  baseOperator: this.$app.session.data.user.userName,
+                  accNo: '',
+                  market: '',
+                  accNoMarket: '',
+                  region: '',
+                  currency: '',
+                  fundAccName: '',
+                  acntPurpose: '',
+                  rateId: '',
                     rateCode:'',
                     bigPayNo:'',
                     openBank:'',
@@ -850,7 +856,7 @@
                 acntList:[],    //账户列表
                 openBankList:[],
                 showRules:{
-           
+
                 },
                 detailFormRules: {
                     typeCode: [
@@ -889,16 +895,32 @@
 
         },
         methods: {
-            // 账号新增、删除服务行
-            addAccRule(){
-                const newAccTableObj = {
-                    accNo: '',
-                    market: '',
-                    accNoType: '01',
-                };
-                this.accNoList.push(newAccTableObj);
-            },
-            deleteAccRuleRow(rowIndex){
+          addLinKman() {
+            let actionOk = this.reloadLinkmanList.bind(this);
+            let mode = 'add'
+            this.$nav.showDialog(
+                LinkmanBaseDlg,
+                {
+                  args: {row: {}, mode, actionOk},
+                  width: '50%',
+                  title: this.$dialog.formatTitle('联系人维护', 'add'),
+                }
+            );
+          },
+          async reloadLinkmanList() {
+            let linkManList = await this.$api.acntApplyApi.getLinkMan(this.detailForm.baseOrgId);
+            this.linkManList = linkManList.data
+          },
+          // 账号新增、删除服务行
+          addAccRule() {
+            const newAccTableObj = {
+              accNo: '',
+              market: '',
+              accNoType: '01',
+            };
+            this.accNoList.push(newAccTableObj);
+          },
+          deleteAccRuleRow(rowIndex) {
                 this.accNoList.splice(rowIndex, 1);
             },
             // 资金账号新增、删除服务行
@@ -1099,7 +1121,7 @@
                 }
 
                 try {
-                    let form =  JSON.parse(JSON.stringify(this.detailForm)) 
+                  let form = JSON.parse(JSON.stringify(this.detailForm))
                     form.processStatus = '07';
                     form.accNoList = this.accNoList;
                     form.moneyAccNoList = this.moneyAccNoList;
@@ -1192,6 +1214,58 @@
                     return false;
                 }
                 return true;
+            },
+
+            async onTypeCodeChange(typeCode){
+                this.detailForm = {
+                    'applyId':'',
+                    'applyDeadlineDt':'',
+                    'typeCode':typeCode,
+                    'bizType':'',
+                    'baseStartDept':'00',
+                    'baseStartDeptLinkman':'',
+                    'settlementNo':'',
+                    'baseAcceptDept':'00',
+                    'stampInfo':'',
+                    'stampLegalPersonInfo':'',
+                    'threeLicenseInfo':'',
+                    'baseAcceptGroup':'',
+                    'baseOrgId':'',
+                    'productCode':'',
+                    'productName':'',
+                    'isSendFinance':'0',
+                    'acntName':'',
+                    'acntShortName':'',
+                    'baseOperator':this.$app.session.data.user.userName,
+                    'accNo':'',
+                    'market':'',
+                    'accNoMarket':'',
+                    'region':'',
+                    'currency':'',
+                    'fundAccName':'',
+                    'acntPurpose':'',
+                    'rateId':'',
+                    'rateCode':'',
+                    'bigPayNo':'',
+                    'openBank':'',
+                    'fundAccNo':'',
+                    'isOpenEbank':'',
+                    'acntStartDt':'',
+                    'isOpenBankCorDirect':'',
+                    'maturityDt':'',
+                    'bankLinkMan':[],
+                    'acntStatus':'',
+                    'openManPhone':'',
+                    'remark':'',
+                    'other':'',
+                    'futuresCompany':'',
+                    'cardCorporateAcntId':'',
+                    'provisionBankAcntIds':[],
+                    'fields':[],
+                    'crtUser':'',
+                    'updateUser':''
+                };
+                this.loadShowRule();
             }
 
         },

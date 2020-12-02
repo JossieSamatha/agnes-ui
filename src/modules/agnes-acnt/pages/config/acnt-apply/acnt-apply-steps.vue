@@ -54,7 +54,8 @@
             canObsolete(){
                 return (this.stepData.processStatus === '01' ||
                         this.stepData.processStatus === '02' ||
-                        this.stepData.processStatus === '03')
+                        this.stepData.processStatus === '03' ||
+                        (this.stepData.bizType === '04' && (this.stepData.processStatus === '06'|| this.stepData.processStatus === '07')))
             },
             stepArr(){
                 const stepData = this.stepData;
