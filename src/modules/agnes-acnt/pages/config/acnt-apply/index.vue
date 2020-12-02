@@ -495,11 +495,11 @@
 
     .acnt-apply-container .steps-comp {
         flex: none;
-        width: 230px;
+        width: 200px;
         height: calc(100% - 30px);
         padding: 0 20px 30px;
         margin-top: 30px;
-        margin-left: 30px;
+        margin-left: 20px;
         box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.16);
     }
 

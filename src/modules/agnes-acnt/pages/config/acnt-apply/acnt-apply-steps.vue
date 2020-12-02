@@ -1,7 +1,7 @@
 <template>
     <div>
         <p class="pro-title">操作流程</p>
-        <el-steps class="step-vertical" direction="vertical" :active="activeStep" :space="65">
+        <el-steps class="step-vertical" direction="vertical" :active="activeStep" :space="50">
             <template v-for="(step, stepIndex) in stepArr">
                 <el-step :key="stepIndex"
                          @click.native="activeStep===stepIndex ? stepClick(step) : false"
@@ -15,7 +15,7 @@
                         <span v-show="activeStep===stepIndex && canObsolete"
                               class="obsolete-step"
                               @click="stepDelete"
-                        >作废</span>
+                        ><span v-html="lcImg.obsolete"></span>作废</span>
                     </template>
                 </el-step>
             </template>
@@ -206,6 +206,14 @@
         color: #f5222e;
         top: -1px;
         right: -60px;
+    }
+
+    .obsolete-step>span {
+        width: 16px;
+        display: inline-block;
+        vertical-align: text-bottom;
+        height: 16px;
+        margin-right: 1px;
     }
 
     .obsolete-step.disabled {
