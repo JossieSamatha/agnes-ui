@@ -61,9 +61,9 @@
                     <gf-button class="action-btn" @click="openApply"
                                 v-if="$hasPermission('agnes.acnt.apply.openApply')">开户</gf-button>
                     <gf-button class="action-btn" @click="submitOA"
-                                v-if="$hasPermission('agnes.acnt.apply.submitOA')">提交OA</gf-button>
+                                v-if="$hasPermission('agnes.acnt.apply.submitOA')">批量提交OA</gf-button>
                     <gf-button class="action-btn" @click="addInfoFile"
-                                v-if="$hasPermission('agnes.acnt.apply.addInfoFile')">资料准备</gf-button>
+                                v-if="$hasPermission('agnes.acnt.apply.addInfoFile')">资料补充</gf-button>
                 </template>
                 <template slot="right-before">
                     <el-switch class="inner-switch"
@@ -308,7 +308,7 @@
                 let applyIds = [];
                 let applySubIds = [];
 
-                let firstTypeCode = data[0].typeCode;
+                // let firstTypeCode = data[0].typeCode;
                 for(let i=0;i<data.length;i++){
                     let item = data[i];
                     //校验：节点状态 是否为待提交OA
@@ -317,10 +317,10 @@
                         return;
                     }
 
-                    if(firstTypeCode !== item.typeCode){
-                        this.$msg.warning('所选数据必须为同一账户类型');
-                        return;
-                    }
+                    // if(firstTypeCode !== item.typeCode){
+                    //     this.$msg.warning('所选数据必须为同一账户类型');
+                    //     return;
+                    // }
 
                     //
                     if(!this.$lodash.isEmpty(item.applySubId)){

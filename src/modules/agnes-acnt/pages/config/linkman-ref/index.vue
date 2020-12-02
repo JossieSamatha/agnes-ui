@@ -15,7 +15,17 @@
           <el-input v-model="queryArgs.extOrgName"></el-input>
         </el-form-item>
         <el-form-item label="状态">
-          <gf-dict filterable clearable v-model="queryArgs.status" dict-type="AGNES_RELEASE_STATUS"/>
+<!--          <gf-dict filterable clearable v-model="queryArgs.status" dict-type="AGNES_RELEASE_STATUS"/>-->
+          <el-select style="width: 100%" class="multiple-select" v-model="queryArgs.status"
+                     clearable filterable
+                     placeholder="请选择">
+            <gf-filter-option
+                    v-for="item in releaseStatusList"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+            </gf-filter-option>
+          </el-select>
         </el-form-item>
         <el-button @click="reSetSearch" class="option-btn">重置</el-button>
       </div>
@@ -42,7 +52,13 @@
             'linkmanName': '',
             'extOrgName': '',
             'status': '',
-          }
+          },
+          releaseStatusList: [
+            {value: '01', label: '待复核'},
+            {value: '02', label: '待发布'},
+            {value: '03', label: '已发布'},
+            {value: '05', label: '已作废'}
+          ]
         }
       },
       methods: {

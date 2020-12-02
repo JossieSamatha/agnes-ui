@@ -332,7 +332,7 @@
                             <el-select class="multiple-select" v-model="detailForm.typeCode" :disabled="mode!=='registration'"
                                        filterable clearable
                                        placeholder="请选择"
-                                       @change="loadShowRule">
+                                       @change="onTypeCodeChange">
                                 <el-option-group
                                         v-for="group in bizTagOption"
                                         :key="group.label"
@@ -1192,6 +1192,58 @@
                     return false;
                 }
                 return true;
+            },
+
+            async onTypeCodeChange(typeCode){
+                this.detailForm = {
+                    'applyId':'',
+                    'applyDeadlineDt':'',
+                    'typeCode':typeCode,
+                    'bizType':'',
+                    'baseStartDept':'00',
+                    'baseStartDeptLinkman':'',
+                    'settlementNo':'',
+                    'baseAcceptDept':'00',
+                    'stampInfo':'',
+                    'stampLegalPersonInfo':'',
+                    'threeLicenseInfo':'',
+                    'baseAcceptGroup':'',
+                    'baseOrgId':'',
+                    'productCode':'',
+                    'productName':'',
+                    'isSendFinance':'0',
+                    'acntName':'',
+                    'acntShortName':'',
+                    'baseOperator':this.$app.session.data.user.userName,
+                    'accNo':'',
+                    'market':'',
+                    'accNoMarket':'',
+                    'region':'',
+                    'currency':'',
+                    'fundAccName':'',
+                    'acntPurpose':'',
+                    'rateId':'',
+                    'rateCode':'',
+                    'bigPayNo':'',
+                    'openBank':'',
+                    'fundAccNo':'',
+                    'isOpenEbank':'',
+                    'acntStartDt':'',
+                    'isOpenBankCorDirect':'',
+                    'maturityDt':'',
+                    'bankLinkMan':[],
+                    'acntStatus':'',
+                    'openManPhone':'',
+                    'remark':'',
+                    'other':'',
+                    'futuresCompany':'',
+                    'cardCorporateAcntId':'',
+                    'provisionBankAcntIds':[],
+                    'fields':[],
+                    'crtUser':'',
+                    'updateUser':''
+                };
+                this.loadShowRule();
             }
 
         },
