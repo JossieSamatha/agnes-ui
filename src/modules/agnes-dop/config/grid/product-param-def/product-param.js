@@ -1,18 +1,28 @@
 import column from "../../../../../config/column"
+import Permission from "../../../../../utils/hasPermission"
 
 const colButtons = [
-    {key: 'editParam', title: '编辑'},
-    {key: 'deleteParam', title: '删除', cellClass: 'red-cell'},
+    {
+        key: 'editParam', title: '编辑', visiable: () => {
+            return Permission.hasPermission('agnes.dop.product.param.ref.edit');
+        }
+    },
+    {
+        key: 'deleteParam', title: '删除', cellClass: 'red-cell',
+        visiable: () => {
+            return Permission.hasPermission('agnes.dop.product.param.ref.delete');
+        }
+    },
 
 ];
 export default {
     columnDefs: [
         column.buildOpCol(80, colButtons),
         {headerName: "业务归属", field: "paramBizType", dictType: "AGNES_PRODUCT_PARAM_BIZTYPE"},
-        {headerName: "参数代码", field: "paramCode"},
+        // {headerName: "参数代码", field: "paramCode"},
         {headerName: "参数名称", field: "paramName"},
         // {headerName: "参数状态", field: "paramStatus", dictType: "AGNES_RELEASE_STATUS"},
-        // {headerName: "参数类型", field: "paramType", dictType: "AGNES_PRODUCT_PARAM_TYPE"},
+        {headerName: "参数类型", field: "paramType", dictType: "AGNES_PRODUCT_PARAM_TYPE"},
         // {
         //     headerName: "参数值", field: "paramValue",
         //     valueFormatter: function (params) {
@@ -46,6 +56,6 @@ export default {
             // 分页工具显示项，例如总页数、当前页、上一页、下一页、等分页功能按钮
             // 详见ElementUI分页组件
             layout: "total, sizes, prev, pager, next, jumper"
-        },
+        }
     },
 };

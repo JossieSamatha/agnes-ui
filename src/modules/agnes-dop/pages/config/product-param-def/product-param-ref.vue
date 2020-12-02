@@ -5,7 +5,9 @@
         <gf-grid grid-no="agnes-product-param-ref" ref="grid" quick-text-max-width="300px"
                  :query-args="queryArgs" height="100%">
           <template slot="left">
-            <gf-button class="action-btn" size="mini" @click="associated">添加</gf-button>
+            <gf-button class="action-btn" v-if="$hasPermission('agnes.dop.product.param.ref.addRef')" size="mini"
+                       @click="associated">添加
+            </gf-button>
           </template>
         </gf-grid>
       </div>
@@ -24,7 +26,7 @@ export default {
         linkManIdList: []
       },
       queryArgs: {
-        productParamId: '',
+        paramCode: '',
       }
     }
   },
@@ -37,8 +39,8 @@ export default {
   watch: {
     reqData: {
       handler() {
-        if (this.reqData.productParamId) {
-          this.queryArgs.productParamId = this.reqData.productParamId;
+        if (this.reqData.paramCode) {
+          this.queryArgs.paramCode = this.reqData.paramCode;
           this.reloadData();
         }
       },
@@ -59,8 +61,10 @@ export default {
       );
     },
     associated() {
-
-      this.associatedProduct({"productParamId": this.queryArgs.productParamId}, this.onLoad.bind(this));
+      this.associatedProduct({
+        "paramCode": this.queryArgs.paramCode,
+        "paramType": this.reqData.paramType
+      }, this.onLoad.bind(this));
     },
     reloadData() {
       this.$refs.grid.reloadData();
@@ -74,7 +78,7 @@ export default {
         return
       }
       try {
-        const p = this.$api.productParamApi.removeRef(params.data.productParamId, params.data.productId);
+        const p = this.$api.productParamApi.removeRef(params.data.paramCode, params.data.productCode);
         await this.$app.blockingApp(p);
         this.reloadData()
         this.$msg.success('删除关联成功');

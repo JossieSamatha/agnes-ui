@@ -1,5 +1,6 @@
 <template>
-    <div style="height: 100%">
+    <div>
+        <p class="pro-title">操作流程</p>
         <el-steps class="step-vertical" direction="vertical" :active="activeStep" :space="50">
             <template v-for="(step, stepIndex) in stepArr">
                 <el-step :key="stepIndex"
@@ -17,7 +18,7 @@
              :class="canObsolete?'':'disabled'"
         >
             <span class="icon" v-html="lcImg.proObsolete"></span>
-            <span class="title" @click="canObsolete ? stepDelete() : false">作废</span>
+            <span class="title" @click="canObsolete ? stepDelete() : false">作废申请</span>
         </div>
     </div>
 
@@ -41,7 +42,7 @@
                     '04': 'proPrepare', // 资料准备（审核）
                     '05': 'proFinancial', // 财务流程（审核）
                     '06': 'proAccount', // 账户信息录入（编辑）
-                    '07': 'proAccountCheck', // 账户信息复核（审核）
+                    '07': 'proCheck', // 账户信息复核（审核）
                     '08': 'proArchive', // 归档()
                     '09': 'proObsolete', // 作废
                 },
@@ -64,7 +65,7 @@
                     stepData.isSendOa==1 && stepData.bizType !== '04',
                     stepData.bizType !== '04' && !stepData.applySubId,
                     stepData.isSendFinance==1 && stepData.bizType !== '04' && !stepData.applySubId,
-                    stepData.bizType !== '04' && !stepData.applySubId,
+                    !stepData.applySubId,
                     !stepData.applySubId,
                     true,
                     true
@@ -115,6 +116,14 @@
 </script>
 
 <style>
+    .pro-title {
+        line-height: 32px;
+        border-bottom: 1px solid #ccc;
+        text-align: center;
+        background: #eaedf1;
+        margin: 0 -10px 10px;
+    }
+
     .step-vertical.el-steps.el-steps--vertical {
         height: auto;
     }

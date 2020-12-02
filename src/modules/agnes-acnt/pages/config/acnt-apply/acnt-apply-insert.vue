@@ -192,15 +192,15 @@
                             <gf-dict filterable clearable v-model="detailFormBefore.currency" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
                         </el-form-item>
 
-                        <el-form-item v-if="showRules.rateId&&showRules.rateId.isShow" label="利率" prop="rateId">
-                            <el-select v-model="detailFormBefore.rateId"
+                        <el-form-item v-if="showRules.rateCode&&showRules.rateCode.isShow" label="利率" prop="rateCode">
+                            <el-select v-model="detailFormBefore.rateCode"
                                        clearable
                                        placeholder="请选择">
                                 <gf-filter-option
                                         v-for="item in rateList"
-                                        :key="item.rateId"
-                                        :label="item.rateName"
-                                        :value="item.rateId">
+                                        :key="item.rateCode"
+                                        :label="`${item.rateCode} - ${item.rateName} - ${item.rate}`"
+                                        :value="item.rateCode">
                                 </gf-filter-option>
                             </el-select>
                         </el-form-item>
@@ -418,6 +418,17 @@
                         <el-form-item label="基金名称" prop="productName">
                             <gf-input disabled  v-model.trim="detailForm.productName" placeholder="基金名称"/>
                         </el-form-item>
+
+                        <el-form-item label="申请截止日期" prop="applyDeadlineDt">
+                            <el-date-picker
+                                    v-model="detailForm.applyDeadlineDt"
+                                    type="date"
+                                    value-format="yyyy-MM-dd"
+                                    placeholder="申请日期">
+                            </el-date-picker>
+                        </el-form-item>
+                    </div>
+                    <div class="line">
                         <el-form-item label="提交财务流程" prop="isSendFinance">
                             <el-radio-group disabled v-model="detailForm.isSendFinance">
                                 <el-radio label="1">是</el-radio>
@@ -571,15 +582,16 @@
                             <gf-dict filterable clearable v-model="detailForm.currency" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
                         </el-form-item>
 
-                        <el-form-item v-if="showRules.rateId&&showRules.rateId.isShow" label="利率" prop="rateId">
-                            <el-select v-model="detailForm.rateId"
+                        <el-form-item v-if="showRules.rateCode&&showRules.rateCode.isShow" label="利率" prop="rateCode">
+                            <el-select v-model="detailForm.rateCode"
                                        clearable
+                                       filterable
                                        placeholder="请选择">
                                 <gf-filter-option
                                         v-for="item in rateList"
-                                        :key="item.rateId"
-                                        :label="item.rateName"
-                                        :value="item.rateId">
+                                        :key="item.rateCode"
+                                        :label="`${item.rateCode} - ${item.rateName} - ${item.rate}`"
+                                        :value="item.rateCode">
                                 </gf-filter-option>
                             </el-select>
                         </el-form-item>
@@ -720,6 +732,7 @@
                 staticData: {},
                 detailForm: {
                     applyId:'',
+                    applyDeadlineDt:'',
                     typeCode:'', 
                     bizType:'', 
                     baseStartDept:'00',
@@ -745,6 +758,7 @@
                     fundAccName:'',
                     acntPurpose:'',
                     rateId:'',
+                    rateCode:'',
                     bigPayNo:'',
                     openBank:'',
                     fundAccNo:'',
@@ -790,6 +804,7 @@
                     fundAccName:'',
                     acntPurpose:'',
                     rateId:'',
+                    rateCode:'',
                     bigPayNo:'',
                     openBank:'',
                     fundAccNo:'',
@@ -840,6 +855,9 @@
                 detailFormRules: {
                     typeCode: [
                         {required: true, message: '账户类型必填', trigger: 'blur'},
+                    ],
+                    applyDeadlineDt: [
+                        {required: true, message: '申请截止日期必填', trigger: 'blur'},
                     ],
                     baseStartDept: [
                         {required: true, message: '必填', trigger: 'blur'},

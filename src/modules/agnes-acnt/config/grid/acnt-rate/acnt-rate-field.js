@@ -52,7 +52,7 @@ export default {
         column.buildOpCol(140, colButtons),
         {headerName: "方案代码", field: "rateCode"},
         {headerName: "方案名称", field: "rateName"},
-        {headerName: "利率", field: "rate"},
+        {headerName: "利率(%)", field: "rate"},
         {headerName: "大额支付号", field: "bigPayNo"},
         {headerName: "网点名称", field: "branchName"},
         {headerName: "状态", field: "status" , dictType: "AGNES_RELEASE_STATUS"},

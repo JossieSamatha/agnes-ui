@@ -5,11 +5,15 @@
                 <el-form-item label="账户名称">
                     <el-input v-model="queryArgs.acntName"></el-input>
                 </el-form-item>
-                <el-form-item label="账号" >
-                    <el-input v-model="queryArgs.accNos"></el-input>
-                </el-form-item>
                 <el-form-item label="资金账号" >
                     <el-input v-model="queryArgs.fundAccNos"></el-input>
+                </el-form-item>
+<!--                <el-form-item label="证券账号" >-->
+<!--                    <el-input v-model="queryArgs.accNos"></el-input>-->
+<!--                </el-form-item>-->
+
+                <el-form-item label="申请超时状态">
+                    <gf-dict filterable clearable v-model="queryArgs.applyDeadlineStatus" dict-type="AGNES_ACNT_APPLY_DEADLINE_STATUS" />
                 </el-form-item>
 
                 <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
@@ -40,11 +44,13 @@
                 <el-form-item label="流程节点">
                     <gf-dict filterable clearable v-model="queryArgs.processStatus" dict-type="AGNES_ACNT_APPLY_STATUS" />
                 </el-form-item>
+
+<!--                <el-form-item></el-form-item>-->
                 <el-button @click="reSetSearch" class="option-btn">重置</el-button>
             </div>
         </el-form>
         <div class="acnt-apply-container">
-            <gf-grid ref="grid"
+            <gf-grid class="acnt-apply-grid" ref="grid"
                      grid-no="acnt-apply-field"
                      @load-data="dataChange"
                      :query-args="queryArgs"
@@ -58,6 +64,17 @@
                                 v-if="$hasPermission('agnes.acnt.apply.submitOA')">提交OA</gf-button>
                     <gf-button class="action-btn" @click="addInfoFile"
                                 v-if="$hasPermission('agnes.acnt.apply.addInfoFile')">资料准备</gf-button>
+                </template>
+                <template slot="right-before">
+                    <el-switch class="inner-switch"
+                               v-model="queryArgs.isShowAll"
+                               width = 65
+                               active-text="全部"
+                               inactive-text="申请中"
+                               active-value=""
+                               inactive-value="0"
+                               @change="switchChange">
+                    </el-switch>
                 </template>
             </gf-grid>
             <acnt-apply-steps v-if="crtStepRow"
@@ -85,19 +102,21 @@
                     'accNos':'',
                     'fundAccNos':'',
                     'processStatus':'',
-                    'bizType':''
+                    'bizType':'',
+                    'applyDeadlineStatus':'',
+                    'isShowAll':'1'
                 },
                 tableData: [],
                 status:{
                     '01':'发起申请',
-                    '02':'待复核',
+                    '02':'复核申请',
                     '03':'待提交OA',
                     '04':'资料准备',
                     '05':'财务流程',
-                    '06':'账户待录入',
-                    '07':'账户待复核',
-                    '08':'已归档',
-                    '09':'已作废',
+                    '06':'信息录入',
+                    '07':'信息复核',
+                    '08':'归档申请',
+                    '09':'作废申请',
                 },
                 typeCodeOption: [{
                     label: 'TA',
@@ -138,6 +157,12 @@
                     this.$msg.error(reason);
                 }
             },
+            switchChange(){
+                if(this.queryArgs.isShowAll === true){
+                    this.queryArgs.isShowAll = ""
+                }
+                this.reloadData();
+            },
             reloadData() {
                 this.$refs.grid.reloadData();
             },
@@ -166,28 +191,30 @@
                     'accNos':'',
                     'fundAccNos':'',
                     'processStatus':'',
-                    'bizType':''
+                    'bizType':'',
+                    'applyDeadlineStatus':'',
+                    'isShowAll':'1'
                 };
-                this.reloadData();
+                this.$refs.grid.reloadData();
             },
             showOpenDlg(mode, row, actionOk,isDisabled=false) {
                 if (mode !== 'add' && !row) {
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
-                let title = '账户开户';
+                let title = '发起申请';
                 let okButtonTitle = '保存';//add addInfo edit
                 if(mode==='check'){
                     title = '账户审核';
                     okButtonTitle = '审核';
                 }else if(mode==='detele'){
-                    title = '账户作废';
+                    title = '作废申请';
                     okButtonTitle = '作废';
                 }else if(mode==='addInfo'){
                     title = '资料准备';
                     okButtonTitle = '保存';
                 }else if(mode==='checkFund'){
-                    title = '财务审核';
+                    title = '财务流程';
                     okButtonTitle = '审核';
                 }
 
@@ -323,9 +350,9 @@
                     return;
                 }
 
-                let title = '账户录入';
+                let title = '信息录入';
                 if(mode === 'check'){
-                    title = '账户复核';
+                    title = '信息复核';
                 }
 
                 let customOpBtn = [];
@@ -455,7 +482,44 @@
     .acnt-apply-container .steps-comp {
         flex: none;
         width: 150px;
-        height: 100%;
-        padding: 30px 0 30px 20px;
+        height: calc(100% - 30px);
+        padding: 0 10px 30px;
+        margin-top: 30px;
+        margin-left: 5px;
+        border: 1px solid #ccc;
+    }
+</style>
+
+<style>
+    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-expanded,
+    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-contracted{
+        margin-right: 0;
+    }
+
+    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-expanded .ag-icon,
+    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-contracted .ag-icon{
+        color: blue;
+    }
+
+    .acnt-apply-grid .ag-theme-balham .ag-row-group-expanded .ag-cell:not([col-id="#cbox"]),
+    .acnt-apply-grid .ag-theme-balham .ag-row-group-contracted .ag-cell:not([col-id="#cbox"]){
+        color: blue;
+        background: #F6F8FA;
+    }
+
+    .acnt-apply-grid .gf-ag-grid.ag-theme-balham .ag-row-even,
+    .acnt-apply-grid .gf-ag-grid.ag-theme-balham .ag-row-odd {
+        background: #fff;
+    }
+
+    .acnt-apply-grid .gf-ag-grid.ag-theme-balham .ag-row.ag-row-level-1 {
+        border: none;
+    }
+    .acnt-apply-grid .ag-cell .ag-group-value{
+        margin-left: 0!important;
+    }
+
+    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-row-level-1 .ag-row-group-leaf-indent {
+        margin-left: 0;
     }
 </style>

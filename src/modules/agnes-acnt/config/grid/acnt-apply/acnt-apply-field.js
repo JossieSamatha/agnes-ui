@@ -5,8 +5,8 @@ export default {
         // {headerName: "账户类型", field: "typeName"},
         {headerName: "账户名称", field: "acntName"},
         // {headerName: "账号", field: "accNo"},
-        {headerName: "账号", field: "accNos"},
         {headerName: "资金账号", field: "fundAccNos"},
+        {headerName: "证券账号", field: "accNos"},
 
         {headerName: "归属机构", field: "orgName"},
         {headerName: "业务类型", field: "bizType",dictType:"AGNES_ACNT_BIZ_TYPE"},
@@ -18,6 +18,9 @@ export default {
             }
             return '是';
         }},
+        {headerName: "申请截止日期", field: "applyDeadlineDt"},
+        {headerName: "申请超时状态", field: "applyDeadlineStatus",dictType: 'AGNES_ACNT_APPLY_DEADLINE_STATUS'},
+
         column.colCrtUser,
         column.colCrtTm,
         column.colUpdUser,

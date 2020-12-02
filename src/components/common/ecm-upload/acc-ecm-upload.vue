@@ -7,7 +7,6 @@
                :before-upload="checkFile"
                :on-progress="uploadProgress"
                :on-success="uploadSuccess"
-               :on-remove="onRemove"
                :on-error="uploadError"
                :on-exceed="sizeExp"
                :multiple="true"
@@ -15,6 +14,7 @@
                :disabled="disabled"
                :show-file-list="false"
                :file-list="fileList"
+               accept=".doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.pdf,.jpg,.jpeg,.png,.gif,.tif,.tiff,.zip,.rar"
                v-loading.fullscreen.lock="uploadFileLoading"
                element-loading-background="rgba(0, 0, 0, 0.3)" element-loading-text="文件上传中，请稍后">
         <div>
@@ -157,12 +157,22 @@
             //上传之前
             checkFile(file) {
                 this.uploadFileLoading = true;
-                const isLtM = file.size / 1024 / 1024 < 100;
-
-                if (!isLtM) {
-                    this.$msg.error('文件不能超过 100MB!');
+                //doc,docx,ppt,pptx,xls,xlsx,txt,pdf,jpg,jpeg,png,gif,tif,tiff,zip,rar
+                var fileType=file.name.substring(file.name.lastIndexOf('.')+1);
+                const isImage = fileType === 'jpg'||fileType ==='jpeg'||fileType ==='png'||fileType ==='gif'||fileType ==='tif'||fileType ==='tiff';
+                const isOffice = fileType === 'doc'||fileType ==='docx'||fileType ==='ppt'||fileType ==='pptx'||fileType ==='xls'||fileType ==='xlsx';
+                const isOther = fileType === 'zip'||fileType ==='rar'||fileType ==='pdf'||fileType ==='txt';
+                if (!isImage && !isOffice && !isOther) {
+                    this.$msg.error('上传文件必须为如下格式：doc,docx,ppt,pptx,xls,xlsx,txt,pdf,jpg,jpeg,png,gif,tif,tiff,zip,rar');
+                    this.uploadFileLoading = false;
                 }
-                return isLtM;
+
+                const isLtM = file.size / 1024 / 1024 < 200;
+                if (!isLtM) {
+                    this.$msg.error('文件不能超过 200MB!');
+                    this.uploadFileLoading = false;
+                }
+                return isLtM && (isImage||isOffice||isOther) ;
             },
 
             //上传中

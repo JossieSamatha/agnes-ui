@@ -15,4 +15,7 @@ export default {
     startRateScheme(form) {
         return request.post("/agnes-app/v1/acnt/rate/ref/start", form);
     },
+    stopRateScheme(form) {
+        return request.post("/agnes-app/v1/acnt/rate/ref/stop", form);
+    },
 };

@@ -38,7 +38,7 @@ const colButtons = [
                 result =false;
             }
             return result;}},
-    {key: 'stopRateScheme', title: '停止', cellClass: 'red-cell',visiable: (params)=>{
+    {key: 'stopRateScheme', title: '停用', cellClass: 'red-cell',visiable: (params)=>{
             let result = false;
             if(params.data.status === '03'
                 && Permission.hasPermission('agnes.acnt.rate.def.stop')){
@@ -51,11 +51,13 @@ export default {
     columnDefs: [
         {headerName: "账户名称", field: "acntName"},
         // {headerName: "账号", field: "accountNo"},
-        {headerName: "开户机构", field: "extOrgName"},
+        {headerName: "归属机构", field: "extOrgName"},
         {headerName: "利率(%)", field: "rate"},
+        {headerName: "方案代码", field: "rateCode"},
+        {headerName: "方案名称", field: "rateName"},
         {headerName: "状态", field: "status",dictType: 'AGNES_RELEASE_STATUS'},
-        {headerName: "启用日期", field: "startDt"},
-        {headerName: "停用日期", field: "endDt"},
+        {headerName: "生效日期", field: "startDt"},
+        {headerName: "失效日期", field: "endDt"},
         column.colUpdUser,
         column.colUpdTm,
         column.buildOpCol(140, colButtons)
