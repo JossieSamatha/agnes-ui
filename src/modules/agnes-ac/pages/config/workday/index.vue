@@ -130,6 +130,7 @@
             if (flag.match(/0|1/)) {
                 this.workday.workday = flag;
             }else if(flag === 'cancel'){
+                this.workday.paramCode = '';
                 await this.cancelSpecialDay(item);
                 return ;
             } else {
@@ -155,7 +156,7 @@
 
         async cancelSpecialDay(item){
             try {
-                await this.$api.workdayConfigApi.deleteSpecial(item.paramId);
+                await this.$api.workdayConfigApi.deleteSpecial(item.bizDate);
                 this.list(this.workday, item.bizDate)
                 this.$msg.success('取消成功');
             } catch (reason) {
