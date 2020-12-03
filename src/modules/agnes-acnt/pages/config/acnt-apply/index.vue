@@ -62,7 +62,7 @@
                                 v-if="$hasPermission('agnes.acnt.apply.openApply')">开户</gf-button>
                     <gf-button class="action-btn" @click="submitOA" style="position: relative;"
                                 v-if="$hasPermission('agnes.acnt.apply.submitOA')">
-                        <span>提交OA</span>
+                        <span>批量提交OA</span>
                         <span v-show="pointerShow" class="svg-pointer" v-html="svgImg.pointer"></span>
                         <div v-show="pointerShow" class="pointer-mask" @click.prevent.stop="pointerShow = false"></div>
                     </gf-button>
@@ -117,7 +117,7 @@
                     '01':'发起申请',
                     '02':'复核申请',
                     '03':'待提交OA',
-                    '04':'资料准备',
+                    '04':'资料完备',
                     '05':'财务流程',
                     '06':'信息录入',
                     '07':'信息复核',
