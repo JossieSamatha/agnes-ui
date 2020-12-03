@@ -7,7 +7,7 @@
                  @load-data="dataLoaded"
         >
           <template slot="left">
-            <gf-button class="action-btn" size="mini"
+            <gf-button class="action-btn" size="mini" v-if="$hasPermission('agnes.dop.product.param.ref.add')"
                        @click="addParams">添加
             </gf-button>
           </template>

@@ -109,23 +109,37 @@
                   </el-date-picker>
                 </template>
               </el-table-column>
-              <el-table-column prop="effectiveDate" label="生效时间" min-width="100">
+              <!--              <el-table-column prop="effectiveDate" label="生效时间" min-width="100">-->
+              <!--                <template slot-scope="scope">-->
+              <!--                  <el-date-picker-->
+              <!--                      v-model="scope.row.effectiveDate"-->
+              <!--                      :style="!scope.row.effectiveDate ? 'border:1px solid #f00':''"-->
+              <!--                      type="date"-->
+              <!--                      value-format="yyyy-MM-dd"-->
+              <!-- >-->
+              <!--                  </el-date-picker>-->
+              <!--                </template>-->
+              <!--              </el-table-column>-->
+              <!--              <el-table-column prop="failureDate" label="失效时间" min-width="100">-->
+              <!--                <template slot-scope="scope">-->
+              <!--                  <el-date-picker-->
+              <!--                      v-model="scope.row.failureDate"-->
+              <!--                      :style="!scope.row.failureDate ? 'border:1px solid #f00':''"-->
+              <!--                      type="date"-->
+              <!--                      value-format="yyyy-MM-dd"-->
+              <!--                  >-->
+              <!--                  </el-date-picker>-->
+              <!--                </template>-->
+              <!--              </el-table-column>-->
+              <el-table-column prop="dateValue" label="有效日期" min-width="100">
                 <template slot-scope="scope">
                   <el-date-picker
-                      v-model="scope.row.effectiveDate"
-                      :style="!scope.row.effectiveDate ? 'border:1px solid #f00':''"
-                      type="date"
-                      value-format="yyyy-MM-dd">
-                  </el-date-picker>
-                </template>
-              </el-table-column>
-              <el-table-column prop="failureDate" label="失效时间" min-width="100">
-                <template slot-scope="scope">
-                  <el-date-picker
-                      v-model="scope.row.failureDate"
-                      :style="!scope.row.failureDate ? 'border:1px solid #f00':''"
-                      type="date"
-                      value-format="yyyy-MM-dd">
+                      v-model="scope.row.dateValue"
+                      type="daterange"
+                      range-separator="-"
+                      value-format="yyyy-MM-dd"
+                      start-placeholder="开始日期"
+                      end-placeholder="结束日期">
                   </el-date-picker>
                 </template>
               </el-table-column>
@@ -178,23 +192,36 @@
                   </el-date-picker>
                 </template>
               </el-table-column>
-              <el-table-column prop="effectiveDate" label="生效时间" min-width="100">
+              <!--              <el-table-column prop="effectiveDate" label="生效时间" min-width="100">-->
+              <!--                <template slot-scope="scope">-->
+              <!--                  <el-date-picker-->
+              <!--                      v-model="scope.row.effectiveDate"-->
+              <!--                      :style="!scope.row.effectiveDate ? 'border:1px solid #f00':''"-->
+              <!--                      type="date"-->
+              <!--                      value-format="yyyy-MM-dd">-->
+              <!--                  </el-date-picker>-->
+              <!--                </template>-->
+              <!--              </el-table-column>-->
+              <!--              <el-table-column prop="failureDate" label="失效时间" min-width="100">-->
+              <!--                <template slot-scope="scope">-->
+              <!--                  <el-date-picker-->
+              <!--                      v-model="scope.row.failureDate"-->
+              <!--                      :style="!scope.row.failureDate ? 'border:1px solid #f00':''"-->
+              <!--                      type="date"-->
+              <!--                      value-format="yyyy-MM-dd"-->
+              <!--                  >-->
+              <!--                  </el-date-picker>-->
+              <!--                </template>-->
+              <!--              </el-table-column>-->
+              <el-table-column prop="dateValue" label="有效日期" min-width="100">
                 <template slot-scope="scope">
                   <el-date-picker
-                      v-model="scope.row.effectiveDate"
-                      :style="!scope.row.effectiveDate ? 'border:1px solid #f00':''"
-                      type="date"
-                      value-format="yyyy-MM-dd">
-                  </el-date-picker>
-                </template>
-              </el-table-column>
-              <el-table-column prop="failureDate" label="失效时间" min-width="100">
-                <template slot-scope="scope">
-                  <el-date-picker
-                      v-model="scope.row.failureDate"
-                      :style="!scope.row.failureDate ? 'border:1px solid #f00':''"
-                      type="date"
-                      value-format="yyyy-MM-dd">
+                      v-model="scope.row.dateValue"
+                      type="daterange"
+                      range-separator="-"
+                      value-format="yyyy-MM-dd"
+                      start-placeholder="开始日期"
+                      end-placeholder="结束日期">
                   </el-date-picker>
                 </template>
               </el-table-column>
@@ -271,9 +298,12 @@ export default {
     }
   },
   beforeMount() {
+    this.detailForm.tAPrdtRuInfoParamRefVo = [];
+    this.detailForm.fAPrdtRuInfoParamRefVo = [];
     if (this.mode !== "add") {
       this.detailForm = this.$lodash.cloneDeep(this.row);
     }
+
   },
   mounted() {
     this.getParams();
@@ -298,10 +328,10 @@ export default {
       });
       params.paramCode = productParam.paramCode;
       params.paramType = productParam.paramType;
-      params.paramValue = productParam.paramValue;
+      //params.paramValue = productParam.paramValue;
       params.effectiveDate = productParam.effectiveDate;
       params.failureDate = productParam.failureDate;
-      params.productParamId = productParam.productParamId;
+      params.dateValue = [window.bizDate, '9999-12-31'];
     },
     taChanges(params) {
       let _that = this;
@@ -310,10 +340,11 @@ export default {
       });
       params.paramCode = productParam.paramCode;
       params.paramType = productParam.paramType;
-      params.paramValue = productParam.paramValue;
+      //params.paramValue = productParam.paramValue;
       params.effectiveDate = productParam.effectiveDate;
       params.failureDate = productParam.failureDate;
-      params.productParamId = productParam.productParamId;
+      params.dateValue = [window.bizDate, '9999-12-31'];
+
     },
     addFA() {
       const newFileTableObj = {
@@ -324,6 +355,7 @@ export default {
         paramValue: '',
         effectiveDate: '',
         failureDate: '',
+        dateValue: []
       };
       this.detailForm.fAPrdtRuInfoParamRefVo.push(newFileTableObj);
     },
@@ -336,6 +368,7 @@ export default {
         paramValue: '',
         effectiveDate: '',
         failureDate: '',
+        dateValue: [],
       };
       this.detailForm.tAPrdtRuInfoParamRefVo.push(newFileTableObj);
     },
@@ -371,6 +404,15 @@ export default {
         this.$msg.warning("请补充完整参数表格!");
         return;
       }
+      this.detailForm.fAPrdtRuInfoParamRefVo.forEach(faParam => {
+        faParam.effectiveDate = faParam.dateValue[0]
+        faParam.failureDate = faParam.dateValue[1]
+      })
+      this.detailForm.tAPrdtRuInfoParamRefVo.forEach(taParam => {
+        taParam.effectiveDate = taParam.dateValue[0]
+        taParam.failureDate = taParam.dateValue[1]
+      })
+
       try {
         let paramData = this.detailForm;
         if (this.mode === 'add') {
@@ -380,12 +422,23 @@ export default {
             return;
           }
           const p = this.$api.productApi.saveProdut(this.detailForm);
-          await this.$app.blockingApp(p);
-          this.$msg.success('保存成功');
+          const addDate = await this.$app.blockingApp(p);
+          if (addDate.data) {
+            this.$msg.warning(addDate.data);
+            return
+          } else {
+            this.$msg.success('保存成功');
+          }
+
         } else if (this.mode === 'edit') {
           const p = this.$api.productApi.saveProdut(this.detailForm);
-          await this.$app.blockingApp(p);
-          this.$msg.success('修改成功');
+          const editDate = await this.$app.blockingApp(p);
+          if (editDate.data) {
+            this.$msg.warning(editDate.data);
+            return
+          } else {
+            this.$msg.success('修改成功');
+          }
         } else {
           let updateParam = {
             productId: paramData.productId,
@@ -410,6 +463,7 @@ export default {
       this.detailForm.fAPrdtRuInfoParamRefVo = [];
       this.$emit("onClose");
     },
+
   },
   watch: {}
 }

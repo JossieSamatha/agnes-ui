@@ -8,19 +8,31 @@
       <el-form-item label="产品全称" prop="effectiveDate">
         <el-input v-model="detailForm.productName" disabled/>
       </el-form-item>
-      <el-form-item label="生效时间" prop="effectiveDate">
+      <!--      <el-form-item label="生效时间" prop="effectiveDate">-->
+      <!--        <el-date-picker-->
+      <!--            v-model="detailForm.effectiveDate"-->
+      <!--            type="date"-->
+      <!--            value-format="yyyy-MM-dd"-->
+      <!--            :picker-options="pickerOptionsStart"-->
+      <!--            placeholder="生效时间"/>-->
+      <!--      </el-form-item>-->
+      <!--      <el-form-item label="失效时间" prop="failureDate">-->
+      <!--        <el-date-picker-->
+      <!--            v-model="detailForm.failureDate"-->
+      <!--            type="date"-->
+      <!--            value-format="yyyy-MM-dd"-->
+      <!--            :picker-options="pickerOptionsEnd"-->
+      <!--            placeholder="失效时间"/>-->
+      <!--      </el-form-item>-->
+      <el-form-item prop="dateValue" label="有效日期">
         <el-date-picker
-            v-model="detailForm.effectiveDate"
-            type="date"
+            v-model="detailForm.dateValue"
+            type="daterange"
+            range-separator="-"
             value-format="yyyy-MM-dd"
-            placeholder="生效时间"/>
-      </el-form-item>
-      <el-form-item label="失效时间" prop="failureDate">
-        <el-date-picker
-            v-model="detailForm.failureDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="失效时间"/>
+            start-placeholder="开始日期"
+            end-placeholder="结束日期">
+        </el-date-picker>
       </el-form-item>
       <el-form-item label="参数值" prop="paramValue">
         <gf-input v-if="detailForm.paramType==='str'" v-model.trim="detailForm.paramValue" placeholder="参数值"/>
@@ -62,13 +74,11 @@ export default {
         paramType: '',
         paramValue: '',
         productCodes: [],
+        dateValue: [],
       },
       detailFormRules: {
-        effectiveDate: [
+        dateValue: [
           {required: true, message: '生效日期', trigger: 'blur'},
-        ],
-        failureDate: [
-          {required: true, message: '失效日期', trigger: 'blur'},
         ],
         paramValue: [
           {required: true, message: '参数值', trigger: 'blur'},
@@ -90,9 +100,16 @@ export default {
         return;
       }
       try {
+        this.detailForm.effectiveDate = this.detailForm.dateValue[0];
+        this.detailForm.failureDate = this.detailForm.dateValue[1];
         const req = this.$api.productParamApi.updateRef(this.detailForm);
-        await this.$app.blockingApp(req);
-        this.$msg.success('保存成功');
+        const resDate = await this.$app.blockingApp(req);
+        if (resDate.data) {
+          this.$msg.warning(resDate.data);
+          return;
+        } else {
+          this.$msg.success('修改成功');
+        }
         if (this.actionOk) {
           await this.actionOk();
         }
