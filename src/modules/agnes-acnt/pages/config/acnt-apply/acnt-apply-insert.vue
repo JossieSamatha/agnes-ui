@@ -1326,4 +1326,6 @@ export default {
     .module-card {
         box-shadow: none;
     }
+
+
 </style>
