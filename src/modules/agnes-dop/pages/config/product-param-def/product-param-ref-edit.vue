@@ -2,6 +2,12 @@
   <div>
     <el-form ref="taskDefForm" class="fit-box" :model="detailForm"
              :rules="detailFormRules" label-width="100px">
+      <el-form-item label="产品代码" prop="effectiveDate">
+        <el-input v-model="detailForm.productCode" disabled/>
+      </el-form-item>
+      <el-form-item label="产品全称" prop="effectiveDate">
+        <el-input v-model="detailForm.productName" disabled/>
+      </el-form-item>
       <el-form-item label="生效时间" prop="effectiveDate">
         <el-date-picker
             v-model="detailForm.effectiveDate"
@@ -29,15 +35,6 @@
         </el-date-picker>
         <gf-dict v-model="detailForm.paramValue" v-if="detailForm.paramType==='boolean'"
                  dict-type="AGNES_PRODUCT_BOOLEAN"/>
-
-      </el-form-item>
-      <el-form-item label="关联产品">
-        <gf-grid grid-no="agnes-product-info-beyond-param" ref="grid" quick-text-max-width="300px"
-        >
-        </gf-grid>
-        <template slot="left">
-          <gf-button class="action-btn" style="margin-right: 20px" @click="addProduct">添加</gf-button>
-        </template>
       </el-form-item>
     </el-form>
     <dialog-footer :on-save="onSave" ok-button-title="确定"></dialog-footer>
@@ -58,8 +55,10 @@ export default {
       },
       detailForm: {
         paramCode: '',
-        effectiveDate: window.bizDate,
-        failureDate: '9999-12-31',
+        productName: '',
+        productCode: '',
+        effectiveDate: '',
+        failureDate: '',
         paramType: '',
         paramValue: '',
         productCodes: [],
@@ -78,9 +77,7 @@ export default {
     }
   },
   mounted() {
-    this.queryArgs.paramCode = this.row.paramCode;
-    this.detailForm.paramCode = this.row.paramCode;
-    this.detailForm.paramType = this.row.paramType;
+    this.detailForm = this.$lodash.cloneDeep(this.row)
   },
   methods: {
     addProduct() {
@@ -92,18 +89,8 @@ export default {
       if (!ok) {
         return;
       }
-      const row = this.$refs.grid.getSelectedRows();
-      if (row.length === 0) {
-        this.$msg.warning("关联产品不可为空")
-        return;
-      }
       try {
-        let that = this;
-        const productInfos = this.$refs.grid.getSelectedRows();
-        productInfos.forEach(productInfo => {
-          that.detailForm.productCodes.push(productInfo.productCode)
-        });
-        const req = this.$api.productParamApi.saveProductParamRef(that.detailForm);
+        const req = this.$api.productParamApi.updateRef(this.detailForm);
         await this.$app.blockingApp(req);
         this.$msg.success('保存成功');
         if (this.actionOk) {

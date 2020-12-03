@@ -316,7 +316,10 @@ export default {
   },
   beforeMount() {
     if (this.mode !== "add") {
-      Object.assign(this.detailForm, this.row);
+      //this.detailForm.tAPrdtRuInfoParamRefVo = [];
+      //this.detailForm.fAPrdtRuInfoParamRefVo = [];
+      this.detailForm = this.$lodash.cloneDeep(this.row);
+      //Object.assign(this.detailForm, this.row);
     }
   },
   mounted() {
@@ -358,10 +361,6 @@ export default {
       params.effectiveDate = productParam.effectiveDate;
       params.failureDate = productParam.failureDate;
       params.productParamId = productParam.productParamId;
-    },
-    // 取消onCancel事件，触发抽屉关闭事件this.$emit("onClose");
-    async onCancel() {
-      this.$emit("onClose");
     },
     addFA() {
       const newFileTableObj = {
@@ -450,6 +449,13 @@ export default {
       } catch (reason) {
         this.$msg.error(reason);
       }
+    },
+    // 取消onCancel事件，触发抽屉关闭事件this.$emit("onClose");
+
+    async onCancel() {
+      this.detailForm.tAPrdtRuInfoParamRefVo = [];
+      this.detailForm.fAPrdtRuInfoParamRefVo = [];
+      this.$emit("onClose");
     },
   },
   watch: {}

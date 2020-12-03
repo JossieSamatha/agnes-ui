@@ -34,7 +34,6 @@
   </div>
 </template>
 <script>
-
 export default {
   name: "task-define",
   props: {
@@ -77,7 +76,7 @@ export default {
   mounted() {
     this.isFirst = true
     if (this.mode !== 'add') {
-      this.detailForm = this.row
+      this.detailForm = this.$lodash.cloneDeep(this.row);
     }
   },
   methods: {
@@ -110,7 +109,10 @@ export default {
         this.detailForm.paramValue = '';
       }
       this.isFirst = false;
-    }
+    },
+    reloadData() {
+      this.$refs.grid.reloadData();
+    },
   }
 }
 </script>

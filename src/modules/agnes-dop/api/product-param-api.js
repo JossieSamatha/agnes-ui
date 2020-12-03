@@ -23,7 +23,10 @@ export default {
     saveProductParamRef(from) {
         return request.post("/agnes-app/v1/prdt/param/save/ref", from);
     },
-    removeRef(paramCode, productCode) {
-        return request.post("/agnes-app/v1/prdt/param/remove/ref", null, {params: {paramCode, productCode}});
+    removeRef(pkId) {
+        return request.post("/agnes-app/v1/prdt/param/remove/ref", null, {params: {pkId}});
+    },
+    updateRef(form) {
+        return request.post("/agnes-app/v1/prdt/param/update/ref", form);
     }
 };
