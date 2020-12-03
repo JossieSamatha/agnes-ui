@@ -77,6 +77,8 @@
                                inactive-text="申请中"
                                active-value=""
                                inactive-value="0"
+                               active-color="#13ce66"
+                               inactive-color="#409eff"
                                @change="switchChange">
                     </el-switch>
                 </template>
@@ -499,7 +501,7 @@
         height: calc(100% - 30px);
         padding: 0 20px 30px;
         margin-top: 30px;
-        margin-left: 20px;
+        margin-left: 10px;
         box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.16);
     }
 
@@ -583,5 +585,8 @@
 
     .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-row-level-1 .ag-row-group-leaf-indent {
         margin-left: 0;
+    }
+    .acnt-apply-container .ag-grid-box .grid-action-panel .right .el-input {
+        width: 200px;
     }
 </style>

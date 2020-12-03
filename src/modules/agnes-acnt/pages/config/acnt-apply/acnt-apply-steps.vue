@@ -206,7 +206,7 @@
         position: absolute;
         color: #f5222e;
         top: -1px;
-        right: -60px;
+        right: -48px;
     }
 
     .obsolete-step>span {
