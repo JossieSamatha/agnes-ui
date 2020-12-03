@@ -4,7 +4,7 @@ import Permission from "../../../../../utils/hasPermission"
 const colButtons = [
     {
         key: 'editProductParamRef', title: '编辑', visiable: () => {
-            return Permission.hasPermission('agnes.dop.product.param.ref.deleteRef');
+            return Permission.hasPermission('agnes.dop.product.param.ref.editRef');
         }
     },
     {
