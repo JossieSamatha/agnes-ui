@@ -52,8 +52,9 @@ export default {
         {headerName: "流程类型", field: "processType"},
 
         column.colCrtUser,
+        {headerName: "创建人", field: "crtUserName"},
         column.colCrtTm,
-        column.colUpdUser,
+        {headerName: "更新人", field: "updateUserName"},
         column.colUpdTm
     ],
     defaultColDef: {
