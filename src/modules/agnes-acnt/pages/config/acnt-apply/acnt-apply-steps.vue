@@ -14,7 +14,7 @@
                         <span>{{step.stepTitle}}</span>
                         <span v-show="activeStep===stepIndex && canObsolete"
                               class="obsolete-step"
-                              @click="stepDelete"
+                              @click.prevent.stop="stepDelete"
                         ><span v-html="lcImg.obsolete"></span>作废</span>
                     </template>
                 </el-step>
