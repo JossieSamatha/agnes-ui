@@ -3,21 +3,34 @@ import Permission from "../../../../../utils/hasPermission"
 
 const colButtons = [
     {
-        key: 'deleteProductParamRef', title: '删除', cellClass: 'red-cell', visiable: () => {
+        key: 'editProductParamRef', title: '编辑', visiable: () => {
+            return Permission.hasPermission('agnes.dop.product.param.ref.deleteRef');
+        }
+    },
+    {
+        key: 'deleteProductParamRef', title: '移除', cellClass: 'red-cell', visiable: () => {
             return Permission.hasPermission('agnes.dop.product.param.ref.deleteRef');
         }
     },
 ];
 export default {
     columnDefs: [
-        column.buildOpCol(60, colButtons),
+        column.buildOpCol(80, colButtons),
         {headerName: "产品代码", field: "productCode"},
         {headerName: "产品全称", field: "productName"},
         // {headerName: "产品种类", field: "productClass", dictType: "AGNES_PRODUCT_CLASS"},
         // {headerName: "产品类型", field: "productType", dictType: "AGNES_PRODUCT_TYPE"},
         {headerName: "生效时间", field: "effectiveDate"},
         {headerName: "失效时间", field: "failureDate"},
-        {headerName: "参数值", field: "paramValue"},
+        {
+            headerName: "参数值", field: "paramValue",
+            valueFormatter: function (params) {
+                if (params.data.paramType === 'boolean') {
+                    return window.$gfui.$app.dict.getDictItem('AGNES_PRODUCT_BOOLEAN', params.value).dictName;
+                }
+                return params.value;
+            }
+        },
         column.colCrtUser,
     ],
     ext: {

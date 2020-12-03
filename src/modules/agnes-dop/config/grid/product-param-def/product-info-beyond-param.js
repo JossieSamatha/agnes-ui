@@ -9,7 +9,7 @@ export default {
     ],
     rowSelection: 'multiple',
     ext: {
-        fetchUrl: "/agnes-app/v1/prdt/param/info/beyond/param",
+        fetchUrl: "/agnes-app/v1/prdt/info/list/all",
         fetchMethod: 'get',
         pagingMode: false, //不分页
         checkboxColumn: 2, //是否显示checkbox列,

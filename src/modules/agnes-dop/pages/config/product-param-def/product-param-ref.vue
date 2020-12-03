@@ -17,6 +17,8 @@
 
 <script>
 import ProductParamRefDlg from "./product-param-ref-dlg"
+import ProductParamRefEdit from './product-param-ref-edit'
+
 
 export default {
   data() {
@@ -61,6 +63,11 @@ export default {
       );
     },
     associated() {
+      if (!this.queryArgs.paramCode) {
+        this.$msg.warning("请先选中一条参数");
+        return
+      }
+
       this.associatedProduct({
         "paramCode": this.queryArgs.paramCode,
         "paramType": this.reqData.paramType
@@ -78,14 +85,31 @@ export default {
         return
       }
       try {
-        const p = this.$api.productParamApi.removeRef(params.data.paramCode, params.data.productCode);
+        const p = this.$api.productParamApi.removeRef(params.data.pkId);
         await this.$app.blockingApp(p);
         this.reloadData()
         this.$msg.success('删除关联成功');
       } catch (reason) {
         this.$msg.error(reason);
       }
-    }
+    },
+    editProductParamRef(params) {
+      this.showDlg(params.data, this.onLoad.bind(this))
+    },
+    showDlg(row, actionOk) {
+      if (!row) {
+        this.$msg.warning("请选中一条记录!");
+        return;
+      }
+      this.$nav.showDialog(
+          ProductParamRefEdit,
+          {
+            args: {row, actionOk},
+            width: '50%%',
+            title: this.$dialog.formatTitle('产品参数关系维护', "edit"),
+          }
+      );
+    },
   },
 }
 </script>
