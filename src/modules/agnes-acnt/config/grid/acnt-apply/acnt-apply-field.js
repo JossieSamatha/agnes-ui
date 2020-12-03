@@ -3,6 +3,12 @@ import column from "../../../../../config/column"
 export default {
     columnDefs: [
         // {headerName: "账户类型", field: "typeName"},
+        {headerName: "流程申请名称", field: "#",
+        valueFormatter: function (params){
+            return params.data.crtUser+"发起的"+
+                window.$gfui.$app.dict.getDictItem('AGNES_ACNT_BIZ_TYPE', params.data.bizType).dictName+"申请流程"
+        }
+        },
         {headerName: "账户名称", field: "acntName"},
         // {headerName: "账号", field: "accNo"},
         {headerName: "资金账号", field: "fundAccNos"},
