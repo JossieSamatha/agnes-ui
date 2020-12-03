@@ -328,10 +328,10 @@ export default {
       });
       params.paramCode = productParam.paramCode;
       params.paramType = productParam.paramType;
-      params.paramValue = productParam.paramValue;
+      //params.paramValue = productParam.paramValue;
       params.effectiveDate = productParam.effectiveDate;
       params.failureDate = productParam.failureDate;
-      params.productParamId = productParam.productParamId;
+      params.dateValue = [window.bizDate, '9999-12-31'];
     },
     taChanges(params) {
       let _that = this;
@@ -340,10 +340,11 @@ export default {
       });
       params.paramCode = productParam.paramCode;
       params.paramType = productParam.paramType;
-      params.paramValue = productParam.paramValue;
+      //params.paramValue = productParam.paramValue;
       params.effectiveDate = productParam.effectiveDate;
       params.failureDate = productParam.failureDate;
-      params.productParamId = productParam.productParamId;
+      params.dateValue = [window.bizDate, '9999-12-31'];
+
     },
     addFA() {
       const newFileTableObj = {
@@ -354,7 +355,7 @@ export default {
         paramValue: '',
         effectiveDate: '',
         failureDate: '',
-        dateValue: ''
+        dateValue: []
       };
       this.detailForm.fAPrdtRuInfoParamRefVo.push(newFileTableObj);
     },
@@ -367,7 +368,7 @@ export default {
         paramValue: '',
         effectiveDate: '',
         failureDate: '',
-        dateValue: ''
+        dateValue: [],
       };
       this.detailForm.tAPrdtRuInfoParamRefVo.push(newFileTableObj);
     },
