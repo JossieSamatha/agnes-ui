@@ -675,6 +675,7 @@
                         </el-form-item>
 
                         <el-form-item :required="true" v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人/开户时对方联系人" prop="detailForm.bankLinkMan">
+                            <div class="line">
                             <el-select class="multiple-select" v-model="detailForm.bankLinkMan"
                                        filterable clearable multiple
                                        placeholder="请选择"
