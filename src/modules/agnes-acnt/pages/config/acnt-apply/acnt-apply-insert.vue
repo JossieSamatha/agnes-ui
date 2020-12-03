@@ -283,7 +283,7 @@
                             <gf-input v-model.trim="detailFormBefore.futuresCompany" placeholder="期货公司"/>
                         </el-form-item>
 
-                        <el-form-item :required="true" v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人/开户时对方联系人" prop="bankLinkMan">
+                        <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人/开户时对方联系人" prop="bankLinkMan">
                             <el-select class="multiple-select" v-model="detailFormBefore.bankLinkMan"
                                        filterable clearable multiple
                                        placeholder="请选择">
@@ -635,7 +635,7 @@
                             </el-radio-group>
                         </el-form-item>
 
-                        <el-form-item v-if="showRules.provisionBankAcntIds&&showRules.provisionBankAcntIds.isShow" label="备付金账户对应的银行账户" prop="baseOperator">
+                        <el-form-item  v-if="showRules.provisionBankAcntIds&&showRules.provisionBankAcntIds.isShow" label="备付金账户对应的银行账户" prop="baseOperator">
                             <el-select style="width: 100%" class="multiple-select" v-model="detailForm.provisionBankAcntIds"
                                        filterable clearable multiple
                                        placeholder="请选择">
@@ -674,7 +674,7 @@
                             <gf-input v-model.trim="detailForm.futuresCompany" placeholder="期货公司"/>
                         </el-form-item>
 
-                        <el-form-item :required="true" v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人/开户时对方联系人" prop="detailForm.bankLinkMan">
+                        <el-form-item  v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人/开户时对方联系人" prop="detailForm.bankLinkMan">
                             <div class="line">
                             <el-select class="multiple-select" v-model="detailForm.bankLinkMan"
                                        filterable clearable multiple
