@@ -101,7 +101,7 @@
 
             <module-card title="账户信息" shadow="never">
                 <template slot="content">
-                    <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="证券账号">
+                    <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="证券账号" prop="accNo">
                         <div class="rule-table">
                             <el-table header-row-class-name="rule-header-row"
                                       header-cell-class-name="rule-header-cell"
@@ -124,7 +124,7 @@
                         </div>
                     </el-form-item>
 
-                    <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号">
+                    <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号" prop="fundAccNo">
                         <div class="rule-table">
                             <el-table header-row-class-name="rule-header-row"
                                       header-cell-class-name="rule-header-cell"
@@ -441,7 +441,7 @@
 
             <module-card title="账户信息" shadow="never" v-if="detailForm.typeCode">
                 <template slot="content">
-                    <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="证券账号">
+                    <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="证券账号" prop="accNo">
                         <div class="rule-table">
                             <el-table header-row-class-name="rule-header-row"
                                       header-cell-class-name="rule-header-cell"
@@ -469,7 +469,7 @@
                             <el-button  @click="addAccRule()" class="rule-add-btn" size="small">新增</el-button>
                         </div>
                     </el-form-item>
-                    <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号">
+                    <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号" prop="fundAccNo">
                         <div class="rule-table">
                             <el-table header-row-class-name="rule-header-row"
                                       header-cell-class-name="rule-header-cell"
@@ -1043,33 +1043,49 @@ export default {
                 }
             },
 
+            arrValidate(rule, value, callback) {
+                if (!value && value.length < 1) {
+                    callback(new Error('必填'));
+                }else{
+                    callback();
+                }
+            },
+
             async loadShowRule(){
                 let resp = await this.$api.acntApplyApi.getConfig(this.detailForm.typeCode);
                 let showRules = resp.data;
-                // let showRules = {
-                //     acntName:{isShow:true,required:true},
-                //     acntShortName:{isShow:true,required:true},
-                // };
                 this.showRules = showRules;
                 for(let key  in showRules){
-                    let detailFormRulesOne = showRules[key];
-                    detailFormRulesOne.message = '必填';
-                    detailFormRulesOne.required = showRules[key].mustFill=='1';
-                    detailFormRulesOne.trigger = 'blur';
-                    this.detailFormRules[key] = [detailFormRulesOne]
-                    if(key === 'accNo' && showRules[key].mustFill === '1'){
-                        this.isAccNoMustFill = true;
-                    }
-                    if(key === 'fundAccNo' && showRules[key].mustFill === '1'){
-                        this.isMoneyAccNoMustFill = true;
-                    }
-                    if(key === 'bankLinkMan' && showRules[key].mustFill === '1'){
-                        this.isBankLinkManMustFill = true;
-                    }
-                    if(key === 'provisionBankAcntIds' && showRules[key].mustFill === '1'){
-                        this.isProvisionBankAcntIdsMustFill = true;
+                    const arrItem = ['accNo', 'fundAccNo', 'bankLinkMan', 'provisionBankAcntIds'];
+                    if(showRules[key].mustFill === '1'){
+                        if(arrItem.includes(showRules[key])){
+                            this.$set(this.detailFormRules, [key], [{ required: true, validator: this.arrValidate, trigger: 'change'}]);
+                        }else{
+                            this.$set(this.detailFormRules, [key], [{ message: showRules[key].factorName+'必填', required: true, trigger: 'blur'}]);
+                        }
+                    }else{
+                        if(this.detailFormRules[key]){
+                            this.$delete(this.detailFormRules, [key]);
+                        }
                     }
                 }
+                //
+                // switch (showRules[key]) {
+                //     case 'accNo':
+                //         this.isAccNoMustFill = true;
+                //         break;
+                //     case 'fundAccNo':
+                //         this.isMoneyAccNoMustFill = true;
+                //         break;
+                //     case 'bankLinkMan':
+                //         this.isBankLinkManMustFill = true;
+                //         break;
+                //     case 'provisionBankAcntIds':
+                //         this.isProvisionBankAcntIdsMustFill = true;
+                //         break;
+                //     default:
+                //         this.$set(this.detailFormRules, [key], [{ message: '必填', required: true, trigger: 'blur'}]);
+                // }
             },
             async loadProductName(){
                 if(loadsh.isEmpty(this.detailForm.productCode)){
@@ -1266,6 +1282,9 @@ export default {
                     'crtUser':'',
                     'updateUser':''
                 };
+                if(this.$refs.taskDefForm){
+                    this.$refs.taskDefForm.clearValidate();
+                }
                 this.loadShowRule();
             }
 
