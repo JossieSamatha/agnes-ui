@@ -113,6 +113,7 @@ export default {
       try {
         let that = this;
         const productInfos = this.$refs.grid.getSelectedRows();
+        that.detailForm.productCodes = [];
         productInfos.forEach(productInfo => {
           that.detailForm.productCodes.push(productInfo.productCode)
         });
