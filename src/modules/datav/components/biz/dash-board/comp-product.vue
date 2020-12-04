@@ -37,7 +37,8 @@
         methods: {
             getProClass(classId){
                 if(classId){
-                    return this.$lodash.find(this.classDict, {dictId: classId}).dictName;
+                    const dictObj = this.$lodash.find(this.classDict, {dictId: classId});
+                    return dictObj ? dictObj.dictName : '';
                 }else{
                     return ''
                 }
