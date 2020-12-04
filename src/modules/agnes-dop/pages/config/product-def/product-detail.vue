@@ -89,7 +89,6 @@
                     </el-option>
                   </el-select>
                 </template>
-
               </el-table-column>
               <el-table-column prop="paramValue" label="参数值" min-width="100">
                 <template slot-scope="scope">
