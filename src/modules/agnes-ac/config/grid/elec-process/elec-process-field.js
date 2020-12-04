@@ -30,7 +30,8 @@ export default {
                 if (params.value) {
                     let Ids = JSON.parse(params.value)
                     return Ids.map((dictId) => {
-                        return window.$gfui.$app.dict.getDictItem('AGNES_BIZ_TAG', dictId).dictName;
+                        const dictObj = window.$gfui.$app.dict.getDictItem('AGNES_BIZ_TAG', dictId);
+                        return dictObj ? dictObj.dictName : false;
                     }).join(',');
                 }
                 return "";
