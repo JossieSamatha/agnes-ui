@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div v-show="pointerShow" class="pointer-mask" @click="pointerShow = false"></div>
         <el-form class="search-panel" label-width="100px">
             <div class="line">
                 <el-form-item label="账户名称">
@@ -60,11 +61,12 @@
                 <template slot="left">
                     <gf-button class="action-btn" @click="openApply"
                                 v-if="$hasPermission('agnes.acnt.apply.openApply')">开户</gf-button>
-                    <gf-button class="action-btn" @click="submitOA" style="position: relative;"
+                    <gf-button class="action-btn"
+                               :class="pointerShow ? 'pointerShow' : '' "
+                               @click="submitOA" style="position: relative;"
                                 v-if="$hasPermission('agnes.acnt.apply.submitOA')">
                         <span>批量提交OA</span>
                         <span v-show="pointerShow" class="svg-pointer" v-html="svgImg.pointer"></span>
-                        <div v-show="pointerShow" class="pointer-mask" @click.prevent.stop="pointerShow = false"></div>
                     </gf-button>
                     <gf-button class="action-btn" @click="addInfoFile"
                                 v-if="$hasPermission('agnes.acnt.apply.addInfoFile')">资料补充</gf-button>
@@ -72,7 +74,7 @@
                 <template slot="right-before">
                     <el-switch class="inner-switch"
                                v-model="queryArgs.isShowAll"
-                               width = 65
+                               :width = 65
                                active-text="全部"
                                inactive-text="申请中"
                                active-value=""
@@ -520,7 +522,7 @@
         z-index: 1005;
     }
 
-    .action-btn .pointer-mask {
+    .pointer-mask {
         position: fixed;
         width: 100%;
         height: 100%;
@@ -555,6 +557,14 @@
 </style>
 
 <style>
+    .ag-grid-box .grid-action-panel .action-btn.pointerShow {
+        color: #0F5EFF;
+        border-color: #0F5EFF;
+        background: #fff;
+        z-index: 1008;
+        box-shadow: 0px 0px 2px 1px #409eff;
+    }
+
     .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-expanded,
     .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-contracted{
         margin-right: 0;
