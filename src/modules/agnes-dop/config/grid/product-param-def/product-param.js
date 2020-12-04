@@ -13,15 +13,22 @@ const colButtons = [
             return Permission.hasPermission('agnes.dop.product.param.ref.delete');
         }
     },
+    {
+        key: 'approveProductParam', title: '审核', disabled: (params) => {
+            return params.data.paramStatus === '04'
+        }, visiable: () => {
+            return Permission.hasPermission('agnes.dop.product.param.ref.approve');
+        }
+    }
 
 ];
 export default {
     columnDefs: [
-        column.buildOpCol(80, colButtons),
+        column.buildOpCol(100, colButtons),
         {headerName: "业务归属", field: "paramBizType", dictType: "AGNES_PRODUCT_PARAM_BIZTYPE"},
         {headerName: "参数名称", field: "paramName"},
         {headerName: "参数类型", field: "paramType", dictType: "AGNES_PRODUCT_PARAM_TYPE"},
-
+        {headerName: "参数状态", field: "paramStatus", dictType: 'AGNES_RELEASE_STATUS'},
     ],
 
     ext: {
