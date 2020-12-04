@@ -78,12 +78,13 @@ export default {
         this.$msg.error("删除失败");
       }
     },
-    async approveParam(params) {
+    async approveProductParam(params) {
       try {
         params.data.paramStatus = '04'
         const p = this.$api.productParamApi.updateStatus(params.data);
         await this.$app.blockingApp(p);
         this.$msg.success('审核成功');
+        this.reloadData();
       } catch (reason) {
         this.$msg.error("审核失败");
       }
@@ -123,6 +124,7 @@ export default {
       this.reloadData();
     },
     dataLoaded() {
+      this.reqData.paramCode = '';
       if (this.$refs.productParamRef && this.$refs.productParamRef.$refs.grid) {
         this.$refs.productParamRef.queryArgs.paramCode = '';
         this.$refs.productParamRef.queryArgs.paramType = '';
@@ -140,7 +142,7 @@ export default {
 
 .gf-auth-role {
   flex-grow: 0;
-  width: 430px;
+  width: 500px;
   padding-right: 5px;
 }
 

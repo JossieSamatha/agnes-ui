@@ -441,7 +441,8 @@ export default {
         } else {
           let updateParam = {
             productId: paramData.productId,
-            productStatus: '04'
+            productStatus: '04',
+            productCode:paramData.productCode,
           }
           const p = this.$api.productApi.updateStatus(updateParam);
           await this.$app.blockingApp(p);

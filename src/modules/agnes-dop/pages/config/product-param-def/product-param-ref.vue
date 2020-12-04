@@ -96,6 +96,20 @@ export default {
     editProductParamRef(params) {
       this.showDlg(params.data, this.onLoad.bind(this))
     },
+    async approveProductParamRef(params) {
+      try {
+        const param = {
+          pkId: params.data.pkId,
+          status: '04',
+        }
+        const p = this.$api.productParamApi.updateProductParamRefStatus(param)
+        await this.$app.blockingApp(p);
+        this.$msg.success("审核成功");
+        this.reloadData();
+      } catch (reason) {
+        this.$msg.error("审核失败");
+      }
+    },
     showDlg(row, actionOk) {
       if (!row) {
         this.$msg.warning("请选中一条记录!");
@@ -105,7 +119,7 @@ export default {
           ProductParamRefEdit,
           {
             args: {row, actionOk},
-            width: '50%%',
+            width: '50%',
             title: this.$dialog.formatTitle('产品参数关系维护', "edit"),
           }
       );

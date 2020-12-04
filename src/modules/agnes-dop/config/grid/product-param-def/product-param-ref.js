@@ -12,10 +12,17 @@ const colButtons = [
             return Permission.hasPermission('agnes.dop.product.param.ref.deleteRef');
         }
     },
+    {
+        key: 'approveProductParamRef', title: '审核', disabled: (params) => {
+            return params.data.status === '04'
+        }, visiable: () => {
+            return Permission.hasPermission('agnes.dop.product.param.ref.approveRef');
+        }
+    }
 ];
 export default {
     columnDefs: [
-        column.buildOpCol(80, colButtons),
+        column.buildOpCol(100, colButtons),
         {headerName: "产品代码", field: "productCode"},
         {headerName: "产品全称", field: "productName"},
         // {headerName: "产品种类", field: "productClass", dictType: "AGNES_PRODUCT_CLASS"},
@@ -31,6 +38,7 @@ export default {
                 return params.value;
             }
         },
+        {headerName: "状态", field: "status", dictType: 'AGNES_RELEASE_STATUS'},
         column.colCrtUser,
     ],
     ext: {
