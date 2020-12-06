@@ -1113,15 +1113,20 @@ form input[type=submit] {
 }
 
 .el-form .el-form-item .el-form-item__content .el-date-editor.el-input,
-.el-form .el-form-item .el-form-item__content .el-date-editor.el-input__inner {
+.el-form .el-form-item .el-form-item__content .el-date-editor.el-range-editor.el-input__inner{
     margin-top: 0;
-    padding: 0 15px;
     height: 28px;
-    line-height: 28px;
-    font-size: 12px;
+    line-height: 0;
+}
+
+.el-form .el-form-item .el-form-item__content .el-date-editor .el-input__inner {
+    margin-top: 0;
+    height: 26px;
+    line-height: 26px;
 }
 
 .el-form .el-form-item .el-form-item__content .el-date-editor .el-range-input,
+.el-form .el-form-item .el-form-item__content .el-date-editor .el-input__icon,
 .el-form .el-form-item .el-form-item__content .el-date-editor .el-range-separator {
     height: 26px;
     line-height: 26px;
