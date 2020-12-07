@@ -2,7 +2,7 @@
     <div>
         <div v-if="showChange" class="title-top">变更前</div>
         <el-divider v-if="showChange"></el-divider>
-        <el-form v-if="showChange" ref="taskDefFormBefore" class="acnt-apply-insert-form" :model="detailFormBefore" disabled
+        <el-form v-if="showChange" ref="taskDefFormBefore" class="acnt-apply-insert-form" :model="detailFormBefore" :disabled="true"
              :rules="detailFormRules" label-width="180px">
             <module-card title="要素信息" shadow="never">
                 <template slot="content">
@@ -87,7 +87,7 @@
                     </div>
                     <div class="line">
                         <el-form-item label="基金名称" prop="productName">
-                            <gf-input disabled  v-model.trim="detailFormBefore.productName" placeholder="基金名称"/>
+                            <gf-input :disabled="true"  v-model.trim="detailFormBefore.productName" placeholder="基金名称"/>
                         </el-form-item>
                         <el-form-item label="提交财务流程" prop="isSendFinance">
                             <el-radio-group v-model="detailFormBefore.isSendFinance">
@@ -347,7 +347,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="业务类型" prop="bizType">
-                            <gf-dict disabled filterable clearable v-model="detailForm.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
+                            <gf-dict :disabled="true" filterable clearable v-model="detailForm.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
                         </el-form-item>
                     </div>
                     <div class="line">
@@ -399,7 +399,7 @@
                     </div>
                     <div class="line">
                         <el-form-item label="经办人" prop="baseOperator">
-                            <gf-input disabled v-model.trim="detailForm.baseOperator" placeholder="经办人" />
+                            <gf-input :disabled="true" v-model.trim="detailForm.baseOperator" placeholder="经办人" />
                         </el-form-item>
                         <el-form-item label="基金代码" prop="productCode">
                             <el-select class="multiple-select" v-model="detailForm.productCode"
@@ -416,7 +416,7 @@
                     </div>
                     <div class="line">
                         <el-form-item label="基金名称" prop="productName">
-                            <gf-input disabled  v-model.trim="detailForm.productName" placeholder="基金名称"/>
+                            <gf-input :disabled="true"  v-model.trim="detailForm.productName" placeholder="基金名称"/>
                         </el-form-item>
 
                         <el-form-item label="申请截止日期" prop="applyDeadlineDt">
@@ -430,7 +430,7 @@
                     </div>
                     <div class="line">
                         <el-form-item label="提交财务流程" prop="isSendFinance">
-                            <el-radio-group disabled v-model="detailForm.isSendFinance">
+                            <el-radio-group :disabled="true" v-model="detailForm.isSendFinance">
                                 <el-radio label="1">是</el-radio>
                                 <el-radio label="0">否</el-radio>
                             </el-radio-group>
@@ -563,7 +563,7 @@
                                            placeholder="请输入关键词或空格搜索"
                                            :remote-method="remoteLoadOpenBankList"
                                            :loading="loading"
-                                           :disabled="showRules.bigPayNo && showRules.bigPayNo.isShow">
+                                           :disabled="showRules.bigPayNo && showRules.bigPayNo.isShow==='1'">
                                     <gf-filter-option
                                             v-for="item in openBankList"
                                             :key="item.bigPayNo"
