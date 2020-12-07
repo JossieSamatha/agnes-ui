@@ -2,7 +2,7 @@
     <div>
         <div v-if="showChange" class="title-top">变更前</div>
         <el-divider v-if="showChange"></el-divider>
-        <el-form v-if="showChange" ref="taskDefFormBefore" class="acnt-apply-insert-form" :model="detailFormBefore" disabled
+        <el-form v-if="showChange" ref="taskDefFormBefore" class="acnt-apply-insert-form" :model="detailFormBefore" :disabled="true"
              :rules="detailFormRules" label-width="180px">
             <module-card title="要素信息" shadow="never">
                 <template slot="content">
@@ -87,7 +87,7 @@
                     </div>
                     <div class="line">
                         <el-form-item label="基金名称" prop="productName">
-                            <gf-input disabled  v-model.trim="detailFormBefore.productName" placeholder="基金名称"/>
+                            <gf-input :disabled="true"  v-model.trim="detailFormBefore.productName" placeholder="基金名称"/>
                         </el-form-item>
                         <el-form-item label="提交财务流程" prop="isSendFinance">
                             <el-radio-group v-model="detailFormBefore.isSendFinance">
@@ -101,7 +101,7 @@
 
             <module-card title="账户信息" shadow="never">
                 <template slot="content">
-                    <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="证券账号">
+                    <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="证券账号" prop="accNo">
                         <div class="rule-table">
                             <el-table header-row-class-name="rule-header-row"
                                       header-cell-class-name="rule-header-cell"
@@ -110,10 +110,10 @@
                                       :data="detailFormBefore.accNoList"
                                       border stripe
                                       style="width: 100%">
-                                <el-table-column prop="accNo" label="账号">
-                                  <template slot-scope="scope">
-                                    <el-input v-model="scope.row.accNo"></el-input>
-                                  </template>
+                                <el-table-column prop="accNo" label="证券账号">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.accNo"></el-input>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column prop="market" label="市场">
                                     <template slot-scope="scope">
@@ -124,7 +124,7 @@
                         </div>
                     </el-form-item>
 
-                    <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号">
+                    <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号" prop="fundAccNo">
                         <div class="rule-table">
                             <el-table header-row-class-name="rule-header-row"
                                       header-cell-class-name="rule-header-cell"
@@ -353,7 +353,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="业务类型" prop="bizType">
-                            <gf-dict disabled filterable clearable v-model="detailForm.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
+                            <gf-dict :disabled="true" filterable clearable v-model="detailForm.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
                         </el-form-item>
                     </div>
                     <div class="line">
@@ -405,7 +405,7 @@
                     </div>
                     <div class="line">
                         <el-form-item label="经办人" prop="baseOperator">
-                            <gf-input disabled v-model.trim="detailForm.baseOperator" placeholder="经办人" />
+                            <gf-input :disabled="true" v-model.trim="detailForm.baseOperator" placeholder="经办人" />
                         </el-form-item>
                         <el-form-item label="基金代码" prop="productCode">
                             <el-select class="multiple-select" v-model="detailForm.productCode"
@@ -422,7 +422,7 @@
                     </div>
                     <div class="line">
                         <el-form-item label="基金名称" prop="productName">
-                            <gf-input disabled  v-model.trim="detailForm.productName" placeholder="基金名称"/>
+                            <gf-input :disabled="true"  v-model.trim="detailForm.productName" placeholder="基金名称"/>
                         </el-form-item>
 
                       <!--                        <el-form-item  label="申请截止日期" prop="applyDeadlineDt">-->
@@ -436,7 +436,7 @@
                     </div>
                   <!--                    <div class="line">-->
                   <!--                        <el-form-item label="提交财务流程" prop="isSendFinance">-->
-                  <!--                            <el-radio-group disabled v-model="detailForm.isSendFinance">-->
+                  <!--                            <el-radio-group :disabled="true" v-model="detailForm.isSendFinance">-->
                   <!--                                <el-radio label="1">是</el-radio>-->
                   <!--                                <el-radio label="0">否</el-radio>-->
                   <!--                            </el-radio-group>-->
@@ -447,7 +447,7 @@
 
             <module-card title="账户信息" shadow="never" v-if="detailForm.typeCode">
                 <template slot="content">
-                    <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="证券账号">
+                    <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="证券账号" prop="accNo">
                         <div class="rule-table">
                             <el-table header-row-class-name="rule-header-row"
                                       header-cell-class-name="rule-header-cell"
@@ -475,7 +475,7 @@
                             <el-button  @click="addAccRule()" class="rule-add-btn" size="small">新增</el-button>
                         </div>
                     </el-form-item>
-                    <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号">
+                    <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号" prop="fundAccNo">
                         <div class="rule-table">
                             <el-table header-row-class-name="rule-header-row"
                                       header-cell-class-name="rule-header-cell"
@@ -569,7 +569,7 @@
                                            placeholder="请输入关键词或空格搜索"
                                            :remote-method="remoteLoadOpenBankList"
                                            :loading="loading"
-                                           :disabled="showRules.bigPayNo && showRules.bigPayNo.isShow">
+                                           :disabled="showRules.bigPayNo && showRules.bigPayNo.isShow==='1'">
                                     <gf-filter-option
                                             v-for="item in openBankList"
                                             :key="item.bigPayNo"
@@ -1055,33 +1055,49 @@ export default {
                 }
             },
 
+            arrValidate(rule, value, callback) {
+                if (!value && value.length < 1) {
+                    callback(new Error('必填'));
+                }else{
+                    callback();
+                }
+            },
+
             async loadShowRule(){
                 let resp = await this.$api.acntApplyApi.getConfig(this.detailForm.typeCode);
                 let showRules = resp.data;
-                // let showRules = {
-                //     acntName:{isShow:true,required:true},
-                //     acntShortName:{isShow:true,required:true},
-                // };
                 this.showRules = showRules;
                 for(let key  in showRules){
-                    let detailFormRulesOne = showRules[key];
-                    detailFormRulesOne.message = '必填';
-                    detailFormRulesOne.required = showRules[key].mustFill=='1';
-                    detailFormRulesOne.trigger = 'blur';
-                    this.detailFormRules[key] = [detailFormRulesOne]
-                    if(key === 'accNo' && showRules[key].mustFill === '1'){
-                        this.isAccNoMustFill = true;
-                    }
-                    if(key === 'fundAccNo' && showRules[key].mustFill === '1'){
-                        this.isMoneyAccNoMustFill = true;
-                    }
-                    if(key === 'bankLinkMan' && showRules[key].mustFill === '1'){
-                        this.isBankLinkManMustFill = true;
-                    }
-                    if(key === 'provisionBankAcntIds' && showRules[key].mustFill === '1'){
-                        this.isProvisionBankAcntIdsMustFill = true;
+                    const arrItem = ['accNo', 'fundAccNo', 'bankLinkMan', 'provisionBankAcntIds'];
+                    if(showRules[key].mustFill === '1'){
+                        if(arrItem.includes(showRules[key])){
+                            this.$set(this.detailFormRules, [key], [{ required: true, validator: this.arrValidate, trigger: 'change'}]);
+                        }else{
+                            this.$set(this.detailFormRules, [key], [{ message: showRules[key].factorName+'必填', required: true, trigger: 'blur'}]);
+                        }
+                    }else{
+                        if(this.detailFormRules[key]){
+                            this.$delete(this.detailFormRules, [key]);
+                        }
                     }
                 }
+                //
+                // switch (showRules[key]) {
+                //     case 'accNo':
+                //         this.isAccNoMustFill = true;
+                //         break;
+                //     case 'fundAccNo':
+                //         this.isMoneyAccNoMustFill = true;
+                //         break;
+                //     case 'bankLinkMan':
+                //         this.isBankLinkManMustFill = true;
+                //         break;
+                //     case 'provisionBankAcntIds':
+                //         this.isProvisionBankAcntIdsMustFill = true;
+                //         break;
+                //     default:
+                //         this.$set(this.detailFormRules, [key], [{ message: '必填', required: true, trigger: 'blur'}]);
+                // }
             },
             async loadProductName(){
                 if(loadsh.isEmpty(this.detailForm.productCode)){
@@ -1278,6 +1294,9 @@ export default {
                     'crtUser':'',
                     'updateUser':''
                 };
+                if(this.$refs.taskDefForm){
+                    this.$refs.taskDefForm.clearValidate();
+                }
                 this.loadShowRule();
             }
 

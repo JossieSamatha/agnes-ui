@@ -1112,6 +1112,26 @@ form input[type=submit] {
     width: 100%;
 }
 
+.el-form .el-form-item .el-form-item__content .el-date-editor.el-input,
+.el-form .el-form-item .el-form-item__content .el-date-editor.el-range-editor.el-input__inner{
+    margin-top: 0;
+    height: 28px;
+    line-height: 0;
+}
+
+.el-form .el-form-item .el-form-item__content .el-date-editor .el-input__inner {
+    margin-top: 0;
+    height: 26px;
+    line-height: 26px;
+}
+
+.el-form .el-form-item .el-form-item__content .el-date-editor .el-range-input,
+.el-form .el-form-item .el-form-item__content .el-date-editor .el-input__icon,
+.el-form .el-form-item .el-form-item__content .el-date-editor .el-range-separator {
+    height: 26px;
+    line-height: 26px;
+}
+
 .el-form .el-form-item:not(.is-error) .el-form-item__content input {
     border-color: #EAEDF1;
 }
