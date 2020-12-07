@@ -110,10 +110,10 @@
                                       :data="detailFormBefore.accNoList"
                                       border stripe
                                       style="width: 100%">
-                                <el-table-column prop="accNo" label="证券账号">
-                                    <template slot-scope="scope">
-                                        <el-input v-model="scope.row.accNo"></el-input>
-                                    </template>
+                                <el-table-column prop="accNo" label="账号">
+                                  <template slot-scope="scope">
+                                    <el-input v-model="scope.row.accNo"></el-input>
+                                  </template>
                                 </el-table-column>
                                 <el-table-column prop="market" label="市场">
                                     <template slot-scope="scope">
@@ -272,26 +272,32 @@
 
                         <el-form-item v-if="showRules.maturityDt&&showRules.maturityDt.isShow" label="到期提醒" prop="maturityDt">
                             <el-date-picker
-                                    v-model="detailFormBefore.maturityDt"
-                                    type="date"
-                                    value-format="yyyy-MM-dd"
-                                    placeholder="到期提醒">
+                                v-model="detailFormBefore.maturityDt"
+                                type="date"
+                                value-format="yyyy-MM-dd"
+                                placeholder="到期提醒">
                             </el-date-picker>
                         </el-form-item>
 
-                        <el-form-item v-if="showRules.futuresCompany&&showRules.futuresCompany.isShow" label="期货公司" prop="futuresCompany">
-                            <gf-input v-model.trim="detailFormBefore.futuresCompany" placeholder="期货公司"/>
-                        </el-form-item>
+                      <el-form-item v-if="showRules.futuresCompany&&showRules.futuresCompany.isShow" label="期货公司"
+                                    prop="futuresCompany">
+                        <gf-input v-model.trim="detailFormBefore.futuresCompany" placeholder="期货公司"/>
+                      </el-form-item>
 
-                        <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人/开户时对方联系人" prop="bankLinkMan">
-                            <el-select class="multiple-select" v-model="detailFormBefore.bankLinkMan"
-                                       filterable clearable multiple
-                                       placeholder="请选择">
-                                <gf-filter-option
-                                        v-for="item in linkManList"
-                                        :key="item.linkmanId"
-                                        :label="item.linkmanName"
-                                        :value="item.linkmanId">
+                      <el-form-item v-if="showRules.limits&&showRules.limits.isShow" label="额度" prop="limits">
+                        <gf-input v-model.trim="detailFormBefore.limits" placeholder="额度" input-lang="money"/>
+                      </el-form-item>
+
+                      <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人/开户时对方联系人"
+                                    prop="bankLinkMan">
+                        <el-select class="multiple-select" v-model="detailFormBefore.bankLinkMan"
+                                   filterable clearable multiple
+                                   placeholder="请选择">
+                          <gf-filter-option
+                              v-for="item in linkManList"
+                              :key="item.linkmanId"
+                              :label="item.linkmanName"
+                              :value="item.linkmanId">
                                 </gf-filter-option>
                             </el-select>
                         </el-form-item>
@@ -419,23 +425,23 @@
                             <gf-input disabled  v-model.trim="detailForm.productName" placeholder="基金名称"/>
                         </el-form-item>
 
-                        <el-form-item label="申请截止日期" prop="applyDeadlineDt">
-                            <el-date-picker
-                                    v-model="detailForm.applyDeadlineDt"
-                                    type="date"
-                                    value-format="yyyy-MM-dd"
-                                    placeholder="申请日期">
-                            </el-date-picker>
-                        </el-form-item>
+                      <!--                        <el-form-item  label="申请截止日期" prop="applyDeadlineDt">-->
+                      <!--                            <el-date-picker-->
+                      <!--                                    v-model="detailForm.applyDeadlineDt"-->
+                      <!--                                    type="date"-->
+                      <!--                                    value-format="yyyy-MM-dd"-->
+                      <!--                                    placeholder="申请日期">-->
+                      <!--                            </el-date-picker>-->
+                      <!--                        </el-form-item>-->
                     </div>
-                    <div class="line">
-                        <el-form-item label="提交财务流程" prop="isSendFinance">
-                            <el-radio-group disabled v-model="detailForm.isSendFinance">
-                                <el-radio label="1">是</el-radio>
-                                <el-radio label="0">否</el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                    </div>
+                  <!--                    <div class="line">-->
+                  <!--                        <el-form-item label="提交财务流程" prop="isSendFinance">-->
+                  <!--                            <el-radio-group disabled v-model="detailForm.isSendFinance">-->
+                  <!--                                <el-radio label="1">是</el-radio>-->
+                  <!--                                <el-radio label="0">否</el-radio>-->
+                  <!--                            </el-radio-group>-->
+                  <!--                        </el-form-item>-->
+                  <!--                    </div>-->
                 </template>
             </module-card>
 
@@ -450,11 +456,11 @@
                                       :data="accNoList"
                                       border stripe
                                       style="width: 100%">
-                                <el-table-column prop="accNo" label="证券账号">
-                                    <template slot-scope="scope">
-                                        <el-input v-model="scope.row.accNo"></el-input>
-                                    </template>
-                                </el-table-column>
+                              <el-table-column prop="accNo" label="账号">
+                                <template slot-scope="scope">
+                                  <el-input v-model="scope.row.accNo"></el-input>
+                                </template>
+                              </el-table-column>
                                 <el-table-column prop="market" label="市场">
                                     <template slot-scope="scope">
                                         <gf-dict filterable clearable v-model="scope.row.market" dict-type="AGNES_ACNT_MARKET" />
@@ -663,26 +669,32 @@
 
                         <el-form-item v-if="showRules.maturityDt&&showRules.maturityDt.isShow" label="到期提醒" prop="maturityDt">
                             <el-date-picker
-                                    v-model="detailForm.maturityDt"
-                                    type="date"
-                                    value-format="yyyy-MM-dd"
-                                    placeholder="到期提醒">
+                                v-model="detailForm.maturityDt"
+                                type="date"
+                                value-format="yyyy-MM-dd"
+                                placeholder="到期提醒">
                             </el-date-picker>
                         </el-form-item>
 
-                        <el-form-item v-if="showRules.futuresCompany&&showRules.futuresCompany.isShow" label="期货公司" prop="futuresCompany">
-                            <gf-input v-model.trim="detailForm.futuresCompany" placeholder="期货公司"/>
-                        </el-form-item>
+                      <el-form-item v-if="showRules.futuresCompany&&showRules.futuresCompany.isShow" label="期货公司"
+                                    prop="futuresCompany">
+                        <gf-input v-model.trim="detailForm.futuresCompany" placeholder="期货公司"/>
+                      </el-form-item>
 
-                        <el-form-item  v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人/开户时对方联系人" prop="detailForm.bankLinkMan">
-                            <div class="line">
-                            <el-select class="multiple-select" v-model="detailForm.bankLinkMan"
-                                       filterable clearable multiple
-                                       placeholder="请选择"
-                                       style="width: 90%">
-                              <gf-filter-option
-                                  v-for="item in linkManList"
-                                  :key="item.linkmanId"
+                      <el-form-item v-if="showRules.limits&&showRules.limits.isShow" label="额度" prop="limits">
+                        <gf-input v-model.trim="detailFormBefore.limits" placeholder="额度" input-lang="money"/>
+                      </el-form-item>
+
+                      <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人/开户时对方联系人"
+                                    prop="detailForm.bankLinkMan">
+                        <div class="line">
+                          <el-select class="multiple-select" v-model="detailForm.bankLinkMan"
+                                     filterable clearable multiple
+                                     placeholder="请选择"
+                                     style="width: 90%">
+                            <gf-filter-option
+                                v-for="item in linkManList"
+                                :key="item.linkmanId"
                                   :label="item.linkmanName"
                                   :value="item.linkmanId">
                               </gf-filter-option>
@@ -739,7 +751,7 @@ export default {
                 staticData: {},
                 detailForm: {
                   applyId: '',
-                  applyDeadlineDt: '',
+                  applyDeadlineDt: '9999-12-31',
                   typeCode: '',
                   bizType: '',
                   baseStartDept: '00',
@@ -860,18 +872,18 @@ export default {
 
                 },
                 detailFormRules: {
-                    typeCode: [
-                        {required: true, message: '账户类型必填', trigger: 'blur'},
-                    ],
-                    applyDeadlineDt: [
-                        {required: true, message: '申请截止日期必填', trigger: 'blur'},
-                    ],
-                    baseStartDept: [
-                        {required: true, message: '必填', trigger: 'blur'},
-                    ],
-                    baseAcceptDept: [
-                        {required: true, message: '必填', trigger: 'blur'},
-                    ]
+                  typeCode: [
+                    {required: true, message: '账户类型必填', trigger: 'blur'},
+                  ],
+                  // applyDeadlineDt: [
+                  //     {required: true, message: '申请截止日期必填', trigger: 'blur'},
+                  // ],
+                  baseStartDept: [
+                    {required: true, message: '必填', trigger: 'blur'},
+                  ],
+                  baseAcceptDept: [
+                    {required: true, message: '必填', trigger: 'blur'},
+                  ]
                 },
             }
         },
