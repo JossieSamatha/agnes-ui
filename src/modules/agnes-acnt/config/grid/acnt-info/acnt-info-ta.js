@@ -23,7 +23,7 @@ export default {
         {headerName: "账户名称", field: "acntName"},
         {headerName: "账户类型", field: "typeName"},
 
-        // {headerName: "证券账号", field: "accNos"},
+        // {headerName: "账号", field: "accNos"},
         {headerName: "资金账号", field: "fundAccNos"},
         {headerName: "币种", field: "fundCurrencys"},
         // {headerName: "资金账号名称", field: "fundAccName"},
