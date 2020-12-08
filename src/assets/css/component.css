@@ -433,6 +433,41 @@
     background: transparent;
 }
 
+.option-search {
+    display: flex;
+    align-items: center;
+}
+
+.option-search .option-label{
+    font-size: 12px;
+    color: #333;
+    white-space: nowrap;
+    line-height: 28px;
+    margin-right: 5px;
+}
+
+.option-search input{
+    height: 28px;
+    line-height: 28px;
+}
+
+.option-search .el-input .el-input__icon{
+    line-height: 28px;
+}
+
+.option-search .icon{
+    font-size: 18px;
+    color: #999;
+    font-weight: bold;
+    margin-left: 5px;
+    line-height: 26px;
+    cursor: pointer;
+}
+
+.option-search .icon:hover{
+    color: #476DBE;
+}
+
 /* =============================
 
     fixedCircleBtn 定位圆形样式
@@ -1246,4 +1281,44 @@
     height: calc(100% - 70px);
 }
 
+/*=====================================
 
+          element-ui table样式统一
+
+=======================================*/
+.el-table-grid.el-table {
+    border: 1px solid #EAEDF1;
+    border: 1px solid #ccc;
+}
+
+.el-table-grid .el-table__header th{
+    color: #333;
+    font-size: 13px;
+    font-weight: normal;
+    border-color: #EAEDF1;
+    background: #F6F8FA;
+    border-color: #ccc;
+    background: #EAEDF1;
+    padding: 6px 0;
+}
+
+.el-table-grid.el-table th.is-leaf {
+    border-color: #ccc;
+}
+
+.el-table-grid tr.el-table__row td {
+    padding: 4px 0!important;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    color: #666;
+    font-size: 12px;
+}
+
+.el-table-grid tr.el-table__row td input {
+    height: 28px;
+    line-height: 28px;
+}
+
+.el-table-grid tr.el-table__row td .el-input .el-input__icon {
+    line-height: 28px;
+}
