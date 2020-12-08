@@ -288,7 +288,7 @@
                         <gf-input v-model.trim="detailFormBefore.limits" placeholder="额度" input-lang="money"/>
                       </el-form-item>
 
-                      <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人/开户时对方联系人"
+                      <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行/开户时对方联系人"
                                     prop="bankLinkMan">
                         <el-select class="multiple-select" v-model="detailFormBefore.bankLinkMan"
                                    filterable clearable multiple
@@ -685,8 +685,8 @@
                         <gf-input v-model.trim="detailFormBefore.limits" placeholder="额度" input-lang="money"/>
                       </el-form-item>
 
-                      <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人/开户时对方联系人"
-                                    prop="detailForm.bankLinkMan">
+                      <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行/开户时对方联系人"
+                                    prop="bankLinkMan">
                         <div class="line">
                           <el-select class="multiple-select" v-model="detailForm.bankLinkMan"
                                      filterable clearable multiple
@@ -727,12 +727,12 @@
 </template>
 
 <script>
-import loadsh from 'lodash';
-import BranchDetail from "../../../../agnes-dop/pages/config/branch/branch-detail";
-import LinkmanBaseDlg from "../../../../agnes-dop/pages/config/linkman-def/linkman-base-dlg"
+    import loadsh from 'lodash';
+    import BranchDetail from "../../../../agnes-dop/pages/config/branch/branch-detail";
+    import LinkmanBaseDlg from "../../../../agnes-dop/pages/config/linkman-def/linkman-base-dlg"
 
 
-export default {
+    export default {
   name: "apply-define",
   props: {
     mode: {
@@ -1055,9 +1055,20 @@ export default {
                 }
             },
 
-            arrValidate(rule, value, callback) {
-                if (!value && value.length < 1) {
-                    callback(new Error('必填'));
+            async arrValidate(rule, value, callback) {
+                if (rule.field === 'accNo') {
+                    const accNoHasValue = await this.isTableHasValues(this.accNoList, true);
+                    if (!accNoHasValue) {
+                        callback(new Error('账号信息必填'));
+                    }
+                } else if(rule.field === 'fundAccNo'){
+                    const applyAccNoHasValue = await this.isTableHasValues(this.moneyAccNoList, true);
+                    if (!applyAccNoHasValue) {
+                        callback(new Error('资金账号必填'));
+                    }
+                } else if (!value || value.length < 1) {
+                    const factorName = this.showRules[rule.field].factorName;
+                    callback(new Error(factorName + '必填'));
                 }else{
                     callback();
                 }
@@ -1067,37 +1078,23 @@ export default {
                 let resp = await this.$api.acntApplyApi.getConfig(this.detailForm.typeCode);
                 let showRules = resp.data;
                 this.showRules = showRules;
+                const detailFormRules = {};
                 for(let key  in showRules){
                     const arrItem = ['accNo', 'fundAccNo', 'bankLinkMan', 'provisionBankAcntIds'];
                     if(showRules[key].mustFill === '1'){
-                        if(arrItem.includes(showRules[key])){
-                            this.$set(this.detailFormRules, [key], [{ required: true, validator: this.arrValidate, trigger: 'change'}]);
+                        if(arrItem.includes(key)){
+                            detailFormRules[key] = [{ required: true, validator: this.arrValidate, trigger: 'change'}];
                         }else{
-                            this.$set(this.detailFormRules, [key], [{ message: showRules[key].factorName+'必填', required: true, trigger: 'blur'}]);
-                        }
-                    }else{
-                        if(this.detailFormRules[key]){
-                            this.$delete(this.detailFormRules, [key]);
+                            detailFormRules[key] =[{ message: showRules[key].factorName+'必填', required: true, trigger: 'change'}];
                         }
                     }
                 }
-                //
-                // switch (showRules[key]) {
-                //     case 'accNo':
-                //         this.isAccNoMustFill = true;
-                //         break;
-                //     case 'fundAccNo':
-                //         this.isMoneyAccNoMustFill = true;
-                //         break;
-                //     case 'bankLinkMan':
-                //         this.isBankLinkManMustFill = true;
-                //         break;
-                //     case 'provisionBankAcntIds':
-                //         this.isProvisionBankAcntIdsMustFill = true;
-                //         break;
-                //     default:
-                //         this.$set(this.detailFormRules, [key], [{ message: '必填', required: true, trigger: 'blur'}]);
-                // }
+                this.$nextTick(()=>{
+                    if(this.$refs.taskDefForm){
+                        this.$refs.taskDefForm.clearValidate();
+                    }
+                    this.detailFormRules = detailFormRules;
+                })
             },
             async loadProductName(){
                 if(loadsh.isEmpty(this.detailForm.productCode)){
@@ -1128,27 +1125,6 @@ export default {
                 if (!ok) {
                     return;
                 }
-                const accNoHasValue = await this.isTableHasValues(this.accNoList,this.isAccNoMustFill);
-                if (!accNoHasValue) {
-                    this.$msg.warning("请将账号信息补充完整!");
-                    return;
-                }
-                const applyAccNoHasValue = await this.isTableHasValues(this.moneyAccNoList,this.isMoneyAccNoMustFill);
-                if (!applyAccNoHasValue) {
-                    this.$msg.warning("请将资金账号信息补充完整!");
-                    return;
-                }
-                if(this.isBankLinkManMustFill
-                    && (!this.detailForm.bankLinkMan || this.detailForm.bankLinkMan.length === 0)){
-                    this.$msg.warning("银行联系人必填!");
-                    return;
-                }
-                if(this.isProvisionBankAcntIdsMustFill
-                    && (!this.detailForm.provisionBankAcntIds || this.detailForm.provisionBankAcntIds.length === 0)){
-                    this.$msg.warning("备付金账户对应的银行账户必填!");
-                    return;
-                }
-
                 try {
                   let form = JSON.parse(JSON.stringify(this.detailForm))
                     form.processStatus = '07';
@@ -1294,9 +1270,6 @@ export default {
                     'crtUser':'',
                     'updateUser':''
                 };
-                if(this.$refs.taskDefForm){
-                    this.$refs.taskDefForm.clearValidate();
-                }
                 this.loadShowRule();
             }
 
