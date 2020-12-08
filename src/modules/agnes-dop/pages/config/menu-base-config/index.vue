@@ -122,12 +122,12 @@
         },
         mounted() {
             this.initData();
+            this.onSearch();
         },
         methods:{
             async initData(){
                 let resp = await this.$api.fileScan.queryRuleConfigList();
                 this.analyRuleList = resp.data;
-                this.onSearch();
             },
             async reflashMenu(){
                 const ok = await this.$msg.ask(`是否重新加载菜单数据?`);
@@ -137,7 +137,7 @@
                 try {
                     await this.$api.funcConfigApi.reloadMenuForConfig();
                     this.$msg.success('更新成功');
-                    this.onSearch();
+                    await this.onSearch();
                 }catch (reason) {
                     this.$msg.error(reason);
                 }
