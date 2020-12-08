@@ -121,8 +121,8 @@
             };
         },
         mounted() {
-            this.initData();
             this.onSearch();
+            this.initData();
         },
         methods:{
             async initData(){
@@ -151,7 +151,7 @@
                     let data = this.tableData;
                     await this.$api.funcConfigApi.saveMenuConfig({'menuConfigs': data});
                     this.$msg.success('保存成功');
-                    this.onSearch();
+                    await this.onSearch();
                 }catch (reason) {
                     this.$msg.error(reason);
                 }

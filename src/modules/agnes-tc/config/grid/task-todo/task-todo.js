@@ -25,6 +25,7 @@ export default {
                 return eGui;
             }
         },
+        {headerName: "任务类型", field: "taskType",formatType: 'dict', dictType: 'AGNES_TASK_TYPE'},
         {headerName: "发起时间", field: "taskStartTm"},
         {headerName: "通知人员", field: "participants"},
     ],
