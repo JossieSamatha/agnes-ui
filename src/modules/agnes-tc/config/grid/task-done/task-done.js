@@ -25,6 +25,7 @@ export default {
                 eGui.appendChild(spanNode);
                 return eGui;
             },},
+        {headerName: "任务类型", field: "taskType",formatType: 'dict', dictType: 'AGNES_TASK_TYPE'},
         {headerName: "完成时间", field: "taskEndTm"},
         {headerName: "执行人员", field: "participants"},
         {headerName: "备注", field: "remark"},
