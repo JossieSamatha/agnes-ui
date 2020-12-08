@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div v-show="pointerShow" class="pointer-mask" @click="pointerShow = false"></div>
         <el-form class="search-panel" label-width="100px">
             <div class="line">
                 <el-form-item label="账户名称">
@@ -60,19 +61,26 @@
                 <template slot="left">
                     <gf-button class="action-btn" @click="openApply"
                                 v-if="$hasPermission('agnes.acnt.apply.openApply')">开户</gf-button>
-                    <gf-button class="action-btn" @click="submitOA"
-                                v-if="$hasPermission('agnes.acnt.apply.submitOA')">提交OA</gf-button>
+                    <gf-button class="action-btn"
+                               :class="pointerShow ? 'pointerShow' : '' "
+                               @click="submitOA" style="position: relative;"
+                                v-if="$hasPermission('agnes.acnt.apply.submitOA')">
+                        <span>批量提交OA</span>
+                        <span v-show="pointerShow" class="svg-pointer" v-html="svgImg.pointer"></span>
+                    </gf-button>
                     <gf-button class="action-btn" @click="addInfoFile"
-                                v-if="$hasPermission('agnes.acnt.apply.addInfoFile')">资料准备</gf-button>
+                                v-if="$hasPermission('agnes.acnt.apply.addInfoFile')">资料补充</gf-button>
                 </template>
                 <template slot="right-before">
                     <el-switch class="inner-switch"
                                v-model="queryArgs.isShowAll"
-                               width = 65
+                               :width = 65
                                active-text="全部"
                                inactive-text="申请中"
                                active-value=""
                                inactive-value="0"
+                               active-color="#13ce66"
+                               inactive-color="#409eff"
                                @change="switchChange">
                     </el-switch>
                 </template>
@@ -83,6 +91,7 @@
                               @stepEdit="edit"
                               @stepCheck="check"
                               @stepDelete="detele"
+                              @submitOA="setPointerAni"
             >
             </acnt-apply-steps>
         </div>
@@ -96,6 +105,7 @@
     export default {
         data() {
             return {
+                svgImg: this.$svgImg,
                 queryArgs:{
                     'typeCode':'',
                     'acntName':'',
@@ -111,7 +121,7 @@
                     '01':'发起申请',
                     '02':'复核申请',
                     '03':'待提交OA',
-                    '04':'资料准备',
+                    '04':'资料完备',
                     '05':'财务流程',
                     '06':'信息录入',
                     '07':'信息复核',
@@ -132,7 +142,8 @@
                             _that.crtStepRow = params.data
                         }
                     }
-                }
+                },
+                pointerShow: false
             }
         },
         components: {
@@ -308,7 +319,7 @@
                 let applyIds = [];
                 let applySubIds = [];
 
-                let firstTypeCode = data[0].typeCode;
+                // let firstTypeCode = data[0].typeCode;
                 for(let i=0;i<data.length;i++){
                     let item = data[i];
                     //校验：节点状态 是否为待提交OA
@@ -317,10 +328,10 @@
                         return;
                     }
 
-                    if(firstTypeCode !== item.typeCode){
-                        this.$msg.warning('所选数据必须为同一账户类型');
-                        return;
-                    }
+                    // if(firstTypeCode !== item.typeCode){
+                    //     this.$msg.warning('所选数据必须为同一账户类型');
+                    //     return;
+                    // }
 
                     //
                     if(!this.$lodash.isEmpty(item.applySubId)){
@@ -468,6 +479,13 @@
 
                 this.showOpenDlg('addInfo', selectedRows[0], this.onOpenApply.bind(this),false);
 
+            },
+
+            setPointerAni(){
+                this.pointerShow = true;
+                setTimeout(()=>{
+                    this.pointerShow = false;
+                }, 4500)
             }
         }
     }
@@ -481,16 +499,72 @@
 
     .acnt-apply-container .steps-comp {
         flex: none;
-        width: 150px;
+        width: 200px;
         height: calc(100% - 30px);
-        padding: 0 10px 30px;
+        padding: 0 20px 30px;
         margin-top: 30px;
-        margin-left: 5px;
-        border: 1px solid #ccc;
+        margin-left: 10px;
+        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.16);
+    }
+
+    .ag-grid-box.acnt-apply-grid {
+        overflow: initial;
+    }
+
+    .action-btn .svg-pointer {
+        position: absolute;
+        top: -40px;
+        right: -30px;
+        width: 30px;
+        height: auto;
+        animation: moveVertical 1.5s infinite linear;
+        animation-iteration-count:3;
+        z-index: 1005;
+    }
+
+    .pointer-mask {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background: rgba(0, 0, 0, .3);
+        z-index: 1000;
+    }
+
+    @keyframes moveVertical {
+        0% {
+            top: -40px;
+            right: -30px;
+        }
+        25% {
+            top: -30px;
+            right: -20px;
+        }
+        50% {
+            top: -20px;
+            right: -10px;
+        }
+        75% {
+            top: -30px;
+            right: -20px;
+        }
+        100% {
+            top: -40px;
+            right: -30px;
+        }
     }
 </style>
 
 <style>
+    .ag-grid-box .grid-action-panel .action-btn.pointerShow {
+        color: #0F5EFF;
+        border-color: #0F5EFF;
+        background: #fff;
+        z-index: 1008;
+        box-shadow: 0px 0px 2px 1px #409eff;
+    }
+
     .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-expanded,
     .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-contracted{
         margin-right: 0;
@@ -521,5 +595,8 @@
 
     .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-row-level-1 .ag-row-group-leaf-indent {
         margin-left: 0;
+    }
+    .acnt-apply-container .ag-grid-box .grid-action-panel .right .el-input {
+        width: 200px;
     }
 </style>

@@ -4,12 +4,10 @@ export default {
         {headerName: "产品全称", field: "productName"},
         {headerName: "产品种类", field: "productClass", dictType: "AGNES_PRODUCT_CLASS"},
         {headerName: "产品类型", field: "productType", dictType: "AGNES_PRODUCT_TYPE"},
-        {headerName: "生效时间", field: "effectiveDate"},
-        {headerName: "失效时间", field: "failureDate"},
     ],
     rowSelection: 'multiple',
     ext: {
-        fetchUrl: "/agnes-app/v1/prdt/param/info/beyond/param",
+        fetchUrl: "/agnes-app/v1/prdt/info/list/all",
         fetchMethod: 'get',
         pagingMode: false, //不分页
         checkboxColumn: 2, //是否显示checkbox列,

@@ -77,11 +77,6 @@
                 header-cell-class-name="rule-header-cell"
                 row-class-name="rule-row"
                 cell-class-name="rule-cell">
-              <!--              <el-table-column prop="paramBizType" label="业务归属" min-width="100">-->
-              <!--                <template slot-scope="scope">-->
-              <!--                  <gf-dict v-model="scope.row.paramBizType" dict-type="AGNES_PRODUCT_PARAM_BIZTYPE" disabled></gf-dict>-->
-              <!--                </template>-->
-              <!--              </el-table-column>-->
               <el-table-column prop="paramName" label="参数名称" min-width="100">
                 <template slot-scope="scope">
                   <el-select v-model="scope.row.paramName" filterable placeholder="请选择" @change="faChanges(scope.row)">
@@ -94,25 +89,7 @@
                     </el-option>
                   </el-select>
                 </template>
-
               </el-table-column>
-              <!--              <el-table-column prop="paramCode" label="参数代码" min-width="100">-->
-              <!--                <template slot-scope="scope">-->
-              <!--                  <el-input v-model="scope.row.paramCode" disabled></el-input>-->
-              <!--                </template>-->
-              <!--              </el-table-column>-->
-              <!--              <el-table-column prop="paramType" label="参数类型" min-width="100">-->
-              <!--                <template slot-scope="scope">-->
-              <!--                  <gf-dict v-model="scope.row.paramType" dict-type="AGNES_PRODUCT_PARAM_TYPE" disabled/>-->
-              <!--                </template>-->
-              <!--              </el-table-column>-->
-              <!--              <el-table-column prop="paramValue" label="参数值" min-width="100">-->
-              <!--                <template slot-scope="scope">-->
-              <!--                  <el-input v-model="scope.row.paramValue" v-if="scope.row.paramType !== 'boolean'" disabled/>-->
-              <!--                  <gf-dict v-model="scope.row.paramValue" v-if="scope.row.paramType === 'boolean'"-->
-              <!--                           dict-type="AGNES_PRODUCT_BOOLEAN" />-->
-              <!--                </template>-->
-              <!--              </el-table-column>-->
               <el-table-column prop="paramValue" label="参数值" min-width="100">
                 <template slot-scope="scope">
                   <el-input type="number" :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
@@ -131,23 +108,37 @@
                   </el-date-picker>
                 </template>
               </el-table-column>
-              <el-table-column prop="effectiveDate" label="生效时间" min-width="100">
+              <!--              <el-table-column prop="effectiveDate" label="生效时间" min-width="100">-->
+              <!--                <template slot-scope="scope">-->
+              <!--                  <el-date-picker-->
+              <!--                      v-model="scope.row.effectiveDate"-->
+              <!--                      :style="!scope.row.effectiveDate ? 'border:1px solid #f00':''"-->
+              <!--                      type="date"-->
+              <!--                      value-format="yyyy-MM-dd"-->
+              <!-- >-->
+              <!--                  </el-date-picker>-->
+              <!--                </template>-->
+              <!--              </el-table-column>-->
+              <!--              <el-table-column prop="failureDate" label="失效时间" min-width="100">-->
+              <!--                <template slot-scope="scope">-->
+              <!--                  <el-date-picker-->
+              <!--                      v-model="scope.row.failureDate"-->
+              <!--                      :style="!scope.row.failureDate ? 'border:1px solid #f00':''"-->
+              <!--                      type="date"-->
+              <!--                      value-format="yyyy-MM-dd"-->
+              <!--                  >-->
+              <!--                  </el-date-picker>-->
+              <!--                </template>-->
+              <!--              </el-table-column>-->
+              <el-table-column prop="dateValue" label="有效日期" min-width="100">
                 <template slot-scope="scope">
                   <el-date-picker
-                      v-model="scope.row.effectiveDate"
-                      :style="!scope.row.effectiveDate ? 'border:1px solid #f00':''"
-                      type="date"
-                      value-format="yyyy-MM-dd">
-                  </el-date-picker>
-                </template>
-              </el-table-column>
-              <el-table-column prop="failureDate" label="失效时间" min-width="100">
-                <template slot-scope="scope">
-                  <el-date-picker
-                      v-model="scope.row.failureDate"
-                      :style="!scope.row.failureDate ? 'border:1px solid #f00':''"
-                      type="date"
-                      value-format="yyyy-MM-dd">
+                      v-model="scope.row.dateValue"
+                      type="daterange"
+                      range-separator="-"
+                      value-format="yyyy-MM-dd"
+                      start-placeholder="开始日期"
+                      end-placeholder="结束日期">
                   </el-date-picker>
                 </template>
               </el-table-column>
@@ -168,11 +159,6 @@
                 header-cell-class-name="rule-header-cell"
                 row-class-name="rule-row"
                 cell-class-name="rule-cell">
-              <!--              <el-table-column prop="paramBizType" label="业务归属" min-width="100">-->
-              <!--                <template slot-scope="scope">-->
-              <!--                  <gf-dict v-model="scope.row.paramBizType" dict-type="AGNES_PRODUCT_PARAM_BIZTYPE" disabled></gf-dict>-->
-              <!--                </template>-->
-              <!--              </el-table-column>-->
               <el-table-column prop="paramName" label="参数名称" min-width="100">
                 <template slot-scope="scope">
                   <el-select v-model="scope.row.paramName" filterable placeholder="请选择" @change="taChanges(scope.row)">
@@ -187,23 +173,6 @@
                 </template>
 
               </el-table-column>
-              <!--              <el-table-column prop="paramCode" label="参数代码" min-width="100">-->
-              <!--                <template slot-scope="scope">-->
-              <!--                  <el-input v-model="scope.row.paramCode" disabled></el-input>-->
-              <!--                </template>-->
-              <!--              </el-table-column>-->
-              <!--              <el-table-column prop="paramType" label="参数类型" min-width="100">-->
-              <!--                <template slot-scope="scope">-->
-              <!--                  <gf-dict v-model="scope.row.paramType" dict-type="AGNES_PRODUCT_PARAM_TYPE" disabled/>-->
-              <!--                </template>-->
-              <!--              </el-table-column>-->
-              <!--              <el-table-column prop="paramValue" label="参数值" min-width="100">-->
-              <!--                <template slot-scope="scope">-->
-              <!--                  <el-input v-model="scope.row.paramValue" v-if="scope.row.paramType !== 'boolean'" disabled/>-->
-              <!--                  <gf-dict v-model="scope.row.paramValue" v-if="scope.row.paramType === 'boolean'"-->
-              <!--                           dict-type="AGNES_PRODUCT_BOOLEAN" />-->
-              <!--                </template>-->
-              <!--              </el-table-column>-->
               <el-table-column prop="paramValue" label="参数值" min-width="100">
                 <template slot-scope="scope">
                   <el-input type="number" :style="!scope.row.paramValue ? 'border:1px solid #f00':''"
@@ -222,23 +191,36 @@
                   </el-date-picker>
                 </template>
               </el-table-column>
-              <el-table-column prop="effectiveDate" label="生效时间" min-width="100">
+              <!--              <el-table-column prop="effectiveDate" label="生效时间" min-width="100">-->
+              <!--                <template slot-scope="scope">-->
+              <!--                  <el-date-picker-->
+              <!--                      v-model="scope.row.effectiveDate"-->
+              <!--                      :style="!scope.row.effectiveDate ? 'border:1px solid #f00':''"-->
+              <!--                      type="date"-->
+              <!--                      value-format="yyyy-MM-dd">-->
+              <!--                  </el-date-picker>-->
+              <!--                </template>-->
+              <!--              </el-table-column>-->
+              <!--              <el-table-column prop="failureDate" label="失效时间" min-width="100">-->
+              <!--                <template slot-scope="scope">-->
+              <!--                  <el-date-picker-->
+              <!--                      v-model="scope.row.failureDate"-->
+              <!--                      :style="!scope.row.failureDate ? 'border:1px solid #f00':''"-->
+              <!--                      type="date"-->
+              <!--                      value-format="yyyy-MM-dd"-->
+              <!--                  >-->
+              <!--                  </el-date-picker>-->
+              <!--                </template>-->
+              <!--              </el-table-column>-->
+              <el-table-column prop="dateValue" label="有效日期" min-width="100">
                 <template slot-scope="scope">
                   <el-date-picker
-                      v-model="scope.row.effectiveDate"
-                      :style="!scope.row.effectiveDate ? 'border:1px solid #f00':''"
-                      type="date"
-                      value-format="yyyy-MM-dd">
-                  </el-date-picker>
-                </template>
-              </el-table-column>
-              <el-table-column prop="failureDate" label="失效时间" min-width="100">
-                <template slot-scope="scope">
-                  <el-date-picker
-                      v-model="scope.row.failureDate"
-                      :style="!scope.row.failureDate ? 'border:1px solid #f00':''"
-                      type="date"
-                      value-format="yyyy-MM-dd">
+                      v-model="scope.row.dateValue"
+                      type="daterange"
+                      range-separator="-"
+                      value-format="yyyy-MM-dd"
+                      start-placeholder="开始日期"
+                      end-placeholder="结束日期">
                   </el-date-picker>
                 </template>
               </el-table-column>
@@ -315,9 +297,12 @@ export default {
     }
   },
   beforeMount() {
+    this.detailForm.tAPrdtRuInfoParamRefVo = [];
+    this.detailForm.fAPrdtRuInfoParamRefVo = [];
     if (this.mode !== "add") {
-      Object.assign(this.detailForm, this.row);
+      this.detailForm = this.$lodash.cloneDeep(this.row);
     }
+
   },
   mounted() {
     this.getParams();
@@ -342,10 +327,10 @@ export default {
       });
       params.paramCode = productParam.paramCode;
       params.paramType = productParam.paramType;
-      params.paramValue = productParam.paramValue;
+      //params.paramValue = productParam.paramValue;
       params.effectiveDate = productParam.effectiveDate;
       params.failureDate = productParam.failureDate;
-      params.productParamId = productParam.productParamId;
+      params.dateValue = [window.bizDate, '9999-12-31'];
     },
     taChanges(params) {
       let _that = this;
@@ -354,14 +339,11 @@ export default {
       });
       params.paramCode = productParam.paramCode;
       params.paramType = productParam.paramType;
-      params.paramValue = productParam.paramValue;
+      //params.paramValue = productParam.paramValue;
       params.effectiveDate = productParam.effectiveDate;
       params.failureDate = productParam.failureDate;
-      params.productParamId = productParam.productParamId;
-    },
-    // 取消onCancel事件，触发抽屉关闭事件this.$emit("onClose");
-    async onCancel() {
-      this.$emit("onClose");
+      params.dateValue = [window.bizDate, '9999-12-31'];
+
     },
     addFA() {
       const newFileTableObj = {
@@ -372,6 +354,7 @@ export default {
         paramValue: '',
         effectiveDate: '',
         failureDate: '',
+        dateValue: []
       };
       this.detailForm.fAPrdtRuInfoParamRefVo.push(newFileTableObj);
     },
@@ -384,6 +367,7 @@ export default {
         paramValue: '',
         effectiveDate: '',
         failureDate: '',
+        dateValue: [],
       };
       this.detailForm.tAPrdtRuInfoParamRefVo.push(newFileTableObj);
     },
@@ -419,6 +403,15 @@ export default {
         this.$msg.warning("请补充完整参数表格!");
         return;
       }
+      this.detailForm.fAPrdtRuInfoParamRefVo.forEach(faParam => {
+        faParam.effectiveDate = faParam.dateValue[0]
+        faParam.failureDate = faParam.dateValue[1]
+      })
+      this.detailForm.tAPrdtRuInfoParamRefVo.forEach(taParam => {
+        taParam.effectiveDate = taParam.dateValue[0]
+        taParam.failureDate = taParam.dateValue[1]
+      })
+
       try {
         let paramData = this.detailForm;
         if (this.mode === 'add') {
@@ -428,16 +421,28 @@ export default {
             return;
           }
           const p = this.$api.productApi.saveProdut(this.detailForm);
-          await this.$app.blockingApp(p);
-          this.$msg.success('保存成功');
+          const addDate = await this.$app.blockingApp(p);
+          if (addDate.data) {
+            this.$msg.warning(addDate.data);
+            return
+          } else {
+            this.$msg.success('保存成功');
+          }
+
         } else if (this.mode === 'edit') {
           const p = this.$api.productApi.saveProdut(this.detailForm);
-          await this.$app.blockingApp(p);
-          this.$msg.success('修改成功');
+          const editDate = await this.$app.blockingApp(p);
+          if (editDate.data) {
+            this.$msg.warning(editDate.data);
+            return
+          } else {
+            this.$msg.success('修改成功');
+          }
         } else {
           let updateParam = {
             productId: paramData.productId,
-            productStatus: '04'
+            productStatus: '04',
+            productCode:paramData.productCode,
           }
           const p = this.$api.productApi.updateStatus(updateParam);
           await this.$app.blockingApp(p);
@@ -451,6 +456,14 @@ export default {
         this.$msg.error(reason);
       }
     },
+    // 取消onCancel事件，触发抽屉关闭事件this.$emit("onClose");
+
+    async onCancel() {
+      this.detailForm.tAPrdtRuInfoParamRefVo = [];
+      this.detailForm.fAPrdtRuInfoParamRefVo = [];
+      this.$emit("onClose");
+    },
+
   },
   watch: {}
 }

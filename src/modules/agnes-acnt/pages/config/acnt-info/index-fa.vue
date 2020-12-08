@@ -45,7 +45,8 @@
                 grid-no="agnes-acnt-info-fa">
             <template slot="left">
                <gf-button class="action-btn" @click="exoprtV45" size="mini"
-                          v-if="$hasPermission('agnes.acnt.info.fa.exportV45')">导出v45</gf-button>
+                          v-if="$hasPermission('agnes.acnt.info.fa.exportV45')">导出v45接口
+               </gf-button>
                <gf-button class="action-btn" @click="registration" size="mini"
                           v-if="$hasPermission('agnes.acnt.info.fa.registration')">账户登记</gf-button>
             </template>

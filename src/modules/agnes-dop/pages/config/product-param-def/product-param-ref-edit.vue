@@ -2,6 +2,12 @@
   <div>
     <el-form ref="taskDefForm" class="fit-box" :model="detailForm"
              :rules="detailFormRules" label-width="100px">
+      <el-form-item label="产品代码" prop="effectiveDate">
+        <el-input v-model="detailForm.productCode" disabled/>
+      </el-form-item>
+      <el-form-item label="产品全称" prop="effectiveDate">
+        <el-input v-model="detailForm.productName" disabled/>
+      </el-form-item>
       <!--      <el-form-item label="生效时间" prop="effectiveDate">-->
       <!--        <el-date-picker-->
       <!--            v-model="detailForm.effectiveDate"-->
@@ -19,17 +25,14 @@
       <!--            placeholder="失效时间"/>-->
       <!--      </el-form-item>-->
       <el-form-item prop="dateValue" label="有效日期">
-        <div class="el-select">
-          <el-date-picker
-              v-model="detailForm.dateValue"
-              type="daterange"
-              range-separator="-"
-              value-format="yyyy-MM-dd"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              class="el-input__inner">
-          </el-date-picker>
-        </div>
+        <el-date-picker
+            v-model="detailForm.dateValue"
+            type="daterange"
+            range-separator="-"
+            value-format="yyyy-MM-dd"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期">
+        </el-date-picker>
       </el-form-item>
       <el-form-item label="参数值" prop="paramValue">
         <gf-input v-if="detailForm.paramType==='str'" v-model.trim="detailForm.paramValue" placeholder="参数值"/>
@@ -44,15 +47,6 @@
         </el-date-picker>
         <gf-dict v-model="detailForm.paramValue" v-if="detailForm.paramType==='boolean'"
                  dict-type="AGNES_PRODUCT_BOOLEAN"/>
-
-      </el-form-item>
-      <el-form-item label="关联产品">
-        <gf-grid grid-no="agnes-product-info-beyond-param" ref="grid" quick-text-max-width="300px"
-        >
-        </gf-grid>
-        <template slot="left">
-          <gf-button class="action-btn" style="margin-right: 20px" @click="addProduct">添加</gf-button>
-        </template>
       </el-form-item>
     </el-form>
     <dialog-footer :on-save="onSave" ok-button-title="确定"></dialog-footer>
@@ -73,12 +67,14 @@ export default {
       },
       detailForm: {
         paramCode: '',
-        effectiveDate: window.bizDate,
-        failureDate: '9999-12-31',
+        productName: '',
+        productCode: '',
+        effectiveDate: '',
+        failureDate: '',
         paramType: '',
         paramValue: '',
         productCodes: [],
-        dateValue: [window.bizDate, '9999-12-31'],
+        dateValue: [],
       },
       detailFormRules: {
         dateValue: [
@@ -91,9 +87,7 @@ export default {
     }
   },
   mounted() {
-    this.queryArgs.paramCode = this.row.paramCode;
-    this.detailForm.paramCode = this.row.paramCode;
-    this.detailForm.paramType = this.row.paramType;
+    this.detailForm = this.$lodash.cloneDeep(this.row)
   },
   methods: {
     addProduct() {
@@ -105,27 +99,16 @@ export default {
       if (!ok) {
         return;
       }
-      const row = this.$refs.grid.getSelectedRows();
-      if (row.length === 0) {
-        this.$msg.warning("关联产品不可为空")
-        return;
-      }
       try {
-        let that = this;
-        const productInfos = this.$refs.grid.getSelectedRows();
-        that.detailForm.productCodes = [];
-        productInfos.forEach(productInfo => {
-          that.detailForm.productCodes.push(productInfo.productCode)
-        });
-        that.detailForm.effectiveDate = that.detailForm.dateValue[0];
-        that.detailForm.failureDate = that.detailForm.dateValue[1];
-        const req = this.$api.productParamApi.saveProductParamRef(that.detailForm);
+        this.detailForm.effectiveDate = this.detailForm.dateValue[0];
+        this.detailForm.failureDate = this.detailForm.dateValue[1];
+        const req = this.$api.productParamApi.updateRef(this.detailForm);
         const resDate = await this.$app.blockingApp(req);
         if (resDate.data) {
           this.$msg.warning(resDate.data);
           return;
         } else {
-          this.$msg.success('保存成功');
+          this.$msg.success('修改成功');
         }
         if (this.actionOk) {
           await this.actionOk();

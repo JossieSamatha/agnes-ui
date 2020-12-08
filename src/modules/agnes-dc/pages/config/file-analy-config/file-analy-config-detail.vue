@@ -393,7 +393,7 @@
     }
 </script>
 
-<style>
+<style scoped>
     .action-btn{
         color: #476DBE !important;
         border: 1px solid #476DBE !important;

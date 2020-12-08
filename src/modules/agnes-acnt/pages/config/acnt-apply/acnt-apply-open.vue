@@ -95,12 +95,22 @@
                         </el-form-item>
                     </div>
                     <div class="line">
-                        <el-form-item label="提交OA流程" prop="isSendOa">
-                            <el-radio-group v-model="detailFormBefore.isSendOa">
-                                <el-radio label="1">是</el-radio>
-                                <el-radio label="0">否</el-radio>
-                            </el-radio-group>
-                        </el-form-item>
+                      <el-form-item label="提交OA流程" prop="isSendOa">
+                        <el-radio-group v-model="detailFormBefore.isSendOa">
+                          <el-radio label="1">是</el-radio>
+                          <el-radio label="0">否</el-radio>
+                        </el-radio-group>
+                      </el-form-item>
+                      <el-form-item label="账户状态" prop="acntStatus" v-if="this.mode === 'addChange'">
+                        <el-select v-model="detailFormBefore.acntStatus" placeholder="">
+                          <el-option
+                              v-for="item in acntStatusOption"
+                              :key="item.value"
+                              :label="item.label"
+                              :value="item.value">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
                     </div>
                     <div v-if="detailFormBefore.isSendOa==='1'" class="line">
                         <el-form-item label="标题" prop="oaTitle">
@@ -286,23 +296,37 @@
                             </el-radio-group>
                         </el-form-item>
 
-                        <el-form-item label="提交财务流程" prop="isSendFinance">
-                            <el-radio-group :disabled="isSubDis || isSendFinanceDis" v-model="detailForm.isSendFinance">
-                                <el-radio label="1">是</el-radio>
-                                <el-radio label="0">否</el-radio>
-                            </el-radio-group>
-                        </el-form-item>
+                      <el-form-item label="提交财务流程" prop="isSendFinance">
+                        <el-radio-group :disabled="isSubDis || isSendFinanceDis" v-model="detailForm.isSendFinance">
+                          <el-radio label="1">是</el-radio>
+                          <el-radio label="0">否</el-radio>
+                        </el-radio-group>
+                      </el-form-item>
                     </div>
-                    <div v-if="detailForm.isSendOa==='1'" class="line">
-                        <el-form-item label="标题" prop="oaTitle">
-                            <gf-input v-model.trim="detailForm.oaTitle" placeholder="标题"/>
-                        </el-form-item>
-                        <el-form-item label="申请部门" prop="oaDept">
-                            <gf-input v-model.trim="detailForm.oaDept" placeholder="申请部门"/>
-                        </el-form-item>
-                    </div>
-                    <div v-if="detailForm.isSendOa==='1'" class="line">
-                        <el-form-item label="申请人" prop="oaOperator">
+                  <div class="line">
+                    <el-form-item label="账户状态" prop="acntStatus" v-if="this.mode === 'addChange'" width="100%">
+                      <el-select v-model="detailForm.acntStatus" placeholder="">
+                        <el-option
+                            v-for="item in acntStatusOption"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                    <el-form-item></el-form-item>
+
+                  </div>
+                  <div v-if="detailForm.isSendOa==='1'" class="line">
+                    <el-form-item label="标题" prop="oaTitle">
+                      <gf-input v-model.trim="detailForm.oaTitle" placeholder="标题"/>
+                    </el-form-item>
+                    <el-form-item label="申请部门" prop="oaDept">
+                      <gf-input v-model.trim="detailForm.oaDept" placeholder="申请部门"/>
+                    </el-form-item>
+                  </div>
+                  <div v-if="detailForm.isSendOa==='1'" class="line">
+                    <el-form-item label="申请人" prop="oaOperator">
                             <gf-input disabled v-model.trim="detailForm.oaOperator" placeholder="申请人"/>
                         </el-form-item>
                         <el-form-item label="申请事由" prop="oaRemark">
@@ -366,65 +390,68 @@
         },
         data() {
             return {
-                rosterDate:'',
-                memberRefList:[],
-                serviceRes:[],
-                staticData: {},
-                isSubDis:false,
-                isSendFinanceDis:false,
-                detailFormBefore: {
-                    typeCode:'',
-                    bizType:'01',
-                    baseStartDept:'', 
-                    baseStartDeptLinkman:'', 
-                    baseAcceptDept:'',
-                    baseAcceptGroup:'', 
-                    baseOrgId:'', 
-                    productCode:'', 
-                    baseOperator:this.$app.session.data.user.userName,
-                    productName:'',
-                    isSendFinance:'0', 
-                    isSendOa:'0', 
-                    oaTitle:'用印申请流程',
-                    oaDept:'基金运营部',
-                    oaOperator:this.$app.session.data.user.userName,
-                    oaRemark:'业务描述',
-                    oaLeader:'',
-                    oaIsNeedAudit:'0',
-                    oaIsNeedStamp:'0',
-                    oaPrintDt:'',
-                    crtUser:'',
-                    updateUser:'',
-                    fields:[]
-                },
+              rosterDate: '',
+              memberRefList: [],
+              serviceRes: [],
+              staticData: {},
+              isSubDis: false,
+              isSendFinanceDis: false,
+              acntStatusOption: [{value: '01', label: '正常'}, {value: '03', label: '锁定'}, {value: '04', label: '久悬户'}],
+              detailFormBefore: {
+                typeCode: '',
+                bizType: '01',
+                baseStartDept: '',
+                baseStartDeptLinkman: '',
+                baseAcceptDept: '',
+                baseAcceptGroup: '',
+                baseOrgId: '',
+                productCode: '',
+                baseOperator: this.$app.session.data.user.userName,
+                productName: '',
+                isSendFinance: '0',
+                isSendOa: '0',
+                oaTitle: '用印申请流程',
+                oaDept: '基金运营部',
+                oaOperator: this.$app.session.data.user.userName,
+                oaRemark: '业务描述',
+                oaLeader: '',
+                oaIsNeedAudit: '0',
+                oaIsNeedStamp: '0',
+                oaPrintDt: '',
+                crtUser: '',
+                updateUser: '',
+                fields: [],
+                acntStatus: '',
+              },
                 detailForm: {
-                    applyDeadlineDt:'',
-                    typeCode:'',
-                    bizType:'01',
-                    baseStartDept:'00',
-                    baseStartDeptLinkman:'', 
-                    baseAcceptDept:'00',
-                    baseAcceptGroup:'', 
-                    baseOrgId:'', 
-                    productCode:'', 
-                    baseOperator:this.$app.session.data.user.userName,
-                    productName:'',
-                    isSendFinance:'0', 
-                    isSendOa:'0', 
-                    oaTitle:'用印申请流程',
-                    oaDept:'基金运营部',
-                    oaOperator:this.$app.session.data.user.userName,
-                    oaRemark:'业务描述',
-                    oaLeader:'',
-                    oaIsNeedAudit:'0',
-                    oaIsNeedStamp:'0',
-                    oaPrintDt:'',
-                    fields:[],
-                    crtUser:'',
-                    updateUser:'',
-                    fileList:[]
-                    // fileList:[ { "name": "1.ecmtest - 副本.txt", "objectId": "0801000017711", "docId": "09014b11", "uid": 1603950217954, "status": "success", "pieceNum": "1", "remark": "11" },
-                    //     { "name": "1.ecmtest.txt", "objectId": "0801000017721", "docId": "09014b11", "uid": 1603950217955, "status": "success", "pieceNum": "2", "remark": "22" } ]
+                  applyDeadlineDt: '9999-12-31',
+                  typeCode: '',
+                  bizType: '01',
+                  baseStartDept: '00',
+                  baseStartDeptLinkman: '',
+                  baseAcceptDept: '00',
+                  baseAcceptGroup: '',
+                  baseOrgId: '',
+                  productCode: '',
+                  baseOperator: this.$app.session.data.user.userName,
+                  productName: '',
+                  isSendFinance: '0',
+                  isSendOa: '0',
+                  oaTitle: '用印申请流程',
+                  oaDept: '基金运营部',
+                  oaOperator: this.$app.session.data.user.userName,
+                  oaRemark: '业务描述',
+                  oaLeader: '',
+                  oaIsNeedAudit: '0',
+                  oaIsNeedStamp: '0',
+                  oaPrintDt: '',
+                  fields: [],
+                  crtUser: '',
+                  updateUser: '',
+                  fileList: [],
+                  acntStatus: '',
+                  // fileList:[ { "name": "1.ecmtest - 副本.txt", "objectId": "0801000017711", "docId": "09014b11", "uid": 1603950217954, "status": "success", "pieceNum": "1", "remark": "11" },
+                  //     { "name": "1.ecmtest.txt", "objectId": "0801000017721", "docId": "09014b11", "uid": 1603950217955, "status": "success", "pieceNum": "2", "remark": "22" } ]
                 },
                 srcDocId:'',
                 showEcmRemove:true,
@@ -445,18 +472,18 @@
                 showRules:{
                 },
                 detailFormRules: {
-                    typeCode: [
-                        {required: true, message: '账户类型必填', trigger: 'blur'},
-                    ],
-                    applyDeadlineDt: [
-                        {required: true, message: '申请截止日期必填', trigger: 'blur'},
-                    ],
-                    baseStartDept: [
-                        {required: true, message: '必填', trigger: 'blur'},
-                    ],
-                    baseAcceptDept: [
-                        {required: true, message: '必填', trigger: 'blur'},
-                    ]
+                  typeCode: [
+                    {required: true, message: '账户类型必填', trigger: 'blur'},
+                  ],
+                  // applyDeadlineDt: [
+                  //     {required: true, message: '申请截止日期必填', trigger: 'blur'},
+                  // ],
+                  baseStartDept: [
+                    {required: true, message: '必填', trigger: 'blur'},
+                  ],
+                  baseAcceptDept: [
+                    {required: true, message: '必填', trigger: 'blur'},
+                  ]
                 },
             }
         },
@@ -635,8 +662,8 @@
                 }
 
                 try {
-                    let form =  JSON.parse(JSON.stringify(this.detailForm)) 
-                    let openSub = false;
+                  let form = JSON.parse(JSON.stringify(this.detailForm))
+                  let openSub = false;
                     let isdel = false;
                     if(!loadsh.isEmpty(this.detailForm.applySubId)){
                         openSub = true;
@@ -657,23 +684,23 @@
                             }
                         }else if(this.detailForm.processStatus=='02'){
                             if(this.detailForm.isSendOa=='1'){
-                                form.processStatus = '03'; 
+                              form.processStatus = '03';
                             }else {
                                 if(this.detailForm.children){
                                     form.processStatus = '04';
                                 }else{
                                     form.processStatus = '08';
                                 }
-                                
+
                             }
                         }else if(this.detailForm.processStatus=='03'){
                             form.processStatus = '04';
                         }else if(this.detailForm.processStatus=='04'){
                             openSub = true;
                             form.processStatus = '02';
-                            // if(this.detailForm.isSendFinance=='1'){
-                            //     form.processStatus = '05'; 
-                            // }else {
+                          // if(this.detailForm.isSendFinance=='1'){
+                          //     form.processStatus = '05';
+                          // }else {
                             //     form.processStatus = '06';
                             // }
                         }else if(this.detailForm.processStatus=='05'){

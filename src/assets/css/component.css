@@ -1113,6 +1113,34 @@
     font-size: 12px;
 }
 
+.rule-table .rule-cell > .cell .el-date-editor {
+    min-width: auto!important;
+    margin: 0;
+    padding: 0 5px;
+    height: 28px;
+    line-height: 28px;
+}
+
+.rule-table .rule-cell > .cell .el-date-editor .el-input__inner {
+    padding: 0 25px;
+}
+
+.rule-table .rule-cell > .cell .el-date-editor .el-range-input,
+.rule-table .rule-cell > .cell .el-date-editor .el-range-separator {
+    height: 26px;
+    line-height: 26px;
+    padding: 0;
+}
+
+.rule-table .rule-cell > .cell .el-date-editor .el-range__close-icon{
+    width: 15px;
+}
+
+.rule-table .rule-cell > .cell .el-date-editor .el-input__suffix .el-input__icon{
+    width: 25px;
+    line-height: 30px;
+}
+
 .rule-table .rule-cell > .cell>span {
     font-size: 12px;
     margin-left: 6px;

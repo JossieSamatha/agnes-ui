@@ -11,6 +11,9 @@ export default {
     updateStatus(param) {
         return request.post("/agnes-app/v1/prdt/param/update/status", null, {params: param});
     },
+    updateProductParamRefStatus(param) {
+        return request.post("/agnes-app/v1/prdt/param/update/ref/status", null, {params: param});
+    },
     getParamList(paramBizType) {
         return request.post("/agnes-app/v1/prdt/param/list/all", null, {params: {paramBizType}});
     },
@@ -23,7 +26,10 @@ export default {
     saveProductParamRef(from) {
         return request.post("/agnes-app/v1/prdt/param/save/ref", from);
     },
-    removeRef(paramCode, productCode) {
-        return request.post("/agnes-app/v1/prdt/param/remove/ref", null, {params: {paramCode, productCode}});
+    removeRef(pkId) {
+        return request.post("/agnes-app/v1/prdt/param/remove/ref", null, {params: {pkId}});
+    },
+    updateRef(form) {
+        return request.post("/agnes-app/v1/prdt/param/update/ref", form);
     }
 };

@@ -2,7 +2,7 @@
     <div>
         <div v-if="showChange" class="title-top">变更前</div>
         <el-divider v-if="showChange"></el-divider>
-        <el-form v-if="showChange" ref="taskDefFormBefore" class="acnt-apply-insert-form" :model="detailFormBefore" disabled
+        <el-form v-if="showChange" ref="taskDefFormBefore" class="acnt-apply-insert-form" :model="detailFormBefore" :disabled="true"
              :rules="detailFormRules" label-width="180px">
             <module-card title="要素信息" shadow="never">
                 <template slot="content">
@@ -87,7 +87,7 @@
                     </div>
                     <div class="line">
                         <el-form-item label="基金名称" prop="productName">
-                            <gf-input disabled  v-model.trim="detailFormBefore.productName" placeholder="基金名称"/>
+                            <gf-input :disabled="true"  v-model.trim="detailFormBefore.productName" placeholder="基金名称"/>
                         </el-form-item>
                         <el-form-item label="提交财务流程" prop="isSendFinance">
                             <el-radio-group v-model="detailFormBefore.isSendFinance">
@@ -101,7 +101,7 @@
 
             <module-card title="账户信息" shadow="never">
                 <template slot="content">
-                    <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="证券账号">
+                    <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="证券账号" prop="accNo">
                         <div class="rule-table">
                             <el-table header-row-class-name="rule-header-row"
                                       header-cell-class-name="rule-header-cell"
@@ -124,7 +124,7 @@
                         </div>
                     </el-form-item>
 
-                    <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号">
+                    <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号" prop="fundAccNo">
                         <div class="rule-table">
                             <el-table header-row-class-name="rule-header-row"
                                       header-cell-class-name="rule-header-cell"
@@ -272,26 +272,32 @@
 
                         <el-form-item v-if="showRules.maturityDt&&showRules.maturityDt.isShow" label="到期提醒" prop="maturityDt">
                             <el-date-picker
-                                    v-model="detailFormBefore.maturityDt"
-                                    type="date"
-                                    value-format="yyyy-MM-dd"
-                                    placeholder="到期提醒">
+                                v-model="detailFormBefore.maturityDt"
+                                type="date"
+                                value-format="yyyy-MM-dd"
+                                placeholder="到期提醒">
                             </el-date-picker>
                         </el-form-item>
 
-                        <el-form-item v-if="showRules.futuresCompany&&showRules.futuresCompany.isShow" label="期货公司" prop="futuresCompany">
-                            <gf-input v-model.trim="detailFormBefore.futuresCompany" placeholder="期货公司"/>
-                        </el-form-item>
+                      <el-form-item v-if="showRules.futuresCompany&&showRules.futuresCompany.isShow" label="期货公司"
+                                    prop="futuresCompany">
+                        <gf-input v-model.trim="detailFormBefore.futuresCompany" placeholder="期货公司"/>
+                      </el-form-item>
 
-                        <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人/开户时对方联系人" prop="bankLinkMan">
-                            <el-select class="multiple-select" v-model="detailFormBefore.bankLinkMan"
-                                       filterable clearable multiple
-                                       placeholder="请选择">
-                                <gf-filter-option
-                                        v-for="item in linkManList"
-                                        :key="item.linkmanId"
-                                        :label="item.linkmanName"
-                                        :value="item.linkmanId">
+                      <el-form-item v-if="showRules.limits&&showRules.limits.isShow" label="额度" prop="limits">
+                        <gf-input v-model.trim="detailFormBefore.limits" placeholder="额度" input-lang="money"/>
+                      </el-form-item>
+
+                      <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人/开户时对方联系人"
+                                    prop="bankLinkMan">
+                        <el-select class="multiple-select" v-model="detailFormBefore.bankLinkMan"
+                                   filterable clearable multiple
+                                   placeholder="请选择">
+                          <gf-filter-option
+                              v-for="item in linkManList"
+                              :key="item.linkmanId"
+                              :label="item.linkmanName"
+                              :value="item.linkmanId">
                                 </gf-filter-option>
                             </el-select>
                         </el-form-item>
@@ -332,7 +338,7 @@
                             <el-select class="multiple-select" v-model="detailForm.typeCode" :disabled="mode!=='registration'"
                                        filterable clearable
                                        placeholder="请选择"
-                                       @change="loadShowRule">
+                                       @change="onTypeCodeChange">
                                 <el-option-group
                                         v-for="group in bizTagOption"
                                         :key="group.label"
@@ -347,7 +353,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="业务类型" prop="bizType">
-                            <gf-dict disabled filterable clearable v-model="detailForm.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
+                            <gf-dict :disabled="true" filterable clearable v-model="detailForm.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
                         </el-form-item>
                     </div>
                     <div class="line">
@@ -399,7 +405,7 @@
                     </div>
                     <div class="line">
                         <el-form-item label="经办人" prop="baseOperator">
-                            <gf-input disabled v-model.trim="detailForm.baseOperator" placeholder="经办人" />
+                            <gf-input :disabled="true" v-model.trim="detailForm.baseOperator" placeholder="经办人" />
                         </el-form-item>
                         <el-form-item label="基金代码" prop="productCode">
                             <el-select class="multiple-select" v-model="detailForm.productCode"
@@ -416,32 +422,32 @@
                     </div>
                     <div class="line">
                         <el-form-item label="基金名称" prop="productName">
-                            <gf-input disabled  v-model.trim="detailForm.productName" placeholder="基金名称"/>
+                            <gf-input :disabled="true"  v-model.trim="detailForm.productName" placeholder="基金名称"/>
                         </el-form-item>
 
-                        <el-form-item label="申请截止日期" prop="applyDeadlineDt">
-                            <el-date-picker
-                                    v-model="detailForm.applyDeadlineDt"
-                                    type="date"
-                                    value-format="yyyy-MM-dd"
-                                    placeholder="申请日期">
-                            </el-date-picker>
-                        </el-form-item>
+                      <!--                        <el-form-item  label="申请截止日期" prop="applyDeadlineDt">-->
+                      <!--                            <el-date-picker-->
+                      <!--                                    v-model="detailForm.applyDeadlineDt"-->
+                      <!--                                    type="date"-->
+                      <!--                                    value-format="yyyy-MM-dd"-->
+                      <!--                                    placeholder="申请日期">-->
+                      <!--                            </el-date-picker>-->
+                      <!--                        </el-form-item>-->
                     </div>
-                    <div class="line">
-                        <el-form-item label="提交财务流程" prop="isSendFinance">
-                            <el-radio-group disabled v-model="detailForm.isSendFinance">
-                                <el-radio label="1">是</el-radio>
-                                <el-radio label="0">否</el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                    </div>
+                  <!--                    <div class="line">-->
+                  <!--                        <el-form-item label="提交财务流程" prop="isSendFinance">-->
+                  <!--                            <el-radio-group :disabled="true" v-model="detailForm.isSendFinance">-->
+                  <!--                                <el-radio label="1">是</el-radio>-->
+                  <!--                                <el-radio label="0">否</el-radio>-->
+                  <!--                            </el-radio-group>-->
+                  <!--                        </el-form-item>-->
+                  <!--                    </div>-->
                 </template>
             </module-card>
 
             <module-card title="账户信息" shadow="never" v-if="detailForm.typeCode">
                 <template slot="content">
-                    <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="证券账号">
+                    <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="证券账号" prop="accNo">
                         <div class="rule-table">
                             <el-table header-row-class-name="rule-header-row"
                                       header-cell-class-name="rule-header-cell"
@@ -450,11 +456,11 @@
                                       :data="accNoList"
                                       border stripe
                                       style="width: 100%">
-                                <el-table-column prop="accNo" label="证券账号">
-                                    <template slot-scope="scope">
-                                        <el-input v-model="scope.row.accNo"></el-input>
-                                    </template>
-                                </el-table-column>
+                              <el-table-column prop="accNo" label="账号">
+                                <template slot-scope="scope">
+                                  <el-input v-model="scope.row.accNo"></el-input>
+                                </template>
+                              </el-table-column>
                                 <el-table-column prop="market" label="市场">
                                     <template slot-scope="scope">
                                         <gf-dict filterable clearable v-model="scope.row.market" dict-type="AGNES_ACNT_MARKET" />
@@ -469,7 +475,7 @@
                             <el-button  @click="addAccRule()" class="rule-add-btn" size="small">新增</el-button>
                         </div>
                     </el-form-item>
-                    <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号">
+                    <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号" prop="fundAccNo">
                         <div class="rule-table">
                             <el-table header-row-class-name="rule-header-row"
                                       header-cell-class-name="rule-header-cell"
@@ -563,7 +569,7 @@
                                            placeholder="请输入关键词或空格搜索"
                                            :remote-method="remoteLoadOpenBankList"
                                            :loading="loading"
-                                           :disabled="showRules.bigPayNo && showRules.bigPayNo.isShow">
+                                           :disabled="showRules.bigPayNo && showRules.bigPayNo.isShow==='1'">
                                     <gf-filter-option
                                             v-for="item in openBankList"
                                             :key="item.bigPayNo"
@@ -635,7 +641,7 @@
                             </el-radio-group>
                         </el-form-item>
 
-                        <el-form-item v-if="showRules.provisionBankAcntIds&&showRules.provisionBankAcntIds.isShow" label="备付金账户对应的银行账户" prop="baseOperator">
+                        <el-form-item  v-if="showRules.provisionBankAcntIds&&showRules.provisionBankAcntIds.isShow" label="备付金账户对应的银行账户" prop="baseOperator">
                             <el-select style="width: 100%" class="multiple-select" v-model="detailForm.provisionBankAcntIds"
                                        filterable clearable multiple
                                        placeholder="请选择">
@@ -663,28 +669,39 @@
 
                         <el-form-item v-if="showRules.maturityDt&&showRules.maturityDt.isShow" label="到期提醒" prop="maturityDt">
                             <el-date-picker
-                                    v-model="detailForm.maturityDt"
-                                    type="date"
-                                    value-format="yyyy-MM-dd"
-                                    placeholder="到期提醒">
+                                v-model="detailForm.maturityDt"
+                                type="date"
+                                value-format="yyyy-MM-dd"
+                                placeholder="到期提醒">
                             </el-date-picker>
                         </el-form-item>
 
-                        <el-form-item v-if="showRules.futuresCompany&&showRules.futuresCompany.isShow" label="期货公司" prop="futuresCompany">
-                            <gf-input v-model.trim="detailForm.futuresCompany" placeholder="期货公司"/>
-                        </el-form-item>
+                      <el-form-item v-if="showRules.futuresCompany&&showRules.futuresCompany.isShow" label="期货公司"
+                                    prop="futuresCompany">
+                        <gf-input v-model.trim="detailForm.futuresCompany" placeholder="期货公司"/>
+                      </el-form-item>
 
-                        <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人/开户时对方联系人" prop="detailForm.bankLinkMan">
-                            <el-select class="multiple-select" v-model="detailForm.bankLinkMan"
-                                       filterable clearable multiple
-                                       placeholder="请选择">
-                                <gf-filter-option
-                                        v-for="item in linkManList"
-                                        :key="item.linkmanId"
-                                        :label="item.linkmanName"
-                                        :value="item.linkmanId">
-                                </gf-filter-option>
+                      <el-form-item v-if="showRules.limits&&showRules.limits.isShow" label="额度" prop="limits">
+                        <gf-input v-model.trim="detailFormBefore.limits" placeholder="额度" input-lang="money"/>
+                      </el-form-item>
+
+                      <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行联系人/开户时对方联系人"
+                                    prop="detailForm.bankLinkMan">
+                        <div class="line">
+                          <el-select class="multiple-select" v-model="detailForm.bankLinkMan"
+                                     filterable clearable multiple
+                                     placeholder="请选择"
+                                     style="width: 90%">
+                            <gf-filter-option
+                                v-for="item in linkManList"
+                                :key="item.linkmanId"
+                                  :label="item.linkmanName"
+                                  :value="item.linkmanId">
+                              </gf-filter-option>
                             </el-select>
+                            <el-button style="border: none;padding-left: 5px;font-size: 17px;vertical-align: middle"
+                                       icon="el-icon-edit-outline" @click="addLinKman"/>
+                          </div>
                         </el-form-item>
 
                         <el-form-item v-if="showRules.other&&showRules.other.isShow" label="其他" prop="other">
@@ -710,17 +727,19 @@
 </template>
 
 <script>
-    import loadsh from 'lodash';
-    import BranchDetail from "../../../../agnes-dop/pages/config/branch/branch-detail";
+import loadsh from 'lodash';
+import BranchDetail from "../../../../agnes-dop/pages/config/branch/branch-detail";
+import LinkmanBaseDlg from "../../../../agnes-dop/pages/config/linkman-def/linkman-base-dlg"
 
-    export default {
-        name: "apply-define",
-        props: {
-            mode: {
-                type: String,
-                default: 'add'
-            },
-            row: Object,
+
+export default {
+  name: "apply-define",
+  props: {
+    mode: {
+      type: String,
+      default: 'add'
+    },
+    row: Object,
             actionOk: Function
         },
         data() {
@@ -731,33 +750,33 @@
                 serviceRes:[],
                 staticData: {},
                 detailForm: {
-                    applyId:'',
-                    applyDeadlineDt:'',
-                    typeCode:'', 
-                    bizType:'', 
-                    baseStartDept:'00',
-                    baseStartDeptLinkman:'', 
-                    settlementNo:'',
-                    baseAcceptDept:'00',
-                    stampInfo:'',
-                    stampLegalPersonInfo:'', 
-                    threeLicenseInfo:'',
-                    baseAcceptGroup:'', 
-                    baseOrgId:'', 
-                    productCode:'', 
-                    productName:'',
-                    isSendFinance:'0', 
-                    acntName:'', 
-                    acntShortName:'',
-                    baseOperator:this.$app.session.data.user.userName,
-                    accNo:'',
-                    market:'',
-                    accNoMarket:'',
-                    region:'',
-                    currency:'',
-                    fundAccName:'',
-                    acntPurpose:'',
-                    rateId:'',
+                  applyId: '',
+                  applyDeadlineDt: '9999-12-31',
+                  typeCode: '',
+                  bizType: '',
+                  baseStartDept: '00',
+                  baseStartDeptLinkman: '',
+                  settlementNo: '',
+                  baseAcceptDept: '00',
+                  stampInfo: '',
+                  stampLegalPersonInfo: '',
+                  threeLicenseInfo: '',
+                  baseAcceptGroup: '',
+                  baseOrgId: '',
+                  productCode: '',
+                  productName: '',
+                  isSendFinance: '0',
+                  acntName: '',
+                  acntShortName: '',
+                  baseOperator: this.$app.session.data.user.userName,
+                  accNo: '',
+                  market: '',
+                  accNoMarket: '',
+                  region: '',
+                  currency: '',
+                  fundAccName: '',
+                  acntPurpose: '',
+                  rateId: '',
                     rateCode:'',
                     bigPayNo:'',
                     openBank:'',
@@ -779,31 +798,31 @@
                     updateUser:''
                 },
                 detailFormBefore: {
-                    typeCode:'', 
-                    bizType:'', 
-                    baseStartDept:'', 
-                    baseStartDeptLinkman:'', 
-                    settlementNo:'',
-                    baseAcceptDept:'',
-                    stampInfo:'',
-                    stampLegalPersonInfo:'', 
-                    threeLicenseInfo:'',
-                    baseAcceptGroup:'', 
-                    baseOrgId:'', 
-                    productCode:'', 
-                    productName:'',
-                    isSendFinance:'0', 
-                    acntName:'', 
-                    acntShortName:'',
-                    baseOperator:this.$app.session.data.user.userName,
-                    accNo:'',
-                    market:'',
-                    accNoMarket:'',
-                    region:'',
-                    currency:'',
-                    fundAccName:'',
-                    acntPurpose:'',
-                    rateId:'',
+                  typeCode: '',
+                  bizType: '',
+                  baseStartDept: '',
+                  baseStartDeptLinkman: '',
+                  settlementNo: '',
+                  baseAcceptDept: '',
+                  stampInfo: '',
+                  stampLegalPersonInfo: '',
+                  threeLicenseInfo: '',
+                  baseAcceptGroup: '',
+                  baseOrgId: '',
+                  productCode: '',
+                  productName: '',
+                  isSendFinance: '0',
+                  acntName: '',
+                  acntShortName: '',
+                  baseOperator: this.$app.session.data.user.userName,
+                  accNo: '',
+                  market: '',
+                  accNoMarket: '',
+                  region: '',
+                  currency: '',
+                  fundAccName: '',
+                  acntPurpose: '',
+                  rateId: '',
                     rateCode:'',
                     bigPayNo:'',
                     openBank:'',
@@ -850,21 +869,21 @@
                 acntList:[],    //账户列表
                 openBankList:[],
                 showRules:{
-           
+
                 },
                 detailFormRules: {
-                    typeCode: [
-                        {required: true, message: '账户类型必填', trigger: 'blur'},
-                    ],
-                    applyDeadlineDt: [
-                        {required: true, message: '申请截止日期必填', trigger: 'blur'},
-                    ],
-                    baseStartDept: [
-                        {required: true, message: '必填', trigger: 'blur'},
-                    ],
-                    baseAcceptDept: [
-                        {required: true, message: '必填', trigger: 'blur'},
-                    ]
+                  typeCode: [
+                    {required: true, message: '账户类型必填', trigger: 'blur'},
+                  ],
+                  // applyDeadlineDt: [
+                  //     {required: true, message: '申请截止日期必填', trigger: 'blur'},
+                  // ],
+                  baseStartDept: [
+                    {required: true, message: '必填', trigger: 'blur'},
+                  ],
+                  baseAcceptDept: [
+                    {required: true, message: '必填', trigger: 'blur'},
+                  ]
                 },
             }
         },
@@ -889,16 +908,32 @@
 
         },
         methods: {
-            // 账号新增、删除服务行
-            addAccRule(){
-                const newAccTableObj = {
-                    accNo: '',
-                    market: '',
-                    accNoType: '01',
-                };
-                this.accNoList.push(newAccTableObj);
-            },
-            deleteAccRuleRow(rowIndex){
+          addLinKman() {
+            let actionOk = this.reloadLinkmanList.bind(this);
+            let mode = 'add'
+            this.$nav.showDialog(
+                LinkmanBaseDlg,
+                {
+                  args: {row: {}, mode, actionOk},
+                  width: '50%',
+                  title: this.$dialog.formatTitle('联系人维护', 'add'),
+                }
+            );
+          },
+          async reloadLinkmanList() {
+            let linkManList = await this.$api.acntApplyApi.getLinkMan(this.detailForm.baseOrgId);
+            this.linkManList = linkManList.data
+          },
+          // 账号新增、删除服务行
+          addAccRule() {
+            const newAccTableObj = {
+              accNo: '',
+              market: '',
+              accNoType: '01',
+            };
+            this.accNoList.push(newAccTableObj);
+          },
+          deleteAccRuleRow(rowIndex) {
                 this.accNoList.splice(rowIndex, 1);
             },
             // 资金账号新增、删除服务行
@@ -1020,33 +1055,49 @@
                 }
             },
 
+            arrValidate(rule, value, callback) {
+                if (!value && value.length < 1) {
+                    callback(new Error('必填'));
+                }else{
+                    callback();
+                }
+            },
+
             async loadShowRule(){
                 let resp = await this.$api.acntApplyApi.getConfig(this.detailForm.typeCode);
                 let showRules = resp.data;
-                // let showRules = {
-                //     acntName:{isShow:true,required:true},
-                //     acntShortName:{isShow:true,required:true},
-                // };
                 this.showRules = showRules;
                 for(let key  in showRules){
-                    let detailFormRulesOne = showRules[key];
-                    detailFormRulesOne.message = '必填';
-                    detailFormRulesOne.required = showRules[key].mustFill=='1';
-                    detailFormRulesOne.trigger = 'blur';
-                    this.detailFormRules[key] = [detailFormRulesOne]
-                    if(key === 'accNo' && showRules[key].mustFill === '1'){
-                        this.isAccNoMustFill = true;
-                    }
-                    if(key === 'fundAccNo' && showRules[key].mustFill === '1'){
-                        this.isMoneyAccNoMustFill = true;
-                    }
-                    if(key === 'bankLinkMan' && showRules[key].mustFill === '1'){
-                        this.isBankLinkManMustFill = true;
-                    }
-                    if(key === 'provisionBankAcntIds' && showRules[key].mustFill === '1'){
-                        this.isProvisionBankAcntIdsMustFill = true;
+                    const arrItem = ['accNo', 'fundAccNo', 'bankLinkMan', 'provisionBankAcntIds'];
+                    if(showRules[key].mustFill === '1'){
+                        if(arrItem.includes(showRules[key])){
+                            this.$set(this.detailFormRules, [key], [{ required: true, validator: this.arrValidate, trigger: 'change'}]);
+                        }else{
+                            this.$set(this.detailFormRules, [key], [{ message: showRules[key].factorName+'必填', required: true, trigger: 'blur'}]);
+                        }
+                    }else{
+                        if(this.detailFormRules[key]){
+                            this.$delete(this.detailFormRules, [key]);
+                        }
                     }
                 }
+                //
+                // switch (showRules[key]) {
+                //     case 'accNo':
+                //         this.isAccNoMustFill = true;
+                //         break;
+                //     case 'fundAccNo':
+                //         this.isMoneyAccNoMustFill = true;
+                //         break;
+                //     case 'bankLinkMan':
+                //         this.isBankLinkManMustFill = true;
+                //         break;
+                //     case 'provisionBankAcntIds':
+                //         this.isProvisionBankAcntIdsMustFill = true;
+                //         break;
+                //     default:
+                //         this.$set(this.detailFormRules, [key], [{ message: '必填', required: true, trigger: 'blur'}]);
+                // }
             },
             async loadProductName(){
                 if(loadsh.isEmpty(this.detailForm.productCode)){
@@ -1099,7 +1150,7 @@
                 }
 
                 try {
-                    let form =  JSON.parse(JSON.stringify(this.detailForm)) 
+                  let form = JSON.parse(JSON.stringify(this.detailForm))
                     form.processStatus = '07';
                     form.accNoList = this.accNoList;
                     form.moneyAccNoList = this.moneyAccNoList;
@@ -1192,6 +1243,61 @@
                     return false;
                 }
                 return true;
+            },
+
+            async onTypeCodeChange(typeCode){
+                this.detailForm = {
+                    'applyId':'',
+                    'applyDeadlineDt':'',
+                    'typeCode':typeCode,
+                    'bizType':'',
+                    'baseStartDept':'00',
+                    'baseStartDeptLinkman':'',
+                    'settlementNo':'',
+                    'baseAcceptDept':'00',
+                    'stampInfo':'',
+                    'stampLegalPersonInfo':'',
+                    'threeLicenseInfo':'',
+                    'baseAcceptGroup':'',
+                    'baseOrgId':'',
+                    'productCode':'',
+                    'productName':'',
+                    'isSendFinance':'0',
+                    'acntName':'',
+                    'acntShortName':'',
+                    'baseOperator':this.$app.session.data.user.userName,
+                    'accNo':'',
+                    'market':'',
+                    'accNoMarket':'',
+                    'region':'',
+                    'currency':'',
+                    'fundAccName':'',
+                    'acntPurpose':'',
+                    'rateId':'',
+                    'rateCode':'',
+                    'bigPayNo':'',
+                    'openBank':'',
+                    'fundAccNo':'',
+                    'isOpenEbank':'',
+                    'acntStartDt':'',
+                    'isOpenBankCorDirect':'',
+                    'maturityDt':'',
+                    'bankLinkMan':[],
+                    'acntStatus':'',
+                    'openManPhone':'',
+                    'remark':'',
+                    'other':'',
+                    'futuresCompany':'',
+                    'cardCorporateAcntId':'',
+                    'provisionBankAcntIds':[],
+                    'fields':[],
+                    'crtUser':'',
+                    'updateUser':''
+                };
+                if(this.$refs.taskDefForm){
+                    this.$refs.taskDefForm.clearValidate();
+                }
+                this.loadShowRule();
             }
 
         },
@@ -1251,5 +1357,6 @@
     .module-card {
         box-shadow: none;
     }
+
 
 </style>

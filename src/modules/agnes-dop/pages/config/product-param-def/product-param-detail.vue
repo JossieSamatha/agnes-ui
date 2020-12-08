@@ -14,27 +14,11 @@
       <el-form-item label="参数类型" prop="paramType">
         <gf-dict v-model="detailForm.paramType" dict-type="AGNES_PRODUCT_PARAM_TYPE" @change="paramTypeChange"/>
       </el-form-item>
-      <!--      <el-form-item label="参数值" prop="paramValue">-->
-      <!--        <gf-input v-if="detailForm.paramType==='str'" v-model.trim="detailForm.paramValue" placeholder="参数值"/>-->
-      <!--        <el-input v-if="detailForm.paramType==='number'" v-model="detailForm.paramValue"-->
-      <!--                  placeholder="参数值"/>-->
-      <!--        <el-date-picker-->
-      <!--            v-if="detailForm.paramType==='date'"-->
-      <!--            v-model="detailForm.paramValue"-->
-      <!--            type="date"-->
-      <!--            value-format="yyyy-MM-dd"-->
-      <!--            placeholder="参数值">-->
-      <!--        </el-date-picker>-->
-      <!--        <gf-dict v-model="detailForm.paramValue" v-if="detailForm.paramType==='boolean'"-->
-      <!--                 dict-type="AGNES_PRODUCT_BOOLEAN"/>-->
-
-      <!--      </el-form-item>-->
     </el-form>
     <dialog-footer :ok-button-visible="mode !== 'view'" :on-save="onSave" ok-button-title="确定"></dialog-footer>
   </div>
 </template>
 <script>
-
 export default {
   name: "task-define",
   props: {
@@ -77,7 +61,7 @@ export default {
   mounted() {
     this.isFirst = true
     if (this.mode !== 'add') {
-      this.detailForm = this.row
+      this.detailForm = this.$lodash.cloneDeep(this.row);
     }
   },
   methods: {
@@ -110,7 +94,10 @@ export default {
         this.detailForm.paramValue = '';
       }
       this.isFirst = false;
-    }
+    },
+    reloadData() {
+      this.$refs.grid.reloadData();
+    },
   }
 }
 </script>

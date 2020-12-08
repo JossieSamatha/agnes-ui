@@ -27,11 +27,11 @@ export default {
         {headerName: "资金账号名称", field: "fundAccName"},
         {headerName: "币种", field: "fundCurrencys"},
 
-        {headerName: "证券账号", field: "accNos"},
+        {headerName: "账号", field: "accNos"},
         {headerName: "市场", field: "markets"},
 
         {headerName: "归属机构", field: "extOrgName"},
-        {headerName: "账户状态", field: "acntStatus", dictType:"AGNES_ACNT_INFO_STATUS"},
+        {headerName: "账户状态", field: "acntStatus", dictType: "AGNES_ACNT_INFO_STATUS"},
 
         {headerName: "大额支付号", field: "bigPayNo"},
         {headerName: "开户网点", field: "openBank"},
@@ -45,15 +45,18 @@ export default {
 
         {headerName: "账户简称", field: "acntShortName"},
         {headerName: "账户启用日期", field: "acntStartDt"},
-        {headerName: "是否开通银企直连", field: "isOpenBankCorDirect", dictType:"OPDS_YES_NO"},
+        {headerName: "是否开通银企直连", field: "isOpenBankCorDirect", dictType: "OPDS_YES_NO"},
         {headerName: "到期提醒", field: "maturityDt"},
         {headerName: "备注", field: "remark"},
 
         {headerName: "流程类型", field: "processType"},
+        {headerName: "期货公司", field: "futuresCompany"},
+        {headerName: "额度", field: "limits"},
 
         column.colCrtUser,
+        {headerName: "创建人", field: "crtUserName"},
         column.colCrtTm,
-        column.colUpdUser,
+        {headerName: "更新人", field: "updateUserName"},
         column.colUpdTm
     ],
     defaultColDef: {

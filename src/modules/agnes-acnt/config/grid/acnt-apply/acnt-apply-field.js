@@ -3,6 +3,14 @@ import column from "../../../../../config/column"
 export default {
     columnDefs: [
         // {headerName: "账户类型", field: "typeName"},
+        {headerName: "流程申请名称", field: "#",
+        valueFormatter: function (params){
+            const dictObj = window.$gfui.$app.dict.getDictItem('AGNES_ACNT_BIZ_TYPE', params.data.bizType);
+            const dictName = dictObj ? dictObj.dictName : '--';
+
+            return "【"+params.data.crtUserName+"】发起的"+ dictName +"申请流程"
+        }
+        },
         {headerName: "账户名称", field: "acntName"},
         // {headerName: "账号", field: "accNo"},
         {headerName: "资金账号", field: "fundAccNos"},
@@ -21,9 +29,9 @@ export default {
         {headerName: "申请截止日期", field: "applyDeadlineDt"},
         {headerName: "申请超时状态", field: "applyDeadlineStatus",dictType: 'AGNES_ACNT_APPLY_DEADLINE_STATUS'},
 
-        column.colCrtUser,
+        {headerName: "创建人", field: "crtUserName"},
         column.colCrtTm,
-        column.colUpdUser,
+        {headerName: "更新人", field: "updateUserName"},
         column.colUpdTm
     ],
     defaultColDef: {
