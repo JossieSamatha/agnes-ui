@@ -9,13 +9,13 @@
           <el-input v-model="queryArgs.fundAccNos"></el-input>
         </el-form-item>
         <el-form-item label="归属机构">
-          <el-select v-model="queryArgs.orgIdList" multiple placeholder="请选择">
-            <el-option
+          <el-select v-model="queryArgs.orgIdList" multiple collapse-tags filterable placeholder="请选择">
+            <gf-filter-option
                 v-for="item in orgOption"
                 :key="item.value"
                 :label="item.extOrgName"
                 :value="item.extOrgId">
-            </el-option>
+            </gf-filter-option>
           </el-select>
         </el-form-item>
         <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
