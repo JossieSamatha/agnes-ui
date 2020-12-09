@@ -20,18 +20,9 @@
                   border
                   height="100%">
             <el-table-column
-                    align="center"
-                    header-align="center"
                     label="菜单名称" prop="resName">
             </el-table-column>
             <el-table-column
-                    align="center"
-                    header-align="center"
-                    label="菜单路径" prop="actionUrl">
-            </el-table-column>
-            <el-table-column
-                    align="center"
-                    header-align="center"
                     label="是否需要回收"
                     width="200">
                 <template slot-scope="scope">
@@ -39,8 +30,6 @@
                 </template>
             </el-table-column>
             <el-table-column
-                    align="center"
-                    header-align="center"
                     label="是否需要复核"
                     width="200">
                 <template slot-scope="scope">
@@ -48,8 +37,6 @@
                 </template>
             </el-table-column>
             <el-table-column
-                    align="center"
-                    header-align="center"
                     label="导入"
                     width="200">
                 <template slot-scope="scope">
@@ -64,8 +51,6 @@
                 </template>
             </el-table-column>
             <el-table-column
-                    align="center"
-                    header-align="center"
                     label="导出"
                     width="200">
                 <template slot-scope="scope">
@@ -80,8 +65,6 @@
                 </template>
             </el-table-column>
             <el-table-column
-                    align="center"
-                    header-align="center"
                     label="帮助文档"
                     width="200">
                 <template slot-scope="scope">
