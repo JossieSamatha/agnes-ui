@@ -209,22 +209,22 @@
                 this.$refs.grid.reloadData();
             },
             showOpenDlg(mode, row, actionOk,isDisabled=false) {
-                if (mode !== 'add' && !row) {
-                    this.$msg.warning("请选中一条记录!");
-                    return;
-                }
-                let title = '发起申请';
-                let okButtonTitle = '保存';//add addInfo edit
-                if(mode==='check'){
-                    title = '账户审核';
-                    okButtonTitle = '审核';
-                }else if(mode==='detele'){
-                    title = '作废申请';
-                    okButtonTitle = '作废';
-                }else if(mode==='addInfo'){
-                    title = '资料准备';
-                    okButtonTitle = '保存';
-                }else if(mode==='checkFund'){
+              if (mode !== 'add' && !row) {
+                this.$msg.warning("请选中一条记录!");
+                return;
+              }
+              let title = '发起申请';
+              let okButtonTitle = '提交';//add addInfo edit
+              if (mode === 'check') {
+                title = '账户审核';
+                okButtonTitle = '审核';
+              } else if (mode === 'detele') {
+                title = '作废申请';
+                okButtonTitle = '作废';
+              } else if (mode === 'addInfo') {
+                title = '资料准备';
+                okButtonTitle = '提交';
+              } else if (mode === 'checkFund') {
                     title = '财务流程';
                     okButtonTitle = '审核';
                 }
@@ -286,10 +286,10 @@
                     }
                 }
                 if(token){
-                    let form =  JSON.parse(JSON.stringify(params.data)) 
+                  let form = JSON.parse(JSON.stringify(params.data))
                     // form.processStatus = '02';
                     if(params.data.isSendFinance=='1'){
-                        form.processStatus = '05'; 
+                      form.processStatus = '05';
                     }else {
                         form.processStatus = '06';
                     }
