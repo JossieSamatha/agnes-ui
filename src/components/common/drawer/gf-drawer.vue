@@ -90,7 +90,8 @@
             okButtonTitle: {
                 type: String,
                 default: '保存'
-            }
+            },
+            pageEl: HTMLDivElement
         },
         data() {
             return {
@@ -141,7 +142,11 @@
                         this.visible = false
                     }
                     this.$refs.component.$destroy();
-                    document.body.removeChild(this.$refs.component.$parent.$el);
+                    if(this.pageEl){
+                        this.$el.parentNode.removeChild(this.$el);
+                    }else{
+                        document.body.removeChild(this.$refs.component.$parent.$el);
+                    }
                 } catch (reason) {
                     this.$msg.error(reason);
                 }

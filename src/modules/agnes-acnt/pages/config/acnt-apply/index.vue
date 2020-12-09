@@ -259,7 +259,8 @@
                     okButtonVisible:mode!=='view',
                     okButtonTitle:okButtonTitle,
                     cancelButtonTitle:mode==='view'?'关闭':'取消',
-                    customOpBtn: customOpBtn
+                    customOpBtn: customOpBtn,
+                    pageEl: this.$el
                 })
             },
             onOpenApply(){
@@ -392,7 +393,8 @@
                     okButtonVisible:mode!=='view',
                     okButtonTitle:mode==='check'?'审核':'保存',
                     cancelButtonTitle:mode==='view'?'关闭':'取消',
-                    customOpBtn: customOpBtn
+                    customOpBtn: customOpBtn,
+                    pageEl: this.$el
                 })
             },
             onInsertApply(){

@@ -20,7 +20,11 @@ class GfPageDrawer {
             },
         });
         drawer.$mount();
-        document.body.appendChild(drawer.$el);
+        if (options.pageEl) {
+            options.pageEl.appendChild(drawer.$el);
+        }else{
+            document.body.appendChild(drawer.$el);
+        }
         return drawer;
     }
 
