@@ -23,20 +23,28 @@
                                 :key="group.label"
                                 :label="group.label">
                             <el-option
-                                    v-for="item in group.options"
-                                    :key="item.typeCode"
-                                    :label="`${group.label} - ${item.typeName}`"
-                                    :value="item.typeCode">
+                                v-for="item in group.options"
+                                :key="item.typeCode"
+                                :label="`${group.label} - ${item.typeName}`"
+                                :value="item.typeCode">
                             </el-option>
                         </el-option-group>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="状态">
-                    <gf-dict filterable clearable v-model="queryArgs.acntStatus" dict-type="AGNES_ACNT_INFO_STATUS"/>
-                </el-form-item>
-
-                <el-form-item label=""></el-form-item>
-                <el-button @click="reSetSearch" class="option-btn">重置</el-button>
+              <el-form-item label="状态">
+                <gf-dict filterable clearable v-model="queryArgs.acntStatus" dict-type="AGNES_ACNT_INFO_STATUS"/>
+              </el-form-item>
+              <el-form-item label="归属机构">
+                <el-select v-model="queryArgs.orgIdList" multiple placeholder="请选择">
+                  <el-option
+                      v-for="item in orgOption"
+                      :key="item.value"
+                      :label="item.extOrgName"
+                      :value="item.extOrgId">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-button @click="reSetSearch" class="option-btn">重置</el-button>
             </div>
         </el-form>
         <gf-grid ref="grid" height="calc(100% - 70px)"
@@ -61,39 +69,54 @@
     export default {
         data() {
             return {
-                queryArgs:{
-                    'processType':'FA',
-                    'typeCode':'',
-                    'acntName':'',
-                    'accNos':'',
-                    'fundAccNos':'',
-                    'acntStatus':''
+                queryArgs: {
+                  'processType': 'FA',
+                  'typeCode': '',
+                  'acntName': '',
+                  'accNos': '',
+                  'fundAccNos': '',
+                  'acntStatus': '',
+                  'orgIdList': [],
                 },
-                typeCodeOption: [{
-                    label: 'TA',
-                    options: []
-                },{
-                    label: 'FA',
-                    options: []
-                }]
+              typeCodeOption: [{
+                label: 'TA',
+                options: []
+              }, {
+                label: 'FA',
+                options: []
+              }],
+              orgOption: [],
             }
         },
-        beforeMount() {
-            const p = this.getOptionData();
-            this.$app.blockingApp(p);
+      beforeMount() {
+        const p = this.getOptionData();
+        this.$app.blockingApp(p);
+      },
+      mounted() {
+        this.loadExtOrg();
+      },
+      methods: {
+        async loadExtOrg() {
+          try {
+            this.$api.orgDefineApi.getOrgList().then(resp => {
+              if (resp && resp.data) {
+                this.orgOption = resp.data;
+              }
+            })
+          } catch (e) {
+            this.$msg.error(e);
+          }
         },
-
-        methods: {
-            async getOptionData(){
-                try {
-                    let typeCodeOption = await this.$api.acntApplyApi.getAcntTypeList();
-                    typeCodeOption.data.forEach(item=>{
-                        if(item.processType === 'FA'){
-                            this.typeCodeOption[1].options.push(item);
-                        }
-                    });
-                } catch (reason) {
-                    this.$msg.error(reason);
+        async getOptionData() {
+          try {
+            let typeCodeOption = await this.$api.acntApplyApi.getAcntTypeList();
+            typeCodeOption.data.forEach(item => {
+              if (item.processType === 'FA') {
+                this.typeCodeOption[1].options.push(item);
+              }
+            });
+          } catch (reason) {
+            this.$msg.error(reason);
                 }
             },
 
@@ -101,15 +124,14 @@
                 this.$refs.grid.reloadData();
             },
             reSetSearch() {
-                this.queryArgs = {
-                    'processType':'FA',
-                    'typeCode':'',
-                    'acntName':'',
-                    'accNos':'',
-                    'fundAccNos':'',
-                    'acntStatus':''
-                };
-                this.reloadData();
+              this.queryArgs.processType = 'FA';
+              this.queryArgs.typeCode = '';
+              this.queryArgs.acntName = '';
+              this.queryArgs.accNos = '';
+              this.queryArgs.fundAccNos = '';
+              this.queryArgs.acntStatus = '';
+              this.queryArgs.orgIdList = [];
+              this.reloadData();
             },
             showOpenDlg(mode, row, actionOk,isDisabled=false) {
                 if (!row) {
