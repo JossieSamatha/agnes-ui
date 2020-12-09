@@ -83,7 +83,10 @@
             showView: function (menu) {
                 const viewId = menu.menucode;
                 let tabObj = {};
-                if(menu.actionUrl && menu.actionUrl.indexOf('goframe/p') !== -1){
+                if(menu.actionUrl && menu.actionUrl.includes('link:')){
+                    const hrefUrl = menu.actionUrl.replace('link:', '');
+                    window.open(hrefUrl, '_blank');
+                }else if(menu.actionUrl && menu.actionUrl.includes('goframe/p')){
                     tabObj = menu;
                     tabObj.title = menu.menuname;
                     tabObj.ifIframe = true;
