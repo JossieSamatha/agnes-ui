@@ -304,7 +304,7 @@
                       </el-form-item>
                     </div>
                   <div class="line">
-                    <el-form-item label="账户状态" prop="acntStatus" v-if="this.mode === 'addChange'" width="100%">
+                    <el-form-item label="账户状态" prop="acntStatus" v-if="this.detailForm.bizType === '02'" width="100%">
                       <el-select v-model="detailForm.acntStatus" placeholder="">
                         <el-option
                             v-for="item in acntStatusOption"
@@ -558,33 +558,51 @@
             async loadShowRule(){
                 let resp = await this.$api.acntApplyApi.getConfig(this.detailForm.typeCode);
                 let showRules = resp.data;
-                // let showRules = {
-                //     acntName:{isShow:true,required:true},
-                //     acntShortName:{isShow:true,required:true},
-                // };
                 this.showRules = showRules;
-                // let detailFormRules = {};
+                const detailFormRules = {};
                 for(let key  in showRules){
-                    let detailFormRulesOne = showRules[key];
-                    detailFormRulesOne.message = '必填';
-                    detailFormRulesOne.required = showRules[key].mustFill=='1';
-                    detailFormRulesOne.trigger = 'blur';
-                    this.detailFormRules[key] = [detailFormRulesOne]
+                    const arrItem = ['accNo', 'fundAccNo', 'bankLinkMan', 'provisionBankAcntIds'];
+                    if(showRules[key].mustFill === '1'){
+                        if(arrItem.includes(key)){
+                            detailFormRules[key] = [{ required: true, validator: this.arrValidate, trigger: 'change'}];
+                        }else{
+                            detailFormRules[key] =[{ message: showRules[key].factorName+'必填', required: true, trigger: 'change'}];
+                        }
+                    }
                 }
-                // this.detailFormRules = detailFormRules;
 
-                if(this.detailForm.processStatus === '01'){
-                    this.detailForm.isSendFinance = '0';
-                }
-                if( !loadsh.isEmpty(showRules) &&
-                    !loadsh.isEmpty(showRules.isSendFinance) &&
-                    !loadsh.isEmpty(showRules.isSendFinance.isShow)
-                    && showRules.isSendFinance.isShow === '1'){
-                    this.isSendFinanceDis =  false;
+                detailFormRules['typeCode'] = [{ message: '账户类型必填', required: true, trigger: 'change'}];
+                detailFormRules['baseStartDept'] = [{ message: '必填', required: true, trigger: 'change'}];
+                detailFormRules['baseAcceptDept'] = [{ message: '必填', required: true, trigger: 'change'}];
+
+                this.$nextTick(()=>{
+                    if(this.$refs.taskDefForm){
+                        this.$refs.taskDefForm.clearValidate();
+                    }
+                    this.detailFormRules = detailFormRules;
+                })
+            },
+
+            async arrValidate(rule, value, callback) {
+                if (rule.field === 'accNo') {
+                    const accNoHasValue = await this.isTableHasValues(this.accNoList, true);
+                    if (!accNoHasValue) {
+                        callback(new Error('账号信息必填'));
+                    }
+                } else if(rule.field === 'fundAccNo'){
+                    const applyAccNoHasValue = await this.isTableHasValues(this.moneyAccNoList, true);
+                    if (!applyAccNoHasValue) {
+                        callback(new Error('资金账号必填'));
+                    }
+                } else if (!value || value.length < 1) {
+                    const factorName = this.showRules[rule.field].factorName;
+                    callback(new Error(factorName + '必填'));
                 }else{
-                    this.isSendFinanceDis =  true;
+                    callback();
                 }
             },
+
+
             async loadProductName(){
                 if(loadsh.isEmpty(this.detailForm.productCode)){
                     this.detailForm.productName=''

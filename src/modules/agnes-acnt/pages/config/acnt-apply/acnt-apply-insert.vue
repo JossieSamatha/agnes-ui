@@ -1089,6 +1089,11 @@
                         }
                     }
                 }
+
+                detailFormRules['typeCode'] = [{ message: '账户类型必填', required: true, trigger: 'change'}];
+                detailFormRules['baseStartDept'] = [{ message: '必填', required: true, trigger: 'change'}];
+                detailFormRules['baseAcceptDept'] = [{ message: '必填', required: true, trigger: 'change'}];
+
                 this.$nextTick(()=>{
                     if(this.$refs.taskDefForm){
                         this.$refs.taskDefForm.clearValidate();
@@ -1224,7 +1229,7 @@
             async onTypeCodeChange(typeCode){
                 this.detailForm = {
                     'applyId':'',
-                    'applyDeadlineDt':'',
+                    'applyDeadlineDt':'9999-12-31',
                     'typeCode':typeCode,
                     'bizType':'',
                     'baseStartDept':'00',
@@ -1270,6 +1275,17 @@
                     'crtUser':'',
                     'updateUser':''
                 };
+
+                if(this.mode=='registration'){
+                    this.detailForm.bizType='04'
+                }else{
+                    this.detailForm.bizType='01'
+                }
+                Object.assign(this.detailForm, this.row);
+                if(this.detailForm.bizType=='02'){
+                    this.showChange = true;
+                }
+
                 this.loadShowRule();
             }
 
