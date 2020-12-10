@@ -23,6 +23,8 @@
           <gf-button v-if="$hasPermission('agnes.dop.roster.add')" class="action-btn" @click="addRoster"
                      size="mini">添加
           </gf-button>
+          <gf-button v-if="$hasPermission('agnes.dop.roster.import')" @click="exportExcel" class="action-btn">导出
+          </gf-button>
         </template>
       </gf-grid>
     </div>
@@ -130,17 +132,21 @@
                 const row = params.data;
                 const ok = await this.$msg.ask(`确认复核所选记录吗, 是否继续?`);
                 // const ok = await this.$msg.ask(`确认复核所选日历吗, 是否继续?`);
-                if (!ok) {
-                    return
-                }
-                try {
-                    const p = this.$api.rosterApi.updateRosterStatus(row.rosterId, "04");
-                    await this.$app.blockingApp(p);
-                    this.reloadData();
-                } catch (reason) {
-                    this.$msg.error(reason);
-                }
-            }
+              if (!ok) {
+                return
+              }
+              try {
+                const p = this.$api.rosterApi.updateRosterStatus(row.rosterId, "04");
+                await this.$app.blockingApp(p);
+                this.reloadData();
+              } catch (reason) {
+                this.$msg.error(reason);
+              }
+            },
+        exportExcel() {
+          const basePath = window.location.href.split("#/")[0];
+          window.open(basePath + "api/data-pipe/v1/etl/file/exportexcel?pkId=92636dd481ee4314b54686440ad5e4d0&fileName=ces.xls");
         },
+      },
     }
 </script>
