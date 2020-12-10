@@ -911,10 +911,11 @@
           addLinKman() {
             let actionOk = this.reloadLinkmanList.bind(this);
             let mode = 'add'
+            let _this = this;
             this.$nav.showDialog(
                 LinkmanBaseDlg,
                 {
-                  args: {row: {}, mode, actionOk},
+                  args: {row: {'extOrgId': _this.detailForm.baseOrgId}, mode, actionOk},
                   width: '50%',
                   title: this.$dialog.formatTitle('联系人维护', 'add'),
                 }

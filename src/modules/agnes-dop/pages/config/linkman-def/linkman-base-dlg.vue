@@ -233,13 +233,13 @@
                   'linkmanName': [{required: true, message: "请输入联系人姓名", trigger: 'blur'}],
                   'extOrgId': [{required: true, message: "请选择外部机构", trigger: ['blur', 'change']}],
                   'linkmanStatus': [{required: true, message: "请选择联系人状态", trigger: 'change'}],
-                  'linkmanPhone': [{validator: isTelOrFax, trigger: ['blur', 'change']}],
-                  'linkmanMail': [{validator: isMail, trigger: ['blur', 'change']}],
+                  'linkmanPhone': [{required: true, validator: isTelOrFax, trigger: ['blur', 'change']}],
+                  'linkmanMail': [{required: true, validator: isMail, trigger: ['blur', 'change']}],
                   'linkmanFax': [{validator: isTelOrFax, trigger: ['blur', 'change']}],
                   'linkmanWechat': [{validator: isWeChat, trigger: ['blur', 'change']}],
                   'linkmanDing': [{validator: isDing, trigger: ['blur', 'change']}],
                   'linkmanPost': [{validator: isPostCode, trigger: ['blur', 'change']}],
-                  'linkmanMobile': [{validator: isMobile, trigger: ['blur', 'change']}]
+                  'linkmanMobile': [{required: true, validator: isMobile, trigger: ['blur', 'change']}]
                 },
             };
         },
