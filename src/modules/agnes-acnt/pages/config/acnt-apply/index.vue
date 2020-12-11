@@ -319,7 +319,8 @@
 
                 let applyIds = [];
                 let applySubIds = [];
-
+                let firstData = data[0];
+                let isSubmitOa = true;
                 // let firstTypeCode = data[0].typeCode;
                 for(let i=0;i<data.length;i++){
                     let item = data[i];
@@ -328,7 +329,12 @@
                         this.$msg.warning('所选数据流程节点必须为【待提交OA】');
                         return;
                     }
-
+                    if(i!=0){
+                        if(data[i].oaOperator != firstData.oaOperator || data[i].oaIsNeedAudit != firstData.oaIsNeedAudit || data[i].oaIsNeedStamp != firstData.oaIsNeedStamp ){
+                            isSubmitOa = false;
+                            break;
+                        }
+                    }
                     // if(firstTypeCode !== item.typeCode){
                     //     this.$msg.warning('所选数据必须为同一账户类型');
                     //     return;
@@ -342,15 +348,56 @@
                     }
                 }
 
+                if(!isSubmitOa){
+                    this.$msg.warning("请确定批量选择的数据符合要求!");
+                    return;
+                }
                 const ok = await this.$msg.ask(`确认提交所选数据吗, 是否继续?`);
                 if (!ok) {
                     return
                 }
                 try {
                     const p = this.$api.acntApplyApi.submitOa(applyIds,applySubIds);
-                    await this.$app.blockingApp(p);
-                    this.$msg.success("提交成功!");
-                    this.reloadData();
+                    let resp = await this.$app.blockingApp(p);
+                    if(resp.code=='userInfoError'){
+                        this.$msg.error(resp.message);
+                    }
+                    if(resp.code=='dataError'){
+                        this.$msg.error(resp.message);
+                    }
+                    if(resp.code=='submitOaException'){
+                        this.$msg.error(resp.message);
+                    }
+                    switch (resp.code) {
+                        case '-1':
+                            this.$msg.error('创建流程失败');
+                            break;
+                        case '-2':
+                            this.$msg.error('没有创建权限');
+                            break;
+                        case '-3':
+                            this.$msg.error('创建流程失败');
+                            break;
+                        case '-4':
+                            this.$msg.error('字段或表名不正确');
+                            break;
+                        case '-5':
+                            this.$msg.error('更新流程级别失败');
+                            break;
+                        case '-6':
+                            this.$msg.error('无法创建流程待办任务');
+                            break;
+                        case '-7':
+                            this.$msg.error('流程下一节点出错，请检查流程的配置，在OA中发起流程进行测试');
+                            break;
+                        case '-8':
+                            this.$msg.error('流程节点自动赋值操作错误');
+                            break;
+                    }
+                    if(resp.code == 'success'){
+                        this.$msg.success("提交成功!");
+                        this.reloadData();
+                    }
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
