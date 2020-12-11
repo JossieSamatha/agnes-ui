@@ -1,10 +1,16 @@
 
 export default {
     columnDefs: [
-        {headerName: "核算员编号", field: "userId"},
-        {headerName: "核算员姓名", field: "userName"},
         {headerName: "产品代码", field: "productCode"},
         {headerName: "产品名称", field: "productName"},
+        {headerName: "核算员编号", field: "checkUserId"},
+        {headerName: "核算员姓名", field: "checkUserName"},
+        {headerName: "清算员编号", field: "clearUserId"},
+        {headerName: "清算员姓名", field: "clearUserName"},
+        {headerName: "核算员复核编号", field: "checkCrecoverUserId"},
+        {headerName: "核算员复核姓名", field: "checkCrecoverUserName"},
+        {headerName: "清算员复核编号", field: "clearCrecoverUserId"},
+        {headerName: "清算员复核姓名", field: "clearCrecoverUserName"},
     ],
     // headerHeight: 40,
     // rowHeight: 37,
