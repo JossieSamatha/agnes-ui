@@ -23,7 +23,7 @@
           <gf-button v-if="$hasPermission('agnes.dop.roster.add')" class="action-btn" @click="addRoster"
                      size="mini">添加
           </gf-button>
-          <gf-button v-if="$hasPermission('agnes.dop.roster.import')" @click="exportExcel" class="action-btn">导出
+          <gf-button v-if="$hasPermission('agnes.dop.roster.export')" @click="exportExcel" class="action-btn">导出
           </gf-button>
         </template>
       </gf-grid>
@@ -48,15 +48,23 @@
             pageType: 'personal',
             rosterDate: '',
             rosterType: ''
-          }
+          },
+          menuConfigInfo: '',
         }
       },
       mounted() {
         if (this.pageType !== null && this.pageType !== '') {
           this.queryParam.pageType = this.pageType;
         }
+        this.initData();
       },
       methods: {
+        async initData() {
+          let resp1 = await this.$api.funcConfigApi.queryMenuByActionUrl({'actionUrl': this.$app.nav.tabBar.currentTabKey});
+          if (resp1) {
+            this.menuConfigInfo = resp1.data;
+          }
+        },
 
         reloadData() {
           this.$refs.grid.reloadData();
@@ -143,9 +151,15 @@
                 this.$msg.error(reason);
               }
             },
-        exportExcel() {
+        async exportExcel() {
+          if (!this.menuConfigInfo) {
+            this.$msg.error('请完善相关导出配置！');
+            return;
+          }
+          let pkId = this.menuConfigInfo.outputParam;
+          let fileName = this.menuConfigInfo.resName;
           const basePath = window.location.href.split("#/")[0];
-          window.open(basePath + "api/data-pipe/v1/etl/file/exportexcel?pkId=92636dd481ee4314b54686440ad5e4d0&fileName=ces.xls");
+          window.open(basePath + "api/data-pipe/v1/etl/file/exportexcel?pkId=" + pkId + "&fileName=" + fileName);
         },
       },
     }
