@@ -5,6 +5,9 @@
             <gf-button v-if="$hasPermission('agnes.dop.linkman.add')" class="action-btn" @click="addLinkMan"
                        size="mini">添加
             </gf-button>
+            <gf-button  @click="exportExcel" class="action-btn">导出</gf-button>
+            <menu-config-upload :res-name=menuConfigInfo.resName :if-pk-id="menuConfigInfo.inputParam">
+            </menu-config-upload>
         </template>
     </gf-grid>
 </template>
@@ -16,7 +19,8 @@
             return {
                 queryArgs:{
                     'extOrgId':'',
-                }
+                },
+                menuConfigInfo:{},
             }
         },
         props: {
@@ -35,7 +39,16 @@
                 deep:true
             }
         },
+        mounted() {
+            this.initData();
+        },
         methods: {
+            async initData(){
+                let resp1 = await this.$api.funcConfigApi.queryMenuByActionUrl({'actionUrl':this.$app.nav.tabBar.currentTabKey});
+                if(resp1){
+                    this.menuConfigInfo = resp1.data;
+                }
+            },
           reloadData() {
             this.$refs.grid.reloadData();
           },
@@ -92,7 +105,17 @@
             } catch (reason) {
               this.$msg.error(reason);
             }
-          }
+          },
+            async exportExcel() {
+                if(!this.menuConfigInfo){
+                    this.$msg.error('请完善导出相关配置！');
+                    return ;
+                }
+                let pkId = this.menuConfigInfo.outputParam;
+                let fileName = this.menuConfigInfo.resName;
+                const basePath = window.location.href.split("#/")[0];
+                window.open(basePath + "api/data-pipe/v1/etl/file/exportexcel?pkId="+pkId+"&fileName="+fileName);
+            },
         }
     }
 </script>

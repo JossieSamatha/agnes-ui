@@ -41,6 +41,11 @@
             </div>
         </el-form>
         <gf-grid grid-no="agnes-product-user-field"  :query-args="queryArgs" ref="grid">
+            <template slot="left">
+                <gf-button  @click="exportExcel" class="action-btn">导出</gf-button>
+                <menu-config-upload :res-name=menuConfigInfo.resName :if-pk-id="menuConfigInfo.inputParam">
+                </menu-config-upload>
+            </template>
         </gf-grid>
     </div>
 </template>
@@ -61,6 +66,7 @@
                 productList:[],
                 checkUserList:[],
                 clearUserList:[],
+                menuConfigInfo:{},
             }
         },
         mounted() {
@@ -74,6 +80,10 @@
                 this.productList = resp.data.productList;
                 this.checkUserList = resp.data.checkUserList;
                 this.clearUserList = resp.data.clearUserList;
+                let resp1 = await this.$api.funcConfigApi.queryMenuByActionUrl({'actionUrl':this.$app.nav.tabBar.currentTabKey});
+                if(resp1){
+                    this.menuConfigInfo = resp1.data;
+                }
             },
             reloadData() {
                 this.$refs.grid.reloadData();
@@ -83,6 +93,16 @@
                 this.queryArgs.productCodes = [];
                 this.queryArgs.clearUserIds = [];
                 this.reloadData();
+            },
+            async exportExcel() {
+                if(!this.menuConfigInfo){
+                    this.$msg.error('请完善导出相关配置！');
+                    return ;
+                }
+                let pkId = this.menuConfigInfo.outputParam;
+                let fileName = this.menuConfigInfo.resName;
+                const basePath = window.location.href.split("#/")[0];
+                window.open(basePath + "api/data-pipe/v1/etl/file/exportexcel?pkId="+pkId+"&fileName="+fileName);
             },
         },
     }
