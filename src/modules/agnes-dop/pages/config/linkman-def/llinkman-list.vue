@@ -5,8 +5,8 @@
             <gf-button v-if="$hasPermission('agnes.dop.linkman.add')" class="action-btn" @click="addLinkMan"
                        size="mini">添加
             </gf-button>
-            <gf-button  @click="exportExcel" class="action-btn">导出</gf-button>
-            <menu-config-upload :res-name=menuConfigInfo.resName :if-pk-id="menuConfigInfo.inputParam">
+            <gf-button v-if="$hasPermission('agnes.dop.linkman.export')"  @click="exportExcel" class="action-btn">导出</gf-button>
+            <menu-config-upload v-if="$hasPermission('agnes.dop.linkman.input')" :res-name=menuConfigInfo.resName :if-pk-id="menuConfigInfo.inputParam">
             </menu-config-upload>
         </template>
     </gf-grid>

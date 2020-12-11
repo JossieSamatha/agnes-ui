@@ -42,8 +42,8 @@
         </el-form>
         <gf-grid grid-no="agnes-product-user-field"  :query-args="queryArgs" ref="grid">
             <template slot="left">
-                <gf-button  @click="exportExcel" class="action-btn">导出</gf-button>
-                <menu-config-upload :res-name=menuConfigInfo.resName :if-pk-id="menuConfigInfo.inputParam">
+                <gf-button v-if="$hasPermission('agnes.dop.product.user.info.export')"  @click="exportExcel" class="action-btn">导出</gf-button>
+                <menu-config-upload v-if="$hasPermission('agnes.dop.product.user.info.input')" :res-name=menuConfigInfo.resName :if-pk-id="menuConfigInfo.inputParam">
                 </menu-config-upload>
             </template>
         </gf-grid>
