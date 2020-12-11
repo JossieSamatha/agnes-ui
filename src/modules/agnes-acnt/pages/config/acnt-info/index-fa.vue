@@ -35,7 +35,8 @@
                 <gf-dict filterable clearable v-model="queryArgs.acntStatus" dict-type="AGNES_ACNT_INFO_STATUS"/>
               </el-form-item>
               <el-form-item label="归属机构">
-                <el-select v-model="queryArgs.orgIdList" multiple collapse-tags filterable placeholder="请选择">
+                <el-select class="multiple-select" v-model="queryArgs.orgIdList" multiple collapse-tags filterable
+                           placeholder="请选择">
                   <gf-filter-option
                       v-for="item in orgOption"
                       :key="item.value"

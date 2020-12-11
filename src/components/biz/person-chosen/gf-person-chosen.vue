@@ -1,10 +1,11 @@
 <template>
     <div class="person-chosen">
-        <el-button type="text" @click="chooseUser">选择人员</el-button>
+        <el-button :disabled="disabled" type="text" @click="chooseUser">选择人员</el-button>
         <chosen-list-view v-if="memberList.length>0"
                           :personList="personList"
                           :groupList="groupList"
                           :rosterList="rosterList"
+                          :disabled="disabled"
         ></chosen-list-view>
     </div>
 </template>
@@ -14,17 +15,21 @@
     export default {
         name: 'gf-person-chosen-input',
         props: {
-            memberRefList: {
-                type: Array,
-                required: true
-            },
-            chosenType: {
-                type: String,
-                default: 'user, group, roster'
-            },
-            rosterDate: {
-                type: String
-            }
+          memberRefList: {
+            type: Array,
+            required: true
+          },
+          chosenType: {
+            type: String,
+            default: 'user, group, roster'
+          },
+          rosterDate: {
+            type: String
+          },
+          disabled: {
+            type: Boolean,
+            default: false
+          }
         },
         data() {
             return {

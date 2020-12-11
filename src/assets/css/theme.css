@@ -1112,8 +1112,12 @@ form input[type=submit] {
     width: 100%;
 }
 
+.el-form .el-form-item .el-form-item__content .el-select .el-input .el-input__inner {
+    height: 28px !important;
+}
+
 .el-form .el-form-item .el-form-item__content .el-date-editor.el-input,
-.el-form .el-form-item .el-form-item__content .el-date-editor.el-range-editor.el-input__inner{
+.el-form .el-form-item .el-form-item__content .el-date-editor.el-range-editor.el-input__inner {
     margin-top: 0;
     height: 28px;
     line-height: 0;
