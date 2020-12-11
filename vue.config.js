@@ -53,8 +53,8 @@ module.exports = {
             //         '^/api/agnes-datav': '/'
             //     }
             // },
-            '/api/dop-channel': {
-                target: 'http://127.0.0.1:9006',
+            '/api/data-pipe': {
+                target: 'http://127.0.0.1:9021',
                 ws: true,
                 changeOrigin: true,
                 // pathRewrite: {
