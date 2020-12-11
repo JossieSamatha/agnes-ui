@@ -19,11 +19,11 @@ const colButtons = [
             return Permission.hasPermission('agnes.dop.roster.approve');
         }
     },
-    {
-        key: 'personnel', title: '值班人员', visiable: () => {
-            return Permission.hasPermission('agnes.dop.roster.personnel');
-        }
-    },
+    // {
+    //     key: 'personnel', title: '值班人员', visiable: () => {
+    //         return Permission.hasPermission('agnes.dop.roster.personnel');
+    //     }
+    // },
 ];
 
 export default {
@@ -31,8 +31,8 @@ export default {
         column.buildOpCol(130, colButtons),
         {headerName: "值班类型", field: "rosterType", dictType: 'AGNES_ROSTER_TYPE'},
         {headerName: "值班日期", field: "rosterDate"},
-        {headerName: "值班时间", field: "rosterTs"},
-        {headerName: "状态", field: "status" ,formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
+        {headerName: "值班人员", field: "userName"},
+        {headerName: "状态", field: "status", formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
         column.colCrtUser,
         column.colCrtTm
 

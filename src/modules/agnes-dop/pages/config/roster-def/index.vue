@@ -23,6 +23,8 @@
           <gf-button v-if="$hasPermission('agnes.dop.roster.add')" class="action-btn" @click="addRoster"
                      size="mini">添加
           </gf-button>
+          <gf-button v-if="$hasPermission('agnes.dop.roster.export')" @click="exportExcel" class="action-btn">导出
+          </gf-button>
         </template>
       </gf-grid>
     </div>
@@ -46,15 +48,23 @@
             pageType: 'personal',
             rosterDate: '',
             rosterType: ''
-          }
+          },
+          menuConfigInfo: '',
         }
       },
       mounted() {
         if (this.pageType !== null && this.pageType !== '') {
           this.queryParam.pageType = this.pageType;
         }
+        this.initData();
       },
       methods: {
+        async initData() {
+          let resp1 = await this.$api.funcConfigApi.queryMenuByActionUrl({'actionUrl': this.$app.nav.tabBar.currentTabKey});
+          if (resp1) {
+            this.menuConfigInfo = resp1.data;
+          }
+        },
 
         reloadData() {
           this.$refs.grid.reloadData();
@@ -130,17 +140,27 @@
                 const row = params.data;
                 const ok = await this.$msg.ask(`确认复核所选记录吗, 是否继续?`);
                 // const ok = await this.$msg.ask(`确认复核所选日历吗, 是否继续?`);
-                if (!ok) {
-                    return
-                }
-                try {
-                    const p = this.$api.rosterApi.updateRosterStatus(row.rosterId, "04");
-                    await this.$app.blockingApp(p);
-                    this.reloadData();
-                } catch (reason) {
-                    this.$msg.error(reason);
-                }
-            }
+              if (!ok) {
+                return
+              }
+              try {
+                const p = this.$api.rosterApi.updateRosterStatus(row.rosterId, "04");
+                await this.$app.blockingApp(p);
+                this.reloadData();
+              } catch (reason) {
+                this.$msg.error(reason);
+              }
+            },
+        async exportExcel() {
+          if (!this.menuConfigInfo) {
+            this.$msg.error('请完善相关导出配置！');
+            return;
+          }
+          let pkId = this.menuConfigInfo.outputParam;
+          let fileName = this.menuConfigInfo.resName;
+          const basePath = window.location.href.split("#/")[0];
+          window.open(basePath + "api/data-pipe/v1/etl/file/exportexcel?pkId=" + pkId + "&fileName=" + fileName);
         },
+      },
     }
 </script>
