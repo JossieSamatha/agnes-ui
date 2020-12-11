@@ -25,6 +25,8 @@
           </gf-button>
           <gf-button v-if="$hasPermission('agnes.dop.roster.export')" @click="exportExcel" class="action-btn">导出
           </gf-button>
+          <menu-config-upload :res-name=menuConfigInfo.resName :if-pk-id="menuConfigInfo.inputParam">
+          </menu-config-upload>
         </template>
       </gf-grid>
     </div>
@@ -49,7 +51,7 @@
             rosterDate: '',
             rosterType: ''
           },
-          menuConfigInfo: '',
+          menuConfigInfo: {},
         }
       },
       mounted() {
@@ -153,7 +155,7 @@
             },
         async exportExcel() {
           if (!this.menuConfigInfo) {
-            this.$msg.error('请完善相关导出配置！');
+            this.$msg.error('请完善导出相关配置！');
             return;
           }
           let pkId = this.menuConfigInfo.outputParam;
