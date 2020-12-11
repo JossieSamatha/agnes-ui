@@ -16,7 +16,7 @@
                             <el-option
                                     v-for="item in options"
                                     :key="item.value"
-                                    :label="item.extOrgName"
+                                    :label="`${item.extOrgCode} - ${item.extOrgName} - ${item.orgTypeName}`"
                                     :value="item.extOrgId"
                             >
                             </el-option>
