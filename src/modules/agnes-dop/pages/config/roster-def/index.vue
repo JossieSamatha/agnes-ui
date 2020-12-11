@@ -25,7 +25,8 @@
           </gf-button>
           <gf-button v-if="$hasPermission('agnes.dop.roster.export')" @click="exportExcel" class="action-btn">导出
           </gf-button>
-          <menu-config-upload :res-name=menuConfigInfo.resName :if-pk-id="menuConfigInfo.inputParam">
+          <menu-config-upload v-if="$hasPermission('agnes.dop.roster.import')" :res-name=menuConfigInfo.resName
+                              :if-pk-id="menuConfigInfo.inputParam">
           </menu-config-upload>
         </template>
       </gf-grid>
