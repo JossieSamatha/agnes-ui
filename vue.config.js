@@ -54,12 +54,12 @@ module.exports = {
             //     }
             // },
             '/api/data-pipe': {
-                target: 'http://127.0.0.1:9021',
+                target: 'http://127.0.0.1:9021/api/data-pipe',
                 ws: true,
                 changeOrigin: true,
-                // pathRewrite: {
-                //     '^/api/agnes-datav': '/'
-                // }
+                pathRewrite: {
+                    '^/api/data-pipe': '/'
+                }
             },
             '/api/': {
                 // target: 'http://172.18.16.195:9000',
