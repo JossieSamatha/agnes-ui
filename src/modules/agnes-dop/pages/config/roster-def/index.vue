@@ -162,7 +162,7 @@
           let pkId = this.menuConfigInfo.outputParam;
           let fileName = this.menuConfigInfo.resName;
           const basePath = window.location.href.split("#/")[0];
-          window.open(basePath + "api/agnes-app/v1/dop/func/config/export/"+pkId+"/"+fileName);
+          window.open(basePath + "api/data-pipe/v1/etl/file/exportexcel?pkId="+pkId+"&fileName="+fileName);
         },
       },
     }
