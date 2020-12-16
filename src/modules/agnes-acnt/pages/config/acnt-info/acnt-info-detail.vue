@@ -99,6 +99,57 @@
 
             <module-card title="账户信息" shadow="never">
                 <template slot="content">
+                    <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="账号">
+                        <div class="rule-table">
+                            <el-table header-row-class-name="rule-header-row"
+                                      header-cell-class-name="rule-header-cell"
+                                      row-class-name="rule-row"
+                                      cell-class-name="rule-cell"
+                                      :data="detailFormBefore.accNoList"
+                                      border stripe
+                                      style="width: 100%">
+                                <el-table-column prop="accNo" label="账号">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.accNo"></el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="market" label="市场">
+                                    <template slot-scope="scope">
+                                        <gf-dict filterable clearable v-model="scope.row.market" dict-type="AGNES_ACNT_MARKET" />
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </div>
+                    </el-form-item>
+
+                    <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号">
+                        <div class="rule-table">
+                            <el-table header-row-class-name="rule-header-row"
+                                      header-cell-class-name="rule-header-cell"
+                                      row-class-name="rule-row"
+                                      cell-class-name="rule-cell"
+                                      :data="detailFormBefore.moneyAccNoList"
+                                      border stripe
+                                      style="width: 100%">
+                                <el-table-column prop="accNo" label="资金帐号">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.accNo"></el-input>
+                                    </template>
+                                </el-table-column>
+                                <!--                                <el-table-column prop="accName" label="资金账户名称">-->
+                                <!--                                    <template slot-scope="scope">-->
+                                <!--                                        <el-input v-model="scope.row.accName"></el-input>-->
+                                <!--                                    </template>-->
+                                <!--                                </el-table-column>-->
+                                <el-table-column prop="currency" label="币种">
+                                    <template slot-scope="scope">
+                                        <gf-dict filterable clearable v-model="scope.row.currency" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </div>
+                    </el-form-item>
+
                     <div class="line wrap">
                         <el-form-item v-if="showRules.acntName&&showRules.acntName.isShow" label="账户名称" prop="acntName">
                             <gf-input v-model.trim="detailFormBefore.acntName" placeholder="账户名称"/>
@@ -238,56 +289,7 @@
                         </el-form-item>
 
                     </div>
-                    <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="账号">
-                        <div class="rule-table">
-                            <el-table header-row-class-name="rule-header-row"
-                                      header-cell-class-name="rule-header-cell"
-                                      row-class-name="rule-row"
-                                      cell-class-name="rule-cell"
-                                      :data="detailFormBefore.accNoList"
-                                      border stripe
-                                      style="width: 100%">
-                                <el-table-column prop="accNo" label="账号">
-                                    <template slot-scope="scope">
-                                        <el-input v-model="scope.row.accNo"></el-input>
-                                    </template>
-                                </el-table-column>
-                                <el-table-column prop="market" label="市场">
-                                    <template slot-scope="scope">
-                                        <gf-dict filterable clearable v-model="scope.row.market" dict-type="AGNES_ACNT_MARKET" />
-                                    </template>
-                                </el-table-column>
-                            </el-table>
-                        </div>
-                    </el-form-item>
 
-                    <el-form-item v-if="showRules.fundAccNo&&showRules.fundAccNo.isShow" label="资金帐号">
-                        <div class="rule-table">
-                            <el-table header-row-class-name="rule-header-row"
-                                      header-cell-class-name="rule-header-cell"
-                                      row-class-name="rule-row"
-                                      cell-class-name="rule-cell"
-                                      :data="detailFormBefore.moneyAccNoList"
-                                      border stripe
-                                      style="width: 100%">
-                                <el-table-column prop="accNo" label="资金帐号">
-                                    <template slot-scope="scope">
-                                        <el-input v-model="scope.row.accNo"></el-input>
-                                    </template>
-                                </el-table-column>
-<!--                                <el-table-column prop="accName" label="资金账户名称">-->
-<!--                                    <template slot-scope="scope">-->
-<!--                                        <el-input v-model="scope.row.accName"></el-input>-->
-<!--                                    </template>-->
-<!--                                </el-table-column>-->
-                                <el-table-column prop="currency" label="币种">
-                                    <template slot-scope="scope">
-                                        <gf-dict filterable clearable v-model="scope.row.currency" dict-type="AGNES_ACNT_CURRENCY_TYPE" />
-                                    </template>
-                                </el-table-column>
-                            </el-table>
-                        </div>
-                    </el-form-item>
                 </template>
             </module-card>
         </el-form>
@@ -488,8 +490,9 @@
                     let acntList = await this.$api.acntInfoApi.getAcntInfoList();
                     this.acntList = acntList.data;
 
-                    let openBankList = await this.$api.branchApi.listByPayNo(this.detailForm.bigPayNo);
-                    this.openBankList = openBankList.data
+                    //账户详情界面无需加载 网点选项，直接显示即可
+                    // let openBankList = await this.$api.branchApi.listByPayNo(this.detailForm.bigPayNo);
+                    // this.openBankList = openBankList.data
 
                     //以下加载填写的数据
                     let detailFormBefore = await this.$api.acntInfoApi.getAcntInfoByAcntId(this.detailForm.acntId);

@@ -5,9 +5,9 @@
                 <el-form-item label="网点名称">
                     <el-input v-model="queryArgs.branchName"></el-input>
                 </el-form-item>
-                <el-form-item label="网点代码" >
-                    <el-input v-model="queryArgs.branchCode"></el-input>
-                </el-form-item>
+<!--                <el-form-item label="网点代码" >-->
+<!--                    <el-input v-model="queryArgs.branchCode"></el-input>-->
+<!--                </el-form-item>-->
                 <el-form-item label="大额支付号" >
                     <el-input v-model="queryArgs.bigPayNo"></el-input>
                 </el-form-item>

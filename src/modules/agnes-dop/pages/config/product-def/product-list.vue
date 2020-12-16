@@ -63,10 +63,19 @@
                 });
             },
             async deleteReload(productId){
+                // const p = this.$api.productApi.deleteProdut({productId});
+                // await this.$app.blockingApp(p);
+                // await this.$refs.grid.reloadData();
+                // this.$msg.success('删除成功');
+
                 const p = this.$api.productApi.deleteProdut({productId});
-                await this.$app.blockingApp(p);
-                await this.$refs.grid.reloadData();
-                this.$msg.success('删除成功');
+                let resp = await this.$app.blockingApp(p);
+                if(resp.code=='error'){
+                    this.$msg.error(resp.message);
+                }else if(resp.code == '00000000'){
+                    await this.$refs.grid.reloadData();
+                    this.$msg.success("删除成功!");
+                }
             },
             showDrawer(mode, row, actionOk) {
               if (mode !== 'add' && !row) {

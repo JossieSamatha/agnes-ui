@@ -21,7 +21,7 @@
                         <gf-filter-option
                                 v-for="item in branchList"
                                 :key="item.bankBranchId"
-                                :label="`${item.bigPayNo} - ${item.branchName}`"
+                                :label="`${item.branchCode} - ${item.branchName}`"
                                 :value="item.bankBranchId">
                         </gf-filter-option>
                     </el-select>
