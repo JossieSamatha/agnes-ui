@@ -1,5 +1,5 @@
 <template>
-    <el-tabs class="root" v-model="activeName" type="card">
+    <el-tabs class="root" v-model="activeName" type="card" style="width:100%;">
         <el-tab-pane label="TA账户" name="TA"  style="height: 100%"
                      v-if="$hasPermission('agnes.acnt.info.ta')">
             <acnt-info-index-ta></acnt-info-index-ta>
@@ -22,6 +22,7 @@
                 activeName: 'TA'
             };
         },
+
         beforeMount() {
             const hasPermissionta= Permission.hasPermission('agnes.acnt.info.ta');
             // alert(hasPermissionta);
@@ -31,6 +32,7 @@
                 this.activeName = "FA";
             }
         },
+
         components: {
             'acntInfoIndexTa': acntInfoIndexTa,
             'acntInfoIndexFa': acntInfoIndexFa

@@ -62,7 +62,7 @@ export default {
                 top: 'center',
                 left: 'center',
                 textStyle: {
-                    color: "#476dbe",
+                    color: "#0f5eff",
                     fontSize: 30,
                     fontWeight: '500'
                 }
@@ -170,7 +170,7 @@ export default {
                         top: 'center',
                         left: 'center',
                         textStyle: {
-                            color: "#476dbe",
+                            color: "#0f5eff",
                             fontSize: 30,
                             fontWeight: 500
                         }

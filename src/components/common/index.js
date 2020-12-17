@@ -8,6 +8,7 @@ import cronModal from "./cron-comp/cron-modal";
 import accEcmUpload from './ecm-upload/acc-ecm-upload';
 import MenuConfigUpload from './menu-upload/menu-config-upload';
 import inputComp from './input/index'
+import svgIcon from './icon/svg-icon.vue'
 
 import robotWisdom from './input/robot'
 
@@ -24,6 +25,7 @@ const Loading = {
         Vue.component('acc-ecm-upload',accEcmUpload);
         Vue.component('menu-config-upload',MenuConfigUpload);
         Vue.component('robot-wisdom',robotWisdom);
+        Vue.component('svg-icon',svgIcon);
     }
 };
 

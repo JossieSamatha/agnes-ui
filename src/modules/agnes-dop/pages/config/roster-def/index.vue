@@ -42,17 +42,13 @@
         pageType: {
           type: Object,
           default: null
-        },
-        rosterType: {
-          type: String,
-          default: null
-        },
+        }
 
       },
       data() {
         return {
           queryParam: {
-            pageType: 'department',
+            pageType: 'personal',
             rosterDate: '',
             rosterType: ''
           },
@@ -62,9 +58,6 @@
       mounted() {
         if (this.pageType !== null && this.pageType !== '') {
           this.queryParam.pageType = this.pageType;
-        }
-        if (this.rosterType !== null && this.rosterType !== '') {
-          this.queryParam.rosterType = this.rosterType;
         }
         this.initData();
       },
@@ -116,13 +109,12 @@
         },
         showDrawer(mode, row, actionOk) {
           this.$drawerPage.create({
-            width: 'calc(97% - 215px)',
+            width: 'calc(100% - 250px)',
             title: ['值班人员', 'view'],
             component: RosterList,
             args: {row, mode, actionOk},
                     okButtonVisible: false,
                     cancelButtonTitle: '取消',
-            pageEl: this.$el
                 });
             },
             showRoster(params) {
@@ -163,9 +155,9 @@
               }
             },
         async exportExcel() {
-          if(this.menuConfigInfo.outputParam == null || this.menuConfigInfo.outputParam == undefined){
+          if (!this.menuConfigInfo) {
             this.$msg.error('请完善导出相关配置！');
-            return ;
+            return;
           }
           let pkId = this.menuConfigInfo.outputParam;
           let fileName = this.menuConfigInfo.resName;

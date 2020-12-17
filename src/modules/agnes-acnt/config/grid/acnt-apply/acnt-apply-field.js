@@ -2,9 +2,7 @@ import column from "../../../../../config/column"
 
 export default {
     columnDefs: [
-        // {headerName: "账户类型", field: "typeName"},
-        {headerName: "流程申请名称", field: "#",
-        valueFormatter: function (params){
+        {headerName: "流程申请名称", field: "#", valueFormatter: function (params){
             const dictObj = window.$gfui.$app.dict.getDictItem('AGNES_ACNT_BIZ_TYPE', params.data.bizType);
             const dictName = dictObj ? dictObj.dictName : '--';
 

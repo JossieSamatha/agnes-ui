@@ -105,7 +105,7 @@
 
     .op-btn.primary {
         color: #fff;
-        background: #476DBE;
-        border-color: #476DBE;
+        background: #0f5eff;
+        border-color: #0f5eff;
     }
 </style>

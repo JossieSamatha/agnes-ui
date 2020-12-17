@@ -15,7 +15,7 @@
 .datav_client_view .el-dialog .el-dialog__header {
     text-align: left;
     padding: 5px 15px;
-    border-bottom: 1px solid #EAEDF1;
+    border-bottom: 1px solid #A8AED3;
 }
 
 .datav_client_view .el-dialog .el-dialog__header .el-dialog__title {
@@ -75,8 +75,8 @@
 
 
 .datav_client_view .el-dialog .el-dialog__footer .el-button.el-button--primary {
-    background-color: #476DBE;
-    border-color: #476DBE;
+    background-color: #0f5eff;
+    border-color: #0f5eff;
 }
 
 /*==========================
@@ -129,7 +129,7 @@
     content: '';
     width: 3px;
     height: 14px;
-    background: #476DBE;
+    background: #0f5eff;
     left: -10px;
     top: 2px;
 }
@@ -241,7 +241,7 @@
 .datav_client_view .el-card.module-card .el-calendar .el-calendar__body .el-backtop,
 .datav_client_view .el-card.module-card .el-calendar .el-calendar__body
 .el-calendar-table td.is-today {
-    color: #476Dbe;
+    color: #0f5eff;
 }
 
 .datav_client_view .el-card.module-card .el-calendar .el-calendar__body
@@ -268,7 +268,7 @@
     padding: 0;
     margin-top: 5px;
     font-size: 12px;
-    color: #476dbe;
+    color: #0f5eff;
 }
 
 /* =============================
@@ -338,7 +338,7 @@
 
 .datav_client_view .topPanel .optionPanel .boardeEdit{
     line-height: 28px;
-    color: #476DBE;
+    color: #0f5eff;
     font-weight: bold;
     cursor: pointer;
 }
@@ -382,7 +382,7 @@
 }
 
 .datav_client_view .boardChoose .defineBtn{
-    color: #476DBE;
+    color: #0f5eff;
     font-size: 14px;
     cursor: pointer;
 }
@@ -399,7 +399,7 @@
     height: 25px;
     line-height: 1;
     color: #333;
-    border-color: #EAEDF1;
+    border-color: #A8AED3;
     margin-right: 5px;
     padding: 4px 5px;
     text-align: center;
@@ -422,13 +422,13 @@
 }
 
 .datav_client_view .boardChoose .selectBoard .el-radio-group .el-radio.is-checked {
-    color: #476DBE;
+    color: #0f5eff;
     border-color: #D9E8FD;
     background: #F3F8FF;
 }
 
 .datav_client_view .boardChoose .selectBoard .el-radio-group .el-radio__input.is-checked+.el-radio__label {
-    color: #476DBE;
+    color: #0f5eff;
 }
 
 .datav_client_view .boardChoose .selectBoard>.setDefine {
@@ -437,7 +437,7 @@
     top: 4px;
     font-size: 14px;
     font-weight: bold;
-    color: #476DBE;
+    color: #0f5eff;
     cursor: pointer;
 }
 
@@ -465,7 +465,7 @@
 }
 
 .datav_client_view .boardChoose .boardContainer>p:hover{
-    border-color: #476DBE;
+    border-color: #0f5eff;
 }
 
 .datav_client_view .boardChoose .boardContainer>p.active{
@@ -570,7 +570,7 @@
 
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
 .menuContent .el-card.module-card .el-card__body>.content:hover::-webkit-scrollbar-thumb {
-    background: rgba(135, 141, 153, .3);
+    background: #D7DBE4;
 }
 
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
@@ -723,7 +723,7 @@
     background: transparent;
     height: 100%;
     border-radius: 0 19px 19px 0;
-    color: #476DBE;
+    color: #0f5eff;
     font-size: 12px;
 }
 
@@ -733,7 +733,7 @@
     border: none;
     border-radius: 19px;
     font-size: 12px;
-    color: #476DBE;
+    color: #0f5eff;
     background: transparent;
     padding: 0;
 }
@@ -763,7 +763,7 @@
 .datav_client_view .form_comp .el-form-item .el-form-item__content input {
     line-height: 26px;
     height: 26px;
-    border-color: #EAEDF1;
+    border-color: #A8AED3;
     font-size: 13px;
     color: #666;
 }
@@ -788,8 +788,8 @@ span.el-input__suffix .el-input__icon {
 
 .datav_client_view .form_comp .el-form-item .el-form-item__content
 .el-radio .el-radio__input.is-checked .el-radio__inner {
-    border-color: #476DBE;
-    background: #476DBE;
+    border-color: #0f5eff;
+    background: #0f5eff;
 }
 
 .datav_client_view .form_comp .el-form-item .el-form-item__content
@@ -800,7 +800,7 @@ span.el-input__suffix .el-input__icon {
 
 .datav_client_view .form_comp .el-form-item .el-form-item__content
 .el-radio .el-radio__input.is-checked+.el-radio__label {
-    color: #476DBE;
+    color: #0f5eff;
 }
 
 .datav_client_view .form_comp .el-form-item .el-form-item__content
@@ -836,8 +836,8 @@ span.el-input__suffix .el-input__icon {
 .el-checkbox__input.is-checked:not(.is-disabled) .el-checkbox__inner,
 .datav_client_view .form_comp .el-form-item .el-form-item__content
 .el-checkbox__input.is-indeterminate:not(.is-disabled) .el-checkbox__inner{
-    background: #476DBE;
-    border: 1px solid #476DBE;
+    background: #0f5eff;
+    border: 1px solid #0f5eff;
     font-weight: bold;
 }
 
@@ -859,7 +859,7 @@ span.el-input__suffix .el-input__icon {
     padding: 11px 15px;
     border: none;
     color: #fff;
-    background: #476DBE;
+    background: #0f5eff;
     line-height: 0;
 }
 
@@ -871,7 +871,7 @@ span.el-input__suffix .el-input__icon {
 
 .datav_client_view .form_comp .el-select-dropdown__wrap
 .el-select-dropdown__item.selected{
-    color: #476DBE;
+    color: #0f5eff;
 }
 
 .vue-grid-layout {

@@ -95,7 +95,7 @@
                 this.reloadData();
             },
             async exportExcel() {
-                if(this.menuConfigInfo.outputParam == null || this.menuConfigInfo.outputParam == undefined){
+                if(!this.menuConfigInfo){
                     this.$msg.error('请完善导出相关配置！');
                     return ;
                 }

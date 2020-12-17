@@ -29,7 +29,7 @@
                                  height="100%"
                                  grid-no="agnes-monitor-leader-field">
                             <template slot="left">
-                                <el-button type="text" icon="fa fa-reply" style="color: #476dbe;" @click="closeTableDetail">  返回</el-button>
+                                <el-button type="text" icon="fa fa-reply" style="color: #0f5eff;" @click="closeTableDetail">  返回</el-button>
                             </template>
                             <template slot="right-before">
                                 <span class="full-screen-btn">
@@ -45,7 +45,7 @@
                 <div class="chart-container">
                     <p class="section-title">任务进度</p>
                     <pie-chart ref="pieChart" :chart-data="executePieData" :title="pieTitle"
-                               :color-set="['#476DBE','#E0E0E0']"></pie-chart>
+                               :color-set="['#0f5eff','#E0E0E0']"></pie-chart>
                 </div>
                 <div class="exec-container">
                     <p class="section-title">

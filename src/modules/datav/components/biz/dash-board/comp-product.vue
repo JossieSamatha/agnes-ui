@@ -64,7 +64,7 @@
         font-size: 12px;
     }
     .state-icon {
-        color: #476DBE;
+        color: #0f5eff;
         font-size: 15px;
         margin-right: 10px;
     }

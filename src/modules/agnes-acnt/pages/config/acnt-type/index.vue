@@ -43,12 +43,11 @@ import AcntTypeDetail from './acnt-type-detail'
                 }
                 // 抽屉创建
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: ['账户类型配置',mode],
                     component: AcntTypeDetail,
                     args: {row, mode, actionOk},
-                    okButtonVisible:mode!=='view',
-                    pageEl: this.$el
+                    okButtonVisible:mode!=='view'
                 })
             },
             async deleteType(params) {

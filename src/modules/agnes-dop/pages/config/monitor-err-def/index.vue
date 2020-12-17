@@ -35,7 +35,7 @@
                }else {
                     let title = this.$dialog.formatTitle("处理异常",mode);
                     if(mode == 'check'){
-                        title = '审核';
+                        title = '';
                     }
                     this.$nav.showDialog(
                         MonitorErrType,

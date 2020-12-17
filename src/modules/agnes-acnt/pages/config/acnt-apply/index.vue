@@ -9,10 +9,6 @@
                 <el-form-item label="资金账号" >
                     <el-input v-model="queryArgs.fundAccNos"></el-input>
                 </el-form-item>
-<!--                <el-form-item label="证券账号" >-->
-<!--                    <el-input v-model="queryArgs.accNos"></el-input>-->
-<!--                </el-form-item>-->
-
                 <el-form-item label="申请超时状态">
                     <gf-dict filterable clearable v-model="queryArgs.applyDeadlineStatus" dict-type="AGNES_ACNT_APPLY_DEADLINE_STATUS" />
                 </el-form-item>
@@ -20,11 +16,9 @@
                 <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
             </div>
             <div class="line">
-
                 <el-form-item label="基金信息" >
                     <el-input v-model="queryArgs.productName" placeholder="基金代码/名称"></el-input>
                 </el-form-item>
-
                 <el-form-item label="账户类型">
                     <el-select class="multiple-select" v-model="queryArgs.typeCode"
                                filterable clearable
@@ -42,30 +36,24 @@
                         </el-option-group>
                     </el-select>
                 </el-form-item>
-
                 <el-form-item label="业务类型">
                     <gf-dict filterable clearable v-model="queryArgs.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
                 </el-form-item>
-
-<!--                <el-form-item></el-form-item>-->
                 <el-button @click="reSetSearch" class="option-btn">重置</el-button>
             </div>
-
             <div  class="line">
                 <el-form-item label="流程节点">
                     <gf-dict filterable clearable v-model="queryArgs.processStatus" dict-type="AGNES_ACNT_APPLY_STATUS" />
                 </el-form-item>
             </div>
-
         </el-form>
         <div class="acnt-apply-container">
-            <gf-grid class="acnt-apply-grid" ref="grid"
+            <gf-grid class="acnt-apply-grid" ref="grid" height="100%"
                      grid-no="acnt-apply-field"
                      @load-data="dataChange"
                      :query-args="queryArgs"
                      @row-double-click="showDetail"
-                     :options="applyGridOption(this)"
-                     height="calc(100% - 30px)">
+                     :options="applyGridOption(this)">
                 <template slot="left">
                     <gf-button class="action-btn" @click="openApply"
                                 v-if="$hasPermission('agnes.acnt.apply.openApply')">开户</gf-button>
@@ -262,7 +250,7 @@
                 }
 
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: [title],
                     component: AcntApplyOpen,
                     args: {row, mode, actionOk,isDisabled},
@@ -443,7 +431,7 @@
                 }
 
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: [title],
                     component: AcntApplyInsert,
                     args: {row, mode, actionOk},
@@ -558,12 +546,13 @@
 
     .acnt-apply-container .steps-comp {
         flex: none;
-        width: 200px;
-        height: calc(100% - 30px);
+        width: 160px;
+        height: calc(100% - 41px);
         padding: 0 20px 30px;
-        margin-top: 30px;
+        margin-top: 41px;
         margin-left: 10px;
-        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.16);
+        border-radius: 8px;
+        border: 1px solid #A8AED3;
     }
 
     .ag-grid-box.acnt-apply-grid {
@@ -622,38 +611,6 @@
         background: #fff;
         z-index: 1008;
         box-shadow: 0px 0px 2px 1px #409eff;
-    }
-
-    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-expanded,
-    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-contracted{
-        margin-right: 0;
-    }
-
-    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-expanded .ag-icon,
-    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-contracted .ag-icon{
-        color: blue;
-    }
-
-    .acnt-apply-grid .ag-theme-balham .ag-row-group-expanded .ag-cell:not([col-id="#cbox"]),
-    .acnt-apply-grid .ag-theme-balham .ag-row-group-contracted .ag-cell:not([col-id="#cbox"]){
-        color: blue;
-        background: #F6F8FA;
-    }
-
-    .acnt-apply-grid .gf-ag-grid.ag-theme-balham .ag-row-even,
-    .acnt-apply-grid .gf-ag-grid.ag-theme-balham .ag-row-odd {
-        background: #fff;
-    }
-
-    .acnt-apply-grid .gf-ag-grid.ag-theme-balham .ag-row.ag-row-level-1 {
-        border: none;
-    }
-    .acnt-apply-grid .ag-cell .ag-group-value{
-        margin-left: 0!important;
-    }
-
-    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-row-level-1 .ag-row-group-leaf-indent {
-        margin-left: 0;
     }
     .acnt-apply-container .ag-grid-box .grid-action-panel .right .el-input {
         width: 200px;

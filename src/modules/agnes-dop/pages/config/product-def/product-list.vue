@@ -92,14 +92,13 @@
                 isShow = false;
               }
               this.$drawerPage.create({
-                width: 'calc(97% - 215px)',
+                width: 'calc(100% - 250px)',
                 title: ['产品信息', mode],
                 component: ProductDetail,
                 args: {row, mode, actionOk},
                 okButtonVisible: isShow,
                 okButtonTitle: row.isCheck ? "复核" : '保存',
                 cancelButtonTitle: '取消',
-                  pageEl: this.$el
               });
             },
             async onAddLoad() {

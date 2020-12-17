@@ -48,14 +48,13 @@
 
                 // 抽屉创建
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: [title],
                     component: EventDefDlg,
                     args: {row, mode, actionOk},
                     okButtonVisible:isShow,
                     okButtonTitle: row.isCheck ? '审核' : '保存',
                     cancelButtonTitle: cancelTitle,
-                    pageEl: this.$el
 
                 })
             },

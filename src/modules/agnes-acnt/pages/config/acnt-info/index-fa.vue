@@ -155,13 +155,12 @@
                     title = '变更资料';
                 }
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: [title],
                     component: AcntApplyOpen,
                     args: {row, mode, actionOk,isDisabled},
                     okButtonVisible:mode!=='view',
-                    okButtonTitle:mode==='detele'?'提交':'保存',
-                    pageEl: this.$el
+                    okButtonTitle:mode==='detele'?'提交':'保存'
                 })
             },
             onOpenApply(){
@@ -180,13 +179,12 @@
                     return;
                 }
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: ['账户登记'],
                     component: AcntApplyInsert,
                     args: {row, mode, actionOk},
                     okButtonVisible:mode!=='view',
-                    okButtonTitle:mode==='check'?'审核':'保存',
-                    pageEl: this.$el
+                    okButtonTitle:mode==='check'?'审核':'保存'
                 })
             },
             onInsertApply(){
@@ -206,14 +204,13 @@
                 }
                 let title = '账户信息';
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: [title],
                     component: AcntInfoDetail,
                     args: {row, mode, actionOk,isDisabled},
                     okButtonVisible:mode!=='view',
                     okButtonTitle:mode==='detele'?'提交':'保存',
-                    cancelButtonTitle:mode==='view'?'关闭':'取消',
-                    pageEl: this.$el
+                    cancelButtonTitle:mode==='view'?'关闭':'取消'
                 })
             },
 

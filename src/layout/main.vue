@@ -1,64 +1,48 @@
 <template>
     <gf-layout-default>
-        <template slot="logo">
-            <img :src="require('../assets/img/login-logo.png')" alt="logo" class="gf-app-logo">
-        </template>
-        <template slot="menu">
-            <span></span>
-        </template>
+        <template slot="logo"><span></span></template>
+        <template slot="menu"><span></span></template>
         <div class="top-menu-right" slot="nav-user-before">
-            <div class="top-menu-item search-item" style="cursor: default">
-                <robot-wisdom>
-                    <template v-slot:default="{ ifShowInput }">
-                        <gf-global-search class="search"
-                                          v-model="searchValue"
-                                          placeholder="全局搜索"
-                                          :appMenus="appMenus"
-                                          :adminMenus="adminMenus"
-                                          v-show="ifShowInput"
-                        ></gf-global-search>
-                    </template>
-                </robot-wisdom>
+            <div class="top-menu-item feedback" title="意见反馈" @click="handelfeedback">
+                <svg-icon name="feedback" height="17px"/>
             </div>
-            <div class="top-menu-item" v-if="false" style="font-size: 18px;height: 21px" title="测试效果图" @click="designSketchShow = true">
-                <em class="el-icon-picture-outline"></em>
+            <div class="top-menu-item" title="帮助" @click="openHelpPage">
+                <svg-icon name="question-doc" height="16px"/>
             </div>
-            <div class="top-menu-item feedback" style="font-size: 18px;height: 21px" title="意见反馈" @click="handelfeedback">
-                <em class="fa fa-envelope-o"></em>
+            <div class="top-menu-item" title="换肤">
+                <svg-icon name="skin-change" height="16px"/>
             </div>
-            <div class="top-menu-item">
-                <span class="iconImg" title="帮助" v-html="svgImg.helpIcon" @click="openHelpPage"></span>
-            </div>
-            <div class="top-menu-item" @click="handelNotice">
+            <div class="top-menu-item" title="消息提醒"  @click="handelNotice">
                 <el-badge :value=unreadCount :hidden="!unreadCount">
-                    <span class="iconImg" title="消息提醒" v-html="svgImg.noticeIcon"></span>
+                    <svg-icon name="msg-inform" height="20px"/>
                 </el-badge>
+            </div>
+        </div>
+        <div class="common-search-panel" slot="nav-user-after">
+            <gf-global-search v-model="searchValue"
+                              placeholder="全局搜索"
+                              :appMenus="appMenus"
+                              :adminMenus="adminMenus"
+            ></gf-global-search>
+            <robot-wisdom></robot-wisdom>
+            <div class="biz-date-square">
+                <em class="el-icon-time" style="margin-right: 3px;font-size: 15px;font-weight: bold"></em>
+                {{bizDateComplete}}
             </div>
         </div>
         <template slot="sidebar-menu" slot-scope="props">
             <gf-vertical-expand v-show="!props.maximizeView"
                                 :allMenu="menus.allMenu"
                                 :markMenu="menus.markMenu"
+                                @studioTypeChange="studioTypeChange"
             >
             </gf-vertical-expand>
-        </template>
-        <template slot="tab-bar-left">
-            <el-select class="studio-type" v-model="studioType" :popper-append-to-body="false"
-                       @change="studioTypeChange">
-                <el-option value="appMenus" label="应用模式（APP STUDIO）"></el-option>
-                <el-option value="adminMenus" label="管理模式（DEV STUDIO）"></el-option>
-            </el-select>
-            <div class="biz-date-square">{{bizDateComplete}}</div>
         </template>
         <notice-box :noticeData="noticeData" :showDrawer="showNoticeDrawer"
                     @refreshNotice="handelNotice"
                     @getUnreadCount="getUnreadCount"
                     @noticeDrawerClose="noticeDrawerClose"
         ></notice-box>
-        <img class="design-sketch-img" src="../assets/indexPage.png" alt="测试效果图"
-             v-show="designSketchShow"
-             @click="designSketchShow = false"
-        >
     </gf-layout-default>
 </template>
 
@@ -77,24 +61,22 @@
                 },
                 menus: {},
                 noticeData: [],
-                studioType: 'appMenus',
+                studioType: 'adminMenus',
                 searchValue: '',
                 showNoticeDrawer: false,
                 content: '',
                 feedbackShow: false,
                 bizDateTimer: null, // 日切日期定时器
                 unreadCount:"",
-                localTime: '',
-                designSketchShow: false
+                localTime: ''
             }
         },
 
         computed: {
             bizDateComplete() {
-                let bizdate = this.$dateUtils.formatDate(this.localTime, 'HH:mm:ss yyyy/MM/dd');
+                let bizdate = this.$dateUtils.formatDate(this.localTime, 'yyyy-MM-dd HH:mm:ss');
                 if(window.bizDate){
-                    const recode = window.bizDate.replace('-','/').replace('-','/');
-                    bizdate = bizdate.slice(0, 9)+recode;
+                    bizdate = window.bizDate + ' ' + bizdate.slice(11, 19);
                 }
                 return bizdate;
             }
@@ -197,7 +179,7 @@
 
             handelfeedback() {
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: ['意见反馈'],
                     component: 'agnes-msg-send',
                     okButtonTitle:'发送'
@@ -254,7 +236,7 @@
 
             openHelpPage(){
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: ['帮助文档', 'view'],
                     component: 'help-info-page',
                     okButtonVisible: false

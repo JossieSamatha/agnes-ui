@@ -1,7 +1,7 @@
 <template>
     <div>
         <p class="pro-title">操作流程</p>
-        <el-steps class="step-vertical" direction="vertical" :active="activeStep" :space="50">
+        <el-steps class="step-vertical" direction="vertical" :active="activeStep" :space="65">
             <template v-for="(step, stepIndex) in stepArr">
                 <el-step :key="stepIndex"
                          @click.native="activeStep===stepIndex ? stepClick(step) : false"
@@ -119,10 +119,11 @@
 
 <style>
     .pro-title {
-        line-height: 35px;
-        background: #eaedf1;
+        line-height: 32px;
+        background: #EFF3FC;
         margin: 0 -20px 10px;
-        padding-left: 25px;
+        padding-left: 20px;
+        border-radius: 8px 8px 0 0;
     }
 
     .step-vertical.el-steps.el-steps--vertical {
@@ -205,45 +206,23 @@
     .obsolete-step {
         position: absolute;
         color: #f5222e;
-        top: -1px;
-        right: -48px;
+        left: 0;
+        top: 31px;
+        border: 1px solid #f5222e;
+        border-radius: 4px;
+        width: 72px;
+        height: 26px;
+        line-height: 24px;
+        text-align: center;
     }
 
     .obsolete-step>span {
-        width: 16px;
         display: inline-block;
-        vertical-align: text-bottom;
-        height: 16px;
-        margin-right: 1px;
-    }
-
-    .obsolete-step.disabled {
-        color: #999;
-    }
-
-    .obsolete-step .icon {
-        display: block;
-        width: 24px;
-        margin-right: 10px;
-        line-height: 21px;
-        cursor: default;
-    }
-
-    .obsolete-step .icon>svg {
-        fill: #f5222e;
-    }
-
-    .obsolete-step.disabled .icon>svg {
-        fill: #999;
-    }
-
-    .obsolete-step .title {
-        line-height: 21px;
-        cursor: pointer;
-    }
-
-    .obsolete-step.disabled .title {
-        cursor: default;
+        width: 15px;
+        height: 15px;
+        line-height: 0;
+        vertical-align: text-top;
+        margin-right: 5px;
     }
 
 </style>

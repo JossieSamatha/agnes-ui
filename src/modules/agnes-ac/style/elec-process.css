@@ -5,7 +5,7 @@
 }
 
 .el-progress-bar .el-progress-bar__outer {
-   background: #e0e0e0;
+   background: #D7DBE4;
 }
 
 /*=======================================
@@ -19,20 +19,22 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 30px;
+    padding: 10px 0;
 }
 
 .elec-process-dashboard .dataSearch>div  {
     display: flex;
     align-items: center;
     vertical-align: middle;
+    font-size: 14px;
+    color: #333;
 }
 
 .elec-process-dashboard .flow-type-select .el-input.is-disabled>input {
     background: transparent;
     border: none;
-    color: #666;
-    font-size: 14px;
+    color: #333;
+    font-size: 16px;
     padding-left: 0;
 }
 
@@ -56,9 +58,17 @@
     background: transparent;
 }
 
+.elec-process-dashboard .board-container .el-carousel .el-carousel__arrow.el-carousel__arrow--left {
+    left: 0;
+}
+
+.elec-process-dashboard .board-container .el-carousel .el-carousel__arrow.el-carousel__arrow--right {
+    right: 0;
+}
+
 .elec-process-dashboard .board-container .el-carousel .el-carousel__arrow:hover {
     color: #fff;
-    background: #ddd;
+    background: #D7DBE4;
 }
 
 .elec-process-dashboard .board-container .el-carousel .el-carousel__indicators--horizontal {
@@ -76,39 +86,23 @@
     margin-right: -30px;
 }
 
-.elec-process.elec-process-dashboard .board-container .el-carousel .monitor-progress .el-progress__text {
-    font-size: 12px!important;
+.elec-process.elec-process-dashboard .board-container .el-carousel .monitor-progress
+.el-progress-bar .el-progress-bar__outer{
+    background: #ABBEEA;
 }
 
 .elec-process-dashboard .card-container .module-card .content > p .el-progress .el-progress__text {
-    font-size: 12px !important;
+    color: inherit;
     margin-left: 9px !important;
 }
 
 .elec-process-dashboard .board-container .card-detail {
     display: flex;
-    align-items: center;
-    height: 397px;
-    margin: 20px 50px 10px;
-    padding: 30px;
-    box-shadow: 0px 0px 8px 0px rgba(13, 30, 65, 0.4);
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-@media screen and (max-width: 1200px) {
-    .elec-process-dashboard .board-container .card-detail {
-        margin: 10px;
-    }
-
-    .elec-process-dashboard .board-container .card-detail .progress .progress-item {
-        margin-top: 15px!important;
-    }
-
-    .elec-process-dashboard .card-container .module-card .content > p.title,
-    .elec-process-dashboard .card-container .module-card .content > p.imgContainer > em {
-        transform: scale(0.9);
-    }
+    margin-top: 30px;
+    padding: 40px 60px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.16);
+    border-radius: 14px;
 }
 
 .elec-process-dashboard .board-container .card-detail>div {
@@ -120,13 +114,12 @@
     flex: 0 0 45%;
 }
 
-
 .elec-process-dashboard .board-container .card-detail .detail-btn{
     position: absolute;
     bottom: -20px;
     left: calc(50% - 30px);
     text-align: center;
-    color: #476DBE;
+    color: #0f5eff;
     cursor: pointer;
     margin-top: -10px;
 }
@@ -136,46 +129,97 @@
     flex-direction: column;
     justify-content: flex-start;
     position: relative;
-    flex: 1 0 55%;
-    padding-left: 50px;
+    flex: none;
+    width: 50%;
 }
-
-.elec-process-dashboard .board-container .card-detail .progress .progress-item {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-    margin-top: 30px;
+.elec-process-dashboard .board-container .card-detail .progress
+.progress-item+.progress-item {
+    margin-top: 20px;
 }
 
 .elec-process-dashboard .board-container .card-detail .progress {
+    position: relative;
     margin-top: 20px;
-    overflow: scroll;
+}
+
+.elec-process-dashboard .board-container .card-detail .progress::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 44px;
+    width: 2px;
+    height: calc(100% - 54px);
+    background: #D7DBE4;
 }
 
 .elec-process-dashboard .board-container .card-detail .progress .progress-item>span {
-    display: inline-block;
-    width: 100px;
-    min-width: 40px;
+    color: #666;
+    font-size: 16px;
+    line-height: 35px;
 }
 
-.elec-process-dashboard .board-container .card-detail .progress .progress-item>p {
+.elec-process-dashboard .board-container .card-detail .progress .progress-item>div {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.elec-process-dashboard .board-container .card-detail .progress .progress-item>div p {
     width: 80px;
+    line-height: 20px;
 }
 
-.elec-process-dashboard .board-container .card-detail .progress .progress-item>.define-progress {
+.elec-process-dashboard .board-container .card-detail .progress .progress-item>div
+p span.num {
+    color: #666;
+    font-size: 16px;
+    margin-left: 16px;
+}
+
+.elec-process-dashboard .board-container .card-detail .progress .link-line {
+    position: relative;
+    flex: none;
+    width: 20%;
+    height: 2px;
+    background: #D7DBE4;
+    margin-left: 20px;
+    margin-bottom: 1px;
+}
+
+.elec-process-dashboard .board-container .card-detail .progress .link-line.whole {
+    position: absolute;
+    right: -50%;
+    width: 50%;
+    top: calc(50% + 16px);
+    transform: rotate(180deg);
+}
+
+.elec-process-dashboard .board-container .card-detail .progress
+.link-line::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: -4px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #D7DBE4;
+}
+
+.elec-process-dashboard .board-container .card-detail .progress .progress-item>div
+.define-progress {
     flex: 1;
     width: 100%;
     cursor: pointer;
 }
 
-.elec-process-dashboard .board-container .card-detail .progress .progress-item>.define-progress
-.el-progress-bar {
+.elec-process-dashboard .board-container .card-detail .progress .progress-item>div
+.define-progress .el-progress-bar {
     margin-right: -45px;
 }
 
-.elec-process-dashboard .board-container .card-detail .progress .progress-item>.define-progress
-.el-progress__text {
+.elec-process-dashboard .board-container .card-detail .progress .progress-item>div
+.define-progress .el-progress__text {
     font-size: 14px!important;
     transform: scale(1);
     color: inherit;
@@ -187,7 +231,22 @@
     left: auto;
     bottom: auto;
     right: auto;
-    text-align: right;
+}
+
+.elec-process-dashboard .board-container .card-detail .process-container
+.flow-legend > span{
+    color: #666;
+    font-size: 16px;
+}
+
+.elec-process-dashboard .board-container .card-detail .process-container
+.flow-legend > span + span {
+    margin-left: 20px;
+}
+
+.elec-process-dashboard .board-container .card-detail .process-container
+.flow-legend > span > em {
+    margin-right: 10px;
 }
 
 .elec-process-dashboard .card-container {
@@ -198,7 +257,7 @@
     align-items: center;
     width: 100%;
     height: 100%;
-    padding: 20px 50px;
+    padding: 0 60px;
     overflow-y: auto;
 }
 
@@ -207,12 +266,13 @@
     width: calc(25% - 24px);
     height: 0;
     padding-bottom: 12%;
-    color: #999;
-    border: 2px solid transparent;
-    border-radius: 4px;
-    box-shadow: 0px 0px 8px 0px rgba(13, 30, 65, 0.4);
+    color: #3F60A5;
+    background: #E8EFFF;
+    border: 1px solid transparent;
+    border-radius: 6px;
     overflow: initial;
     cursor: pointer;
+    box-shadow: none;
 }
 
 .elec-process-dashboard .card-container .module-card+.module-card {
@@ -225,19 +285,20 @@
     display: block;
     width: 12px;
     height: 12px;
-    border: 2px solid transparent;
-    border-right-color: #486EBE;
-    border-bottom-color: #486EBE;
+    border: 1px solid transparent;
+    border-right-color: #0f5eff;
+    border-bottom-color: #0f5eff;
     left: calc(50% - 5px);
     bottom: -6px;
     transform: rotate(45deg);
-    background: #fff;
+    background: #BBD1FF;
 }
-
 
 .elec-process-dashboard .card-container .module-card:hover,
 .elec-process-dashboard .card-container .module-card.active {
-    border-color: #486EBE;
+    color: #0F5EFF;
+    background: #BBD1FF;
+    border-color: #0f5eff;
 }
 
 .elec-process-dashboard .card-container .module-card .el-card__body {
@@ -265,13 +326,13 @@
 
 .elec-process-dashboard .card-container .module-card .content > p.title,
 .elec-process-dashboard .card-container .module-card .content > p.imgContainer > em {
-    color: #999;
+    color: inherit;
     text-align: center;
 }
 
 .elec-process-dashboard .card-container .module-card.active .content > p.title,
 .elec-process-dashboard .card-container .module-card:hover .content > p.title {
-    color: #486EBE;
+    color: inherit;
 }
 
 .elec-process-dashboard .card-container .module-card .content > p.imgContainer {
@@ -288,22 +349,6 @@
 .elec-process-dashboard .card-container .module-card .content > p.imgContainer > em.fa.fa-clock-o {
     font-size: 30px;
 }
-
-@media screen and (min-width: 1560px) {
-    .elec-process-dashboard .card-container .module-card .content > p.imgContainer > em {
-        font-size: 32px;
-    }
-
-    .elec-process-dashboard .card-container .module-card .content > p.imgContainer > em.fa.fa-clock-o {
-        font-size: 40px;
-    }
-}
-
-.elec-process-dashboard .card-container .module-card:hover .content > p.imgContainer > i,
-.elec-process-dashboard .card-container .module-card.active .content > p.imgContainer > i {
-    color: #476Dbe;
-}
-
 /*=====================================
 
       elec-process 电子流程样式
@@ -323,7 +368,6 @@
 
 .elec-process > section {
     display: flex;
-    padding: 10px;
 }
 
 .elec-process .top-section > div {
@@ -361,7 +405,7 @@
 }
 
 .elec-process > section.bottom-section .rightExpandBtn:hover svg .st0 {
-    fill: #476Dbe;
+    fill: #0f5eff;
 }
 
 .elec-process > section .section-title {
@@ -378,7 +422,7 @@
     content: '';
     width: 3px;
     height: 12px;
-    background: #476DBE;
+    background: #0f5eff;
     left: -10px;
     top: 8px;
 }
@@ -419,7 +463,7 @@
 
 .elec-process > section .el-icon-refresh:hover,
 .el-icon-refresh.refresh-btn:hover {
-    color: #476DBE;
+    color: #0f5eff;
 }
 
 .elec-process > section .drag-bar-line {
@@ -445,7 +489,7 @@
 }
 
 .elec-process > section .drag-bar-line > p:hover {
-    color: #476Dbe;
+    color: #0f5eff;
 }
 
 .elec-process .flow-legend {
@@ -514,7 +558,7 @@
 }
 
 .elec-process .define-progress.el-progress--circle path.el-progress-circle__track {
-    stroke: #e0e0e0;
+    stroke: #D7DBE4;
 }
 
 .elec-process .define-progress .el-progress__text{
@@ -587,7 +631,7 @@
 .elec-process .interval-list>li.is-select,
 .monitor-kpi-page .interval-list>li.is-select{
     position: relative;
-    color: #476Dbe;
+    color: #0f5eff;
     background: #f3f8ff;
 }
 
@@ -596,7 +640,7 @@
     position: absolute;
     content: '';
     border: 5px solid transparent;
-    border-left-color: #476DBE;
+    border-left-color: #0f5eff;
     left: 0;
     top: 4px;
 }
@@ -611,7 +655,7 @@
     max-width: 180px;
     line-height: 18px;
     color: #666;
-    border-color: #EAEDF1;
+    border-color: #A8AED3;
     margin-right: 5px;
     margin-bottom: 5px;
     padding: 4px 10px;
@@ -639,13 +683,13 @@
 }
 
 .elec-process .top-section .task-board.el-radio-group .el-radio.is-checked {
-    color: #476DBE;
+    color: #0f5eff;
     border-color: #D9E8FD;
     background: #F3F8FF;
 }
 
 .elec-process .top-section .task-board.el-radio-group .el-radio__input.is-checked + .el-radio__label {
-    color: #476DBE;
+    color: #0f5eff;
 }
 
 .elec-process .bottom-section .chart-container {
@@ -744,7 +788,7 @@
 }
 
 .lcSvg.theme-color .cls-1 {
-    fill: #476dbe;
+    fill: #0f5eff;
 }
 
 .optional-cell .el-button.is-disabled .svgSpan {
@@ -791,7 +835,7 @@
 }
 
 .gf-page-drawer.elec-dashboard-drawer.full-screen .el-drawer__header {
-    background: #476Dbe;
+    background: #0f5eff;
 }
 
 .gf-page-drawer.elec-dashboard-drawer.full-screen .el-drawer__header .drawer-title {
@@ -804,7 +848,7 @@
 }
 
 .gf-page-drawer.elec-dashboard-drawer.full-screen .el-drawer__header .el-button.primary {
-    color: #476Dbe;
+    color: #0f5eff;
     background: #fff;
     border-color: #fff;
 }
@@ -1076,7 +1120,7 @@
 }
 
 .elec-process.board-detail .step-comp > .step-icon.process>svg {
-    fill: #476DBE;
+    fill: #0f5eff;
 }
 
 .elec-process.board-detail .step-comp > span.name {

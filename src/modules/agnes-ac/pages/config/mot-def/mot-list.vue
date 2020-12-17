@@ -40,14 +40,13 @@
                     isShow = false;
                 }
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: ['MOT任务配置',mode],
                     component: MotDetail,
                     args: {row, mode, actionOk},
                     okButtonVisible:isShow,
                     okButtonTitle: row.isCheck ? '审核' : '保存',
                     cancelButtonTitle: cancelTitle,
-                    pageEl: this.$el
                 });
             },
             async onAddModel() {

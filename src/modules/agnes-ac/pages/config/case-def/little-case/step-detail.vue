@@ -632,7 +632,7 @@
 
 <style scoped>
     .el-icon-refresh-left {
-        color: #476DBE;
+        color: #0f5eff;
         margin-left:10px;
         vertical-align: text-top;
         font-size: 16px;

@@ -345,8 +345,8 @@ export default function () {
                 label: '维度',
                 axisData: [],
                 color: {
-                    backgroundColor: '#476DBE',
-                    borderColor: '#476DBE',
+                    backgroundColor: '#0f5eff',
+                    borderColor: '#0f5eff',
                 },
                 options: [
                     {
@@ -718,8 +718,8 @@ export default function () {
                 label: '维度',
                 axisData: [],
                 color: {
-                    backgroundColor: '#476DBE',
-                    borderColor: '#476DBE',
+                    backgroundColor: '#0f5eff',
+                    borderColor: '#0f5eff',
                 },
                 options: [
                     {
@@ -1283,8 +1283,8 @@ export default function () {
                 label: "维度(行) :",
                 axisData: [],
                 color: {
-                    backgroundColor: '#476DBE',
-                    borderColor: '#476DBE',
+                    backgroundColor: '#0f5eff',
+                    borderColor: '#0f5eff',
                 },
                 options: [
                     {
@@ -1415,8 +1415,8 @@ export default function () {
                 label: "维度(列) :",
                 axisData: [],
                 color: {
-                    backgroundColor: '#476DBE',
-                    borderColor: '#476DBE',
+                    backgroundColor: '#0f5eff',
+                    borderColor: '#0f5eff',
                 },
                 options: [
                     {
@@ -1792,16 +1792,16 @@ export default function () {
                 label: "显示字段",
                 axisData: [],
                 color: {
-                    backgroundColor: '#476DBE',
-                    borderColor: '#476DBE',
+                    backgroundColor: '#0f5eff',
+                    borderColor: '#0f5eff',
                 },
             },
             {
                 label: "过滤条件",
                 axisData: [],
                 color: {
-                    backgroundColor: '#476DBE',
-                    borderColor: '#476DBE'
+                    backgroundColor: '#0f5eff',
+                    borderColor: '#0f5eff'
                 }
             }
         ]

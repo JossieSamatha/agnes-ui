@@ -12,6 +12,7 @@ function initMenus(menus) {
             menucode: colnums.code,
             menuname: colnums.title,
             menuicon: colnums.icon,
+            menusCodesStore: colnums.menusCodesStore,
             children: []
         }
         if(colnums.columns){
@@ -21,6 +22,7 @@ function initMenus(menus) {
                     menucode: menuss.code,
                     menuname: menuss.title,
                     menuicon: colnums.icon,
+                    menusCodesStore: colnums.menusCodesStore,
                     children: []
                 }
                 if(menuss.menus){

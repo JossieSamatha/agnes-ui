@@ -76,7 +76,7 @@ export default {
           ]
         }
         this.$drawerPage.create({
-          width: 'calc(97% - 215px)',
+          width: 'calc(100% - 250px)',
           title: [row.stepName + '-办理'],
           component: KpiDef,
           args: {row, type: 'todo', actionOk},
@@ -84,18 +84,16 @@ export default {
           okButtonTitle: '重新执行',
           cancelButtonTitle: '取消',
           extendButtonVisible: true,
-          extendButtonTitle: '干预通过',
-          pageEl: this.$el
+          extendButtonTitle: '干预通过'
         });
-      } else {
+      } else if (row.taskType === '06' || row.taskType === '6') {
         this.$drawerPage.create({
-          width: 'calc(97% - 215px)',
+          width: 'calc(100% - 250px)',
           title: [row.stepName + '-办理'],
           component: PersonTaskDetail,
           args: {row, type: 'todo', actionOk},
           okButtonTitle: '提交',
           cancelButtonTitle: '取消',
-          pageEl: this.$el
         });
       }
     },

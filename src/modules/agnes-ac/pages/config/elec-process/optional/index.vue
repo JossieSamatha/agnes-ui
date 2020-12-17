@@ -118,7 +118,7 @@
                     <pie-chart ref="pieChart"
                                :chart-data="executePieData"
                                :title="pieTitle"
-                               :color-set="['#476DBE','#E0E0E0']"
+                               :color-set="['#0f5eff','#E0E0E0']"
                                style="width: 180px;margin: auto"
                     ></pie-chart>
                 </div>
@@ -492,13 +492,12 @@
                 const row = params.data;
                 this.$drawerPage.create({
                     className: 'elec-dashboard-drawer',
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: [row.stepName],
                     component: 'monitor-detail-page',
                     args: {stepCode: row.stepCode, stepActKey: row.stepActKey, bizDate: this.bizDate, status: 3},
                     cancelButtonTitle: '返回',
-                    okButtonVisible: false,
-                    pageEl: this.$el
+                    okButtonVisible: false
                 });
             },
 
