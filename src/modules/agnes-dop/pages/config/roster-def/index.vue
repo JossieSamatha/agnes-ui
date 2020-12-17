@@ -156,9 +156,9 @@
               }
             },
         async exportExcel() {
-          if (!this.menuConfigInfo) {
+          if(this.menuConfigInfo.outputParam == null || this.menuConfigInfo.outputParam == undefined){
             this.$msg.error('请完善导出相关配置！');
-            return;
+            return ;
           }
           let pkId = this.menuConfigInfo.outputParam;
           let fileName = this.menuConfigInfo.resName;
