@@ -87,7 +87,7 @@ export default {
           extendButtonTitle: '干预通过',
           pageEl: this.$el
         });
-      } else if (row.taskType === '06' || row.taskType === '6') {
+      } else {
         this.$drawerPage.create({
           width: 'calc(97% - 215px)',
           title: [row.stepName + '-办理'],
