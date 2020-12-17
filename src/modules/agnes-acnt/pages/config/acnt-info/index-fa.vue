@@ -14,6 +14,11 @@
                 <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
             </div>
             <div class="line">
+
+                <el-form-item label="基金信息" >
+                    <el-input v-model="queryArgs.productName" placeholder="基金代码/名称"></el-input>
+                </el-form-item>
+
                 <el-form-item label="账户类型">
                     <el-select class="multiple-select" v-model="queryArgs.typeCode"
                                filterable clearable
@@ -31,24 +36,28 @@
                         </el-option-group>
                     </el-select>
                 </el-form-item>
-              <el-form-item label="状态">
+              <el-form-item label="账户状态">
                 <gf-dict filterable clearable v-model="queryArgs.acntStatus" dict-type="AGNES_ACNT_INFO_STATUS"/>
               </el-form-item>
-              <el-form-item label="归属机构">
-                <el-select class="multiple-select" v-model="queryArgs.orgIdList" multiple collapse-tags filterable
-                           placeholder="请选择">
-                  <gf-filter-option
-                      v-for="item in orgOption"
-                      :key="item.value"
-                      :label="item.extOrgName"
-                      :value="item.extOrgId">
-                  </gf-filter-option>
-                </el-select>
-              </el-form-item>
+
               <el-button @click="reSetSearch" class="option-btn">重置</el-button>
             </div>
+
+            <div class="line">
+                <el-form-item label="归属机构">
+                    <el-select class="multiple-select" v-model="queryArgs.orgIdList" multiple collapse-tags filterable
+                               placeholder="请选择">
+                        <gf-filter-option
+                                v-for="item in orgOption"
+                                :key="item.value"
+                                :label="`${item.extOrgCode} - ${item.extOrgName} - ${item.orgTypeName}`"
+                                :value="item.extOrgId">
+                        </gf-filter-option>
+                    </el-select>
+                </el-form-item>
+            </div>
         </el-form>
-        <gf-grid ref="grid" height="calc(100% - 70px)"
+        <gf-grid ref="grid" height="calc(100% - 100px)"
                  @row-double-click="showDetail"
                 :query-args="queryArgs"
                 grid-no="agnes-acnt-info-fa">
@@ -75,6 +84,7 @@
                   'typeCode': '',
                   'acntName': '',
                   'accNos': '',
+                  'productName':'',
                   'fundAccNos': '',
                   'acntStatus': '',
                   'orgIdList': [],
@@ -129,6 +139,7 @@
               this.queryArgs.typeCode = '';
               this.queryArgs.acntName = '';
               this.queryArgs.accNos = '';
+              this.queryArgs.productName = '';
               this.queryArgs.fundAccNos = '';
               this.queryArgs.acntStatus = '';
               this.queryArgs.orgIdList = [];

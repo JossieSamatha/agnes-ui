@@ -144,11 +144,16 @@
                 return
             }
           try {
-            let that = this;
-            const p = this.$api.orgDefineApi.deleteOrg(ids).then(function () {
-              that.reloadData();
-            });
-            await this.$app.blockingApp(p);
+            // let that = this;
+            const p = this.$api.orgDefineApi.deleteOrg(ids);
+            let resp = await this.$app.blockingApp(p);
+            if(resp.code=='error'){
+              this.$msg.error(resp.message);
+            }else if(resp.code == '00000000'){
+              this.$msg.success("删除成功!");
+              this.reloadData();
+            }
+
           } catch (reason) {
             this.$msg.error(reason);
           }

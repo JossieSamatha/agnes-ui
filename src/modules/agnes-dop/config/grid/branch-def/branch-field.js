@@ -20,7 +20,7 @@ export default {
     columnDefs: [
         column.buildOpCol(80, colButtons),
         {headerName: "网点名称", field: "branchName"},
-        {headerName: "网点代码", field: "branchCode"},
+        // {headerName: "网点代码", field: "branchCode"},
         {headerName: "大额支付号", field: "bigPayNo"},
         {headerName: "机构名称", field: "orgName"},
         // {headerName: "省会", field: "provinceName"},
