@@ -7,6 +7,7 @@
                :on-success="uploadSuccess"
                :on-error="uploadError"
                :on-exceed="sizeExp"
+               :show-file-list="false"
                :multiple="false"
                :limit="1"
                accept=".xlsx,.xls"
@@ -41,12 +42,12 @@
                 docId:'',
                 folderTag: '2'
             };
-            this.fileName = this.resName;
-            this.alanyId = this.ifPkId;
         },
         methods: {
             //上传之前
             checkFile(file) {
+                this.fileName = this.resName;
+                this.alanyId = this.ifPkId;
                 this.uploadFileLoading = true;
                 var fileType=file.name.substring(file.name.lastIndexOf('.')+1);
                 const isOffice = fileType ==='xls'||fileType ==='xlsx';
@@ -88,8 +89,8 @@
             async uploadSuccess(resp) {
                 if (resp.status) {
                     this.uploadData.docId = resp.data.objectId;
-                    let resp = await this.$api.funcConfigApi.inputTable({'docId':this.uploadData.docId,'resName':this.fileName,'ifPkId':this.ifPkId});
-                    if(resp.code=='inputError'){
+                    let resp2 = await this.$api.funcConfigApi.inputTable({'docId':this.uploadData.docId,'resName':this.fileName,'ifPkId':this.ifPkId});
+                    if(resp2.code=='inputError'){
                         this.$msg.error('上传失败!');
                         return ;
                     }
