@@ -20,6 +20,11 @@
                 <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
             </div>
             <div class="line">
+
+                <el-form-item label="基金信息" >
+                    <el-input v-model="queryArgs.productName" placeholder="基金代码/名称"></el-input>
+                </el-form-item>
+
                 <el-form-item label="账户类型">
                     <el-select class="multiple-select" v-model="queryArgs.typeCode"
                                filterable clearable
@@ -42,13 +47,16 @@
                     <gf-dict filterable clearable v-model="queryArgs.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
                 </el-form-item>
 
-                <el-form-item label="流程节点">
-                    <gf-dict filterable clearable v-model="queryArgs.processStatus" dict-type="AGNES_ACNT_APPLY_STATUS" />
-                </el-form-item>
-
 <!--                <el-form-item></el-form-item>-->
                 <el-button @click="reSetSearch" class="option-btn">重置</el-button>
             </div>
+
+            <div  class="line">
+                <el-form-item label="流程节点">
+                    <gf-dict filterable clearable v-model="queryArgs.processStatus" dict-type="AGNES_ACNT_APPLY_STATUS" />
+                </el-form-item>
+            </div>
+
         </el-form>
         <div class="acnt-apply-container">
             <gf-grid class="acnt-apply-grid" ref="grid"
@@ -57,7 +65,7 @@
                      :query-args="queryArgs"
                      @row-double-click="showDetail"
                      :options="applyGridOption(this)"
-                     height="100%">
+                     height="calc(100% - 30px)">
                 <template slot="left">
                     <gf-button class="action-btn" @click="openApply"
                                 v-if="$hasPermission('agnes.acnt.apply.openApply')">开户</gf-button>
@@ -110,6 +118,7 @@
                     'typeCode':'',
                     'acntName':'',
                     'accNos':'',
+                    'productName':'',
                     'fundAccNos':'',
                     'processStatus':'',
                     'bizType':'',
@@ -200,6 +209,7 @@
                     'typeCode':'',
                     'acntName':'',
                     'accNos':'',
+                    'productName':'',
                     'fundAccNos':'',
                     'processStatus':'',
                     'bizType':'',

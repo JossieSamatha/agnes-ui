@@ -62,9 +62,64 @@
         <gf-input type='number' v-model.trim="detailForm.redemptionTransConfirmDays" placeholder="申赎交易确认天数"/>
       </el-form-item>
     </div>
-    <el-form-item label="赎回清算天数" prop="redemptionSettlementDays" style="width: 50%">
-      <gf-input type='number' v-model.trim="detailForm.redemptionSettlementDays" placeholder="赎回清算天数"/>
-    </el-form-item>
+    <div class="line">
+      <el-form-item label="赎回清算天数" prop="redemptionSettlementDays" style="width: 50%">
+        <gf-input type='number' v-model.trim="detailForm.redemptionSettlementDays" placeholder="赎回清算天数"/>
+      </el-form-item>
+      <el-form-item label="管理费率" prop="managementRate" style="width: 50%">
+        <gf-input type='number' v-model.trim="detailForm.managementRate" placeholder="管理费率"/>
+      </el-form-item>
+    </div>
+    <div class="line">
+      <el-form-item label="托管费率" prop="trustRate" style="width: 50%">
+        <gf-input type='number' v-model.trim="detailForm.trustRate" placeholder="托管费率"/>
+      </el-form-item>
+      <el-form-item label="浮动管理费" prop="floatingManagementFee" style="width: 50%">
+        <gf-input type='number' v-model.trim="detailForm.floatingManagementFee" placeholder="浮动管理费"/>
+      </el-form-item>
+    </div>
+    <div class="line">
+      <el-form-item label="浮动管理费描述" prop="floatingManagementFeeDesc" style="width: 50%">
+        <gf-input v-model.trim="detailForm.floatingManagementFeeDesc" placeholder="浮动管理费描述"/>
+      </el-form-item>
+      <el-form-item label="其他费率描述" prop="otherRateDesc" style="width: 50%">
+        <gf-input v-model.trim="detailForm.otherRateDesc" placeholder="其他费率描述"/>
+      </el-form-item>
+    </div>
+    <div class="line">
+      <el-form-item label="业绩比较基准" prop="performanceBaseline" style="width: 50%">
+        <gf-input v-model.trim="detailForm.performanceBaseline" placeholder="业绩比较基准"/>
+      </el-form-item>
+      <el-form-item label="清算日期" prop="settlementDate" style="width: 50%">
+        <el-date-picker
+            v-model="detailForm.settlementDate"
+            style="width: 100%;"
+            type="date"
+            value-format="yyyy-MM-dd"
+        >
+        </el-date-picker>
+      </el-form-item>
+    </div>
+    <div class="line">
+      <el-form-item label="关账日期" prop="closeDate" style="width: 50%">
+        <el-date-picker
+            v-model="detailForm.closeDate"
+            style="width: 100%;"
+            type="date"
+            value-format="yyyy-MM-dd"
+        >
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item label="到期日期" prop="dueDate" style="width: 50%">
+        <el-date-picker
+            v-model="detailForm.dueDate"
+            style="width: 100%;"
+            type="date"
+            value-format="yyyy-MM-dd"
+        >
+        </el-date-picker>
+      </el-form-item>
+    </div>
     <el-form-item label="专用参数" prop="redemptionSettlementDays">
       <div class="rule-table">
         <el-tabs>
@@ -274,6 +329,15 @@ export default {
         redemptionSettlementDays: '',
         tAPrdtRuInfoParamRefVo: [],
         fAPrdtRuInfoParamRefVo: [],
+        managementRate: '',
+        trustRate: '',
+        floatingManagementFee: '',
+        floatingManagementFeeDesc: '',
+        otherRateDesc: '',
+        performanceBaseline: '',
+        settlementDate: '',
+        closeDate: '',
+        dueDate: ''
       },
       taProductParams: [],
       faProductParams: [],

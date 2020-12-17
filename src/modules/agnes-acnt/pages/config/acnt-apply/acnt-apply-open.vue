@@ -101,7 +101,7 @@
                           <el-radio label="0">否</el-radio>
                         </el-radio-group>
                       </el-form-item>
-                      <el-form-item label="账户状态" prop="acntStatus" v-if="this.mode === 'addChange'">
+                      <el-form-item label="账户状态" prop="acntStatus" v-if="this.detailForm.bizType === '02'">
                         <el-select v-model="detailFormBefore.acntStatus" placeholder="">
                           <el-option
                               v-for="item in acntStatusOption"
@@ -262,16 +262,20 @@
                             <gf-input :disabled="isSubDis" v-model.trim="detailForm.baseOperator" placeholder="经办人"/>
                         </el-form-item>
                         <el-form-item label="基金代码" prop="productCode">
-                            <el-select :disabled="isSubDis" class="multiple-select" v-model="detailForm.productCode"
-                                       filterable clearable
-                                       placeholder="请选择">
-                                <gf-filter-option
-                                        v-for="item in productList"
-                                        :key="item.productCode"
-                                        :label="`${item.productCode} - ${item.productName}`"
-                                        :value="item.productCode">
-                                </gf-filter-option>
-                            </el-select>
+                            <div class="line">
+                                <el-select :disabled="isSubDis" class="multiple-select" v-model="detailForm.productCode"
+                                           filterable clearable
+                                           placeholder="请选择">
+                                    <gf-filter-option
+                                            v-for="item in productList"
+                                            :key="item.productCode"
+                                            :label="`${item.productCode} - ${item.productName}`"
+                                            :value="item.productCode">
+                                    </gf-filter-option>
+                                </el-select>
+
+                                <el-button style="border: none;padding-left: 5px;font-size: 17px;vertical-align: middle" icon="el-icon-edit-outline" @click="addProduct"/>
+                            </div>
                         </el-form-item>
                     </div>
                     <div class="line">
@@ -377,6 +381,8 @@
 <script>
     import loadsh from 'lodash';
     import AcntApplyInsert from "./acnt-apply-insert";
+    import ProductDetail from "../../../../agnes-dop/pages/config/product-def/product-detail";
+
     export default {
         name: "apply-define",
         props: {
@@ -831,6 +837,38 @@
             insertApply() {
                 this.showInsertDlg('view', {}, this.onInsertApply.bind(this));
             },
+
+            addProduct() {
+                this.showProductDetailDrawer('add', {}, this.reloadProduct.bind(this));
+            },
+            async reloadProduct() {
+                let productList = await this.$api.acntApplyApi.getProductCodeList();
+                this.productList = productList.data
+            },
+            showProductDetailDrawer(mode, row, actionOk) {
+                if (mode !== 'add' && !row) {
+                    this.$msg.warning("请选中一条记录!");
+                    return;
+                }
+                let isShow = true;
+                row.isCheck = false;
+                if (mode === 'check') {
+                    mode = 'view';
+                    row.isCheck = true;
+                }
+                if (!row.isCheck && mode === 'view') {
+                    isShow = false;
+                }
+                this.$drawerPage.create({
+                    width: 'calc(97% - 215px)',
+                    title: ['产品信息', mode],
+                    component: ProductDetail,
+                    args: {row, mode, actionOk},
+                    okButtonVisible: isShow,
+                    okButtonTitle: row.isCheck ? "复核" : '保存',
+                    cancelButtonTitle: '取消',
+                });
+            }
 
         },
 

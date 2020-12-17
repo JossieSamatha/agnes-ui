@@ -408,16 +408,20 @@
                             <gf-input :disabled="true" v-model.trim="detailForm.baseOperator" placeholder="经办人" />
                         </el-form-item>
                         <el-form-item label="基金代码" prop="productCode">
-                            <el-select class="multiple-select" v-model="detailForm.productCode"
-                                       filterable clearable :disabled="mode!=='registration'"
-                                       placeholder="请选择">
-                                <gf-filter-option
-                                        v-for="item in productList"
-                                        :key="item.productCode"
-                                        :label="`${item.productCode} - ${item.productName}`"
-                                        :value="item.productCode">
-                                </gf-filter-option>
-                            </el-select>
+                            <div class="line">
+                                <el-select class="multiple-select" v-model="detailForm.productCode"
+                                           filterable clearable :disabled="mode!=='registration'"
+                                           placeholder="请选择">
+                                    <gf-filter-option
+                                            v-for="item in productList"
+                                            :key="item.productCode"
+                                            :label="`${item.productCode} - ${item.productName}`"
+                                            :value="item.productCode">
+                                    </gf-filter-option>
+                                </el-select>
+
+                                <el-button style="border: none;padding-left: 5px;font-size: 17px;vertical-align: middle" icon="el-icon-edit-outline" @click="addProduct"/>
+                            </div>
                         </el-form-item>
                     </div>
                     <div class="line">
@@ -545,7 +549,7 @@
                                     <gf-filter-option
                                             v-for="item in openBankList"
                                             :key="item.bigPayNo"
-                                            :label="`${item.bigPayNo} - ${item.branchName}`"
+                                            :label="`${item.branchCode} - ${item.branchName}`"
                                             :value="item.bigPayNo">
                                     </gf-filter-option>
                                 </el-select>
@@ -568,12 +572,11 @@
                                            reserve-keyword
                                            placeholder="请输入关键词或空格搜索"
                                            :remote-method="remoteLoadOpenBankList"
-                                           :loading="loading"
-                                           :disabled="showRules.bigPayNo && showRules.bigPayNo.isShow==='1'">
+                                           :loading="loading">
                                     <gf-filter-option
                                             v-for="item in openBankList"
                                             :key="item.bigPayNo"
-                                            :label="`${item.bigPayNo} - ${item.branchName}`"
+                                            :label="`${item.branchCode} - ${item.branchName}`"
                                             :value="item.branchName">
                                     </gf-filter-option>
                                 </el-select>
@@ -730,7 +733,7 @@
     import loadsh from 'lodash';
     import BranchDetail from "../../../../agnes-dop/pages/config/branch/branch-detail";
     import LinkmanBaseDlg from "../../../../agnes-dop/pages/config/linkman-def/linkman-base-dlg"
-
+    import ProductDetail from "../../../../agnes-dop/pages/config/product-def/product-detail"
 
     export default {
   name: "apply-define",
@@ -1288,8 +1291,39 @@
                 }
 
                 this.loadShowRule();
-            }
+            },
 
+            addProduct() {
+                this.showProductDetailDrawer('add', {}, this.reloadProduct.bind(this));
+            },
+            async reloadProduct() {
+                let productList = await this.$api.acntApplyApi.getProductCodeList();
+                this.productList = productList.data
+            },
+            showProductDetailDrawer(mode, row, actionOk) {
+                if (mode !== 'add' && !row) {
+                    this.$msg.warning("请选中一条记录!");
+                    return;
+                }
+                let isShow = true;
+                row.isCheck = false;
+                if (mode === 'check') {
+                    mode = 'view';
+                    row.isCheck = true;
+                }
+                if (!row.isCheck && mode === 'view') {
+                    isShow = false;
+                }
+                this.$drawerPage.create({
+                    width: 'calc(97% - 215px)',
+                    title: ['产品信息', mode],
+                    component: ProductDetail,
+                    args: {row, mode, actionOk},
+                    okButtonVisible: isShow,
+                    okButtonTitle: row.isCheck ? "复核" : '保存',
+                    cancelButtonTitle: '取消',
+                });
+            }
         },
 
         watch: {

@@ -17,6 +17,9 @@ export default {
         {headerName: "证券账号", field: "accNos"},
 
         {headerName: "归属机构", field: "orgName"},
+        {headerName: "基金代码", field: "productCode"},
+        {headerName: "基金名称", field: "productName"},
+
         {headerName: "业务类型", field: "bizType",dictType:"AGNES_ACNT_BIZ_TYPE"},
         {headerName: "流程节点", field: "processStatus",dictType:"AGNES_ACNT_APPLY_STATUS"},
         {headerName: "是否提交OA", field: "isSendOa",
