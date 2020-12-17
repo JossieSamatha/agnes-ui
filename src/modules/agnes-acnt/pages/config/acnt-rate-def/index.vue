@@ -75,7 +75,7 @@
             showDlg(mode, row, ui, actionOk) {
                 let title = this.$dialog.formatTitle("账户利率维护",mode);
                 if(mode == 'check'){
-                    title = '';
+                    title = '审核';
                 }
                 this.$nav.showDialog(
                     RateDefDlg,
