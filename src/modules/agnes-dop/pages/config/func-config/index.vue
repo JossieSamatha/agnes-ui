@@ -3,6 +3,7 @@
     <gf-grid @row-double-click="showConfigInfo" grid-no="agnes-func-config-list" ref="grid">
       <template slot="left">
         <gf-button  @click="addConfigInfo" class="action-btn">添加</gf-button>
+        <gf-button  @click="exportExcel" class="action-btn">导出</gf-button>
       </template>
     </gf-grid>
   </div>
@@ -27,6 +28,7 @@ export default {
         component: AddConfigDlg,
         args: {row, mode, actionOk},
         okButtonVisible:mode!=='view',
+        pageEl: this.$el
       });
     },
     async onAddConfigInfo() {
@@ -37,6 +39,10 @@ export default {
     },
     addConfigInfo() {
       this.showDlg('add', {}, this.onAddConfigInfo.bind(this));
+    },
+    exportExcel() {
+      const basePath = window.location.href.split("#/")[0];
+      window.open(basePath + "api/data-pipe/v1/etl/file/exportexcel?pkId=92636dd481ee4314b54686440ad5e4d0&fileName=ces.xls");
     },
     showConfigInfo(params) {
       this.showDlg('view', params.data);

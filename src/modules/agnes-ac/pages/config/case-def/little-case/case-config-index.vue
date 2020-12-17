@@ -47,7 +47,6 @@
                        :show-close="false"
                        :visible.sync="drawerVisible"
                        :destroy-on-close="true"
-                       :append-to-body="true"
                        :modal="false"
                        direction="rtl"
                        size="890px">

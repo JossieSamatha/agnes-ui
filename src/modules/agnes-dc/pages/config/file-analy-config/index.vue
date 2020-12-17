@@ -46,7 +46,8 @@ import FileAnalyConfigDetail from './file-analy-config-detail'
                     title: ['文件解析配置',mode],
                     component: FileAnalyConfigDetail,
                     args: {row, mode, actionOk},
-                    okButtonVisible:mode!=='view'
+                    okButtonVisible:mode!=='view',
+                    pageEl: this.$el
                 })
             },
             async deleteFileAnaly(params) {

@@ -65,6 +65,7 @@
                         // okButtonTitle: row.isCheck ? '审核' : '保存',
                         okButtonVisible:false,
                         cancelButtonTitle: '关闭',
+                        pageEl: this.$el
                     });
                 }else if(row.taskType === '06'||row.taskType === '6'){
                     this.$drawerPage.create({
@@ -75,6 +76,7 @@
                         // okButtonTitle: row.isCheck ? '审核' : '保存',
                         okButtonVisible:false,
                         cancelButtonTitle: '关闭',
+                        pageEl: this.$el
                     });
                 }
             },

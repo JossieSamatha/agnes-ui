@@ -260,7 +260,8 @@ export default {
                     component: boardDetail,
                     args: {bizDate: this.bizDate, task: task},
                     cancelButtonTitle: '返回',
-                    okButtonTitle: '刷新'
+                    okButtonTitle: '刷新',
+                    pageEl: this.$el
                 });
             }
         },
@@ -416,7 +417,8 @@ export default {
                 component: 'monitor-detail-page',
                 args: {stepCode: row.stepCode, stepActKey: row.stepActKey, bizDate: this.bizDate, status: 3},
                 cancelButtonTitle: '返回',
-                okButtonVisible: false
+                okButtonVisible: false,
+                pageEl: this.$el
             });
         },
     }

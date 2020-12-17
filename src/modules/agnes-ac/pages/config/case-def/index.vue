@@ -56,7 +56,8 @@
                     width: 'calc(97% - 215px)',
                     component: 'case-config-index',
                     wrapperClosable: true,
-                    args: {caseDefInfo:params.data}
+                    args: {caseDefInfo:params.data},
+                    pageEl: this.$el
                 })
             },
             async deleteCaseDef(params) {

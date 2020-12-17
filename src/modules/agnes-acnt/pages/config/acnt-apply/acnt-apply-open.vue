@@ -828,7 +828,8 @@
                     title: ['账户录入'],
                     component: AcntApplyInsert,
                     args: {row, mode, actionOk},
-                    okButtonVisible:mode!=='view'
+                    okButtonVisible:mode!=='view',
+                    pageEl: this.$el
                 })
             },
             onInsertApply(){
@@ -867,6 +868,7 @@
                     okButtonVisible: isShow,
                     okButtonTitle: row.isCheck ? "复核" : '保存',
                     cancelButtonTitle: '取消',
+                    pageEl: this.$el
                 });
             }
 

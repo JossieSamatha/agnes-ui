@@ -60,7 +60,8 @@ import FileMoveConfigModel from './file-move-config-Model'
                     title: ['文件搬运配置',mode],
                     component: FileMoveConfigDetail,
                     args: {row, mode, actionOk},
-                    okButtonVisible:mode!=='view'
+                    okButtonVisible:mode!=='view',
+                    pageEl: this.$el
                 })
             },
             async deleteFileMove(params) {

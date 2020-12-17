@@ -84,7 +84,8 @@ export default {
           okButtonTitle: '重新执行',
           cancelButtonTitle: '取消',
           extendButtonVisible: true,
-          extendButtonTitle: '干预通过'
+          extendButtonTitle: '干预通过',
+          pageEl: this.$el
         });
       } else if (row.taskType === '06' || row.taskType === '6') {
         this.$drawerPage.create({
@@ -94,6 +95,7 @@ export default {
           args: {row, type: 'todo', actionOk},
           okButtonTitle: '提交',
           cancelButtonTitle: '取消',
+          pageEl: this.$el
         });
       }
     },

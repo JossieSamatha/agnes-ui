@@ -87,6 +87,7 @@
                     okButtonVisible:isShow,
                     okButtonTitle: row.isCheck ? '审核' : '保存',
                     cancelButtonTitle: cancelTitle,
+                    pageEl: this.$el
 
                 })
             },
@@ -127,6 +128,7 @@
                     title: ['任务节点配置'],
                     component: 'case-config-index',
                     args: {row, mode, actionOk},
+                    pageEl: this.$el
                 })
             },
             async deleteFlowTask(params) {

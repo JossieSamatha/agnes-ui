@@ -47,7 +47,8 @@ import AcntTypeDetail from './acnt-type-detail'
                     title: ['账户类型配置',mode],
                     component: AcntTypeDetail,
                     args: {row, mode, actionOk},
-                    okButtonVisible:mode!=='view'
+                    okButtonVisible:mode!=='view',
+                    pageEl: this.$el
                 })
             },
             async deleteType(params) {

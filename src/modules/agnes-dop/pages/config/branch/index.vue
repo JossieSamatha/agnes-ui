@@ -82,7 +82,8 @@ import BranchDetail from './branch-detail'
                     title: ['网点维护',mode],
                     component: BranchDetail,
                     args: {row, mode, actionOk},
-                    okButtonVisible:mode!=='view'
+                    okButtonVisible:mode!=='view',
+                    pageEl: this.$el
                 })
             },
             async deleteBranch(params){
