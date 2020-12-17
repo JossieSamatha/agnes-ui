@@ -42,13 +42,17 @@
         pageType: {
           type: Object,
           default: null
-        }
+        },
+        rosterType: {
+          type: String,
+          default: null
+        },
 
       },
       data() {
         return {
           queryParam: {
-            pageType: 'personal',
+            pageType: 'department',
             rosterDate: '',
             rosterType: ''
           },
@@ -58,6 +62,9 @@
       mounted() {
         if (this.pageType !== null && this.pageType !== '') {
           this.queryParam.pageType = this.pageType;
+        }
+        if (this.rosterType !== null && this.rosterType !== '') {
+          this.queryParam.rosterType = this.rosterType;
         }
         this.initData();
       },

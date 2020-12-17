@@ -13,7 +13,7 @@
         <div>Tel:{{ item.oTel }}</div>
       </div>
       <div class="task-time">
-        <div>{{ getRosterType(item.rosterType) }}</div>
+        <div @click="showRoster(item)">{{ getRosterType(item.rosterType) }}</div>
       </div>
     </div>
   </div>
@@ -54,6 +54,15 @@ export default {
   },
 
   methods: {
+    showRoster(item) {
+      let depViewId = 'agnes.dop.roster';
+      let depView = this.$app.views.getView(depViewId);
+      let depTabView = Object.assign({
+        args: {rosterType: item.rosterType, pageType: this.moduleObj.pageType},
+        id: depViewId
+      }, depView);
+      this.$nav.showView(depTabView);
+    },
     getImgPath(val) {
       if (val.includes("00") && !val.includes("-")) {
         return require("../../../assets/sun.png")
