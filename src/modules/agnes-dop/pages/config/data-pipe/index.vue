@@ -33,6 +33,7 @@
                     okButtonVisible: isShow,                             // 保存按钮是否显示
                     okButtonTitle: '保存',                                // 保存按钮名称按需传入
                     cancelButtonTitle: cancelTitle,                         // 取消按钮名称按需传入
+                    pageEl: this.$el
                 });
             },
             async onAddTask() {

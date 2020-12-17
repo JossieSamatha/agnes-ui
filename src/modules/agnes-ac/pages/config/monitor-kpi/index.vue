@@ -186,7 +186,8 @@
                     component: 'monitor-detail-page',
                     args: {stepCode: row.kpiCode,stepActKey:row.stepActKey, bizDate: this.bizDate, status},
                     cancelButtonTitle: '返回',
-                    okButtonVisible: false
+                    okButtonVisible: false,
+                    pageEl: this.$el
                 });
             },
 

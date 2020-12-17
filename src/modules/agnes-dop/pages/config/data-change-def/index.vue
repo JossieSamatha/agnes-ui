@@ -194,6 +194,7 @@
                     args: {},
                     okButtonVisible:false,
                     cancelButtonTitle:'关闭',
+                    pageEl: this.$el
                 });
             },
         },

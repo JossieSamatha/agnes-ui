@@ -122,6 +122,7 @@
             args: {row, mode, actionOk},
                     okButtonVisible: false,
                     cancelButtonTitle: '取消',
+            pageEl: this.$el
                 });
             },
             showRoster(params) {

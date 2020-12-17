@@ -140,9 +140,10 @@
                                 点击配置通知方式
                             </el-button>
                         </el-form-item>
+                        <div class="line">
                         <el-form-item label="预警时间">提前
                             <gf-input v-model="detailForm.warningMintues" style="width: 30%"></gf-input>
-                            <el-select v-model="detailForm.warningTimeType" placeholder="请选择">
+                            <el-select v-model="detailForm.warningTimeType" placeholder="请选择" style="width: 30%">
                                 <el-option
                                         v-for="item in detailForm.timeTypeData"
                                         :key="item.value"
@@ -151,6 +152,7 @@
                                 </el-option>
                             </el-select>
                         </el-form-item>
+                        </div>
                     </el-form>
                     <el-form size="small" label-width="100px" v-show="msgInformItem == '1'">
                         <el-form-item label="完成通知配置">

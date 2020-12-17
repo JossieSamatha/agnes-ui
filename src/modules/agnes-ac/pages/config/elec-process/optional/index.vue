@@ -497,7 +497,8 @@
                     component: 'monitor-detail-page',
                     args: {stepCode: row.stepCode, stepActKey: row.stepActKey, bizDate: this.bizDate, status: 3},
                     cancelButtonTitle: '返回',
-                    okButtonVisible: false
+                    okButtonVisible: false,
+                    pageEl: this.$el
                 });
             },
 

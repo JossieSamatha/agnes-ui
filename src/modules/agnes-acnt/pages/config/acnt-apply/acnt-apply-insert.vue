@@ -993,7 +993,8 @@
                     title: ['网点维护',mode],
                     component: BranchDetail,
                     args: {row, mode, actionOk},
-                    okButtonVisible:mode!=='view'
+                    okButtonVisible:mode!=='view',
+                    pageEl: this.$el
                 })
             },
             async getOptionData(){
@@ -1322,6 +1323,7 @@
                     okButtonVisible: isShow,
                     okButtonTitle: row.isCheck ? "复核" : '保存',
                     cancelButtonTitle: '取消',
+                    pageEl: this.$el
                 });
             }
         },

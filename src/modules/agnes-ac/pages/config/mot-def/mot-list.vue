@@ -47,6 +47,7 @@
                     okButtonVisible:isShow,
                     okButtonTitle: row.isCheck ? '审核' : '保存',
                     cancelButtonTitle: cancelTitle,
+                    pageEl: this.$el
                 });
             },
             async onAddModel() {

@@ -156,7 +156,8 @@ export default {
         component: AcntApplyOpen,
         args: {row, mode, actionOk, isDisabled},
         okButtonVisible: mode !== 'view',
-        okButtonTitle: mode === 'detele' ? '提交' : '保存'
+        okButtonTitle: mode === 'detele' ? '提交' : '保存',
+        pageEl: this.$el
       })
     },
     onOpenApply() {
@@ -180,7 +181,8 @@ export default {
         component: AcntApplyInsert,
         args: {row, mode, actionOk},
         okButtonVisible: mode !== 'view',
-        okButtonTitle: mode === 'check' ? '审核' : '保存'
+        okButtonTitle: mode === 'check' ? '审核' : '保存',
+        pageEl: this.$el
       })
     },
     onInsertApply() {
@@ -205,7 +207,8 @@ export default {
         args: {row, mode, actionOk, isDisabled},
         okButtonVisible: mode !== 'view',
         okButtonTitle: mode === 'detele' ? '提交' : '保存',
-        cancelButtonTitle: mode === 'view' ? '关闭' : '取消'
+        cancelButtonTitle: mode === 'view' ? '关闭' : '取消',
+        pageEl: this.$el
       })
     },
 
