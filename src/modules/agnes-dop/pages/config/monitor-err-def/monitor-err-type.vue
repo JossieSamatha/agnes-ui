@@ -57,7 +57,7 @@
                         await this.$app.blockingApp(dealErr);
                         this.$msg.success('保存成功');
                     }else if(this.ui==="2"){
-                        let checkErr = this.$api.monitorErrApi.checkErr("02",this.form);
+                        let checkErr = this.$api.monitorErrApi.checkErr("04", this.form);
                         await this.$app.blockingApp(checkErr);
                         this.$msg.success('审核通过');
                     }else{

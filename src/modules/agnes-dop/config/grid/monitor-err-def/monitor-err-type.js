@@ -5,8 +5,8 @@ const colButtons = [
     {key: 'deleteErr', title: '删除', cellClass: 'red-cell'},
     {key: 'approveErr', title: '审核',disabled: (params)=>{
             let result = false;
-            if(params.data.status === '02' || params.data.status === '03' || params.data.status === '00'){
-                result =true;
+            if (params.data.status === '04') {
+                result = true;
             }
             return result;}}
 ];
