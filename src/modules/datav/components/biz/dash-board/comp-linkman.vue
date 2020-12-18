@@ -5,9 +5,10 @@
                 <em class="fa fa-user-o"></em>
             </div>
             <div class="notice-info">
-                <p><span style="color: #333">{{item.linkmanName}}</span>
-                    <span v-if="item.linkmanDept">【{{getDictName(item.linkmanDept, 'DeptDict')}}】</span>
-                    <span v-if="item.linkmanRoleId">【{{getDictName(item.linkmanRoleId, 'postDict')}}】</span>
+                <p><span style="color: #333">{{ item.linkmanName }}</span>
+                  <span
+                      v-if="item.linkmanDept!=null && item.linkmanRoleId!=null">[{{ item.linkmanDept }}/{{ item.linkmanRoleId }}]</span>
+                  <!--                    <span v-if="item.linkmanRoleId">【{{getDictName(item.linkmanRoleId, 'postDict')}}】</span>-->
                 </p>
                 <p v-if="item.linkmanPhone">Tel: {{item.linkmanPhone}}</p>
             </div>
