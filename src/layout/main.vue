@@ -1,7 +1,7 @@
 <template>
     <gf-layout-default>
         <template slot="logo">
-            <img :src="require('../assets/img/login-logo.png')" alt="logo" class="gf-app-logo">
+            <img :src="require('../assets/logo-hexinfo.png')" alt="logo" class="gf-app-logo">
         </template>
         <template slot="menu">
             <span></span>
