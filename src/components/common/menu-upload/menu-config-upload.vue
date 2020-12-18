@@ -2,6 +2,7 @@
     <el-upload
                action="/api/ecm-server/ecm/doc/upload"
                :data="uploadData"
+               ref="upload"
                :before-upload="checkFile"
                :on-progress="uploadProgress"
                :on-success="uploadSuccess"
@@ -53,7 +54,7 @@
                 const isOffice = fileType ==='xls'||fileType ==='xlsx';
                 let isHasData = this.fileName != '' && this.alanyId != '';
                 if (!isOffice) {
-                    this.$msg.error('上传文件必须为如下格式：xls,xlsx');
+                    this.$msg.error('导入文件必须为如下格式：xls,xlsx');
                     this.uploadFileLoading = false;
                 }
                 if (!isHasData) {
@@ -75,30 +76,35 @@
             },
             //上传错误
             uploadError() {
-                this.$msg.error('上传失败!');
+                this.$msg.error('导入失败!');
                 this.uploadFileLoading = false;
+                this.$refs.upload.clearFiles();
             },
             //文件大小错误
             sizeExp() {
                 this.$msg.warning('文件超出大小!');
+                this.uploadFileLoading = false;
+                this.$refs.upload.clearFiles();
             },
             FormatError() {
                 this.$msg.warning("文件格式不对!");
+                this.uploadFileLoading = false;
+                this.$refs.upload.clearFiles();
             },
             //上传成功后
             async uploadSuccess(resp) {
                 if (resp.status) {
-                    this.uploadData.docId = resp.data.objectId;
-                    let resp2 = await this.$api.funcConfigApi.inputTable({'docId':this.uploadData.docId,'resName':this.fileName,'ifPkId':this.ifPkId});
+                    let resp2 = await this.$api.funcConfigApi.inputTable({'docId':resp.data.objectId,'resName':this.fileName,'ifPkId':this.ifPkId});
                     if(resp2.code=='inputError'){
-                        this.$msg.error('上传失败!');
+                        this.$msg.error('导入失败!');
                         return ;
                     }
-                    this.$msg.success('上传成功!');
+                    this.$msg.success('导入成功!');
                 } else {
-                    this.$msg.error('上传失败!');
+                    this.$msg.error('导入失败!');
                 }
                 this.uploadFileLoading = false;
+                this.$refs.upload.clearFiles();
             },
 
         },
