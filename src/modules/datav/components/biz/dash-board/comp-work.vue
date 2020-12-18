@@ -12,7 +12,7 @@
         </div>
         <div>Tel:{{ item.oTel }}</div>
       </div>
-      <div class="task-time">
+      <div class="notice-state">
         <div @click="showRoster(item)">{{ getRosterType(item.rosterType) }}</div>
       </div>
     </div>
@@ -72,7 +72,10 @@ export default {
         return require("../../../assets/key.png")
       } else if (val.includes("-03")) {
         return require("../../../assets/recheck.png")
+      } else {
+        return require("../../../assets/moon.png")
       }
+
     },
 
     getRosterType(rosterTypeId) {
@@ -121,5 +124,10 @@ export default {
 
 .task-time > div:nth-child(2) {
   color: #ccc;
+}
+
+.notice-state {
+  font-size: 12px;
+  color: #999;
 }
 </style>

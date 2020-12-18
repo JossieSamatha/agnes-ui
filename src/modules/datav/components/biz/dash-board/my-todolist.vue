@@ -9,7 +9,7 @@
                 <div :title="item.taskName">{{item.taskName}}</div>
                 <div :title="item.stepName">计划时间:{{ item.startDay }}[{{ item.planTime }}]</div>
             </div>
-            <div class="task-time">
+            <div class="notice-state">
               <div>{{ getCaseStepType(item.taskType) }}</div>
             </div>
         </div>
