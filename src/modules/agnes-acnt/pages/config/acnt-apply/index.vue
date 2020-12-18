@@ -65,7 +65,7 @@
                      :query-args="queryArgs"
                      @row-double-click="showDetail"
                      :options="applyGridOption(this)"
-                     height="calc(100% - 30px)">
+                     height="100%">
                 <template slot="left">
                     <gf-button class="action-btn" @click="openApply"
                                 v-if="$hasPermission('agnes.acnt.apply.openApply')">开户</gf-button>
