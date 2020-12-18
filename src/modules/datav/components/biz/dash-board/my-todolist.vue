@@ -101,14 +101,21 @@
     .task-time {
         flex: none;
         width: 55px;
-        text-align: right;
-        padding-right: 5px;
+      text-align: right;
+      padding-right: 5px;
     }
+
     .task-time > div:nth-child(1) {
-        color: #9a9a9a;
-        margin-bottom: 6px;
+      color: #9a9a9a;
+      margin-bottom: 6px;
     }
+
     .task-time > div:nth-child(2) {
-        color: #ccc;
+      color: #ccc;
+    }
+
+    .notice-state {
+      font-size: 12px;
+      color: #999;
     }
 </style>
