@@ -1163,12 +1163,16 @@
                     if(form.processStatus === '07' && !this.$lodash.isEmpty(form.acntName)){
                         const check = await this.$api.acntApplyApi.checkAcntName(form);
                         if(form.bizType.match(/01|04/) && check.code==='exit'){
-                            this.$msg.warning(check.message);
-                            return ;
+                            const ok = await this.$msg.ask(`该账户名称存在重复, 是否继续?`);
+                            if(!ok){
+                                return;
+                            }
                         }
                         if(form.bizType === '02' && form.acntName !== this.row.acntName && check.code==='exit'){
-                            this.$msg.warning(check.message);
-                            return ;
+                            const ok = await this.$msg.ask(`该账户名称存在重复, 是否继续?`);
+                            if(!ok){
+                                return;
+                            }
                         }
                     }
                     const p = this.$api.acntApplyApi.saveApply(form);
