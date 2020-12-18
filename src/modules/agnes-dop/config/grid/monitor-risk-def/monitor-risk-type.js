@@ -5,8 +5,8 @@ const colButtons = [
     {key: 'deleteRisk', title: '删除', cellClass: 'red-cell'},
     {key: 'approveRisk', title: '审核',disabled: (params)=>{
             let result = false;
-            if(params.data.status === '02' || params.data.status === '03' || params.data.status === '00'){
-                result =true;
+            if (params.data.status === '04') {
+                result = true;
             }
             return result;}}
 ];
@@ -20,7 +20,7 @@ export default {
         {headerName: "状态", field: "status", dictType: 'AGNES_RELEASE_STATUS'},
         {headerName: "任务名称", field: "taskName"},
         {headerName: "异常描述", field: "errDesc"},
-        {headerName: "操作人员", field: "updateUser"},
+        {headerName: "操作人员", field: "crtUser"},
         column.buildOpCol(110, colButtons)
     ],
     // headerHeight: 40,
