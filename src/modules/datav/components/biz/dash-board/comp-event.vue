@@ -6,12 +6,20 @@
           <div class="task-icon">
             <em class="el-icon-chat-line-square"></em>
           </div>
-          <div class="task-des">
+          <div class="task-des" v-if="moduleObj.compType === 'err'">
             <div :title="item.eventDesc">
               <span>{{ item.eventDesc }}</span>
               <span>{{ getErrType(item.errType) }}</span>
             </div>
             <div :title="item.eventDate">发生时间:{{ item.eventDate }}</div>
+          </div>
+
+          <div class="task-des" v-if="moduleObj.compType === 'risk'">
+            <div :title="item.eventDesc">
+              <span>{{ item.eventDesc }}</span>
+              <span>{{ getRiskType(item.riskType) }}</span>
+            </div>
+            <div :title="item.eventDate">调入时间:{{ item.eventDate }}</div>
           </div>
         </div>
     </div>
@@ -30,6 +38,8 @@
             return {
               eventList: [],
               errTypeDict: this.$app.dict.getDictItems('AGNES_DOP_ERR_TYPE'),
+              riskTypeDict: this.$app.dict.getDictItems('AGNES_DOP_RISK_TYPE'),
+
             }
         },
         created(){
@@ -49,7 +59,7 @@
                       return {
                         eventDesc: item.riskDesc,
                         eventDate: item.crtTs,
-                        errType: item.errType
+                        riskType: item.riskType
                       }
                     });
                 })
@@ -60,6 +70,14 @@
         getErrType(errType) {
           if (errType) {
             const dictObj = this.$lodash.find(this.errTypeDict, {dictId: errType});
+            if (dictObj) {
+              return dictObj.dictName;
+            }
+          }
+        },
+        getRiskType(riskType) {
+          if (riskType) {
+            const dictObj = this.$lodash.find(this.riskTypeDict, {dictId: riskType});
             if (dictObj) {
               return dictObj.dictName;
             }
@@ -104,7 +122,7 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  color: #666;
+  color: #999;
   margin-bottom: 6px;
 }
 
