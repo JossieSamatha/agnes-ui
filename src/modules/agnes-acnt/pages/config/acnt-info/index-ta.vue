@@ -216,6 +216,22 @@ export default {
       this.showAcntInfoDlg('view', params.data, this.onOpenApply.bind(this), true);
     },
 
+    async logicDelete(params) {
+      const row = params.data;
+      const ok = await this.$msg.ask(`确认删除账户信息:[${row.acntName}]吗, 是否继续?`);
+      if (!ok) {
+        return
+      }
+      try {
+        const p = this.$api.acntInfoApi.logicDelete(row.acntId);
+        await this.$app.blockingApp(p);
+        this.$msg.success("删除成功!");
+        this.reloadData();
+      } catch (reason) {
+        this.$msg.error(reason);
+      }
+    },
+
     exoprtV45() {
     }
   }
