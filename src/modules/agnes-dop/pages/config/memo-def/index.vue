@@ -37,6 +37,7 @@
           default: null
         },
       },
+
       mounted() {
         if (this.memoDt !== null && this.memoDt !== null) {
           this.queryParam.memoDt = this.memoDt;
