@@ -4,6 +4,7 @@
                  grid-no="agnes-dop-memo-list"
                  toolbar="find,refresh,more"
                  @row-double-click="showMemo"
+                 :query-args="queryParam"
          >
             <template slot="left">
                 <gf-button v-if="$hasPermission('agnes.dop.memo.add')" class="action-btn" @click="addMemo" size="mini">
@@ -18,26 +19,43 @@
     import MemoDefDlg from "./memo-def-dlg";
 
     export default {
-        data() {
-            return {
-                queryParam:{
-                    memoDt :"",
-                    memoDesc :"",
-                    memoStatus :""
-                }
-            }
+      data() {
+        return {
+          queryParam: {
+            memoDt: "",
+            pageType: 'department',
+          }
+        }
+      },
+      props: {
+        pageType: {
+          type: String,
+          default: null
         },
-        methods: {
-            reloadData() {
-                this.$refs.grid.reloadData(true);
-            },
-            showDlg(mode, row, actionOk) {
-                if (mode !== 'add' && !row ) {
-                    this.$msg.warning("请选中一条记录!");
-                    return;
-                }
-                this.$nav.showDialog(
-                    MemoDefDlg,
+        memoDt: {
+          type: String,
+          default: null
+        },
+      },
+      mounted() {
+        if (this.memoDt !== null && this.memoDt !== null) {
+          this.queryParam.memoDt = this.memoDt;
+        }
+        if (this.pageType !== null && this.pageType !== '') {
+          this.queryParam.pageType = this.pageType;
+        }
+      },
+      methods: {
+        reloadData() {
+          this.$refs.grid.reloadData(true);
+        },
+        showDlg(mode, row, actionOk) {
+          if (mode !== 'add' && !row) {
+            this.$msg.warning("请选中一条记录!");
+            return;
+          }
+          this.$nav.showDialog(
+              MemoDefDlg,
                     {
                       args: {row, mode, actionOk},
                       width: '50%',
