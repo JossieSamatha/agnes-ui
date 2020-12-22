@@ -63,7 +63,7 @@ export default {
       const row = params.data;
       if (row.taskType === '01' || row.taskType === '1') {
         let customOpBtn = [];
-        if (row.allowManualConfirm && row.allowManualConfirm === '1') {
+        if (row.buttonStatus) {
           customOpBtn = [
             {title: '干预通过', className: 'primary', action: 'onExtendButton'},
             {title: '重新执行', className: 'primary', action: 'onSave'},
@@ -71,7 +71,6 @@ export default {
           ]
         } else {
           customOpBtn = [
-            {title: '重新执行', className: 'primary', action: 'onSave'},
             {title: '取消', action: 'onCancel'},
           ]
         }
@@ -93,7 +92,8 @@ export default {
           title: [row.stepName + '-办理'],
           component: PersonTaskDetail,
           args: {row, type: 'todo', actionOk},
-          okButtonTitle: '提交',
+          okButtonVisible: row.buttonStatus,
+          okButtonTitle: '干预通过',
           cancelButtonTitle: '取消',
           pageEl: this.$el
         });
