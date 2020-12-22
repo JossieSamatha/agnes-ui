@@ -7,7 +7,7 @@
                         @show="getCalendarData(data.day)"
             >
                 <p>运营日历：<span>{{memoNum}}</span></p>
-                <el-button type="text" @click="calendarDetail">查看详情</el-button>
+                <el-button type="text" @click="calendarDetail(data)">查看详情</el-button>
                 <el-button slot="reference" class="popover-btn" :class="workStatus">{{ getDay(date) }}</el-button>
             </el-popover>
         </template>
@@ -60,11 +60,14 @@
               }
             },
 
-            calendarDetail(){
-                let clientView = this.$app.views.getView("agnes.dop.memo");
-                let clientTabView = Object.assign({args: {}, id: "agnes.dop.memo"}, clientView);
-                this.$nav.showView(clientTabView);
-            }
+          calendarDetail(data) {
+            let clientView = this.$app.views.getView("agnes.dop.memo");
+            let clientTabView = Object.assign({
+              args: {pageType: this.moduleObj.pageType, memoDt: data.day},
+              id: "agnes.dop.memo"
+            }, clientView);
+            this.$nav.showView(clientTabView);
+          }
         }
     }
 </script>
