@@ -63,7 +63,7 @@
             transferErr(){
                 let t = this.$refs.grid.getSelectedRows();
                 if(loadsh.isEmpty(t)){
-                    this.$msg.warning("请中一条记录!");
+                    this.$msg.warning("请选中一条记录!");
                     return;
                 }
                 if (t[0].isRisk.match(/0/) && t[0].status.match(/04/)){

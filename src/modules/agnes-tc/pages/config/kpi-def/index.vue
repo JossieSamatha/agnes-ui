@@ -247,12 +247,12 @@
                 kpiTaskReq.bizDate = this.row.bizDt;
                 kpiTaskReq.taskId = _this.row.taskId;
                 this.$api.kpiDefineApi.execTask(kpiTaskReq).then((resp) => {
-                    if(resp.status){
-                        _this.$message.success(resp.message);
-                        _this.reloadData();
-                    } else{
-                        _this.$message.error(resp.message);
-                    }
+                  if (resp.data.status) {
+                    _this.$message.success(resp.data.message);
+                    _this.reloadData();
+                  } else {
+                    _this.$message.error(resp.data.message);
+                  }
                 });
             },
             getPicData(rows,keys){
