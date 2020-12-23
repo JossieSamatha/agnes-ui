@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="acnt-apply" v-loading="loading">
         <div v-show="pointerShow" class="pointer-mask" @click="pointerShow = false"></div>
         <el-form class="search-panel" label-width="100px">
             <div class="line">
@@ -144,6 +144,7 @@
                     label: 'FA',
                     options: []
                 }],
+                loading: false,
                 crtStepRow: null,
                 applyGridOption: (_that)=>{
                     return {
@@ -366,9 +367,10 @@
                 if (!ok) {
                     return
                 }
+                this.loading = true;
                 try {
-                    const p = this.$api.acntApplyApi.submitOa(applyIds,applySubIds);
-                    let resp = await this.$app.blockingApp(p);
+                    const resp = await this.$api.acntApplyApi.submitOa(applyIds,applySubIds);
+                    this.loading = false;
                     if(resp.code=='userInfoError'){
                         this.$msg.error(resp.message);
                     }
@@ -409,6 +411,7 @@
                         this.reloadData();
                     }
                 } catch (reason) {
+                    this.loading = false;
                     this.$msg.error(reason);
                 }
             },
@@ -616,6 +619,10 @@
 </style>
 
 <style>
+    .acnt-apply.gf-tab-view .el-loading-mask {
+        background: rgba(255, 255, 255, .7);
+    }
+
     .ag-grid-box .grid-action-panel .action-btn.pointerShow {
         color: #0F5EFF;
         border-color: #0F5EFF;
