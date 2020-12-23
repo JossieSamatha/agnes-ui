@@ -57,6 +57,10 @@ export default {
         {headerName: "状态", field: "status",dictType: 'AGNES_RELEASE_STATUS'},
         {headerName: "扫描路径", field: "filePath"},
         {headerName: "扫描文件", field: "fileName"},
+        column.colCrtTm,
+        column.colCrtUser,
+        column.colUpdTm,
+        column.colUpdUser
     ],
     ext: {
         fetchUrl: "/agnes-app/v1/dc/file/scan/list-page",
