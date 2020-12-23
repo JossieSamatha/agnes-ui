@@ -43,8 +43,8 @@ export default {
         {headerName: "基金名称", field: "productName"},
 
         {headerName: "银行联系人", field: "linkmanNames"},
-        {headerName: "利率", field: "rateLabel"},
-
+        // {headerName: "利率", field: "rateLabel"},
+        {headerName: "利率(%)", field: "rate"},
 
         {headerName: "账户简称", field: "acntShortName"},
         {headerName: "账户启用日期", field: "acntStartDt"},
