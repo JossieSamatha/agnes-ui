@@ -44,7 +44,8 @@ export default {
         {headerName: "基金名称", field: "productName"},
 
         {headerName: "银行联系人", field: "linkmanNames"},
-        {headerName: "利率", field: "rateLabel"},
+        // {headerName: "利率", field: "rateLabel"},
+        {headerName: "利率(%)", field: "rate"},
 
         {headerName: "清算编号", field: "settlementNo"},
         {headerName: "账户所属地区", field: "region"},
