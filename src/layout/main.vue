@@ -18,18 +18,7 @@
                 </el-badge>
             </div>
         </div>
-        <div class="common-search-panel" slot="nav-user-after">
-            <gf-global-search v-model="searchValue"
-                              placeholder="全局搜索"
-                              :appMenus="appMenus"
-                              :adminMenus="adminMenus"
-            ></gf-global-search>
-            <robot-wisdom></robot-wisdom>
-            <div class="biz-date-square">
-                <em class="el-icon-time" style="margin-right: 3px;font-size: 15px;font-weight: bold"></em>
-                {{bizDateComplete}}
-            </div>
-        </div>
+        <common-search-panel class="comm"  slot="nav-user-after" v-show="commonSearchShow"></common-search-panel>
         <template slot="sidebar-menu" slot-scope="props">
             <gf-vertical-expand v-show="!props.maximizeView"
                                 :allMenu="menus.allMenu"
@@ -63,23 +52,24 @@
                 noticeData: [],
                 studioType: 'adminMenus',
                 searchValue: '',
+                commonSearchShow: true,
                 showNoticeDrawer: false,
                 content: '',
                 feedbackShow: false,
                 bizDateTimer: null, // 日切日期定时器
                 unreadCount:"",
-                localTime: ''
+
             }
         },
 
-        computed: {
-            bizDateComplete() {
-                let bizdate = this.$dateUtils.formatDate(this.localTime, 'yyyy-MM-dd HH:mm:ss');
-                if(window.bizDate){
-                    bizdate = window.bizDate + ' ' + bizdate.slice(11, 19);
+        watch: {
+            $route(to) {
+                if (to.path === '/datav.client.view' || to.path === '/datav.dep.view') {
+                    this.commonSearchShow = false;
+                }else{
+                    this.commonSearchShow = true;
                 }
-                return bizdate;
-            }
+            },
         },
 
         methods: {
@@ -143,7 +133,6 @@
                 }
                 // 退出登录后清楚定时器
                 clearInterval(this.bizDateTimer);
-                clearInterval(this.localTimer);
 
                 this.$store.dispatch('logout').then(() => {
                     this.$router.push({path: '/login'});
@@ -243,20 +232,18 @@
                 })
             }
         },
+
         async mounted() {
             //加载菜单
             this.loadMenus();
-            // 获取日切值
-            this.localTime = new Date();
+
             this.getChangeDate();
             this.getUnreadCount();
             this.bizDateTimer = setInterval(() => {
                 this.getChangeDate();
                 this.getUnreadCount();
             }, 300000);
-            this.localTimer = setInterval( ()=> {
-                this.localTime = new Date();
-            }, 1000);
+
             //默认加载首页、部门首页
             this.$nav.closeAllTab();
             this.showMain();

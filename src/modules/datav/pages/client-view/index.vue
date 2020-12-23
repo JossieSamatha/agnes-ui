@@ -1,5 +1,6 @@
 <template>
-    <div class="datav_client_view" ref="datav_client_view" style="padding:0">
+    <div class="datav_client_view" ref="datav_client_view" style="padding:0!important;">
+        <div class="split-mask" v-show="!isGridDefine"></div>
         <div class="topPanel">
             <div class="optionPanel">
                 <span></span>
@@ -12,7 +13,7 @@
                 </div>
             </div>
         </div>
-        <grid-container ref="gridContainer" :pageId="pageId"></grid-container>
+        <grid-container class="indexPage" ref="gridContainer" :pageId="pageId"></grid-container>
         <board-choose ref="boardChoose"
                 :showDialog="boardChooseDialog"
                 @closeDialog="closeDialog"

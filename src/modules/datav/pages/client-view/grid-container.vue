@@ -1,10 +1,10 @@
 <template>
-    <div class="gridContainer" :class="isGridEdit?'edit':''">
+    <div class="gridContainer" :class="{edit: isGridEdit, define: isGridDefine}">
         <dash-board-group ref="gridBoardGroup"
                           :boardDataObj="gridDataArr"
                           :boardFrameObj="gridLayout"
                           :isGridDefine="isGridDefine"
-                          :isGridEdit="isGridEdit" >
+                          :isGridEdit="isGridEdit">
         </dash-board-group>
         <div class="elChooseArrContent" v-show="elChooseContentShow">
             <draggable class="dragDiv" :list="elChooseArr" group="unitGroup" :disabled="dragDisabled"
@@ -37,7 +37,6 @@
                 boardUnitHeight: 0,     // 面板初始单元高度
                 gridBoardObj: JSON.parse(JSON.stringify(boardData.boardArrDefault[0])),     // 当前选择面板对象
                 movedUnitId: -1,      // 当前移动的单元格索引
-
 
                 // 条形面板选择区
                 elChooseArr:[],                                // 条形面板数据

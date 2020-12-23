@@ -24,7 +24,12 @@
                                 @change="bizDateChange"
                 >
                 </el-date-picker>
-                <em class="el-icon-refresh" title="全部刷新" @click="getFLowsbyType(bizDate)"></em>
+                <svg-icon name="refresh"
+                          title="全部刷新"
+                          height="18px"
+                          color="#999"
+                          style="margin: 0 10px; cursor: pointer"
+                          @click.native="getFLowsbyType(bizDate)"/>
                 <div class="interval-ctrl">
                     <span v-html="svgImg.startInterval"
                           v-show="ifIntervalStart"
@@ -54,7 +59,9 @@
             <el-carousel v-if="proTask && proTask.length>0"
                          :height="cardContainerHeight"
                          arrow="always"
-                         :autoplay="false">
+                         :autoplay="false"
+                         :class="{'has-pagin': proTask.length>1}"
+            >
                 <el-carousel-item v-for="(carousel, index) in proTask" :key="index">
                     <div ref="carouselCardContainer" class="card-container">
                         <template v-for="task in carousel">
@@ -68,7 +75,10 @@
                                     </p>
                                     <p class="title" :title="task.taskName" :style="{transform: 'scale('+ cardScale +')'}">{{task.taskName}}</p>
                                     <p style="height: 15px">
-                                        <el-progress v-if="task.finishedRate" class="monitor-progress" show-text
+                                        <el-progress v-if="task.finishedRate"
+                                                     class="monitor-progress"
+                                                     :class="{'is-roll': task.finishedRate < 1}"
+                                                     show-text
                                                      :percentage="getPercentage(task.finishedRate)"
                                                      :color="curTask.taskId==task.taskId ? '#4C6CFF': '#496AAF'"
                                                      :stroke-width="12*cardScale"
@@ -77,10 +87,18 @@
                                 </template>
                             </module-card>
                         </template>
+                        <template v-if="carousel.length<4">
+                            <module-card v-for="placeholder in 4-carousel.length" shadow="always" :key="placeholder">
+                                <template slot="content">
+                                    <svg-icon name="placeholder-pic" height="50px" :style="{transform: 'scale('+ cardScale +')'}" />
+                                    <span style="color: #7390CB;text-align: center;padding-right: 8px;" :style="{transform: 'scale('+ cardScale +')'}">暂无数据</span>
+                                </template>
+                            </module-card>
+                        </template>
                     </div>
                 </el-carousel-item>
             </el-carousel>
-            <div class="card-detail" v-if="curTask.taskId">
+            <div class="card-detail" :class="{'is-full': curTask.finishedRate >= 1}" v-if="curTask.taskId">
                 <div class="process-container">
                     <div class="flow-legend">
                         <span v-for="(status, statusColor) in stageStatus" :key="statusColor">
@@ -93,6 +111,7 @@
                             <span>{{stage.defName}}</span>
                             <div>
                                 <el-progress class="define-progress"
+                                             :class="{'is-roll': stage.percentage < 1, 'has-error': stage.status === '03' || stage.status === '04'}"
                                              :style="{color: getDetailColor(stage.status)}"
                                              :percentage="getPercentage(stage.percentage)"
                                              :color="getDetailColor(stage.status)"
@@ -115,20 +134,29 @@
                                 <div class="link-line"></div>
                             </div>
                         </div>
-                        <div class="link-line whole"></div>
+                        <div class="link-line whole">
+                            <svg-icon name="lightning" style="animation-delay: 1s"/>
+                            <svg-icon name="lightning" style="animation-delay: 2s"/>
+                            <svg-icon name="lightning" style="animation-delay: 3s"/>
+                            <svg-icon name="lightning" style="animation-delay: 4s"/>
+                            <svg-icon name="lightning" style="animation-delay: 5s"/>
+                            <span class="text-info">已完成：
+                                <span>{{getPercentage(curTask.finishedRate)}}%</span>
+                            </span>
+                        </div>
                     </div>
                 </div>
-                <div style="position: relative">
-<!--                    <dv-water-level-pond v-if="true"-->
-<!--                            :config="{data: [getPercentage(curTask.finishedRate)], shape: 'round', colors: ['#3DE7C9', '#4a8ef0'], waveNum:2, waveHeight: 8, waveOpacity: .5}"-->
-<!--                                         style="width:200px; height: 200px; cursor: pointer"-->
-<!--                    />-->
-<!--                    <template v-else>-->
-<!--                        <pie-chart ref="pieChart" :chart-data="executePieData" :title="pieTitle" pieHeight="200px"-->
-<!--                                   legendPosX="left" legendPos.dv-water-pond-level svgY="top" :color-set="['#0f5eff','#E0E0E0']" style="width: 200px"-->
-<!--                        ></pie-chart>-->
-<!--                        <p class="detail-btn" @click="reivewDetail">查看详情</p>-->
-<!--                    </template>-->
+                <div class="battery-container">
+                    <div class="container">
+                        <div class="header"></div>
+                        <div class="battery" :class="{'is-mini': curTask.finishedRate <= 0.05}"></div>
+                        <div class="battery-copy">
+                            <div v-for="i in 3" :key="i"
+                                 class="g-wave"
+                                 :style="{top: -getPercentage(curTask.finishedRate) + '%'}">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -198,7 +226,7 @@ export default {
     mounted() {
         window.addEventListener('resize', ()=>{
             this.$nextTick( ()=> {
-                if(this.$refs.carouselCardContainer[0]){
+                if(this.$refs.carouselCardContainer && this.$refs.carouselCardContainer[0]){
                     const cardHeight = this.$refs.carouselCardContainer[0].firstElementChild.offsetHeight;
                     this.cardScale = cardHeight/120;
                     this.cardContainerHeight = cardHeight + 40 + 'px'

@@ -5,7 +5,7 @@
 }
 
 .el-progress-bar .el-progress-bar__outer {
-   background: #D7DBE4;
+    background: #D7DBE4;
 }
 
 /*=======================================
@@ -22,7 +22,7 @@
     padding: 10px 0;
 }
 
-.elec-process-dashboard .dataSearch>div  {
+.elec-process-dashboard .dataSearch > div {
     display: flex;
     align-items: center;
     vertical-align: middle;
@@ -30,7 +30,7 @@
     color: #333;
 }
 
-.elec-process-dashboard .flow-type-select .el-input.is-disabled>input {
+.elec-process-dashboard .flow-type-select .el-input.is-disabled > input {
     background: transparent;
     border: none;
     color: #333;
@@ -46,8 +46,11 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    height: calc(100% - 50px);
 }
+
+/*.elec-process-dashboard .board-container .el-carousel.has-pagin .el-carousel__arrow {*/
+/*    display: block;*/
+/*}*/
 
 .elec-process-dashboard .board-container .el-carousel .el-carousel__arrow {
     width: 24px;
@@ -87,7 +90,7 @@
 }
 
 .elec-process.elec-process-dashboard .board-container .el-carousel .monitor-progress
-.el-progress-bar .el-progress-bar__outer{
+.el-progress-bar .el-progress-bar__outer {
     background: #ABBEEA;
 }
 
@@ -105,16 +108,16 @@
     border-radius: 14px;
 }
 
-.elec-process-dashboard .board-container .card-detail>div {
+.elec-process-dashboard .board-container .card-detail > div {
     padding: 20px;
 }
 
-.elec-process-dashboard .board-container .card-detail .chart-container{
+.elec-process-dashboard .board-container .card-detail .chart-container {
     position: relative;
     flex: 0 0 45%;
 }
 
-.elec-process-dashboard .board-container .card-detail .detail-btn{
+.elec-process-dashboard .board-container .card-detail .detail-btn {
     position: absolute;
     bottom: -20px;
     left: calc(50% - 30px);
@@ -124,16 +127,17 @@
     margin-top: -10px;
 }
 
-.elec-process-dashboard .board-container .card-detail .process-container{
+.elec-process-dashboard .board-container .card-detail .process-container {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     position: relative;
     flex: none;
     width: 50%;
 }
+
 .elec-process-dashboard .board-container .card-detail .progress
-.progress-item+.progress-item {
+.progress-item + .progress-item {
     margin-top: 20px;
 }
 
@@ -152,24 +156,24 @@
     background: #D7DBE4;
 }
 
-.elec-process-dashboard .board-container .card-detail .progress .progress-item>span {
+.elec-process-dashboard .board-container .card-detail .progress .progress-item > span {
     color: #666;
     font-size: 16px;
     line-height: 35px;
 }
 
-.elec-process-dashboard .board-container .card-detail .progress .progress-item>div {
+.elec-process-dashboard .board-container .card-detail .progress .progress-item > div {
     display: flex;
     width: 100%;
     align-items: center;
 }
 
-.elec-process-dashboard .board-container .card-detail .progress .progress-item>div p {
+.elec-process-dashboard .board-container .card-detail .progress .progress-item > div p {
     width: 80px;
     line-height: 20px;
 }
 
-.elec-process-dashboard .board-container .card-detail .progress .progress-item>div
+.elec-process-dashboard .board-container .card-detail .progress .progress-item > div
 p span.num {
     color: #666;
     font-size: 16px;
@@ -187,11 +191,29 @@ p span.num {
 }
 
 .elec-process-dashboard .board-container .card-detail .progress .link-line.whole {
+    display: flex;
+    justify-content: center;
     position: absolute;
     right: -50%;
     width: 50%;
     top: calc(50% + 16px);
-    transform: rotate(180deg);
+}
+
+.elec-process-dashboard .board-container .card-detail .progress .link-line.whole
+.text-info {
+    position: absolute;
+    top: 14px;
+    font-size: 16px;
+}
+
+.elec-process-dashboard .board-container .card-detail .progress .link-line.whole
+.text-info>span {
+    color: #4C6CFF;
+}
+
+.elec-process-dashboard .board-container .card-detail.is-full .progress
+.link-line.whole .text-info>span {
+    color: #43DC4E;
 }
 
 .elec-process-dashboard .board-container .card-detail .progress
@@ -206,35 +228,131 @@ p span.num {
     background: #D7DBE4;
 }
 
-.elec-process-dashboard .board-container .card-detail .progress .progress-item>div
+.elec-process-dashboard .board-container .card-detail .progress
+.link-line.whole::before {
+    left: auto;
+    right: -5px;
+}
+
+.elec-process-dashboard .board-container .card-detail .progress .link-line.whole
+.svg-icon {
+    animation: blink 5s infinite;
+}
+
+.elec-process-dashboard .board-container .card-detail.is-full .progress .link-line.whole
+.svg-icon {
+    animation: none;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+    20% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+    40% {
+        opacity: .7;
+        transform: scale(1);
+    }
+    60% {
+        opacity: .5;
+        transform: scale(.8);
+    }
+    80% {
+        opacity: .3;
+        transform: scale(.6);
+    }
+}
+
+.elec-process-dashboard .board-container .card-detail .progress .link-line.whole
+.svg-icon {
+    margin-top: -24px;
+}
+
+.elec-process-dashboard .board-container .card-detail .progress .link-line.whole
+.svg-icon + .svg-icon {
+    margin-left: 16px;
+}
+
+.elec-process-dashboard .board-container .card-detail .progress .progress-item > div
 .define-progress {
     flex: 1;
     width: 100%;
     cursor: pointer;
 }
 
-.elec-process-dashboard .board-container .card-detail .progress .progress-item>div
+.elec-process-dashboard .board-container .card-detail .progress .progress-item > div
 .define-progress .el-progress-bar {
     margin-right: -45px;
 }
 
-.elec-process-dashboard .board-container .card-detail .progress .progress-item>div
+.elec-process-dashboard .board-container .card-detail .progress .progress-item > div
 .define-progress .el-progress__text {
-    font-size: 14px!important;
+    font-size: 14px !important;
     transform: scale(1);
     color: inherit;
 }
 
-.elec-process-dashboard .board-container .card-detail .process-container .flow-legend{
+.elec-process-dashboard .board-container .card-detail .progress .progress-item > div
+.define-progress.is-roll .el-progress-bar__outer .el-progress-bar__inner,
+.elec-process-dashboard .card-container .module-card.active .monitor-progress.is-roll
+.el-progress-bar__outer .el-progress-bar__inner {
+    background: linear-gradient(
+            -45deg,
+            #0f5eff 0, #0f5eff 20%,
+            #738CFF 20%, #738CFF 35%,
+            #0f5eff 35%, #0f5eff 55%,
+            #738CFF 55%, #738CFF 70%,
+            #0f5eff 70%, #0f5eff 90%,
+            #738CFF 90%, #738CFF
+    );
+    background-size: 46px 20px;
+}
+
+.elec-process-dashboard .board-container .card-detail .progress .progress-item > div
+.define-progress.has-error .el-progress-bar__inner {
     position: relative;
-    top: auto;
+}
+
+.elec-process-dashboard .board-container .card-detail .progress .progress-item > div
+.define-progress.has-error .el-progress-bar__inner::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 100%;
+    top: 0;
+    right: 0px;
+    background: #FA6A6A;
+    border-radius: 0 100px 100px 0;
+}
+
+.elec-process-dashboard .board-container .card-detail .progress .progress-item > div
+.define-progress.is-roll.has-error .el-progress-bar__inner::after {
+    background: linear-gradient(
+            -45deg,
+            #FA6A6A 0, #FA6A6A 20%,
+            #FB8E8E 20%, #FB8E8E 35%,
+            #FA6A6A 35%, #FA6A6A 55%,
+            #FB8E8E 55%, #FB8E8E 70%,
+            #FA6A6A 70%, #FA6A6A 90%,
+            #FB8E8E 90%, #FB8E8E
+    );
+    background-size: 46px 20px;
+}
+
+.elec-process-dashboard .board-container .card-detail .process-container .flow-legend {
+    position: absolute;
+    top: 0;
     left: auto;
     bottom: auto;
     right: auto;
 }
 
 .elec-process-dashboard .board-container .card-detail .process-container
-.flow-legend > span{
+.flow-legend > span {
     color: #666;
     font-size: 16px;
 }
@@ -249,6 +367,107 @@ p span.num {
     margin-right: 10px;
 }
 
+.elec-process-dashboard .board-container .card-detail .battery-container {
+    display: flex;
+    align-items: flex-end;
+    margin-left: 25%;
+}
+
+.elec-process-dashboard .board-container .card-detail .battery-container .container {
+    position: relative;
+    width: 170px;
+    height: 320px;
+    margin: 0 auto;
+    border: 10px solid #D7DBE4;
+    border-radius: 15px;
+}
+
+.elec-process-dashboard .board-container .card-detail .battery-container .header {
+    position: absolute;
+    width: 30px;
+    height: 15px;
+    left: 50%;
+    top: -15px;
+    transform: translate(-50%, -10px);
+    border-radius: 5px 5px 0 0;
+    background: #D7DBE4;
+}
+
+.elec-process-dashboard .board-container .card-detail .battery-container .battery-copy {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 150px;
+    height: 300px;
+    border-radius: 0;
+    overflow: hidden;
+}
+
+.elec-process-dashboard .board-container .card-detail .battery-container .battery {
+    position: relative;
+    height: 300px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.22);
+    background: #fff;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.elec-process-dashboard .board-container .card-detail .battery-container .battery::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #738CFF 0%, #4C6CFF 44%, #4C6CFF 100%);
+    border-radius: 0px 0px 5px 5px;
+    box-shadow: 0 14px 28px #E8EFFF, 0 10px 10px #BBD1FF;
+}
+
+.elec-process-dashboard .board-container .card-detail .battery-container .battery.is-mini::after {
+    height: 50%;
+}
+
+.elec-process-dashboard .board-container .card-detail.is-full .battery-container .battery::after {
+    background: #43DC4E;
+    box-shadow: 0 14px 28px #E8EFFF, 0 10px 10px #43DC4E;
+}
+
+.elec-process-dashboard .board-container .card-detail .battery-container .g-wave {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, .8);
+    border-radius: 45% 47% 44% 42%;
+    left: -50%;
+    top: -5%;
+    z-index: 1;
+    animation: wave-rotate 15s linear infinite;
+}
+
+.elec-process-dashboard .board-container .card-detail.is-full .battery-container .g-wave {
+    display: none;
+    animation: none;
+}
+
+.elec-process-dashboard .board-container .card-detail .battery-container .g-wave:nth-child(2) {
+    border-radius: 38% 46% 43% 47%;
+    transform: rotate(-135deg);
+}
+
+.elec-process-dashboard .board-container .card-detail .battery-container .g-wave:nth-child(3) {
+    border-radius: 42% 46% 37% 40%;
+    transform: rotate(135deg);
+}
+
+@keyframes wave-rotate {
+    100% {
+        transform: rotate(720deg);
+    }
+}
+
 .elec-process-dashboard .card-container {
     display: flex;
     flex-direction: row;
@@ -258,7 +477,7 @@ p span.num {
     width: 100%;
     height: 100%;
     padding: 0 60px;
-    overflow-y: auto;
+    overflow: hidden;
 }
 
 .elec-process-dashboard .card-container .module-card {
@@ -275,7 +494,7 @@ p span.num {
     box-shadow: none;
 }
 
-.elec-process-dashboard .card-container .module-card+.module-card {
+.elec-process-dashboard .card-container .module-card + .module-card {
     margin-left: 32px;
 }
 
@@ -349,6 +568,7 @@ p span.num {
 .elec-process-dashboard .card-container .module-card .content > p.imgContainer > em.fa.fa-clock-o {
     font-size: 30px;
 }
+
 /*=====================================
 
       elec-process 电子流程样式
@@ -386,6 +606,7 @@ p span.num {
 
 .elec-process > section > div {
     position: relative;
+    flex: none;
 }
 
 .elec-process > section.bottom-section {
@@ -551,7 +772,7 @@ p span.num {
     margin-left: 10px;
 }
 
-.elec-process .define-progress.el-progress--circle .el-progress__text{
+.elec-process .define-progress.el-progress--circle .el-progress__text {
     font-size: 12px;
     transform: scale(.8);
     top: calc(50% - 5px);
@@ -561,8 +782,12 @@ p span.num {
     stroke: #D7DBE4;
 }
 
-.elec-process .define-progress .el-progress__text{
-    font-size: 12px!important;
+.elec-process .define-progress .el-progress__text {
+    font-size: 12px !important;
+}
+
+.gf-ag-grid.ag-theme-balham .ag-row-selected .el-progress__text {
+    color: #fff;
 }
 
 .elec-process:not(.board-detail) .flow-container .stage-item + .stage-item::before {
@@ -577,7 +802,7 @@ p span.num {
 
 /* task-board样式 */
 .elec-process .top-section .flow-type,
-.elec-process .top-section .date-search{
+.elec-process .top-section .date-search {
     display: flex;
     align-items: center;
     margin-bottom: 5px;
@@ -588,12 +813,11 @@ p span.num {
     position: relative;
     width: 15px;
     height: 15px;
-    margin-left: 3px;
     cursor: pointer;
 }
 
 .elec-process .interval-list,
-.monitor-kpi-page .interval-list{
+.monitor-kpi-page .interval-list {
     position: absolute;
     width: 50px;
     top: 20px;
@@ -604,12 +828,12 @@ p span.num {
     border: 1px solid #E4E7ED;
     border-radius: 4px;
     background: #fff;
-    box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
     z-index: 100;
 }
 
 .elec-process .interval-list::before,
-.monitor-kpi-page .interval-list::before{
+.monitor-kpi-page .interval-list::before {
     content: '';
     display: block;
     position: absolute;
@@ -623,20 +847,20 @@ p span.num {
     transform: rotate(-45deg);
 }
 
-.elec-process .interval-list>li:hover,
-.monitor-kpi-page .interval-list>li:hover{
+.elec-process .interval-list > li:hover,
+.monitor-kpi-page .interval-list > li:hover {
     background-color: #F5F7FA;
 }
 
-.elec-process .interval-list>li.is-select,
-.monitor-kpi-page .interval-list>li.is-select{
+.elec-process .interval-list > li.is-select,
+.monitor-kpi-page .interval-list > li.is-select {
     position: relative;
     color: #0f5eff;
     background: #f3f8ff;
 }
 
-.elec-process .interval-list>li.is-select::before,
-.monitor-kpi-page .interval-list>li.is-select::before {
+.elec-process .interval-list > li.is-select::before,
+.monitor-kpi-page .interval-list > li.is-select::before {
     position: absolute;
     content: '';
     border: 5px solid transparent;
@@ -645,7 +869,7 @@ p span.num {
     top: 4px;
 }
 
-.elec-process .top-section .task-board{
+.elec-process .top-section .task-board {
     flex: 1;
     width: 100%;
 }
@@ -714,7 +938,7 @@ p span.num {
     border: none;
 }
 
-.elec-process .exec-type .el-checkbox.is-bordered+.el-checkbox.is-bordered {
+.elec-process .exec-type .el-checkbox.is-bordered + .el-checkbox.is-bordered {
     margin-left: 1px;
 }
 
@@ -726,11 +950,11 @@ p span.num {
     padding-left: 0;
 }
 
-.elec-process .exec-type .el-checkbox.is-bordered .el-checkbox__label>em {
+.elec-process .exec-type .el-checkbox.is-bordered .el-checkbox__label > em {
     vertical-align: middle;
 }
 
-.elec-process .exec-type .el-checkbox.is-bordered .el-checkbox__label>em>svg {
+.elec-process .exec-type .el-checkbox.is-bordered .el-checkbox__label > em > svg {
     width: 14px;
     margin-right: 3px;
 }
@@ -830,8 +1054,8 @@ p span.num {
     top: 0;
 }
 
-.gf-page-drawer.elec-dashboard-drawer.full-screen .el-drawer{
-    width: 100%!important;
+.gf-page-drawer.elec-dashboard-drawer.full-screen .el-drawer {
+    width: 100% !important;
 }
 
 .gf-page-drawer.elec-dashboard-drawer.full-screen .el-drawer__header {
@@ -853,7 +1077,7 @@ p span.num {
     border-color: #fff;
 }
 
-.elec-process.board-detail>.full-screen-btn {
+.elec-process.board-detail > .full-screen-btn {
     width: 20px;
     height: 20px;
     position: absolute;
@@ -862,7 +1086,7 @@ p span.num {
     cursor: pointer;
 }
 
-.elec-process .drag-container .right .full-screen-btn{
+.elec-process .drag-container .right .full-screen-btn {
     width: 19px;
     height: 19px;
     cursor: pointer;
@@ -870,7 +1094,7 @@ p span.num {
 }
 
 .gf-page-drawer.elec-dashboard-drawer.full-screen
-.elec-process.board-detail>.full-screen-btn>i>svg>path {
+.elec-process.board-detail > .full-screen-btn > i > svg > path {
     fill: #ffffff;
 }
 
@@ -918,7 +1142,7 @@ p span.num {
     margin-top: 5px;
 }
 
-.elec-process.board-detail .process-list>.process-item {
+.elec-process.board-detail .process-list > .process-item {
     border: none;
 }
 
@@ -981,7 +1205,7 @@ p span.num {
     border-left-color: #E8EAEF;
 }
 
-.elec-process.board-detail .process-item .process-item-title>.title,
+.elec-process.board-detail .process-item .process-item-title > .title,
 .elec-process.board-detail .stage-item .stage-item-title > span.title {
     display: flex;
     position: relative;
@@ -1000,7 +1224,7 @@ p span.num {
     padding: 0 10px;
 }
 
-.elec-process.board-detail .stage-item .stage-item-title > span.title>span>.name {
+.elec-process.board-detail .stage-item .stage-item-title > span.title > span > .name {
     max-width: 90px;
     display: inline-block;
     text-overflow: ellipsis;
@@ -1008,11 +1232,11 @@ p span.num {
     vertical-align: bottom;
 }
 
-.elec-process.board-detail .stage-item .stage-item-title > span.title>span>.num {
+.elec-process.board-detail .stage-item .stage-item-title > span.title > span > .num {
     margin-left: 5px;
 }
 
-.elec-process.board-detail .stage-item .stage-item-title > span.title>span.status {
+.elec-process.board-detail .stage-item .stage-item-title > span.title > span.status {
     position: absolute;
     top: 10px;
     right: -10px;
@@ -1021,12 +1245,12 @@ p span.num {
     z-index: 1;
 }
 
-.elec-process.board-detail .process-item .process-item-title>.title > .title-input,
+.elec-process.board-detail .process-item .process-item-title > .title > .title-input,
 .elec-process.board-detail .stage-item .stage-item-title > span.title > .title-input {
     flex: 1;
 }
 
-.elec-process.board-detail .process-item .process-item-title>.title > .title-input > input,
+.elec-process.board-detail .process-item .process-item-title > .title > .title-input > input,
 .elec-process.board-detail .stage-item .stage-item-title > .title > .title-input > input {
     height: 20px;
     line-height: 20px;
@@ -1037,7 +1261,7 @@ p span.num {
     text-overflow: ellipsis;
 }
 
-.elec-process.board-detail .process-item .process-item-title>.title > .title-input.is-disabled > input,
+.elec-process.board-detail .process-item .process-item-title > .title > .title-input.is-disabled > input,
 .elec-process.board-detail .stage-item .stage-item-title > span.title > .title-input.is-disabled > input {
     font-size: 12px;
     color: inherit;
@@ -1048,7 +1272,7 @@ p span.num {
     cursor: pointer;
 }
 
-.elec-process.board-detail .process-item.step-group .process-item-title>.title > .title-input.is-disabled > input {
+.elec-process.board-detail .process-item.step-group .process-item-title > .title > .title-input.is-disabled > input {
     font-weight: normal;
 }
 
@@ -1077,7 +1301,7 @@ p span.num {
     cursor: pointer;
 }
 
-.elec-process.board-detail .step-comp> .status {
+.elec-process.board-detail .step-comp > .status {
     display: inline-block;
     position: absolute;
     right: 5px;
@@ -1098,28 +1322,28 @@ p span.num {
     height: 33px;
 }
 
-.elec-process.board-detail .step-comp > .step-icon>svg {
+.elec-process.board-detail .step-comp > .step-icon > svg {
     width: 22px;
     height: 20px;
 }
 
-.elec-process.board-detail .step-comp > .step-icon.person>svg {
+.elec-process.board-detail .step-comp > .step-icon.person > svg {
     width: 22px;
     height: 18px;
     fill: #666;
 }
 
-.elec-process.board-detail .step-comp > .step-icon.indicator>svg {
+.elec-process.board-detail .step-comp > .step-icon.indicator > svg {
     width: 25px;
     height: 25px;
     fill: #DB713E;
 }
 
-.elec-process.board-detail .step-comp > .step-icon.robot>svg {
+.elec-process.board-detail .step-comp > .step-icon.robot > svg {
     fill: #67c23a;
 }
 
-.elec-process.board-detail .step-comp > .step-icon.process>svg {
+.elec-process.board-detail .step-comp > .step-icon.process > svg {
     fill: #0f5eff;
 }
 
@@ -1171,12 +1395,12 @@ p span.num {
 
 .elec-process-dashboard .drag-column .close-container:hover .el-icon-circle-close:hover,
 .elec-process.board-detail > section .bottom.left > .drag-column
-.close-container:hover .el-icon-circle-close:hover{
+.close-container:hover .el-icon-circle-close:hover {
     color: #ccc;
 }
 
 .elec-process-dashboard .drag-column .drag-container,
-.elec-process.board-detail .drag-column .drag-container{
+.elec-process.board-detail .drag-column .drag-container {
     width: 100%;
     height: 450px;
     min-height: 300px;

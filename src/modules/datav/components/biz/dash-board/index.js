@@ -14,6 +14,7 @@ import linkMan from './comp-linkman'
 import productComp from './comp-product'
 import channelComp from './comp-channel'
 import AgnesCalendar from './agnes-calendar'
+import commonSearchPanel from './common-search-panel'
 
 const Loading = {
     install: function (Vue) {
@@ -33,6 +34,7 @@ const Loading = {
         Vue.component('comp-product', productComp)
         Vue.component('comp-channel', channelComp)
         Vue.component('agnes-calendar', AgnesCalendar)
+        Vue.component('common-search-panel', commonSearchPanel)
     }
 };
 

@@ -19,16 +19,17 @@
 <template>
     <draggable class="menuContent" :list="draggableList" group="unitGroup" :disabled="dragDisabled"
         @start="gridUnitDragStart(draggableList)" @end="gridUnitDragEnd" @add="gridUnitDragAdd(draggableList,$event)">
-        <div v-for="(unit,unitIndex) in draggableList" :key="unit.id">
+        <div :class="{nonePadding: unit.type === 'common-search-panel'}" v-for="(unit,unitIndex) in draggableList" :key="unit.id">
             <template v-if="unitIndex == 0">
                 <span class="delUnitGrid" @click="delContent" v-if="ifCloseIconShow">
                     <em class="fa fa-close"></em>
                 </span>
-                <span class="compEntrance" v-if="unit.arrowShow">
-                    <em class="el-icon-refresh" v-if="unit.type === 'calendar-def'" @click="calendarRefresh"></em>
-                    <em class="fa fa-angle-right" v-else @click="entranceMenu(unit)"></em>
-                </span>
-                <module-card :title="unit.label">
+<!--                <span class="compEntrance" v-if="unit.arrowShow">-->
+<!--                    <em class="el-icon-refresh" v-if="unit.type === 'calendar-def'" @click="calendarRefresh"></em>-->
+<!--                    <em class="fa fa-angle-right" v-else @click="entranceMenu(unit)"></em>-->
+<!--                </span>-->
+                <common-search-panel v-if="unit.type === 'common-search-panel'"></common-search-panel>
+                <module-card v-else :title="unit.label">
                     <template slot="content">
                         <slot name="group-content" :unitData="unit"></slot>
                     </template>

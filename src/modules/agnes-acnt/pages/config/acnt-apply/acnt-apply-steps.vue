@@ -121,13 +121,19 @@
     .pro-title {
         line-height: 32px;
         background: #EFF3FC;
-        margin: 0 -20px 10px;
+        margin-bottom: 10px;
         padding-left: 20px;
         border-radius: 8px 8px 0 0;
     }
 
+    .el-step.is-vertical {
+        flex: none;
+        padding: 0 20px;
+    }
+
     .step-vertical.el-steps.el-steps--vertical {
-        height: auto;
+        height: 100%;
+        overflow-y: auto;
     }
 
     .step-vertical .el-step__head .el-step__icon {

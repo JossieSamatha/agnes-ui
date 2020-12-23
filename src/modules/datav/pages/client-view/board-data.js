@@ -1,22 +1,12 @@
-const guestInfo = [
-    {label: '客户名称', value: 'XXXXXXXXX银行'},
-    {label: '客户类型', value: '商业银行'},
-    {label: '组织机构代码', value: 'XXXXXXXXX'},
-    {label: '客户属性', value: 'XXXXXXXXX'},
-    {label: '客户名称', value: 'XXXXXXXXX银行'},
-    {label: '客户类型', value: '商业银行'},
-    {label: '组织机构代码', value: 'XXXXXXXXX'},
-    {label: '客户属性', value: 'XXXXXXXXX'},
-];
-
 const gridLayoutType = [
-    {"x": 0, "y": 0, "w": 4, "h": 3, "i": "2020040900"},
-    {"x": 4, "y": 0, "w": 4, "h": 3, "i": "2020040901"},
-    {"x": 8, "y": 0, "w": 4, "h": 3, "i": "2020040902"},
-    {"x": 0, "y": 3, "w": 4, "h": 3, "i": "2020040903"},
-    {"x": 4, "y": 3, "w": 4, "h": 3, "i": "2020040904"},
-    {"x": 8, "y": 3, "w": 4, "h": 3, "i": "2020040905"}
-];
+    {"x":8,"y":0,"w":4,"h":7,"i":"20201222011"},
+    {"x":0,"y":1,"w":8,"h":5,"i":"20201222012"},
+    {"x":8,"y":11,"w":4,"h":6,"i":"20201222013"},
+    {"x":0,"y":6,"w":8,"h":5,"i":"20201222014"},
+    {"x":0,"y":11,"w":8,"h":6,"i":"20201222015"},
+    {"x":0,"y":0,"w":8,"h":1,"i":"20201222016"},
+    {"x":8,"y":7,"w":4,"h":4,"i":"BJdcWY"}
+    ];
 
 const gridLayoutType2 = [
     {"x": 0, "y": 0, "w": 4, "h": 3, "i": "09040011"},
@@ -32,7 +22,15 @@ const gridLayoutType3 = [
     {"x": 4, "y": 0, "w": 2, "h": 4, "i": "2020003"},
     {"x": 6, "y": 4, "w": 2, "h": 2, "i": "2020004"},
     {"x": 4, "y": 4, "w": 2, "h": 2, "i": "2020005"}
-]
+];
+
+const gridLayoutNewStyle = [
+    {"x":8,"y":0,"w":4,"h":10,"i":"2020122201"},
+    {"x":0,"y":1,"w":8,"h":5,"i":"2020122202"},
+    {"x":8,"y":10,"w":4,"h":6,"i":"2020122203"},
+    {"x":0,"y":6,"w":8,"h":4,"i":"2020122204"},
+    {"x":0,"y":10,"w":8,"h":6,"i":"2020122205"},
+    {"x":0,"y":0,"w":8,"h":1,"i":"2020122206"}]
 
 const boardArrDefault = [
     {
@@ -40,7 +38,7 @@ const boardArrDefault = [
         boardData: gridLayoutType
     }, {
         boardId: '202004002',
-        boardData: gridLayoutType2
+        boardData: gridLayoutNewStyle
     },
 ];
 
@@ -65,19 +63,7 @@ const boardStyleArr = [
         img: 'unit01'
     },
     {
-        id: '5', label: '我的待办',
-        type: 'my-todolist',
-        menuId: 'agnes.app.task.todo',
-        arrowShow: true,
-        data: {},
-        img: 'unit05'
-    },
-    {
-        id: '6', label: '我的消息',
-        type: 'comp-notice',
-        menuId: 'agnes.app.message.mgr',
-        arrowShow: true,
-        data: {},
+        id: '6', label: '我的首页',
         img: 'unit05'
     },
     {
@@ -94,7 +80,15 @@ const boardStyleArr = [
         img: 'unit03'
     },
     {
-        id: '7', label: '异常事项',
+        id: '5', label: '我的待办',
+        type: 'my-todolist',
+        menuId: 'agnes.app.task.todo',
+        arrowShow: true,
+        data: {},
+        img: 'unit05'
+    },
+    {
+        id: '7', label: '我的异常',
         type: 'comp-event',
         menuId: 'agnes.app.monitor.error',
         arrowShow: true,
@@ -104,13 +98,16 @@ const boardStyleArr = [
         img: 'unit05'
     },
     {
-        id: '10', label: '风险事项',
-        type: 'comp-event',
-        menuId: 'agnes.app.monitor.risk',
+        id: '10', label: '全局搜索',
+        type: 'common-search-panel',
+        img: 'unit05'
+    },
+    {
+        id: '8', label: '我的消息',
+        type: 'comp-notice',
+        menuId: 'agnes.app.message.mgr',
         arrowShow: true,
-        data: {
-            compType: 'risk'
-        },
+        data: {},
         img: 'unit05'
     },
 ];
@@ -163,16 +160,21 @@ const boardStyleDep = [
         arrowShow: true,
         data: {},
         img: 'unit05'
-    }
+    },
+    {
+        id: '5', label: '全局搜索',
+        type: 'common-search-panel',
+        img: 'unit05'
+    },
 ];
 
 export default {
-    guestInfo: guestInfo,
-    gridLayoutType: gridLayoutType,
-    gridLayoutType2: gridLayoutType2,
-    gridLayoutType3: gridLayoutType3,
-    boardArrDefault: boardArrDefault,
-    boardArrDefine: boardArrDefine,
-    boardStyleArr: boardStyleArr,
-    boardStyleDep: boardStyleDep
+    gridLayoutType,
+    gridLayoutType2,
+    gridLayoutType3,
+    gridLayoutNewStyle,
+    boardArrDefault,
+    boardArrDefine,
+    boardStyleArr,
+    boardStyleDep
 }

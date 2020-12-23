@@ -14,7 +14,7 @@
 
 .datav_client_view .el-dialog .el-dialog__header {
     text-align: left;
-    padding: 5px 15px;
+    padding: 10px 15px;
     border-bottom: 1px solid #A8AED3;
 }
 
@@ -112,26 +112,17 @@
 }
 
 .datav_client_view .indexPage .el-card.module-card .el-card__header {
-    padding: 5px 10px;
-    border-bottom: 1px solid #EAEAEA;
+    padding: 0 0 25px 0;
+}
+
+.datav_client_view .indexPage .vue-grid-item.rightPined .el-card.module-card .el-card__header {
+    padding: 25px 0;
 }
 
 .datav_client_view .el-card.module-card .el-card__header .clearfix>span {
     position: relative;
-    margin-left: 10px;
-    font-size: 14px;
+    font-size: 16px;
     color: #333;
-}
-
-.datav_client_view .el-card.module-card .el-card__header .clearfix>span:before{
-    display: block;
-    position: absolute;
-    content: '';
-    width: 3px;
-    height: 14px;
-    background: #0f5eff;
-    left: -10px;
-    top: 2px;
 }
 
 .datav_client_view .el-card.module-card .el-card__header .headOption{
@@ -302,14 +293,29 @@
 
 ==============================*/
 .datav_client_view {
+    position: relative;
     display: flex;
     flex-direction: column;
     height: 100%;
+    background: #F3F7FF!important;
+}
+
+.datav_client_view .split-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(66.66% - 15px);
+    height: 100%;
+    background: #fff;
+    border-radius: 0 30px 30px 0;
 }
 
 .datav_client_view .topPanel {
+    position: fixed;
+    right: 30px;
     height: 20px;
     margin-bottom: 5px;
+    z-index: 1000;
 }
 
 .datav_client_view .topPanel .optionPanel{
@@ -366,7 +372,6 @@
 .datav_client_view .gridContainer{
     position: relative;
     flex: 1;
-    /*background: #f2f2f2;*/
     overflow: hidden;
 }
 
@@ -484,20 +489,30 @@
 }
 
 .datav_client_view .gridContainer .vue-grid-layout {
-    width: 100%;
-    height: 100%;
+    width: auto;
+    height: calc(100% - 30px);
+    margin-left: -20px;
 }
 
 .datav_client_view .vue-grid-item.cssTransforms {
     background: #fff;
-    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.06);
+}
+
+.datav_client_view .indexPage .vue-grid-item.cssTransforms {
+    border-radius: 14px;
+}
+
+.datav_client_view .indexPage.edit .vue-grid-item.cssTransforms,
+.datav_client_view .indexPage.define .vue-grid-item.cssTransforms {
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item .menuContent {
     position: relative;
     min-height: 100%;
     max-height: 100%;
-    padding: 5px;
+    padding: 24px;
     overflow: hidden;
 }
 
@@ -505,12 +520,6 @@
 .menuContent {
     cursor: grab;
 }
-
-.datav_client_view .gridContainer.edit .vue-grid-layout .vue-grid-item
-.menuContent:hover {
-    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.24);
-}
-
 
 .datav_client_view .boardChoose .boardContainer .delUnitGrid,
 .datav-block .vue-grid-layout .vue-grid-item .delUnitGrid,
@@ -534,11 +543,18 @@
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
 .menuContent>div {
     position: absolute;
-    top: 0px;
-    left: 5px;
-    width: calc(100% - 10px);
-    height: calc(100% - 5px);
+    top: 0;
+    left: 24px;
+    width: calc(100% - 48px);
+    height: 100%;
 }
+
+/*.datav_client_view .gridContainer .vue-grid-layout .vue-grid-item*/
+/*.menuContent>div.nonePadding {*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    height: 100%;*/
+/*}*/
 
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
 .menuContent .el-card.module-card {
@@ -576,7 +592,12 @@
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
 .menuContent .el-card.module-card .el-card__body {
     overflow: scroll;
-    height: calc(100% - 31px);
+    height: calc(100% - 44px);
+}
+
+.datav_client_view .gridContainer .vue-grid-layout .vue-grid-item.rightPined
+.menuContent .el-card.module-card .el-card__body {
+    height: calc(100% - 92px);
 }
 
 .datav_client_view.datavBoard {
@@ -876,5 +897,6 @@ span.el-input__suffix .el-input__icon {
 
 .vue-grid-layout {
     height: 100%;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
