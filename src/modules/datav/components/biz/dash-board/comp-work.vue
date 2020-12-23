@@ -12,8 +12,8 @@
         </div>
         <div>Tel:{{ item.oTel }}</div>
       </div>
-      <div class="task-time">
-        <div>{{ getRosterType(item.rosterType) }}</div>
+      <div class="notice-state">
+        <div @click="showRoster(item)">{{ getRosterType(item.rosterType) }}</div>
       </div>
     </div>
   </div>
@@ -54,6 +54,15 @@ export default {
   },
 
   methods: {
+    showRoster(item) {
+      let depViewId = 'agnes.dop.roster';
+      let depView = this.$app.views.getView(depViewId);
+      let depTabView = Object.assign({
+        args: {rosterType: item.rosterType, pageType: this.moduleObj.pageType},
+        id: depViewId
+      }, depView);
+      this.$nav.showView(depTabView);
+    },
     getImgPath(val) {
       if (val.includes("00") && !val.includes("-")) {
         return require("../../../assets/sun.png")
@@ -63,7 +72,10 @@ export default {
         return require("../../../assets/key.png")
       } else if (val.includes("-03")) {
         return require("../../../assets/recheck.png")
+      } else {
+        return require("../../../assets/moon.png")
       }
+
     },
 
     getRosterType(rosterTypeId) {
@@ -112,5 +124,10 @@ export default {
 
 .task-time > div:nth-child(2) {
   color: #ccc;
+}
+
+.notice-state {
+  font-size: 12px;
+  color: #999;
 }
 </style>

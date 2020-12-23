@@ -173,23 +173,28 @@
                 this.executeKpi()
             },
             async onExtendButton(){//点击强制通过的事件
-                const ok = await this.$refs['form'].validate();
-                if (!ok) {
-                    return;
+              if (this.row.allowManualConfirm && this.row.allowManualConfirm === '1' && this.type === 'todo') {
+                if (this.form.remark === null || this.form.remark === '') {
+                  this.$msg.warning('请填写备注');
                 }
-                    this.taskCommit.stepInfo.remark = this.form.remark;
-                    this.taskCommit.stepInfo.stepStatus = "07";
-                    this.taskCommit.stepInfo.jobId = this.row.jobId;
-                    this.taskCommit.stepInfo.bizDate = this.row.bizDt;
-                    try {
-                        const p = this.$api.taskTodoApi.confirmKpiTask(this.taskCommit)
+              }
+              const ok = await this.$refs['form'].validate();
+              if (!ok) {
+                return;
+              }
+              this.taskCommit.stepInfo.remark = this.form.remark;
+              this.taskCommit.stepInfo.stepStatus = "07";
+              this.taskCommit.stepInfo.jobId = this.row.jobId;
+              this.taskCommit.stepInfo.bizDate = this.row.bizDt;
+              try {
+                const p = this.$api.taskTodoApi.confirmKpiTask(this.taskCommit)
                         const resp = await this.$app.blockingApp(p);
                         if (resp.data) {
-                            if (this.actionOk) {
-                                await this.actionOk();
-                            }
-                            this.$msg.success('提交成功');
-                            this.$emit("onClose");
+                          this.$msg.success('提交成功');
+                          if (this.actionOk) {
+                            await this.actionOk();
+                          }
+                          this.$emit("onClose");
                         } else {
                             this.$msg.warning('提交失败');
                         }
@@ -242,12 +247,12 @@
                 kpiTaskReq.bizDate = this.row.bizDt;
                 kpiTaskReq.taskId = _this.row.taskId;
                 this.$api.kpiDefineApi.execTask(kpiTaskReq).then((resp) => {
-                    if(resp.status){
-                        _this.$message.success(resp.message);
-                        _this.reloadData();
-                    } else{
-                        _this.$message.error(resp.message);
-                    }
+                  if (resp.data.status) {
+                    _this.$message.success(resp.data.message);
+                    _this.reloadData();
+                  } else {
+                    _this.$message.error(resp.data.message);
+                  }
                 });
             },
             getPicData(rows,keys){

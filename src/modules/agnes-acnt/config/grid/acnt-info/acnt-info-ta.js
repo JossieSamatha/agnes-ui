@@ -14,12 +14,15 @@ const colButtons = [
             }
             return result;}, visiable: () => {
             return Permission.hasPermission('agnes.acnt.info.ta.delete');
+        }},
+    {key: 'logicDelete', title: '删除', visiable: () => {
+            return Permission.hasPermission('agnes.acnt.info.ta.logicDelete');
         }}
 ];
 
 export default {
     columnDefs: [
-        column.buildOpCol(100, colButtons),
+        column.buildOpCol(130, colButtons),
         {headerName: "账户名称", field: "acntName"},
         {headerName: "账户类型", field: "typeName"},
 

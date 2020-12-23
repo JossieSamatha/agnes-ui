@@ -2,11 +2,13 @@
     <el-upload
                action="/api/ecm-server/ecm/doc/upload"
                :data="uploadData"
+               ref="upload"
                :before-upload="checkFile"
                :on-progress="uploadProgress"
                :on-success="uploadSuccess"
                :on-error="uploadError"
                :on-exceed="sizeExp"
+               :show-file-list="false"
                :multiple="false"
                :limit="1"
                accept=".xlsx,.xls"
@@ -41,18 +43,18 @@
                 docId:'',
                 folderTag: '2'
             };
-            this.fileName = this.resName;
-            this.alanyId = this.ifPkId;
         },
         methods: {
             //上传之前
             checkFile(file) {
+                this.fileName = this.resName;
+                this.alanyId = this.ifPkId;
                 this.uploadFileLoading = true;
                 var fileType=file.name.substring(file.name.lastIndexOf('.')+1);
                 const isOffice = fileType ==='xls'||fileType ==='xlsx';
                 let isHasData = this.fileName != '' && this.alanyId != '';
                 if (!isOffice) {
-                    this.$msg.error('上传文件必须为如下格式：xls,xlsx');
+                    this.$msg.error('导入文件必须为如下格式：xls,xlsx');
                     this.uploadFileLoading = false;
                 }
                 if (!isHasData) {
@@ -74,30 +76,35 @@
             },
             //上传错误
             uploadError() {
-                this.$msg.error('上传失败!');
+                this.$msg.error('导入失败!');
                 this.uploadFileLoading = false;
+                this.$refs.upload.clearFiles();
             },
             //文件大小错误
             sizeExp() {
                 this.$msg.warning('文件超出大小!');
+                this.uploadFileLoading = false;
+                this.$refs.upload.clearFiles();
             },
             FormatError() {
                 this.$msg.warning("文件格式不对!");
+                this.uploadFileLoading = false;
+                this.$refs.upload.clearFiles();
             },
             //上传成功后
             async uploadSuccess(resp) {
                 if (resp.status) {
-                    this.uploadData.docId = resp.data.objectId;
-                    let resp = await this.$api.funcConfigApi.inputTable({'docId':this.uploadData.docId,'resName':this.fileName,'ifPkId':this.ifPkId});
-                    if(resp.code=='inputError'){
-                        this.$msg.error('上传失败!');
+                    let resp2 = await this.$api.funcConfigApi.inputTable({'docId':resp.data.objectId,'resName':this.fileName,'ifPkId':this.ifPkId});
+                    if(resp2.code=='inputError'){
+                        this.$msg.error('导入失败!');
                         return ;
                     }
-                    this.$msg.success('上传成功!');
+                    this.$msg.success('导入成功!');
                 } else {
-                    this.$msg.error('上传失败!');
+                    this.$msg.error('导入失败!');
                 }
                 this.uploadFileLoading = false;
+                this.$refs.upload.clearFiles();
             },
 
         },

@@ -19,4 +19,7 @@ export default {
     getAcntRuAccNoRefListByAcntId(form) {
         return request.post(`agnes-app/v1/acnt/info/list/acc-no/by-acnt-id`,form);
     },
+    logicDelete(acntId) {
+        return request.post("/agnes-app/v1/acnt/info/logicDelete", null, {params: {acntId}});
+    },
 };

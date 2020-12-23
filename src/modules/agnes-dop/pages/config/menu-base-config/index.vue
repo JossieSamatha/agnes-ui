@@ -20,25 +20,27 @@
                   border
                   height="100%">
             <el-table-column
-                    label="菜单名称" prop="resName">
+                    label="菜单名称"
+                    width="400"
+                    prop="resName">
             </el-table-column>
             <el-table-column
                     label="是否需要回收"
-                    width="170">
+                    width="180">
                 <template slot-scope="scope">
                     <gf-strbool-checkbox v-model="scope.row.isNeedRecover"></gf-strbool-checkbox>
                 </template>
             </el-table-column>
             <el-table-column
                     label="是否需要复核"
-                    width="170">
+                    width="180">
                 <template slot-scope="scope">
                     <gf-strbool-checkbox v-model="scope.row.isNeedCheck"></gf-strbool-checkbox>
                 </template>
             </el-table-column>
             <el-table-column
                     label="导入"
-                    width="170">
+                    width="300">
                 <template slot-scope="scope">
                     <el-select v-model="scope.row.inputParam" placeholder="请选择" filterable clearable style="width: 100%">
                         <gf-filter-option
@@ -52,7 +54,7 @@
             </el-table-column>
             <el-table-column
                     label="导出"
-                    width="170">
+                    width="300">
                 <template slot-scope="scope">
                     <el-select v-model="scope.row.outputParam" placeholder="请选择" filterable clearable style="width: 100%">
                         <gf-filter-option
@@ -66,7 +68,7 @@
             </el-table-column>
             <el-table-column
                     label="帮助文档"
-                    width="170">
+                    width="180">
                 <template slot-scope="scope">
                     <em class="edit-btn fa fa-edit" @click="editHelpContent(scope.row)"></em>
                 </template>

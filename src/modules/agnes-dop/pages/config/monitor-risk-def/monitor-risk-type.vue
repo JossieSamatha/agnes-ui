@@ -72,7 +72,7 @@
                         await this.$app.blockingApp(dealRisk);
                         this.$msg.success('保存成功');
                     }else if(this.ui==="2"){
-                        let checkRisk = this.$api.monitorRiskApi.checkRisk("02",this.form);
+                        let checkRisk = this.$api.monitorRiskApi.checkRisk("04", this.form);
                         await this.$app.blockingApp(checkRisk);
                         this.$msg.success('审核通过');
                     }else {
