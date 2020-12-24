@@ -184,11 +184,8 @@
                 intervalList: [{label: '1分钟', value: 1}, {label: '3分钟', value: 3}, {label: '5分钟', value: 5}],
                 intervalListShow: false,
                 execTypeChecked: ['OVERTIME', 'EXCEPTION'],
-                execTypeOp: [{id: 'AHEAD', label: '提前', icon: 'executing'}, {
-                    id: 'FINISHED',
-                    label: '完成',
-                    icon: 'finish'
-                },
+                execTypeOp: [
+                    {id: 'AHEAD', label: '提前', icon: 'executing'}, {id: 'FINISHED', label: '完成', icon: 'finish'},
                     {id: 'OVERTIME', label: '超时', icon: 'outTime'}, {id: 'EXCEPTION', label: '异常', icon: 'abnormal'}
                 ],
                 taskIdList: [],

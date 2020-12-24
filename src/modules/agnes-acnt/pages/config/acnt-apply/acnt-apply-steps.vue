@@ -8,14 +8,17 @@
                         v-if="step.stepId !== '09'"
                 >
                     <template slot="icon">
-                        <span v-html="lcImg[step.stepIcon]"></span>
+                        <svg-icon :name="step.stepIcon"></svg-icon>
                     </template>
                     <template slot="title">
                         <span>{{step.stepTitle}}</span>
                         <span v-show="activeStep===stepIndex && canObsolete"
                               class="obsolete-step"
                               @click.prevent.stop="stepDelete"
-                        ><span v-html="lcImg.obsolete"></span>作废</span>
+                        >
+                            <svg-icon name="obsolete" />
+                            <span>作废</span>
+                        </span>
                     </template>
                 </el-step>
             </template>
@@ -35,14 +38,14 @@
                 lcImg: this.$lcImg,
                 stepStatusArr: this.$app.dict.getDictItems('AGNES_ACNT_APPLY_STATUS'),
                 iconMap: {
-                    '01': 'proStart', // 发起申请（编辑）
-                    '02': 'proCheck', // 复核（审核）
-                    '03': 'proSubmit', // 提交OA（/）
-                    '04': 'proPrepare', // 资料准备（审核）
-                    '05': 'proFinancial', // 财务流程（审核）
-                    '06': 'proAccount', // 账户信息录入（编辑）
-                    '07': 'proCheck', // 账户信息复核（审核）
-                    '08': 'proArchive', // 归档()
+                    '01': 'launch-apply', // 发起申请（编辑）
+                    '02': 'check-apply', // 复核（审核）
+                    '03': 'submit-OA', // 提交OA（/）
+                    '04': 'doc-complete', // 资料准备（审核）
+                    '05': 'financial-pro', // 财务流程（审核）
+                    '06': 'info-typeIn', // 账户信息录入（编辑）
+                    '07': 'info-check', // 账户信息复核（审核）
+                    '08': 'archive-files', // 归档()
                     '09': 'proObsolete', // 作废
                 },
                 editPermission:  this.$hasPermission('agnes.acnt.apply.edit'),
@@ -140,22 +143,15 @@
         border: none;
     }
 
-    .step-vertical .el-step__head .el-step__icon>span {
-        display: block;
-        width: 21px;
-        height: 21px;
-        text-align: center;
-    }
-
-    .step-vertical .el-step__head.is-process .el-step__icon>span>svg {
+    .step-vertical .el-step__head.is-process .el-step__icon>.svg-icon>svg {
         fill: #0F5EFF;
     }
 
-    .step-vertical .el-step__head.is-finish .el-step__icon>span>svg {
+    .step-vertical .el-step__head.is-finish .el-step__icon>.svg-icon>svg {
         fill: #1CAD26;
     }
 
-    .step-vertical .el-step__head.is-wait .el-step__icon>span>svg {
+    .step-vertical .el-step__head.is-wait .el-step__icon>.svg-icon>svg {
         fill: #ccc;
     }
 
@@ -210,6 +206,9 @@
     }
 
     .obsolete-step {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         position: absolute;
         color: #f5222e;
         left: 0;
@@ -218,17 +217,10 @@
         border-radius: 4px;
         width: 72px;
         height: 26px;
-        line-height: 24px;
-        text-align: center;
     }
 
     .obsolete-step>span {
-        display: inline-block;
-        width: 15px;
-        height: 15px;
-        line-height: 0;
-        vertical-align: text-top;
-        margin-right: 5px;
+        margin-left: 5px;
     }
 
 </style>

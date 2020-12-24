@@ -25,12 +25,13 @@ const gridLayoutType3 = [
 ];
 
 const gridLayoutNewStyle = [
-    {"x":8,"y":0,"w":4,"h":10,"i":"2020122201"},
-    {"x":0,"y":1,"w":8,"h":5,"i":"2020122202"},
-    {"x":8,"y":10,"w":4,"h":6,"i":"2020122203"},
-    {"x":0,"y":6,"w":8,"h":4,"i":"2020122204"},
-    {"x":0,"y":10,"w":8,"h":6,"i":"2020122205"},
-    {"x":0,"y":0,"w":8,"h":1,"i":"2020122206"}]
+    {"x":0,"y":0,"w":8,"h":1,"i":"2020122206"},
+    {"x":0,"y":1,"w":8,"h":4,"i":"2020122202"},
+    {"x":0,"y":5,"w":8,"h":3,"i":"2020122204"},
+    {"x":0,"y":8,"w":8,"h":5,"i":"2020122205"},
+    {"x":8,"y":0,"w":4,"h":8,"i":"2020122201"},
+    {"x":8,"y":8,"w":4,"h":5,"i":"2020122203"}
+];
 
 const boardArrDefault = [
     {
@@ -114,18 +115,13 @@ const boardStyleArr = [
 
 const boardStyleDep = [
     {
-        id: '0', label: '运营日历',
-        type: 'calendar-def',
-        data: {
-            calendarVal: '',
-            module: 'datav.dep.view',
-            pageType: 'department'
-        },
-        img: 'unit01'
+        id: '5', label: '全局搜索',
+        type: 'common-search-panel',
+        img: 'unit05'
     },
     {
-        id: '1', label: '今日排班',
-        type: 'comp-work',
+        id: '1', label: '今日总体工作完成情况',
+        type: 'table-pie',
         menuId: 'agnes.dop.roster',
         moduleArgs: {
             pageType: 'department'
@@ -137,16 +133,16 @@ const boardStyleDep = [
         img: 'unit05'
     },
     {
-        id: '2', label: '外部联系人',
-        type: 'comp-lineman',
+        id: '2', label: '今日主要流程完成情况',
+        type: 'gauge-comp',
         menuId: 'agnes.dop.linkman',
         arrowShow: true,
         data: {},
         img: 'unit05'
     },
     {
-        id: '3', label: '产品信息',
-        type: 'comp-product',
+        id: '3', label: '消息栏',
+        type: 'strip-comp',
         menuId: 'agnes.dop.product.def',
         arrowShow: true,
         data: {
@@ -154,16 +150,29 @@ const boardStyleDep = [
         img: 'unit03'
     },
     {
-        id: '4', label: '渠道信息',
-        type: 'comp-channel',
-        menuId: 'agnes.app.conf.channel',
+        id: '0', label: '运营日历',
+        type: 'calendar-def',
+        data: {
+            calendarVal: '',
+            module: 'datav.dep.view',
+            pageType: 'department'
+        },
+        img: 'unit01'
+    },
+    {
+        id: '2', label: '今日排班',
+        type: 'comp-lineman',
+        menuId: 'agnes.dop.linkman',
         arrowShow: true,
         data: {},
         img: 'unit05'
     },
     {
-        id: '5', label: '全局搜索',
-        type: 'common-search-panel',
+        id: '4', label: '渠道信息',
+        type: 'comp-channel',
+        menuId: 'agnes.app.conf.channel',
+        arrowShow: true,
+        data: {},
         img: 'unit05'
     },
 ];

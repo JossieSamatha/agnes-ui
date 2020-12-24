@@ -1020,6 +1020,7 @@
 
 .ag-grid-box .grid-action-panel .right .grid-toolbar-more i:hover {
     color: #0f5eff;
+    background: transparent;
 }
 
 .ag-grid-box .gf-grid-status-bar {
@@ -1376,7 +1377,6 @@
 =======================================*/
 .el-table-grid.el-table {
     border: 1px solid #A8AED3;
-    border: 1px solid #ccc;
 }
 
 .el-table-grid .el-table__header th{
@@ -1384,20 +1384,18 @@
     font-size: 13px;
     font-weight: normal;
     border-color: #A8AED3;
-    background: #F6F8FA;
-    border-color: #ccc;
-    background: #A8AED3;
+    background: #EFF3FC;
     padding: 6px 0;
 }
 
 .el-table-grid.el-table th.is-leaf {
-    border-color: #ccc;
+    border-color: #A8AED3;
 }
 
 .el-table-grid tr.el-table__row td {
     padding: 4px 0!important;
     border: none;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #A8AED3;
     color: #666;
     font-size: 12px;
 }
