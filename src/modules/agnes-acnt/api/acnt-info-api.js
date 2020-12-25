@@ -22,4 +22,7 @@ export default {
     logicDelete(acntId) {
         return request.post("/agnes-app/v1/acnt/info/logicDelete", null, {params: {acntId}});
     },
+    updateAcntStatus(form) {
+        return request.post(`agnes-app/v1/acnt/info/updateAcntStatus`,form);
+    }
 };
