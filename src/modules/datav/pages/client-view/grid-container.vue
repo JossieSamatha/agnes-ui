@@ -100,7 +100,7 @@
             },
 
             getImgPath(imgName){
-                return require('../../assets/clientView/'+imgName+'.png');
+                return require('../../assets/clientView/'+imgName+'.jpg');
             },
 
             addUnitGrid(newUnitObj) {

@@ -1,12 +1,12 @@
 <template>
     <div class="strip-comp-container">
         <div class="strip-comp" v-for="item in dataArr" :key="item.pkId">
-            <span class="icon" :style="{background: msgTypeOp[item.msgType].color}">
-                <svg-icon :name="item.msgType" width="12px" height="12px" color="#fff"></svg-icon>
+            <span class="icon">
+                <svg-icon name="EXCEPTION" width="12px" height="12px" color="#fff"></svg-icon>
             </span>
-            <span class="info" :title="item.msgTitle">{{item.msgTitle}}</span>
-            <span class="type">{{msgTypeOp[item.msgType].label}}</span>
-            <span class="date-time">{{item.remindTime}}</span>
+            <span class="info" :title="item.errDesc">{{item.errDesc}}</span>
+            <span class="type">异常通知</span>
+            <span class="date-time">{{item.crtTs}}</span>
         </div>
     </div>
 </template>
@@ -18,13 +18,7 @@
         },
         data() {
             return {
-                dataArr: [],
-                msgTypeOp: {
-                    'AHEAD': {label: '提前通知', color: '#FFB727'},
-                    'FINISHED': {label: '完成通知', color: '#4BE16E'},
-                    'OVERTIME': {label: '超时通知', color: '#FFB727'},
-                    'EXCEPTION': {label: '异常通知', color: '#F7603D'}
-                },
+                dataArr: []
             }
         },
         mounted(){
@@ -32,8 +26,9 @@
         },
         methods: {
             async getData() {
-                const resp = await this.$api.ruleTableApi.getMsgBoxList();
-                this.dataArr = resp.data.splice(0,6);
+                this.$api.ruleTableApi.getErrList().then(res => {
+                    this.dataArr = res.data.rows.splice(0,6);
+                })
             }
         },
     }
@@ -56,24 +51,6 @@
         margin-top: 12px;
     }
 
-    .strip-comp:first-child {
-        color: #0F5EFF;
-        border: 1px solid #0F5EFF;
-        background: #BBD1FF;
-    }
-
-    .strip-comp:nth-child(4) {
-        opacity: .8;
-    }
-
-    .strip-comp:nth-child(5) {
-        opacity: .6;
-    }
-
-    .strip-comp:nth-child(6) {
-        opacity: .4;
-    }
-
     .strip-comp .icon {
         flex: none;
         display: block;
@@ -82,6 +59,7 @@
         border-radius: 4px;
         line-height: 20px;
         margin-right: 18px;
+        background: #F7603D;
     }
 
     .strip-comp .icon .svg-icon {

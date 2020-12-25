@@ -24,10 +24,12 @@
                 <span class="delUnitGrid" @click="delContent" v-if="ifCloseIconShow">
                     <em class="fa fa-close"></em>
                 </span>
-<!--                <span class="compEntrance" v-if="unit.arrowShow">-->
-<!--                    <em class="el-icon-refresh" v-if="unit.type === 'calendar-def'" @click="calendarRefresh"></em>-->
-<!--                    <em class="fa fa-angle-right" v-else @click="entranceMenu(unit)"></em>-->
-<!--                </span>-->
+                <span v-if="unit.arrowShow"
+                      class="compEntrance"
+                      :class="{'bcg': unit.arrayBlock}"
+                      @click="entranceMenu(unit)">
+                    查看更多<em class="fa fa-angle-right"></em>
+                </span>
                 <common-search-panel v-if="unit.type === 'common-search-panel'"></common-search-panel>
                 <module-card v-else :title="unit.label">
                     <template slot="content">
@@ -110,13 +112,31 @@
 </script>
 
 <style scoped>
+    .vue-grid-item.rightPined .compEntrance {
+        top: 24px;
+    }
     .compEntrance {
         position: absolute;
-        top: 4px;
+        top: 0;
         right: 10px;
-        font-size: 20px;
-        color: #999;
+        font-size: 12px;
+        color: #0F5EFF;
         z-index: 10;
         cursor: pointer;
+    }
+
+    .compEntrance.bcg {
+        top: 20px;
+        color: #666;
+        background: #EEF1FC;
+        padding: 5px 10px;
+        border-radius: 4px;
+    }
+
+    .compEntrance>em {
+        font-size: 14px;
+        color: #999;
+        vertical-align: baseline;
+        margin-left: 6px;
     }
 </style>

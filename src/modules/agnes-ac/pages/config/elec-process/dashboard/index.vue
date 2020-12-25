@@ -135,11 +135,11 @@
                             </div>
                         </div>
                         <div class="link-line whole">
-                            <svg-icon name="lightning" style="animation-delay: 1s"/>
-                            <svg-icon name="lightning" style="animation-delay: 2s"/>
-                            <svg-icon name="lightning" style="animation-delay: 3s"/>
-                            <svg-icon name="lightning" style="animation-delay: 4s"/>
-                            <svg-icon name="lightning" style="animation-delay: 5s"/>
+                            <svg-icon name="lightning" color="#4c6cff" style="animation-delay: 1s"/>
+                            <svg-icon name="lightning" color="#4c6cff" style="animation-delay: 2s"/>
+                            <svg-icon name="lightning" color="#4c6cff" style="animation-delay: 3s"/>
+                            <svg-icon name="lightning" color="#4c6cff" style="animation-delay: 4s"/>
+                            <svg-icon name="lightning" color="#4c6cff" style="animation-delay: 5s"/>
                             <span class="text-info">已完成：
                                 <span>{{getPercentage(curTask.finishedRate)}}%</span>
                             </span>

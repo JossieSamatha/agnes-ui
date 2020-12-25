@@ -6,7 +6,6 @@ import chartComp from './chart-comp'
 import gridComp from './grid-comp'
 import formComp from './form-comp'
 import calendarDef from './calendar-def'
-import myTodoList from './my-todolist'
 import compNotice from './comp-notice'
 import compEvent from './comp-event'
 import compWork from './comp-work'
@@ -26,7 +25,6 @@ const Loading = {
         Vue.component('grid-comp', gridComp);
         Vue.component('form-comp', formComp);
         Vue.component('calendar-def', calendarDef);
-        Vue.component('my-todolist', myTodoList);
         Vue.component('comp-notice', compNotice);
         Vue.component('comp-event', compEvent);
         Vue.component('comp-work', compWork)

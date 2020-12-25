@@ -593,6 +593,7 @@
 .menuContent .el-card.module-card .el-card__body {
     overflow: scroll;
     height: calc(100% - 44px);
+    padding: 0;
 }
 
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item.rightPined
@@ -642,7 +643,7 @@
     flex: 0 0 250px;
     width: 250px;
     height: 150px;
-    background: #f2f2f2;
+    background: #d4e0ff;
     text-align: center;
     cursor: grab;
     overflow: hidden;
@@ -658,7 +659,7 @@
     height: 22px;
     line-height: 22px;
     font-size: 14px;
-    color: #666;
+    color: #333;
     margin: 0;
 }
 
@@ -681,7 +682,7 @@
 
 .datav_client_view .gridContainer .elChooseArrContent>div
 .elChooseDiv:hover {
-    background: #fff;
+    background: #eff3fc;
     transform: scale(1.03);
 }
 

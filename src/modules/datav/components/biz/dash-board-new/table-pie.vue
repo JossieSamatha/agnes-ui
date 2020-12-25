@@ -37,6 +37,9 @@
 
 <script>
     export default {
+        props: {
+            moduleObj: Object
+        },
         data() {
             return {
                 statusColor: ['#FCA06A','#56DF9A','#56BFDF'],
