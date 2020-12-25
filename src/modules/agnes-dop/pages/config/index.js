@@ -20,6 +20,7 @@ import Msg from "./msg/send-msg";
 import FuncConfig from "./func-config/index";
 import MenuConfig from "./menu-base-config/index";
 import FuncConfigAdd from "./func-config/add-config";
+import Compent from "./compents/index";
 
 const Loading = {
     install: function(Vue){
@@ -47,6 +48,7 @@ const Loading = {
         Gfui.componentView('agnes.app.monitor.error', MonitorErrDef, {title: '异常管理'});
         Gfui.componentView('agnes.dop.branch', Branch, {title: '网点信息维护'});
         Gfui.componentView('agnes.dop.help', HelpDef, {title: '帮助文档维护'});
+        Gfui.componentView('agnes.dop.comp', Compent, {title: '组件维护'});
     }
 };
 

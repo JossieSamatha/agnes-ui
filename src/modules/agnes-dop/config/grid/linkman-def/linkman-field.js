@@ -36,6 +36,7 @@ export default {
 
     // headerHeight: 40,
     // rowHeight: 37,
+    rowSelection: "multiple",
     ext: {
         fetchUrl: "/agnes-app/v1/dop/linkman/org/list",
         fetchMethod: 'post',
