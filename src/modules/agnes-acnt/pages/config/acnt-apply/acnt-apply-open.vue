@@ -1,10 +1,12 @@
 <template>
     <div>
+
         <module-card :title="showChange ? '待变更-基础信息': '基础信息'" shadow="never">
         <template slot="content">
           <el-form ref="taskDefForm" class="task-def-form" :model="detailForm" :disabled="isDisabled"
                    :rules="detailFormRules" label-width="160px">
             <div class="line" >
+
               <el-form-item  label="账户类型" prop="typeCode">
                 <el-select :disabled="isSubDis" class="multiple-select" v-model="detailForm.typeCode"
                            filterable clearable
