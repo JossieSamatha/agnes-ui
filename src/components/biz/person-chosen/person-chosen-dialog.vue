@@ -165,10 +165,10 @@
                 const rosterName = this.$app.dict.getDictItem('AGNES_ROSTER_TYPE', params.data.rosterType).dictName;
              //   const roleName = this.$app.dict.getDictItem('AGNES_ROSTER_POST', params.data.roleId).dictName;
                 const member = {
-                    refType: '3',
-                    memberId: params.data.rosterId,
-                    // 值班-部门 值班类型 值班日期 值班时间 岗位
-                    memberDesc: `值班-${rosterName}\n${params.data.rosterDate} ${params.data.rosterTs}`
+                  refType: '3',
+                  memberId: params.data.userId,
+                  // 值班-部门 值班类型 值班日期 值班时间 岗位
+                  memberDesc: `值班-${rosterName}\n${params.data.rosterDate} ${params.data.rosterTs}`
                 }
                 this.rosterList.push(member);
                 params.data.checked = true;
