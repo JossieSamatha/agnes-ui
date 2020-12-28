@@ -232,7 +232,7 @@
               let title = '发起申请';
               let okButtonTitle = '提交';//add addInfo edit
               if (mode === 'check') {
-                title = '账户审核';
+                title = '复核申请';
                 okButtonTitle = '审核';
               } else if (mode === 'detele') {
                 title = '作废申请';
@@ -445,7 +445,7 @@
                     ]
                 }else{
                     customOpBtn = [
-                        {title: '保存', className: 'primary', action: 'onSave'},
+                        {title: '提交', className: 'primary', action: 'onSave'},
                         {title: '取消', action: 'onCancel'}
                     ]
                 }
