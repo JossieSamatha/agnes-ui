@@ -175,9 +175,9 @@
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
-                let title = '账户销户';
+                let title = '销户申请';
                 if(mode==='addChange'){
-                    title = '变更资料';
+                    title = '变更申请';
                 }
                 this.$drawerPage.create({
                     width: 'calc(97% - 215px)',

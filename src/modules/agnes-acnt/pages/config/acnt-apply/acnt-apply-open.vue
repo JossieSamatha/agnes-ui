@@ -1,6 +1,6 @@
 <template>
     <div>
-        <module-card :title="showChange ? '待变更-基础信息': '待销户-基础信息'" shadow="never">
+        <module-card :title="showChange ? '待变更-基础信息': '基础信息'" shadow="never">
         <template slot="content">
           <el-form ref="taskDefForm" class="task-def-form" :model="detailForm" :disabled="isDisabled"
                    :rules="detailFormRules" label-width="160px">
@@ -187,7 +187,7 @@
           </el-form>
         </template>
       </module-card>
-        <module-card :title="showChange ? '变更前-账户信息': '销户前-账户信息'" shadow="never">
+        <module-card v-if="showChange" :title="showChange ? '变更前-基础信息': '基础信息'" shadow="never">
             <template slot="content">
                 <el-form ref="taskDefFormBefore" class="task-def-form" :model="detailFormBefore" disabled
                          :rules="detailFormRules" label-width="160px">
