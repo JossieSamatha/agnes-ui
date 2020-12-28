@@ -45,7 +45,8 @@
         methods: {
             // 干预通过
             async executeKpi() {
-                this.handleCmd('executeKpi');
+                this.params.data.remark = this.remark;
+              this.handleCmd('executeKpi');
             },
 
             popoverClick() {

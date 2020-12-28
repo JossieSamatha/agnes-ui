@@ -285,7 +285,7 @@
                       </el-form-item>
 
                       <el-form-item v-if="showRules.limits&&showRules.limits.isShow" label="额度" prop="limits">
-                        <gf-input v-model.trim="detailFormBefore.limits" placeholder="额度" input-lang="money"/>
+                        <gf-input v-model.trim="detailFormBefore.limits" placeholder="额度"/>
                       </el-form-item>
 
                       <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行/开户时对方联系人"
@@ -685,7 +685,7 @@
                       </el-form-item>
 
                       <el-form-item v-if="showRules.limits&&showRules.limits.isShow" label="额度" prop="limits">
-                        <gf-input v-model.trim="detailFormBefore.limits" placeholder="额度" input-lang="money"/>
+                        <gf-input v-model.trim="detailForm.limits" placeholder="额度"/>
                       </el-form-item>
 
                       <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行/开户时对方联系人"

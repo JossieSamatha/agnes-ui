@@ -7,6 +7,9 @@ const colButtons = [
     {key: 'changeData', title: '变更资料', visiable: () => {
             return Permission.hasPermission('agnes.acnt.info.fa.changeData');
         }},
+    {key: 'updateAcntStatus', title: '变更状态', visiable: () => {
+            return Permission.hasPermission('agnes.acnt.info.fa.updateAcntStatus');
+        }},
     {key: 'delete', title: '销户', cellClass: 'red-cell',disabled: (params)=>{
             let result = false;
             if(params.data.processStatus === '02'){
@@ -22,7 +25,7 @@ const colButtons = [
 
 export default {
     columnDefs: [
-        column.buildOpCol(130, colButtons),
+        column.buildOpCol(180, colButtons),
         {headerName: "账户名称", field: "acntName"},
         {headerName: "账户类型", field: "typeName"},
 
@@ -34,7 +37,30 @@ export default {
         {headerName: "市场", field: "markets"},
 
         {headerName: "归属机构", field: "extOrgName"},
-        {headerName: "账户状态", field: "acntStatus", dictType: "AGNES_ACNT_INFO_STATUS"},
+
+        {
+            headerName: "账户状态", field: "acntStatus", width: 95,
+            suppressSizeToFit: true,
+            dictType: 'AGNES_ACNT_INFO_STATUS',
+            cellStyle: function (params) {
+                if (!params.value) {
+                    return {display: 'none'}
+                } else {
+                    if(params.value === '01'){
+                        return {color: '#52C41C'};
+                    }else if(params.value === '02'){
+                        return {color: '#DFE1E5'};
+                    }else if(params.value === '03'){
+                        return {color: '#F5222E'};
+                    }else if(params.value === '04'){
+                        return {color: '#F5222E'};
+                    }else{
+                        return {color: '#4A8EF0'};
+                    }
+                }
+            },
+            cellClass: ['fa fa-circle', 'status-circle-cell'],
+        },
 
         {headerName: "大额支付号", field: "bigPayNo"},
         {headerName: "开户网点", field: "openBank"},
@@ -43,8 +69,8 @@ export default {
         {headerName: "基金名称", field: "productName"},
 
         {headerName: "银行联系人", field: "linkmanNames"},
-        {headerName: "利率", field: "rateLabel"},
-
+        // {headerName: "利率", field: "rateLabel"},
+        {headerName: "利率(%)", field: "rate"},
 
         {headerName: "账户简称", field: "acntShortName"},
         {headerName: "账户启用日期", field: "acntStartDt"},

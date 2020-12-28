@@ -15,6 +15,7 @@ import monitorErrApi from './monitor-err-api';
 import branchApi from './branch-data-api';
 import helpDefApi from './help-def-api';
 import funcConfigApi from './func-config-api';
+import compBoardApi from './comp-board-api';
 
 export default {
     orgDefineApi,
@@ -33,5 +34,6 @@ export default {
     monitorErrApi,
     branchApi,
     helpDefApi,
-    funcConfigApi
+    funcConfigApi,
+    compBoardApi
 };

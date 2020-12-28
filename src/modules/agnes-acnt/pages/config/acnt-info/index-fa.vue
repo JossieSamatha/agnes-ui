@@ -68,6 +68,20 @@
                <gf-button class="action-btn" @click="registration" size="mini"
                           v-if="$hasPermission('agnes.acnt.info.fa.registration')">账户登记</gf-button>
             </template>
+
+            <template slot="right-before">
+                <el-switch class="inner-switch"
+                           v-model="queryArgs.isShowAll"
+                           :width = 65
+                           active-text="全部"
+                           inactive-text="默认"
+                           active-value=""
+                           inactive-value="0"
+                           active-color="#13ce66"
+                           inactive-color="#409eff"
+                           @change="switchChange">
+                </el-switch>
+            </template>
         </gf-grid>
     </div>
 </template>
@@ -76,6 +90,8 @@
     import AcntApplyOpen from "../acnt-apply/acnt-apply-open";
     import AcntApplyInsert from "../acnt-apply/acnt-apply-insert";
     import AcntInfoDetail from "../acnt-info/acnt-info-detail";
+    import AcntInfoStatusDlg from "../acnt-info/acnt-info-status-dlg";
+
     export default {
         data() {
             return {
@@ -87,6 +103,7 @@
                   'productName':'',
                   'fundAccNos': '',
                   'acntStatus': '',
+                  'isShowAll':'1',
                   'orgIdList': [],
                 },
               typeCodeOption: [{
@@ -142,6 +159,7 @@
               this.queryArgs.productName = '';
               this.queryArgs.fundAccNos = '';
               this.queryArgs.acntStatus = '';
+              this.queryArgs.isShowAll = '1';
               this.queryArgs.orgIdList = [];
               this.reloadData();
             },
@@ -232,6 +250,31 @@
               } catch (reason) {
                   this.$msg.error(reason);
               }
+          },
+          switchChange(){
+              if(this.queryArgs.isShowAll === true){
+                  this.queryArgs.isShowAll = ""
+              }
+              this.reloadData();
+          },
+          showAcntStatusDlg(mode, row, ui, actionOk) {
+              if (!row) {
+                  this.$msg.warning("请选中一条记录!");
+                  return;
+              }
+              let title = '变更状态';
+
+              this.$nav.showDialog(
+                  AcntInfoStatusDlg,
+                  {
+                      args: {row, mode, ui, actionOk},
+                      width: '50%',
+                      title:title
+                  }
+              );
+          },
+          updateAcntStatus(params) {
+              this.showAcntStatusDlg('edit', params.data,"", this.onOpenApply.bind(this));
           },
 
           exoprtV45(){}

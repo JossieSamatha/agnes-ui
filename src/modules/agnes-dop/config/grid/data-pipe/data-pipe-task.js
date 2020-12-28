@@ -2,7 +2,11 @@ import column from "../../../../../config/column"
 
 const colButtons = [
 
-    {key: 'editTask', title: '编辑'},
+    {
+        key: 'editTask', title: '编辑', disabled: (params) => {
+            return params.data.status === '01'
+        }
+    },
     {key: 'deleteTask', title: '删除', cellClass: 'red-cell'},
     {
         key: 'start', title: '停用', visiable: (params) => {
@@ -10,11 +14,12 @@ const colButtons = [
         }, cellClass: 'red-cell'
     },
     {
-        key: 'stop', title: '启用', visiable: (params) => {
+        key: 'stop', title: '发布', visiable: (params) => {
             return params.data.status === '02'
         }
     },
 ];
+
 export default {
     columnDefs: [
         {headerName: "任务名称", field: "taskName"},

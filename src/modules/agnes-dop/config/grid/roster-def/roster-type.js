@@ -39,6 +39,7 @@ export default {
     ],
     // headerHeight: 40,
     // rowHeight: 37,
+    rowSelection: "multiple",
     ext: {
         fetchUrl: "/agnes-app/v1/dop/roster/list",    //后台查询数据的URL地址
         fetchMethod: 'get',
