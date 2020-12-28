@@ -3,19 +3,38 @@
         <div v-show="pointerShow" class="pointer-mask" @click="pointerShow = false"></div>
         <el-form class="search-panel" label-width="100px">
             <div class="line">
+              <el-form-item label="账户类型">
+                <el-select class="multiple-select" v-model="queryArgs.typeCode"
+                           filterable clearable
+                           placeholder="请选择">
+                  <el-option-group
+                      v-for="group in typeCodeOption"
+                      :key="group.label"
+                      :label="group.label">
+                    <el-option
+                        v-for="item in group.options"
+                        :key="item.typeCode"
+                        :label="`${group.label} - ${item.typeName}`"
+                        :value="item.typeCode">
+                    </el-option>
+                  </el-option-group>
+                </el-select>
+              </el-form-item>
+
+              <el-form-item label="业务类型">
+                <gf-dict filterable clearable v-model="queryArgs.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
+              </el-form-item>
                 <el-form-item label="账户名称">
                     <el-input v-model="queryArgs.acntName"></el-input>
                 </el-form-item>
-                <el-form-item label="资金账号" >
-                    <el-input v-model="queryArgs.fundAccNos"></el-input>
-                </el-form-item>
+<!--                <el-form-item label="资金账号" >-->
+<!--                    <el-input v-model="queryArgs.fundAccNos"></el-input>-->
+<!--                </el-form-item>-->
 <!--                <el-form-item label="证券账号" >-->
 <!--                    <el-input v-model="queryArgs.accNos"></el-input>-->
 <!--                </el-form-item>-->
 
-                <el-form-item label="申请超时状态">
-                    <gf-dict filterable clearable v-model="queryArgs.applyDeadlineStatus" dict-type="AGNES_ACNT_APPLY_DEADLINE_STATUS" />
-                </el-form-item>
+
 
                 <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
             </div>
@@ -24,38 +43,19 @@
                 <el-form-item label="基金信息" >
                     <el-input v-model="queryArgs.productName" placeholder="基金代码/名称"></el-input>
                 </el-form-item>
+              <el-form-item label="申请超时状态">
+                <gf-dict filterable clearable v-model="queryArgs.applyDeadlineStatus" dict-type="AGNES_ACNT_APPLY_DEADLINE_STATUS" />
+              </el-form-item>
+              <el-form-item label="流程节点">
+                <gf-dict filterable clearable v-model="queryArgs.processStatus" dict-type="AGNES_ACNT_APPLY_STATUS" />
+              </el-form-item>
 
-                <el-form-item label="账户类型">
-                    <el-select class="multiple-select" v-model="queryArgs.typeCode"
-                               filterable clearable
-                               placeholder="请选择">
-                        <el-option-group
-                                v-for="group in typeCodeOption"
-                                :key="group.label"
-                                :label="group.label">
-                            <el-option
-                                    v-for="item in group.options"
-                                    :key="item.typeCode"
-                                    :label="`${group.label} - ${item.typeName}`"
-                                    :value="item.typeCode">
-                            </el-option>
-                        </el-option-group>
-                    </el-select>
-                </el-form-item>
-
-                <el-form-item label="业务类型">
-                    <gf-dict filterable clearable v-model="queryArgs.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
-                </el-form-item>
 
 <!--                <el-form-item></el-form-item>-->
                 <el-button @click="reSetSearch" class="option-btn">重置</el-button>
             </div>
 
-            <div  class="line">
-                <el-form-item label="流程节点">
-                    <gf-dict filterable clearable v-model="queryArgs.processStatus" dict-type="AGNES_ACNT_APPLY_STATUS" />
-                </el-form-item>
-            </div>
+
 
         </el-form>
         <div class="acnt-apply-container">
@@ -80,6 +80,11 @@
                                 v-if="$hasPermission('agnes.acnt.apply.addInfoFile')">资料补充</gf-button>
                 </template>
                 <template slot="right-before">
+<!--                  <el-radio-group v-model="queryArgs.isShowAll"  size="mini">-->
+<!--                    <el-radio-button label="我发起的"></el-radio-button>-->
+<!--                    <el-radio-button label="可处理的"></el-radio-button>-->
+<!--                    <el-radio-button label="我可见的"></el-radio-button>-->
+<!--                  </el-radio-group>-->
                     <el-switch class="inner-switch"
                                v-model="queryArgs.isShowAll"
                                :width = 65
