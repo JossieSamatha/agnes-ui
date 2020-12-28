@@ -11,6 +11,15 @@ export default {
             return "【"+params.data.crtUserName+"】发起的"+ dictName +"申请流程"
         }
         },
+        {headerName: "业务类型", field: "bizType",dictType:"AGNES_ACNT_BIZ_TYPE"},
+        {headerName: "流程节点", field: "processStatus",dictType:"AGNES_ACNT_APPLY_STATUS"},
+        {headerName: "是否提交OA", field: "isSendOa",
+            valueFormatter: function (params) {
+                if(params.value==='0'){
+                    return '否'
+                }
+                return '是';
+            }},
         {headerName: "账户名称", field: "acntName"},
         // {headerName: "账号", field: "accNo"},
         {headerName: "资金账号", field: "fundAccNos"},
@@ -20,15 +29,6 @@ export default {
         {headerName: "基金代码", field: "productCode"},
         {headerName: "基金名称", field: "productName"},
 
-        {headerName: "业务类型", field: "bizType",dictType:"AGNES_ACNT_BIZ_TYPE"},
-        {headerName: "流程节点", field: "processStatus",dictType:"AGNES_ACNT_APPLY_STATUS"},
-        {headerName: "是否提交OA", field: "isSendOa",
-          valueFormatter: function (params) {
-            if(params.value==='0'){
-                return '否'
-            }
-            return '是';
-        }},
         {headerName: "申请截止日期", field: "applyDeadlineDt"},
         {headerName: "申请超时状态", field: "applyDeadlineStatus",dictType: 'AGNES_ACNT_APPLY_DEADLINE_STATUS'},
 
@@ -50,7 +50,10 @@ export default {
     },
     treeData: true, // enable Tree Data mode
     animateRows: true,
-    groupDefaultExpanded: -1, // expand all groups by default
+    // groupUseEntireRow: true,
+    // rowGroupPanelShow: "always",
+    // suppressDragLeaveHidesColumns: true,
+    // groupDefaultExpanded: -1, // expand all groups by default
     getDataPath: function(data) {
         return data.orgHierarchy;
     },
@@ -88,22 +91,22 @@ export default {
     ext: {
         fetchUrl: "/agnes-app/v1/acnt/apply/getAcntApplyVoList",
         fetchMethod: 'post',
-        pagingMode: false, //不分页
+        pagingMode: true, //不分页
         checkboxColumn: 2, //是否显示checkbox列,
         enableExportLocal: true,
         autoFitColumnMode: 1,
-        // pageOptions: {
-        //     // 分页大小
-        //     pageSize: 50,
-        //     // 可供选择的分页大小（下拉切换分页值）
-        //     pageSizes: [10, 20, 50, 100],
-        //     // 显示在状态栏上的页数字的个数
-        //     pageCount: 5,
-        //     prevText: "上一页",
-        //     nextText: "下一页",
-        //     // 分页工具显示项，例如总页数、当前页、上一页、下一页、等分页功能按钮
-        //     // 详见ElementUI分页组件
-        //     layout: "total, sizes, prev, pager, next, jumper"
-        // },
+        pageOptions: {
+            // 分页大小
+            pageSize: 500,
+            // 可供选择的分页大小（下拉切换分页值）
+            pageSizes: [100, 300, 500, 700],
+            // 显示在状态栏上的页数字的个数
+            pageCount: 0,
+            prevText: "上一页",
+            nextText: "下一页",
+            // 分页工具显示项，例如总页数、当前页、上一页、下一页、等分页功能按钮
+            // 详见ElementUI分页组件
+            layout: "total, sizes, prev, pager, next, jumper"
+        },
     },
 };

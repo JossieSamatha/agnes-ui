@@ -65,6 +65,12 @@
       </template>
 
       <template slot="right-before">
+<!--        <el-radio-group v-model="queryArgs.isShowAll"  size="mini" style="width:290px;">-->
+<!--          <el-radio-button label="正常"></el-radio-button>-->
+<!--          <el-radio-button label="久悬"></el-radio-button>-->
+<!--          <el-radio-button label="锁定"></el-radio-button>-->
+<!--          <el-radio-button label="销户"></el-radio-button>-->
+<!--        </el-radio-group>-->
         <el-switch class="inner-switch"
                    v-model="queryArgs.isShowAll"
                    :width = 65
@@ -163,9 +169,9 @@ export default {
         this.$msg.warning("请选中一条记录!");
         return;
       }
-      let title = '账户销户';
+      let title = '账户销户申请';
       if (mode === 'addChange') {
-        title = '变更资料';
+        title = '变更资料申请';
       }
       this.$drawerPage.create({
         width: 'calc(97% - 215px)',
@@ -173,7 +179,7 @@ export default {
         component: AcntApplyOpen,
         args: {row, mode, actionOk, isDisabled},
         okButtonVisible: mode !== 'view',
-        okButtonTitle: mode === 'detele' ? '提交' : '保存',
+        okButtonTitle: mode === 'detele' ? '提交' : '提交',
         pageEl: this.$el
       })
     },

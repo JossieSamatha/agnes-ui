@@ -4,11 +4,8 @@ import Permission from "../../../../../utils/hasPermission";
 const colButtons = [
     // {key: 'queryRate', title: '查看利率'},
     // {key: 'queryLinkman', title: '查看联系人'},
-    {key: 'changeData', title: '变更资料', visiable: () => {
+    {key: 'changeData', title: '变更', visiable: () => {
             return Permission.hasPermission('agnes.acnt.info.ta.changeData');
-        }},
-    {key: 'updateAcntStatus', title: '变更状态', visiable: () => {
-            return Permission.hasPermission('agnes.acnt.info.ta.updateAcntStatus');
         }},
     {key: 'delete', title: '销户', cellClass: 'red-cell',disabled: (params)=>{
             let result = false;
@@ -18,27 +15,20 @@ const colButtons = [
             return result;}, visiable: () => {
             return Permission.hasPermission('agnes.acnt.info.ta.delete');
         }},
-    {key: 'logicDelete', title: '删除', visiable: () => {
+    // {key: 'updateAcntStatus', title: '编辑', visiable: () => {
+    //         return Permission.hasPermission('agnes.acnt.info.ta.updateAcntStatus');
+    //     }},
+
+    {key: 'logicDelete', title: '删除', cellClass: 'red-cell', visiable: () => {
             return Permission.hasPermission('agnes.acnt.info.ta.logicDelete');
         }}
 ];
 
 export default {
     columnDefs: [
-        column.buildOpCol(180, colButtons),
+        column.buildOpCol(140, colButtons),
         {headerName: "账户名称", field: "acntName"},
         {headerName: "账户类型", field: "typeName"},
-
-        // {headerName: "账号", field: "accNos"},
-        {headerName: "资金账号", field: "fundAccNos"},
-        {headerName: "币种", field: "fundCurrencys"},
-        // {headerName: "资金账号名称", field: "fundAccName"},
-        // {headerName: "市场", field: "markets"},
-        // {headerName: "币种", field: "currency", dictType:"AGNES_ACNT_CURRENCY_TYPE"},
-
-
-        {headerName: "归属机构", field: "extOrgName"},
-
         {
             headerName: "账户状态", field: "acntStatus", width: 95,
             suppressSizeToFit: true,
@@ -62,12 +52,18 @@ export default {
             },
             cellClass: ['fa fa-circle', 'status-circle-cell'],
         },
+        {headerName: "归属机构", field: "extOrgName"},
+        // {headerName: "账号", field: "accNos"},
+        {headerName: "资金账号", field: "fundAccNos"},
+        {headerName: "币种", field: "fundCurrencys"},
+        // {headerName: "资金账号名称", field: "fundAccName"},
+        // {headerName: "市场", field: "markets"},
+        // {headerName: "币种", field: "currency", dictType:"AGNES_ACNT_CURRENCY_TYPE"},
+        {headerName: "基金代码", field: "productCode"},
+        {headerName: "基金名称", field: "productName"},
 
         {headerName: "大额支付号", field: "bigPayNo"},
         {headerName: "开户网点", field: "openBank"},
-
-        {headerName: "基金代码", field: "productCode"},
-        {headerName: "基金名称", field: "productName"},
 
         {headerName: "银行联系人", field: "linkmanNames"},
         // {headerName: "利率", field: "rateLabel"},
@@ -99,6 +95,10 @@ export default {
         enableRowGroup: true,
         menuTabs: ['generalMenuTab', 'filterMenuTab', 'columnsMenuTab'],
     },
+    groupUseEntireRow: true,
+    rowGroupPanelShow: "always",
+    suppressDragLeaveHidesColumns: true,
+    groupDefaultExpanded: -1,
     ext: {
         fetchUrl: "/agnes-app/v1/acnt/info/list/page",
         fetchMethod: 'post',
