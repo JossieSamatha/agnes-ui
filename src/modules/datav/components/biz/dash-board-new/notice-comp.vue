@@ -16,9 +16,6 @@
 
 <script>
     export default {
-        props: {
-            moduleObj: Object
-        },
         data(){
             return {
                 lcImg: this.$lcImg,

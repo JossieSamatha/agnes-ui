@@ -26,7 +26,7 @@
         },
         data() {
             return {
-                boardData: boardData,
+                boardData: boardData(),
                 boardStyleArr: [],   // 面板类型总数据，
                 isGridEdit: false,                        // 面板当前是否编辑
                 isGridDefine: false,                      // 面板当前是否编辑
@@ -35,7 +35,7 @@
                 gridLayout: {}, // 面板表格布局数据
                 gridDataArr:{},         // 面板表格数据
                 boardUnitHeight: 0,     // 面板初始单元高度
-                gridBoardObj: JSON.parse(JSON.stringify(boardData.boardArrDefault[0])),     // 当前选择面板对象
+                gridBoardObj: boardData().boardArrDefault[0],     // 当前选择面板对象
                 movedUnitId: -1,      // 当前移动的单元格索引
 
                 // 条形面板选择区
@@ -46,17 +46,17 @@
         },
         beforeMount(){
             this.gridLayout = this.pageId === 'client' ?
-                this.$utils.deepClone(boardData.boardArrDefault[0]) :
-                this.$utils.deepClone(boardData.boardArrDefault[1]);
+                boardData().boardArrDefault[0] : boardData().boardArrDefault[1];
             this.boardStyleArr = this.pageId === 'client' ?
-                boardData.boardStyleArr : boardData.boardStyleDep;
+                boardData().boardStyleArr : boardData().boardStyleDep;
 
         },
         mounted(){
             const boardDataArr = this.gridLayout.boardData;
             for(let i=0; i<boardDataArr.length; i++){
-                if(this.boardStyleArr[i]){
-                    const objArr = [this.boardStyleArr[i]];
+                const compObj = this.$lodash.find(this.boardStyleArr, {compId: boardDataArr[i].compId});
+                if(compObj){
+                    const objArr = [compObj];
                     const gridLayoutObj = boardDataArr[i];
                     this.$set(this.gridDataArr, gridLayoutObj.i, objArr);
                 }

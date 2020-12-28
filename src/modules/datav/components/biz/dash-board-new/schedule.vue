@@ -6,13 +6,13 @@
             </div>
             <div class="info">
                 <p>
-                    <svg-icon :name="moduleType === 'per' ? 'calendar' : 'user'" height="12px" color="#666"></svg-icon>
-                    <span>{{ moduleType === 'per' ? roster.week :  roster.userName}}</span>
+                    <svg-icon :name="pageType === 'per' ? 'calendar' : 'user'" height="12px" color="#666"></svg-icon>
+                    <span>{{ pageType === 'per' ? roster.week :  roster.userName}}</span>
                 </p>
                 <p>
-                    <svg-icon :name="moduleType === 'per' ? 'clock' : 'phone'" height="12px" color="#666"></svg-icon>
-                    <span>{{ moduleType === 'per' ? roster.date : roster.telAbbre }}</span>
-                    <template v-if="moduleType === 'dep'">
+                    <svg-icon :name="pageType === 'per' ? 'clock' : 'phone'" height="12px" color="#666"></svg-icon>
+                    <span>{{ pageType === 'per' ? roster.date : roster.telAbbre }}</span>
+                    <template v-if="pageType === 'dep'">
                         <svg-icon name="mobile" height="12px" color="#666"></svg-icon>
                         <span class="telSpan">{{ roster.oTel }}</span>
                     </template>
@@ -28,11 +28,10 @@
 <script>
     export default {
         props: {
-            moduleObj: Object
+            pageType: String
         },
         data() {
             return {
-                moduleType: 'per',
                 todayDate: new Date().toLocaleDateString().replace(/\//g, '-'),
                 rosterList: [],
                 rosterType: this.$app.dict.getDictItems('AGNES_ROSTER_TYPE'),
@@ -40,8 +39,7 @@
             }
         },
         async created() {
-            this.moduleType = this.moduleObj.pageType;
-            if(this.moduleObj.pageType === 'per'){
+            if(this.pageType === 'per'){
                 this.rosterList = [
                     {userId: '001', week: '星期四', date: '12月3日', rosterType: '00', sex: 0, },
                     {userId: '002', week: '星期四', date: '12月3日', rosterType: '01', sex: 0, },
@@ -57,10 +55,8 @@
                     {userId: '004', userName: '范冰冰', telAbbre: '6778', oTel: '12345678910', rosterType: '03', sex: 1, }
                 ]
             }
-
         },
         mounted() {
-
         },
 
         methods: {
@@ -68,7 +64,7 @@
                 let depViewId = 'agnes.dop.roster';
                 let depView = this.$app.views.getView(depViewId);
                 let depTabView = Object.assign({
-                    args: {rosterType: item.rosterType, pageType: this.moduleObj.pageType},
+                    args: {rosterType: item.rosterType, pageType: this.pageType},
                     id: depViewId
                 }, depView);
                 this.$nav.showView(depTabView);

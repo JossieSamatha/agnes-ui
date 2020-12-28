@@ -1,5 +1,5 @@
 <template>
-    <agnes-calendar ref="calendar" v-model="moduleObj.calendarVal" :first-day-of-week="7">
+    <agnes-calendar ref="calendar" v-model="calendarVal" :first-day-of-week="7">
         <template slot="dateCell" slot-scope="{date, data}">
             <el-popover placement="bottom" width="110" trigger="click"
                         popper-class="calendar-popper"
@@ -17,10 +17,7 @@
 <script>
     export default {
         props: {
-            moduleObj: {
-                type: Object,
-                required: true
-            }
+            calendarVal: String,
         },
         data(){
             return {
@@ -34,7 +31,7 @@
             this.$dataVBus.$on('clientCalendarRefresh', this.clientCalendarRefresh);
             this.getCalendarData(this.todayDate, true);
             this.$nextTick(()=>{
-                if(this.$app.nav.tabBar.currentTabKey === this.moduleObj.module){
+                if(this.$app.nav.tabBar.currentTabKey === this.module){
                     this.$refs.calendar.pickDay(this.todayDate);
                 }
             });
@@ -51,7 +48,7 @@
             },
 
             async getCalendarData(date){
-              if (this.moduleObj.pageType === 'personal') {
+              if (this.pageType === 'personal') {
                 const res = await this.$api.memoApi.getMemoListByUser(date, '04');
                 this.memoNum = res.data.length;
               } else {
@@ -63,7 +60,7 @@
           calendarDetail(data) {
             let clientView = this.$app.views.getView("agnes.dop.memo");
             let clientTabView = Object.assign({
-              args: {pageType: this.moduleObj.pageType, memoDt: data.day},
+              args: {pageType: this.pageType, memoDt: data.day},
               id: "agnes.dop.memo"
             }, clientView);
             this.$nav.showView(clientTabView);

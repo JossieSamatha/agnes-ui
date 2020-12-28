@@ -50,10 +50,10 @@
             return {
                 // 面板布局选择（弹窗中数据）
                 boardBigType: 'defaultBoard',                    // 面板大类：可选默认面板/自定义面板
-                boardArrDefault: boardData.boardArrDefault,
-                boardArrDefine: boardData.boardArrDefine,
+                boardArrDefault: boardData().boardArrDefault,
+                boardArrDefine: boardData().boardArrDefine,
                 defineBoardSet: false,                           // 自定义面板管理
-                choosedBoard: boardData.boardArrDefault[0],      // 当前选择面板
+                choosedBoard: boardData().boardArrDefault[0],      // 当前选择面板
                 delBoardIds: []
             }
         },

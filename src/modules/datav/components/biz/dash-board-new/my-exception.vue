@@ -13,9 +13,6 @@
 
 <script>
     export default {
-        props: {
-            moduleObj: Object
-        },
         data() {
             return {
                 dataArr: []

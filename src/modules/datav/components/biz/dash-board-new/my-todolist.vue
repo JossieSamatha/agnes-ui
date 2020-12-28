@@ -21,9 +21,6 @@
 <script>
     export default {
         name: "my-todolist",
-        props: {
-            moduleObj: Object
-        },
         data() {
             return {
                 taskDemoArr: [],

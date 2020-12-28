@@ -19,18 +19,18 @@
 <template>
     <draggable class="menuContent" :list="draggableList" group="unitGroup" :disabled="dragDisabled"
         @start="gridUnitDragStart(draggableList)" @end="gridUnitDragEnd" @add="gridUnitDragAdd(draggableList,$event)">
-        <div :class="{nonePadding: unit.type === 'common-search-panel'}" v-for="(unit,unitIndex) in draggableList" :key="unit.id">
+        <div :class="{nonePadding: unit.compType === 'common-search-panel'}" v-for="(unit, unitIndex) in draggableList" :key="unit.compId">
             <template v-if="unitIndex == 0">
                 <span class="delUnitGrid" @click="delContent" v-if="ifCloseIconShow">
                     <em class="fa fa-close"></em>
                 </span>
                 <span v-if="unit.arrowShow"
                       class="compEntrance"
-                      :class="{'bcg': unit.arrayBlock}"
+                      :class="{'bcg': unit.arrowBlock}"
                       @click="entranceMenu(unit)">
                     查看更多<em class="fa fa-angle-right"></em>
                 </span>
-                <common-search-panel v-if="unit.type === 'common-search-panel'"></common-search-panel>
+                <common-search-panel v-if="unit.compType === 'common-search-panel'"></common-search-panel>
                 <module-card v-else :title="unit.label">
                     <template slot="content">
                         <slot name="group-content" :unitData="unit"></slot>
