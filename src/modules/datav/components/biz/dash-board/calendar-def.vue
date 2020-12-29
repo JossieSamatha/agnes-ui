@@ -67,10 +67,10 @@
 
             async getCalendarData(date) {
                 if (this.pageType === 'personal') {
-                    const res = await this.$api.memoApi.getMemoListByUser(date, '04');
+                    const res = await this.$api.HomePageApi.selectMemoDetailOfMonth({pageType:'personal',memoDate:date});
                     this.memoNum = res.data.length;
                 } else {
-                    const res = await this.$api.memoApi.getMemoList(date, '04');
+                    const res = await this.$api.HomePageApi.selectMemoDetailOfMonth({pageType:'department',memoDate:date});
                     this.memoNum = res.data.length;
                 }
             },

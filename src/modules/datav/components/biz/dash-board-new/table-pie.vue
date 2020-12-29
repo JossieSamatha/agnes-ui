@@ -10,7 +10,10 @@
                                  :width="tableCol.width ? tableCol.width : null"
                 >
                     <template slot-scope="scope">
-                        <span :style="{color: tableCol.color}">{{scope.row[tableCol.key]}}</span>
+                        <span v-if="tableCol.key === 'taskCategory'">
+                            {{getDictName(scope.row.taskCategory)}}
+                        </span>
+                        <span :style="{color: tableCol.color}" v-else>{{scope.row[tableCol.key]}}</span>
                     </template>
                 </el-table-column>
             </el-table>
@@ -41,16 +44,12 @@
             return {
                 statusColor: ['#FCA06A','#56DF9A','#56BFDF'],
                 tableHeader: [
-                    {label: '任务类型', key: 'taskName'},
-                    {label: '已完成', key: 'finished', width: 70, color: '#1DBE28'},
-                    {label: '未完成', key: 'unfinished', width: 70, color: '#7A86CD'},
+                    {label: '任务类型', key: 'taskCategory'},
+                    {label: '已完成', key: 'doneNum', width: 70, color: '#1DBE28'},
+                    {label: '未完成', key: 'undoneNum', width: 70, color: '#7A86CD'},
                     {label: '目标数', key: 'targetNum', width: 70, color: '#0F5EFF'}
                 ],
-                taskArr: [
-                    {taskName: '人工MOT任务', finished: 82, unfinished: 15, targetNum: 97},
-                    {taskName: '自动处理任务', finished: 45, unfinished: 13, targetNum: 58},
-                    {taskName: '监控指标任务', finished: 24, unfinished: 24, targetNum: 48}
-                ],
+                taskArr: [],
                 legendRec: [{label: '人工', color: '#56BFDF'}, {label: '自动', color: '#56DF9A'}, {label: '指标', color: '#FCA06A'}],
                 legendCir: [{label: '已完成', color: '#4C6CFF'}, {label: '未完成', color: '#C9CDE3'}],
                 pieChart: {},
@@ -135,15 +134,24 @@
         mounted() {
             this.init();
         },
-
         methods: {
-            init() {
+            async init() {
+                const resp = await this.$api.changeDataApi.getChangeData();
+                const resChangeData = resp.data;
+                this.exeTime = resChangeData.bizDate;
+                let resp1 = await this.$api.HomePageApi.selectCaseStepOfToday(this.exeTime);
+                if(resp1){
+                    this.taskArr = resp1.data;
+                }
                 this.pieChart = this.echarts.init(this.$refs.pieCharts);
                 this.pieChart.setOption(this.pieOptions);
                 this.pieChart.resize();
                 window.addEventListener('resize', () => {
                     this.pieChart.resize()
                 });
+            },
+            getDictName(item){
+                return this.$app.dict.getDictItem("AGNES_TASK_TYPE",item).dictName;
             }
         }
     }

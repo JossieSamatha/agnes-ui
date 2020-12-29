@@ -23,9 +23,10 @@
         },
         methods: {
             async getData() {
-                this.$api.ruleTableApi.getErrList().then(res => {
-                    this.dataArr = res.data.rows.splice(0,6);
-                })
+                let resp = await this.$api.HomePageApi.selectErrInfoByUser();
+                if(resp.data.length>0){
+                    this.dataArr = resp.data.rows.splice(0,6);
+                }
             }
         },
     }
