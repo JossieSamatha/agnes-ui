@@ -79,6 +79,7 @@ const boardStyleArr = [
         compId: 'myCalendar', label: '我的日历',
         compType: 'calendar-def',
         arrowShow: true,
+        arrowBlock: true,
         compParams: {
             calendarVal: '',
             module: 'datav.client.view',

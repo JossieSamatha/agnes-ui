@@ -8,7 +8,7 @@ import cronModal from "./cron-comp/cron-modal";
 import accEcmUpload from './ecm-upload/acc-ecm-upload';
 import MenuConfigUpload from './menu-upload/menu-config-upload';
 import inputComp from './input/index'
-import svgIcon from './icon/svg-icon.vue'
+import svgIcon from './svg-icon/svg-icon-comp.vue'
 
 import robotWisdom from './input/robot'
 

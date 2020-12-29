@@ -1,5 +1,5 @@
 <template>
-    <el-tabs class="root" v-model="activeName" type="card" style="width:100%;">
+    <el-tabs class="root" v-model="activeName" style="width:100%;">
         <el-tab-pane label="TA账户" name="TA"  style="height: 100%"
                      v-if="$hasPermission('agnes.acnt.info.ta')">
             <acnt-info-index-ta></acnt-info-index-ta>
