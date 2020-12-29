@@ -10,6 +10,7 @@
                     <span class="boardeEdit" v-if="isGridEdit" @click="boardEditFinish('content')">完成配置</span>
                     <span class="boardeEdit" v-if="isGridDefine" @click="addUnitGrid">新增面板</span>
                     <span class="boardeEdit" v-if="isGridDefine" @click="boardEditFinish('layout')">保存面板</span>
+                    <span class="boardeEdit" v-if="isGridDefine" @click="boardEditFinish('layout', 'cancel')">取消操作</span>
                 </div>
             </div>
         </div>
@@ -78,13 +79,16 @@
             },
 
             // 面板完成编辑
-            boardEditFinish(editType){
+            boardEditFinish(editType, ifCancel){
                 if(editType == 'content'){
                     this.isGridEdit = false;
                     this.$set(this.$refs.gridContainer, 'isGridEdit', false);
                 }else if(editType == 'layout'){
                     this.isGridDefine = false;
                     this.$set(this.$refs.gridContainer, 'isGridDefine', false);
+                    if(ifCancel){
+                        return false;
+                    }
                     const newdDefineBoard = {
                         boardId: this.$agnesAcUtils.randomString(9),
                         boardData: this.$refs.gridContainer.gridLayout.boardData

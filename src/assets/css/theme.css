@@ -1,5 +1,5 @@
 .gf-layout-default {
-    background: #EDF1F5;
+    background: #f56c6c;
     overflow: hidden;
 }
 
@@ -217,10 +217,6 @@ form .el-icon-lock::before {
 }
 
 .gf-top-menubar .gf-nav-right .top-menu-item .svg-icon {
-    fill: #BBD1FF;
-}
-
-.gf-top-menubar .gf-nav-right .top-menu-item:hover .svg-icon {
     fill: #fff;
 }
 
@@ -248,7 +244,7 @@ form .el-icon-lock::before {
     display: flex;
     position: relative;
     height: 100%;
-    background: #0F5EFF;
+    background: transparent;
 }
 
 .left-side-container .gf-app-logo {
@@ -337,7 +333,7 @@ form .el-icon-lock::before {
 }
 
 .left-side-container .gf-menu .gf-menu-item.is-hover:not(.active):not(.noneMenu) {
-    background: #004EEB;
+    background: rgba(255, 255, 255, .2);
     border-radius: 0 23px 23px 0;
     z-index: 1;
 }
@@ -750,21 +746,12 @@ form .el-icon-lock::before {
 
 =======================================*/
 /* 内容框架样式调整 */
-.gf-layout-default-content {
-
-}
-
 .gf-tab-views {
     padding: 0;
-    background: #0f5eff;
 }
 
 .gf-fit {
     padding: 0;
-}
-
-.gf-layout-default-content-tabs .gf-tab-bar {
-    background: #fff;
 }
 
 .common-search-panel {
@@ -846,7 +833,7 @@ form .el-icon-lock::before {
     width: 100%;
     height: 44px;
     color: #fff;
-    background: #0f5eff;
+    background: transparent;
     padding: 0;
     padding-left: 100px;
 }
@@ -959,7 +946,7 @@ form .el-icon-lock::before {
     font-size: 14px;
     mask-image: none;
     flex: 0 0 auto;
-    color: #BBD1FF;
+    color: #fff;
     line-height: 14px;
     font-weight: normal;  
     font-family: 'SourceHanSansCN-Regular';
@@ -1004,7 +991,7 @@ form .el-icon-lock::before {
 .chrome-tab-title::after {
     content: '';
     margin-left: 10px;
-    border-right: 1px solid #BBD1FF;
+    border-right: 1px solid #fff;
 }
 
 

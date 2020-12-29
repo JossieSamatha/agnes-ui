@@ -20,6 +20,7 @@
 
 <script>
     import boardData from './board-data';
+
     export default {
         props:{
             pageId: String
@@ -36,6 +37,7 @@
                 gridDataArr:{},         // 面板表格数据
                 boardUnitHeight: 0,     // 面板初始单元高度
                 gridBoardObj: boardData().boardArrDefault[0],     // 当前选择面板对象
+                // gridBoardObj: {},     // 当前选择面板对象
                 movedUnitId: -1,      // 当前移动的单元格索引
 
                 // 条形面板选择区
@@ -49,6 +51,8 @@
                 boardData().boardArrDefault[0] : boardData().boardArrDefault[1];
             this.boardStyleArr = this.pageId === 'client' ?
                 boardData().boardStyleArr : boardData().boardStyleDep;
+
+            // this.gridBoardObj = this.$api.compBoardApi.getDashboards({pageType: this.pageId});
 
         },
         mounted(){
