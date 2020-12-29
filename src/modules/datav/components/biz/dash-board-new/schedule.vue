@@ -39,27 +39,50 @@
             }
         },
         async created() {
-            if(this.pageType === 'per'){
-                this.rosterList = [
-                    {userId: '001', week: '星期四', date: '12月3日', rosterType: '00', sex: 0, },
-                    {userId: '002', week: '星期四', date: '12月3日', rosterType: '01', sex: 0, },
-                    {userId: '003', week: '星期四', date: '12月3日', rosterType: '02', sex: 0, },
-                    {userId: '004', week: '星期四', date: '12月3日', rosterType: '03', sex: 0, },
-                    {userId: '005', week: '星期四', date: '12月3日', rosterType: '02', sex: 0, },
-                ];
-            }else{
-                this.rosterList = [
-                    {userId: '001', userName: '李大霄', telAbbre: '6778', oTel: '12345678', rosterType: '00', sex: 0, },
-                    {userId: '002', userName: '李立昌', telAbbre: '6778', oTel: '12345678910', rosterType: '01', sex: 0, },
-                    {userId: '003', userName: '林黛玉', telAbbre: '6778', oTel: '12345677777', rosterType: '02', sex: 1, },
-                    {userId: '004', userName: '范冰冰', telAbbre: '6778', oTel: '12345678910', rosterType: '03', sex: 1, }
-                ]
-            }
+            // if(this.pageType === 'per'){
+            //     this.rosterList = [
+            //         {userId: '001', week: '星期四', date: '12月3日', rosterType: '00', sex: 0, },
+            //         {userId: '002', week: '星期四', date: '12月3日', rosterType: '01', sex: 0, },
+            //         {userId: '003', week: '星期四', date: '12月3日', rosterType: '02', sex: 0, },
+            //         {userId: '004', week: '星期四', date: '12月3日', rosterType: '03', sex: 0, },
+            //         {userId: '005', week: '星期四', date: '12月3日', rosterType: '02', sex: 0, },
+            //     ];
+            // }else{
+            //     this.rosterList = [
+            //         {userId: '001', userName: '李大霄', telAbbre: '6778', oTel: '12345678', rosterType: '00', sex: 0, },
+            //         {userId: '002', userName: '李立昌', telAbbre: '6778', oTel: '12345678910', rosterType: '01', sex: 0, },
+            //         {userId: '003', userName: '林黛玉', telAbbre: '6778', oTel: '12345677777', rosterType: '02', sex: 1, },
+            //         {userId: '004', userName: '范冰冰', telAbbre: '6778', oTel: '12345678910', rosterType: '03', sex: 1, }
+            //     ]
+            // }
         },
         mounted() {
+            this.initDate();
         },
 
         methods: {
+            async initDate(){
+                const resp = await this.$api.changeDataApi.getChangeData();
+                const resChangeData = resp.data;
+                let exeTime = resChangeData.bizDate;
+                if(this.pageType === '0') {
+                    let resp1 = await this.$api.HomePageApi.selectRosterDetailOfWeek({
+                        rosterDate: exeTime,
+                        pageType: 'personal'
+                    });
+                    if (resp1) {
+                        this.rosterList = resp1.data;
+                    }
+                }else {
+                    let resp1 = await this.$api.HomePageApi.selectRosterDetailOfWeek({
+                        rosterDate: exeTime,
+                        pageType: 'department'
+                    });
+                    if (resp1) {
+                        this.rosterList = resp1.data;
+                    }
+                }
+            },
             showRoster(item) {
                 let depViewId = 'agnes.dop.roster';
                 let depView = this.$app.views.getView(depViewId);

@@ -34,11 +34,18 @@
             }
         },
         created() {
-            this.$api.ruleTableApi.getTaskTodoList().then(res => {
-                this.taskDemoArr = res.data.rows.splice(0,4);
-            })
+            // this.$api.ruleTableApi.getTaskTodoList().then(res => {
+            //     this.taskDemoArr = res.data.rows.splice(0,4);
+            // })
+            this.initData;
         },
         methods: {
+            async initData(){
+                let resp1 = await this.$api.HomePageApi.selectTodoTaskOfUser();
+                if(resp1){
+                    this.taskDemoArr = resp1.data;
+                }
+            },
             choosedTask(task){
                 this.choosedTaskId = task.taskId;
             },

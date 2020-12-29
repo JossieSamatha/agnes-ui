@@ -23,12 +23,19 @@
             }
         },
         created(){
-            this.$api.ruleTableApi.getRemindList().then(res => {
-                this.msgDemoArr = res.data.rows
-            })
+            // this.$api.ruleTableApi.getRemindList().then(res => {
+            //     this.msgDemoArr = res.data.rows
+            // })
+            this.initData();
         },
 
         methods: {
+            async initData(){
+                let resp1 = await this.$api.HomePageApi.getMsgListByUser();
+                if(resp1){
+                    this.msgDemoArr = resp1.data;
+                }
+            },
             expandMore(item) {
                 if (!item.expand) {
                     this.$set(item, 'expand', 'expand');

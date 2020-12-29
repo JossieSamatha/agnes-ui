@@ -2,8 +2,8 @@
     <div class="gauge-container">
         <div v-for="task in proTask" :key="task.taskId">
             <span class="name">{{task.taskName}}</span>
-            <gauge-comp-item class="gauge-comp" :rate="task.finishedRate"></gauge-comp-item>
-            <span class="statistic" :style="{color: task.finishedRate<1 ? '#0F5EFF' : '#4BE16E'}">{{task.finished}}/{{task.targetNum}}</span>
+            <gauge-comp-item class="gauge-comp" :rate="task.doneNumRate"></gauge-comp-item>
+            <span class="statistic" :style="{color: task.doneNumRate<1 ? '#0F5EFF' : '#4BE16E'}">{{task.doneNum}}/{{task.targetNum}}</span>
         </div>
     </div>
 </template>
@@ -12,19 +12,22 @@
     export default {
         data() {
             return {
-                proTask: [
-                    {taskId: '01', taskName: '核算晚班工作', finishedRate: '0.78', finished: 44, targetNum: 58},
-                    {taskId: '02', taskName: '核算清算流程', finishedRate: '1', finished: 36, targetNum: 36},
-                    {taskId: '03', taskName: 'TA资金电子化流程', finishedRate: '0.25', finished: 12, targetNum: 48},
-                    {taskId: '04', taskName: 'TA批处理流程', finishedRate: '0.5', finished: 24, targetNum: 48},
-                ]
+                proTask: []
             }
         },
         mounted() {
-
+            this.init();
         },
         methods: {
-
+            async init(){
+                const resp = await this.$api.changeDataApi.getChangeData();
+                const resChangeData = resp.data;
+                let exeTime = resChangeData.bizDate;
+                let resp1 = await this.$api.HomePageApi.selectExecProcessDetailOfToday(exeTime);
+                if(resp1){
+                    this.proTask = resp1.data;
+                }
+            }
         },
     }
 </script>
