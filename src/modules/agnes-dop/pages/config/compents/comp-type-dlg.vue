@@ -11,7 +11,7 @@
             <el-form-item label="组件类型" prop="compType">
               <gf-dict v-model="form.compType" dict-type="AGNES_DOP_COMPENT_TYPE"  style="width: 40%"/>
             </el-form-item>
-            <el-form-item label="菜单地址" prop="menuId" >
+            <el-form-item label="菜单地址">
                 <el-select v-model="form.menuId"
                            filterable clearable
                            placeholder="请选择" style="width: 40%">
@@ -81,7 +81,6 @@
                     label: [{required: true, message: "请输入组件描述"}],
                     pageType: [{required: true, message: "请选择首页类型"}],
                     compType: [{required: true, message: "请选择组件类型"}],
-                    menuId: [{required: true, message: "请选择菜单"}],
                     arrowBlock: [{required: true, message: "请选择箭头类型"}],
                     arrowShow: [{required: true, message: "请选择是否显示"}]
                 },

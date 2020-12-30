@@ -21,6 +21,13 @@ export default {
         return request.post(`/agnes-app//v1/dop/board/manage-board`, form);
     },
     /**
+     * 第一次加载面板
+     * @return
+     */
+    getSignDashboards() {
+        return request.post(`/agnes-app//v1/dop/board/query-sign-board`);
+    },
+    /**
      * 切换面板，更换当前选中面板
      * @return
      */
