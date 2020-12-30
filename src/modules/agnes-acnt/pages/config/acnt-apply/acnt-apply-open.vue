@@ -1,6 +1,195 @@
 <template>
     <div>
-        <module-card title="变更前-账户信息" v-if="showChange" shadow="never">
+
+        <module-card :title="showChange ? '待变更-基础信息': '基础信息'" shadow="never">
+        <template slot="content">
+          <el-form ref="taskDefForm" class="task-def-form" :model="detailForm" :disabled="isDisabled"
+                   :rules="detailFormRules" label-width="160px">
+            <div class="line" >
+
+              <el-form-item  label="账户类型" prop="typeCode">
+                <el-select :disabled="isSubDis" class="multiple-select" v-model="detailForm.typeCode"
+                           filterable clearable
+                           placeholder="请选择"
+                           @change="loadShowRule">
+                  <el-option-group
+                      v-for="group in bizTagOption"
+                      :key="group.label"
+                      :label="group.label">
+                    <el-option
+                        v-for="item in group.options"
+                        :key="item.typeCode"
+                        :label="`${group.label} - ${item.typeName}`"
+                        :value="item.typeCode">
+                    </el-option>
+                  </el-option-group>
+                </el-select>
+              </el-form-item>
+              <el-form-item  label="业务类型" prop="bizType">
+                <gf-dict disabled filterable clearable v-model="detailForm.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
+              </el-form-item>
+            </div>
+            <div class="line">
+              <el-form-item label="业务发起部门" prop="baseStartDept">
+                <gf-dict :disabled="isSubDis" filterable clearable v-model="detailForm.baseStartDept" dict-type="AGNES_ROSTER_DEPT" />
+              </el-form-item>
+              <el-form-item label="业务发起部门联系人" prop="baseStartDeptLinkman">
+                <gf-input :disabled="isSubDis" v-model.trim="detailForm.baseStartDeptLinkman" placeholder="业务发起部门联系人"/>
+              </el-form-item>
+            </div>
+            <div class="line">
+              <el-form-item label="业务描述" prop="baseDesc">
+                <gf-input :disabled="isSubDis" v-model.trim="detailForm.baseDesc" type='textarea' placeholder="业务描述" :max-len="200"/>
+              </el-form-item>
+              <el-form-item label="业务受理部门" prop="baseAcceptDept">
+                <gf-dict :disabled="isSubDis" filterable clearable v-model="detailForm.baseAcceptDept" dict-type="AGNES_ROSTER_DEPT" />
+              </el-form-item>
+            </div>
+            <div class="line">
+              <el-form-item label="业务受理组" prop="baseAcceptGroup">
+                <el-select :disabled="isSubDis" class="multiple-select" v-model="detailForm.baseAcceptGroup"
+                           filterable clearable
+                           placeholder="请选择">
+                  <gf-filter-option
+                      v-for="item in groupOption"
+                      :key="item.userGroupId"
+                      :label="item.userGroupName"
+                      :value="item.userGroupId">
+                  </gf-filter-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="归属机构" prop="baseOrgId">
+                <el-select :disabled="isSubDis" class="multiple-select" v-model="detailForm.baseOrgId"
+                           filterable clearable
+                           placeholder="请选择">
+                  <gf-filter-option
+                      v-for="item in OrgList"
+                      :key="item.extOrgId"
+                      :label="`${item.extOrgCode} - ${item.extOrgName} - ${item.orgTypeName}`"
+                      :value="item.extOrgId">
+                  </gf-filter-option>
+                </el-select>
+              </el-form-item>
+            </div>
+            <div class="line">
+              <el-form-item label="经办人" prop="baseOperator">
+                <gf-input :disabled="isSubDis" v-model.trim="detailForm.baseOperator" placeholder="经办人"/>
+              </el-form-item>
+              <el-form-item label="基金代码" prop="productCode">
+                <div class="line">
+                  <el-select :disabled="isSubDis" class="multiple-select" v-model="detailForm.productCode"
+                             filterable clearable
+                             placeholder="请选择">
+                    <gf-filter-option
+                        v-for="item in productList"
+                        :key="item.productCode"
+                        :label="`${item.productCode} - ${item.productName}`"
+                        :value="item.productCode">
+                    </gf-filter-option>
+                  </el-select>
+
+                  <el-button style="border: none;padding-left: 5px;font-size: 17px;vertical-align: middle" icon="el-icon-edit-outline" @click="addProduct"/>
+                </div>
+              </el-form-item>
+            </div>
+            <div class="line">
+              <el-form-item label="基金名称" prop="productName">
+                <gf-input disabled v-model.trim="detailForm.productName" placeholder="基金名称"/>
+              </el-form-item>
+
+              <el-form-item label="申请截止日期" prop="applyDeadlineDt">
+                <el-date-picker
+                    v-model="detailForm.applyDeadlineDt"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    placeholder="申请日期">
+                </el-date-picker>
+              </el-form-item>
+            </div>
+            <div class="line">
+              <el-form-item label="提交OA流程" prop="isSendOa">
+                <el-radio-group v-model="detailForm.isSendOa" :disabled="this.mode === 'addInfo'">
+                  <el-radio label="1">是</el-radio>
+                  <el-radio label="0">否</el-radio>
+                </el-radio-group>
+              </el-form-item>
+
+              <el-form-item label="提交财务流程" prop="isSendFinance">
+                <el-radio-group :disabled="isSubDis || isSendFinanceDis" v-model="detailForm.isSendFinance">
+                  <el-radio label="1">是</el-radio>
+                  <el-radio label="0">否</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </div>
+            <div class="line">
+              <el-form-item label="账户状态" prop="acntStatus" v-if="this.detailForm.bizType === '02'" width="100%">
+                <el-select v-model="detailForm.acntStatus" placeholder="">
+                  <el-option
+                      v-for="item in acntStatusOption"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item></el-form-item>
+
+            </div>
+            <div v-if="detailForm.isSendOa==='1'" class="line">
+              <el-form-item label="标题" prop="oaTitle">
+                <gf-input v-model.trim="detailForm.oaTitle" placeholder="标题"/>
+              </el-form-item>
+              <el-form-item label="申请部门" prop="oaDept">
+                <gf-input v-model.trim="detailForm.oaDept" placeholder="申请部门"/>
+              </el-form-item>
+            </div>
+            <div v-if="detailForm.isSendOa==='1'" class="line">
+              <el-form-item label="申请人" prop="oaOperator">
+                <gf-input disabled v-model.trim="detailForm.oaOperator" placeholder="申请人"/>
+              </el-form-item>
+              <el-form-item label="申请事由" prop="oaRemark">
+                <gf-input v-model.trim="detailForm.oaRemark" placeholder="申请事由"/>
+              </el-form-item>
+            </div>
+            <div v-if="detailForm.isSendOa==='1'" class="line">
+              <el-form-item label="是否需要合规法务审核" prop="oaIsNeedAudit">
+                <el-radio-group v-model="detailForm.oaIsNeedAudit">
+                  <el-radio label="1">是</el-radio>
+                  <el-radio label="0">否</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </div>
+            <div v-if="detailForm.isSendOa==='1'" class="line">
+              <el-form-item label="是否需要加盖法人章" prop="oaIsNeedStamp">
+                <el-radio-group v-model="detailForm.oaIsNeedStamp">
+                  <el-radio label="1">是</el-radio>
+                  <el-radio label="0">否</el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <el-form-item label="用印日期" prop="oaPrintDt">
+                <el-date-picker
+                    v-model="detailForm.oaPrintDt"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    placeholder="用印日期">
+                </el-date-picker>
+              </el-form-item>
+            </div>
+            <div v-if="detailForm.isSendOa==='1'" class="line">
+              <el-form-item v-if="detailForm.isSendOa==='1'" label="用印文件" prop="fileTable">
+                <div class="rule-table">
+                  <acc-ecm-upload style="width: 100%;"
+                                  :disabled="this.mode !== 'add' && this.mode !=='addChange' && this.mode !=='edit' && this.mode !=='addInfo' && this.mode !=='deteleApply'"
+                                  :showRemove="this.mode === 'add' || this.mode ==='addChange' || this.mode ==='edit' || this.mode ==='addInfo'|| this.mode ==='deteleApply'"
+                                  :src-doc-id="srcDocId" :file-list="detailForm.fileList">
+                  </acc-ecm-upload>
+                </div>
+              </el-form-item>
+            </div>
+          </el-form>
+        </template>
+      </module-card>
+        <module-card v-if="showChange" :title="showChange ? '变更前-基础信息': '基础信息'" shadow="never">
             <template slot="content">
                 <el-form ref="taskDefFormBefore" class="task-def-form" :model="detailFormBefore" disabled
                          :rules="detailFormRules" label-width="160px">
@@ -188,193 +377,7 @@
                 </el-form>
             </template>
         </module-card>
-        <module-card :title="showChange ? '变更后-账户信息': '账户信息'" shadow="never">
-            <template slot="content">
-                <el-form ref="taskDefForm" class="task-def-form" :model="detailForm" :disabled="isDisabled"
-                         :rules="detailFormRules" label-width="160px">
-                    <div class="line" >
-                        <el-form-item  label="账户类型" prop="typeCode">
-                            <el-select :disabled="isSubDis" class="multiple-select" v-model="detailForm.typeCode"
-                                       filterable clearable
-                                       placeholder="请选择"
-                                       @change="loadShowRule">
-                                <el-option-group
-                                        v-for="group in bizTagOption"
-                                        :key="group.label"
-                                        :label="group.label">
-                                    <el-option
-                                            v-for="item in group.options"
-                                            :key="item.typeCode"
-                                            :label="`${group.label} - ${item.typeName}`"
-                                            :value="item.typeCode">
-                                    </el-option>
-                                </el-option-group>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item  label="业务类型" prop="bizType">
-                            <gf-dict disabled filterable clearable v-model="detailForm.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
-                        </el-form-item>
-                    </div>
-                    <div class="line">
-                        <el-form-item label="业务发起部门" prop="baseStartDept">
-                            <gf-dict :disabled="isSubDis" filterable clearable v-model="detailForm.baseStartDept" dict-type="AGNES_ROSTER_DEPT" />
-                        </el-form-item>
-                        <el-form-item label="业务发起部门联系人" prop="baseStartDeptLinkman">
-                            <gf-input :disabled="isSubDis" v-model.trim="detailForm.baseStartDeptLinkman" placeholder="业务发起部门联系人"/>
-                        </el-form-item>
-                    </div>
-                    <div class="line">
-                        <el-form-item label="业务描述" prop="baseDesc">
-                            <gf-input :disabled="isSubDis" v-model.trim="detailForm.baseDesc" type='textarea' placeholder="业务描述" :max-len="200"/>
-                        </el-form-item>
-                        <el-form-item label="业务受理部门" prop="baseAcceptDept">
-                            <gf-dict :disabled="isSubDis" filterable clearable v-model="detailForm.baseAcceptDept" dict-type="AGNES_ROSTER_DEPT" />
-                        </el-form-item>
-                    </div>
-                    <div class="line">
-                        <el-form-item label="业务受理组" prop="baseAcceptGroup">
-                            <el-select :disabled="isSubDis" class="multiple-select" v-model="detailForm.baseAcceptGroup"
-                                       filterable clearable
-                                       placeholder="请选择">
-                                <gf-filter-option
-                                        v-for="item in groupOption"
-                                        :key="item.userGroupId"
-                                        :label="item.userGroupName"
-                                        :value="item.userGroupId">
-                                </gf-filter-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item label="归属机构" prop="baseOrgId">
-                            <el-select :disabled="isSubDis" class="multiple-select" v-model="detailForm.baseOrgId"
-                                       filterable clearable
-                                       placeholder="请选择">
-                                <gf-filter-option
-                                        v-for="item in OrgList"
-                                        :key="item.extOrgId"
-                                        :label="`${item.extOrgCode} - ${item.extOrgName} - ${item.orgTypeName}`"
-                                        :value="item.extOrgId">
-                                </gf-filter-option>
-                            </el-select>
-                        </el-form-item>
-                    </div>
-                    <div class="line">
-                        <el-form-item label="经办人" prop="baseOperator">
-                            <gf-input :disabled="isSubDis" v-model.trim="detailForm.baseOperator" placeholder="经办人"/>
-                        </el-form-item>
-                        <el-form-item label="基金代码" prop="productCode">
-                            <div class="line">
-                                <el-select :disabled="isSubDis" class="multiple-select" v-model="detailForm.productCode"
-                                           filterable clearable
-                                           placeholder="请选择">
-                                    <gf-filter-option
-                                            v-for="item in productList"
-                                            :key="item.productCode"
-                                            :label="`${item.productCode} - ${item.productName}`"
-                                            :value="item.productCode">
-                                    </gf-filter-option>
-                                </el-select>
 
-                                <el-button style="border: none;padding-left: 5px;font-size: 17px;vertical-align: middle" icon="el-icon-edit-outline" @click="addProduct"/>
-                            </div>
-                        </el-form-item>
-                    </div>
-                    <div class="line">
-                        <el-form-item label="基金名称" prop="productName">
-                            <gf-input disabled v-model.trim="detailForm.productName" placeholder="基金名称"/>
-                        </el-form-item>
-
-                        <el-form-item label="申请截止日期" prop="applyDeadlineDt">
-                            <el-date-picker
-                                    v-model="detailForm.applyDeadlineDt"
-                                    type="date"
-                                    value-format="yyyy-MM-dd"
-                                    placeholder="申请日期">
-                            </el-date-picker>
-                        </el-form-item>
-                    </div>
-                    <div class="line">
-                        <el-form-item label="提交OA流程" prop="isSendOa">
-                            <el-radio-group v-model="detailForm.isSendOa" :disabled="this.mode === 'addInfo'">
-                                <el-radio label="1">是</el-radio>
-                                <el-radio label="0">否</el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-
-                      <el-form-item label="提交财务流程" prop="isSendFinance">
-                        <el-radio-group :disabled="isSubDis || isSendFinanceDis" v-model="detailForm.isSendFinance">
-                          <el-radio label="1">是</el-radio>
-                          <el-radio label="0">否</el-radio>
-                        </el-radio-group>
-                      </el-form-item>
-                    </div>
-                  <div class="line">
-                    <el-form-item label="账户状态" prop="acntStatus" v-if="this.detailForm.bizType === '02'" width="100%">
-                      <el-select v-model="detailForm.acntStatus" placeholder="">
-                        <el-option
-                            v-for="item in acntStatusOption"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                    <el-form-item></el-form-item>
-
-                  </div>
-                  <div v-if="detailForm.isSendOa==='1'" class="line">
-                    <el-form-item label="标题" prop="oaTitle">
-                      <gf-input v-model.trim="detailForm.oaTitle" placeholder="标题"/>
-                    </el-form-item>
-                    <el-form-item label="申请部门" prop="oaDept">
-                      <gf-input v-model.trim="detailForm.oaDept" placeholder="申请部门"/>
-                    </el-form-item>
-                  </div>
-                  <div v-if="detailForm.isSendOa==='1'" class="line">
-                    <el-form-item label="申请人" prop="oaOperator">
-                            <gf-input disabled v-model.trim="detailForm.oaOperator" placeholder="申请人"/>
-                        </el-form-item>
-                        <el-form-item label="申请事由" prop="oaRemark">
-                            <gf-input v-model.trim="detailForm.oaRemark" placeholder="申请事由"/>
-                        </el-form-item>
-                    </div>
-                    <div v-if="detailForm.isSendOa==='1'" class="line">
-                        <el-form-item label="是否需要合规法务审核" prop="oaIsNeedAudit">
-                            <el-radio-group v-model="detailForm.oaIsNeedAudit">
-                                <el-radio label="1">是</el-radio>
-                                <el-radio label="0">否</el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                    </div>
-                    <div v-if="detailForm.isSendOa==='1'" class="line">
-                        <el-form-item label="是否需要加盖法人章" prop="oaIsNeedStamp">
-                            <el-radio-group v-model="detailForm.oaIsNeedStamp">
-                                <el-radio label="1">是</el-radio>
-                                <el-radio label="0">否</el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                        <el-form-item label="用印日期" prop="oaPrintDt">
-                            <el-date-picker
-                                    v-model="detailForm.oaPrintDt"
-                                    type="date"
-                                    value-format="yyyy-MM-dd"
-                                    placeholder="用印日期">
-                            </el-date-picker>
-                        </el-form-item>
-                    </div>
-                    <div v-if="detailForm.isSendOa==='1'" class="line">
-                        <el-form-item v-if="detailForm.isSendOa==='1'" label="用印文件" prop="fileTable">
-                            <div class="rule-table">
-                                <acc-ecm-upload style="width: 100%;"
-                                                :disabled="this.mode !== 'add' && this.mode !=='addChange' && this.mode !=='edit' && this.mode !=='addInfo' && this.mode !=='deteleApply'"
-                                                :showRemove="this.mode === 'add' || this.mode ==='addChange' || this.mode ==='edit' || this.mode ==='addInfo'|| this.mode ==='deteleApply'"
-                                                :src-doc-id="srcDocId" :file-list="detailForm.fileList">
-                                </acc-ecm-upload>
-                            </div>
-                        </el-form-item>
-                    </div>
-                </el-form>
-            </template>
-        </module-card>
     </div>
 </template>
 
@@ -865,7 +868,7 @@
                     component: ProductDetail,
                     args: {row, mode, actionOk},
                     okButtonVisible: isShow,
-                    okButtonTitle: row.isCheck ? "复核" : '保存',
+                    okButtonTitle: row.isCheck ? "复核" : '提交',
                     cancelButtonTitle: '取消',
                 });
             }

@@ -51,7 +51,7 @@
         <el-button @click="reSetSearch" class="option-btn">重置</el-button>
       </div>
     </el-form>
-    <gf-grid ref="grid" height="calc(100% - 90px)"
+    <gf-grid ref="grid" height="calc(100% - 70px)"
              @row-double-click="showDetail"
              :query-args="queryArgs"
              grid-no="agnes-acnt-info-ta">
@@ -65,6 +65,12 @@
       </template>
 
       <template slot="right-before">
+<!--        <el-radio-group v-model="queryArgs.isShowAll"  size="mini" style="width:290px;">-->
+<!--          <el-radio-button label="正常"></el-radio-button>-->
+<!--          <el-radio-button label="久悬"></el-radio-button>-->
+<!--          <el-radio-button label="锁定"></el-radio-button>-->
+<!--          <el-radio-button label="销户"></el-radio-button>-->
+<!--        </el-radio-group>-->
         <el-switch class="inner-switch"
                    v-model="queryArgs.isShowAll"
                    :width = 65
@@ -163,17 +169,18 @@ export default {
         this.$msg.warning("请选中一条记录!");
         return;
       }
-      let title = '账户销户';
+      let title = '销户申请';
       if (mode === 'addChange') {
-        title = '变更资料';
+        title = '变更申请';
       }
       this.$drawerPage.create({
-        width: 'calc(100% - 250px)',
+        width: 'calc(97% - 215px)',
         title: [title],
         component: AcntApplyOpen,
         args: {row, mode, actionOk, isDisabled},
         okButtonVisible: mode !== 'view',
-        okButtonTitle: mode === 'detele' ? '提交' : '保存'
+        okButtonTitle: mode === 'detele' ? '提交' : '提交',
+        pageEl: this.$el
       })
     },
     onOpenApply() {
@@ -192,12 +199,13 @@ export default {
         return;
       }
       this.$drawerPage.create({
-        width: 'calc(100% - 250px)',
+        width: 'calc(97% - 215px)',
         title: ['账户登记'],
         component: AcntApplyInsert,
         args: {row, mode, actionOk},
         okButtonVisible: mode !== 'view',
-        okButtonTitle: mode === 'check' ? '审核' : '保存'
+        okButtonTitle: mode === 'check' ? '审核' : '保存',
+        pageEl: this.$el
       })
     },
     onInsertApply() {
@@ -216,13 +224,14 @@ export default {
       }
       let title = '账户信息';
       this.$drawerPage.create({
-        width: 'calc(100% - 250px)',
+        width: 'calc(97% - 215px)',
         title: [title],
         component: AcntInfoDetail,
         args: {row, mode, actionOk, isDisabled},
         okButtonVisible: mode !== 'view',
         okButtonTitle: mode === 'detele' ? '提交' : '保存',
-        cancelButtonTitle: mode === 'view' ? '关闭' : '取消'
+        cancelButtonTitle: mode === 'view' ? '关闭' : '取消',
+        pageEl: this.$el
       })
     },
 

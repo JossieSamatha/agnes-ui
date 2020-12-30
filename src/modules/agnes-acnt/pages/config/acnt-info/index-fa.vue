@@ -8,8 +8,19 @@
                 <el-form-item label="资金账号" >
                     <el-input v-model="queryArgs.fundAccNos"></el-input>
                 </el-form-item>
-                <el-form-item label="证券账号" >
-                    <el-input v-model="queryArgs.accNos"></el-input>
+<!--                <el-form-item label="证券账号" >-->
+<!--                    <el-input v-model="queryArgs.accNos"></el-input>-->
+<!--                </el-form-item>-->
+                <el-form-item label="归属机构">
+                  <el-select class="multiple-select" v-model="queryArgs.orgIdList" multiple collapse-tags filterable
+                             placeholder="请选择">
+                    <gf-filter-option
+                        v-for="item in orgOption"
+                        :key="item.value"
+                        :label="`${item.extOrgCode} - ${item.extOrgName} - ${item.orgTypeName}`"
+                        :value="item.extOrgId">
+                    </gf-filter-option>
+                  </el-select>
                 </el-form-item>
                 <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
             </div>
@@ -43,19 +54,9 @@
               <el-button @click="reSetSearch" class="option-btn">重置</el-button>
             </div>
 
-            <div class="line">
-                <el-form-item label="归属机构">
-                    <el-select class="multiple-select" v-model="queryArgs.orgIdList" multiple collapse-tags filterable
-                               placeholder="请选择">
-                        <gf-filter-option
-                                v-for="item in orgOption"
-                                :key="item.value"
-                                :label="`${item.extOrgCode} - ${item.extOrgName} - ${item.orgTypeName}`"
-                                :value="item.extOrgId">
-                        </gf-filter-option>
-                    </el-select>
-                </el-form-item>
-            </div>
+<!--            <div class="line">-->
+
+<!--            </div>-->
         </el-form>
         <gf-grid ref="grid" height="calc(100% - 100px)"
                  @row-double-click="showDetail"
@@ -70,6 +71,12 @@
             </template>
 
             <template slot="right-before">
+<!--              <el-radio-group v-model="queryArgs.isShowAll"  size="mini" style="width:290px;">-->
+<!--                <el-radio-button label="正常"></el-radio-button>-->
+<!--                <el-radio-button label="久悬"></el-radio-button>-->
+<!--                <el-radio-button label="锁定"></el-radio-button>-->
+<!--                <el-radio-button label="销户"></el-radio-button>-->
+<!--              </el-radio-group>-->
                 <el-switch class="inner-switch"
                            v-model="queryArgs.isShowAll"
                            :width = 65
@@ -168,9 +175,9 @@
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
-                let title = '账户销户';
+                let title = '销户申请';
                 if(mode==='addChange'){
-                    title = '变更资料';
+                    title = '变更申请';
                 }
                 this.$drawerPage.create({
                     width: 'calc(100% - 250px)',

@@ -4,7 +4,7 @@
         <el-divider v-if="showChange"></el-divider>
         <el-form v-if="showChange" ref="taskDefFormBefore" class="acnt-apply-insert-form" :model="detailFormBefore" :disabled="true"
              :rules="detailFormRules" label-width="180px">
-            <module-card title="要素信息" shadow="never">
+            <module-card title="基础信息" shadow="never">
                 <template slot="content">
                     <div class="line">
                         <el-form-item label="账户类型" prop="typeCode">
@@ -331,7 +331,7 @@
         <el-divider v-if="showChange"></el-divider>
         <el-form ref="taskDefForm" class="acnt-apply-insert-form" :model="detailForm" :disabled="mode==='view'||mode==='check'"
              :rules="detailFormRules" label-width="180px">
-            <module-card title="要素信息" shadow="never">
+            <module-card title="基础信息" shadow="never">
                 <template slot="content">
                     <div class="line">
                         <el-form-item label="账户类型" prop="typeCode">

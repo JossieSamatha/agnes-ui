@@ -3,7 +3,7 @@ import column from "../../../../../config/column"
 const colButtons = [
     // {key: 'queryRate', title: '查看利率'},
     // {key: 'queryLinkman', title: '查看联系人'},
-    {key: 'changeData', title: '变更资料'},
+    {key: 'changeData', title: '变更'},
     {key: 'delete', title: '销户',disabled: (params)=>{
             let result = false;
             if(params.data.processStatus === '02'){
