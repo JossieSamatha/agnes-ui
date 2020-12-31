@@ -55,5 +55,17 @@ export default {
     getMsgListByType() {
         return request.post("/agnes-remind/v1/remind/home/msg");
     },
+    /**
+     * 保存用户背景信息
+     */
+    saveBackImgOfUser() {
+        return request.post("/agnes-app/v1/dop/home/save/back");
+    },
+    /**
+     * 获取用户背景图片信息
+     */
+    DopRuUserSkin() {
+        return request.post("/agnes-app/v1/dop/home/get/back");
+    },
 
 };
