@@ -32,6 +32,12 @@ export default {
         return request.post("/agnes-app/v1/dop/home/memo", null,{params: form});
     },
     /**
+     * 根据日期查询运营日历详情
+     */
+    selectMemoByMemoDate(form) {
+        return request.post("/agnes-app/v1/dop/home/memo/today", null,{params: form});
+    },
+    /**
      * 查询异常信息
      */
     selectErrInfoByUser() {

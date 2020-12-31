@@ -19,7 +19,7 @@ export default {
         column.buildOpCol(90, colButtons),
         {headerName: "描述", field: "label"},
         {headerName: "组件类型", field: "compType", formatType: 'dict', dictType: 'AGNES_DOP_COMPENT_TYPE'},
-        {headerName: "地址", field: "menuId"},
+        {headerName: "首页类型", field: "pageType", formatType: 'dict', dictType: 'AGNES_DOP_PAGE_TYPE'},
         {headerName: "是否可以查看详情", field: "arrowShow",
             valueFormatter: function (params) {
                 if(params.value === '0'){
