@@ -47,6 +47,9 @@
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
+            <el-form-item label="图片">
+                <el-input v-model="form.img" style="width: 40%"/>
+            </el-form-item>
             <el-form-item label="参数">
                 <el-input v-model="form.compParams" type="textarea" :rows="2" placeholder="请填写参数" style="width: 40%"/>
             </el-form-item>
@@ -73,6 +76,7 @@
                     arrowShow: '0',
                     arrowBlock: '0',
                     compParams: '',
+                    img:'',
                 },
                 menuList:[],
                 arrowShowArry:[{value:"0",label:'否'},{value:"1",label:'是'}],
