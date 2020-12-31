@@ -395,15 +395,14 @@
 .datav_client_view .topPanel {
     position: fixed;
     right: 30px;
-    height: 20px;
-    margin-bottom: 5px;
     z-index: 1000;
 }
 
 .datav_client_view .topPanel .optionPanel{
     display: flex;
     justify-content: space-between;
-    margin-bottom: 5px;
+    height: 25px;
+    align-items: center;
 }
 
 .datav_client_view .topPanel .optionPanel
@@ -427,7 +426,9 @@
 .datav_client_view .topPanel .optionPanel .boardeEdit{
     line-height: 28px;
     color: #0f5eff;
-    font-weight: bold;
+    font-size: 12px;
+    font-family: SourceHanSansCN-Medium;;
+    margin-left: 12px;
     cursor: pointer;
 }
 
@@ -601,6 +602,11 @@
 .datav_client_view .gridContainer.edit .vue-grid-layout .vue-grid-item
 .menuContent {
     cursor: grab;
+}
+
+.datav_client_view .gridContainer.define .mask,
+.datav_client_view .gridContainer.edit .mask {
+    display: block;
 }
 
 .datav_client_view .boardChoose .boardContainer .delUnitGrid,

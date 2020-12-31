@@ -9,6 +9,7 @@ import accEcmUpload from './ecm-upload/acc-ecm-upload';
 import MenuConfigUpload from './menu-upload/menu-config-upload';
 import inputComp from './input/index'
 import svgIcon from './svg-icon/svg-icon-comp.vue'
+import skinDialog from './skin-dialog'
 
 import robotWisdom from './input/robot'
 
@@ -26,6 +27,7 @@ const Loading = {
         Vue.component('menu-config-upload',MenuConfigUpload);
         Vue.component('robot-wisdom',robotWisdom);
         Vue.component('svg-icon',svgIcon);
+        Vue.component('skin-dialog',skinDialog);
     }
 };
 

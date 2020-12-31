@@ -4,13 +4,13 @@ const pages = [{
     id: "datav.client.view",
     title: "我的首页",
     component: clientView,
-    args: {pageId: '0'},
+    args: {pageId: 'personal'},
     closeable: false
 }, {
     id: "datav.dep.view",
     title: "部门首页",
     component: clientView,
-    args: {pageId: '1'},
+    args: {pageId: 'department'},
     closeable: false
 }];
 

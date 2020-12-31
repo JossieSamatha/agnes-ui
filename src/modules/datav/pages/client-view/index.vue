@@ -5,26 +5,29 @@
             <div class="optionPanel">
                 <span></span>
                 <div>
-                    <span class="boardeEdit" v-if="!isGridEdit && !isGridDefine" @click="boardEdit">配置看板</span>
+                    <span class="boardeEdit" :id="pageId+'EditBtn'" v-show="false" @click="boardEdit"
+                    >配置看板</span>
                     <span class="boardeEdit" v-if="isGridEdit" @click="boardEdit">切换看板</span>
                     <span class="boardeEdit" v-if="isGridEdit" @click="boardEditFinish('content')">完成配置</span>
                     <span class="boardeEdit" v-if="isGridDefine" @click="addUnitGrid">新增面板</span>
                     <span class="boardeEdit" v-if="isGridDefine" @click="boardEditFinish('layout')">保存面板</span>
-                    <span class="boardeEdit" v-if="isGridDefine" @click="boardEditFinish('layout', 'cancel')">取消操作</span>
+                    <span class="boardeEdit" v-if="isGridDefine || isGridEdit" @click="boardEditFinish('', 'cancel')">取消操作</span>
                 </div>
             </div>
         </div>
         <grid-container class="indexPage" ref="gridContainer" :pageId="pageId"></grid-container>
-        <board-choose ref="boardChoose"
-                :showDialog="boardChooseDialog"
-                @closeDialog="closeDialog"
-                @boardChooseSure="boardChooseSure" @defineBoard="defineBoard">
+        <board-choose v-if="boardChooseDialog"
+                      ref="boardChoose"
+                      :pageId="pageId"
+                      :showDialog="boardChooseDialog"
+                      @closeDialog="closeDialog"
+                      @boardChooseSure="boardChooseSure"
+                      @defineBoard="defineBoard">
         </board-choose>
     </div>
 </template>
 
 <script>
-    import boardData from './board-data';
     import gridContainer from './grid-container';
     import boardChoose from './board-choose';
     export default {
@@ -33,7 +36,6 @@
         },
         data() {
             return {
-                guestInfo: boardData.guestInfo,
                 clientValue: '',
                 isGridDefine: false,            // 面板当前是否编辑
                 isGridEdit: false,              // 面板当前是否编辑
@@ -47,21 +49,24 @@
         methods: {
             // 配置看板 -- 点击展开弹窗 -- 查询自定义面板数据
             boardEdit(){
-                this.boardChooseDialog = true;
+                if(!this.isGridEdit && !this.isGridDefine){
+                    this.boardChooseDialog = true;
+                }
             },
 
             // 配置看板 -- 自定义面板
-            defineBoard() {
+            defineBoard(choosedBoard) {
                 this.isGridEdit = false;
                 this.isGridDefine = true;
                 this.$refs.gridContainer.isGridEdit = false;
                 this.$refs.gridContainer.isGridDefine = true;
                 this.boardChooseDialog = false;
+                this.setBoardData(choosedBoard);
             },
 
             // 面板grid -- 新增单元
             addUnitGrid() {
-                const newUnitId = this.$agnesAcUtils.randomString(6);
+                const newUnitId = this.$agnesAcUtils.randomString(32);
                 const newUnitObj = {
                     "x": 0,
                     "y": 0,
@@ -79,22 +84,51 @@
             },
 
             // 面板完成编辑
-            boardEditFinish(editType, ifCancel){
-                if(editType == 'content'){
+            async boardEditFinish(editType, ifCancel){
+                if(ifCancel){
                     this.isGridEdit = false;
                     this.$set(this.$refs.gridContainer, 'isGridEdit', false);
-                }else if(editType == 'layout'){
                     this.isGridDefine = false;
                     this.$set(this.$refs.gridContainer, 'isGridDefine', false);
-                    if(ifCancel){
-                        return false;
+                }else{
+                    const ok = await this.$msg.ask(`是否保存当前配置？`);
+                    if (!ok) {
+                        return
                     }
-                    const newdDefineBoard = {
-                        boardId: this.$agnesAcUtils.randomString(9),
-                        boardData: this.$refs.gridContainer.gridLayout.boardData
+
+                    const comtent = this.$refs.gridContainer.gridLayout.boardData.map((item)=>{
+                        return {
+                            x: item.x, y: item.y, w: item.w, h: item.h, i: item.i,
+                            compId: this.$refs.gridContainer.gridDataArr[item.i][0].compId
+                        };
+                    })
+                    let newdDefineBoard = {
+                        comtent: JSON.stringify(comtent),
+                        pageType: this.pageId,
+                        boardType: '1'
                     };
-                    this.$refs.boardChoose.boardArrDefine.push(newdDefineBoard);
-                    this.$refs.boardChoose.choosedBoard = newdDefineBoard;
+                    if(this.$refs.gridContainer.gridLayout.boardId){
+                        if(this.$refs.gridContainer.gridLayout.boardType === '0'){
+                            newdDefineBoard.boardId = '';
+                        }else{
+                            newdDefineBoard.boardId = this.$refs.gridContainer.gridLayout.boardId
+                        }
+                    }
+
+                    try {
+                        const p = this.$api.compBoardApi.saveDashboards(newdDefineBoard);
+                        await this.$app.blockingApp(p);
+                        if(editType == 'content'){
+                            this.isGridEdit = false;
+                            this.$set(this.$refs.gridContainer, 'isGridEdit', false);
+                        }else if(editType == 'layout'){
+                            this.isGridDefine = false;
+                            this.$set(this.$refs.gridContainer, 'isGridDefine', false);
+                        }
+                        this.$msg.success('配置成功');
+                    } catch(reason) {
+                        this.$msg.error(reason);
+                    }
                 }
             },
 
@@ -106,17 +140,23 @@
                 this.isGridDefine = false;
                 this.$set(this.$refs.gridContainer, 'isGridEdit', true);
                 this.$set(this.$refs.gridContainer, 'isGridDefine', false);
-                let gridLayout =  JSON.parse(JSON.stringify(choosedBoard));
+                this.setBoardData(choosedBoard);
+            },
+
+            setBoardData(choosedBoard){
+                let gridLayout =  this.$lodash.cloneDeep(choosedBoard);
                 let boardDataArr = gridLayout.boardData;
                 let boardStyleArr = this.$refs.gridContainer.boardStyleArr;
                 let gridDataArr = {};
-                for(let i=0; i<boardDataArr.length; i++){
-                    if(boardStyleArr[i]){
-                        const objArr = [boardStyleArr[i]];
-                        const gridLayoutObj = boardDataArr[i];
-                        gridDataArr[gridLayoutObj.i] = objArr;
+                boardDataArr.forEach((boardItem)=>{
+                    if(boardItem.compId){
+                        const compObj = this.$lodash.find(boardStyleArr, {compId: boardItem.compId});
+                        if(compObj){
+                            const objArr = [compObj];
+                            gridDataArr[boardItem.i] = objArr;
+                        }
                     }
-                }
+                })
 
                 this.$refs.gridContainer.gridLayout = gridLayout;
                 this.$refs.gridContainer.gridDataArr = gridDataArr;
