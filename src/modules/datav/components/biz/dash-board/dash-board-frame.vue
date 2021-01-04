@@ -25,14 +25,13 @@
         :is-draggable="isDraggable"
         :is-resizable="isResizable"
         :vertical-compact="verticalCompact"
-        :use-css-transforms="useCssTransforms"
         v-bind="extAttr"
         v-on="extEvent">
-        <grid-item v-for="(item,itemIndex) in gridData" :key="item.i" :class="{rightPined: item.x>=8}"
-            :x="item.x"
-            :y="item.y"
-            :w="item.w"
-            :h="item.h"
+        <grid-item v-for="(item,itemIndex) in gridData" :key="item.i" :class="{rightPined: parseInt(item.x)>=8}"
+            :x="parseInt(item.x)"
+            :y="parseInt(item.y)"
+            :w="parseInt(item.w)"
+            :h="parseInt(item.h)"
             :i="item.i"
             @resized="gridItemResized">
             <span class="delUnitGrid" @click="delBoardUnit(item.i, itemIndex)" v-if="ifCloseIconShow">
@@ -91,6 +90,9 @@ export default {
         return {
             isDraggable: false,        // 面板是否可移动
             isResizable: false,        // 面板是否可拖拽
+            parseInt: (num)=>{
+                return parseInt(num);
+            }
         }
     },
     watch: {
@@ -102,8 +104,6 @@ export default {
             },
             immediate: true
         }
-    },
-    computed: {
     },
     methods: {
         // 面板grid -- 新增单元

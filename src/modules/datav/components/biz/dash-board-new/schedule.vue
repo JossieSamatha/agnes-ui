@@ -6,12 +6,12 @@
             </div>
             <div class="info">
                 <p>
-                    <svg-icon :name="pageType === 'per' ? 'calendar' : 'user'" height="12px" color="#666"></svg-icon>
-                    <span>{{ pageType === 'per' ? roster.week :  roster.userName}}</span>
+                    <svg-icon :name="pageType === 'personal' ? 'calendar' : 'user'" height="12px" color="#666"></svg-icon>
+                    <span>{{ pageType === 'personal' ? roster.week :  roster.userName}}</span>
                 </p>
                 <p>
-                    <svg-icon :name="pageType === 'per' ? 'clock' : 'phone'" height="12px" color="#666"></svg-icon>
-                    <span>{{ pageType === 'per' ? roster.date : roster.telAbbre }}</span>
+                    <svg-icon :name="pageType === 'personal' ? 'clock' : 'phone'" height="12px" color="#666"></svg-icon>
+                    <span>{{ pageType === 'personal' ? roster.date : roster.telAbbre }}</span>
                     <template v-if="pageType === 'dep'">
                         <svg-icon name="mobile" height="12px" color="#666"></svg-icon>
                         <span class="telSpan">{{ roster.oTel }}</span>
@@ -38,24 +38,6 @@
                 rosterStatus: this.$app.dict.getDictItems('AGNES_RELEASE_STATUS')
             }
         },
-        async created() {
-            // if(this.pageType === 'per'){
-            //     this.rosterList = [
-            //         {userId: '001', week: '星期四', date: '12月3日', rosterType: '00', sex: 0, },
-            //         {userId: '002', week: '星期四', date: '12月3日', rosterType: '01', sex: 0, },
-            //         {userId: '003', week: '星期四', date: '12月3日', rosterType: '02', sex: 0, },
-            //         {userId: '004', week: '星期四', date: '12月3日', rosterType: '03', sex: 0, },
-            //         {userId: '005', week: '星期四', date: '12月3日', rosterType: '02', sex: 0, },
-            //     ];
-            // }else{
-            //     this.rosterList = [
-            //         {userId: '001', userName: '李大霄', telAbbre: '6778', oTel: '12345678', rosterType: '00', sex: 0, },
-            //         {userId: '002', userName: '李立昌', telAbbre: '6778', oTel: '12345678910', rosterType: '01', sex: 0, },
-            //         {userId: '003', userName: '林黛玉', telAbbre: '6778', oTel: '12345677777', rosterType: '02', sex: 1, },
-            //         {userId: '004', userName: '范冰冰', telAbbre: '6778', oTel: '12345678910', rosterType: '03', sex: 1, }
-            //     ]
-            // }
-        },
         mounted() {
             this.initDate();
         },
@@ -65,7 +47,7 @@
                 const resp = await this.$api.changeDataApi.getChangeData();
                 const resChangeData = resp.data;
                 let exeTime = resChangeData.bizDate;
-                if(this.pageType === '0') {
+                if(this.pageType === 'personal') {
                     let resp1 = await this.$api.HomePageApi.selectRosterDetailOfWeek({
                         rosterDate: exeTime,
                         pageType: 'personal'

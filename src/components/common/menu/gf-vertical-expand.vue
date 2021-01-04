@@ -11,9 +11,9 @@
                     <div class="gf-menu-item" v-for="menu in markMenu" :key="menu.menuid"
                          :class="{'active': menu.menucode === activeFirstMenu}"
                     >
-                        <span class="menuname" @click="markMenuChoose(menu)">{{menu.menuname}}</span>
-<!--                        <div class="arc top"></div>-->
-<!--                        <div class="arc bottom"></div>-->
+                        <span class="menuname" @click="markMenuChoose(menu)" :title="menu.menuname">{{menu.menuname.substr(0, 4)}}</span>
+                        <div class="arc top"></div>
+                        <div class="arc bottom"></div>
                     </div>
                 </div>
             </div>
@@ -27,8 +27,8 @@
                         <svg-icon class="menuicon" v-if="getMenuIcon(menu.menuicon).ifSvg" :name="getMenuIcon(menu.menuicon).icon" width="46px" height="16px"/>
                         <em class="menuicon" v-else :class="getMenuIcon(menu.menuicon).icon"></em>
                         <span class="menuname">{{menu.menuname}}</span>
-<!--                        <div class="arc top"></div>-->
-<!--                        <div class="arc bottom"></div>-->
+                        <div class="arc top"></div>
+                        <div class="arc bottom"></div>
                     </div>
                 </el-tooltip>
                 <div class="gf-menu-item noneMenu">

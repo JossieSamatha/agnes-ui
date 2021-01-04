@@ -1,6 +1,6 @@
 <template>
     <div class="table-pie">
-        <div>
+        <div class="table-container">
             <el-table class="el-table-grid task-table" :data="taskArr"
                       max-height="300">
                 <el-table-column v-for="tableCol in tableHeader"
@@ -24,7 +24,7 @@
                 <p class="rec-legend">
                     <span v-for="(rect, index) in legendRec" :key="index">
                         <em class="rect-block" :style="{background: rect.color}"
-                        ></em>{{rect.label}}
+                        ></em>{{rect.name.substr(0,2)}}
                     </span>
                 </p>
                 <p class="cir-legend">
@@ -50,10 +50,39 @@
                     {label: '目标数', key: 'targetNum', width: 70, color: '#0F5EFF'}
                 ],
                 taskArr: [],
-                legendRec: [{label: '人工', color: '#56BFDF'}, {label: '自动', color: '#56DF9A'}, {label: '指标', color: '#FCA06A'}],
+                legendRec: [],
                 legendCir: [{label: '已完成', color: '#4C6CFF'}, {label: '未完成', color: '#C9CDE3'}],
-                pieChart: {},
-                pieOptions: {
+                pieChart: {}
+            }
+        },
+
+        mounted() {
+            this.getData();
+        },
+        methods: {
+            async getData() {
+                const resp = await this.$api.changeDataApi.getChangeData();
+                const resChangeData = resp.data;
+                this.exeTime = resChangeData.bizDate;
+                let resp1 = await this.$api.HomePageApi.selectCaseStepOfToday(this.exeTime);
+                let innerPieData = [];
+                let outerPieData = [];
+                if(resp1){
+                    this.taskArr = resp1.data;
+                    resp1.data.forEach((item, index)=>{
+                        innerPieData.push({
+                            value: 100, name: this.getDictName(item.taskCategory), color: this.statusColor[index]
+                        });
+                        const finishedRate = parseFloat((item.doneNum/item.targetNum).toFixed(2) );
+                        const unFinishedRate = 1 - finishedRate ;
+                        outerPieData.push(
+                            {value: finishedRate*100, name: '已完成'},
+                            {value: unFinishedRate*100, name: '未完成'}
+                        );
+                    });
+                    this.legendRec = innerPieData;
+                }
+                const pieOptions = {
                     tooltip: {
                         show: false
                     },
@@ -61,8 +90,8 @@
                         {
                             name: '任务类型',
                             type: 'pie',
-                            radius: [0, '40%'],
-                            center: ['60%', '50%'],
+                            radius: [0, '35%'],
+                            center: ['50%', '50%'],
                             hoverAnimation:false,
                             label: {
                                 show: false
@@ -75,33 +104,29 @@
                             itemStyle: {
                                 normal:{
                                     color: (param)=>{
-                                        return this.statusColor[param.dataIndex];
+                                        return param.data.color;
                                     }
                                 }
                             },
-                            data: [
-                                {value: 100, name: '人工'},
-                                {value: 100, name: '自动'},
-                                {value: 100, name: '指标'}
-                            ]
+                            data: innerPieData
                         },
                         {
                             name: '完成情况',
                             type: 'pie',
-                            radius: ['60%', '80%'],
-                            center: ['60%', '50%'],
+                            radius: ['50%', '70%'],
+                            center: ['50%', '50%'],
                             hoverAnimation:false,
                             label: {
                                 show: true,
-                                padding:[0,-25],
-                                formatter: function(params){
+                                    padding:[0,-25],
+                                    formatter: function(params){
                                     if(params.dataIndex%2 === 0){
                                         return '[已完成]\n'+params.value+'%';
                                     }else{
                                         return '';
                                     }
                                 },
-                                fontSize: 14,
+                                fontSize: 12,
                                 lineHeight: 18,
                                 color: '#0F5EFF',
                                 distanceToLabelLine: -10,
@@ -109,7 +134,6 @@
                             labelLine: {
                                 show: false,
                             },
-
                             itemStyle: {
                                 normal:{
                                     color: function(param){
@@ -117,41 +141,22 @@
                                     }
                                 }
                             },
-                            data: [
-                                {value: 50, name: '已完成'},
-                                {value: 50, name: '未完成'},
-                                {value: 78, name: '已完成'},
-                                {value: 22, name: '未完成'},
-                                {value: 82, name: '已完成'},
-                                {value: 18, name: '未完成'},
-                            ]
+                            data: outerPieData
                         }
                     ]
                 }
-            }
-        },
-
-        mounted() {
-            this.init();
-        },
-        methods: {
-            async init() {
-                const resp = await this.$api.changeDataApi.getChangeData();
-                const resChangeData = resp.data;
-                this.exeTime = resChangeData.bizDate;
-                let resp1 = await this.$api.HomePageApi.selectCaseStepOfToday(this.exeTime);
-                if(resp1){
-                    this.taskArr = resp1.data;
-                }
                 this.pieChart = this.echarts.init(this.$refs.pieCharts);
-                this.pieChart.setOption(this.pieOptions);
+                this.pieChart.setOption(pieOptions);
                 this.pieChart.resize();
                 window.addEventListener('resize', () => {
                     this.pieChart.resize()
                 });
             },
             getDictName(item){
-                return this.$app.dict.getDictItem("AGNES_TASK_TYPE",item).dictName;
+                const dictObj = this.$app.dict.getDictItem("AGNES_TASK_TYPE",item);
+                if(dictObj){
+                    return dictObj.dictName;
+                }
             }
         }
     }
@@ -160,16 +165,23 @@
 <style scoped>
     .table-pie {
         display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
         height: 100%;
     }
 
-    .table-pie>div {
+    .table-pie .table-container {
         position: relative;
-        flex: 1;
+        flex: none;
+        width: 50%;
     }
 
     .pie-chart {
-        margin-left: 40px;
+        position: relative;
+        flex: none;
+        width: 45%;
+        height: 100%;
     }
 
     .legend {

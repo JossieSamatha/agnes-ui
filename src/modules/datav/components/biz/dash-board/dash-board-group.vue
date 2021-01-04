@@ -18,6 +18,7 @@
                     <component
                             v-if="contentProps.unitData.compType && ifLayoutReady"
                             :is="contentProps.unitData.compType"
+                            :pageType="contentProps.unitData.pageType"
                             v-bind="contentProps.unitData.compParams">
                     </component>
                 </template>
@@ -53,7 +54,7 @@
             }
         },
         mounted() {
-
+            this
         },
         watch: {
         },

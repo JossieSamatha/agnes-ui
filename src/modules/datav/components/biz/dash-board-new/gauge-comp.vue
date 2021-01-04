@@ -1,9 +1,13 @@
 <template>
     <div class="gauge-container">
         <div v-for="task in proTask" :key="task.taskId">
-            <span class="name">{{task.taskName}}</span>
-            <gauge-comp-item class="gauge-comp" :rate="task.doneNumRate"></gauge-comp-item>
-            <span class="statistic" :style="{color: task.doneNumRate<1 ? '#0F5EFF' : '#4BE16E'}">{{task.doneNum}}/{{task.targetNum}}</span>
+            <el-badge class="badge" :value="task.errNum" :max="99" :hidden="!(task.errNum && task.errNum>1)">
+                <span class="name" :title="task.taskName">{{task.taskName}}</span>
+            </el-badge>
+            <gauge-comp-item class="gauge-comp" :rate="rateCalc(task.doneNum, task.targetNum)"></gauge-comp-item>
+            <span class="statistic" :style="{color: rateCalc(task.doneNum, task.targetNum)<1 ? '#0F5EFF' : '#4BE16E'}">
+                {{task.doneNum}}/{{task.targetNum}}
+            </span>
         </div>
     </div>
 </template>
@@ -16,10 +20,10 @@
             }
         },
         mounted() {
-            this.init();
+            this.getData();
         },
         methods: {
-            async init(){
+            async getData(){
                 const resp = await this.$api.changeDataApi.getChangeData();
                 const resChangeData = resp.data;
                 let exeTime = resChangeData.bizDate;
@@ -27,6 +31,11 @@
                 if(resp1){
                     this.proTask = resp1.data;
                 }
+            },
+
+            rateCalc(numerator, denominator){
+                const rate = parseFloat((numerator / denominator).toFixed(2));
+                return rate;
             }
         },
     }
@@ -44,17 +53,29 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        flex: 1;
+        flex: none;
+        width: 22%;
         height: 100%;
     }
 
     .gauge-container>div+div {
-        margin-left: 24px;
+        margin-left: 3%;
     }
 
-    .gauge-container>div span.name {
-        font-size: 14px;
+    .gauge-container>div .badge {
+        max-width: 100%;
+        margin: 12px 0;
+        text-align: center;
+    }
+
+    .gauge-container>div .badge>span {
+        display: block;
         color: #666;
-        margin-bottom: 12px;
+        font-size: 14px;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: default;
     }
 </style>

@@ -3,13 +3,16 @@
         <template slot="logo"><span></span></template>
         <template slot="menu"><span></span></template>
         <div class="top-menu-right" slot="nav-user-before">
+            <div class="top-menu-item" title="面板配置" @click="dashboardSettig">
+                <svg-icon name="dashboardSetting" height="16px"/>
+            </div>
             <div class="top-menu-item feedback" title="意见反馈" @click="handelfeedback">
                 <svg-icon name="feedback" height="17px"/>
             </div>
             <div class="top-menu-item" title="帮助" @click="openHelpPage">
                 <svg-icon name="question-doc" height="16px"/>
             </div>
-            <div class="top-menu-item" title="换肤">
+            <div class="top-menu-item" title="换肤" @click="changeSkin">
                 <svg-icon name="skin-change" height="16px"/>
             </div>
             <div class="top-menu-item" title="消息提醒"  @click="handelNotice">
@@ -32,6 +35,7 @@
                     @getUnreadCount="getUnreadCount"
                     @noticeDrawerClose="noticeDrawerClose"
         ></notice-box>
+
     </gf-layout-default>
 </template>
 
@@ -173,6 +177,27 @@
                     component: 'agnes-msg-send',
                     okButtonTitle:'发送'
                 })
+            },
+
+            // 配置面板
+            dashboardSettig(){
+                const curTab = this.$app.nav.tabBar.currentTabKey;
+                if(curTab === 'datav.client.view'){
+                    document.getElementById("personalEditBtn").click();
+                }else if(curTab ==='datav.dep.view'){
+                    document.getElementById("departmentEditBtn").click();
+                }
+            },
+
+            // 换肤
+            changeSkin(){
+                this.$nav.showDialog(
+                    'skin-dialog',
+                    {
+                        width: '700px',
+                        title: '更换皮肤',
+                    }
+                );
             },
 
             async resize() {

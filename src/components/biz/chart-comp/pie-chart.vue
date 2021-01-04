@@ -120,7 +120,7 @@ export default {
                             }
                         }
                     },
-                    data:this.chartData,
+                    data: this.chartData,
                 }
             ];
             const grid = {

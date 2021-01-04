@@ -5,14 +5,12 @@ import rapidContactForm from './rapid-contact-form'
 import chartComp from './chart-comp'
 import gridComp from './grid-comp'
 import formComp from './form-comp'
-import calendarDef from './calendar-def'
 import compNotice from './comp-notice'
 import compEvent from './comp-event'
 import compWork from './comp-work'
 import linkMan from './comp-linkman'
 import productComp from './comp-product'
 import channelComp from './comp-channel'
-import AgnesCalendar from './agnes-calendar'
 import commonSearchPanel from './common-search-panel'
 
 const Loading = {
@@ -24,14 +22,12 @@ const Loading = {
         Vue.component('chart-comp', chartComp);
         Vue.component('grid-comp', gridComp);
         Vue.component('form-comp', formComp);
-        Vue.component('calendar-def', calendarDef);
         Vue.component('comp-notice', compNotice);
         Vue.component('comp-event', compEvent);
         Vue.component('comp-work', compWork)
         Vue.component('comp-lineman', linkMan)
         Vue.component('comp-product', productComp)
         Vue.component('comp-channel', channelComp)
-        Vue.component('agnes-calendar', AgnesCalendar)
         Vue.component('common-search-panel', commonSearchPanel)
     }
 };

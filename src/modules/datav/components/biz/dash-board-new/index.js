@@ -7,6 +7,8 @@ import myIndex from "./my-index";
 import myTodoList from './my-todolist'
 import myException from './my-exception'
 import noticeComp from './notice-comp'
+import calendarDef from './calendar-def'
+import AgnesCalendar from './agnes-calendar'
 
 const Loading = {
     install: function (Vue) {
@@ -19,6 +21,8 @@ const Loading = {
         Vue.component('my-todolist', myTodoList);
         Vue.component('my-exception', myException);
         Vue.component('notice-comp', noticeComp);
+        Vue.component('agnes-calendar', AgnesCalendar);
+        Vue.component('calendar-def', calendarDef);
     }
 };
 

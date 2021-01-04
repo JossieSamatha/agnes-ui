@@ -1,5 +1,7 @@
 .gf-layout-default {
-    background: #f56c6c;
+    background-image: url("../skin/default-blue-bg.jpg");
+    background-size: cover;
+    background-position: left bottom;
     overflow: hidden;
 }
 
@@ -226,15 +228,6 @@ form .el-icon-lock::before {
     vertical-align: middle;
 }
 
-.gf-top-menubar .gf-nav-right .top-menu-item .el-badge .el-badge__content {
-    top: -12px;
-    right: -12px;
-    border: none;
-    padding: 0 3px;
-    font-size: 12px;
-    transform: scale(.8) !important;
-}
-
 /*=====================================
 
             侧边菜单 样式调整
@@ -333,8 +326,7 @@ form .el-icon-lock::before {
 }
 
 .left-side-container .gf-menu .gf-menu-item.is-hover:not(.active):not(.noneMenu) {
-    background: rgba(255, 255, 255, .2);
-    border-radius: 0 23px 23px 0;
+    background: rgba(0, 0, 0, .2);
     z-index: 1;
 }
 
@@ -354,17 +346,18 @@ form .el-icon-lock::before {
     right: 0;
     width: 40px;
     height: 40px;
-    background: #fff;
+    background: transparent;
 }
 
 .left-side-container .gf-menu .gf-menu-item.active .arc::before {
     content: '';
     position: absolute;
     right: 0;
-    width: 40px;
-    height: 40px;
+    width: 100%;
+    height: 100%;
     border-radius: 0 0 50% 0;
-    background: #0F5EFF;
+    background: transparent;
+    box-shadow: 20px 20px 0px 20px #fff;
 }
 
 .left-side-container .gf-menu .gf-menu-item.active .arc.top {
@@ -895,13 +888,18 @@ form .el-icon-lock::before {
     top: 19px;
     width: 20px;
     height: 20px;
-    background: #fff;
+    background: transparent;
 }
 
 .gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tab[active]
 .chrome-tab-drag-handle {
     left: 100%;
     transform: rotate(90deg);
+}
+
+.gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tab
+.chrome-tab-background > svg {
+    display: none;
 }
 
 .gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tab[active]
@@ -911,10 +909,11 @@ form .el-icon-lock::before {
     content: '';
     position: absolute;
     right: 0;
-    width: 20px;
-    height: 20px;
+    width: 100%;
+    height: 100%;
     border-radius: 0 0 50% 0;
-    background: #0F5EFF;
+    background: transparent;
+    box-shadow: 0 10px 0 #fff;
 }
 
 .gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tab

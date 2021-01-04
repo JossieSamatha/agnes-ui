@@ -25,12 +25,11 @@
 <script>
     export default {
         props: {
-            calendarVal: String,
-            module: String,
             pageType: String
         },
         data() {
             return {
+                calendarVal: '',
                 workStatus: '',
                 todayDate: new Date().toLocaleDateString().replace(/\//g, '-'),
                 memoNum: '',
@@ -45,9 +44,7 @@
             }
         },
         mounted() {
-            this.$dataVBus.$off('clientCalendarRefresh');
-            this.$dataVBus.$on('clientCalendarRefresh', this.clientCalendarRefresh);
-            this.getCalendarData(this.todayDate, true);
+            this.getCalendarData(this.todayDate);
             this.$nextTick(() => {
                 if (this.$app.nav.tabBar.currentTabKey === this.module) {
                     this.$refs.calendar.pickDay(this.todayDate);
@@ -60,28 +57,16 @@
                 return new Date(date).getDate();
             },
 
-            clientCalendarRefresh() {
-                this.$refs.calendar.selectDate('today');
-                this.getCalendarData(this.todayDate);
-            },
-
             async getCalendarData(date) {
                 if (this.pageType === 'personal') {
-                    const res = await this.$api.HomePageApi.selectMemoDetailOfMonth({pageType:'personal',memoDate:date});
+                    const res = await this.$api.HomePageApi.selectMemoDetailOfMonth({pageType:'personal', memoDate:date});
+                    debugger;
                     this.memoNum = res.data.length;
                 } else {
                     const res = await this.$api.HomePageApi.selectMemoDetailOfMonth({pageType:'department',memoDate:date});
+                    debugger;
                     this.memoNum = res.data.length;
                 }
-            },
-
-            calendarDetail(data) {
-                let clientView = this.$app.views.getView("agnes.dop.memo");
-                let clientTabView = Object.assign({
-                    args: {pageType: this.pageType, memoDt: data.day},
-                    id: "agnes.dop.memo"
-                }, clientView);
-                this.$nav.showView(clientTabView);
             },
 
             flodCalendar() {

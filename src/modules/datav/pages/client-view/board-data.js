@@ -80,11 +80,6 @@ const boardStyleArr = [
         compType: 'calendar-def',
         arrowShow: true,
         arrowBlock: true,
-        compParams: {
-            calendarVal: '',
-            module: 'datav.client.view',
-            pageType: 'personal'
-        },
         img: 'calendar'
     },
     {
@@ -135,11 +130,6 @@ const boardStyleDep = [
         arrowShow: true,
         arrowBlock: true,
         menuId: 'agnes.dop.memo',
-        compParams: {
-            calendarVal: '',
-            module: 'datav.dep.view',
-            pageType: 'department'
-        },
         img: 'calendar'
     },
     {

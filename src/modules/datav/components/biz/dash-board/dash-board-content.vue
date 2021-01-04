@@ -26,7 +26,7 @@
                 </span>
                 <span v-if="unit.arrowShow"
                       class="compEntrance"
-                      :class="{'bcg': unit.arrowBlock}"
+                      :class="{'bcg': unit.arrowBlock === '1'}"
                       @click="entranceMenu(unit)">
                     查看更多<em class="fa fa-angle-right"></em>
                 </span>
@@ -37,6 +37,7 @@
                     </template>
                 </module-card>
             </template>
+            <div class="mask"></div>
         </div>
     </draggable>
 </template>
@@ -101,12 +102,7 @@
               let clientTabView = Object.assign({args: moduleArgs, id: menuId}, clientView);
               this.$nav.showView(clientTabView);
             }
-          },
-
-          calendarRefresh() {
-            this.$dataVBus.$emit('clientCalendarRefresh');
           }
-
         }
     }
 </script>
@@ -138,5 +134,15 @@
         color: #999;
         vertical-align: baseline;
         margin-left: 6px;
+    }
+
+    .mask {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 100;
+        display: none;
     }
 </style>
