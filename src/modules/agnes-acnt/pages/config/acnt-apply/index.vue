@@ -561,17 +561,19 @@
 <style scoped>
     .acnt-apply-container {
         display: flex;
-        height: 100%;
+        height: calc(100% - 131px);
     }
 
     .acnt-apply-container .steps-comp {
         flex: none;
-        width: 200px;
-        height: calc(100% - 30px);
-        padding: 0 20px 30px;
-        margin-top: 30px;
+        width: 160px;
+        height: calc(100% - 41px);
+        padding: 0 0 30px;
+        margin-top: 41px;
         margin-left: 10px;
-        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.16);
+        border-radius: 8px;
+        border: 1px solid #A8AED3;
+        overflow: hidden;
     }
 
     .ag-grid-box.acnt-apply-grid {

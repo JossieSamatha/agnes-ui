@@ -10,7 +10,7 @@ import ProductAuth from "./product-auth-def/index"
 import ProductUserInfo from "./product-user-info/index"
 import DataChange from "./data-change-def/index"
 import Channel from "./channel-def/channel-list"
-import memoDef from "./memo-def/index"
+import memoDef from "./memo-def/memo-calendar.vue"
 import RosterDef from "./roster-def/index";
 import DataPipeTask from "./data-pipe/index";
 import MonitorRiskDef from "./monitor-risk-def/index";

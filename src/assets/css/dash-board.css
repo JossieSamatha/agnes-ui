@@ -133,7 +133,7 @@
     line-height: 28px;
 }
 
-.datav_client_view .calendar-def {
+.calendar-def {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -141,7 +141,7 @@
     overflow: hidden;
 }
 
-.datav_client_view .calendar-def .flodP {
+.calendar-def .flodP {
     width: 100%;
     height: 20px;
     color: #999;
@@ -150,7 +150,7 @@
     cursor: pointer;
 }
 
-.datav_client_view .calendar-def .flodP>em {
+.calendar-def .flodP>em {
     animation: jump 1.5s linear infinite;
 }
 
@@ -164,21 +164,21 @@
     }
 }
 
-.datav_client_view .calendar-def .info-ul {
+.calendar-def .info-ul {
     flex: 1;
     height: 100%;
     overflow-y: auto;
 }
 
-.datav_client_view .calendar-def .info-ul::-webkit-scrollbar-thumb {
+.calendar-def .info-ul::-webkit-scrollbar-thumb {
     background: transparent;
 }
 
-.datav_client_view .calendar-def .info-ul:hover::-webkit-scrollbar-thumb {
+.calendar-def .info-ul:hover::-webkit-scrollbar-thumb {
     background: #D7DBE4;
 }
 
-.datav_client_view .calendar-def .info-ul>li {
+.calendar-def .info-ul>li {
     position: relative;
     width: 100%;
     height: 41px;
@@ -194,7 +194,12 @@
     text-overflow: ellipsis;
 }
 
-.datav_client_view .info-ul>li::before {
+.calendar-def.memo .info-ul>li {
+    height: 28px;
+    line-height: 0;
+}
+
+.info-ul>li::before {
     content: '';
     position: absolute;
     top: 16px;
@@ -203,6 +208,14 @@
     height: 10px;
     background: #3CACEC;
     border-radius: 4px;
+}
+
+.calendar-def.memo .info-ul>li::before {
+    top: 10px;
+}
+
+.calendar-def.memo .info-ul.roster>li::before {
+    background: #FFB727;
 }
 
 .datav_client_view .el-card.module-card .el-calendar {
@@ -214,34 +227,29 @@
     transition: 1s all ease;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__header{
+.calendar-def .el-calendar__header {
     padding: 0 10px 10px 10px;
     text-align: center;
     border: none;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__header
-.el-calendar__button-group {
+.calendar-def .el-calendar__header .el-calendar__button-group {
     width: 100%;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__header
-.el-calendar__button-group .el-button-group {
+.calendar-def .el-calendar__header .el-calendar__button-group .el-button-group {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__header
-.el-calendar__button-group .el-button-group::after,
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__header
-.el-calendar__button-group .el-button-group::before {
+.calendar-def .el-calendar__header .el-calendar__button-group .el-button-group::after,
+.calendar-def .el-calendar__header .el-calendar__button-group .el-button-group::before {
     display: none;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__header
-.el-calendar__button-group .el-button-group .el-calendar__title {
+.calendar-def .el-calendar__header .el-calendar__button-group .el-button-group .el-calendar__title {
     color: #333;
     font-size: 14px;
     line-height: 14px;
@@ -249,8 +257,7 @@
     font-family: SourceHanSansCN-Medium;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__header
-.el-calendar__button-group .el-button-group .arrow-btn {
+.calendar-def .el-calendar__header .el-calendar__button-group .el-button-group .arrow-btn {
     width: 20px;
     height: 20px;
     line-height: 18px;
@@ -262,59 +269,56 @@
     cursor: pointer;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body{
+.calendar-def .el-calendar__body {
     height: calc(100% - 30px);
     padding: 0 1px;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table thead th {
+.calendar-def .el-calendar__body .el-calendar-table thead th {
     padding: 3px 0;
     color: #666;
     font-family: SourceHanSansCN-Medium;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table thead,
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table tr td{
+.calendar-def .el-calendar__body .el-calendar-table thead,
+.calendar-def .el-calendar__body .el-calendar-table tr td{
     border: none;
     border-radius: 8px;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table tr td.is-selected{
+.calendar-def .el-calendar__body .el-calendar-table tr td.is-selected{
     background: transparent;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table .el-calendar-day {
+.calendar-def .el-calendar__body .el-calendar-table .el-calendar-day {
     height: auto;
     padding: 15% 0;
     text-align: center;
     border-radius: 8px;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table .el-calendar-day>span.content {
+.calendar-def .el-calendar__body .el-calendar-table .el-calendar-day>span.content {
     position: relative;
     display: block;
     width: 25px;
     height: 25px;
+    font-size: 12px;
     text-align: center;
     line-height: 25px;
     margin: 0 auto;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table td.is-selected .el-calendar-day>span.content {
+.calendar-def .el-calendar__body .el-calendar-table .el-calendar-day>span.content.weekend {
+    color: #89BFDD;
+}
+
+.calendar-def .el-calendar-table td.is-selected .el-calendar-day>span.content {
     color: #fff;
     background: #0F5EFF;
     border-radius: 8px;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table .el-calendar-day>span.content .circle {
+.calendar-def .el-calendar-table .el-calendar-day>span.content .circle {
     position: absolute;
     left: calc(50% - 5px);
     bottom: -5px;
@@ -326,21 +330,17 @@
     box-sizing: content-box;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table:not(.is-range) td.next,
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table:not(.is-range) td.prev {
+.calendar-def .el-calendar__body .el-calendar-table:not(.is-range) td.next,
+.calendar-def .el-calendar__body .el-calendar-table:not(.is-range) td.prev {
     color: #ccc;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table td.current {
+.calendar-def .el-calendar__body .el-calendar-table td.current {
     color: #666;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body .el-backtop,
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table td.is-today {
+.calendar-def .el-calendar__body .el-backtop,
+.calendar-def .el-calendar__body .el-calendar-table td.is-today {
     color: #0f5eff;
 }
 
@@ -427,7 +427,7 @@
     line-height: 28px;
     color: #0f5eff;
     font-size: 12px;
-    font-family: SourceHanSansCN-Medium;;
+    font-family: SourceHanSansCN-Medium;
     margin-left: 12px;
     cursor: pointer;
 }
@@ -585,6 +585,10 @@
     border-radius: 14px;
 }
 
+.datav_client_view .indexPage .vue-grid-item.cssTransforms.attach-top {
+    z-index: 10;
+}
+
 .datav_client_view .indexPage.edit .vue-grid-item.cssTransforms,
 .datav_client_view .indexPage.define .vue-grid-item.cssTransforms {
     border: 1px solid #ccc;
@@ -637,13 +641,6 @@
     height: 100%;
 }
 
-/*.datav_client_view .gridContainer .vue-grid-layout .vue-grid-item*/
-/*.menuContent>div.nonePadding {*/
-/*    position: absolute;*/
-/*    top: 0;*/
-/*    height: 100%;*/
-/*}*/
-
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
 .menuContent .el-card.module-card {
     height: 100%;
@@ -679,7 +676,7 @@
 
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
 .menuContent .el-card.module-card .el-card__body {
-    overflow: scroll;
+    overflow: auto;
     height: calc(100% - 44px);
     padding: 0;
 }

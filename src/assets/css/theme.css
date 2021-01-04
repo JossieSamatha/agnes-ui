@@ -327,7 +327,6 @@ form .el-icon-lock::before {
 
 .left-side-container .gf-menu .gf-menu-item.is-hover:not(.active):not(.noneMenu) {
     background: rgba(0, 0, 0, .2);
-    z-index: 1;
 }
 
 .left-side-container .gf-menu .gf-menu-item.active .menuname {
@@ -347,6 +346,7 @@ form .el-icon-lock::before {
     width: 40px;
     height: 40px;
     background: transparent;
+    z-index: 1;
 }
 
 .left-side-container .gf-menu .gf-menu-item.active .arc::before {
@@ -840,6 +840,7 @@ form .el-icon-lock::before {
     right: 30px;
     bottom: -44px;
     z-index: 1000;
+    background: #fff;
 }
 
 .biz-date-square {
@@ -1744,7 +1745,7 @@ form .el-icon-lock::before {
     display: none;
 }
 
-.el-tabs > .el-tabs__header .el-tabs__nav {
+.el-tabs:not(.el-tabs--card) > .el-tabs__header .el-tabs__nav {
     border-bottom: 4px solid #D7DBE4;
 }
 

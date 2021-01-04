@@ -62,7 +62,7 @@
                 feedbackShow: false,
                 bizDateTimer: null, // 日切日期定时器
                 unreadCount:"",
-
+                userSkin: 'default-blue' // 用户皮肤
             }
         },
 
@@ -189,6 +189,23 @@
                 }
             },
 
+            // 获取用户皮肤
+            getUserSkin(){
+                this.$api.HomePageApi.DopRuUserSkin().then((res)=>{
+                    this.userSkin = res.data ? res.data : 'default-blue';
+                    const bgDom = document.getElementsByClassName('gf-layout-default');
+                    if(bgDom && bgDom.length>0){
+                        bgDom[0].style['background-image'] = 'url('+ this.getImgPath(this.userSkin) +')';
+                    }
+                });
+            },
+
+            getImgPath(imgName){
+                if(imgName){
+                    return  require('../assets/skin/'+imgName+'-bg.jpg');
+                }
+            },
+
             // 换肤
             changeSkin(){
                 this.$nav.showDialog(
@@ -196,6 +213,12 @@
                     {
                         width: '700px',
                         title: '更换皮肤',
+                        args: {
+                            curSkin: this.userSkin,
+                            actionOk: ()=>{
+                                this.getUserSkin();
+                            }
+                        }
                     }
                 );
             },
@@ -264,6 +287,7 @@
 
             this.getChangeDate();
             this.getUnreadCount();
+            this.getUserSkin();
             this.bizDateTimer = setInterval(() => {
                 this.getChangeDate();
                 this.getUnreadCount();

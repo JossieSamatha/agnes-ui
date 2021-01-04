@@ -58,8 +58,8 @@ export default {
     /**
      * 保存用户背景信息
      */
-    saveBackImgOfUser() {
-        return request.post("/agnes-app/v1/dop/home/save/back");
+    saveBackImgOfUser(image) {
+        return request.post("/agnes-app/v1/dop/home/save/back", null,{params: image});
     },
     /**
      * 获取用户背景图片信息

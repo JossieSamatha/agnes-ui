@@ -40,8 +40,32 @@
 
 <script>
     import {Calendar} from 'element-ui'
+    const validTypes = ['prev-month', 'today', 'next-month'];
     export default {
         name: 'agnes-calendar',
-        mixins: [Calendar]
+        mixins: [Calendar],
+        methods: {
+            pickDay(day) {
+                this.$emit('pickDay', day);
+                this.realSelectedDay = day;
+            },
+
+            selectDate(type) {
+                if (validTypes.indexOf(type) === -1) {
+                    throw new Error(`invalid type ${type}`);
+                }
+                let day = '';
+                if (type === 'prev-month') {
+                    day = `${this.prevMonthDatePrefix}-01`;
+                } else if (type === 'next-month') {
+                    day = `${this.nextMonthDatePrefix}-01`;
+                } else {
+                    day = this.formatedToday;
+                }
+                this.$emit('selectDate', day);
+                if (day === this.formatedDate) return;
+                this.pickDay(day);
+            },
+        }
     }
 </script>

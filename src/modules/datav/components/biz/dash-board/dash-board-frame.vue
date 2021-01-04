@@ -27,13 +27,15 @@
         :vertical-compact="verticalCompact"
         v-bind="extAttr"
         v-on="extEvent">
-        <grid-item v-for="(item,itemIndex) in gridData" :key="item.i" :class="{rightPined: parseInt(item.x)>=8}"
-            :x="parseInt(item.x)"
-            :y="parseInt(item.y)"
-            :w="parseInt(item.w)"
-            :h="parseInt(item.h)"
-            :i="item.i"
-            @resized="gridItemResized">
+        <grid-item v-for="(item,itemIndex) in gridData"
+                   :key="item.i"
+                   :class="{rightPined: parseInt(item.x)>=8, 'attach-top': item.x === item.y && item.x === 0}"
+                   :x="parseInt(item.x)"
+                   :y="parseInt(item.y)"
+                   :w="parseInt(item.w)"
+                   :h="parseInt(item.h)"
+                   :i="item.i"
+                   @resized="gridItemResized">
             <span class="delUnitGrid" @click="delBoardUnit(item.i, itemIndex)" v-if="ifCloseIconShow">
                 <em class="fa fa-close"></em>
             </span>
