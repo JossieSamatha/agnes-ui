@@ -67,5 +67,11 @@ export default {
     DopRuUserSkin() {
         return request.post("/agnes-app/v1/dop/home/get/back");
     },
+    /**
+     * 干预通过
+     */
+    confirmTask(form) {
+        return request.post("/agnes-app/v1/task/todo/confirm", form);
+    },
 
 };
