@@ -21,7 +21,10 @@ const colButtons = [
 
     {key: 'logicDelete', title: '删除',cellClass: 'red-cell', visiable: () => {
             return Permission.hasPermission('agnes.acnt.info.fa.logicDelete');
-        }}
+        }},
+    {key: 'showHis', title: '历史', visiable: () => {
+            return Permission.hasPermission('agnes.acnt.info.fa.showHis');//
+        }},
 ];
 
 export default {

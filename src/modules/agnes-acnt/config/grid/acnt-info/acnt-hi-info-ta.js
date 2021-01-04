@@ -1,35 +1,11 @@
-import column from "../../../../../config/column"
-import Permission from "../../../../../utils/hasPermission";
 
-const colButtons = [
-    // {key: 'queryRate', title: '查看利率'},
-    // {key: 'queryLinkman', title: '查看联系人'},
-    {key: 'changeData', title: '变更', visiable: () => {
-            return Permission.hasPermission('agnes.acnt.info.ta.changeData');
-        }},
-    {key: 'delete', title: '销户', cellClass: 'red-cell',disabled: (params)=>{
-            let result = false;
-            if(params.data.processStatus === '02'){
-                result =true;
-            }
-            return result;}, visiable: () => {
-            return Permission.hasPermission('agnes.acnt.info.ta.delete');
-        }},
-    // {key: 'updateAcntStatus', title: '编辑', visiable: () => {
-    //         return Permission.hasPermission('agnes.acnt.info.ta.updateAcntStatus');
-    //     }},
-
-    {key: 'logicDelete', title: '删除', cellClass: 'red-cell', visiable: () => {
-            return Permission.hasPermission('agnes.acnt.info.ta.logicDelete');
-        }},
-    {key: 'showHis', title: '历史', visiable: () => {
-            return Permission.hasPermission('agnes.acnt.info.ta.showHis');//
-        }},
-];
 
 export default {
     columnDefs: [
-        column.buildOpCol(140, colButtons),
+        {headerName: "开始日期", field: "startDtStr"},
+        {headerName: "结束日期", field: "endDtStr"},
+        {headerName: "业务类型", field: "bizType",dictType:"AGNES_ACNT_BIZ_TYPE"},
+
         {headerName: "账户名称", field: "acntName"},
         {headerName: "账户类型", field: "typeName"},
         {
@@ -86,13 +62,15 @@ export default {
         {headerName: "其他", field: "other"},
         {headerName: "备注", field: "remark"},
 
-        {headerName: "流程类型", field: "processType"},
+        {headerName: "流程类型", field: "processType"}
 
-        column.colCrtUser,
-        {headerName: "创建人", field: "crtUserName"},
-        column.colCrtTm,
-        {headerName: "更新人", field: "updateUserName"},
-        column.colUpdTm
+        // {headerName: "开始日期", field: "startTs"},
+        // {headerName: "结束日期", field: "endTs"},
+        // column.colCrtUser,
+        // {headerName: "创建人", field: "crtUserName"},
+        // column.colCrtTm,
+        // {headerName: "更新人", field: "updateUserName"},
+        // column.colUpdTm
     ],
     defaultColDef: {
         enableRowGroup: true,
@@ -103,7 +81,7 @@ export default {
     suppressDragLeaveHidesColumns: true,
     groupDefaultExpanded: -1,
     ext: {
-        fetchUrl: "/agnes-app/v1/acnt/info/list/page",
+        fetchUrl: "/agnes-app/v1/acnt/info/hi/list/page",
         fetchMethod: 'post',
         pagingMode: true, //是否分页
         checkboxColumn: 2, //是否显示checkbox列,
