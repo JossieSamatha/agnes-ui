@@ -39,9 +39,14 @@
                          :first-day-of-week="7">
                 <template slot="dateCell" slot-scope="{date, data}" >
                     <span class="content" :class="{'weekend': getDateObj(date, 'workday')}">
-                        <p><span>{{getLunarDay(data.day)}}</span>
-                        <span>{{ getDay(date) }}</span></p>
-<!--                        <ul><li></li></ul>-->
+                        <p class="day-num">
+                            <span class="lunar">{{getLunarDay(data.day)}}</span>
+                            <span class="solar">{{ getDay(date) }}</span>
+                        </p>
+                        <ul class="day-event">
+                            <li :class="list.type" v-for="list in dayEventList" :key="list.msgId">{{list.msgData}}</li>
+                        </ul>
+                        <span class="more" v-show="dayEventList.length>3">还有{{dayEventList.length-3}}项</span>
                         <em v-show="getDateObj(date, 'event')" class="circle"></em>
                     </span>
                 </template>
@@ -68,6 +73,13 @@
                     {msgId: '03', msgData: '王大陆-早班计划'},
                     {msgId: '04', msgData: '王大陆-晚班计划'},
                     {msgId: '05', msgData: '王大陆-晚班计划'}
+                ],
+                dayEventList: [
+                    {msgId: '02', msgData: '安信收益三年运作将进入过渡期，赎回巴拉巴拉巴拉巴拉巴拉巴拉', type: 'memo'},
+                    {msgId: '04', msgData: '瑞安本封闭期即将结束', type: 'memo'},
+                    {msgId: '01', msgData: '王大陆-早班计划', type: 'roster'},
+                    {msgId: '02', msgData: '王大陆-晚班计划', type: 'roster'},
+                    {msgId: '05', msgData: '瑞安本封闭期即将结束', type: 'memo'},
                 ],
 
                 calendarDetailVal: '',
