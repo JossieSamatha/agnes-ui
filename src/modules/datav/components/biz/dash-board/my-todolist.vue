@@ -1,6 +1,19 @@
 <template>
     <div>
-        <div v-for="(item, index) in taskDemoArr"
+      <div>
+        <div class="linkman-list">
+          <div class="state-icon">
+            <em class="fa fa-external-link-square"></em>
+          </div>
+          <div class="notice-info">
+            <el-link type="primary">可以复核的账户申请[5]笔</el-link>
+          </div>
+          <div class="notice-state">
+            账户申请
+          </div>
+        </div>
+      </div>
+      <div v-for="(item, index) in taskDemoArr"
             :key="index" class="todolist-container">
             <div class="task-icon">
                 <em class="fa fa-circle"></em>
@@ -118,4 +131,36 @@
       font-size: 12px;
       color: #999;
     }
+
+    .linkman-list {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      margin-bottom: 15px;
+      min-height: 40px;
+      max-height: 60px;
+      padding: 0 10px 0 0;
+      border-bottom: 1px dashed #eaeaea;
+    }
+    .state-icon,
+    .notice-info,
+    .notice-state {
+      font-size: 12px;
+    }
+    .state-icon {
+      color: #476DBE;
+      font-size: 15px;
+      margin-right: 10px;
+    }
+    .notice-info {
+      flex: 1;
+      color: #666;
+    }
+
+    .notice-info>p {
+      height: 25px;
+      line-height: 25px;
+    }
+
+
 </style>
