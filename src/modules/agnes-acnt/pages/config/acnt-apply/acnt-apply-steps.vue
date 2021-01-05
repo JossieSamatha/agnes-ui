@@ -55,18 +55,18 @@
                 return (this.stepData.processStatus === '01' ||
                         this.stepData.processStatus === '02' ||
                         this.stepData.processStatus === '03' ||
-                        (this.stepData.bizType === '04' && (this.stepData.processStatus === '06'|| this.stepData.processStatus === '07')))
+                        ((this.stepData.bizType === '04' || this.stepData.bizType === '05') && (this.stepData.processStatus === '06'|| this.stepData.processStatus === '07')))
             },
             stepArr(){
                 const stepData = this.stepData;
                 const validateArr = [
-                    stepData.bizType !== '04',
-                    stepData.bizType !== '04',
-                    stepData.isSendOa==1 && stepData.bizType !== '04',
-                    stepData.bizType !== '04' && !stepData.applySubId,
-                    stepData.isSendFinance==1 && stepData.bizType !== '04' && !stepData.applySubId,
-                    !stepData.applySubId,
-                    !stepData.applySubId,
+                    stepData.bizType !== '04' && stepData.bizType !== '05',
+                    stepData.bizType !== '04' && stepData.bizType !== '05',
+                    stepData.isSendOa==1 && stepData.bizType !== '04' && stepData.bizType !== '05',
+                    stepData.bizType !== '04' && stepData.bizType !== '05' && !stepData.applySubId,
+                    stepData.isSendFinance==1 && stepData.bizType !== '04' && stepData.bizType !== '05' && !stepData.applySubId,
+                    !stepData.applySubId && stepData.bizType !== '03',
+                    !stepData.applySubId && stepData.bizType !== '03',
                     true,
                     true
                 ];

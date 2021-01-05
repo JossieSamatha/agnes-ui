@@ -264,7 +264,7 @@
                                 <gf-filter-option
                                         v-for="item in acntList"
                                         :key="item.acntId"
-                                        :label="item.acntName"
+                                        :label="item.acntLabel"
                                         :value="item.acntId">
                                 </gf-filter-option>
                             </el-select>
@@ -276,7 +276,7 @@
                                 <gf-filter-option
                                         v-for="item in acntList"
                                         :key="item.acntId"
-                                        :label="item.acntName"
+                                        :label="item.acntLabel"
                                         :value="item.acntId">
                                 </gf-filter-option>
                             </el-select>
