@@ -110,15 +110,17 @@
                         <div class="progress-item" v-for="stage in stageList" :key="stage.defId">
                             <span>{{stage.defName}}</span>
                             <div>
-                                <el-progress class="define-progress"
-                                             :class="{'is-roll': stage.percentage < 1, 'has-error': stage.status === '03' || stage.status === '04'}"
-                                             :style="{color: getDetailColor(stage.status)}"
-                                             :percentage="getPercentage(stage.percentage)"
-                                             :color="getDetailColor(stage.status)"
-                                             :stroke-width="20"
-                                             :show-text="false"
-                                             @click.native="stageDetailView(stage)"
-                                ></el-progress>
+                                <div class="define-progress-bar" @click="stageDetailView(stage)">
+                                    <el-progress class="define-progress"
+                                                 :class="{'is-roll': stage.percentage < 1, 'has-error': stage.status === '03' || stage.status === '04'}"
+                                                 :style="{color: getDetailColor(stage.status)}"
+                                                 :percentage="getStagePercentage(stage)"
+                                                 :color="getDetailColor(stage.status)"
+                                                 :stroke-width="20"
+                                                 :show-text="false"
+                                    ></el-progress>
+                                    <div class="error-percentage" :style="getErrorPercentage(stage)"></div>
+                                </div>
                                 <p :style="{color: getDetailColor(stage.status), position: setPos}">
                                     <span class="num">{{stage.completeNum}}/{{stage.targetNum}}</span>
                                     <span class="fa fa-circle"
@@ -319,6 +321,19 @@ export default {
         
         getPercentage(percentage) {
             return parseInt(percentage * 100) ;
+        },
+
+        getStagePercentage(stage){
+            const perNum = parseInt(stage.completeNum + stage.exceptionNum);
+            const percent = parseFloat(perNum / parseInt(stage.targetNum)).toFixed(2) * 100;
+            return percent;
+        },
+
+        getErrorPercentage(stage){
+            const perNum = parseInt(stage.completeNum + stage.exceptionNum);
+            const allPercent = parseFloat(perNum / parseInt(stage.targetNum)).toFixed(2) * 100;
+            const errorPercent = parseFloat(parseInt(stage.exceptionNum) / parseInt(stage.targetNum)).toFixed(2) * 100;
+            return `left: ${allPercent-errorPercent}%; width: ${errorPercent}%`;
         },
         
         getStatusColor(statusId) {

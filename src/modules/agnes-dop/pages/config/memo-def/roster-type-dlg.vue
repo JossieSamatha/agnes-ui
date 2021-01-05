@@ -2,30 +2,31 @@
     <div>
         <el-form class="fit-box" :disabled="mode==='view'" :model="form" ref="form" :rules="rules" label-width="85px"
                  style="padding: 10px;">
+            <el-form-item label="值班区间" prop="rosterDate">
+                <div class="line">
+                    <el-date-picker
+                            v-model="form.rosterDate"
+                            align="left"
+                            type="date"
+                            value-format="yyyy-MM-dd"
+                            placeholder="选择日期">
+                    </el-date-picker>
+                    <span style="margin: 0 15px">至</span>
+                    <el-date-picker
+                            v-model="form.rosterDate"
+                            align="left"
+                            type="date"
+                            value-format="yyyy-MM-dd"
+                            placeholder="选择日期">
+                    </el-date-picker>
+                </div>
+            </el-form-item>
             <el-form-item label="值班类型" prop="rosterType">
-                <gf-dict-select dict-type="AGNES_ROSTER_TYPE" v-model="form.rosterType"/>
+                <gf-dict-select
+                        dict-type="AGNES_ROSTER_TYPE"
+                        v-model="form.rosterType"
+                        multiple/>
             </el-form-item>
-            <el-form-item label="值班日期" prop="rosterDate">
-                <el-date-picker
-                        v-model="form.rosterDate"
-                        align="left"
-                        type="date"
-                        value-format="yyyy-MM-dd"
-                        placeholder="选择日期">
-                </el-date-picker>
-            </el-form-item>
-            <!--            <el-form-item label="值班时间" prop="rosterTs">-->
-            <!--                <el-time-picker-->
-            <!--                        is-range-->
-            <!--                        v-model="form.rosterTs"-->
-            <!--                        range-separator="至"-->
-            <!--                        start-placeholder="开始时间"-->
-            <!--                        end-placeholder="结束时间"-->
-            <!--                        placeholder="选择时间范围"-->
-            <!--                        format="HH:mm"-->
-            <!--                        value-format="HH:mm">-->
-            <!--                </el-time-picker>-->
-            <!--            </el-form-item>-->
             <el-form-item label="值班人员" prop="memberRefList">
                 <gf-person-chosen ref="memberRef"
                                   :disabled="mode !== 'add'"
@@ -36,6 +37,7 @@
                 </gf-person-chosen>
             </el-form-item>
         </el-form>
+        <span class="note">注：值班类型多选与值班人员多选一致，会按照顺序进行对应批量生产排班，可以选择时调整顺序。</span>
         <dialog-footer :ok-button-visible="mode !== 'view'" :on-save="onSave" ok-button-title="确定"></dialog-footer>
     </div>
 </template>
@@ -45,7 +47,7 @@
         data() {
             return {
                 form: {
-                    rosterType: "",
+                    rosterType: [],
                     rosterDate: "",
                     rosterTs: "",
                     memberRefList: []
@@ -110,24 +112,6 @@
                     // 初始赋值，调用initChosenData方法传入
                     this.$refs.memberRef.initChosenData(chosenData);
                 }
-                // if (this.form.rosterId!=null){
-                //     const resp = await this.$api.rosterApi.getUserList(this.form.rosterId);
-                //     if(resp.data){
-                //         let userInfoList = resp.data;
-                //         const chosenData = userInfoList.map(item=>{
-                //             return {
-                //                 'refType': '1',
-                //                 'memberId': item.userId,
-                //                 'memberDesc': item.userName,
-                //             }
-                //         });
-                //         // 初始赋值，调用initChosenData方法传入
-                //         this.$refs.memberRef.initChosenData(chosenData);
-                //     }
-                //
-                // }
-
-
             },
 
             async onSave() {
@@ -154,3 +138,10 @@
         }
     }
 </script>
+
+<style scoped>
+    .note {
+        color: #999;
+        text-indent: 2em;
+    }
+</style>

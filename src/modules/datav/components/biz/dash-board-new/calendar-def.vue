@@ -42,11 +42,7 @@
                 memoNum: '',
                 ifFold: false,
                 monthData: [],
-                memoArr: [{msgId: '01', msgData: '瑞安本封闭期即将结束'},
-                    {msgId: '02', msgData: '安信收益三年运作将进入过渡期，赎回巴拉巴拉巴拉巴拉巴拉巴拉'},
-                    {msgId: '03', msgData: '华安锦源0-7年开始发行至2021/02/26'},
-                    {msgId: '04', msgData: '瑞安本封闭期即将结束'},
-                    {msgId: '05', msgData: '瑞安本封闭期即将结束'},]
+                memoArr: []
             }
         },
         created() {

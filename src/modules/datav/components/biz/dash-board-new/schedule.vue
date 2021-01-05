@@ -1,8 +1,8 @@
 <template>
     <div class="roster-container">
-        <div class="roster-item" v-for="roster in rosterList" :key="roster.userId" >
+        <div class="roster-item" v-for="(roster, index) in rosterList" :key="index" >
             <div class="icon">
-                <img :src="getImgPath(roster.sex)" alt="avatar" width="40px" height="40px" style="border-radius: 6px">
+                <img src="../../../assets/clientView/avatar.png" alt="avatar" width="40px" height="40px" style="border-radius: 6px">
             </div>
             <div class="info">
                 <p>
@@ -11,8 +11,8 @@
                 </p>
                 <p>
                     <svg-icon :name="pageType === 'personal' ? 'clock' : 'phone'" height="12px" color="#666"></svg-icon>
-                    <span>{{ pageType === 'personal' ? roster.rosterDate : roster.oTel }}</span>
-                    <template v-if="pageType === 'dep'">
+                    <span>{{ pageType === 'personal' ? roster.rosterDate : roster.mobileNo.substr(0, 4) }}</span>
+                    <template v-if="pageType === 'department'">
                         <svg-icon name="mobile" height="12px" color="#666"></svg-icon>
                         <span class="telSpan">{{ roster.oTel }}</span>
                     </template>
@@ -43,27 +43,18 @@
         },
 
         methods: {
-            async initDate(){
-                const resp = await this.$api.changeDataApi.getChangeData();
-                const resChangeData = resp.data;
-                let exeTime = resChangeData.bizDate;
-                if(this.pageType === 'personal') {
-                    let resp1 = await this.$api.HomePageApi.selectRosterDetailOfWeek({
+            initDate(){
+                this.$api.changeDataApi.getChangeData().then((resp)=>{
+                    const resChangeData = resp.data;
+                    console.log('this.todayDate', this.todayDate);
+                    const exeTime = resChangeData ? resChangeData.bizDate : this.todayDate;
+                    this.$api.HomePageApi.selectRosterDetailOfWeek({
                         rosterDate: exeTime,
-                        pageType: 'personal'
-                    });
-                    if (resp1) {
+                        pageType: this.pageType
+                    }).then((resp1)=>{
                         this.rosterList = resp1.data;
-                    }
-                }else {
-                    let resp1 = await this.$api.HomePageApi.selectRosterDetailOfWeek({
-                        rosterDate: exeTime,
-                        pageType: 'department'
                     });
-                    if (resp1) {
-                        this.rosterList = resp1.data;
-                    }
-                }
+                });
             },
             showRoster(item) {
                 let depViewId = 'agnes.dop.roster';
@@ -78,14 +69,6 @@
             getRosterType(rosterTypeId) {
                 if(rosterTypeId && this.$lodash.find(this.rosterType, {dictId: rosterTypeId})){
                     return this.$lodash.find(this.rosterType, {dictId: rosterTypeId}).dictName;
-                }
-            },
-
-            getImgPath(sex){
-                if(sex === 0){
-                    return require("../../../assets/clientView/avatar-boy.jpg");
-                }else{
-                    return require("../../../assets/clientView/avatar-gril.jpg");
                 }
             }
         }

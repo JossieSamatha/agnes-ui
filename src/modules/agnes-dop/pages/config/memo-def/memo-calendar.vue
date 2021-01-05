@@ -3,15 +3,13 @@
         <div class="option-panel">
             <span class="title">运营日历</span>
             <span>
-                <el-dropdown size="mini" split-button type="primary">
-                  筛选
-                  <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>黄金糕</el-dropdown-item>
-                    <el-dropdown-item>狮子头</el-dropdown-item>
-                  </el-dropdown-menu>
-                </el-dropdown>
-                <el-button icon="el-icon-plus" type="primary">新建日历</el-button>
-                <el-button icon="el-icon-user" type="primary">智能排班</el-button>
+                <el-select v-model="filterValue" placeholder="过滤" size="small">
+                    <el-option label="全部" value="0"></el-option>
+                    <el-option label="日历计划" value="1"></el-option>
+                    <el-option label="排班计划" value="2"></el-option>
+                </el-select>
+                <el-button icon="el-icon-plus" type="primary" @click="addTodo">新建日历</el-button>
+                <el-button icon="el-icon-user" type="primary" @click="addSchedule">智能排班</el-button>
             </span>
         </div>
         <div class="container">
@@ -56,9 +54,13 @@
 </template>
 
 <script>
+    import MemoDefDlg from "./memo-def-dlg";
+    import rosterDefDlg from './roster-type-dlg'
+
     export default {
         data() {
             return {
+                filterValue: '',
                 calendarVal: '',
                 calendarCheckList: [
                     {msgId: '01', msgData: '瑞安本封闭期即将结束'},
@@ -75,10 +77,10 @@
                     {msgId: '05', msgData: '王大陆-晚班计划'}
                 ],
                 dayEventList: [
-                    {msgId: '02', msgData: '安信收益三年运作将进入过渡期，赎回巴拉巴拉巴拉巴拉巴拉巴拉', type: 'memo'},
-                    {msgId: '04', msgData: '瑞安本封闭期即将结束', type: 'memo'},
-                    {msgId: '01', msgData: '王大陆-早班计划', type: 'roster'},
-                    {msgId: '02', msgData: '王大陆-晚班计划', type: 'roster'},
+                    {msgId: '01', msgData: '安信收益三年运作将进入过渡期，赎回巴拉巴拉巴拉巴拉巴拉巴拉', type: 'memo'},
+                    {msgId: '02', msgData: '瑞安本封闭期即将结束', type: 'memo'},
+                    {msgId: '03', msgData: '王大陆-早班计划', type: 'roster'},
+                    {msgId: '04', msgData: '王大陆-晚班计划', type: 'roster'},
                     {msgId: '05', msgData: '瑞安本封闭期即将结束', type: 'memo'},
                 ],
 
@@ -88,7 +90,6 @@
         },
 
         methods: {
-
             getMonthData(data) {
                 console.log('getMemoData', data);
                 this.monthData = data;
@@ -120,6 +121,44 @@
                         return dateObj.calendarNum && parseInt(dateObj.calendarNum) > 0;
                     }
                 }
+            },
+
+            // 新建日历计划
+            addTodo(){
+                this.showTodoDlg('add', {}, this.refreshCalendar.bind(this));
+            },
+
+            showTodoDlg(mode, row, actionOk) {
+                this.$nav.showDialog(
+                    MemoDefDlg,
+                    {
+                        args: {row, mode, actionOk},
+                        width: '650px',
+                        closeOnClickModal: false,
+                        title: this.$dialog.formatTitle('运营日历', mode),
+                    }
+                );
+            },
+
+            refreshCalendar(){
+
+            },
+
+            // 新建日历计划
+            addSchedule(){
+                this.showScheduleDlg('add', {}, this.refreshCalendar.bind(this));
+            },
+
+            showScheduleDlg(mode, row, actionOk) {
+                this.$nav.showDialog(
+                    rosterDefDlg,
+                    {
+                        args: {row, mode, actionOk},
+                        width: '650px',
+                        closeOnClickModal: false,
+                        title: this.$dialog.formatTitle('智能排班', mode),
+                    }
+                );
             },
         },
     }
@@ -161,5 +200,26 @@
     .option-panel .title{
         font-size: 16px;
         margin: 0;
+    }
+
+    .option-panel .el-button {
+        padding: 8px 6px;
+    }
+
+    .option-panel .el-select {
+        width: 75px;
+        margin-right: 6px;
+    }
+
+    .option-panel .el-select >>> input {
+        color: #999;
+        border-color: #999;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .option-panel .el-select >>> input::-webkit-input-placeholder,
+    .option-panel .el-select >>> .el-input .el-select__caret {
+        color: #999;
     }
 </style>

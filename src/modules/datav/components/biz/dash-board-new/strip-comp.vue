@@ -29,8 +29,6 @@
         },
         methods: {
             async getData() {
-                const resp = await this.$api.ruleTableApi.getMsgBoxList();
-                this.dataArr = resp.data.splice(0,6);
                 let resp1 = await this.$api.HomePageApi.getMsgListByType();
                 if(resp1.data.length>0){
                     this.dataArr = resp1.data.splice(0,6);

@@ -586,7 +586,7 @@
 }
 
 .datav_client_view .indexPage .vue-grid-item.cssTransforms.attach-top {
-    z-index: 10;
+    z-index: 1;
 }
 
 .datav_client_view .indexPage.edit .vue-grid-item.cssTransforms,

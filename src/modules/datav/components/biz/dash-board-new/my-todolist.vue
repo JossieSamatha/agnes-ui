@@ -1,20 +1,22 @@
 <template>
     <div class="strip-comp-container" v-clickoutside="clickoutside">
-        <div class="strip-comp-block" v-for="item in taskDemoArr" :key="item.taskId"
-             :class="{'active': choosedTaskId === item.taskId}"
-             @click="choosedTask(item)"
-        >
-            <div class="strip-comp">
-                <span class="status" :style="{background: msgTypeOp[item.stepStatus]}"></span>
-                <span class="info" :title="item.taskName">{{item.taskName}}</span>
-                <span class="type">{{getCaseStepType(item.taskType)}}</span>
-                <span class="date-time">{{ item.startDay }}[{{ item.planTime }}]</span>
+        <transition-group name="slide">
+            <div class="strip-comp-block" v-for="(item, index) in taskDemoArr" :key="item.taskId"
+                 :class="{'active': choosedTaskId === item.taskId}"
+                 @click="choosedTask(item)"
+            >
+                <div class="strip-comp">
+                    <span class="status" :style="{background: msgTypeOp[item.stepStatus]}"></span>
+                    <span class="info" :title="item.taskName">{{item.taskName}}</span>
+                    <span class="type">{{getCaseStepType(item.taskType)}}</span>
+                    <span class="date-time">{{ item.startDay }}[{{ item.planTime }}]</span>
+                </div>
+                <div class="deal" @click="dealTodo(index)">
+                    <svg-icon name="lightning" color="#fff"></svg-icon>
+                    <span>快速办理</span>
+                </div>
             </div>
-            <div class="deal">
-                <svg-icon name="lightning" color="#fff"></svg-icon>
-                <span>快速办理</span>
-            </div>
-        </div>
+        </transition-group>
     </div>
 </template>
 
@@ -37,9 +39,6 @@
             }
         },
         created() {
-            // this.$api.ruleTableApi.getTaskTodoList().then(res => {
-            //     this.taskDemoArr = res.data.rows.splice(0,4);
-            // })
             this.initData();
         },
         methods: {
@@ -49,6 +48,7 @@
                     this.taskDemoArr = resp1.data.rows;
                 }
             },
+
             choosedTask(task){
                 this.choosedTaskId = task.taskId;
             },
@@ -64,6 +64,11 @@
 
             clickoutside(){
                 this.choosedTaskId = {}
+            },
+
+            // 快速办理
+            dealTodo(index){
+                this.taskDemoArr.splice(index, 1)
             }
         }
     }
@@ -167,5 +172,23 @@
 
     .strip-comp-block .deal>span {
         white-space: nowrap;
+    }
+
+    .slide-move {
+        transition: 1s all ease;
+    }
+
+    .slide-leave-active {
+        position: absolute;
+        animation: slide-out 1s ease-out;
+    }
+
+    @keyframes slide-out {
+        from {
+            transform: translateX(0)
+        }
+        to {
+            transform: translateX(-1000px)
+        }
     }
 </style>

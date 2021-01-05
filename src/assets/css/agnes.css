@@ -136,7 +136,7 @@
 
 =======================================*/
 .person-chosen {
-    line-height: 28px;
+    line-height: 32px;
 }
 
 .person-chosen .list-view {
@@ -301,7 +301,7 @@
 .gf-cron-tab .el-tabs .el-tabs__header.is-top{
     margin: 0;
     background: transparent;
-    border-bottom: 1px solid #EFF2F7;
+    border-bottom: 1px solid #A8AED3;
 }
 
 .gf-cron-tab .el-tabs > .el-tabs__header .el-tabs__nav {
@@ -318,7 +318,11 @@
     padding: 0 15px;
     text-align: center;
     background: #fff;
-    border: 1px solid #EFF2F7;
+    border: 1px solid #A8AED3;
+}
+
+.gf-cron-tab .el-tabs .el-tabs__header .el-tabs__item + .el-tabs__item {
+    border-left: none;
 }
 
 .gf-cron-tab .el-tabs .el-tabs__header .el-tabs__item.is-active {

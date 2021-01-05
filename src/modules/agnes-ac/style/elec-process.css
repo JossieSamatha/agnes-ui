@@ -278,12 +278,21 @@ p span.num {
 }
 
 .elec-process-dashboard .board-container .card-detail .progress .progress-item > div
-.define-progress {
+.define-progress-bar {
+    position: relative;
     flex: 1;
     width: 100%;
     cursor: pointer;
 }
 
+.elec-process-dashboard .board-container .card-detail .progress .progress-item > div
+.define-progress-bar .error-percentage{
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background: #FA6A6A;
+    border-radius: 0 100px 100px 0;
+}
 .elec-process-dashboard .board-container .card-detail .progress .progress-item > div
 .define-progress .el-progress-bar {
     margin-right: -45px;
@@ -300,15 +309,6 @@ p span.num {
 .define-progress.is-roll .el-progress-bar__outer .el-progress-bar__inner,
 .elec-process-dashboard .card-container .module-card.active .monitor-progress.is-roll
 .el-progress-bar__outer .el-progress-bar__inner {
-    background: linear-gradient(
-            -45deg,
-            #0f5eff 0, #0f5eff 20%,
-            #738CFF 20%, #738CFF 35%,
-            #0f5eff 35%, #0f5eff 55%,
-            #738CFF 55%, #738CFF 70%,
-            #0f5eff 70%, #0f5eff 90%,
-            #738CFF 90%, #738CFF
-    );
     background-size: 46px 20px;
 }
 
@@ -318,28 +318,7 @@ p span.num {
 }
 
 .elec-process-dashboard .board-container .card-detail .progress .progress-item > div
-.define-progress.has-error .el-progress-bar__inner::after {
-    content: '';
-    position: absolute;
-    width: 10px;
-    height: 100%;
-    top: 0;
-    right: 0px;
-    background: #FA6A6A;
-    border-radius: 0 100px 100px 0;
-}
-
-.elec-process-dashboard .board-container .card-detail .progress .progress-item > div
 .define-progress.is-roll.has-error .el-progress-bar__inner::after {
-    background: linear-gradient(
-            -45deg,
-            #FA6A6A 0, #FA6A6A 20%,
-            #FB8E8E 20%, #FB8E8E 35%,
-            #FA6A6A 35%, #FA6A6A 55%,
-            #FB8E8E 55%, #FB8E8E 70%,
-            #FA6A6A 70%, #FA6A6A 90%,
-            #FB8E8E 90%, #FB8E8E
-    );
     background-size: 46px 20px;
 }
 
