@@ -25,7 +25,7 @@
             async getData() {
                 let resp = await this.$api.HomePageApi.selectErrInfoByUser();
                 if(resp.data.length>0){
-                    this.dataArr = resp.data.rows.splice(0,6);
+                    this.dataArr = resp.data.splice(0,6);
                 }
             }
         },

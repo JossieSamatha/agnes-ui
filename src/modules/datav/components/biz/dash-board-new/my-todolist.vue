@@ -21,6 +21,9 @@
 <script>
     export default {
         name: "my-todolist",
+        props: {
+            pagetype: String,
+        },
         data() {
             return {
                 taskDemoArr: [],
@@ -37,13 +40,13 @@
             // this.$api.ruleTableApi.getTaskTodoList().then(res => {
             //     this.taskDemoArr = res.data.rows.splice(0,4);
             // })
-            this.initData;
+            this.initData();
         },
         methods: {
             async initData(){
                 let resp1 = await this.$api.HomePageApi.selectTodoTaskOfUser();
                 if(resp1){
-                    this.taskDemoArr = resp1.data;
+                    this.taskDemoArr = resp1.data.rows;
                 }
             },
             choosedTask(task){
