@@ -98,6 +98,7 @@
     import AcntApplyInsert from "../acnt-apply/acnt-apply-insert";
     import AcntInfoDetail from "../acnt-info/acnt-info-detail";
     import AcntInfoStatusDlg from "../acnt-info/acnt-info-status-dlg";
+    import AcntHiInfoFaDlg from "../acnt-info/acnt-hi-info-fa";
 
     export default {
         data() {
@@ -282,6 +283,23 @@
           },
           updateAcntStatus(params) {
               this.showAcntStatusDlg('edit', params.data,"", this.onOpenApply.bind(this));
+          },
+
+          showHis(params) {
+              let row = params.data;
+              if (!row) {
+                  this.$msg.warning("请选中一条记录!");
+                  return;
+              }
+              let title = '账户历史';
+              this.$drawerPage.create({
+                  width: 'calc(97% - 215px)',
+                  title: [title],
+                  component: AcntHiInfoFaDlg,
+                  args: {row},
+                  okButtonVisible:false,
+                  pageEl: this.$el
+              })
           },
 
           exoprtV45(){}

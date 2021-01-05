@@ -504,9 +504,10 @@
 }
 
 .calendar-memo .el-calendar-table .el-calendar-day {
-    height: 100%;
-    text-align: right;
+    min-height: 100%;
+    max-height: 100%;
     border: 1px solid transparent;
+    overflow: hidden;
 }
 
 .calendar-memo .el-calendar-table td.is-selected {
@@ -514,6 +515,73 @@
 }
 
 .calendar-memo .el-calendar-table td.is-selected .el-calendar-day {
-    color: #0F5EFF;
     border: 1px solid #0F5EFF;
+}
+
+.calendar-memo .el-calendar-table .el-calendar-day .content .day-num {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 30px;
+}
+
+.calendar-memo .el-calendar-table .el-calendar-day .content .day-num
+.lunar{
+    color: #ccc;
+}
+
+.calendar-memo .el-calendar-table .el-calendar-day .content .day-num
+.solar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    font-family: SourceHanSansCN-Medium;
+}
+
+.calendar-memo .el-calendar-table td.is-selected .el-calendar-day
+.content .day-num .solar {
+    color: #fff;
+    background: #0F5EFF;
+    font-family: SourceHanSansCN-Normal;
+}
+
+.calendar-memo .el-calendar-table .el-calendar-day .content .day-event {
+    width: 100%;
+    height: calc(100% - 30px);
+    overflow: hidden;
+    font-size: 12px;
+}
+
+.calendar-memo .el-calendar-table .el-calendar-day .content .day-event>li {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-left: 10px;
+}
+
+.calendar-memo .el-calendar-table .el-calendar-day .content .day-event>li::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 0;
+    display: block;
+    width: 6px;
+    height: 6px;
+    background: #3CACEC;
+    border-radius: 50%;
+}
+
+.calendar-memo .el-calendar-table .el-calendar-day .content .day-event>li.roster::before {
+    background: #FFB727;
+}
+
+.calendar-memo .el-calendar-table .el-calendar-day .content .more {
+    display: none;
+    color: #999;
+    font-size: 12px;
 }
