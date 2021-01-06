@@ -1,12 +1,12 @@
 <template>
     <div>
       <div>
-        <div class="linkman-list">
+        <div class="linkman-list"  v-if="this.needTodoOfAcnt!==0">
           <div class="state-icon">
             <em class="fa fa-external-link-square"></em>
           </div>
           <div class="notice-info">
-            <el-link type="primary">可以复核的账户申请[5]笔</el-link>
+            <el-link type="primary" @click="todoForAcntApply">可以复核的账户申请{{[this.needTodoOfAcnt]}}笔</el-link>
           </div>
           <div class="notice-state">
             账户申请
@@ -42,6 +42,7 @@
         },
         data(){
             return {
+              needTodoOfAcnt:1,
               taskDemoArr: [],
               bizdate: null,
               caseStepTypeDict: this.$app.dict.getDictItems('AGNES_CASE_STEPTYPE'),
@@ -56,7 +57,11 @@
           getTaskDate(taskDate) {
             return taskDate ? taskDate.slice(5, 11) : '';
           },
-
+          todoForAcntApply(){
+              let clientView = this.$app.views.getView('agnes.acnt.apply');
+              let clientTabView = Object.assign({args: {}, id: 'agnes.acnt.apply'}, clientView);
+              this.$nav.showView(clientTabView);
+          },
           getTaskTime(taskTime) {
             return taskTime ? taskTime.slice(11) : '';
           },

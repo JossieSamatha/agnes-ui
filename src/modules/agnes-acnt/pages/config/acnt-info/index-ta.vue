@@ -183,7 +183,7 @@ export default {
         component: AcntApplyOpen,
         args: {row, mode, actionOk, isDisabled},
         okButtonVisible: mode !== 'view',
-        okButtonTitle: mode === 'detele' ? '提交' : '提交',
+        okButtonTitle: '提交',
         pageEl: this.$el
       })
     },
