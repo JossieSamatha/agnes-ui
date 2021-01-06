@@ -131,7 +131,7 @@
                     'bizType':'',
                     'applyDeadlineStatus':'',
                     'isShowAll':'',
-                    'finishCond':'00',
+                    'finishCond':'02',
                     'showCond':'01'
                 },
                 tableData: [],
@@ -225,7 +225,7 @@
                     'bizType':'',
                     'applyDeadlineStatus':'',
                     'isShowAll':'',
-                    'finishCond':'00',
+                    'finishCond':'02',
                     'showCond':this.queryArgs.showCond
                 };
                 this.$refs.grid.reloadData();
