@@ -99,7 +99,6 @@
                 return bizdate;
             }
         },
-
         methods: {
             showView(viewId) {
                 this.view = viewId;
