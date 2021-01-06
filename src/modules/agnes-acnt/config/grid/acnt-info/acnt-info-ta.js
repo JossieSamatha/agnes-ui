@@ -4,12 +4,25 @@ import Permission from "../../../../../utils/hasPermission";
 const colButtons = [
     // {key: 'queryRate', title: '查看利率'},
     // {key: 'queryLinkman', title: '查看联系人'},
-    {key: 'changeData', title: '变更', visiable: () => {
+    {key: 'changeData', title: '变更',disabled: (params)=>{
+            let result = false;
+            if(params.data.unfinishedApplyCount !== '0'){
+                result =true;
+            }
+            return result;}, visiable: () => {
             return Permission.hasPermission('agnes.acnt.info.ta.changeData');
+        }},
+    {key: 'editData', title: '编辑',disabled: (params)=>{
+            let result = false;
+            if(params.data.unfinishedApplyCount !== '0'){
+                result =true;
+            }
+            return result;}, visiable: () => {
+            return Permission.hasPermission('agnes.acnt.info.ta.editData');
         }},
     {key: 'delete', title: '销户', cellClass: 'red-cell',disabled: (params)=>{
             let result = false;
-            if(params.data.processStatus === '02'){
+            if(params.data.acntStatus === '02' || params.data.unfinishedApplyCount !== '0'){
                 result =true;
             }
             return result;}, visiable: () => {
@@ -19,7 +32,12 @@ const colButtons = [
     //         return Permission.hasPermission('agnes.acnt.info.ta.updateAcntStatus');
     //     }},
 
-    {key: 'logicDelete', title: '删除', cellClass: 'red-cell', visiable: () => {
+    {key: 'logicDelete', title: '删除', cellClass: 'red-cell',disabled: (params)=>{
+            let result = false;
+            if(params.data.unfinishedApplyCount !== '0'){
+                result =true;
+            }
+            return result;}, visiable: () => {
             return Permission.hasPermission('agnes.acnt.info.ta.logicDelete');
         }},
     {key: 'showHis', title: '历史', visiable: () => {
@@ -29,7 +47,7 @@ const colButtons = [
 
 export default {
     columnDefs: [
-        column.buildOpCol(140, colButtons),
+        column.buildOpCol(175, colButtons),
         {headerName: "账户名称", field: "acntName"},
         {headerName: "账户类型", field: "typeName"},
         {

@@ -55,6 +55,12 @@ export default {
         column.buildOpCol(140, colButtons),
         {headerName: "账户名称", field: "acntName"},
         {headerName: "归属机构", field: "extOrgName"},
+        {headerName: "账户类型", field: "typeName"},
+        {headerName: "资金账号", field: "fundAccNos"},
+        // {headerName: "币种", field: "fundCurrencys"},
+        {headerName: "账号", field: "accNos"},
+        // {headerName: "市场", field: "markets"},
+
         {headerName: "联系人姓名", field: "linkmanName"},
         {headerName: "联系方式", field: "linkmanMobile"},
         {headerName: "状态", field: "status", dictType: 'AGNES_RELEASE_STATUS'},

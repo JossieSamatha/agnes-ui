@@ -52,6 +52,12 @@ export default {
         {headerName: "账户名称", field: "acntName"},
         // {headerName: "账号", field: "accountNo"},
         {headerName: "归属机构", field: "extOrgName"},
+        {headerName: "账户类型", field: "typeName"},
+        {headerName: "资金账号", field: "fundAccNos"},
+        // {headerName: "币种", field: "fundCurrencys"},
+        {headerName: "账号", field: "accNos"},
+        // {headerName: "市场", field: "markets"},
+
         {headerName: "利率(%)", field: "rate"},
         {headerName: "方案代码", field: "rateCode"},
         {headerName: "方案名称", field: "rateName"},

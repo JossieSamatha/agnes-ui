@@ -307,6 +307,9 @@
                     // form.processStatus = '02';
                     if(params.data.isSendFinance=='1'){
                       form.processStatus = '05';
+                    }else if(params.data.bizType =='03'){
+                        //销户且无财务流程，则流程直接完成
+                        form.processStatus = '08';
                     }else {
                         form.processStatus = '06';
                     }
