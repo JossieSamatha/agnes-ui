@@ -39,7 +39,7 @@
       },
 
       mounted() {
-        if (this.memoDt !== null && this.memoDt !== null) {
+        if (this.memoDt !== null && this.memoDt !== '') {
           this.queryParam.memoDt = this.memoDt;
         }
         if (this.pageType !== null && this.pageType !== '') {
