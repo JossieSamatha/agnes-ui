@@ -6,7 +6,7 @@
             <em class="fa fa-external-link-square"></em>
           </div>
           <div class="notice-info">
-            <el-link type="primary" @click="todoForAcntApply">可以复核的账户申请{{this.needTodoOfAcnt}}笔</el-link>
+            <el-link type="primary" @click="todoForAcntApply">可以复核的账户申请{{[this.needTodoOfAcnt]}}笔</el-link>
           </div>
           <div class="notice-state">
             账户申请
