@@ -200,7 +200,9 @@
                 this.tableData = [];
                 this.orgHierarchyFunc(params.rows, []);
                 params.rows = this.tableData;
-                params.total = this.tableData.length;
+
+                //20210106先去掉 会影响分页数据条数显示
+                // params.total = this.tableData.length;
                 this.crtStepRow = params.rows[0];
                 this.$refs.grid.$emit("data-loaded", params);
             },
@@ -677,6 +679,6 @@
         margin-left: 0;
     }
     .acnt-apply-container .ag-grid-box .grid-action-panel .right .el-input {
-        width: 200px;
+        width: 150px;
     }
 </style>

@@ -69,15 +69,6 @@
                 <template slot="left">
                     <gf-button class="action-btn" @click="openApply"
                                 v-if="$hasPermission('agnes.acnt.apply.openApply')">开户</gf-button>
-                    <gf-button class="action-btn"
-                               :class="pointerShow ? 'pointerShow' : '' "
-                               @click="submitOA" style="position: relative;"
-                                v-if="$hasPermission('agnes.acnt.apply.submitOA')">
-                        <span>批量提交OA</span>
-                        <span v-show="pointerShow" class="svg-pointer" v-html="svgImg.pointer"></span>
-                    </gf-button>
-                    <gf-button class="action-btn" @click="addInfoFile"
-                                v-if="$hasPermission('agnes.acnt.apply.addInfoFile')">资料补充</gf-button>
                 </template>
                 <template slot="right-before">
                     <el-radio-group v-model="queryArgs.showCond" @change="reloadData" size="mini">
@@ -200,7 +191,9 @@
                 this.tableData = [];
                 this.orgHierarchyFunc(params.rows, []);
                 params.rows = this.tableData;
-                params.total = this.tableData.length;
+
+                //20210106先去掉 会影响分页数据条数显示
+                // params.total = this.tableData.length;
                 this.crtStepRow = params.rows[0];
                 this.$refs.grid.$emit("data-loaded", params);
             },
@@ -677,6 +670,6 @@
         margin-left: 0;
     }
     .acnt-apply-container .ag-grid-box .grid-action-panel .right .el-input {
-        width: 200px;
+        width: 150px;
     }
 </style>

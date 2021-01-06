@@ -89,9 +89,9 @@ export default {
     // },
     rowSelection:'multiple',
     ext: {
-        fetchUrl: "/agnes-app/v1/acnt/apply/getAcntApplyVoList",
+        fetchUrl: "/agnes-app/v1/acnt/apply/getAcntApplyPageList",
         fetchMethod: 'post',
-        pagingMode: true, //不分页
+        pagingMode: true, //是否分页
         checkboxColumn: 2, //是否显示checkbox列,
         enableExportLocal: true,
         autoFitColumnMode: 1,
@@ -108,5 +108,5 @@ export default {
             // 详见ElementUI分页组件
             layout: "total, sizes, prev, pager, next, jumper"
         },
-    },
+    }
 };
