@@ -82,8 +82,8 @@
                 <template slot="right-before">
                     <el-radio-group v-model="queryArgs.showCond" @change="reloadData" size="mini">
                         <el-radio-button label="01">我发起</el-radio-button>
-                        <el-radio-button label="02">可处理</el-radio-button>
-<!--                        <el-radio-button label="03">我处理</el-radio-button>-->
+<!--                        <el-radio-button label="02">可处理</el-radio-button>-->
+                        <el-radio-button label="03">我处理</el-radio-button>
                         <el-radio-button label="04">我可见</el-radio-button>
                     </el-radio-group>
 
@@ -131,7 +131,7 @@
                     'bizType':'',
                     'applyDeadlineStatus':'',
                     'isShowAll':'',
-                    'finishCond':'00',
+                    'finishCond':'01',
                     'showCond':'01'
                 },
                 tableData: [],
@@ -225,7 +225,7 @@
                     'bizType':'',
                     'applyDeadlineStatus':'',
                     'isShowAll':'',
-                    'finishCond':'00',
+                    'finishCond':'01',
                     'showCond':this.queryArgs.showCond
                 };
                 this.$refs.grid.reloadData();
