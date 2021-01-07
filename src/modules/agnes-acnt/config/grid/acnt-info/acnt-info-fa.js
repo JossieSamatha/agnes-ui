@@ -6,7 +6,7 @@ const colButtons = [
     // {key: 'queryLinkman', title: '查看联系人'},
     {key: 'changeData', title: '变更',disabled: (params)=>{
             let result = false;
-            if(params.data.unfinishedApplyCount !== '0'){
+            if(params.data.acntStatus === '02' || params.data.unfinishedApplyCount !== '0'){
                 result =true;
             }
             return result;}, visiable: () => {
@@ -14,7 +14,7 @@ const colButtons = [
         }},
     {key: 'editData', title: '编辑',disabled: (params)=>{
             let result = false;
-            if(params.data.unfinishedApplyCount !== '0'){
+            if(params.data.acntStatus === '02' || params.data.unfinishedApplyCount !== '0'){
                 result =true;
             }
             return result;}, visiable: () => {

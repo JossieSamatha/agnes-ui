@@ -67,14 +67,14 @@
                      :options="applyGridOption(this)"
                      height="100%">
                 <template slot="left">
-                    <gf-button class="action-btn" @click="openApply"
-                                v-if="$hasPermission('agnes.acnt.apply.openApply')">开户</gf-button>
+<!--                    <gf-button class="action-btn" @click="openApply"-->
+<!--                                v-if="$hasPermission('agnes.acnt.apply.openApply')">开户</gf-button>-->
                 </template>
                 <template slot="right-before">
                     <el-radio-group v-model="queryArgs.showCond" @change="reloadData" size="mini">
                         <el-radio-button label="01">我发起</el-radio-button>
-                        <el-radio-button label="02">可处理</el-radio-button>
-<!--                        <el-radio-button label="03">我处理</el-radio-button>-->
+<!--                        <el-radio-button label="02">可处理</el-radio-button>-->
+                        <el-radio-button label="03">我处理</el-radio-button>
                         <el-radio-button label="04">我可见</el-radio-button>
                     </el-radio-group>
 
