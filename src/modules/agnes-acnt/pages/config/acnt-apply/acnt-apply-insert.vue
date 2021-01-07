@@ -1,13 +1,13 @@
 <template>
 
     <div>
-        <div v-if="showChange" class="title-top">待变更</div>
-        <el-divider v-if="showChange"></el-divider>
+<!--        <div v-if="showChange" class="title-top">待变更</div>-->
+<!--        <el-divider v-if="showChange"></el-divider>-->
 
         <el-form ref="taskDefForm" class="acnt-apply-insert-form" :model="detailForm"
                  :disabled="mode==='view'||mode==='check'"
                  :rules="detailFormRules" label-width="180px">
-            <module-card title="基础信息" shadow="never" v-if="this.detailForm.bizType !== '02'">
+            <module-card :title="this.detailTitlePrefix+'基础信息'" shadow="never" v-if="this.detailForm.bizType !== '02'">
                 <template slot="content">
                     <div class="line">
                         <el-form-item label="账户类型" prop="typeCode">
@@ -143,7 +143,7 @@
                 </template>
             </module-card>
 
-            <module-card title="账户信息" shadow="never" v-if="detailForm.typeCode">
+            <module-card :title="this.detailTitlePrefix+'账户信息'" shadow="never" v-if="detailForm.typeCode">
                 <template slot="content">
                     <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="证券账号" prop="accNo">
                         <div class="rule-table">
@@ -431,11 +431,11 @@
             </div>
         </el-form>
 
-        <div v-if="showChange" class="title-top">变更前</div>
-        <el-divider v-if="showChange"></el-divider>
+<!--        <div v-if="showChange" class="title-top">变更前</div>-->
+<!--        <el-divider v-if="showChange"></el-divider>-->
         <el-form v-if="showChange" ref="taskDefFormBefore" class="acnt-apply-insert-form" :model="detailFormBefore" :disabled="true"
              :rules="detailFormRules" label-width="180px">
-            <module-card title="基础信息" shadow="never">
+            <module-card :title="this.beforeTitlePrefix+'基础信息'" shadow="never">
                 <template slot="content">
                     <div class="line">
                         <el-form-item label="账户类型" prop="typeCode">
@@ -490,7 +490,7 @@
                 </template>
             </module-card>
 
-            <module-card title="账户信息" shadow="never">
+            <module-card :title="this.beforeTitlePrefix+'账户信息'" shadow="never">
                 <template slot="content">
                     <el-form-item v-if="showRules.accNo&&showRules.accNo.isShow" label="证券账号" prop="accNo">
                         <div class="rule-table">
@@ -845,6 +845,8 @@
                     crtUser:'',
                     updateUser:''
                 },
+                beforeTitlePrefix:'变更前-',
+                detailTitlePrefix:'',
                 showChange:false,
                 isAccNoMustFill:false,
                 isMoneyAccNoMustFill:false,
@@ -895,9 +897,16 @@
                 this.detailForm.bizType='01'
             }
             Object.assign(this.detailForm, this.row);
-            if(this.detailForm.bizType=='02' || this.detailForm.bizType=='05'){
+            if(this.detailForm.bizType=='02'){
                 this.showChange = true;
+                this.beforeTitlePrefix = '变更前-';
+                this.detailTitlePrefix = '待变更-';
+            }else if(this.detailForm.bizType=='05'){
+                this.showChange = true;
+                this.beforeTitlePrefix = '编辑前-';
+                this.detailTitlePrefix = '待编辑-';
             }
+
             const p = this.getOptionData();
             this.$app.blockingApp(p);
 

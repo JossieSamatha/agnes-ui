@@ -49,5 +49,8 @@ export default {
     },
     getApplyProvisionBankAcntIdsByApplyId(applyId) {
         return request.get(`agnes-app/v1/acnt/apply/provision-bank-acnt/ref/ids/applyid`, {params: {applyId}});
+    },
+    getCountUnfinishedAndCanDo() {
+        return request.get(`agnes-app/v1/acnt/apply/getCountUnfinishedAndCanDo`);
     }
 };

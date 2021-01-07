@@ -78,6 +78,8 @@
                     </gf-button>
                     <gf-button class="action-btn" @click="addInfoFile"
                                 v-if="$hasPermission('agnes.acnt.apply.addInfoFile')">资料补充</gf-button>
+
+<!--                    <gf-button class="action-btn" @click="testBtn">test</gf-button>-->
                 </template>
                 <template slot="right-before">
                     <el-radio-group v-model="queryArgs.showCond" @change="reloadData" size="mini">
@@ -118,6 +120,12 @@
     import AcntApplyOpen from "./acnt-apply-open";
     import AcntApplyInsert from "./acnt-apply-insert";
     export default {
+        props: {
+            showCondProp: {
+                type: String,
+                default: '01'
+            }
+        },
         data() {
             return {
                 svgImg: this.$svgImg,
@@ -169,9 +177,16 @@
             'acnt-apply-steps': AcntApplySteps
         },
         beforeMount() {
+            if(this.showCondProp){
+                this.queryArgs.showCond = this.showCondProp;
+            }
             const p = this.getOptionData();
             this.$app.blockingApp(p);
         },
+        // mounted() {
+        //     // alert(this.showCond);
+        //     this.showCond = this.showCondProp;
+        // },
         methods: {
             async getOptionData(){
                 try {
@@ -289,6 +304,7 @@
             },
             onOpenApply(){
                 this.reloadData();
+                this.loadCount();
             },
             openApply() {
                 this.showOpenDlg('add', {}, this.onOpenApply.bind(this));
@@ -564,6 +580,14 @@
                 setTimeout(()=>{
                     this.pointerShow = false;
                 }, 4500)
+            },
+
+            async loadCount(){
+                this.$emit('loadCount', {data: this.loadCount});
+            },
+            async testBtn(){
+                //测试触发tab小红点加载
+                this.$emit('loadCount', {data: this.loadCount});
             }
         }
     }
