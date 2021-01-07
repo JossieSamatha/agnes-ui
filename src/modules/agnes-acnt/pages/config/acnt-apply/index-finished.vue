@@ -67,8 +67,8 @@
                      :options="applyGridOption(this)"
                      height="100%">
                 <template slot="left">
-                    <gf-button class="action-btn" @click="openApply"
-                                v-if="$hasPermission('agnes.acnt.apply.openApply')">开户</gf-button>
+<!--                    <gf-button class="action-btn" @click="openApply"-->
+<!--                                v-if="$hasPermission('agnes.acnt.apply.openApply')">开户</gf-button>-->
                 </template>
                 <template slot="right-before">
                     <el-radio-group v-model="queryArgs.showCond" @change="reloadData" size="mini">
