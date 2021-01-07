@@ -14,7 +14,7 @@
         </div>
         <div class="container">
             <div class="left">
-                <calendar-def pageType="memo" @getMonthData="getMonthData">
+                <calendar-def pageType="memo" @getMonthData="getMonthData" @dateChange="dateChange">
                     <template slot="list-slot">
                         <p class="split-line"></p>
                         <template v-if="calendarCheckList.length>0">
@@ -32,7 +32,7 @@
                     </template>
                 </calendar-def>
             </div>
-            <el-calendar class="calendar-memo"
+            <el-calendar ref="calendarMemo" class="calendar-memo"
                          v-model="calendarDetailVal"
                          :first-day-of-week="7">
                 <template slot="dateCell" slot-scope="{date, data}" >
@@ -42,19 +42,47 @@
                             <span class="solar">{{ getDay(date) }}</span>
                         </p>
                         <ul class="day-event">
-                            <li :class="list.type" v-for="list in dayEventList" :key="list.msgId">{{list.msgData}}</li>
+                            <li :class="list.type"
+                                v-for="list in dayEventList"
+                                :key="list.msgId"
+                                :title="list.msgData"
+                            >{{list.msgData}}</li>
                         </ul>
                         <span class="more" v-show="dayEventList.length>3">还有{{dayEventList.length-3}}项</span>
                         <em v-show="getDateObj(date, 'event')" class="circle"></em>
                     </span>
                 </template>
             </el-calendar>
+            <div class="detail-popover">
+                <div class="header">
+                    <span>计划详情</span>
+                    <span>
+                        <em class="el-icon-edit"></em>
+                        <em class="el-icon-delete"></em>
+                        <em class="el-icon-close"></em>
+                    </span>
+                </div>
+                <div class="body">
+                    <p>
+                        <svg-icon name="text" height="10px" color="#999"></svg-icon>
+                        <span>这里是个计划的展开的名称</span>
+                    </p>
+                    <p>
+                        <svg-icon name="clock" height="12px" color="#999"></svg-icon>
+                        <span>12月9日 周三 9:00~10:00 </span>
+                    </p>
+                    <p>
+                        <svg-icon name="calendar-line" height="12px" color="#999"></svg-icon>
+                        <span>每天</span>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-    import MemoDefDlg from "./memo-def-dlg";
+    import MemoDefDlg from "./memo-def-dlg-new";
     import rosterDefDlg from './roster-type-dlg'
 
     export default {
@@ -90,8 +118,13 @@
         },
 
         methods: {
+            dateChange(val){
+                if(this.$refs.calendarMemo){
+                    this.$refs.calendarMemo.pickDay(val);
+                }
+            },
+
             getMonthData(data) {
-                console.log('getMemoData', data);
                 this.monthData = data;
             },
 
@@ -168,7 +201,7 @@
     .container {
         display: flex;
         width: 100%;
-        height: calc(100% - 47px);
+        height: calc(100% - 52px);
         margin-top: 16px;
     }
 
@@ -222,4 +255,77 @@
     .option-panel .el-select >>> .el-input .el-select__caret {
         color: #999;
     }
+
+    .calendar-memo >>> .el-calendar__header .el-calendar__button-group {
+        display: none;
+    }
+
+    .detail-popover {
+        position: absolute;
+        right: 0;
+        width: 200px;
+        font-size: 12px;
+        padding: 14px;
+        background: #fff;
+        box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.16);
+        border-radius: 6px;
+    }
+
+    .detail-popover .header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .detail-popover .header>span:first-child {
+        position: relative;
+        color: #333;
+        font-family: SourceHanSansCN-Medium;
+        padding-left: 10px;
+    }
+
+    .detail-popover .header>span:first-child::before {
+        content: '';
+        position: absolute;
+        top: 6px;
+        left: 0;
+        display: block;
+        width: 6px;
+        height: 6px;
+        background: #3CACEC;
+        border-radius: 50%;
+    }
+
+    .detail-popover .header>span:last-child {
+        color: #999;
+    }
+
+    .detail-popover .header>span:last-child em {
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .detail-popover .header>span:last-child em:hover {
+        color: #0F5EFF;
+    }
+
+    .detail-popover .header>span:last-child em + em {
+        margin-left: 6px;
+    }
+
+    .detail-popover .body {
+        margin-top: 6px;
+    }
+
+    .detail-popover .body p {
+        display: flex;
+        align-items: center;
+        height: 24px;
+        line-height: 24px;
+    }
+
+    .detail-popover .body .svg-icon {
+        line-height: 0;
+        margin-right: 6px;
+    }
+
 </style>

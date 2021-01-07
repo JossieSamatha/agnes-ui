@@ -638,37 +638,6 @@
         box-shadow: 0px 0px 2px 1px #409eff;
     }
 
-    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-expanded,
-    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-contracted{
-        margin-right: 0;
-    }
-
-    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-expanded .ag-icon,
-    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-contracted .ag-icon{
-        color: blue;
-    }
-
-    .acnt-apply-grid .ag-theme-balham .ag-row-group-expanded .ag-cell:not([col-id="#cbox"]),
-    .acnt-apply-grid .ag-theme-balham .ag-row-group-contracted .ag-cell:not([col-id="#cbox"]){
-        color: blue;
-        background: #F6F8FA;
-    }
-
-    .acnt-apply-grid .gf-ag-grid.ag-theme-balham .ag-row-even,
-    .acnt-apply-grid .gf-ag-grid.ag-theme-balham .ag-row-odd {
-        background: #fff;
-    }
-
-    .acnt-apply-grid .gf-ag-grid.ag-theme-balham .ag-row.ag-row-level-1 {
-        border: none;
-    }
-    .acnt-apply-grid .ag-cell .ag-group-value{
-        margin-left: 0!important;
-    }
-
-    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-row-level-1 .ag-row-group-leaf-indent {
-        margin-left: 0;
-    }
     .acnt-apply-container .ag-grid-box .grid-action-panel .right .el-input {
         width: 200px;
     }

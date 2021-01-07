@@ -306,20 +306,8 @@ p span.num {
 }
 
 .elec-process-dashboard .board-container .card-detail .progress .progress-item > div
-.define-progress.is-roll .el-progress-bar__outer .el-progress-bar__inner,
-.elec-process-dashboard .card-container .module-card.active .monitor-progress.is-roll
-.el-progress-bar__outer .el-progress-bar__inner {
-    background-size: 46px 20px;
-}
-
-.elec-process-dashboard .board-container .card-detail .progress .progress-item > div
 .define-progress.has-error .el-progress-bar__inner {
     position: relative;
-}
-
-.elec-process-dashboard .board-container .card-detail .progress .progress-item > div
-.define-progress.is-roll.has-error .el-progress-bar__inner::after {
-    background-size: 46px 20px;
 }
 
 .elec-process-dashboard .board-container .card-detail .process-container .flow-legend {

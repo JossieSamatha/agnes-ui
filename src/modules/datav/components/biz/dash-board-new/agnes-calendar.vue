@@ -4,8 +4,15 @@
             <div class="el-calendar__button-group" v-if="validatedRange.length === 0">
                 <el-button-group>
                     <em class="arrow-btn el-icon-arrow-left"  @click="selectDate('prev-month')"></em>
-                    <div class="el-calendar__title">
-                        {{ i18nDate }}
+                    <div class="el-calendar__title" style="position: relative;flex: 1">
+                        <el-date-picker class="month-date-picker" v-model="monthVal"
+                                        type="month"
+                                        align="center"
+                                        format="yyyy 年 MM 月"
+                                        @change="monthChange"
+                        >
+                        </el-date-picker>
+                        {{i18nDate}}
                     </div>
                     <em class="arrow-btn el-icon-arrow-right" @click="selectDate('next-month')"></em>
                 </el-button-group>
@@ -44,6 +51,11 @@
     export default {
         name: 'agnes-calendar',
         mixins: [Calendar],
+        data() {
+            return {
+                monthVal: ''
+            }
+        },
         methods: {
             pickDay(day) {
                 this.$emit('pickDay', day);
@@ -66,6 +78,28 @@
                 if (day === this.formatedDate) return;
                 this.pickDay(day);
             },
+
+            monthChange(val){
+                const date = new Date(val).toLocaleDateString();
+                this.pickDay(date);
+            }
         }
     }
 </script>
+
+<style scoped>
+    .month-date-picker.el-date-editor.el-input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+
+    .month-date-picker.el-date-editor.el-input >>> input {
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+</style>

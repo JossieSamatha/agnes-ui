@@ -41,6 +41,11 @@ body ::-webkit-scrollbar-track {
     border-color: #A8AED3;
 }
 
+.el-dropdown-menu {
+    z-index: 1008;
+}
+
+
 /*=====================================
 
             登录界面样式
@@ -1181,10 +1186,6 @@ form .el-icon-lock::before {
 .el-form .el-form-item .el-form-item__content .el-date-editor,
 .el-form .el-form-item .el-form-item__content .el-select {
     width: 100%;
-}
-
-.el-form .el-form-item .el-form-item__content .el-select .el-input .el-input__inner {
-    height: 28px !important;
 }
 
 .el-form .el-form-item .el-form-item__content .el-date-editor.el-input,

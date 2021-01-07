@@ -660,8 +660,7 @@
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
 .menuContent .el-card.module-card .el-card__body>.content {
     height: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item

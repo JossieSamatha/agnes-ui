@@ -46,7 +46,6 @@
             initDate(){
                 this.$api.changeDataApi.getChangeData().then((resp)=>{
                     const resChangeData = resp.data;
-                    console.log('this.todayDate', this.todayDate);
                     const exeTime = resChangeData ? resChangeData.bizDate : this.todayDate;
                     this.$api.HomePageApi.selectRosterDetailOfWeek({
                         rosterDate: exeTime,

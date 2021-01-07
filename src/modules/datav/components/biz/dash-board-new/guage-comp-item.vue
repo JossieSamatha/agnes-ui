@@ -75,12 +75,32 @@
                     ]
                 };
                 this.guageChart.setOption(gaugeOption);
-                this.guageChart.resize();
+                this.$nextTick(()=>{
+                    this.guageChart.resize();
+                });
                 window.addEventListener('resize', () => {
                     this.guageChart.resize()
                 });
             }
         },
+        watch: {
+            rateValue(val){
+                this.pieChart.setOption({
+                    series: [
+                        {
+                            axisLine: {            // 坐标轴线
+                                lineStyle: {       // 属性lineStyle控制线条样式
+                                    color: [[val, val<1 ? '#0F5EFF': '#4BE16E'], [1, '#D7DBE4']],
+                                    width: 2,
+                                }
+                            },
+                            data: [{value: val*100}]
+                        }
+                    ]
+                });
+                this.guageChart.resize();
+            }
+        }
     }
 </script>
 

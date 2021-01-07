@@ -11,7 +11,7 @@
                     <span class="type">{{getCaseStepType(item.taskType)}}</span>
                     <span class="date-time">{{ item.startDay }}[{{ item.planTime }}]</span>
                 </div>
-                <div class="deal" @click="dealTodo(index)">
+                <div class="deal" @click="dealTodo(item, index)">
                     <svg-icon name="lightning" color="#fff"></svg-icon>
                     <span>快速办理</span>
                 </div>
@@ -67,8 +67,33 @@
             },
 
             // 快速办理
-            dealTodo(index){
-                this.taskDemoArr.splice(index, 1)
+            async dealTodo(task, index){
+                const ok = await this.$msg.ask('是否快速办理该任务？');
+                if (!ok) {
+                    return
+                }
+                const taskCommit = {
+                    inst: {
+                        taskId: task.taskId,
+                    },
+                    stepInfo :{
+                        remark: task.taskRemark,
+                        caseId: task.caseId,
+                        stepCode: task.stepCode
+                    }
+                };
+                try {
+                    this.$api.HomePageApi.confirmTask(taskCommit).then((resp)=>{
+                        if(resp){
+                            this.taskDemoArr.splice(index, 1);
+                        }
+                    });
+                }catch (e) {
+                    this.$msg.error(e);
+                }
+
+
+
             }
         }
     }

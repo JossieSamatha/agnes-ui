@@ -6,8 +6,8 @@
                         :first-day-of-week="7"
                         @selectDate="selectDate"
                         @pickDay="pickDay">
-            <template slot="dateCell" slot-scope="{date}">
-                <span class="content" :class="{'weekend': getDateObj(date, 'workday')}">
+            <template slot="dateCell" slot-scope="{date, data}">
+                <span class="content" :class="{'weekend': data.type === 'current-month' ? getDateObj(date, 'workday') : false}">
                     <span>{{ getDay(date) }}</span>
                     <em v-show="getDateObj(date, 'event')" class="circle"></em>
                 </span>
@@ -85,11 +85,15 @@
 
             // 获取当前日期信息
             async pickDay(day){
-                const res = await this.$api.HomePageApi.selectMemoByMemoDate({
-                    pageType: this.pageType,
-                    memoDate: day
-                });
-                this.memoArr = res.data;
+                if(this.pageType === 'memo'){
+                    this.$emit('dateChange', day);
+                }else{
+                    const res = await this.$api.HomePageApi.selectMemoByMemoDate({
+                        pageType: this.pageType,
+                        memoDate: day
+                    });
+                    this.memoArr = res.data;
+                }
             }
         }
     }

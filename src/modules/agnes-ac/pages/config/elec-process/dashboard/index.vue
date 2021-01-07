@@ -272,17 +272,13 @@ export default {
             const flowDataRes = this.$api.elecProcessApi.queryExecRuTask({bizDate});
             const flowDataList = await this.$app.blockingApp(flowDataRes);
             if (flowDataList.data && flowDataList.data.length > 0) {
-                let data = flowDataList.data;
-                const carouselLength = this.calcCardLength(data.length);
-                for(let i=0; i<carouselLength; i++){
-                    const itemData = data.slice(i*4, i*4+4);
-                    this.proTask.push(itemData);
-                    if(!(this.curTask && this.curTask.taskId)){
-                        this.curTask = data[0];
-                        this.pieTitle = this.getPercentage(data[0].finishedRate)+'%';
-                        this.flowType = data[0].flowType;
-                        this.getFLowDetail(data[0].taskId, data[0].caseId, this.bizDate);
-                    }
+                const data = flowDataList.data;
+                this.proTask = this.$lodash.chunk(data, 4);
+                if(!(this.curTask && this.curTask.taskId)){
+                    this.curTask = data[0];
+                    this.pieTitle = this.getPercentage(data[0].finishedRate)+'%';
+                    this.flowType = data[0].flowType;
+                    this.getFLowDetail(data[0].taskId, data[0].caseId, this.bizDate);
                 }
                 this.$nextTick( ()=> {
                     if(this.$refs.carouselCardContainer[0]){
