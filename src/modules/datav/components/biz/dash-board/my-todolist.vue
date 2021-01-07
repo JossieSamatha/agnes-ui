@@ -1,7 +1,7 @@
 <template>
     <div>
       <div>
-        <div class="linkman-list"  v-if="this.needTodoOfAcnt!==0">
+        <div class="linkman-list"  v-if="this.needTodoOfAcnt!=='0'">
           <div class="state-icon">
             <em class="fa fa-external-link-square"></em>
           </div>
@@ -42,7 +42,7 @@
         },
         data(){
             return {
-              needTodoOfAcnt:1,
+              needTodoOfAcnt:'0',
               taskDemoArr: [],
               bizdate: null,
               caseStepTypeDict: this.$app.dict.getDictItems('AGNES_CASE_STEPTYPE'),
@@ -53,13 +53,20 @@
                 this.taskDemoArr = res.data.rows;
             })
         },
+        mounted() {
+            this.initData();
+        },
         methods: {
+            async initData(){
+                let resp = await this.$api.acntApplyApi.getCountUnfinishedAndCanDo();
+                this.needTodoOfAcnt = resp.data;
+            },
           getTaskDate(taskDate) {
             return taskDate ? taskDate.slice(5, 11) : '';
           },
           todoForAcntApply(){
               let clientView = this.$app.views.getView('agnes.acnt.apply');
-              let clientTabView = Object.assign({args: {}, id: 'agnes.acnt.apply'}, clientView);
+              let clientTabView = Object.assign({args: {showCondProp:'02'}, id: 'agnes.acnt.apply'}, clientView);
               this.$nav.showView(clientTabView);
           },
           getTaskTime(taskTime) {
