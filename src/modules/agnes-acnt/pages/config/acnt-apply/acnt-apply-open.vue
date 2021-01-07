@@ -148,7 +148,7 @@
                 <gf-input disabled v-model.trim="detailForm.oaOperator" placeholder="申请人"/>
               </el-form-item>
               <el-form-item label="申请事由" prop="oaRemark">
-                <gf-input type='textarea' v-model.trim="detailForm.oaRemark" placeholder="申请事由"/>
+                <gf-input type='textarea' v-model="detailForm.oaRemark" placeholder="申请事由"/>
               </el-form-item>
             </div>
             <div v-if="detailForm.isSendOa==='1'" class="line">
@@ -356,15 +356,15 @@
                         </el-form-item>
 
                         <el-form-item v-if="showRules.stampInfo&&showRules.stampInfo.isShow" label="预留印鉴信息" prop="stampInfo">
-                            <gf-input type='textarea' v-model.trim="detailFormBefore.stampInfo" placeholder="预留印鉴信息"/>
+                            <gf-input type='textarea' v-model="detailFormBefore.stampInfo" placeholder="预留印鉴信息"/>
                         </el-form-item>
 
                         <el-form-item v-if="showRules.stampLegalPersonInfo&&showRules.stampLegalPersonInfo.isShow" label="印鉴法人变更情况" prop="stampLegalPersonInfo">
-                            <gf-input type='textarea' v-model.trim="detailFormBefore.stampLegalPersonInfo" placeholder="印鉴法人变更情况"/>
+                            <gf-input type='textarea' v-model="detailFormBefore.stampLegalPersonInfo" placeholder="印鉴法人变更情况"/>
                         </el-form-item>
 
                         <el-form-item v-if="showRules.threeLicenseInfo&&showRules.threeLicenseInfo.isShow" label="三证合一变更情况" prop="threeLicenseInfo">
-                            <gf-input type='textarea' v-model.trim="detailFormBefore.threeLicenseInfo" placeholder="三证合一变更情况"/>
+                            <gf-input type='textarea' v-model="detailFormBefore.threeLicenseInfo" placeholder="三证合一变更情况"/>
                         </el-form-item>
 
                         <el-form-item v-if="showRules.acntStartDt&&showRules.acntStartDt.isShow" label="账户启用日期" prop="acntStartDt">
@@ -377,7 +377,7 @@
                         </el-form-item>
 
                         <el-form-item v-if="showRules.acntPurpose&&showRules.acntPurpose.isShow" label="账户用途描述" prop="acntPurpose">
-                            <gf-input type='textarea' v-model.trim="detailFormBefore.acntPurpose" placeholder="账户用途描述"/>
+                            <gf-input type='textarea' v-model="detailFormBefore.acntPurpose" placeholder="账户用途描述"/>
                         </el-form-item>
 
                         <el-form-item v-if="showRules.isOpenEbank&&showRules.isOpenEbank.isShow" label="是否开立网银" prop="isOpenEbank">
@@ -431,11 +431,11 @@
 
                         <el-form-item v-if="showRules.futuresCompany&&showRules.futuresCompany.isShow" label="期货公司"
                                       prop="futuresCompany">
-                            <gf-input type='textarea' v-model.trim="detailFormBefore.futuresCompany" placeholder="期货公司"/>
+                            <gf-input type='textarea' v-model="detailFormBefore.futuresCompany" placeholder="期货公司"/>
                         </el-form-item>
 
                         <el-form-item v-if="showRules.limits&&showRules.limits.isShow" label="额度" prop="limits">
-                            <gf-input type='textarea' v-model.trim="detailFormBefore.limits" placeholder="额度"/>
+                            <gf-input type='textarea' v-model="detailFormBefore.limits" placeholder="额度"/>
                         </el-form-item>
 
                         <el-form-item v-if="showRules.bankLinkMan&&showRules.bankLinkMan.isShow" label="银行/开户时对方联系人"
@@ -453,11 +453,11 @@
                         </el-form-item>
 
                         <el-form-item v-if="showRules.other&&showRules.other.isShow" label="其他" prop="other">
-                            <gf-input type='textarea' v-model.trim="detailFormBefore.other" placeholder="其他"/>
+                            <gf-input type='textarea' v-model="detailFormBefore.other" placeholder="其他"/>
                         </el-form-item>
 
                         <el-form-item v-if="showRules.remark&&showRules.remark.isShow" label="备注" prop="remark">
-                            <gf-input type='textarea' v-model.trim="detailFormBefore.remark" placeholder="备注"/>
+                            <gf-input type='textarea' v-model="detailFormBefore.remark" placeholder="备注"/>
                         </el-form-item>
 
                         <!--                        <el-form-item v-if="showRules.openManPhone&&showRules.openManPhone.isShow" label="开户时对方联系人联系电话" prop="openManPhone">-->
