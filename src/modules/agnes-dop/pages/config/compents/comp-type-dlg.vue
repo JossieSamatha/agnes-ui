@@ -48,7 +48,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="刷新频率" prop="quartzTime">
-                <gf-input v-model.trim="form.quartzTime" clear-regex="[^0-9]" style="width: 40%" placeholder="刷新频率"/>(单位：秒)
+                <gf-input v-model.trim="form.quartzTime" clear-regex="[^0-9]" style="width: 40%" placeholder="刷新频率"/>(单位：分钟)
             </el-form-item>
             <el-form-item label="参数">
                 <el-input v-model="form.compParams" type="textarea" :rows="2" placeholder="请填写参数" style="width: 40%"/>
