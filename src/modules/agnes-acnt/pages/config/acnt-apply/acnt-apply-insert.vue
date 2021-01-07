@@ -501,7 +501,7 @@
                                       :data="detailFormBefore.accNoList"
                                       border stripe
                                       style="width: 100%">
-                                <el-table-column prop="accNo" label="证券账号">
+                                <el-table-column prop="accNo" label="账号">
                                     <template slot-scope="scope">
                                         <el-input v-model="scope.row.accNo"></el-input>
                                     </template>
