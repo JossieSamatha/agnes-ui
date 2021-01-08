@@ -1,5 +1,5 @@
 <template>
-    <el-tabs class="root" v-model="activeName" type="card">
+    <el-tabs class="root" v-model="activeName">
         <el-tab-pane name="unfinishedApply"  style="height: 100%">
             <span slot="label">
                 <span>申请中</span>
@@ -81,7 +81,7 @@
 <style scoped>
     .acnt-apply-container {
         display: flex;
-        height: calc(100% - 131px);
+        height: calc(100% - 94px);
     }
 
     .acnt-apply-container .steps-comp {

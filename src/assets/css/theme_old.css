@@ -1914,7 +1914,6 @@ form input[type=submit] {
    ============================= */
 .el-tabs.el-tabs--card {
     margin-left: 0;
-    width: calc(100% - 10px);
     height: 100%;
 }
 

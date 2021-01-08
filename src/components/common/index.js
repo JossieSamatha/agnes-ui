@@ -2,7 +2,7 @@ import menu from './menu';
 import utilComp from './util-comp';
 import DialogFooter from "./dialog-footer";
 import Drawer from './drawer/index';
-import GfFilterOption from './select/gf-filter-option'
+import GfFilterOption from './select/gf-filteroption'
 import GfStrBoolCheckBox from './select/gf-strbool-checkbox'
 import cronModal from "./cron-comp/cron-modal";
 import accEcmUpload from './ecm-upload/acc-ecm-upload';

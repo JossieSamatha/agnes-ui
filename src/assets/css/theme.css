@@ -1730,7 +1730,6 @@ form .el-icon-lock::before {
 .el-tabs,
 .el-tabs.el-tabs--card {
     margin-left: 0;
-    width: calc(100% - 10px);
 }
 
 .el-tabs.el-tabs--card > .el-tabs__header {
