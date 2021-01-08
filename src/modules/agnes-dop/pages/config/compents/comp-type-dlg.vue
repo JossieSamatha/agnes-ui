@@ -50,6 +50,9 @@
             <el-form-item label="图片">
                 <el-input v-model="form.img" style="width: 40%"/>
             </el-form-item>
+            <el-form-item label="刷新频率" prop="quartzTime">
+                <gf-input v-model.trim="form.quartzTime" clear-regex="[^0-9]" style="width: 40%" placeholder="刷新频率"/>(单位：分钟)
+            </el-form-item>
             <el-form-item label="参数">
                 <el-input v-model="form.compParams" type="textarea" :rows="2" placeholder="请填写参数" style="width: 40%"/>
             </el-form-item>
@@ -73,6 +76,7 @@
                     label: '',
                     compType: '',
                     menuId: '',
+                    quartzTime:'',
                     arrowShow: '0',
                     arrowBlock: '0',
                     compParams: '',

@@ -47,9 +47,11 @@
                         </el-option-group>
                     </el-select>
                 </el-form-item>
-              <el-form-item label="账户状态">
-                <gf-dict filterable clearable v-model="queryArgs.acntStatus" dict-type="AGNES_ACNT_INFO_STATUS"/>
-              </el-form-item>
+
+                <el-form-item></el-form-item>
+<!--              <el-form-item label="账户状态">-->
+<!--                <gf-dict filterable clearable v-model="queryArgs.acntStatus" dict-type="AGNES_ACNT_INFO_STATUS"/>-->
+<!--              </el-form-item>-->
 
               <el-button @click="reSetSearch" class="option-btn">重置</el-button>
             </div>
@@ -71,23 +73,24 @@
             </template>
 
             <template slot="right-before">
-<!--              <el-radio-group v-model="queryArgs.isShowAll"  size="mini" style="width:290px;">-->
-<!--                <el-radio-button label="正常"></el-radio-button>-->
-<!--                <el-radio-button label="久悬"></el-radio-button>-->
-<!--                <el-radio-button label="锁定"></el-radio-button>-->
-<!--                <el-radio-button label="销户"></el-radio-button>-->
-<!--              </el-radio-group>-->
-                <el-switch class="inner-switch"
-                           v-model="queryArgs.isShowAll"
-                           :width = 65
-                           active-text="全部"
-                           inactive-text="默认"
-                           active-value=""
-                           inactive-value="0"
-                           active-color="#13ce66"
-                           inactive-color="#409eff"
-                           @change="switchChange">
-                </el-switch>
+                <el-radio-group v-model="queryArgs.acntStatus" @change="reloadData"  size="mini" style="width:290px;">
+                    <el-radio-button label="01">正常</el-radio-button>
+                    <el-radio-button label="04">久悬</el-radio-button>
+                    <el-radio-button label="03">锁定</el-radio-button>
+                    <el-radio-button label="02">销户</el-radio-button>
+                </el-radio-group>
+
+<!--                <el-switch class="inner-switch"-->
+<!--                           v-model="queryArgs.isShowAll"-->
+<!--                           :width = 65-->
+<!--                           active-text="全部"-->
+<!--                           inactive-text="默认"-->
+<!--                           active-value=""-->
+<!--                           inactive-value="0"-->
+<!--                           active-color="#13ce66"-->
+<!--                           inactive-color="#409eff"-->
+<!--                           @change="switchChange">-->
+<!--                </el-switch>-->
             </template>
         </gf-grid>
     </div>
@@ -110,8 +113,8 @@
                   'accNos': '',
                   'productName':'',
                   'fundAccNos': '',
-                  'acntStatus': '',
-                  'isShowAll':'1',
+                  'acntStatus': '01',
+                  'isShowAll':'',
                   'orgIdList': [],
                 },
               typeCodeOption: [{
@@ -166,8 +169,8 @@
               this.queryArgs.accNos = '';
               this.queryArgs.productName = '';
               this.queryArgs.fundAccNos = '';
-              this.queryArgs.acntStatus = '';
-              this.queryArgs.isShowAll = '1';
+              this.queryArgs.acntStatus = '01';
+              this.queryArgs.isShowAll = '';
               this.queryArgs.orgIdList = [];
               this.reloadData();
             },
@@ -186,7 +189,8 @@
                     component: AcntApplyOpen,
                     args: {row, mode, actionOk,isDisabled},
                     okButtonVisible:mode!=='view',
-                    okButtonTitle:mode==='detele'?'提交':'保存'
+                    okButtonTitle:mode==='detele'?'提交':'保存',
+                    pageEl: this.$el
                 })
             },
             onOpenApply(){
@@ -204,13 +208,19 @@
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
+
+                let title = '账户登记';
+                if(mode==='editData'){
+                    title = '编辑';
+                }
                 this.$drawerPage.create({
                     width: 'calc(100% - 250px)',
-                    title: ['账户登记'],
+                    title: [title],
                     component: AcntApplyInsert,
                     args: {row, mode, actionOk},
                     okButtonVisible:mode!=='view',
-                    okButtonTitle:mode==='check'?'审核':'保存'
+                    okButtonTitle:mode==='check'?'审核':'保存',
+                    pageEl: this.$el
                 })
             },
             onInsertApply(){
@@ -219,7 +229,12 @@
             registration() {
                 this.showInsertDlg('registration', {}, this.onOpenApply.bind(this));
             },
-            // check(params) {
+
+            editData(params) {
+              this.showInsertDlg('editData', params.data, this.onOpenApply.bind(this));
+            },
+
+          // check(params) {
             //     this.showInsertDlg('check', params.data, this.onOpenApply.bind(this));
             // },
 
@@ -236,7 +251,8 @@
                     args: {row, mode, actionOk,isDisabled},
                     okButtonVisible:mode!=='view',
                     okButtonTitle:mode==='detele'?'提交':'保存',
-                    cancelButtonTitle:mode==='view'?'关闭':'取消'
+                    cancelButtonTitle:mode==='view'?'关闭':'取消',
+                    pageEl: this.$el
                 })
             },
 

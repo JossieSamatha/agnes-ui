@@ -1,5 +1,5 @@
 <template>
-    <div class="acnt-apply" v-loading="loading" style="height: calc(100% - 70px)">
+    <div class="acnt-apply" v-loading="loading">
         <div v-show="pointerShow" class="pointer-mask" @click="pointerShow = false"></div>
         <el-form class="search-panel" label-width="100px">
             <div class="line">
@@ -78,28 +78,24 @@
                     </gf-button>
                     <gf-button class="action-btn" @click="addInfoFile"
                                 v-if="$hasPermission('agnes.acnt.apply.addInfoFile')">资料补充</gf-button>
-
-<!--                    <gf-button class="action-btn" @click="testBtn">test</gf-button>-->
                 </template>
                 <template slot="right-before">
-                    <el-radio-group v-model="queryArgs.showCond" @change="reloadData" size="mini">
-                        <el-radio-button label="01">我发起</el-radio-button>
-                        <el-radio-button label="02">可处理</el-radio-button>
-<!--                        <el-radio-button label="03">我处理</el-radio-button>-->
-                        <el-radio-button label="04">我可见</el-radio-button>
-                    </el-radio-group>
-
-<!--                    <el-switch class="inner-switch"-->
-<!--                               v-model="queryArgs.isShowAll"-->
-<!--                               :width = 65-->
-<!--                               active-text="全部"-->
-<!--                               inactive-text="申请中"-->
-<!--                               active-value=""-->
-<!--                               inactive-value="0"-->
-<!--                               active-color="#13ce66"-->
-<!--                               inactive-color="#409eff"-->
-<!--                               @change="switchChange">-->
-<!--                    </el-switch>-->
+<!--                  <el-radio-group v-model="queryArgs.isShowAll"  size="mini">-->
+<!--                    <el-radio-button label="我发起的"></el-radio-button>-->
+<!--                    <el-radio-button label="可处理的"></el-radio-button>-->
+<!--                    <el-radio-button label="我可见的"></el-radio-button>-->
+<!--                  </el-radio-group>-->
+                    <el-switch class="inner-switch"
+                               v-model="queryArgs.isShowAll"
+                               :width = 65
+                               active-text="全部"
+                               inactive-text="申请中"
+                               active-value=""
+                               inactive-value="0"
+                               active-color="#13ce66"
+                               inactive-color="#409eff"
+                               @change="switchChange">
+                    </el-switch>
                 </template>
             </gf-grid>
             <acnt-apply-steps v-if="crtStepRow"
@@ -120,12 +116,6 @@
     import AcntApplyOpen from "./acnt-apply-open";
     import AcntApplyInsert from "./acnt-apply-insert";
     export default {
-        props: {
-            showCondProp: {
-                type: String,
-                default: '01'
-            }
-        },
         data() {
             return {
                 svgImg: this.$svgImg,
@@ -138,9 +128,7 @@
                     'processStatus':'',
                     'bizType':'',
                     'applyDeadlineStatus':'',
-                    'isShowAll':'',
-                    'finishCond':'00',
-                    'showCond':'01'
+                    'isShowAll':'1'
                 },
                 tableData: [],
                 status:{
@@ -177,16 +165,9 @@
             'acnt-apply-steps': AcntApplySteps
         },
         beforeMount() {
-            if(this.showCondProp){
-                this.queryArgs.showCond = this.showCondProp;
-            }
             const p = this.getOptionData();
             this.$app.blockingApp(p);
         },
-        // mounted() {
-        //     // alert(this.showCond);
-        //     this.showCond = this.showCondProp;
-        // },
         methods: {
             async getOptionData(){
                 try {
@@ -215,9 +196,7 @@
                 this.tableData = [];
                 this.orgHierarchyFunc(params.rows, []);
                 params.rows = this.tableData;
-
-                //20210106先去掉 会影响分页数据条数显示
-                // params.total = this.tableData.length;
+                params.total = this.tableData.length;
                 this.crtStepRow = params.rows[0];
                 this.$refs.grid.$emit("data-loaded", params);
             },
@@ -241,9 +220,7 @@
                     'processStatus':'',
                     'bizType':'',
                     'applyDeadlineStatus':'',
-                    'isShowAll':'',
-                    'finishCond':'00',
-                    'showCond':this.queryArgs.showCond
+                    'isShowAll':'1'
                 };
                 this.$refs.grid.reloadData();
             },
@@ -304,7 +281,6 @@
             },
             onOpenApply(){
                 this.reloadData();
-                this.loadCount();
             },
             openApply() {
                 this.showOpenDlg('add', {}, this.onOpenApply.bind(this));
@@ -580,14 +556,6 @@
                 setTimeout(()=>{
                     this.pointerShow = false;
                 }, 4500)
-            },
-
-            async loadCount(){
-                this.$emit('loadCount', {data: this.loadCount});
-            },
-            async testBtn(){
-                //测试触发tab小红点加载
-                this.$emit('loadCount', {data: this.loadCount});
             }
         }
     }
@@ -703,6 +671,6 @@
         margin-left: 0;
     }
     .acnt-apply-container .ag-grid-box .grid-action-panel .right .el-input {
-        width: 150px;
+        width: 200px;
     }
 </style>

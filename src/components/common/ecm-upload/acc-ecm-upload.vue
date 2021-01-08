@@ -393,4 +393,5 @@
     .el-upload-list>.upload-list>span.piece>>>input {
         text-align: center;
     }
+
 </style>

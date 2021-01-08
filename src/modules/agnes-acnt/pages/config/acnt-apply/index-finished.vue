@@ -67,25 +67,14 @@
                      :options="applyGridOption(this)"
                      height="100%">
                 <template slot="left">
-                    <gf-button class="action-btn" @click="openApply"
-                                v-if="$hasPermission('agnes.acnt.apply.openApply')">开户</gf-button>
-                    <gf-button class="action-btn"
-                               :class="pointerShow ? 'pointerShow' : '' "
-                               @click="submitOA" style="position: relative;"
-                                v-if="$hasPermission('agnes.acnt.apply.submitOA')">
-                        <span>批量提交OA</span>
-                        <span v-show="pointerShow" class="svg-pointer" v-html="svgImg.pointer"></span>
-                    </gf-button>
-                    <gf-button class="action-btn" @click="addInfoFile"
-                                v-if="$hasPermission('agnes.acnt.apply.addInfoFile')">资料补充</gf-button>
-
-<!--                    <gf-button class="action-btn" @click="testBtn">test</gf-button>-->
+<!--                    <gf-button class="action-btn" @click="openApply"-->
+<!--                                v-if="$hasPermission('agnes.acnt.apply.openApply')">开户</gf-button>-->
                 </template>
                 <template slot="right-before">
                     <el-radio-group v-model="queryArgs.showCond" @change="reloadData" size="mini">
                         <el-radio-button label="01">我发起</el-radio-button>
-                        <el-radio-button label="02">可处理</el-radio-button>
-<!--                        <el-radio-button label="03">我处理</el-radio-button>-->
+<!--                        <el-radio-button label="02">可处理</el-radio-button>-->
+                        <el-radio-button label="03">我处理</el-radio-button>
                         <el-radio-button label="04">我可见</el-radio-button>
                     </el-radio-group>
 
@@ -120,12 +109,6 @@
     import AcntApplyOpen from "./acnt-apply-open";
     import AcntApplyInsert from "./acnt-apply-insert";
     export default {
-        props: {
-            showCondProp: {
-                type: String,
-                default: '01'
-            }
-        },
         data() {
             return {
                 svgImg: this.$svgImg,
@@ -139,7 +122,7 @@
                     'bizType':'',
                     'applyDeadlineStatus':'',
                     'isShowAll':'',
-                    'finishCond':'00',
+                    'finishCond':'01',
                     'showCond':'01'
                 },
                 tableData: [],
@@ -177,16 +160,9 @@
             'acnt-apply-steps': AcntApplySteps
         },
         beforeMount() {
-            if(this.showCondProp){
-                this.queryArgs.showCond = this.showCondProp;
-            }
             const p = this.getOptionData();
             this.$app.blockingApp(p);
         },
-        // mounted() {
-        //     // alert(this.showCond);
-        //     this.showCond = this.showCondProp;
-        // },
         methods: {
             async getOptionData(){
                 try {
@@ -242,7 +218,7 @@
                     'bizType':'',
                     'applyDeadlineStatus':'',
                     'isShowAll':'',
-                    'finishCond':'00',
+                    'finishCond':'01',
                     'showCond':this.queryArgs.showCond
                 };
                 this.$refs.grid.reloadData();
@@ -304,7 +280,6 @@
             },
             onOpenApply(){
                 this.reloadData();
-                this.loadCount();
             },
             openApply() {
                 this.showOpenDlg('add', {}, this.onOpenApply.bind(this));
@@ -580,14 +555,6 @@
                 setTimeout(()=>{
                     this.pointerShow = false;
                 }, 4500)
-            },
-
-            async loadCount(){
-                this.$emit('loadCount', {data: this.loadCount});
-            },
-            async testBtn(){
-                //测试触发tab小红点加载
-                this.$emit('loadCount', {data: this.loadCount});
             }
         }
     }

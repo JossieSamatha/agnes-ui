@@ -5,10 +5,10 @@
                  toolbar="find,refresh,more"
                  @row-double-click="showMemo"
                  :query-args="queryParam"
-        >
+         >
             <template slot="left">
                 <gf-button v-if="$hasPermission('agnes.dop.memo.add')" class="action-btn" @click="addMemo" size="mini">
-                    添加
+                  添加
                 </gf-button>
             </template>
         </gf-grid>
@@ -19,49 +19,49 @@
     import MemoDefDlg from "./memo-def-dlg";
 
     export default {
-        data() {
-            return {
-                queryParam: {
-                    memoDt: "",
-                    pageType: 'department',
-                }
-            }
+      data() {
+        return {
+          queryParam: {
+            memoDt: "",
+            pageType: 'department',
+          }
+        }
+      },
+      props: {
+        pageType: {
+          type: String,
+          default: null
         },
-        props: {
-            pageType: {
-                type: String,
-                default: null
-            },
-            memoDt: {
-                type: String,
-                default: null
-            },
+        memoDt: {
+          type: String,
+          default: null
         },
+      },
 
-        mounted() {
-            if (this.memoDt !== null && this.memoDt !== null) {
-                this.queryParam.memoDt = this.memoDt;
-            }
-            if (this.pageType !== null && this.pageType !== '') {
-                this.queryParam.pageType = this.pageType;
-            }
+      mounted() {
+        if (this.memoDt !== null && this.memoDt !== '') {
+          this.queryParam.memoDt = this.memoDt;
+        }
+        if (this.pageType !== null && this.pageType !== '') {
+          this.queryParam.pageType = this.pageType;
+        }
+      },
+      methods: {
+        reloadData() {
+          this.$refs.grid.reloadData(true);
         },
-        methods: {
-            reloadData() {
-                this.$refs.grid.reloadData(true);
-            },
-            showDlg(mode, row, actionOk) {
-                if (mode !== 'add' && !row) {
-                    this.$msg.warning("请选中一条记录!");
-                    return;
-                }
-                this.$nav.showDialog(
-                    MemoDefDlg,
+        showDlg(mode, row, actionOk) {
+          if (mode !== 'add' && !row) {
+            this.$msg.warning("请选中一条记录!");
+            return;
+          }
+          this.$nav.showDialog(
+              MemoDefDlg,
                     {
-                        args: {row, mode, actionOk},
-                        width: '50%',
-                        closeOnClickModal: false,
-                        title: this.$dialog.formatTitle('运营日历维护', mode),
+                      args: {row, mode, actionOk},
+                      width: '50%',
+                      closeOnClickModal: false,
+                      title: this.$dialog.formatTitle('运营日历维护', mode),
                     }
                 );
             },
@@ -103,7 +103,7 @@
                     return
                 }
                 try {
-                    const p = this.$api.memoApi.updateMemo(row.memoId, "04");
+                    const p = this.$api.memoApi.updateMemo(row.memoId,"04");
                     await this.$app.blockingApp(p);
                     this.reloadData();
                 } catch (reason) {

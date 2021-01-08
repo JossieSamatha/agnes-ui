@@ -93,7 +93,7 @@ import LinkmanBaseDlg from "../../../../agnes-dop/pages/config/linkman-def/linkm
                     let groupOption = await this.$api.acntInfoApi.getAcntInfoList();
                     let list = groupOption.data;
                     list.forEach((item) => {
-                        this.acntList.push({label:item.acntName, value: item.acntId});
+                        this.acntList.push({label:item.acntLabel, value: item.acntId});
                     });
                 } catch (reason) {
                     this.$msg.error(reason);
