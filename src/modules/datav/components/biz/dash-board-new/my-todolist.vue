@@ -1,5 +1,13 @@
 <template>
     <div class="strip-comp-container" v-clickoutside="clickoutside">
+        <div class="strip-comp-block" style="margin-bottom: 15px;">
+            <div class="strip-comp" style="background: transparent;border: 1px solid #F7F7F7;">
+                <span class="info account" @click="todoForAcntApply">
+                    <em class="fa fa-external-link-square" style="margin-right: 5px"></em>
+                    可以复核的账户申请{{[this.needTodoOfAcnt]}}笔</span>
+                <span class="type">账户申请</span>
+            </div>
+        </div>
         <transition-group name="slide">
             <div class="strip-comp-block" v-for="(item, index) in taskDemoArr" :key="item.taskId"
                  :class="{'active': choosedTaskId === item.taskId}"
@@ -29,6 +37,7 @@
         },
         data() {
             return {
+                needTodoOfAcnt:'1',
                 taskDemoArr: [],
                 bizdate: null,
                 caseStepTypeDict: this.$app.dict.getDictItems('AGNES_CASE_STEPTYPE'),
@@ -69,6 +78,15 @@
                 if(resp1){
                     this.taskDemoArr = resp1.data.rows;
                 }
+                let resp = await this.$api.acntApplyApi.getCountUnfinishedAndCanDo();
+                if(resp) {
+                    this.needTodoOfAcnt = resp.data;
+                }
+            },
+            todoForAcntApply(){
+                let clientView = this.$app.views.getView('agnes.acnt.apply');
+                let clientTabView = Object.assign({args: {showCondProp:'02'}, id: 'agnes.acnt.apply'}, clientView);
+                this.$nav.showView(clientTabView);
             },
 
             choosedTask(task){
@@ -184,6 +202,13 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+
+    .strip-comp .info.account {
+        color: #0f5eff;
+        text-decoration: underline;
+        font-size: 14px;
+        cursor: pointer;
     }
 
     .strip-comp .type {
