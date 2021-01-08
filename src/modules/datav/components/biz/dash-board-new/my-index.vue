@@ -82,7 +82,7 @@
                 this.$api.changeDataApi.getChangeData().then((resp)=> {
                     const resChangeData = resp.data;
                     const exeTime = resChangeData ? resChangeData.bizDate : this.todayDate;
-                    this.$api.HomePageApi.selectTodoTaskOfUser({bizDate: exeTime}).then((resp1)=>{
+                    this.$api.HomePageApi.selectTodoTaskOfUser({taskStartTime: exeTime}).then((resp1)=>{
                         this.effect = resp1.data.rows ? resp1.data.rows.length : '--';
                     });
                 })
