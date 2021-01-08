@@ -74,7 +74,7 @@
 
         methods: {
             async initData(){
-                let resp1 = await this.$api.HomePageApi.selectTodoTaskOfUser();
+                let resp1 = await this.$api.HomePageApi.selectTodoTaskOfUser({taskStartTime: this.todayDate});
                 if(resp1){
                     this.taskDemoArr = resp1.data.rows;
                 }
