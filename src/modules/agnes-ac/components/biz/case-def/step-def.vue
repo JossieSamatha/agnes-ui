@@ -44,7 +44,7 @@
         computed: {
             iconTypeObj() {
                 const iconIndex = parseInt(this.step.stepActType) - 1;
-                const iconTypeArr = ['indicator', 'process', 'person','person','person','person', 'robot'];
+                const iconTypeArr = ['indicator', 'process', 'process','robot','ocr','person', 'auto'];
                 return iconTypeArr[iconIndex] || 'person';
             },
             stepStatus(){
