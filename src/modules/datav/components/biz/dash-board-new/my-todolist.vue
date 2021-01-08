@@ -25,6 +25,7 @@
         name: "my-todolist",
         props: {
             pagetype: String,
+            quartzTime: String,
         },
         data() {
             return {
@@ -35,12 +36,33 @@
                     '01': '#ccc', '02': '#4C6CFF', '03': '#FA6A6A', '04': '#FA6A6A',
                     '05': '#43DC4E', '06': '#43DC4E', '07': '#43DC4E'
                 },
-                choosedTaskId: {}
+                choosedTaskId: {},
+                freshInterval: null,
             }
         },
         created() {
             this.initData();
+            this.startInterval();
         },
+        watch: {
+            // 监听,当路由发生变化的时候执行
+            $route(to, from) {
+                if (from.path === '/datav.client.view') {
+                    this.clearInterval();
+                }
+                if (to.path === '/datav.client.view') {
+                    this.startInterval();
+                }
+            }
+        },
+
+        computed: {
+            intervalMin(){
+                const quartzTime = this.quartzTime ? this.quartzTime : '5';
+                return parseInt(quartzTime)*60*1000;
+            }
+        },
+
         methods: {
             async initData(){
                 let resp1 = await this.$api.HomePageApi.selectTodoTaskOfUser();
@@ -91,10 +113,18 @@
                 }catch (e) {
                     this.$msg.error(e);
                 }
+            },
 
+            startInterval(){
+                this.freshInterval = setInterval(() => {
+                    this.initData();
+                }, this.intervalMin);
+            },
 
-
+            clearInterval(){
+                clearInterval(this.freshInterval);
             }
+
         }
     }
 </script>

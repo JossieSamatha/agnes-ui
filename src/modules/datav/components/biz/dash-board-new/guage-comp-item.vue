@@ -98,7 +98,9 @@
                         }
                     ]
                 });
-                this.guageChart.resize();
+                this.$nextTick(()=>{
+                    this.guageChart.resize();
+                });
             }
         }
     }

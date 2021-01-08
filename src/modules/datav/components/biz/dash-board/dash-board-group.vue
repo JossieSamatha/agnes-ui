@@ -53,11 +53,6 @@
                 ifLayoutReady: false,
             }
         },
-        mounted() {
-            this
-        },
-        watch: {
-        },
         computed: {
             boardColNum(){
                 if(this.boardFrameObj.boardColNum){

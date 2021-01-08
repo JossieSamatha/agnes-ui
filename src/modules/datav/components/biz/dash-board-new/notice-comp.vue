@@ -16,17 +16,41 @@
 
 <script>
     export default {
+        props: {
+            pageType: String,
+            quartzTime: String,
+        },
         data(){
             return {
                 lcImg: this.$lcImg,
-                msgDemoArr: []
+                msgDemoArr: [],
+                freshInterval: null,
             }
         },
         created(){
-            // this.$api.ruleTableApi.getRemindList().then(res => {
-            //     this.msgDemoArr = res.data.rows
-            // })
             this.initData();
+            this.startInterval();
+        },
+
+        watch: {
+            // 监听,当路由发生变化的时候执行
+            $route(to, from) {
+                if (this.pageType === 'personal' && from.path === '/datav.client.view' ||
+                    this.pageType === 'department' && from.path === '/datav.dep.view') {
+                    this.clearInterval();
+                }
+                if (this.pageType === 'personal' && to.path === '/datav.client.view' ||
+                    this.pageType === 'department' && to.path === '/datav.dep.view') {
+                    this.startInterval();
+                }
+            }
+        },
+
+        computed: {
+            intervalMin(){
+                const quartzTime = this.quartzTime ? this.quartzTime : '5';
+                return parseInt(quartzTime)*60*1000;
+            }
         },
 
         methods: {
@@ -42,6 +66,15 @@
                 } else {
                     item.expand = '';
                 }
+            },
+            startInterval(){
+                this.freshInterval = setInterval(() => {
+                    this.initData();
+                }, this.intervalMin);
+            },
+
+            clearInterval(){
+                clearInterval(this.freshInterval);
             }
         },
     }

@@ -40,6 +40,10 @@
 
 <script>
     export default {
+        props: {
+            pageType: String,
+            quartzTime: String,
+        },
         data() {
             return {
                 statusColor: ['#FCA06A','#56DF9A','#56BFDF'],
@@ -52,13 +56,36 @@
                 taskArr: [],
                 legendRec: [],
                 legendCir: [{label: '已完成', color: '#4C6CFF'}, {label: '未完成', color: '#C9CDE3'}],
-                pieChart: {}
+                pieChart: {},
+                freshInterval: null,
             }
         },
 
         mounted() {
             this.getData();
+            this.startInterval();
         },
+        watch: {
+            // 监听,当路由发生变化的时候执行
+            $route(to, from) {
+                if (this.pageType === 'personal' && from.path === '/datav.client.view' ||
+                    this.pageType === 'department' && from.path === '/datav.dep.view') {
+                    this.clearInterval();
+                }
+                if (this.pageType === 'personal' && to.path === '/datav.client.view' ||
+                    this.pageType === 'department' && to.path === '/datav.dep.view') {
+                    this.startInterval();
+                }
+            }
+        },
+
+        computed: {
+            intervalMin(){
+                const quartzTime = this.quartzTime ? this.quartzTime : '5';
+                return parseInt(quartzTime)*60*1000;
+            }
+        },
+
         methods: {
             async getData() {
                 const resp = await this.$api.changeDataApi.getChangeData();
@@ -147,7 +174,9 @@
                 }
                 this.pieChart = this.echarts.init(this.$refs.pieCharts);
                 this.pieChart.setOption(pieOptions);
-                this.pieChart.resize();
+                this.$nextTick(()=>{
+                    this.pieChart.resize();
+                });
                 window.addEventListener('resize', () => {
                     this.pieChart.resize()
                 });
@@ -157,6 +186,15 @@
                 if(dictObj){
                     return dictObj.dictName;
                 }
+            },
+            startInterval(){
+                this.freshInterval = setInterval(() => {
+                    this.getData();
+                }, this.intervalMin);
+            },
+
+            clearInterval(){
+                clearInterval(this.freshInterval);
             }
         }
     }

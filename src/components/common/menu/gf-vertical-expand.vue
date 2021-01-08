@@ -3,7 +3,7 @@
         <div id="gfVerticalExpand" class="gf-vertical-expand" :class="ifSideMenuFlod?'fold':''">
             <div class="gf-app-logo"><svg-icon name="HuaAn-logo" height="33px"/></div>
             <div class="gf-menu normal">
-                <div class="content">
+                <div class="content" v-clickoutside="clearCancelPopover">
                     <span class="gf-menu-item noneMenu">
                         <em class="menuicon fa fa-star"></em>
                         <span class="menuname">常用功能</span>
@@ -11,7 +11,14 @@
                     <div class="gf-menu-item" v-for="menu in markMenu" :key="menu.menuid"
                          :class="{'active': menu.menucode === activeFirstMenu}"
                     >
-                        <span class="menuname" @click="markMenuChoose(menu)" :title="menu.menuname">{{menu.menuname.substr(0, 4)}}</span>
+                        <span class="menuname"
+                              :title="menu.menuname"
+                              @click="markMenuChoose(menu)"
+                              @contextmenu.prevent="showCancelPopover(menu)"
+                              style="position: relative"
+                        >{{menu.menuname.substr(0, 4)}}
+                            <div v-show="menu.cancelMarkPopover" class="cancel-mark-item" @click.stop="cancelMark(menu)">取消收藏</div>
+                        </span>
                         <div class="arc top"></div>
                         <div class="arc bottom"></div>
                     </div>
@@ -176,8 +183,22 @@
                 this.markMenu = menuList.data;
             },
 
+            showCancelPopover(menu){
+                this.markMenu.forEach((menu)=>{
+                    this.$set(menu, 'cancelMarkPopover', false);
+                });
+                this.$set(menu, 'cancelMarkPopover', true);
+            },
+
+            clearCancelPopover(){
+                this.markMenu.forEach((menu)=>{
+                    this.$set(menu, 'cancelMarkPopover', false);
+                });
+            },
+
             async cancelMark(menu){
                 await this.$api.menuUserRefApi.deleteMenuUserRefList(menu);
+                menu.cancelMarkPopover = false;
                 await this.getMarkMenu();
             },
 
@@ -199,12 +220,29 @@
         }
     }
 </script>
-<style>
+<style scoped>
     .slide-fade-enter-active, .slide-fade-leave-active {
         transition: all 1s ease;
     }
     .slide-fade-enter, .slide-fade-leave-to {
         transform: translateX(-10px);
         opacity: 0;
+    }
+
+    .cancel-mark-item {
+        position: absolute;
+        top: 26px;
+        right: 5px;
+        padding: 0 2px;
+        font-size: 12px;
+        text-align: center;
+        border: 1px solid #E4E7ED;
+        border-radius: 2px;
+        background: #fff;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+        z-index: 100;
+        color: #333;
+        height: 22px;
+        line-height: 20px;
     }
 </style>

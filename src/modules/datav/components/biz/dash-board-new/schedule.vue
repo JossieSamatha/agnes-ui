@@ -28,7 +28,8 @@
 <script>
     export default {
         props: {
-            pageType: String
+            pageType: String,
+            quartzTime: String,
         },
         data() {
             return {
@@ -40,6 +41,28 @@
         },
         mounted() {
             this.initDate();
+            this.startInterval();
+        },
+
+        watch: {
+            // 监听,当路由发生变化的时候执行
+            $route(to, from) {
+                if (this.pageType === 'personal' && from.path === '/datav.client.view' ||
+                    this.pageType === 'department' && from.path === '/datav.dep.view') {
+                    this.clearInterval();
+                }
+                if (this.pageType === 'personal' && to.path === '/datav.client.view' ||
+                    this.pageType === 'department' && to.path === '/datav.dep.view') {
+                    this.startInterval();
+                }
+            }
+        },
+
+        computed: {
+            intervalMin(){
+                const quartzTime = this.quartzTime ? this.quartzTime : '5';
+                return parseInt(quartzTime)*60*1000;
+            }
         },
 
         methods: {
@@ -69,6 +92,16 @@
                 if(rosterTypeId && this.$lodash.find(this.rosterType, {dictId: rosterTypeId})){
                     return this.$lodash.find(this.rosterType, {dictId: rosterTypeId}).dictName;
                 }
+            },
+
+            startInterval(){
+                this.freshInterval = setInterval(() => {
+                    this.initDate();
+                }, this.intervalMin);
+            },
+
+            clearInterval(){
+                clearInterval(this.freshInterval);
             }
         }
     }

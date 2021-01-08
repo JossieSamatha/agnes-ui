@@ -13,20 +13,56 @@
 
 <script>
     export default {
+        props: {
+            pageType: String,
+            quartzTime: String,
+        },
         data() {
             return {
-                dataArr: []
+                dataArr: [],
+                freshInterval: null,
             }
         },
         mounted(){
             this.getData();
+            this.startInterval();
         },
+
+        watch: {
+            // 监听,当路由发生变化的时候执行
+            $route(to, from) {
+                if (from.path === '/datav.client.view') {
+                    this.clearInterval();
+                }
+                if (to.path === '/datav.client.view') {
+                    this.startInterval();
+                }
+            }
+        },
+
+        computed: {
+            intervalMin(){
+                const quartzTime = this.quartzTime ? this.quartzTime : '5';
+                return parseInt(quartzTime)*60*1000;
+            }
+        },
+
         methods: {
             async getData() {
                 let resp = await this.$api.HomePageApi.selectErrInfoByUser();
                 if(resp.data.length>0){
                     this.dataArr = resp.data.splice(0,6);
                 }
+            },
+
+            startInterval(){
+                this.freshInterval = setInterval(() => {
+                    this.getData();
+                }, this.intervalMin);
+            },
+
+            clearInterval(){
+                clearInterval(this.freshInterval);
             }
         },
     }

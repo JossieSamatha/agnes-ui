@@ -331,6 +331,8 @@ form .el-icon-lock::before {
 }
 
 .left-side-container .gf-menu .gf-menu-item.is-hover:not(.active):not(.noneMenu) {
+    z-index: 10;
+    border-radius: 0 20px 20px 0;
     background: rgba(0, 0, 0, .2);
 }
 

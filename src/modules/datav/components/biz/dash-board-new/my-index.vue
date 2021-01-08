@@ -9,7 +9,7 @@
 <!--                工作效率超过了-->
 <!--                <span style="color: #4C6CFF">{{effect}}%</span>的同事，-->
                 今天你有待办任务
-                <span style="color: #FA6A6A">{{effect}}</span>件，加油！
+                <span style="color: #FA6A6A">{{effect}}</span> 件，加油！
             </p>
             <el-button class="know" type="primary" size="small">我知道了</el-button>
         </div>
@@ -19,6 +19,9 @@
 
 <script>
     export default {
+        props: {
+            quartzTime: String,
+        },
         data() {
             return {
                 userName: '',
@@ -26,7 +29,8 @@
                 overTimeDay: '0',
                 normalDay: '2',
                 effect: '80',
-
+                freshInterval: null,
+                todayDate: new Date().toLocaleDateString().replace(/\//g, '-'),
             }
         },
 
@@ -34,6 +38,26 @@
             this.userName = this.$app.session.data.user.userName;
             this.helloInfo();
             this.initData();
+            this.startInterval();
+        },
+
+        watch: {
+            // 监听,当路由发生变化的时候执行
+            $route(to, from) {
+                if (from.path === '/datav.client.view') {
+                    this.clearInterval();
+                }
+                if (to.path === '/datav.client.view') {
+                    this.startInterval();
+                }
+            }
+        },
+
+        computed: {
+            intervalMin(){
+                const quartzTime = this.quartzTime ? this.quartzTime : '5';
+                return parseInt(quartzTime)*60*1000;
+            }
         },
 
         methods: {
@@ -55,11 +79,25 @@
             },
 
             async initData(){
-                let resp1 = await this.$api.HomePageApi.selectTodoTaskOfUser();
-                if(resp1){
-                    this.effect = resp1.data.rows ? resp1.data.rows.length : '--';
-                }
+                this.$api.changeDataApi.getChangeData().then((resp)=> {
+                    const resChangeData = resp.data;
+                    const exeTime = resChangeData ? resChangeData.bizDate : this.todayDate;
+                    this.$api.HomePageApi.selectTodoTaskOfUser({bizDate: exeTime}).then((resp1)=>{
+                        this.effect = resp1.data.rows ? resp1.data.rows.length : '--';
+                    });
+                })
+
             },
+
+            startInterval(){
+                this.freshInterval = setInterval(() => {
+                    this.initData();
+                }, this.intervalMin);
+            },
+
+            clearInterval(){
+                clearInterval(this.freshInterval);
+            }
         },
     }
 </script>
