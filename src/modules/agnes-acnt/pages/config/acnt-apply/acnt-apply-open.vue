@@ -1082,7 +1082,7 @@
                   let form = JSON.parse(JSON.stringify(this.detailForm))
                   let openSub = false;
                     let isdel = false;
-                    if(!loadsh.isEmpty(this.detailForm.applySubId)){
+                    if(!loadsh.isEmpty(this.detailForm.applySubId) || this.isSubDis){
                         openSub = true;
                     }
 
@@ -1113,7 +1113,7 @@
                         }else if(this.detailForm.processStatus=='03'){
                             form.processStatus = '04';
                         }else if(this.detailForm.processStatus=='04'){
-                            openSub = true;
+                            // openSub = true;
                             form.processStatus = '02';
                           // if(this.detailForm.isSendFinance=='1'){
                           //     form.processStatus = '05';
