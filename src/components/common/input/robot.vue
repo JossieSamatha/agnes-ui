@@ -1,21 +1,14 @@
 <template>
-    <div ref="spig" class="spig" :class="ifShowInput ? '' : 'messageType'">
+    <div ref="spig" class="spig">
         <div ref="littleW" class="little-W">
             <img :src="getRobotImg('wisdom_happy')" alt="robot" v-show="robotImg === 'happy'" />
             <img :src="getRobotImg('wisdom_laugh')" alt="robot" v-show="robotImg === 'laugh'" />
             <img :src="getRobotImg('wisdom_smile')" alt="robot" v-show="robotImg === 'smile'" />
         </div>
         <img class="little-W-shadow" :src="getRobotImg('wisdom_shadow')" alt="shadow" />
-        <slot :ifShowInput="ifShowInput" ></slot>
-        <em class="fa fa-reply"
-            v-show="ifShowInput"
-            @click="ifShowInput = false"
-            style="margin-left: 15px; color: rgba(28,157,247,0.5);"
-        ></em>
         <transition name="fade">
             <div ref="message" class="message"
-                 v-show="!ifShowInput && messageShow"
-                 @click="ifShowInput = true"
+                 v-show="messageShow"
             ><span>{{message}}</span></div>
         </transition>
     </div>
@@ -72,7 +65,6 @@
                     '听过很多人指点江山，才明白所有的成绩都始于默默搬砖。',
                     '加油！打工人！'
                 ],
-                ifShowInput: false,
                 messageShow: true,
                 bizDate: window.bizDate,
                 anaInterval: null,
@@ -149,10 +141,10 @@
         position: relative;
         display: flex;
         align-items: center;
-        width: 80%;
+        width: auto;
         height: 45px;
         padding-left: 60px;
-        margin-right: 10px;
+        margin-left: 20px;
     }
 
     .spig .message {
@@ -160,34 +152,16 @@
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
         text-overflow: ellipsis;
+        max-width: 360px;
         max-height: 46px;
-        color: #476dbe;
+        font-size: 14px;
+        color: #4E9DE2;
+        background: #E6F4FF;
         border-left: none;
-        border-radius: 10px;
-        padding: 5px 10px;
+        padding: 7px 10px;
         outline: none;
         overflow: hidden;
-        box-shadow: 0px 0px 5px rgba(28, 157, 247, .5);
-    }
-
-    .spig .message>span {
-        display: block;
-        white-space: nowrap;
-        border-right: 2px solid transparent;
-        animation: typing 3.5s steps(37, end), blink-caret .75s step-end infinite;
-        overflow: hidden;
-        cursor: text;
-    }
-
-    /* 打印效果 */
-    @keyframes typing {
-        from { width: 0; }
-        to { width: 100%; }
-    }
-    /* 光标闪啊闪 */
-    @keyframes blink-caret {
-        from, to { box-shadow: 1px 0 0 0 transparent; }
-        50% { box-shadow: 1px 0 0 0; }
+        border-radius: 18px 18px 18px 2px;
     }
 
     .little-W {

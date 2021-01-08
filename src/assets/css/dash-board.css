@@ -14,8 +14,8 @@
 
 .datav_client_view .el-dialog .el-dialog__header {
     text-align: left;
-    padding: 5px 15px;
-    border-bottom: 1px solid #EAEDF1;
+    padding: 10px 15px;
+    border-bottom: 1px solid #A8AED3;
 }
 
 .datav_client_view .el-dialog .el-dialog__header .el-dialog__title {
@@ -75,8 +75,8 @@
 
 
 .datav_client_view .el-dialog .el-dialog__footer .el-button.el-button--primary {
-    background-color: #476DBE;
-    border-color: #476DBE;
+    background-color: #0f5eff;
+    border-color: #0f5eff;
 }
 
 /*==========================
@@ -112,26 +112,17 @@
 }
 
 .datav_client_view .indexPage .el-card.module-card .el-card__header {
-    padding: 5px 10px;
-    border-bottom: 1px solid #EAEAEA;
+    padding: 0 0 25px 0;
+}
+
+.datav_client_view .indexPage .vue-grid-item.rightPined .el-card.module-card .el-card__header {
+    padding: 25px 0;
 }
 
 .datav_client_view .el-card.module-card .el-card__header .clearfix>span {
     position: relative;
-    margin-left: 10px;
-    font-size: 14px;
+    font-size: 16px;
     color: #333;
-}
-
-.datav_client_view .el-card.module-card .el-card__header .clearfix>span:before{
-    display: block;
-    position: absolute;
-    content: '';
-    width: 3px;
-    height: 14px;
-    background: #476DBE;
-    left: -10px;
-    top: 2px;
 }
 
 .datav_client_view .el-card.module-card .el-card__header .headOption{
@@ -142,133 +133,215 @@
     line-height: 28px;
 }
 
-.datav_client_view .el-card.module-card .el-calendar {
+.calendar-def {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    font-size: 12px;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__header{
+.calendar-def .flodP {
+    width: 100%;
+    height: 20px;
+    color: #999;
+    text-align: center;
+    flex: none;
+    cursor: pointer;
+}
+
+.calendar-def .flodP>em {
+    animation: jump 1.5s linear infinite;
+}
+
+@-webkit-keyframes jump {
+    0%, 100% {
+        margin-top: 0;
+    }
+
+    50% {
+        margin-top: 10px;
+    }
+}
+
+.calendar-def .info-ul {
+    flex: 1;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.calendar-def .info-ul::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+.calendar-def .info-ul:hover::-webkit-scrollbar-thumb {
+    background: #D7DBE4;
+}
+
+.calendar-def .info-ul>li {
+    position: relative;
+    width: 100%;
+    height: 41px;
+    line-height: 10px;
+    color: #666;
+    font-size: 12px;
+    border-radius: 6px;
+    background: #EFF3FC;
+    padding: 15px 10px 15px 23px;
+    margin-top: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.calendar-def.memo .info-ul>li {
+    height: 28px;
+    line-height: 0;
+}
+
+.info-ul>li::before {
+    content: '';
+    position: absolute;
+    top: 16px;
+    left: 10px;
+    width: 4px;
+    height: 10px;
+    background: #3CACEC;
+    border-radius: 4px;
+}
+
+.calendar-def.memo .info-ul>li::before {
+    top: 10px;
+}
+
+.calendar-def.memo .info-ul.roster>li::before {
+    background: #FFB727;
+}
+
+.datav_client_view .el-card.module-card .el-calendar {
+    flex: none;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    font-size: 12px;
+    transition: 1s all ease;
+}
+
+.calendar-def .el-calendar__header {
     padding: 0 10px 10px 10px;
     text-align: center;
     border: none;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__header
-.el-calendar__button-group {
-    margin: 0 auto;
+.calendar-def .el-calendar__header .el-calendar__button-group {
+    width: 100%;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__header
-.el-calendar__button-group .el-button-group {
+.calendar-def .el-calendar__header .el-calendar__button-group .el-button-group {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__header
-.el-calendar__button-group .el-button-group .el-calendar__title {
+.calendar-def .el-calendar__header .el-calendar__button-group .el-button-group::after,
+.calendar-def .el-calendar__header .el-calendar__button-group .el-button-group::before {
+    display: none;
+}
+
+.calendar-def .el-calendar__header .el-calendar__button-group .el-button-group .el-calendar__title {
     color: #333;
     font-size: 14px;
     line-height: 14px;
     margin: 0 20px;
+    font-family: SourceHanSansCN-Medium;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__header
-.el-calendar__button-group .el-button-group .arrow-btn {
+.calendar-def .el-calendar__header .el-calendar__button-group .el-button-group .arrow-btn {
+    width: 20px;
+    height: 20px;
+    line-height: 18px;
     color: #999;
-    font-size: 16px;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    text-align: center;
     cursor: pointer;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body{
+.calendar-def .el-calendar__body {
     height: calc(100% - 30px);
     padding: 0 1px;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table thead th {
+.calendar-def .el-calendar__body .el-calendar-table thead th {
     padding: 3px 0;
-    color: #333;
+    color: #666;
+    font-family: SourceHanSansCN-Medium;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table thead,
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table tr td{
+.calendar-def .el-calendar__body .el-calendar-table thead,
+.calendar-def .el-calendar__body .el-calendar-table tr td{
     border: none;
+    border-radius: 8px;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table .el-calendar-day {
+.calendar-def .el-calendar__body .el-calendar-table tr td.is-selected{
+    background: transparent;
+}
+
+.calendar-def .el-calendar__body .el-calendar-table .el-calendar-day {
     height: auto;
     padding: 15% 0;
     text-align: center;
+    border-radius: 8px;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table .el-calendar-day>span {
-    display: block;
-}
-
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table .el-calendar-day>span .day-block{
+.calendar-def .el-calendar__body .el-calendar-table .el-calendar-day>span.content {
     position: relative;
-}
-
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table .el-calendar-day>span .day-block .fa.fa-circle{
-    position: absolute;
-    left: 50%;
-    bottom: 3px;
+    display: block;
+    width: 25px;
+    height: 25px;
     font-size: 12px;
-    transform: scale(.5);
+    text-align: center;
+    line-height: 25px;
+    margin: 0 auto;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table:not(.is-range) td.next,
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table:not(.is-range) td.prev {
+.calendar-def .el-calendar__body .el-calendar-table .el-calendar-day>span.content.weekend {
+    color: #89BFDD;
+}
+
+.calendar-def .el-calendar-table td.is-selected .el-calendar-day>span.content {
+    color: #fff;
+    background: #0F5EFF;
+    border-radius: 8px;
+}
+
+.calendar-def .el-calendar-table .el-calendar-day>span.content .circle {
+    position: absolute;
+    left: calc(50% - 5px);
+    bottom: -5px;
+    width: 6px;
+    height: 6px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: #F7603D;
+    box-sizing: content-box;
+}
+
+.calendar-def .el-calendar__body .el-calendar-table:not(.is-range) td.next,
+.calendar-def .el-calendar__body .el-calendar-table:not(.is-range) td.prev {
     color: #ccc;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table td.current {
+.calendar-def .el-calendar__body .el-calendar-table td.current {
     color: #666;
 }
 
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body .el-backtop,
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table td.is-today {
-    color: #476Dbe;
-}
-
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table td.is-selected {
-    background: #F1F1F1;
-}
-
-.datav_client_view .el-card.module-card .el-calendar .el-calendar__body
-.el-calendar-table .el-button.el-popover__reference {
-    padding: 0;
-    border: none;
-    background: transparent;
-    color: inherit;
-    font-size: 12px;
-}
-
-.calendar-popper {
-    padding: 10px;
-    color: #333;
-    text-align: center;
-}
-
-.calendar-popper .el-button.el-button--text{
-    padding: 0;
-    margin-top: 5px;
-    font-size: 12px;
-    color: #476dbe;
+.calendar-def .el-calendar__body .el-backtop,
+.calendar-def .el-calendar__body .el-calendar-table td.is-today {
+    color: #0f5eff;
 }
 
 /* =============================
@@ -302,20 +375,34 @@
 
 ==============================*/
 .datav_client_view {
+    position: relative;
     display: flex;
     flex-direction: column;
     height: 100%;
+    background: #F3F7FF!important;
+}
+
+.datav_client_view .split-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(66.66% - 15px);
+    height: 100%;
+    background: #fff;
+    border-radius: 0 30px 30px 0;
 }
 
 .datav_client_view .topPanel {
-    height: 20px;
-    margin-bottom: 5px;
+    position: fixed;
+    right: 30px;
+    z-index: 1000;
 }
 
 .datav_client_view .topPanel .optionPanel{
     display: flex;
     justify-content: space-between;
-    margin-bottom: 5px;
+    height: 25px;
+    align-items: center;
 }
 
 .datav_client_view .topPanel .optionPanel
@@ -338,8 +425,10 @@
 
 .datav_client_view .topPanel .optionPanel .boardeEdit{
     line-height: 28px;
-    color: #476DBE;
-    font-weight: bold;
+    color: #0f5eff;
+    font-size: 12px;
+    font-family: SourceHanSansCN-Medium;
+    margin-left: 12px;
     cursor: pointer;
 }
 
@@ -366,7 +455,6 @@
 .datav_client_view .gridContainer{
     position: relative;
     flex: 1;
-    /*background: #f2f2f2;*/
     overflow: hidden;
 }
 
@@ -382,7 +470,7 @@
 }
 
 .datav_client_view .boardChoose .defineBtn{
-    color: #476DBE;
+    color: #0f5eff;
     font-size: 14px;
     cursor: pointer;
 }
@@ -399,7 +487,7 @@
     height: 25px;
     line-height: 1;
     color: #333;
-    border-color: #EAEDF1;
+    border-color: #A8AED3;
     margin-right: 5px;
     padding: 4px 5px;
     text-align: center;
@@ -422,13 +510,13 @@
 }
 
 .datav_client_view .boardChoose .selectBoard .el-radio-group .el-radio.is-checked {
-    color: #476DBE;
+    color: #0f5eff;
     border-color: #D9E8FD;
     background: #F3F8FF;
 }
 
 .datav_client_view .boardChoose .selectBoard .el-radio-group .el-radio__input.is-checked+.el-radio__label {
-    color: #476DBE;
+    color: #0f5eff;
 }
 
 .datav_client_view .boardChoose .selectBoard>.setDefine {
@@ -437,7 +525,7 @@
     top: 4px;
     font-size: 14px;
     font-weight: bold;
-    color: #476DBE;
+    color: #0f5eff;
     cursor: pointer;
 }
 
@@ -465,7 +553,7 @@
 }
 
 .datav_client_view .boardChoose .boardContainer>p:hover{
-    border-color: #476DBE;
+    border-color: #0f5eff;
 }
 
 .datav_client_view .boardChoose .boardContainer>p.active{
@@ -484,20 +572,34 @@
 }
 
 .datav_client_view .gridContainer .vue-grid-layout {
-    width: 100%;
-    height: 100%;
+    width: auto;
+    height: calc(100% - 30px);
+    margin-left: -20px;
 }
 
 .datav_client_view .vue-grid-item.cssTransforms {
     background: #fff;
-    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.06);
+}
+
+.datav_client_view .indexPage .vue-grid-item.cssTransforms {
+    border-radius: 14px;
+}
+
+.datav_client_view .indexPage .vue-grid-item.cssTransforms.attach-top {
+    z-index: 1;
+}
+
+.datav_client_view .indexPage.edit .vue-grid-item.cssTransforms,
+.datav_client_view .indexPage.define .vue-grid-item.cssTransforms {
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item .menuContent {
     position: relative;
     min-height: 100%;
     max-height: 100%;
-    padding: 5px;
+    padding: 24px;
     overflow: hidden;
 }
 
@@ -506,11 +608,10 @@
     cursor: grab;
 }
 
-.datav_client_view .gridContainer.edit .vue-grid-layout .vue-grid-item
-.menuContent:hover {
-    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.24);
+.datav_client_view .gridContainer.define .mask,
+.datav_client_view .gridContainer.edit .mask {
+    display: block;
 }
-
 
 .datav_client_view .boardChoose .boardContainer .delUnitGrid,
 .datav-block .vue-grid-layout .vue-grid-item .delUnitGrid,
@@ -534,10 +635,10 @@
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
 .menuContent>div {
     position: absolute;
-    top: 0px;
-    left: 5px;
-    width: calc(100% - 10px);
-    height: calc(100% - 5px);
+    top: 0;
+    left: 24px;
+    width: calc(100% - 48px);
+    height: 100%;
 }
 
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
@@ -559,8 +660,7 @@
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
 .menuContent .el-card.module-card .el-card__body>.content {
     height: 100%;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
@@ -570,13 +670,19 @@
 
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
 .menuContent .el-card.module-card .el-card__body>.content:hover::-webkit-scrollbar-thumb {
-    background: rgba(135, 141, 153, .3);
+    background: #D7DBE4;
 }
 
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
 .menuContent .el-card.module-card .el-card__body {
-    overflow: scroll;
-    height: calc(100% - 31px);
+    overflow: auto;
+    height: calc(100% - 44px);
+    padding: 0;
+}
+
+.datav_client_view .gridContainer .vue-grid-layout .vue-grid-item.rightPined
+.menuContent .el-card.module-card .el-card__body {
+    height: calc(100% - 92px);
 }
 
 .datav_client_view.datavBoard {
@@ -621,7 +727,7 @@
     flex: 0 0 250px;
     width: 250px;
     height: 150px;
-    background: #f2f2f2;
+    background: #d4e0ff;
     text-align: center;
     cursor: grab;
     overflow: hidden;
@@ -637,7 +743,7 @@
     height: 22px;
     line-height: 22px;
     font-size: 14px;
-    color: #666;
+    color: #333;
     margin: 0;
 }
 
@@ -660,7 +766,7 @@
 
 .datav_client_view .gridContainer .elChooseArrContent>div
 .elChooseDiv:hover {
-    background: #fff;
+    background: #eff3fc;
     transform: scale(1.03);
 }
 
@@ -723,7 +829,7 @@
     background: transparent;
     height: 100%;
     border-radius: 0 19px 19px 0;
-    color: #476DBE;
+    color: #0f5eff;
     font-size: 12px;
 }
 
@@ -733,7 +839,7 @@
     border: none;
     border-radius: 19px;
     font-size: 12px;
-    color: #476DBE;
+    color: #0f5eff;
     background: transparent;
     padding: 0;
 }
@@ -763,7 +869,7 @@
 .datav_client_view .form_comp .el-form-item .el-form-item__content input {
     line-height: 26px;
     height: 26px;
-    border-color: #EAEDF1;
+    border-color: #A8AED3;
     font-size: 13px;
     color: #666;
 }
@@ -788,8 +894,8 @@ span.el-input__suffix .el-input__icon {
 
 .datav_client_view .form_comp .el-form-item .el-form-item__content
 .el-radio .el-radio__input.is-checked .el-radio__inner {
-    border-color: #476DBE;
-    background: #476DBE;
+    border-color: #0f5eff;
+    background: #0f5eff;
 }
 
 .datav_client_view .form_comp .el-form-item .el-form-item__content
@@ -800,7 +906,7 @@ span.el-input__suffix .el-input__icon {
 
 .datav_client_view .form_comp .el-form-item .el-form-item__content
 .el-radio .el-radio__input.is-checked+.el-radio__label {
-    color: #476DBE;
+    color: #0f5eff;
 }
 
 .datav_client_view .form_comp .el-form-item .el-form-item__content
@@ -836,8 +942,8 @@ span.el-input__suffix .el-input__icon {
 .el-checkbox__input.is-checked:not(.is-disabled) .el-checkbox__inner,
 .datav_client_view .form_comp .el-form-item .el-form-item__content
 .el-checkbox__input.is-indeterminate:not(.is-disabled) .el-checkbox__inner{
-    background: #476DBE;
-    border: 1px solid #476DBE;
+    background: #0f5eff;
+    border: 1px solid #0f5eff;
     font-weight: bold;
 }
 
@@ -859,7 +965,7 @@ span.el-input__suffix .el-input__icon {
     padding: 11px 15px;
     border: none;
     color: #fff;
-    background: #476DBE;
+    background: #0f5eff;
     line-height: 0;
 }
 
@@ -871,10 +977,11 @@ span.el-input__suffix .el-input__icon {
 
 .datav_client_view .form_comp .el-select-dropdown__wrap
 .el-select-dropdown__item.selected{
-    color: #476DBE;
+    color: #0f5eff;
 }
 
 .vue-grid-layout {
     height: 100%;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
 }

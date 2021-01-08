@@ -10,10 +10,10 @@ export default {
         // {headerName: "部门", field: "deptId", dictType: 'AGNES_ROSTER_DEPT'},
         {headerName: "值班类型", field: "rosterType", dictType: 'AGNES_ROSTER_TYPE'},
         {headerName: "值班日期", field: "rosterDate"},
-        {headerName: "值班人員", field: "userName"},
-        // {headerName: "姓名", field: "userName"},
+        {headerName: "值班时间", field: "rosterTs"},
+       // {headerName: "姓名", field: "userName"},
         // {headerName: "岗位", field: "roleId" ,dictType: 'AGNES_ROSTER_POST'},
-        // {headerName: "手机", field: "mobileNo"},
+       // {headerName: "手机", field: "mobileNo"},
         //{headerName: "座机", field: "oTel"},
         //{headerName: "邮箱", field: "oEmail"}
     ],
@@ -25,7 +25,7 @@ export default {
         fetchUrl: "/agnes-app/v1/dop/roster/list/page",    //后台查询数据的URL地址
         fetchMethod: 'get',
         pagingMode: true, //分页
-        checkboxColumn: 2, //是否显示checkbox列,
+        checkboxColumn: 0, //是否显示checkbox列,
         autoFitColumnMode: 1,
         enableExportLocal: false,
         pageOptions: {

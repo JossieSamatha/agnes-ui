@@ -395,7 +395,7 @@
 
 <style scoped>
     .action-btn{
-        color: #476DBE !important;
-        border: 1px solid #476DBE !important;
+        color: #0f5eff !important;
+        border: 1px solid #0f5eff !important;
     }
 </style>

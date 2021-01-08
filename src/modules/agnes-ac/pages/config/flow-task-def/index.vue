@@ -12,7 +12,7 @@
                 <gf-button :disabled="!uploadStatus" class="action-btn"  @click="confFlowNode" size="mini" >配置任务节点</gf-button>
                 <gf-button class="action-btn" @click="copyFlow" size="mini" v-if="$hasPermission('agnes.app.business.flowconf.copy')">复制</gf-button>
                 <gf-button class="action-btn" @click="exportFlow" size="mini"  v-if="$hasPermission('agnes.app.business.flowconf.exportFlow')">导出</gf-button>
-                <el-upload
+                <el-upload style="margin-left: 4px"
                         ref="upload"
                         :limit="1"
                         action
@@ -22,7 +22,7 @@
                         accept=".txt">
                     <gf-button class="action-btn" slot="trigger" size="mini"  v-if="$hasPermission('agnes.app.business.flowconf.importFlow')">导入</gf-button>
                 </el-upload>
-                <el-upload
+                <el-upload style="margin-left: 4px"
                         ref="uploadCase"
                         :limit="1"
                         action="/api/agnes-ac/v1/ac/flow/task/case/upload-case-file"
@@ -80,14 +80,13 @@
 
                 // 抽屉创建
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: ['电子流程任务配置',mode],
                     component: FlowTaskDetail,
                     args: {row, mode, actionOk},
                     okButtonVisible:isShow,
                     okButtonTitle: row.isCheck ? '审核' : '保存',
                     cancelButtonTitle: cancelTitle,
-                    pageEl: this.$el
 
                 })
             },
@@ -124,11 +123,10 @@
                     return;
                 }
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: ['任务节点配置'],
                     component: 'case-config-index',
                     args: {row, mode, actionOk},
-                    pageEl: this.$el
                 })
             },
             async deleteFlowTask(params) {

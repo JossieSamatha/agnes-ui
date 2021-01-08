@@ -373,7 +373,7 @@
     .dataset-edit-container {
         display: flex;
         flex-direction: row;
-        border: 1px solid #EAEDF1;
+        border: 1px solid #A8AED3;
     }
 
     .dataset-edit-container .img-container {
@@ -384,7 +384,7 @@
     .dataset-edit-container > .left {
         width: 280px;
         padding: 10px;
-        border-right: 1px solid #EAEDF1;
+        border-right: 1px solid #A8AED3;
     }
 
     .dataset-edit-container section + section {
@@ -408,7 +408,7 @@
         height: 14px;
         left: 0;
         top: 2px;
-        background: #476DBE;
+        background: #0f5eff;
     }
 
     .dataset-edit-container .title > .optionBtn {
@@ -417,7 +417,7 @@
     }
 
     .dataset-edit-container .title > .optionBtn:hover {
-        color: #476DBE;
+        color: #0f5eff;
     }
 
     .dataset-edit-container .content {
@@ -456,7 +456,7 @@
     .dataset-edit-container > .right {
         flex: 1;
         padding: 10px;
-        border-left: 1px solid #EAEDF1;
+        border-left: 1px solid #A8AED3;
     }
 
 </style>

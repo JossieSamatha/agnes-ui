@@ -2,7 +2,7 @@
     <el-container class="elec-process elec-process-dashboard">
         <section class="dataSearch">
             <div class="flow-type">
-                <p class="section-label">当前流程类型：</p>
+                <p class="section-label" style="font-size: 16px">当前流程类型：</p>
                 <gf-dict class="flow-type-select"
                          clearable
                          dict-type="AGNES_CASE_FLOWTYPE"
@@ -24,7 +24,12 @@
                                 @change="bizDateChange"
                 >
                 </el-date-picker>
-                <em class="el-icon-refresh" title="全部刷新" @click="getFLowsbyType(bizDate)"></em>
+                <svg-icon name="refresh"
+                          title="全部刷新"
+                          height="18px"
+                          color="#999"
+                          style="margin: 0 10px; cursor: pointer"
+                          @click.native="getFLowsbyType(bizDate)"/>
                 <div class="interval-ctrl">
                     <span v-html="svgImg.startInterval"
                           v-show="ifIntervalStart"
@@ -52,47 +57,48 @@
         </section>
         <section class="board-container" ref="contentSection">
             <el-carousel v-if="proTask && proTask.length>0"
-                         style="width: 100%; height: 32%; flex: 0 0 auto;"
-                         height="100%"
+                         :height="cardContainerHeight"
                          arrow="always"
-                         :autoplay="false">
+                         :autoplay="false"
+                         :class="{'has-pagin': proTask.length>1}"
+            >
                 <el-carousel-item v-for="(carousel, index) in proTask" :key="index">
-                    <div class="card-container" >
+                    <div ref="carouselCardContainer" class="card-container">
                         <template v-for="task in carousel">
                             <module-card shadow="always" :class="curTask.taskId==task.taskId?'active':''" :key="task.taskId"
-                                         @click.native="chooseTask(task)">
-                                <template slot="content">
-                                    <p class="imgContainer">
+                                         @click.native="chooseTask(task)"
+                            >
+                                <template slot="content" >
+                                    <p class="imgContainer" :style="{transform: 'scale('+ cardScale +')'}">
                                         <em v-if="task.taskIcon" :class="task.taskIcon"></em>
                                         <em v-else class="fa fa-cogs"></em>
                                     </p>
-                                    <p class="title" :title="task.taskName">{{task.taskName}}</p>
+                                    <p class="title" :title="task.taskName" :style="{transform: 'scale('+ cardScale +')'}">{{task.taskName}}</p>
                                     <p style="height: 15px">
-                                        <el-progress v-if="task.finishedRate" class="monitor-progress" show-text
+                                        <el-progress v-if="task.finishedRate"
+                                                     class="monitor-progress"
+                                                     :class="{'is-roll': task.finishedRate < 1}"
+                                                     show-text
                                                      :percentage="getPercentage(task.finishedRate)"
-                                                     :color="getStatusColor(task.taskStatus)"
-                                                     :stroke-width="6"
+                                                     :color="curTask.taskId==task.taskId ? '#4C6CFF': '#496AAF'"
+                                                     :stroke-width="12*cardScale"
                                         ></el-progress>
                                     </p>
+                                </template>
+                            </module-card>
+                        </template>
+                        <template v-if="carousel.length<4">
+                            <module-card v-for="placeholder in 4-carousel.length" shadow="always" :key="placeholder">
+                                <template slot="content">
+                                    <svg-icon name="placeholder-pic" height="50px" :style="{transform: 'scale('+ cardScale +')'}" />
+                                    <span style="color: #7390CB;text-align: center;padding-right: 8px;" :style="{transform: 'scale('+ cardScale +')'}">暂无数据</span>
                                 </template>
                             </module-card>
                         </template>
                     </div>
                 </el-carousel-item>
             </el-carousel>
-            <div class="card-detail" v-if="curTask.taskId">
-                <div style="position: relative">
-                    <dv-water-level-pond v-if="true"
-                            :config="{data: [getPercentage(curTask.finishedRate)], shape: 'round', colors: ['#3DE7C9', '#4a8ef0'], waveNum:2, waveHeight: 8, waveOpacity: .5}"
-                                         style="width:200px; height: 200px; cursor: pointer"
-                    />
-                    <template v-else>
-                        <pie-chart ref="pieChart" :chart-data="executePieData" :title="pieTitle" pieHeight="200px"
-                                   legendPosX="left" legendPos.dv-water-pond-level svgY="top" :color-set="['#476DBE','#E0E0E0']" style="width: 200px"
-                        ></pie-chart>
-                        <p class="detail-btn" @click="reivewDetail">查看详情</p>
-                    </template>
-                </div>
+            <div class="card-detail" :class="{'is-full': curTask.finishedRate >= 1}" v-if="curTask.taskId">
                 <div class="process-container">
                     <div class="flow-legend">
                         <span v-for="(status, statusColor) in stageStatus" :key="statusColor">
@@ -103,27 +109,54 @@
                     <div class="progress">
                         <div class="progress-item" v-for="stage in stageList" :key="stage.defId">
                             <span>{{stage.defName}}</span>
-                            <el-progress class="define-progress"
-                                         :style="{color: getDetailColor(stage.status)}"
-                                         :percentage="getPercentage(stage.percentage)"
-                                         :color="getDetailColor(stage.status)"
-                                         :stroke-width="6"
-                                         :show-text="false"
-                                         @click.native="stageDetailView(stage)"
-                            ></el-progress>
-                            <p  :style="{color: getDetailColor(stage.status), position: setPos,}">
-                                <span style="margin-left: 10px;color: #333">{{stage.completeNum}}/{{stage.targetNum}}</span>
-                                <span class="fa fa-circle"
-                                      v-if="stage.status === '03' || stage.status === '04' "
-                                      style="cursor: pointer;
-                                            color:#F5222E;
+                            <div>
+                                <div class="define-progress-bar" @click="stageDetailView(stage)">
+                                    <el-progress class="define-progress"
+                                                 :class="{'is-roll': stage.percentage < 1, 'has-error': stage.status === '03' || stage.status === '04'}"
+                                                 :style="{color: getDetailColor(stage.status)}"
+                                                 :percentage="getStagePercentage(stage)"
+                                                 :color="getDetailColor(stage.status)"
+                                                 :stroke-width="20"
+                                                 :show-text="false"
+                                    ></el-progress>
+                                    <div class="error-percentage" :style="getErrorPercentage(stage)"></div>
+                                </div>
+                                <p :style="{color: getDetailColor(stage.status), position: setPos}">
+                                    <span class="num">{{stage.completeNum}}/{{stage.targetNum}}</span>
+                                    <span class="fa fa-circle"
+                                          v-if="stage.status === '03' || stage.status === '04' "
+                                          style="cursor: pointer;
+                                            color:#FA6A6A;
                                             position: absolute;
-                                            right: 7px;
-                                            top: 50%;
-                                            transform: translate(0px, -50%);"
-                                      @click="showStageError(stage)"
-                                ></span>
-                            </p>
+                                            right: 6px;
+                                            top: 3px;"
+                                          @click="showStageError(stage)"
+                                    ></span>
+                                </p>
+                                <div class="link-line"></div>
+                            </div>
+                        </div>
+                        <div class="link-line whole">
+                            <svg-icon name="lightning" color="#4c6cff" style="animation-delay: 1s"/>
+                            <svg-icon name="lightning" color="#4c6cff" style="animation-delay: 2s"/>
+                            <svg-icon name="lightning" color="#4c6cff" style="animation-delay: 3s"/>
+                            <svg-icon name="lightning" color="#4c6cff" style="animation-delay: 4s"/>
+                            <svg-icon name="lightning" color="#4c6cff" style="animation-delay: 5s"/>
+                            <span class="text-info">已完成：
+                                <span>{{getPercentage(curTask.finishedRate)}}%</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="battery-container">
+                    <div class="container">
+                        <div class="header"></div>
+                        <div class="battery" :class="{'is-mini': curTask.finishedRate <= 0.05}"></div>
+                        <div class="battery-copy">
+                            <div v-for="i in 3" :key="i"
+                                 class="g-wave"
+                                 :style="{top: -getPercentage(curTask.finishedRate) + '%'}">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -139,7 +172,7 @@
                          height="100%"
                          grid-no="agnes-elec-process-field">
                     <template slot="left">
-                        <el-button type="text" icon="fa fa-reply" style="color: #476dbe;" @click="closeTableDetail">  返回</el-button>
+                        <el-button type="text" icon="fa fa-reply" style="color: #0f5eff;" @click="closeTableDetail">  返回</el-button>
                     </template>
                     <template slot="right-before">
                         <span class="full-screen-btn">
@@ -163,13 +196,15 @@ export default {
             dragColumn: {dragContainerId: "taskContainerLeft", dragDirection: 'n'},
             flowType: '',
             proTask: [],
+            cardContainerHeight: '150px',
+            cardScale: 1,
             executePieData: [],
             bizDate: '',
             curTask: {},
             stageStatus: {
-                '#4A8EF0': '已完成',
-                '#E0E0E0': '未完成',
-                '#F5222E': '有异常'
+                '#4C6CFF': '已完成',
+                '#D7DBE4': '未完成',
+                '#FA6A6A': '有异常'
             },
             stageList: [],
             pieTitle: '',
@@ -188,6 +223,18 @@ export default {
         this.bizDate = window.bizDate;
         this.getFLowsbyType(this.bizDate);
         this.startFreshInterval();
+    },
+
+    mounted() {
+        window.addEventListener('resize', ()=>{
+            this.$nextTick( ()=> {
+                if(this.$refs.carouselCardContainer && this.$refs.carouselCardContainer[0]){
+                    const cardHeight = this.$refs.carouselCardContainer[0].firstElementChild.offsetHeight;
+                    this.cardScale = cardHeight/120;
+                    this.cardContainerHeight = cardHeight + 40 + 'px'
+                }
+            });
+        })
     },
 
     beforeDestroy() {
@@ -225,18 +272,21 @@ export default {
             const flowDataRes = this.$api.elecProcessApi.queryExecRuTask({bizDate});
             const flowDataList = await this.$app.blockingApp(flowDataRes);
             if (flowDataList.data && flowDataList.data.length > 0) {
-                let data = flowDataList.data;
-                const carouselLength = this.calcCardLength(data.length);
-                for(let i=0; i<carouselLength; i++){
-                    const itemData = data.slice(i*4, i*4+4);
-                    this.proTask.push(itemData);
-                    if(!(this.curTask && this.curTask.taskId)){
-                        this.curTask = data[0];
-                        this.pieTitle = this.getPercentage(data[0].finishedRate)+'%';
-                        this.flowType = data[0].flowType;
-                        this.getFLowDetail(data[0].taskId, data[0].caseId, this.bizDate);
-                    }
+                const data = flowDataList.data;
+                this.proTask = this.$lodash.chunk(data, 4);
+                if(!(this.curTask && this.curTask.taskId)){
+                    this.curTask = data[0];
+                    this.pieTitle = this.getPercentage(data[0].finishedRate)+'%';
+                    this.flowType = data[0].flowType;
+                    this.getFLowDetail(data[0].taskId, data[0].caseId, this.bizDate);
                 }
+                this.$nextTick( ()=> {
+                    if(this.$refs.carouselCardContainer[0]){
+                        const cardHeight = this.$refs.carouselCardContainer[0].firstElementChild.offsetHeight;
+                        this.cardScale = cardHeight/120;
+                        this.cardContainerHeight = cardHeight + 40 + 'px'
+                    }
+                });
             }else{
                 this.proTask = [];
             }
@@ -255,19 +305,31 @@ export default {
                 const task = this.curTask;
                 this.$drawerPage.create({
                     className: 'elec-dashboard-drawer',
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: [`${task.taskName}【${this.bizDate}】`],
                     component: boardDetail,
                     args: {bizDate: this.bizDate, task: task},
                     cancelButtonTitle: '返回',
-                    okButtonTitle: '刷新',
-                    pageEl: this.$el
+                    okButtonTitle: '刷新'
                 });
             }
         },
         
         getPercentage(percentage) {
             return parseInt(percentage * 100) ;
+        },
+
+        getStagePercentage(stage){
+            const perNum = parseInt(stage.completeNum + stage.exceptionNum);
+            const percent = parseFloat(perNum / parseInt(stage.targetNum)).toFixed(2) * 100;
+            return percent;
+        },
+
+        getErrorPercentage(stage){
+            const perNum = parseInt(stage.completeNum + stage.exceptionNum);
+            const allPercent = parseFloat(perNum / parseInt(stage.targetNum)).toFixed(2) * 100;
+            const errorPercent = parseFloat(parseInt(stage.exceptionNum) / parseInt(stage.targetNum)).toFixed(2) * 100;
+            return `left: ${allPercent-errorPercent}%; width: ${errorPercent}%`;
         },
         
         getStatusColor(statusId) {
@@ -277,9 +339,9 @@ export default {
         
         getDetailColor(statusId){
             if(statusId === '01'){
-                return '#D0D0D0';
+                return '#D7DBE4';
             }else{
-                return '#4A8EF0';
+                return '#4C6CFF';
             }
         },
         
@@ -412,15 +474,16 @@ export default {
             const row = params.data;
             this.$drawerPage.create({
                 className: 'elec-dashboard-drawer',
-                width: 'calc(97% - 215px)',
+                width: 'calc(100% - 250px)',
                 title: [row.stepName],
                 component: 'monitor-detail-page',
                 args: {stepCode: row.stepCode, stepActKey: row.stepActKey, bizDate: this.bizDate, status: 3},
                 cancelButtonTitle: '返回',
-                okButtonVisible: false,
-                pageEl: this.$el
+                okButtonVisible: false
             });
         },
+
+
     }
 }
 </script>

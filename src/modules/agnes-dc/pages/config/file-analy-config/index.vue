@@ -42,12 +42,11 @@ import FileAnalyConfigDetail from './file-analy-config-detail'
                 }
                 // 抽屉创建
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: ['文件解析配置',mode],
                     component: FileAnalyConfigDetail,
                     args: {row, mode, actionOk},
-                    okButtonVisible:mode!=='view',
-                    pageEl: this.$el
+                    okButtonVisible:mode!=='view'
                 })
             },
             async deleteFileAnaly(params) {

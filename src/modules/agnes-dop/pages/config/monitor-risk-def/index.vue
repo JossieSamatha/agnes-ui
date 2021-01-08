@@ -19,7 +19,7 @@
 
                 let title = this.$dialog.formatTitle("处理风险",mode);
                 if(mode == 'check'){
-                    title = '审核';
+                    title = '';
                 }
                 this.$nav.showDialog(
                     MonitorRiskType,

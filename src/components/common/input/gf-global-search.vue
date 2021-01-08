@@ -1,16 +1,14 @@
 <template>
-    <transition name="expand-x">
-        <el-cascader ref="globalSearch" class="global-search"
-                     popper-class="global-search-popper"
-                     :options="menuArr"
-                     :props="cascaderProps"
-                     :emitPath="false"
-                     clearable
-                     filterable
-                     @change="menuJump"
-        >
-        </el-cascader>
-    </transition>
+    <el-cascader ref="globalSearch" class="global-search"
+                 popper-class="global-search-popper"
+                 :options="menuArr"
+                 :props="cascaderProps"
+                 :emitPath="false"
+                 clearable
+                 filterable
+                 @change="menuJump"
+    >
+    </el-cascader>
 </template>
 
 <script>
@@ -91,29 +89,3 @@
         },
     }
 </script>
-
-<style>
-    .global-search {
-        transition: 1s all ease;
-    }
-
-    .global-search .el-input__suffix .el-icon-arrow-down{
-        display: none;
-    }
-
-    .global-search-popper .el-cascader-panel .el-cascader-menu__wrap{
-        height: 250px;
-    }
-
-    .expand-x-enter-active {
-        transition: all 1s ease;
-    }
-    .expand-x-leave-active {
-        width: 380px!important;
-        transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-    }
-    .expand-x-enter, .expand-x-leave-to {
-        width: 0!important;
-        opacity: 0;
-    }
-</style>

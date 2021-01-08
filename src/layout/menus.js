@@ -3,10 +3,10 @@ export function toColumn(menus) {
     //一级菜单
     for(let i=0;i<menus.length;i++) {
         let first = menus[i];
-        let row = {code:first.resCode, title:first.resName,actionUrl:first.actionUrl, icon: first.resIcon};
+        let row = {code:first.resCode, title:first.resName,actionUrl:first.actionUrl, icon: first.resIcon, menusCodesStore: []};
         if(!first.children || first.children.length==0){
             row['view'] = first.resCode;
-
+            row.menusCodesStore.push(first.resCode);
         }else{
             //二级菜单 columns
             let columns = new Array();
@@ -14,6 +14,7 @@ export function toColumn(menus) {
             for(let j=0;j<first.children.length;j++){
                 let second = first.children[j];
                 if(!second.children || second.children.length==0){
+                    row.menusCodesStore.push(second.resCode);
                     defaultColumns.menus.push({
                         code: second.resCode,
                         title: second.resName,
@@ -29,6 +30,7 @@ export function toColumn(menus) {
                 //三级菜单 menus
                 for(let k=0;k<second.children.length;k++) {
                     let third = second.children[k];
+                    row.menusCodesStore.push(third.resCode);
                     column.menus.push({code:third.resCode, title:third.resName, view:third.resCode,actionUrl:third.actionUrl, icon: third.resIcon});
                 }
                 columns.push(column);

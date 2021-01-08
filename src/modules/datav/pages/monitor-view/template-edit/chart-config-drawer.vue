@@ -14,7 +14,7 @@
                     </div>
                     <div style="float: right; margin-right: 10px;">
                         <el-button type="primary" @click="passSaveConfirm"
-                                   style="width: 80px;padding: 9px 15px; background-color: #476DBE;">保存
+                                   style="width: 80px;padding: 9px 15px; background-color: #0f5eff;">保存
                         </el-button>
                     </div>
                 </div>

@@ -17,7 +17,7 @@ export default {
         fetchUrl: "/agnes-app/v1/dop/user/group/page/group/list",
         fetchMethod: 'post',
         pagingMode: true, //分页
-        checkboxColumn: 2, //是否显示checkbox列,
+        checkboxColumn: 0, //是否显示checkbox列,
         autoFitColumnMode: 1,
         enableExportLocal: false,
         pageOptions: {

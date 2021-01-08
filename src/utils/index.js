@@ -4,6 +4,7 @@ import Msg from "./message";
 import HttlTabFunction from './HttlTabFunction'
 import request from "@hex/gf-ui/src/util/request";
 import store from '@hex/ares-ui/src/store'
+import LunarToSolar from './LunarToSolar'
 
 
 function ajaxInterceptors() {
@@ -43,6 +44,7 @@ const Loading = {
         Vue.prototype.$agnesUtils = agnesUtils;
         Vue.prototype.$svgImg = svgImg;
         Vue.prototype.$msg = Msg;
+        Vue.prototype.$LunarToSolar = LunarToSolar;
         // Vue.use(HttlTabFunction);
     },
     load: function (Gfui) {

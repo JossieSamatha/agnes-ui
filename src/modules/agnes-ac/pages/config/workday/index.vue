@@ -276,7 +276,7 @@
     .work-calendar .el-calendar-day .popover-btn .special-text{
         text-align: center;
         line-height: 35px;
-        color: #476dbe;
+        color: #0f5eff;
         font-size: 12px;
         font-weight: bold;
         text-shadow: 2px 3px 3px rgba(0,0,0,.3);

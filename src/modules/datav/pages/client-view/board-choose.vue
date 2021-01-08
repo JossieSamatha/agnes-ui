@@ -1,5 +1,7 @@
 <template>
-    <el-dialog class="boardChoose" title="面板布局选择" :visible.sync="showDialog" center
+    <el-dialog class="boardChoose" title="面板布局选择"
+               :visible.sync="showDialog"
+               center
                :modal-append-to-body="false"
                :before-close="closeDialog">
         <div>
@@ -15,8 +17,10 @@
             </div>
             <div class="boardContainer">
                 <template v-if="boardBigType == 'defaultBoard'">
-                    <p :class="choosedBoard.boardId==board.boardId?'active':''" v-for="board in boardArrDefault" :key="board.boardId" @click="chooseBoard(board)">
-                        <dash-board-frame v-if="showDialog" ref="dialogGridLayout" :gridData="board.boardData" :gridMargin="[1,1]"></dash-board-frame>
+                    <p :class="choosedBoard.boardId==board.boardId?'active':''"
+                       v-for="board in boardArrDefault" :key="board.boardId"
+                       @click="chooseBoard(board)">
+                        <dash-board-frame v-if="showDialog" ref="dialogGridLayout" :gridData="board.boardData" :rowHeight="10" :gridMargin="[1,1]"></dash-board-frame>
                     </p>
                 </template>
                 <template v-if="boardBigType == 'defineBoard'">
@@ -24,7 +28,7 @@
                     <span class="delUnitGrid" v-if="defineBoardSet" @click="removeDefineBoard(board)">
                         <em class="fa fa-close"></em>
                     </span>
-                        <dash-board-frame v-if="showDialog" ref="dialogGridLayout" :gridData="board.boardData" :gridMargin="[1,1]"></dash-board-frame>
+                        <dash-board-frame v-if="showDialog" ref="dialogGridLayout" :gridData="board.boardData" :rowHeight="10" :gridMargin="[1,1]"></dash-board-frame>
                     </p>
                 </template>
             </div>
@@ -38,9 +42,9 @@
 </template>
 
 <script>
-    import boardData from './board-data';
     export default {
         props: {
+            pageId: String,
             showDialog: { // 面板当前是否编辑
                 type: Boolean,
                 default: false
@@ -50,21 +54,39 @@
             return {
                 // 面板布局选择（弹窗中数据）
                 boardBigType: 'defaultBoard',                    // 面板大类：可选默认面板/自定义面板
-                boardArrDefault: boardData.boardArrDefault,
-                boardArrDefine: boardData.boardArrDefine,
+                boardArrDefault: [],
+                boardArrDefine: [],
                 defineBoardSet: false,                           // 自定义面板管理
-                choosedBoard: boardData.boardArrDefault[0],      // 当前选择面板
+                choosedBoard: {},      // 当前选择面板
                 delBoardIds: []
             }
         },
-        mounted(){
-        },
-        watch:{
+        async created() {
+            // 获取面板数据
+            const boardArrRes = await this.$api.compBoardApi.getDashboards({pageType: this.pageId});
+            const boardArr = boardArrRes.data;
+            let defaultArr = [], defineArr = [];
+            boardArr.forEach((boardItem)=>{
+                if(boardItem.isCurrentBoard && boardItem.isCurrentBoard === '1'){
+                    this.choosedBoard = boardItem;
+                }
+                boardItem.boardData = JSON.parse(boardItem.comtent);
+                if(boardItem.boardType === '0') {
+                    defaultArr.push(boardItem);
+                }else{
+                    defineArr.push(boardItem);
+                }
+            });
+            this.boardArrDefault = defaultArr;
+            this.boardArrDefine = defineArr;
+            if(Object.keys(this.choosedBoard).length === 0){
+                this.choosedBoard = defaultArr[0];
+            }
         },
         methods: {
             // 配置看板 -- 自定义面板
             defineBoard() {
-                this.$emit('defineBoard');
+                this.$emit('defineBoard', this.choosedBoard);
                 this.closeDialog();
             },
 
@@ -83,11 +105,24 @@
             },
 
             // 面板grid -- 自定义面板管理
-            ifDefineBoardSet(option){
+            async ifDefineBoardSet(option){
                 if(option == 'set'){
                     this.defineBoardSet = true;
                 }else{
-                    this.defineBoardSet = false;
+                    try {
+                        const datas = {
+                            boardType: '1',
+                            pageType: this.pageId,
+                            dashboards: this.boardArrDefine
+                        };
+                        const p = this.$api.compBoardApi.manageDashboards(datas);
+                        await this.$app.blockingApp(p);
+                        this.defineBoardSet = false;
+                        this.closeDialog();
+                        this.$msg.success('配置成功');
+                    } catch(reason) {
+                        this.$msg.error(reason);
+                    }
                 }
             },
 

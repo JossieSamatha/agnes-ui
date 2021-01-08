@@ -1222,12 +1222,11 @@
                     return;
                 }
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: ['账户录入'],
                     component: AcntApplyInsert,
                     args: {row, mode, actionOk},
-                    okButtonVisible:mode!=='view',
-                    pageEl: this.$el
+                    okButtonVisible:mode!=='view'
                 })
             },
             onInsertApply(){
@@ -1266,7 +1265,6 @@
                     okButtonVisible: isShow,
                     okButtonTitle: row.isCheck ? "复核" : '提交',
                     cancelButtonTitle: '取消',
-                    pageEl: this.$el
                 });
             }
 

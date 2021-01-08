@@ -56,12 +56,11 @@ import FileMoveConfigModel from './file-move-config-Model'
                 }
                 // 抽屉创建
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: ['文件搬运配置',mode],
                     component: FileMoveConfigDetail,
                     args: {row, mode, actionOk},
-                    okButtonVisible:mode!=='view',
-                    pageEl: this.$el
+                    okButtonVisible:mode!=='view'
                 })
             },
             async deleteFileMove(params) {

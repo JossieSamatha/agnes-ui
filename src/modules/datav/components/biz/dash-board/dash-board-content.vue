@@ -19,21 +19,25 @@
 <template>
     <draggable class="menuContent" :list="draggableList" group="unitGroup" :disabled="dragDisabled"
         @start="gridUnitDragStart(draggableList)" @end="gridUnitDragEnd" @add="gridUnitDragAdd(draggableList,$event)">
-        <div v-for="(unit,unitIndex) in draggableList" :key="unit.id">
+        <div :class="{nonePadding: unit.compType === 'common-search-panel'}" v-for="(unit, unitIndex) in draggableList" :key="unit.compId">
             <template v-if="unitIndex == 0">
                 <span class="delUnitGrid" @click="delContent" v-if="ifCloseIconShow">
                     <em class="fa fa-close"></em>
                 </span>
-                <span class="compEntrance" v-if="unit.arrowShow">
-                    <em class="el-icon-refresh" v-if="unit.type === 'calendar-def'" @click="calendarRefresh"></em>
-                    <em class="fa fa-angle-right" v-else @click="entranceMenu(unit)"></em>
+                <span v-if="unit.arrowShow"
+                      class="compEntrance"
+                      :class="{'bcg': unit.arrowBlock === '1'}"
+                      @click="entranceMenu(unit)">
+                    查看更多<em class="fa fa-angle-right"></em>
                 </span>
-                <module-card :title="unit.label">
+                <common-search-panel v-if="unit.compType === 'common-search-panel'"></common-search-panel>
+                <module-card v-else :title="unit.label">
                     <template slot="content">
                         <slot name="group-content" :unitData="unit"></slot>
                     </template>
                 </module-card>
             </template>
+            <div class="mask"></div>
         </div>
     </draggable>
 </template>
@@ -98,24 +102,47 @@
               let clientTabView = Object.assign({args: moduleArgs, id: menuId}, clientView);
               this.$nav.showView(clientTabView);
             }
-          },
-
-          calendarRefresh() {
-            this.$dataVBus.$emit('clientCalendarRefresh');
           }
-
         }
     }
 </script>
 
 <style scoped>
+    .vue-grid-item.rightPined .compEntrance {
+        top: 24px;
+    }
     .compEntrance {
         position: absolute;
-        top: 4px;
+        top: 0;
         right: 10px;
-        font-size: 20px;
-        color: #999;
+        font-size: 12px;
+        color: #0F5EFF;
         z-index: 10;
         cursor: pointer;
+    }
+
+    .compEntrance.bcg {
+        top: 20px;
+        color: #666;
+        background: #EEF1FC;
+        padding: 5px 10px;
+        border-radius: 4px;
+    }
+
+    .compEntrance>em {
+        font-size: 14px;
+        color: #999;
+        vertical-align: baseline;
+        margin-left: 6px;
+    }
+
+    .mask {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 100;
+        display: none;
     }
 </style>

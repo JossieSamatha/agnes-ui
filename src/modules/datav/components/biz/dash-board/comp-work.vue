@@ -3,7 +3,7 @@
     <div v-for="(item, index) in rosterList"
          :key="index" class="todolist-container">
       <div class="work-icon">
-        <img :src="getImgPath(item.rosterType)" alt="work-icon">
+        {{item.rosterType}}
       </div>
       <div class="task-des">
         <div>
@@ -62,20 +62,6 @@ export default {
         id: depViewId
       }, depView);
       this.$nav.showView(depTabView);
-    },
-    getImgPath(val) {
-      if (val.includes("00") && !val.includes("-")) {
-        return require("../../../assets/sun.png")
-      } else if (val.includes("01") && !val.includes("-")) {
-        return require("../../../assets/moon.png")
-      } else if (val.includes("-02")) {
-        return require("../../../assets/key.png")
-      } else if (val.includes("-03")) {
-        return require("../../../assets/recheck.png")
-      } else {
-        return require("../../../assets/moon.png")
-      }
-
     },
 
     getRosterType(rosterTypeId) {

@@ -118,7 +118,7 @@
                     <pie-chart ref="pieChart"
                                :chart-data="executePieData"
                                :title="pieTitle"
-                               :color-set="['#476DBE','#E0E0E0']"
+                               :color-set="['#0f5eff','#E0E0E0']"
                                style="width: 180px;margin: auto"
                     ></pie-chart>
                 </div>
@@ -184,11 +184,8 @@
                 intervalList: [{label: '1分钟', value: 1}, {label: '3分钟', value: 3}, {label: '5分钟', value: 5}],
                 intervalListShow: false,
                 execTypeChecked: ['OVERTIME', 'EXCEPTION'],
-                execTypeOp: [{id: 'AHEAD', label: '提前', icon: 'executing'}, {
-                    id: 'FINISHED',
-                    label: '完成',
-                    icon: 'finish'
-                },
+                execTypeOp: [
+                    {id: 'AHEAD', label: '提前', icon: 'executing'}, {id: 'FINISHED', label: '完成', icon: 'finish'},
                     {id: 'OVERTIME', label: '超时', icon: 'outTime'}, {id: 'EXCEPTION', label: '异常', icon: 'abnormal'}
                 ],
                 taskIdList: [],
@@ -492,13 +489,12 @@
                 const row = params.data;
                 this.$drawerPage.create({
                     className: 'elec-dashboard-drawer',
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: [row.stepName],
                     component: 'monitor-detail-page',
                     args: {stepCode: row.stepCode, stepActKey: row.stepActKey, bizDate: this.bizDate, status: 3},
                     cancelButtonTitle: '返回',
-                    okButtonVisible: false,
-                    pageEl: this.$el
+                    okButtonVisible: false
                 });
             },
 
