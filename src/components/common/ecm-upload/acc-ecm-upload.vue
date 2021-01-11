@@ -30,18 +30,21 @@
                     <span class="option">操作</span>
                 </li>
                 <template v-for="item in fileList">
-                    <li class="upload-list content" :key="item.objectId">
-                        <span><a>{{item.fileName}}</a></span>
+                    <li class="upload-list content" :key="item.uid">
+                        <span v-if="item.objectId !== ''" class="file-name"><a>{{item.fileName}}</a></span>
+                        <span v-else><el-input v-model="item.fileName" :disabled="disabled"></el-input></span>
                         <span class="piece"><el-input v-model="item.fileNum" :disabled="disabled"></el-input></span>
                         <span><el-input v-model="item.remark" :disabled="disabled"></el-input></span>
                         <span class="option">
-                            <a v-if="showFileDowload" @click="fileDowload(item.objectId)">下载</a>
-                            <a v-if="showRemove" @click="onRemove(item.objectId)">删除</a>
+                            <a v-if="showFileDowload && item.objectId" @click="fileDowload(item.objectId)">下载</a>
+                            <a v-if="showRemove && item.objectId" @click="onRemove(item.objectId)">删除</a>
+                            <a v-if="showDelete && !item.objectId" @click="removeRule(item)">删除</a>
                         </span>
                     </li>
                     <p v-if="fileList.length == 0" style="font-size: 14px;color: #333;text-align: center;" :key="item.objectId">暂无上传信息</p>
                 </template>
             </ul>
+            <el-button v-show="showDelete"  @click="addRule()" class="rule-add-btn" size="small">新增</el-button>
         </div>
     </el-upload>
 </template>
@@ -69,6 +72,14 @@
                 type: String,
                 default: ''
             },
+            id: {
+                type: String,
+                default: ''
+            },
+            applyType: {
+                type: String,
+                default: ''
+            },
             disabled: {
                 type: Boolean,
                 default:true
@@ -78,6 +89,10 @@
                 default:true
             },
             showRemove: {
+                type: Boolean,
+                default:false
+            },
+            showDelete: {
                 type: Boolean,
                 default:false
             },
@@ -113,6 +128,10 @@
                 docId: this.srcDocId ? this.srcDocId : '',
                 folderTag: this.folder
             };
+
+            if(this.id){
+                this.getMaterialList(this.id,this.applyType);
+            }
 
             //刷新文件夹
             if (this.srcDocId) {
@@ -154,6 +173,26 @@
             'srcDocId':'srcDocIdChange'
         },
         methods: {
+            // 新增服务行
+            addRule(){
+                this.fileList.push({
+                    docId: "",
+                    objectId: '',
+                    fileName: '',
+                    fileNum: '',
+                    remark: '',
+                    type:'2'
+                });
+            },
+            removeRule(item){
+                let fileIndex = -1;
+                this.fileList.forEach((file,index)=>{
+                    if(file.uid === item.uid){
+                        fileIndex = index;
+                    }
+                });
+                this.fileList.splice(fileIndex, 1);
+            },
             //上传之前
             checkFile(file) {
                 this.uploadFileLoading = true;
@@ -237,7 +276,19 @@
                 const basePath = window.location.href.split("#/")[0];
                 window.open(basePath + 'api/ecm-server/ecm/file/download/' + fileId);
             },
-
+            async getMaterialList(id,applyType){
+                let res = null;
+                if('apply'=== applyType){
+                    res = await this.$api.acntMaterialApi.getApplyMaterialListByType(id,"2");
+                }else if('applySub' === applyType){
+                    res = this.fileList = await this.$api.acntMaterialApi.getApplySubMaterialListByType(id,"2");
+                }else if("loadInfo" === applyType){
+                    res = this.fileList = await this.$api.acntMaterialApi.getApplyMaterialListByType(id,"3");
+                }
+                if(res != null && res.data != null){
+                    this.fileList = res.data;
+                }
+            },
             //重置文件夹
             //20201031
             async refreshFolder(docId) {
@@ -246,21 +297,23 @@
                 this.$api.ecmUploadApi.getOisFileList(docId).then( (resp) => {
                     if (resp) {
 
-                        let oldFileList = this.fileList.splice(0, this.fileList.length);
+                        // let oldFileList = this.fileList.splice(0, this.fileList.length);
                         let files = resp.files;
                         files.forEach((file)=>{
-                            const hasFile = this.$lodash.find(oldFileList, {objectId: file.objectId});
+                            const hasFile = this.$lodash.find(this.fileList, {objectId: file.objectId});
                             if(!hasFile){
                                 this.fileList.push({
                                     docId: docId,
                                     objectId: file.objectId,
                                     fileName: file.name,
                                     fileNum: '',
-                                    remark: ''
+                                    remark: '',
+                                    type:'1',
                                 });
-                            }else{
-                                this.fileList.push(hasFile);
                             }
+                            // else{
+                            //     this.fileList.push(hasFile);
+                            // }
                         });
 
                     }
@@ -318,6 +371,12 @@
 </style>
 
 <style scoped>
+    .file-name{
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
     .acc-ecm-upload {
         display: flex;
         align-items: flex-start;
