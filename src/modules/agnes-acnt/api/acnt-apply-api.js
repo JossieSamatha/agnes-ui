@@ -56,5 +56,8 @@ export default {
     },
     getCountUnfinishedAndCanDo() {
         return request.get(`agnes-app/v1/acnt/apply/getCountUnfinishedAndCanDo`);
+    },
+    createDocAndGetDocId(folderTag) {
+        return request.post(`/ecm-server/ecm/doc/createDocAndGetDocId`,null,{params:{'folderTag':folderTag}});
     }
 };

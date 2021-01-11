@@ -1,38 +1,37 @@
-const guestInfo = [
-    {label: '客户名称', value: 'XXXXXXXXX银行'},
-    {label: '客户类型', value: '商业银行'},
-    {label: '组织机构代码', value: 'XXXXXXXXX'},
-    {label: '客户属性', value: 'XXXXXXXXX'},
-    {label: '客户名称', value: 'XXXXXXXXX银行'},
-    {label: '客户类型', value: '商业银行'},
-    {label: '组织机构代码', value: 'XXXXXXXXX'},
-    {label: '客户属性', value: 'XXXXXXXXX'},
-];
-
 const gridLayoutType = [
-    {"x": 0, "y": 0, "w": 4, "h": 3, "i": "2020040900"},
-    {"x": 4, "y": 0, "w": 4, "h": 3, "i": "2020040901"},
-    {"x": 8, "y": 0, "w": 4, "h": 3, "i": "2020040902"},
-    {"x": 0, "y": 3, "w": 4, "h": 3, "i": "2020040903"},
-    {"x": 4, "y": 3, "w": 4, "h": 3, "i": "2020040904"},
-    {"x": 8, "y": 3, "w": 4, "h": 3, "i": "2020040905"}
-];
+    {"x":0,"y":0,"w":8,"h":1,"i":"20201222016", compId: 'search'},
+    {"x":0,"y":1,"w":8,"h":4,"i":"20201222012", compId: 'myIndex'},
+    {"x":0,"y":5,"w":8,"h":4,"i":"20201222014", compId: 'todoList'},
+    {"x":0,"y":9,"w":8,"h":6,"i":"20201222015", compId: 'myException'},
+    {"x":8,"y":0,"w":4,"h":7,"i":"20201222011", compId: 'myCalendar'},
+    {"x":8,"y":7,"w":4,"h":3,"i":"BJdcWY", compId: 'myNotice'},
+    {"x":8,"y":10,"w":4,"h":5,"i":"20201222013", compId: 'mySchedule'}
+    ];
 
 const gridLayoutType2 = [
-    {"x": 0, "y": 0, "w": 4, "h": 3, "i": "09040011"},
-    {"x": 4, "y": 0, "w": 4, "h": 3, "i": "09040012"},
-    {"x": 8, "y": 0, "w": 4, "h": 3, "i": "09040013"},
-    {"x": 0, "y": 3, "w": 4, "h": 3, "i": "09040014"},
-    {"x": 4, "y": 3, "w": 4, "h": 3, "i": "09040015"},
-    {"x": 8, "y": 3, "w": 4, "h": 3, "i": "09040016"}];
+    {"x": 0, "y": 0, "w": 4, "h": 3, "i": "09040011", compId: 'search'},
+    {"x": 4, "y": 0, "w": 4, "h": 3, "i": "09040012", compId: 'myIndex'},
+    {"x": 8, "y": 0, "w": 4, "h": 3, "i": "09040013", compId: 'todoList'},
+    {"x": 0, "y": 3, "w": 4, "h": 3, "i": "09040014", compId: 'myException'},
+    {"x": 4, "y": 3, "w": 4, "h": 3, "i": "09040015", compId: 'myCalendar'},
+    {"x": 8, "y": 3, "w": 4, "h": 3, "i": "09040016", compId: 'myNotice'}];
 
 const gridLayoutType3 = [
-    {"x": 0, "y": 0, "w": 4, "h": 6, "i": "2020001"},
-    {"x": 6, "y": 0, "w": 2, "h": 4, "i": "2020002"},
-    {"x": 4, "y": 0, "w": 2, "h": 4, "i": "2020003"},
-    {"x": 6, "y": 4, "w": 2, "h": 2, "i": "2020004"},
-    {"x": 4, "y": 4, "w": 2, "h": 2, "i": "2020005"}
-]
+    {"x": 0, "y": 0, "w": 4, "h": 6, "i": "2020001", compId: 'search'},
+    {"x": 6, "y": 0, "w": 2, "h": 4, "i": "2020002", compId: 'workSituation'},
+    {"x": 4, "y": 0, "w": 2, "h": 4, "i": "2020003", compId: 'processSituation'},
+    {"x": 6, "y": 4, "w": 2, "h": 2, "i": "2020004", compId: 'msgBox'},
+    {"x": 4, "y": 4, "w": 2, "h": 2, "i": "2020005", compId: 'depCalendar'}
+];
+
+const gridLayoutNewStyle = [
+    {"x":0,"y":0,"w":8,"h":1,"i":"2020122206", compId: 'search'},
+    {"x":0,"y":1,"w":8,"h":4,"i":"2020122202", compId: 'workSituation'},
+    {"x":0,"y":5,"w":8,"h":3,"i":"2020122204", compId: 'processSituation'},
+    {"x":0,"y":8,"w":8,"h":5,"i":"2020122205", compId: 'msgBox'},
+    {"x":8,"y":0,"w":4,"h":7,"i":"2020122201", compId: 'depCalendar'},
+    {"x":8,"y":7,"w":4,"h":5,"i":"2020122203", compId: 'depSchedule'}
+];
 
 const boardArrDefault = [
     {
@@ -40,7 +39,7 @@ const boardArrDefault = [
         boardData: gridLayoutType
     }, {
         boardId: '202004002',
-        boardData: gridLayoutType2
+        boardData: gridLayoutNewStyle
     },
 ];
 
@@ -54,125 +53,106 @@ const boardArrDefine = [
 
 const boardStyleArr = [
     {
-        id: '0', label: '我的日历',
-        type: 'calendar-def',
-        arrowShow: true,
-        data: {
-            calendarVal: '',
-            module: 'datav.client.view',
-            pageType: 'personal'
-        },
-        img: 'unit01'
+        compId: 'search', label: '全局搜索',
+        compType: 'common-search-panel',
+        img: 'search'
     },
     {
-        id: '5', label: '我的待办',
-        type: 'my-todolist',
+        compId: 'myIndex', label: '我的首页',
+        compType: 'my-index',
+        img: 'myIndex'
+    },
+    {
+        compId: 'todoList', label: '我的待办',
+        compType: 'my-todolist',
+        arrowShow: true,
         menuId: 'agnes.app.task.todo',
-        arrowShow: true,
-        data: {},
-        img: 'unit05'
+        compParams: {},
+        img: 'todoList'
     },
     {
-        id: '6', label: '我的消息',
-        type: 'comp-notice',
+        compId: 'myException', label: '我的异常',
+        compType: 'my-exception',
+        img: 'myException'
+    },
+    {
+        compId: 'myCalendar', label: '我的日历',
+        compType: 'calendar-def',
+        arrowShow: true,
+        arrowBlock: true,
+        img: 'calendar'
+    },
+    {
+        compId: 'myNotice', label: '我的消息',
+        compType: 'notice-comp',
+        arrowShow: true,
         menuId: 'agnes.app.message.mgr',
-        arrowShow: true,
-        data: {},
-        img: 'unit05'
+        compParams: {},
+        img: 'notice'
     },
     {
-        id: '3', label: '今日排班',
-        type: 'comp-work',
+        compId: 'mySchedule', label: '我的排班',
+        compType: 'schedule-comp',
+        arrowShow: true,
         menuId: 'agnes.dop.roster',
-        moduleArgs: {
-            pageType: 'personal'
+        compParams: {
+            pageType: 'per'
         },
-        arrowShow: true,
-        data: {
-            pageType: 'personal'
-        },
-        img: 'unit03'
-    },
-    {
-        id: '7', label: '异常事项',
-        type: 'comp-event',
-        menuId: 'agnes.app.monitor.error',
-        arrowShow: true,
-        data: {
-            compType: 'err'
-        },
-        img: 'unit05'
-    },
-    {
-        id: '10', label: '风险事项',
-        type: 'comp-event',
-        menuId: 'agnes.app.monitor.risk',
-        arrowShow: true,
-        data: {
-            compType: 'risk'
-        },
-        img: 'unit05'
-    },
+        img: 'schedule'
+    }
 ];
 
 const boardStyleDep = [
     {
-        id: '0', label: '运营日历',
-        type: 'calendar-def',
-        data: {
-            calendarVal: '',
-            module: 'datav.dep.view',
-            pageType: 'department'
-        },
-        img: 'unit01'
+        compId: 'search', label: '全局搜索',
+        compType: 'common-search-panel',
+        img: 'search'
     },
     {
-        id: '1', label: '今日排班',
-        type: 'comp-work',
+        compId: 'workSituation', label: '今日总体工作完成情况',
+        compType: 'table-pie',
+        img: 'workSituation'
+    },
+    {
+        compId: 'processSituation', label: '今日主要流程完成情况',
+        compType: 'gauge-comp',
+        compParams: {},
+        img: 'processSituation'
+    },
+    {
+        compId: 'msgBox', label: '消息栏',
+        compType: 'strip-comp',
+        img: 'msgBox'
+    },
+    {
+        compId: 'depCalendar', label: '运营日历',
+        compType: 'calendar-def',
+        arrowShow: true,
+        arrowBlock: true,
+        menuId: 'agnes.dop.memo',
+        img: 'calendar'
+    },
+    {
+        compId: 'depSchedule', label: '今日排班',
+        compType: 'schedule-comp',
+        arrowShow: true,
         menuId: 'agnes.dop.roster',
-        moduleArgs: {
-            pageType: 'department'
+        compParams: {
+            pageType: 'dep'
         },
-        arrowShow: true,
-        data: {
-            pageType: 'department'
-        },
-        img: 'unit05'
-    },
-    {
-        id: '2', label: '外部联系人',
-        type: 'comp-lineman',
-        menuId: 'agnes.dop.linkman',
-        arrowShow: true,
-        data: {},
-        img: 'unit05'
-    },
-    {
-        id: '3', label: '产品信息',
-        type: 'comp-product',
-        menuId: 'agnes.dop.product.def',
-        arrowShow: true,
-        data: {
-        },
-        img: 'unit03'
-    },
-    {
-        id: '4', label: '渠道信息',
-        type: 'comp-channel',
-        menuId: 'agnes.app.conf.channel',
-        arrowShow: true,
-        data: {},
-        img: 'unit05'
+        img: 'schedule'
     }
 ];
 
-export default {
-    guestInfo: guestInfo,
-    gridLayoutType: gridLayoutType,
-    gridLayoutType2: gridLayoutType2,
-    gridLayoutType3: gridLayoutType3,
-    boardArrDefault: boardArrDefault,
-    boardArrDefine: boardArrDefine,
-    boardStyleArr: boardStyleArr,
-    boardStyleDep: boardStyleDep
+export default function () {
+    return {
+        gridLayoutType,
+        gridLayoutType2,
+        gridLayoutType3,
+        gridLayoutNewStyle,
+        boardArrDefault,
+        boardArrDefine,
+        boardStyleArr,
+        boardStyleDep
+    }
 }

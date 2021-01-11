@@ -1,5 +1,5 @@
 <template>
-    <div class="acnt-apply" v-loading="loading" style="height: calc(100% - 70px)">
+    <div class="acnt-apply" v-loading="loading" style="height: 100%">
         <div v-show="pointerShow" class="pointer-mask" @click="pointerShow = false"></div>
         <el-form class="search-panel" label-width="100px">
             <div class="line">
@@ -186,6 +186,7 @@
             },
             reloadData() {
                 this.$refs.grid.reloadData();
+                this.loadCount();
             },
             dataChange(params) {
                 this.tableData = [];
@@ -555,6 +556,9 @@
                 setTimeout(()=>{
                     this.pointerShow = false;
                 }, 4500)
+            },
+            async loadCount(){
+                this.$emit('loadCount', {data: this.loadCount});
             }
         }
     }
@@ -563,17 +567,19 @@
 <style scoped>
     .acnt-apply-container {
         display: flex;
-        height: 100%;
+        height: calc(100% - 94px);
     }
 
     .acnt-apply-container .steps-comp {
         flex: none;
-        width: 200px;
-        height: calc(100% - 30px);
-        padding: 0 20px 30px;
-        margin-top: 30px;
+        width: 160px;
+        height: calc(100% - 41px);
+        padding: 0 0 30px;
+        margin-top: 41px;
         margin-left: 10px;
-        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.16);
+        border-radius: 8px;
+        border: 1px solid #A8AED3;
+        overflow: hidden;
     }
 
     .ag-grid-box.acnt-apply-grid {
@@ -638,38 +644,8 @@
         box-shadow: 0px 0px 2px 1px #409eff;
     }
 
-    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-expanded,
-    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-contracted{
-        margin-right: 0;
-    }
-
-    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-expanded .ag-icon,
-    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-group-contracted .ag-icon{
-        color: blue;
-    }
-
-    .acnt-apply-grid .ag-theme-balham .ag-row-group-expanded .ag-cell:not([col-id="#cbox"]),
-    .acnt-apply-grid .ag-theme-balham .ag-row-group-contracted .ag-cell:not([col-id="#cbox"]){
-        color: blue;
-        background: #F6F8FA;
-    }
-
-    .acnt-apply-grid .gf-ag-grid.ag-theme-balham .ag-row-even,
-    .acnt-apply-grid .gf-ag-grid.ag-theme-balham .ag-row-odd {
-        background: #fff;
-    }
-
-    .acnt-apply-grid .gf-ag-grid.ag-theme-balham .ag-row.ag-row-level-1 {
-        border: none;
-    }
-    .acnt-apply-grid .ag-cell .ag-group-value{
-        margin-left: 0!important;
-    }
-
-    .acnt-apply-grid .ag-theme-balham .ag-ltr .ag-row-level-1 .ag-row-group-leaf-indent {
-        margin-left: 0;
-    }
     .acnt-apply-container .ag-grid-box .grid-action-panel .right .el-input {
-        width: 150px;
+        width: 200px;
     }
 </style>
+

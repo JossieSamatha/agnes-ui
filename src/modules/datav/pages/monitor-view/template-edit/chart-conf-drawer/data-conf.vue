@@ -324,7 +324,7 @@
                         <div class="">图表联动</div>
                         <div class="block-body">
                             <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll"
-                                         @change="handleCheckAllChange"><span style="color: #476DBE">全选</span>
+                                         @change="handleCheckAllChange"><span style="color: #0f5eff">全选</span>
                             </el-checkbox>
                             <el-checkbox-group v-model="checkedCharts" @change="handleCheckedCitiesChange">
                                 <el-checkbox v-for="chart in chartsList" :label="chart" :key="chart">{{chart}}

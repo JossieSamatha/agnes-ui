@@ -1,21 +1,24 @@
 <template>
     <div>
         <p class="pro-title">操作流程</p>
-        <el-steps class="step-vertical" direction="vertical" :active="activeStep" :space="50">
+        <el-steps class="step-vertical" direction="vertical" :active="activeStep" :space="65">
             <template v-for="(step, stepIndex) in stepArr">
                 <el-step :key="stepIndex"
                          @click.native="activeStep===stepIndex ? stepClick(step) : false"
                         v-if="step.stepId !== '09'"
                 >
                     <template slot="icon">
-                        <span v-html="lcImg[step.stepIcon]"></span>
+                        <svg-icon :name="step.stepIcon"></svg-icon>
                     </template>
                     <template slot="title">
                         <span>{{step.stepTitle}}</span>
                         <span v-show="activeStep===stepIndex && canObsolete"
                               class="obsolete-step"
                               @click.prevent.stop="stepDelete"
-                        ><span v-html="lcImg.obsolete"></span>作废</span>
+                        >
+                            <svg-icon name="obsolete" />
+                            <span>作废</span>
+                        </span>
                     </template>
                 </el-step>
             </template>
@@ -35,14 +38,14 @@
                 lcImg: this.$lcImg,
                 stepStatusArr: this.$app.dict.getDictItems('AGNES_ACNT_APPLY_STATUS'),
                 iconMap: {
-                    '01': 'proStart', // 发起申请（编辑）
-                    '02': 'proCheck', // 复核（审核）
-                    '03': 'proSubmit', // 提交OA（/）
-                    '04': 'proPrepare', // 资料准备（审核）
-                    '05': 'proFinancial', // 财务流程（审核）
-                    '06': 'proAccount', // 账户信息录入（编辑）
-                    '07': 'proCheck', // 账户信息复核（审核）
-                    '08': 'proArchive', // 归档()
+                    '01': 'launch-apply', // 发起申请（编辑）
+                    '02': 'check-apply', // 复核（审核）
+                    '03': 'submit-OA', // 提交OA（/）
+                    '04': 'doc-complete', // 资料准备（审核）
+                    '05': 'financial-pro', // 财务流程（审核）
+                    '06': 'info-typeIn', // 账户信息录入（编辑）
+                    '07': 'info-check', // 账户信息复核（审核）
+                    '08': 'archive-files', // 归档()
                     '09': 'proObsolete', // 作废
                 },
                 editPermission:  this.$hasPermission('agnes.acnt.apply.edit'),
@@ -120,36 +123,36 @@
 
 <style>
     .pro-title {
-        line-height: 35px;
-        background: #eaedf1;
-        margin: 0 -20px 10px;
-        padding-left: 25px;
+        line-height: 32px;
+        background: #EFF3FC;
+        margin-bottom: 10px;
+        padding-left: 20px;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .el-step.is-vertical {
+        flex: none;
+        padding: 0 20px;
     }
 
     .step-vertical.el-steps.el-steps--vertical {
-        height: auto;
+        height: 100%;
+        overflow-y: auto;
     }
 
     .step-vertical .el-step__head .el-step__icon {
         border: none;
     }
 
-    .step-vertical .el-step__head .el-step__icon>span {
-        display: block;
-        width: 21px;
-        height: 21px;
-        text-align: center;
-    }
-
-    .step-vertical .el-step__head.is-process .el-step__icon>span>svg {
+    .step-vertical .el-step__head.is-process .el-step__icon>.svg-icon>svg {
         fill: #0F5EFF;
     }
 
-    .step-vertical .el-step__head.is-finish .el-step__icon>span>svg {
+    .step-vertical .el-step__head.is-finish .el-step__icon>.svg-icon>svg {
         fill: #1CAD26;
     }
 
-    .step-vertical .el-step__head.is-wait .el-step__icon>span>svg {
+    .step-vertical .el-step__head.is-wait .el-step__icon>.svg-icon>svg {
         fill: #ccc;
     }
 
@@ -204,47 +207,21 @@
     }
 
     .obsolete-step {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         position: absolute;
         color: #f5222e;
-        top: -1px;
-        right: -48px;
+        left: 0;
+        top: 31px;
+        border: 1px solid #f5222e;
+        border-radius: 4px;
+        width: 72px;
+        height: 26px;
     }
 
     .obsolete-step>span {
-        width: 16px;
-        display: inline-block;
-        vertical-align: text-bottom;
-        height: 16px;
-        margin-right: 1px;
-    }
-
-    .obsolete-step.disabled {
-        color: #999;
-    }
-
-    .obsolete-step .icon {
-        display: block;
-        width: 24px;
-        margin-right: 10px;
-        line-height: 21px;
-        cursor: default;
-    }
-
-    .obsolete-step .icon>svg {
-        fill: #f5222e;
-    }
-
-    .obsolete-step.disabled .icon>svg {
-        fill: #999;
-    }
-
-    .obsolete-step .title {
-        line-height: 21px;
-        cursor: pointer;
-    }
-
-    .obsolete-step.disabled .title {
-        cursor: default;
+        margin-left: 5px;
     }
 
 </style>

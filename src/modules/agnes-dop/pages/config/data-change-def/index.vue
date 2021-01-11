@@ -188,13 +188,12 @@
             },
             openChangeList(){
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: ['日切记录表'],
                     component: ChangeDataList,
                     args: {},
                     okButtonVisible:false,
                     cancelButtonTitle:'关闭',
-                    pageEl: this.$el
                 });
             },
         },

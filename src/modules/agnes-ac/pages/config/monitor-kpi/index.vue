@@ -181,13 +181,12 @@
                 const statusObj = {0: '正常', 1: '异常', 2: '干预通过'};
                 this.$drawerPage.create({
                     className: 'elec-dashboard-drawer',
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: [`${row.taskName}-${statusObj[status]}`],
                     component: 'monitor-detail-page',
                     args: {stepCode: row.kpiCode,stepActKey:row.stepActKey, bizDate: this.bizDate, status},
                     cancelButtonTitle: '返回',
-                    okButtonVisible: false,
-                    pageEl: this.$el
+                    okButtonVisible: false
                 });
             },
 

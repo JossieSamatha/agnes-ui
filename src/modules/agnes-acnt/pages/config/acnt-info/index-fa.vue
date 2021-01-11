@@ -184,7 +184,7 @@
                     title = '变更申请';
                 }
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: [title],
                     component: AcntApplyOpen,
                     args: {row, mode, actionOk,isDisabled},
@@ -214,7 +214,7 @@
                     title = '编辑';
                 }
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: [title],
                     component: AcntApplyInsert,
                     args: {row, mode, actionOk},
@@ -245,7 +245,7 @@
                 }
                 let title = '账户信息';
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: [title],
                     component: AcntInfoDetail,
                     args: {row, mode, actionOk,isDisabled},

@@ -26,14 +26,13 @@
                     isShow = false;
                 }
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: ['调度配置',mode],
                     component: dataPipeTask,
                     args: {row, mode, actionOk},
                     okButtonVisible: isShow,                             // 保存按钮是否显示
                     okButtonTitle: '保存',                                // 保存按钮名称按需传入
                     cancelButtonTitle: cancelTitle,                         // 取消按钮名称按需传入
-                    pageEl: this.$el
                 });
             },
             async onAddTask() {

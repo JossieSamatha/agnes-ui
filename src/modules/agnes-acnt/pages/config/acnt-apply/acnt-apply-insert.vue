@@ -1049,12 +1049,11 @@
             defendOpenBankDlg(row, mode, actionOk){
                 // 抽屉创建
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: ['网点维护',mode],
                     component: BranchDetail,
                     args: {row, mode, actionOk},
-                    okButtonVisible:mode!=='view',
-                    pageEl: this.$el
+                    okButtonVisible:mode!=='view'
                 })
             },
             async getOptionData(){
@@ -1449,7 +1448,6 @@
                     okButtonVisible: isShow,
                     okButtonTitle: row.isCheck ? "复核" : '保存',
                     cancelButtonTitle: '取消',
-                    pageEl: this.$el
                 });
             }
         },
@@ -1498,7 +1496,7 @@
         width: 50%;
     }
      .el-icon-refresh-left {
-         color: #476DBE;
+         color: #0f5eff;
          margin-left:10px;
          vertical-align: middle;
          font-size: 16px;

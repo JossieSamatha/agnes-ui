@@ -82,7 +82,7 @@
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
-            <el-form-item v-if="stepInfo.stepActType === '3'" label="流程定义" prop="stepActKey">
+            <el-form-item v-if="stepInfo.stepActType === '3'" label="流程定义选择" prop="stepActKey">
                 <el-select v-model="caseStepDef.stepActKey" placeholder="请选择">
                     <el-option
                             v-for="item in flowData"
@@ -92,7 +92,17 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="执行频率配置" v-if="stepInfo.stepActType === '1'" prop="execScheduler">
+            <el-form-item v-if="stepInfo.stepActType === '4'" label="机器人选择" prop="stepActKey">
+                <el-select style="width: 100%" v-model="caseStepDef.stepActKey" placeholder="请选择" filterable clearable>
+                    <gf-filter-option
+                            v-for="item in rpaOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </gf-filter-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="执行频率配置" v-if="stepInfo.stepActType === '1' || stepInfo.stepActType === '4'" prop="execScheduler">
                 <el-button type="text" @click="editExecTime(caseStepDef.execScheduler,'执行频率配置')">
                     {{caseStepDef.execScheduler}}点击配置
                 </el-button>
@@ -326,6 +336,7 @@
                 timeType: '1',
                 caseSteptype: [],
                 kpiOptions:[],
+                rpaOptions:[],
                 serviceRes:[],
                 startTimeForDay:'',
                 endTimeForDay:'',
@@ -416,6 +427,7 @@
                     }
                 });
             });
+            this.getRpaData();
             this.getKpiData();
             this.getServiceResponse();
             this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
@@ -473,6 +485,15 @@
                 kpiList.forEach((item)=>{
                     let kpiName = '('+item.kpiCode+')'+ item.kpiName
                     this.kpiOptions.push({label:kpiName,value:item.kpiCode});
+                });
+            },
+            async getRpaData(){
+                const rpa = this.$api.flowTaskApi.queryAllRPAList();
+                const rpaOptions = await this.$app.blockingApp(rpa);
+                const rpaList = rpaOptions.data
+                rpaList.forEach((item)=>{
+                    let robotName = item.robotName;
+                    this.rpaOptions.push({label:robotName,value:item.robotId});
                 });
             },
             editExecTime( execScheduler,title) {
@@ -632,7 +653,7 @@
 
 <style scoped>
     .el-icon-refresh-left {
-        color: #476DBE;
+        color: #0f5eff;
         margin-left:10px;
         vertical-align: text-top;
         font-size: 16px;

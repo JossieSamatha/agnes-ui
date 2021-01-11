@@ -16,9 +16,10 @@
                     @gridUnitDel="gridUnitDel">
                 <template slot="group-content" slot-scope="contentProps">
                     <component
-                            v-if="contentProps.unitData.type && ifLayoutReady"
-                            :is="contentProps.unitData.type"
-                            :moduleObj="contentProps.unitData.data">
+                            v-if="contentProps.unitData.compType && ifLayoutReady"
+                            :is="contentProps.unitData.compType"
+                            :pageType="contentProps.unitData.pageType"
+                            v-bind="contentProps.unitData.compParams">
                     </component>
                 </template>
             </dash-board-content>
@@ -52,24 +53,12 @@
                 ifLayoutReady: false,
             }
         },
-        mounted() {
-
-        },
-        watch: {
-        },
         computed: {
             boardColNum(){
                 if(this.boardFrameObj.boardColNum){
                     return parseInt(this.boardFrameObj.boardColNum);
                 }else{
                     return 12;
-                }
-            },
-            boardRowNum(){
-                if(this.boardFrameObj.boardRowNum) {
-                    return parseInt(this.boardFrameObj.boardRowNum);
-                }else{
-                    return 6;
                 }
             }
         },

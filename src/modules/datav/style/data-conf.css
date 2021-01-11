@@ -75,7 +75,7 @@
 
 .config-drawer .block-link {
     cursor: pointer;
-    color: #476DBE;
+    color: #0f5eff;
 }
 
 .config-drawer .block-head {
@@ -88,7 +88,7 @@
 }
 
 .config-drawer .block-icon-color {
-    color: #476DBE;
+    color: #0f5eff;
 }
 
 .config-drawer .update-data-source {
@@ -99,21 +99,21 @@
 }
 
 .config-drawer .block-list .x-list-pane .list-item.item i.icon {
-    color: #476DBE;
+    color: #0f5eff;
 }
 
 /*更改数据集*/
 .config-drawer .update-data-source ul li#data-source-table:hover {
     background-color: #ecf5ff;
-    color: #476DBE;
+    color: #0f5eff;
 }
 
 .config-drawer .dash-chart-content .el-tabs__active-bar {
-    background-color: #476DBE;
+    background-color: #0f5eff;
 }
 
 .config-drawer #update-data-source ul li#data-source-table:hover .el-radio__label {
-    color: #476DBE;
+    color: #0f5eff;
 }
 
 /*================================*/
@@ -218,7 +218,7 @@
 }
 
 .config-drawer .chart-widget .component-content .guide-tip .guide-link {
-    color: #476DBE;
+    color: #0f5eff;
     text-decoration: underline;
 }
 
@@ -233,7 +233,7 @@
 .config-drawer .chart-axis .xAxis-style .content-center span.el-tag:hover i.el-tag__close {
     opacity: 1;
     background-color: #fff;
-    color: #476DBE;
+    color: #0f5eff;
 }
 
 .config-drawer .chart-axis .yAxis-style .content-center span.el-tag:hover i.el-tag__close {
@@ -251,8 +251,8 @@
 .config-drawer .chart-axis .xAxis-style .content-center span.el-tag.el-tag--light {
     position: relative;
     border-radius: 20px;
-    background-color: #476DBE;
-    border-color: #476DBE;
+    background-color: #0f5eff;
+    border-color: #0f5eff;
     color: #fff;
     cursor: pointer;
 }
@@ -279,7 +279,7 @@
 .config-drawer .chart-axis .content-center .el-cascader-node.in-active-path,
 .config-drawer .chart-axis .content-center .el-cascader-node.is-active,
 .config-drawer .chart-axis .content-center .el-cascader-node.is-selectable.in-checked-path {
-    color: #476DBE;
+    color: #0f5eff;
 }
 
 /* 过滤条件*/
@@ -306,7 +306,7 @@
 }
 
 .config-drawer .top-main .el-select .el-input .el-select__caret {
-    color: #476DBE;
+    color: #0f5eff;
 }
 
 /*================================*/
@@ -455,7 +455,7 @@
     width: 90px;
     height: 32px;
     line-height: 30px;
-    color: #476DBE;
+    color: #0f5eff;
     text-align: left;
 }
 
@@ -583,7 +583,7 @@
 }
 
 .config-drawer #update-data-source .el-tabs__item.is-active {
-    color: #476DBE;
+    color: #0f5eff;
     background-color: transparent;
 }
 
@@ -611,12 +611,12 @@
 }
 
 .config-drawer #update-data-source .is-checked + .el-radio__label {
-    color: #476DBE;
+    color: #0f5eff;
 }
 
 .config-drawer #update-data-source .is-checked .el-radio__inner {
-    border-color: #476DBE;
-    background: #476DBE;
+    border-color: #0f5eff;
+    background: #0f5eff;
 }
 
 .config-drawer div#update-data-source .el-dialog__header {
@@ -640,7 +640,7 @@
 .config-drawer div#update-data-source .el-tree .el-tree-node.is-expanded .el-tree-node__content:hover,
 .config-drawer div#update-data-source .el-tree > .el-tree-node.is-expanded.is-checked > .el-tree-node__content,
 .config-drawer div#update-data-source .el-tree .el-tree-node.is-expanded .el-tree-node.is-current > .el-tree-node__content {
-    color: #476DBE;
+    color: #0f5eff;
     background: #EFF2F7;
 }
 
@@ -651,7 +651,7 @@
     left: 0;
     width: 2px;
     height: 100%;
-    background: #476DBE;
+    background: #0f5eff;
 }
 
 .config-drawer div#update-data-source .el-tree .el-tree-node.is-checked .el-tree-node__content::after {
@@ -660,7 +660,7 @@
     top: calc(50% - 4px);
     right: 0;
     border: 5px solid transparent;
-    border-right: 5px solid #476DBE;
+    border-right: 5px solid #0f5eff;
 }
 
 
@@ -701,7 +701,7 @@
 
 .config-drawer .chart-config .config-type .chart-type .icon.type-icon {
     margin: 6px;
-    color: #476DBE;
+    color: #0f5eff;
     padding: 0;
 }
 
@@ -719,7 +719,7 @@
 }
 
 .config-drawer .chart-config .config-type .chart-type .icon.type-icon:hover {
-    color: #476DBE !important;
+    color: #0f5eff !important;
 }
 
 .config-drawer .chart-config .config-type .chart-type:hover {
@@ -903,7 +903,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    border: 3px solid #476DBE;
+    border: 3px solid #0f5eff;
 }
 
 .config-drawer .dash-chart-right .config-type .chart-type.select {
@@ -1135,7 +1135,7 @@
 }
 
 .config-drawer .txt-datacolumn .txt-column .icon.iconfont {
-    color: #476DBE;
+    color: #0f5eff;
 }
 
 .config-drawer .addStrDialog .el-dialog {
@@ -1147,7 +1147,7 @@
 }
 
 .config-drawer .number-input .fui_text .el-input.el-input--small input.el-input__inner:focus {
-    border-color: #476DBE;
+    border-color: #0f5eff;
 }
 
 /*==========================*/
@@ -1365,7 +1365,7 @@
     position: absolute;
     top: 0;
     left: -40px;
-    color: #476DBE;
+    color: #0f5eff;
     cursor: pointer;
     height: 60px;
     line-height: 60px;
@@ -1428,7 +1428,7 @@
 
 .config-drawer .chart-axis .xAxisTag .edit-name .text input.el-input__inner:focus,
 .config-drawer .chart-axis .yAxisTag .edit-name .text input.el-input__inner:focus {
-    border-color: #476DBE;
+    border-color: #0f5eff;
 }
 
 .config-drawer .chart-axis .xAxisTag .edit-name .btn .el-button--small,
@@ -1439,8 +1439,8 @@
 
 .config-drawer .chart-axis .xAxisTag .edit-name .btn .el-button--primary,
 .config-drawer .chart-axis .yAxisTag .edit-name .btn .el-button--primary {
-    background-color: #476DBE;
-    border-color: #476DBE;
+    background-color: #0f5eff;
+    border-color: #0f5eff;
 }
 
 .config-drawer .chart-axis .xAxisTag .edit-name .btn .el-button.is-plain:focus,
@@ -1488,13 +1488,13 @@
 }
 
 .config-drawer .config-type .left-type svg.icon.type-icon {
-    color: #476DBE;
+    color: #0f5eff;
     margin-top: 0px !important;
     margin-left: 3px;
 }
 
 .config-drawer .config-type .left-type .icon.type-icon:hover {
-    color: #476DBE !important;
+    color: #0f5eff !important;
 }
 
 /*select样式*/
@@ -1505,7 +1505,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    border: 2px solid #476DBE;
+    border: 2px solid #0f5eff;
 }
 
 .config-drawer .config-type .left-type.select {

@@ -52,7 +52,7 @@
         <el-button @click="reSetSearch" class="option-btn">重置</el-button>
       </div>
     </el-form>
-    <gf-grid ref="grid" height="calc(100% - 70px)"
+    <gf-grid ref="grid" height="calc(100% - 100px)"
              @row-double-click="showDetail"
              :query-args="queryArgs"
              grid-no="agnes-acnt-info-ta">

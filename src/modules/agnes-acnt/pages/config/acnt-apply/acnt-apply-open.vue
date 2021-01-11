@@ -198,7 +198,7 @@
               <el-form-item v-if="detailForm.isSendOa==='1'" label="用印文件" prop="fileTable">
                 <div class="rule-table">
                   <acc-ecm-upload style="width: 100%;"
-                                  :disabled="this.mode !== 'add' && this.mode !=='addChange' && this.mode !=='edit' && this.mode !=='addInfo' && this.mode !=='deteleApply'"
+                                  :disabled="!srcDocId || (this.mode !== 'add' && this.mode !=='addChange' && this.mode !=='edit' && this.mode !=='addInfo' && this.mode !=='deteleApply')"
                                   :showRemove="this.mode === 'add' || this.mode ==='addChange' || this.mode ==='edit' || this.mode ==='addInfo'|| this.mode ==='deteleApply'"
                                   :src-doc-id="srcDocId" :file-list="detailForm.fileList">
                   </acc-ecm-upload>
@@ -931,8 +931,6 @@
                       // this.detailFormBefore = detailFormBefore.data
                       let detailFormBefore = await this.$api.acntInfoApi.getAcntInfo(this.detailForm)
                       this.detailFormBefore = detailFormBefore.data
-
-                      console.log(this.detailFormBefore.modifyFileds.typeCode)
                     }
 
                     //资料文件列表加载(主流程)
@@ -951,6 +949,15 @@
                             if(this.detailForm.fileList[0] != null){
                                 this.srcDocId = this.detailForm.fileList[0].docId;
                             }
+                        }
+                    }
+
+                    //
+                    if(loadsh.isEmpty(this.srcDocId)
+                        &&(this.mode === 'add' || this.mode === 'addChange' ||this.mode === 'deteleApply'||this.mode === 'addInfo' )){
+                        let resp = await this.$api.acntApplyApi.createDocAndGetDocId("2");
+                        if(resp.data){
+                            this.srcDocId = resp.data.objectId;
                         }
                     }
 
@@ -1245,12 +1252,11 @@
                     return;
                 }
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: ['账户录入'],
                     component: AcntApplyInsert,
                     args: {row, mode, actionOk},
-                    okButtonVisible:mode!=='view',
-                    pageEl: this.$el
+                    okButtonVisible:mode!=='view'
                 })
             },
             onInsertApply(){

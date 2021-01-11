@@ -28,19 +28,19 @@
 
 .little-case-page .option-panel .alter-radio-btn
 .el-radio-button__orig-radio:checked + .el-radio-button__inner {
-    color: #476DBE;
-    border-color: #476DBE;
+    color: #0f5eff;
+    border-color: #0f5eff;
     background-color: transparent;
 }
 
 .little-case-page .option-panel .alter-radio-btn
 .el-radio-button:not(.is-active) .el-radio-button__inner:hover {
-    color: #476DBE;
+    color: #0f5eff;
 }
 
 .little-case-page .option-panel button.el-button--primary {
-    color: #476DBE;
-    border: 1px solid #476DBE;
+    color: #0f5eff;
+    border: 1px solid #0f5eff;
     background: #fff;
 }
 
@@ -67,12 +67,12 @@
 }
 
 .little-case-page .option-panel .textbtn {
-    color: #476DBE;
+    color: #0f5eff;
     font-size: 12px;
     font-weight: bold;
     cursor: pointer;
     margin-right: 10px;
-    border: 1px solid #476DBE;
+    border: 1px solid #0f5eff;
     border-radius: 3px;
     padding: 0 5px;
     line-height: 18px;
@@ -108,7 +108,7 @@
 #app .gf-dop .little-case .el-tabs.el-tabs.normal-tab .el-tabs__header
 .el-tabs__item.is-active {
     position: relative;
-    color: #476DBE;
+    color: #0f5eff;
     border-bottom: none;
 }
 
@@ -121,7 +121,7 @@
     top: -1px;
     width: 100%;
     height: 2px;
-    background: #476DBE;
+    background: #0f5eff;
 }
 
 #app .gf-dop .little-case .el-tabs.normal-tab .el-tabs__content {
@@ -149,7 +149,7 @@
 ==============================*/
 
 .little-case .el-checkbox.is-checked:not(.is-disabled) .el-checkbox__label {
-    /*color: #476DBE;*/
+    /*color: #0f5eff;*/
     color: #409EFF;
 }
 
@@ -170,8 +170,8 @@
 }
 
 .little-case .el-checkbox__input.is-checked:not(.is-disabled) .el-checkbox__inner {
-    /*background: #476DBE;*/
-    /*border: 1px solid #476DBE;*/
+    /*background: #0f5eff;*/
+    /*border: 1px solid #0f5eff;*/
     font-weight: bold;
 }
 
@@ -215,14 +215,14 @@
 }
 
 .little-case.work-flow-module > section>.content:hover::-webkit-scrollbar-thumb {
-    background: rgba(135, 141, 153, .3);
+    background: #D7DBE4;
 }
 
 .little-case.work-flow-module > section.common-task-section {
     width: 250px;
     height: 100%;
     margin-right: 10px;
-    border-right: 1px solid #EAEDF1;
+    border-right: 1px solid #A8AED3;
 }
 
 .little-case.work-flow-module > section.common-task-section > span {
@@ -243,7 +243,7 @@
 }
 
 .little-case.work-flow-module > section.common-task-section > .stage-item:hover::-webkit-scrollbar-thumb {
-    background: rgba(135, 141, 153, .3);
+    background: #D7DBE4;
 }
 
 .little-case.work-flow-module > section.common-task-section > .stage-item
@@ -293,7 +293,7 @@
 }
 
 .little-case.work-flow-module .stage-ghost {
-    box-shadow: 0 0 10px #476DBE;
+    box-shadow: 0 0 10px #0f5eff;
 }
 
 .little-case.work-flow-module .stage-item .stage-item-title {
@@ -309,7 +309,7 @@
 }
 
 .little-case.work-flow-module .stage-item.edit .stage-item-title {
-    background: #476DBE;
+    background: #0f5eff;
 }
 
 .little-case.work-flow-module .process-list .process-item {
@@ -340,7 +340,7 @@
 
 .little-case.work-flow-module .process-item .process-item-title.edit {
     color: #fff;
-    background: #476DBE;
+    background: #0f5eff;
 }
 
 .little-case.work-flow-module .process-item.step-group .process-item-title {
@@ -383,7 +383,7 @@
 }
 
 .little-case.work-flow-module .stage-item.edit .stage-item-title::after {
-    border-left-color: #476DBE;
+    border-left-color: #0f5eff;
 }
 
 .little-case.work-flow-module .stage-container.able-choosed .stage-item
@@ -404,7 +404,7 @@
 
 .little-case.work-flow-module .process-item .process-item-title .drag-bar {
     margin-right: 5px;
-    color: #476DBE;
+    color: #0f5eff;
 }
 
 .little-case.work-flow-module .process-item.step-group .process-item-title .drag-bar {
@@ -561,7 +561,7 @@
 }
 
 .little-case.work-flow-module .step-comp > .step-icon.process>svg {
-    fill: #476DBE;
+    fill: #0f5eff;
 }
 
 
@@ -589,11 +589,11 @@
     top: 0;
     right: 10px;
     font-size: 16px;
-    color: #476DBE;
+    color: #0f5eff;
 }
 
 .little-case.work-flow-module .process-item .process-item-title:hover > span.title .edit > .fa.fa-edit{
-    color: #476DBE;
+    color: #0f5eff;
 }
 
 .little-case.work-flow-module .step-comp .edit > em {
@@ -613,8 +613,8 @@
 
 .little-case.work-flow-module .stepGhost {
     font-weight: bold;
-    color: #476DBE;
-    box-shadow: 0 0 10px #476DBE;
+    color: #0f5eff;
+    box-shadow: 0 0 10px #0f5eff;
 }
 
 .little-case.work-flow-module .stage-item .stage-add .step-type {
@@ -623,7 +623,7 @@
     position: absolute;
     left: 13px;
     top: 36px;
-    width: 132px;
+    width: 200px;
     height: 132px;
     padding: 5px;
     z-index: 10;
@@ -678,12 +678,12 @@
 }
 
 .little-case.work-flow-module .stage-item .stage-add .step-type>li:hover{
-    color: #476DBE;
+    color: #0f5eff;
     background: #ECEDEF;
 }
 
 .little-case.work-flow-module .stage-item .stage-add .step-type>li:hover>svg{
-    fill: #476DBE;
+    fill: #0f5eff;
 }
 
 .little-case.work-flow-module .stage-item .add-task {
@@ -714,7 +714,7 @@
 
 .little-case.work-flow-module .stage-item .add-task>span:hover,
 .little-case.work-flow-module .stage-item .add-task>span:hover>i {
-    color: #476DBE;
+    color: #0f5eff;
     background: #E9EFFB;
     font-weight: bold;
 }
@@ -724,8 +724,13 @@
 }
 
 .el-drawer__wrapper.step-detail-drawer {
-    top: 121px;
-    bottom: 10px;
+    top: 44px;
+    bottom: 0;
+}
+
+.el-drawer__wrapper.step-detail-drawer .el-drawer {
+    border-radius: 20px 0 0 20px;
+    padding: 10px 0 30px 30px;
 }
 
 .step-detail-drawer .el-drawer__body,
@@ -751,7 +756,7 @@
 }
 
 .step-detail-drawer .form-page.step-detail .el-form:hover::-webkit-scrollbar-thumb {
-    background: rgba(135, 141, 153, .3);
+    background: #D7DBE4;
 }
 
 .step-detail-drawer .form-page.step-detail .form__footer {
@@ -759,12 +764,12 @@
     height: 45px;
     line-height: 45px;
     text-align: right;
-    border-bottom: 1px solid #EAEDF1;
+    border-bottom: 1px solid #A8AED3;
     padding: 0 20px;
 }
 
 .step-detail-drawer .form-page.step-detail .form__footer .el-button {
-    height: 25px;
+    height: 28px;
     padding: 5px 19px;
     border-color: #E1E4E8;
     color: #333;
@@ -774,8 +779,8 @@
 
 .step-detail-drawer .form-page.step-detail .form__footer .el-button.primary {
     color: #fff;
-    background: #476DBE;
-    border-color: #476DBE;
+    background: #0f5eff;
+    border-color: #0f5eff;
 }
 
 .step-detail-drawer .form-page.step-detail .form__footer .el-button + .el-button {

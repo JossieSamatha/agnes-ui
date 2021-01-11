@@ -40,7 +40,7 @@
                     isShow = false;
                 }
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: ['MOT任务配置',mode],
                     component: MotDetail,
                     args: {row, mode, actionOk},

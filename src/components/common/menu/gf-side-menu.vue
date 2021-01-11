@@ -1,5 +1,6 @@
 <template>
     <div class="gf-side-menu">
+        <slot name="arrow"></slot>
         <div class="menu-container">
             <div class="header">
                 <el-input class="search" placeholder="请输入关键词" suffix-icon="el-icon-search"
@@ -9,8 +10,8 @@
                 <div class="content">
                     <section class="stairMenu" v-for="menu in secondMenuObj" :key="menu.menuid">
                         <p class="menu-label" :class="activeMenu == menu.menuid ? 'active' : ''">{{menu.menuname}}</p>
-                        <ul class="second-menu" v-for="submenu in menu.children" :key="submenu.menuid">
-                            <li class="menu-label">
+                        <ul class="second-menu">
+                            <li class="menu-label" v-for="submenu in menu.children"  :key="submenu.menuid">
                                 <span @click="showMenuTab(submenu)">{{submenu.menuname}}</span>
                                 <em class="star fa fa-star" v-if="isMenuMarked(submenu.menucode)" @click="collectChange('false',submenu)"></em>
                                 <em class="star fa fa-star-o" v-else
@@ -86,6 +87,7 @@
                 if(menu.actionUrl && menu.actionUrl.includes('link:')){
                     const hrefUrl = menu.actionUrl.replace('link:', '');
                     window.open(hrefUrl, '_blank');
+                    return;
                 }else if(menu.actionUrl && menu.actionUrl.includes('goframe/p')){
                     tabObj = menu;
                     tabObj.title = menu.menuname;

@@ -162,8 +162,8 @@
 
     .op-btn.primary {
         color: #fff;
-        background: #476DBE;
-        border-color: #476DBE;
+        background: #0f5eff;
+        border-color: #0f5eff;
     }
 
     .detail-btn {
@@ -173,7 +173,7 @@
     .detail-btn>>>.fa.fa-eye{
         font-size: 15px;
         vertical-align: text-bottom;
-        color: #476dbe;
+        color: #0f5eff;
         line-height: 17px;
     }
 

@@ -11,7 +11,7 @@
             <el-form-item label="组件类型" prop="compType">
               <gf-dict v-model="form.compType" dict-type="AGNES_DOP_COMPENT_TYPE"  style="width: 40%"/>
             </el-form-item>
-            <el-form-item label="菜单地址" prop="menuId" >
+            <el-form-item label="菜单地址">
                 <el-select v-model="form.menuId"
                            filterable clearable
                            placeholder="请选择" style="width: 40%">
@@ -47,6 +47,9 @@
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
+            <el-form-item label="图片">
+                <el-input v-model="form.img" style="width: 40%"/>
+            </el-form-item>
             <el-form-item label="刷新频率" prop="quartzTime">
                 <gf-input v-model.trim="form.quartzTime" clear-regex="[^0-9]" style="width: 40%" placeholder="刷新频率"/>(单位：分钟)
             </el-form-item>
@@ -77,6 +80,7 @@
                     arrowShow: '0',
                     arrowBlock: '0',
                     compParams: '',
+                    img:'',
                 },
                 menuList:[],
                 arrowShowArry:[{value:"0",label:'否'},{value:"1",label:'是'}],
@@ -85,7 +89,6 @@
                     label: [{required: true, message: "请输入组件描述"}],
                     pageType: [{required: true, message: "请选择首页类型"}],
                     compType: [{required: true, message: "请选择组件类型"}],
-                    // menuId: [{required: true, message: "请选择菜单"}],
                     arrowBlock: [{required: true, message: "请选择箭头类型"}],
                     arrowShow: [{required: true, message: "请选择是否显示"}]
                 },

@@ -1,64 +1,41 @@
 <template>
     <gf-layout-default>
-        <template slot="logo">
-            <img :src="require('../assets/logo-blue.png')" alt="logo" class="gf-app-logo">
-        </template>
-        <template slot="menu">
-            <span></span>
-        </template>
+        <template slot="logo"><span></span></template>
+        <template slot="menu"><span></span></template>
         <div class="top-menu-right" slot="nav-user-before">
-            <div class="top-menu-item search-item" style="cursor: default">
-                <robot-wisdom>
-                    <template v-slot:default="{ ifShowInput }">
-                        <gf-global-search class="search"
-                                          v-model="searchValue"
-                                          placeholder="全局搜索"
-                                          :appMenus="appMenus"
-                                          :adminMenus="adminMenus"
-                                          v-show="ifShowInput"
-                        ></gf-global-search>
-                    </template>
-                </robot-wisdom>
+            <div class="top-menu-item" title="面板配置" @click="dashboardSettig">
+                <svg-icon name="dashboardSetting" height="16px"/>
             </div>
-            <div class="top-menu-item" v-if="false" style="font-size: 18px;height: 21px" title="测试效果图" @click="designSketchShow = true">
-                <em class="el-icon-picture-outline"></em>
+            <div class="top-menu-item feedback" title="意见反馈" @click="handelfeedback">
+                <svg-icon name="feedback" height="17px"/>
             </div>
-            <div class="top-menu-item feedback" style="font-size: 18px;height: 21px" title="意见反馈" @click="handelfeedback">
-                <em class="fa fa-envelope-o"></em>
+            <div class="top-menu-item" title="帮助" @click="openHelpPage">
+                <svg-icon name="question-doc" height="16px"/>
             </div>
-            <div class="top-menu-item">
-                <span class="iconImg" title="帮助" v-html="svgImg.helpIcon" @click="openHelpPage"></span>
+            <div class="top-menu-item" title="换肤" @click="changeSkin">
+                <svg-icon name="skin-change" height="16px"/>
             </div>
-            <div class="top-menu-item" @click="handelNotice">
+            <div class="top-menu-item" title="消息提醒"  @click="handelNotice">
                 <el-badge :value=unreadCount :hidden="!unreadCount">
-                    <span class="iconImg" title="消息提醒" v-html="svgImg.noticeIcon"></span>
+                    <svg-icon name="msg-inform" height="20px"/>
                 </el-badge>
             </div>
         </div>
+        <common-search-panel class="comm"  slot="nav-user-after" v-show="commonSearchShow"></common-search-panel>
         <template slot="sidebar-menu" slot-scope="props">
             <gf-vertical-expand v-show="!props.maximizeView"
                                 :allMenu="menus.allMenu"
                                 :markMenu="menus.markMenu"
+                                @studioTypeChange="studioTypeChange"
             >
             </gf-vertical-expand>
-        </template>
-        <template slot="tab-bar-left">
-            <el-select class="studio-type" v-model="studioType" :popper-append-to-body="false"
-                       @change="studioTypeChange">
-                <el-option value="appMenus" label="应用模式（APP STUDIO）"></el-option>
-                <el-option value="adminMenus" label="管理模式（DEV STUDIO）"></el-option>
-            </el-select>
-            <div class="biz-date-square">{{bizDateComplete}}</div>
         </template>
         <notice-box :noticeData="noticeData" :showDrawer="showNoticeDrawer"
                     @refreshNotice="handelNotice"
                     @getUnreadCount="getUnreadCount"
                     @noticeDrawerClose="noticeDrawerClose"
         ></notice-box>
-        <img class="design-sketch-img" src="../assets/indexPage.png" alt="测试效果图"
-             v-show="designSketchShow"
-             @click="designSketchShow = false"
-        >
+
     </gf-layout-default>
 </template>
 
@@ -77,28 +54,28 @@
                 },
                 menus: {},
                 noticeData: [],
-                studioType: 'appMenus',
+                studioType: 'adminMenus',
                 searchValue: '',
+                commonSearchShow: true,
                 showNoticeDrawer: false,
                 content: '',
                 feedbackShow: false,
                 bizDateTimer: null, // 日切日期定时器
                 unreadCount:"",
-                localTime: '',
-                designSketchShow: false
+                userSkin: 'default-blue' // 用户皮肤
             }
         },
 
-        computed: {
-            bizDateComplete() {
-                let bizdate = this.$dateUtils.formatDate(this.localTime, 'HH:mm:ss yyyy/MM/dd');
-                if(window.bizDate){
-                    const recode = window.bizDate.replace('-','/').replace('-','/');
-                    bizdate = bizdate.slice(0, 9)+recode;
+        watch: {
+            $route(to) {
+                if (to.path === '/datav.client.view' || to.path === '/datav.dep.view') {
+                    this.commonSearchShow = false;
+                }else{
+                    this.commonSearchShow = true;
                 }
-                return bizdate;
-            }
+            },
         },
+
         methods: {
             showView(viewId) {
                 this.view = viewId;
@@ -160,7 +137,6 @@
                 }
                 // 退出登录后清楚定时器
                 clearInterval(this.bizDateTimer);
-                clearInterval(this.localTimer);
 
                 this.$store.dispatch('logout').then(() => {
                     this.$router.push({path: '/login'});
@@ -196,11 +172,55 @@
 
             handelfeedback() {
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: ['意见反馈'],
                     component: 'agnes-msg-send',
                     okButtonTitle:'发送'
                 })
+            },
+
+            // 配置面板
+            dashboardSettig(){
+                const curTab = this.$app.nav.tabBar.currentTabKey;
+                if(curTab === 'datav.client.view'){
+                    document.getElementById("personalEditBtn").click();
+                }else if(curTab ==='datav.dep.view'){
+                    document.getElementById("departmentEditBtn").click();
+                }
+            },
+
+            // 获取用户皮肤
+            getUserSkin(){
+                this.$api.HomePageApi.DopRuUserSkin().then((res)=>{
+                    this.userSkin = res.data ? res.data : 'default-blue';
+                    const bgDom = document.getElementsByClassName('gf-layout-default');
+                    if(bgDom && bgDom.length>0){
+                        bgDom[0].style['background-image'] = 'url('+ this.getImgPath(this.userSkin) +')';
+                    }
+                });
+            },
+
+            getImgPath(imgName){
+                if(imgName){
+                    return  require('../assets/skin/'+imgName+'-bg.jpg');
+                }
+            },
+
+            // 换肤
+            changeSkin(){
+                this.$nav.showDialog(
+                    'skin-dialog',
+                    {
+                        width: '700px',
+                        title: '更换皮肤',
+                        args: {
+                            curSkin: this.userSkin,
+                            actionOk: ()=>{
+                                this.getUserSkin();
+                            }
+                        }
+                    }
+                );
             },
 
             async resize() {
@@ -253,27 +273,26 @@
 
             openHelpPage(){
                 this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
+                    width: 'calc(100% - 250px)',
                     title: ['帮助文档', 'view'],
                     component: 'help-info-page',
                     okButtonVisible: false
                 })
             }
         },
+
         async mounted() {
             //加载菜单
             this.loadMenus();
-            // 获取日切值
-            this.localTime = new Date();
+
             this.getChangeDate();
             this.getUnreadCount();
+            this.getUserSkin();
             this.bizDateTimer = setInterval(() => {
                 this.getChangeDate();
                 this.getUnreadCount();
             }, 300000);
-            this.localTimer = setInterval( ()=> {
-                this.localTime = new Date();
-            }, 1000);
+
             //默认加载首页、部门首页
             this.$nav.closeAllTab();
             this.showMain();

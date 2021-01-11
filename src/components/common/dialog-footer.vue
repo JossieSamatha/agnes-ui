@@ -57,7 +57,7 @@
     }
 
     .el-dialog .dialog-footer-bar.footer > button.el-button--primary {
-        border-color: #476DBE;
-        background-color: #476DBE;
+        border-color: #0f5eff;
+        background-color: #0f5eff;
     }
 </style>

@@ -58,25 +58,23 @@
                 const row = params.data;
                 if (row.taskType === '01'||row.taskType === '1') {
                     this.$drawerPage.create({
-                        width: 'calc(97% - 215px)',
+                        width: 'calc(100% - 250px)',
                         title: [row.stepName + '-详情'],
                         component: KpiDef,
                         args: {row,type:'done'},
                         // okButtonTitle: row.isCheck ? '审核' : '保存',
                         okButtonVisible:false,
                         cancelButtonTitle: '关闭',
-                        pageEl: this.$el
                     });
                 }else if(row.taskType === '06'||row.taskType === '6'){
                     this.$drawerPage.create({
-                        width: 'calc(97% - 215px)',
+                        width: 'calc(100% - 250px)',
                         title: [row.stepName + '-详情'],
                         component: PersonTaskDetail,
                         args: {row,type:'done'},
                         // okButtonTitle: row.isCheck ? '审核' : '保存',
                         okButtonVisible:false,
                         cancelButtonTitle: '关闭',
-                        pageEl: this.$el
                     });
                 }
             },

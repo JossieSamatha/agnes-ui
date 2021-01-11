@@ -20,21 +20,22 @@
     <grid-layout ref="gridLayout" :layout="gridData"
         :col-num="colNum"
         :margin="gridMargin"
-        :row-height="boardUnitHeight"
+        :row-height="rowHeight"
         :autoSize="autoSize"
         :is-draggable="isDraggable"
         :is-resizable="isResizable"
         :vertical-compact="verticalCompact"
-        :use-css-transforms="useCssTransforms"
         v-bind="extAttr"
         v-on="extEvent">
-        <grid-item v-for="(item,itemIndex) in gridData" :key="item.i"
-            :x="item.x"
-            :y="item.y"
-            :w="item.w"
-            :h="item.h"
-            :i="item.i"
-            @resized="gridItemResized">
+        <grid-item v-for="(item,itemIndex) in gridData"
+                   :key="item.i"
+                   :class="{rightPined: parseInt(item.x)>=8, 'attach-top': item.x === item.y && item.x === 0}"
+                   :x="parseInt(item.x)"
+                   :y="parseInt(item.y)"
+                   :w="parseInt(item.w)"
+                   :h="parseInt(item.h)"
+                   :i="item.i"
+                   @resized="gridItemResized">
             <span class="delUnitGrid" @click="delBoardUnit(item.i, itemIndex)" v-if="ifCloseIconShow">
                 <em class="fa fa-close"></em>
             </span>
@@ -54,14 +55,14 @@ export default {
             type: Number,
             default: 12
         },
-        rowNum:{
+        rowHeight: {
             type: Number,
-            default: 6
+            default: 60
         },
         gridMargin: {
             type: Array,
             default() {
-                return [5, 5];
+                return [24, 24];
             }
         },
         isGridDefine: {
@@ -91,15 +92,10 @@ export default {
         return {
             isDraggable: false,        // 面板是否可移动
             isResizable: false,        // 面板是否可拖拽
-            // 面板gird信息
-            boardUnitHeight: 0,     // 面板初始单元高度
+            parseInt: (num)=>{
+                return parseInt(num);
+            }
         }
-    },
-    mounted() {
-        this.getRowHeight();
-        window.addEventListener('resize', () => {
-            this.getRowHeight();
-        });
     },
     watch: {
         isGridDefine: {
@@ -111,17 +107,7 @@ export default {
             immediate: true
         }
     },
-    computed: {
-    },
     methods: {
-        // 获取父元素高度计算行高
-        getRowHeight(){
-            if(this.$refs.gridLayout){
-                const boardHeight = this.$refs.gridLayout.$el.clientHeight;
-                this.boardUnitHeight = (boardHeight-this.gridMargin[1]*(this.rowNum+1)) / this.rowNum;
-            }
-        },
-
         // 面板grid -- 新增单元
         addBoardUnit(newUnitObj){
             this.gridData.push(newUnitObj);

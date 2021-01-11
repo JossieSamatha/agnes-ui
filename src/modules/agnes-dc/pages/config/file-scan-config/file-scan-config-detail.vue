@@ -260,7 +260,7 @@
         top: 15px;
         right: 165px;
         font-size: 20px;
-        color: #476Dbe;
+        color: #0f5eff;
         cursor: pointer;
     }
 </style>

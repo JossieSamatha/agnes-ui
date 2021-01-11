@@ -39,7 +39,7 @@
 }
 
 .template-container:hover::-webkit-scrollbar-thumb {
-    background: rgba(135, 141, 153, .3);
+    background: #D7DBE4;
 }
 
 .template-item {
@@ -77,12 +77,12 @@
 }
 
 .template-item.new:hover {
-    border: 2px #476DBE dashed;
+    border: 2px #0f5eff dashed;
 }
 
 .template-item.new:hover .el-icon-plus,
 .template-item.new:hover .component-label {
-    color: #476DBE;
+    color: #0f5eff;
 }
 
 .template-item > div {
@@ -156,8 +156,8 @@
 }
 
 .template-item .img-canvas .buttonP > button.el-button--primary {
-    background-color: #476DBE;
-    border-color: #476DBE;
+    background-color: #0f5eff;
+    border-color: #0f5eff;
 }
 
 .template-item .img-canvas .buttonP > button.el-button--primary:hover {
@@ -171,7 +171,7 @@
 }
 
 .template-item .img-canvas .buttonP > button.el-button--default:hover {
-    color: #476DBE;
+    color: #0f5eff;
     background-color: #fff;
 }
 
@@ -664,12 +664,12 @@
 
 .template-edit-page .content .template-board-container > .pageScale
 .pageWSlider .el-slider__runway:not(.disabled).show-input .el-slider__bar {
-    background: #476DBE;
+    background: #0f5eff;
 }
 
 .template-edit-page .content .template-board-container > .pageScale
 .pageWSlider .el-slider__runway:not(.disabled).show-input .el-slider__button {
-    border-color: #476DBE;
+    border-color: #0f5eff;
 }
 
 .template-edit-page .content .template-board-container > .pageScale
