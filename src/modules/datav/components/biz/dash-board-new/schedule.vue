@@ -96,7 +96,12 @@
 
             startInterval(){
                 this.freshInterval = setInterval(() => {
-                    this.initDate();
+                    if (this.pageType === 'personal' && this.$route.path === '/datav.client.view' ||
+                        this.pageType === 'department' && this.$route.path === '/datav.dep.view') {
+                        this.initDate();
+                    }else{
+                        this.clearInterval();
+                    }
                 }, this.intervalMin);
             },
 

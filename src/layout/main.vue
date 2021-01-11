@@ -25,7 +25,6 @@
         <template slot="sidebar-menu" slot-scope="props">
             <gf-vertical-expand v-show="!props.maximizeView"
                                 :allMenu="menus.allMenu"
-                                :markMenu="menus.markMenu"
                                 @studioTypeChange="studioTypeChange"
             >
             </gf-vertical-expand>
@@ -192,7 +191,7 @@
             // 获取用户皮肤
             getUserSkin(){
                 this.$api.HomePageApi.DopRuUserSkin().then((res)=>{
-                    this.userSkin = res.data ? res.data : 'default-blue';
+                    this.userSkin = res.data && res.data.image ? res.data.image : 'default-blue';
                     const bgDom = document.getElementsByClassName('gf-layout-default');
                     if(bgDom && bgDom.length>0){
                         bgDom[0].style['background-image'] = 'url('+ this.getImgPath(this.userSkin) +')';
@@ -213,10 +212,14 @@
                     {
                         width: '700px',
                         title: '更换皮肤',
+                        closeOnClickModal: false,
                         args: {
                             curSkin: this.userSkin,
-                            actionOk: ()=>{
+                            actionOk: () => {
                                 this.getUserSkin();
+                            },
+                            skinChange: (skin) => {
+                                this.userSkin = skin
                             }
                         }
                     }

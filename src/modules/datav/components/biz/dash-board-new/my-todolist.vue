@@ -1,11 +1,19 @@
 <template>
     <div class="strip-comp-container" v-clickoutside="clickoutside">
-        <div class="strip-comp-block" style="margin-bottom: 15px;">
-            <div class="strip-comp" style="background: transparent;border: 1px solid #F7F7F7;">
-                <span class="info account" @click="todoForAcntApply">
+        <div class="strip-comp-block"
+             :class="{'active': choosedTaskId === 'account'}"
+             @click="choosedTask({taskId: 'account'})"
+             style="margin-bottom: 15px;">
+            <div class="strip-comp">
+                <span class="status" style="background: #0f5eff"></span>
+                <span class="info account">
                     <em class="fa fa-external-link-square" style="margin-right: 5px"></em>
                     可以复核的账户申请{{[this.needTodoOfAcnt]}}笔</span>
                 <span class="type">账户申请</span>
+            </div>
+            <div class="deal" @click="todoForAcntApply">
+                <svg-icon name="lightning" color="#fff"></svg-icon>
+                <span>快速查看</span>
             </div>
         </div>
         <transition-group name="slide">
@@ -135,7 +143,11 @@
 
             startInterval(){
                 this.freshInterval = setInterval(() => {
-                    this.initData();
+                    if (this.$route.path === '/datav.client.view') {
+                        this.initData();
+                    }else{
+                        this.clearInterval();
+                    }
                 }, this.intervalMin);
             },
 
@@ -204,12 +216,12 @@
         text-overflow: ellipsis;
     }
 
-    .strip-comp .info.account {
-        color: #0f5eff;
-        text-decoration: underline;
-        font-size: 14px;
-        cursor: pointer;
-    }
+    /*.strip-comp .info.account {*/
+    /*    color: #0f5eff;*/
+    /*    text-decoration: underline;*/
+    /*    font-size: 14px;*/
+    /*    cursor: pointer;*/
+    /*}*/
 
     .strip-comp .type {
         white-space: nowrap;

@@ -18,7 +18,7 @@
             reloadData() {
                 this.$refs.grid.reloadData();
             },
-            showDlg(mode, row,ui, actionOk,type) {
+            showDlg(mode, row, ui, actionOk,type) {
                 if (mode !== 'add' && !row) {
                     this.$msg.warning("请选中一条记录!");
                     return;
@@ -35,7 +35,7 @@
                }else {
                     let title = this.$dialog.formatTitle("处理异常",mode);
                     if(mode == 'check'){
-                        title = '';
+                        title = '异常处理-审核';
                     }
                     this.$nav.showDialog(
                         MonitorErrType,

@@ -24,15 +24,36 @@
     export default {
         props: {
             pagetype: String,
+            quartzTime: String,
         },
         data() {
             return {
                 proTask: [],
-                carouselShow: false
+                carouselShow: false,
+                freshInterval: null,
             }
         },
         mounted() {
             this.getData();
+            this.startInterval();
+        },
+        watch: {
+            // 监听,当路由发生变化的时候执行
+            $route(to, from) {
+                if (from.path === '/datav.dep.view') {
+                    this.clearInterval();
+                }
+                if (to.path === '/datav.dep.view') {
+                    this.startInterval();
+                }
+            }
+        },
+
+        computed: {
+            intervalMin(){
+                const quartzTime = this.quartzTime ? this.quartzTime : '5';
+                return parseInt(quartzTime)*60*1000;
+            }
         },
         methods: {
             async getData() {
@@ -49,6 +70,20 @@
             rateCalc(numerator, denominator) {
                 const rate = parseFloat((numerator / denominator).toFixed(2));
                 return rate;
+            },
+
+            startInterval(){
+                this.freshInterval = setInterval(() => {
+                    if (this.$route.path === '/datav.dep.view') {
+                        this.getData();
+                    }else{
+                        this.clearInterval();
+                    }
+                }, this.intervalMin);
+            },
+
+            clearInterval(){
+                clearInterval(this.freshInterval);
             }
         },
     }

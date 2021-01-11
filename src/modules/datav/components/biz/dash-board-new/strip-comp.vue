@@ -62,7 +62,12 @@
             },
             startInterval(){
                 this.freshInterval = setInterval(() => {
-                    this.getData();
+                    if (this.pageType === 'personal' && this.$route.path === '/datav.client.view' ||
+                        this.pageType === 'department' && this.$route.path === '/datav.dep.view') {
+                        this.getData();
+                    }else{
+                        this.clearInterval();
+                    }
                 }, this.intervalMin);
             },
 
