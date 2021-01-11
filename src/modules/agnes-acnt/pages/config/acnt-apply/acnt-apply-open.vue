@@ -179,8 +179,11 @@
               <el-form-item v-if="detailForm.isSendOa==='1'" label="用印文件" prop="fileTable">
                 <div class="rule-table">
                   <acc-ecm-upload style="width: 100%;"
+                                  :id="this.oaMaterialApplyId"
+                                  :apply-type="this.oaMaterialType"
                                   :disabled="this.mode !== 'add' && this.mode !=='addChange' && this.mode !=='edit' && this.mode !=='addInfo' && this.mode !=='deteleApply'"
                                   :showRemove="this.mode === 'add' || this.mode ==='addChange' || this.mode ==='edit' || this.mode ==='addInfo'|| this.mode ==='deteleApply'"
+                                  :showDelete="this.mode === 'add' || this.mode ==='addChange' || this.mode ==='edit' || this.mode ==='addInfo'|| this.mode ==='deteleApply'"
                                   :src-doc-id="srcDocId" :file-list="detailForm.fileList">
                   </acc-ecm-upload>
                 </div>
@@ -689,6 +692,8 @@
         },
         data() {
             return {
+              oaMaterialApplyId:'',
+              oaMaterialType:'',
               rosterDate: '',
               memberRefList: [],
               serviceRes: [],
@@ -914,23 +919,32 @@
 
                     //资料文件列表加载(主流程)
                     if(this.detailForm.applyId && !this.isSubDis){
+                        this.oaMaterialApplyId = this.detailForm.applyId;
+                        this.oaMaterialType = "apply";
                         let fileList = await this.$api.acntMaterialApi.getApplyMaterialList(this.detailForm.applyId,'0');
                         if(fileList.data != null){
                             this.detailForm.fileList = fileList.data;
-                            if(this.detailForm.fileList[0] != null){
-                                this.srcDocId = this.detailForm.fileList[0].docId;
+                            for(let i=0;i<this.detailForm.fileList.length;i++){
+                                if(this.detailForm.fileList[i].type === '1'){
+                                    this.srcDocId = this.detailForm.fileList[i].docId;
+                                    break;
+                                }
                             }
                         }
                     }else if(this.detailForm.applySubId && this.isSubDis){
+                        this.oaMaterialApplyId = this.detailForm.applySubId;
+                        this.oaMaterialType = "applySub";
                         let fileList = await this.$api.acntMaterialApi.getApplySubMaterialList(this.detailForm.applySubId);
                         if(fileList.data != null){
                             this.detailForm.fileList = fileList.data;
-                            if(this.detailForm.fileList[0] != null){
-                                this.srcDocId = this.detailForm.fileList[0].docId;
+                            for(let i=0;i<this.detailForm.fileList.length;i++){
+                                if(this.detailForm.fileList[i].type === '1'){
+                                    this.srcDocId = this.detailForm.fileList[i].docId;
+                                    break;
+                                }
                             }
                         }
                     }
-
                     this.loadProductName();
                     this.loadProductNameBeafore();
                 } catch (reason) {
