@@ -18,6 +18,9 @@ export default {
     updateTask(form) {
         return request.post(`/data-pipe/hexETL/task/updateTask`, form);
     },
+    execute(taskId) {
+        return request.post(`/data-pipe/hexETL/task/executeTask`, null, {params: {taskId}});
+    },
     //变量定义api
     queryAll() {
         return request.post(`/data-pipe/hexETL/var/queryAll`);
