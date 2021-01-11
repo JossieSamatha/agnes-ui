@@ -9,7 +9,7 @@
                 <em class="el-icon-circle-check" v-show="skin === choosed"></em>
             </li>
         </ul>
-        <dialog-footer :on-save="onSave" ok-button-title="确认" ></dialog-footer>
+        <dialog-footer :on-save="onSave" :on-cancel="onCancel" ok-button-title="确认" ></dialog-footer>
     </div>
 </template>
 
@@ -18,6 +18,7 @@
         props: {
             curSkin: String,
             actionOk: Function,
+            skinChange: Function
         },
         data() {
             return {
@@ -28,21 +29,19 @@
                 choosed: 'default-blue'
             }
         },
-        watch: {
-            curSkin(newVal, oldVal){
-                if(newVal && newVal !== oldVal){
-                    this.choosed = newVal;
-                }
-            }
+        mounted() {
+            this.choosed = this.curSkin;
         },
         methods: {
             onCancel(){
+                this.$dialog.close(this, 'cancel');
                 this.actionOk();
             },
             async onSave() {
                 try {
                     const res = this.$api.HomePageApi.saveBackImgOfUser({image: this.choosed});
                     await this.$app.blockingApp(res);
+                    this.skinChange(this.choosed);
                     this.$dialog.close(this);
                     this.$msg.success('保存成功');
                 } catch(reason) {

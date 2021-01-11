@@ -3,9 +3,9 @@
         <div id="gfVerticalExpand" class="gf-vertical-expand" :class="ifSideMenuFlod?'fold':''">
             <div class="gf-app-logo">
 <!--                <svg-icon name="HuaAn-logo" height="33px"/>-->
-                <img src="../../../assets/logo-white.png" height="40px">
+                <img src="../../../assets/hex-logo.png" height="40px">
             </div>
-            <div class="gf-menu normal">
+            <div class="gf-menu normal" v-show="!ifSideMenuFlod">
                 <div class="content" v-clickoutside="clearCancelPopover">
                     <span class="gf-menu-item noneMenu">
                         <em class="menuicon fa fa-star"></em>
@@ -27,12 +27,12 @@
                     </div>
                 </div>
             </div>
-            <div class="split-line"></div>
+            <div class="split-line" v-show="markMenu.length>0 && !ifSideMenuFlod"></div>
             <div ref="dragColumn" class="gf-menu mark-menu" :style="{height: fastMenuHeight}">
                 <el-tooltip v-for="menu in allMenu.children" :key="menu.menuid" :disabled="!ifSideMenuFlod" effect="dark" :content="menu.menuname" placement="right">
                     <div class="gf-menu-item"
                          :class="{'is-hover': curSideMenu.menuid === menu.menuid, 'active': menu.menusCodesStore.includes(activeFirstMenu)}"
-                         @mouseover="menuChoose(menu)"
+                         @click="menuChoose(menu)"
                     >
                         <svg-icon class="menuicon" v-if="getMenuIcon(menu.menuicon).ifSvg" :name="getMenuIcon(menu.menuicon).icon" width="46px" height="16px"/>
                         <em class="menuicon" v-else :class="getMenuIcon(menu.menuicon).icon"></em>
@@ -56,7 +56,11 @@
                 </div>
             </div>
         </div>
-        <gf-side-menu id="gf-side-menu" v-if="showSideMenu" :sideMenu="curSideMenu" :markMenu="markMenu" :style="sideMenuStyle"
+        <div class="side-menu-mask"
+             v-show="showSideMenu"
+             @click="showSideMenu = false"
+        ></div>
+        <gf-side-menu id="gf-side-menu" v-show="showSideMenu" :sideMenu="curSideMenu" :markMenu="markMenu" :style="sideMenuStyle"
                       @markMenuChange="getMarkMenu"
                       @closeSideMenu="closeSideMenu">
             <p class="arrow" slot="arrow" :style="{top: arrowTop+'px'}"></p>
@@ -65,6 +69,21 @@
 </template>
 <script>
     export default {
+        props: {
+            platFormTitle: {
+                type: String,
+                default: '产品服务'
+            },
+            allMenu: {
+                type: Object,
+                default: function () {
+                    return {
+                        id: 'root',
+                        children: []
+                    }
+                }
+            }
+        },
         data() {
             return {
                 curSideMenu: {},
@@ -80,21 +99,6 @@
                 arrowTop: '',
                 sideMenuStyle: {top: 0, bottom: 'auto'},
             };
-        },
-        props: {
-            platFormTitle: {
-                type: String,
-                default: '产品服务'
-            },
-            allMenu: {
-                type: Object,
-                default: function () {
-                    return {
-                        id: 'root',
-                        children: []
-                    }
-                }
-            }
         },
         beforeMount() {
             const p = this.getMarkMenu();
@@ -247,5 +251,17 @@
         color: #333;
         height: 22px;
         line-height: 20px;
+    }
+
+    .side-menu-mask {
+        position: fixed;
+        left: 201px;
+        width: 100%;
+        height: 100%;
+        z-index: 2007;
+    }
+
+    .left-side-container.fold .side-menu-mask {
+        left: 72px;
     }
 </style>

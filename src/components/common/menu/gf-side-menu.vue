@@ -5,6 +5,7 @@
             <div class="header">
                 <el-input class="search" placeholder="请输入关键词" suffix-icon="el-icon-search"
                           v-model="searchValue"></el-input>
+                <em class="side-menu-close-icon el-icon-close" @click="closeSideMenu"></em>
             </div>
             <div class="scroll-container">
                 <div class="content">
@@ -39,13 +40,6 @@
 </template>
 <script>
     export default {
-        data() {
-            return {
-                searchValue: '',
-                activeMenu: '',
-                showMenu:{children:[]},
-            };
-        },
         props: {
             sideMenu: {
                 type: Object,
@@ -63,18 +57,29 @@
                 }
             }
         },
+        data() {
+            return {
+                searchValue: '',
+                activeMenu: '',
+                showMenu:{children:[]},
+            };
+        },
         mounted(){
             this.loadShowMenu();
         },
         computed: {
             secondMenuObj() {
-                return this.showMenu.children.map(function (menu) {
-                    if (!menu.children) {
-                        menu.children = [];
-                        menu.children.push(menu);
-                    }
-                    return menu;
-                });
+                if(this.showMenu && this.showMenu.children && this.showMenu.children.length>0){
+                    return this.showMenu.children.map(function (menu) {
+                        if (!menu.children) {
+                            menu.children = [];
+                            menu.children.push(menu);
+                        }
+                        return menu;
+                    });
+                }else{
+                    return false;
+                }
             }
         },
         methods: {
@@ -156,3 +161,12 @@
         }
     }
 </script>
+<style scoped>
+    .side-menu-close-icon {
+        position: absolute;
+        right: 20px;
+        top: -5px;
+        font-size: 18px;
+        cursor: pointer;
+    }
+</style>

@@ -122,7 +122,12 @@
 
             startInterval(){
                 this.freshInterval = setInterval(() => {
-                    this.getCalendarData(this.todayDate);
+                    if (this.pageType === 'personal' && this.$route.path === '/datav.client.view' ||
+                        this.pageType === 'department' && this.$route.path === '/datav.dep.view') {
+                        this.getCalendarData(this.todayDate);
+                    }else{
+                        this.clearInterval();
+                    }
                 }, this.intervalMin);
             },
 

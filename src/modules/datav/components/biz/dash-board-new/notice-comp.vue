@@ -69,7 +69,11 @@
             },
             startInterval(){
                 this.freshInterval = setInterval(() => {
-                    this.initData();
+                    if (this.$route.path === '/datav.client.view') {
+                        this.initData();
+                    }else{
+                        this.clearInterval();
+                    }
                 }, this.intervalMin);
             },
 

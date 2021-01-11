@@ -189,7 +189,11 @@
             },
             startInterval(){
                 this.freshInterval = setInterval(() => {
-                    this.getData();
+                    if (this.$route.path === '/datav.client.view') {
+                        this.getData();
+                    }else{
+                        this.clearInterval();
+                    }
                 }, this.intervalMin);
             },
 
