@@ -82,7 +82,7 @@
             },
             disabled: {
                 type: Boolean,
-                default:false
+                default:true
             },
             showFileDowload: {
                 type: Boolean,
