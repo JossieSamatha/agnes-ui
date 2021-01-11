@@ -210,6 +210,7 @@
             },
             reloadData() {
                 this.$refs.grid.reloadData();
+                this.loadCount();
             },
             dataChange(params) {
                 this.tableData = [];
@@ -304,7 +305,7 @@
             },
             onOpenApply(){
                 this.reloadData();
-                this.loadCount();
+                // this.loadCount();
             },
             openApply() {
                 this.showOpenDlg('add', {}, this.onOpenApply.bind(this));
@@ -588,6 +589,8 @@
             async testBtn(){
                 //测试触发tab小红点加载
                 this.$emit('loadCount', {data: this.loadCount});
+                // let resp = await this.$api.acntApplyApi.createDocAndGetDocId("2");
+                // alert(resp.data.objectId);
             }
         }
     }

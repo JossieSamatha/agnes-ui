@@ -181,7 +181,7 @@
                   <acc-ecm-upload style="width: 100%;"
                                   :id="this.oaMaterialApplyId"
                                   :apply-type="this.oaMaterialType"
-                                  :disabled="this.mode !== 'add' && this.mode !=='addChange' && this.mode !=='edit' && this.mode !=='addInfo' && this.mode !=='deteleApply'"
+                                  :disabled="!srcDocId || (this.mode !== 'add' && this.mode !=='addChange' && this.mode !=='edit' && this.mode !=='addInfo' && this.mode !=='deteleApply')"
                                   :showRemove="this.mode === 'add' || this.mode ==='addChange' || this.mode ==='edit' || this.mode ==='addInfo'|| this.mode ==='deteleApply'"
                                   :showDelete="this.mode === 'add' || this.mode ==='addChange' || this.mode ==='edit' || this.mode ==='addInfo'|| this.mode ==='deteleApply'"
                                   :src-doc-id="srcDocId" :file-list="detailForm.fileList">
@@ -945,6 +945,16 @@
                             }
                         }
                     }
+
+                    //
+                    if(loadsh.isEmpty(this.srcDocId)
+                        &&(this.mode === 'add' || this.mode === 'addChange' ||this.mode === 'deteleApply'||this.mode === 'addInfo' )){
+                        let resp = await this.$api.acntApplyApi.createDocAndGetDocId("2");
+                        if(resp.data){
+                            this.srcDocId = resp.data.objectId;
+                        }
+                    }
+
                     this.loadProductName();
                     this.loadProductNameBeafore();
                 } catch (reason) {

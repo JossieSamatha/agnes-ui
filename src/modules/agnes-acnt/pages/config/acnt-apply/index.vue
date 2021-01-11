@@ -1,5 +1,5 @@
 <template>
-    <el-tabs class="root" v-model="activeName">
+    <el-tabs class="root" v-model="activeName" @tab-click="loadCount">
         <el-tab-pane name="unfinishedApply"  style="height: 100%">
             <span slot="label">
                 <span>申请中</span>
@@ -16,7 +16,7 @@
 <!--                <el-badge :value="5" v-if="true" size="mini" class="item"></el-badge>-->
             </span>
 
-            <acnt-apply-index-finished></acnt-apply-index-finished>
+            <acnt-apply-index-finished  @loadCount="loadCount"></acnt-apply-index-finished>
 <!--            <acnt-apply-index-tab-pane :apply-tab-name="finishedApply"></acnt-apply-index-tab-pane>-->
 
         </el-tab-pane>
@@ -26,7 +26,7 @@
 <!--                <el-badge :value="5" v-if="true" size="mini" class="item"></el-badge>-->
             </span>
 
-            <acnt-apply-index-canceled></acnt-apply-index-canceled>
+            <acnt-apply-index-canceled  @loadCount="loadCount"></acnt-apply-index-canceled>
 <!--            <acnt-apply-index-tab-pane :apply-tab-name="canceledApply"></acnt-apply-index-tab-pane>-->
 
 
