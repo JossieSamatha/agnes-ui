@@ -179,7 +179,7 @@
               <el-form-item v-if="detailForm.isSendOa==='1'" label="用印文件" prop="fileTable">
                 <div class="rule-table">
                   <acc-ecm-upload style="width: 100%;"
-                                  :disabled="this.mode !== 'add' && this.mode !=='addChange' && this.mode !=='edit' && this.mode !=='addInfo' && this.mode !=='deteleApply'"
+                                  :disabled="!srcDocId || (this.mode !== 'add' && this.mode !=='addChange' && this.mode !=='edit' && this.mode !=='addInfo' && this.mode !=='deteleApply')"
                                   :showRemove="this.mode === 'add' || this.mode ==='addChange' || this.mode ==='edit' || this.mode ==='addInfo'|| this.mode ==='deteleApply'"
                                   :src-doc-id="srcDocId" :file-list="detailForm.fileList">
                   </acc-ecm-upload>
@@ -928,6 +928,15 @@
                             if(this.detailForm.fileList[0] != null){
                                 this.srcDocId = this.detailForm.fileList[0].docId;
                             }
+                        }
+                    }
+
+                    //
+                    if(loadsh.isEmpty(this.srcDocId)
+                        &&(this.mode === 'add' || this.mode === 'addChange' ||this.mode === 'deteleApply'||this.mode === 'addInfo' )){
+                        let resp = await this.$api.acntApplyApi.createDocAndGetDocId("2");
+                        if(resp.data){
+                            this.srcDocId = resp.data.objectId;
                         }
                     }
 
