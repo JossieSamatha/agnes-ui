@@ -186,6 +186,7 @@
             },
             reloadData() {
                 this.$refs.grid.reloadData();
+                this.loadCount();
             },
             dataChange(params) {
                 this.tableData = [];
@@ -555,6 +556,9 @@
                 setTimeout(()=>{
                     this.pointerShow = false;
                 }, 4500)
+            },
+            async loadCount(){
+                this.$emit('loadCount', {data: this.loadCount});
             }
         }
     }
