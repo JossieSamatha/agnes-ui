@@ -8,7 +8,9 @@
                 <span class="status" style="background: #0f5eff"></span>
                 <span class="info account">
                     可以复核的账户申请
-                        <span style="color: #0f5eff;font-size: 14px;font-weight: bold">{{this.needTodoOfAcnt}}</span> 笔
+                        <span style="font-size: 14px;font-weight: bold"
+                              :style="{color: choosedTaskId === 'account' ? '#fff' : '#0f5eff'}"
+                        >{{this.needTodoOfAcnt}}</span> 笔
                 </span>
                 <span class="type">账户申请</span>
                 <span class="date-time" style="display: block;width: 134px"></span>
