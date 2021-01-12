@@ -10,7 +10,7 @@
                     可以复核的账户申请
                         <span style="color: #0f5eff;font-size: 14px;font-weight: bold">{{this.needTodoOfAcnt}}</span> 笔
                 </span>
-                <span class="type">账户申请</span>
+                <span class="type">账户申请管理</span>
                 <span class="date-time" style="display: block;width: 134px"></span>
             </div>
             <div class="deal" @click="todoForAcntApply">
