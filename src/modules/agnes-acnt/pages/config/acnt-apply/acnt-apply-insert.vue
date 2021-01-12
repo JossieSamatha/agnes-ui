@@ -414,7 +414,18 @@
                         <!--                        </el-form-item>-->
 
                     </div>
-
+                    <div v-if="detailForm.isSendOa==='1'" class="line">
+                        <el-form-item v-if="detailForm.isSendOa==='1'" label="账户回执" prop="fileTable">
+                            <div class="rule-table">
+                                <acc-ecm-upload style="width: 100%;"
+                                                :disabled="this.detailForm.processStatus==='07'?true:false"
+                                                :applyType="this.receipt"
+                                                :showRemove="this.detailForm.processStatus==='06'?true:false"
+                                                :file-list="detailForm.receiptFileList">
+                                </acc-ecm-upload>
+                            </div>
+                        </el-form-item>
+                    </div>
                 </template>
             </module-card>
 
@@ -744,6 +755,7 @@
                 loading: false,
                 rosterDate:'',
                 memberRefList:[],
+                receipt:'receipt',
                 serviceRes:[],
                 staticData: {},
                 acntStatusOption: [{value: '01', label: '正常'}, {value: '03', label: '锁定'}, {value: '04', label: '久悬户'}],
@@ -794,7 +806,8 @@
                     fields:[],
                     crtUser:'',
                     updateUser:'',
-                    fileList: []
+                    fileList: [],
+                    receiptFileList:[],
                 },
                 detailFormBefore: {
                   typeCode: '',
@@ -1044,11 +1057,18 @@
                     if(this.detailForm.applyId){
                         let fileList = await this.$api.acntMaterialApi.getApplyMaterialList(this.detailForm.applyId,'0');
                         if(fileList.data != null){
-                            this.detailForm.fileList = fileList.data;
-                            if(this.detailForm.fileList[0] != null){
-                                this.srcDocId = this.detailForm.fileList[0].docId;
+                            for(let i=0;i<fileList.data.length;i++){
+                                if(fileList.data[i].type === '1'){
+                                    this.srcDocId = fileList.data[i].docId;
+                                    this.detailForm.fileList.push(fileList.data[i]);
+                                }else if(fileList.data[i].type === '2'){
+                                    this.detailForm.fileList.push(fileList.data[i]);
+                                }else {
+                                    this.detailForm.receiptFileList.push(fileList.data[i]);
+                                }
                             }
                         }
+
                     }
 
                     //获取账户关联表数据
@@ -1168,6 +1188,9 @@
                         //状态机控制
                         if(this.detailForm.processStatus=='06'){
                             form.processStatus = '07';
+                            if(this.detailForm.receiptFileList.length>0){
+                                form.fileList = form.fileList.concat(this.detailForm.receiptFileList);
+                            }
                         }else if(this.detailForm.processStatus=='07'){
                             form.processStatus = '08';
                         }
