@@ -70,17 +70,20 @@
                 try {
                     const p = this.$api.dataPipeApi.updateTaskStatus(params.data);
                     await this.$app.blockingApp(p);
-                    this.reloadData();
+                  this.reloadData();
                 } catch (reason) {
-                    this.$msg.error(reason);
+                  this.$msg.error(reason);
                 }
             },
-            start(params){
-                this.updateTaskStatus(params);
-            },
-            stop(params){
-                this.updateTaskStatus(params);
-            }
+          start(params) {
+            this.updateTaskStatus(params);
+          },
+          stop(params) {
+            this.updateTaskStatus(params);
+          },
+          execute(params) {
+            console.log(params)
+          }
         }
     }
 

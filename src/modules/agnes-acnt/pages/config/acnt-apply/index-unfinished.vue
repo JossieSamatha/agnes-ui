@@ -265,26 +265,32 @@
                 title = '资料准备';
                 okButtonTitle = '提交';
               } else if (mode === 'checkFund') {
-                    title = '财务流程';
-                    okButtonTitle = '审核';
-                }
+                title = '财务流程';
+                okButtonTitle = '审核';
+              }
 
-                if(!this.$lodash.isEmpty(row.applySubId)){
-                    title = title + '-子流程'
-                }
+              if (!this.$lodash.isEmpty(row.applySubId)) {
+                title = title + '-子流程'
+              }
 
-                let customOpBtn = [];
-                if(mode==='check' || mode==='checkFund'){
-                    customOpBtn = [
-                        {title: okButtonTitle, className: 'primary', action: 'onSave'},
-                        {title: '反审核', className: 'primary', action: 'onCancelCheck'},
-                        {title: '取消', action: 'onCancel'},
-                    ]
-                }else if(mode==='view'){
-                    customOpBtn = [
-                        {title: '关闭', action: 'onCancel'}
-                    ]
-                }else{
+              let customOpBtn = [];
+              if (mode === 'add' || mode === 'edit') {
+                customOpBtn = [
+                  {title: okButtonTitle, className: 'primary', action: 'onSave'},
+                  {title: '暂存', className: 'primary', action: 'temporarySave'},
+                  {title: '取消', action: 'onCancel'},
+                ]
+              } else if (mode === 'check' || mode === 'checkFund') {
+                customOpBtn = [
+                  {title: okButtonTitle, className: 'primary', action: 'onSave'},
+                  {title: '反审核', className: 'primary', action: 'onCancelCheck'},
+                  {title: '取消', action: 'onCancel'},
+                ]
+              } else if (mode === 'view') {
+                customOpBtn = [
+                  {title: '关闭', action: 'onCancel'}
+                ]
+              } else {
                     customOpBtn = [
                         {title: okButtonTitle, className: 'primary', action: 'onSave'},
                         {title: '取消', action: 'onCancel'}
@@ -451,27 +457,33 @@
 
             showInsertDlg(mode, row, actionOk) {
                 if (mode !== 'add' && !row) {
-                    this.$msg.warning("请选中一条记录!");
-                    return;
+                  this.$msg.warning("请选中一条记录!");
+                  return;
                 }
 
-                let title = '信息录入';
-                if(mode === 'check'){
-                    title = '信息复核';
-                }
+              let title = '信息录入';
+              if (mode === 'check') {
+                title = '信息复核';
+              }
 
-                let customOpBtn = [];
-                if(mode==='check'){
-                    customOpBtn = [
-                        {title: '审核', className: 'primary', action: 'onSave'},
-                        {title: '反审核', className: 'primary', action: 'onCancelCheck'},
-                        {title: '取消', action: 'onCancel'},
-                    ]
-                }else if(mode==='view'){
-                    customOpBtn = [
-                        {title: '关闭', action: 'onCancel'}
-                    ]
-                }else{
+              let customOpBtn = [];
+              if (mode === 'add') {
+                customOpBtn = [
+                  {title: '提交', className: 'primary', action: 'onSave'},
+                  {title: '暂存', className: 'primary', action: 'temporarySave'},
+                  {title: '取消', action: 'onCancel'}
+                ]
+              } else if (mode === 'check') {
+                customOpBtn = [
+                  {title: '审核', className: 'primary', action: 'onSave'},
+                  {title: '反审核', className: 'primary', action: 'onCancelCheck'},
+                  {title: '取消', action: 'onCancel'},
+                ]
+              } else if (mode === 'view') {
+                customOpBtn = [
+                  {title: '关闭', action: 'onCancel'}
+                ]
+              } else {
                     customOpBtn = [
                         {title: '提交', className: 'primary', action: 'onSave'},
                         {title: '取消', action: 'onCancel'}

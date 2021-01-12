@@ -13,11 +13,14 @@ export default {
     getAcntInfoByAcntId(acntId) {
         return request.post("/agnes-app/v1/acnt/info/id", null, {params: {acntId}});
     },
+    getAcntInfo(form) {
+        return request.post("/agnes-app/v1/acnt/info/modify", form);
+    },
     getAcntProvisionBankAcntIdsByAcntId(acntId) {
         return request.get(`agnes-app/v1/acnt/info/provision-bank-acnt/ref/ids/acntid`, {params: {acntId}});
     },
     getAcntRuAccNoRefListByAcntId(form) {
-        return request.post(`agnes-app/v1/acnt/info/list/acc-no/by-acnt-id`,form);
+        return request.post(`agnes-app/v1/acnt/info/list/acc-no/by-acnt-id`, form);
     },
     logicDelete(acntId) {
         return request.post("/agnes-app/v1/acnt/info/logicDelete", null, {params: {acntId}});
