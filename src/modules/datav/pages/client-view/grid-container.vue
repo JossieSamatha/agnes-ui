@@ -82,12 +82,12 @@
                 handler: function (val) {
                     let unitObjIds = [];
                     this.$utils.forEach(val, (obj) => {
-                        if(obj[0] && obj[0].id){
-                            unitObjIds.push(obj[0].id);
+                        if(obj[0] && obj[0].compId){
+                            unitObjIds.push(obj[0].compId);
                         }
                     });
                     this.elChooseArr = this.boardStyleArr.filter((item)=>{
-                        return !unitObjIds.includes(item.id);
+                        return item.pageType === this.pageId && !unitObjIds.includes(item.compId);
                     });
                 },
                 deep: true

@@ -5,21 +5,24 @@
                       :colNum="boardColNum"
                       @delBoardUnit="delBoardUnit"
                       :extEvent="{'layout-ready': layoutReadyEvent}">
-        <template slot="grid-item-content" slot-scope="gridProps">
+        <template slot="grid-item-content" slot-scope="{unitGrid, unitGridIndex}">
             <dash-board-content
-                    :draggableList="boardDataObj[gridProps.unitGrid.i]"
-                    :draggableId="gridProps.unitGrid.i"
+                    :draggableList="boardDataObj[unitGrid.i]"
+                    :draggableId="unitGrid.i"
                     :isGridEdit="isGridEdit"
                     @gridUnitDragStart="gridUnitDragStart"
                     @gridUnitDragEnd="gridUnitDragEnd"
                     @gridUnitDragAdd="gridUnitDragAdd"
                     @gridUnitDel="gridUnitDel">
-                <template slot="group-content" slot-scope="contentProps">
+                <template slot="group-content" slot-scope="{unitData}">
                     <component
-                            v-if="contentProps.unitData.compType && ifLayoutReady"
-                            :is="contentProps.unitData.compType"
-                            :pageType="contentProps.unitData.pageType"
-                            v-bind="contentProps.unitData.compParams">
+                            v-if="unitData.compType && ifLayoutReady"
+                            :is="unitData.compType"
+                            :pageType="unitData.pageType"
+                            v-bind="unitData.compParams"
+                            :unitPosData = "{unitId: unitGrid.i, unitGridIndex}"
+                            @hideMyIndex="hideMyIndex"
+                    >
                     </component>
                 </template>
             </dash-board-content>
@@ -71,6 +74,11 @@
             // 面板grid-board-frame -- 删除单元
             delBoardUnit(delUnitId){
                 this.$delete(this.boardDataObj, delUnitId);
+            },
+
+            hideMyIndex(unitPosData){
+              const {unitId, unitGridIndex} = unitPosData;
+              this.$refs.gridBoardBasic.delBoardUnit(unitId, unitGridIndex);
             },
 
             // 面板加载完成

@@ -7,11 +7,13 @@
                    :rules="detailFormRules" label-width="160px">
             <div class="line" >
 
-              <el-form-item  label="账户类型" prop="typeCode">
-                <el-select :disabled="isSubDis || this.detailForm.bizType==='03'" class="multiple-select" v-model="detailForm.typeCode"
+              <el-form-item label="账户类型" prop="typeCode">
+                <el-select :disabled="isSubDis || this.detailForm.bizType==='03'" class="multiple-select"
+                           v-model="detailForm.typeCode"
                            filterable clearable
                            placeholder="请选择"
-                           @change="loadShowRule">
+                           @change="loadShowRule"
+                           :style="{border: detailFormBefore.modifyFileds && detailFormBefore.modifyFileds.typeCode ? '1px solid red':''}">
                   <el-option-group
                       v-for="group in bizTagOption"
                       :key="group.label"
@@ -25,31 +27,40 @@
                   </el-option-group>
                 </el-select>
               </el-form-item>
-              <el-form-item  label="业务类型" prop="bizType">
-                <gf-dict disabled filterable clearable v-model="detailForm.bizType" dict-type="AGNES_ACNT_BIZ_TYPE" />
+              <el-form-item label="业务类型" prop="bizType">
+                <gf-dict disabled filterable clearable v-model="detailForm.bizType" dict-type="AGNES_ACNT_BIZ_TYPE"
+                         :style="{border: detailFormBefore.modifyFileds && detailFormBefore.modifyFileds.bizType ? '1px solid red':''}"/>
               </el-form-item>
             </div>
             <div class="line">
               <el-form-item label="业务发起部门" prop="baseStartDept">
-                <gf-dict :disabled="isSubDis" filterable clearable v-model="detailForm.baseStartDept" dict-type="AGNES_ROSTER_DEPT" />
+                <gf-dict :disabled="isSubDis" filterable clearable v-model="detailForm.baseStartDept"
+                         dict-type="AGNES_ROSTER_DEPT"
+                         :style="{border: detailFormBefore.modifyFileds && detailFormBefore.modifyFileds.baseStartDept ? '1px solid red':''}"/>
               </el-form-item>
               <el-form-item label="业务发起部门联系人" prop="baseStartDeptLinkman">
-                <gf-input :disabled="isSubDis" v-model.trim="detailForm.baseStartDeptLinkman" placeholder="业务发起部门联系人"/>
+                <gf-input :disabled="isSubDis" v-model.trim="detailForm.baseStartDeptLinkman" placeholder="业务发起部门联系人"
+                          :style="{border: detailFormBefore.modifyFileds && detailFormBefore.modifyFileds.baseStartDeptLinkman ? '1px solid red':''}"/>
               </el-form-item>
             </div>
             <div class="line">
               <el-form-item label="业务描述" prop="baseDesc">
-                <gf-input :disabled="isSubDis" v-model.trim="detailForm.baseDesc" type='textarea' placeholder="业务描述" :max-len="200"/>
+                <gf-input :disabled="isSubDis" v-model.trim="detailForm.baseDesc" type='textarea' placeholder="业务描述"
+                          :max-len="200"
+                          :style="{border: detailFormBefore.modifyFileds && detailFormBefore.modifyFileds.baseDesc ? '1px solid red':''}"/>
               </el-form-item>
               <el-form-item label="业务受理部门" prop="baseAcceptDept">
-                <gf-dict :disabled="isSubDis" filterable clearable v-model="detailForm.baseAcceptDept" dict-type="AGNES_ROSTER_DEPT" />
+                <gf-dict :disabled="isSubDis" filterable clearable v-model="detailForm.baseAcceptDept"
+                         dict-type="AGNES_ROSTER_DEPT"
+                         :style="{border: detailFormBefore.modifyFileds && detailFormBefore.modifyFileds.baseAcceptDept ? '1px solid red':''}"/>
               </el-form-item>
             </div>
             <div class="line">
               <el-form-item label="业务受理组" prop="baseAcceptGroup">
                 <el-select :disabled="isSubDis" class="multiple-select" v-model="detailForm.baseAcceptGroup"
                            filterable clearable
-                           placeholder="请选择">
+                           placeholder="请选择"
+                           :style="{border: detailFormBefore.modifyFileds && detailFormBefore.modifyFileds.baseAcceptGroup ? '1px solid red':''}">
                   <gf-filter-option
                       v-for="item in groupOption"
                       :key="item.userGroupId"
@@ -59,9 +70,11 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="归属机构" prop="baseOrgId">
-                <el-select :disabled="isSubDis || this.detailForm.bizType==='03'" class="multiple-select" v-model="detailForm.baseOrgId"
+                <el-select :disabled="isSubDis || this.detailForm.bizType==='03'" class="multiple-select"
+                           v-model="detailForm.baseOrgId"
                            filterable clearable
-                           placeholder="请选择">
+                           placeholder="请选择"
+                           :style="{border: detailFormBefore.modifyFileds && detailFormBefore.modifyFileds.baseOrgId ? '1px solid red':''}">
                   <gf-filter-option
                       v-for="item in OrgList"
                       :key="item.extOrgId"
@@ -73,13 +86,16 @@
             </div>
             <div class="line">
               <el-form-item label="经办人" prop="baseOperator">
-                <gf-input :disabled="isSubDis" v-model.trim="detailForm.baseOperator" placeholder="经办人"/>
+                <gf-input :disabled="isSubDis" v-model.trim="detailForm.baseOperator" placeholder="经办人"
+                          :style="{border: detailFormBefore.modifyFileds && detailFormBefore.modifyFileds.baseOperator ? '1px solid red':''}"/>
               </el-form-item>
               <el-form-item label="基金代码" prop="productCode">
                 <div class="line">
-                  <el-select :disabled="isSubDis || this.detailForm.bizType==='03'" class="multiple-select" v-model="detailForm.productCode"
+                  <el-select :disabled="isSubDis || this.detailForm.bizType==='03'" class="multiple-select"
+                             v-model="detailForm.productCode"
                              filterable clearable
-                             placeholder="请选择">
+                             placeholder="请选择"
+                             :style="{border: detailFormBefore.modifyFileds && detailFormBefore.modifyFileds.productCode ? '1px solid red':''}">
                     <gf-filter-option
                         v-for="item in productList"
                         :key="item.productCode"
@@ -94,7 +110,8 @@
             </div>
             <div class="line">
               <el-form-item label="基金名称" prop="productName">
-                <gf-input type='textarea' disabled v-model.trim="detailForm.productName" placeholder="基金名称"/>
+                <gf-input type='textarea' disabled v-model.trim="detailForm.productName" placeholder="基金名称"
+                          :style="{border: detailFormBefore.modifyFileds && detailFormBefore.modifyFileds.productName ? '1px solid red':''}"/>
               </el-form-item>
 
               <el-form-item label="申请截止日期" prop="applyDeadlineDt">
@@ -102,7 +119,8 @@
                     v-model="detailForm.applyDeadlineDt"
                     type="date"
                     value-format="yyyy-MM-dd"
-                    placeholder="申请日期">
+                    placeholder="申请日期"
+                    :style="{border: detailFormBefore.modifyFileds && detailFormBefore.modifyFileds.applyDeadlineDt ? '1px solid red':''}">
                 </el-date-picker>
               </el-form-item>
             </div>
@@ -123,7 +141,8 @@
             </div>
             <div class="line">
               <el-form-item label="账户状态" prop="acntStatus" v-if="this.detailForm.bizType === '02'" width="100%">
-                <el-select v-model="detailForm.acntStatus" placeholder="">
+                <el-select v-model="detailForm.acntStatus" placeholder=""
+                           :style="{border: detailFormBefore.modifyFileds && detailFormBefore.modifyFileds.acntStatus ? '1px solid red':''}">
                   <el-option
                       v-for="item in acntStatusOption"
                       :key="item.value"
@@ -912,9 +931,11 @@
                     let acntList = await this.$api.acntInfoApi.getAcntInfoList();
                     this.acntList = acntList.data;
 
-                    if(this.showChange){
-                        let detailFormBefore = await this.$api.acntInfoApi.getAcntInfoByAcntId(this.detailForm.acntId);
-                        this.detailFormBefore = detailFormBefore.data
+                    if(this.showChange) {
+                      // let detailFormBefore = await this.$api.acntInfoApi.getAcntInfoByAcntId(this.detailForm.acntId);
+                      // this.detailFormBefore = detailFormBefore.data
+                      let detailFormBefore = await this.$api.acntInfoApi.getAcntInfo(this.detailForm)
+                      this.detailFormBefore = detailFormBefore.data
                     }
 
                     //资料文件列表加载(主流程)
@@ -1281,17 +1302,59 @@
                 if (!row.isCheck && mode === 'view') {
                     isShow = false;
                 }
-                this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
-                    title: ['产品信息', mode],
-                    component: ProductDetail,
-                    args: {row, mode, actionOk},
-                    okButtonVisible: isShow,
-                    okButtonTitle: row.isCheck ? "复核" : '提交',
-                    cancelButtonTitle: '取消',
-                });
+              this.$drawerPage.create({
+                width: 'calc(97% - 215px)',
+                title: ['产品信息', mode],
+                component: ProductDetail,
+                args: {row, mode, actionOk},
+                okButtonVisible: isShow,
+                okButtonTitle: row.isCheck ? "复核" : '提交',
+                cancelButtonTitle: '取消',
+                pageEl: this.$el
+              });
+            },
+          async temporarySave() {
+            // this.insertApply()
+            const ok = await this.$refs['taskDefForm'].validate();
+            if (!ok) {
+              return;
+            }
+            let validate = true;
+            if (this.detailForm.fields && this.detailForm.isSendOa === '1') {
+              for (let i = 0; i < this.detailForm.fields.length; i++) {
+                for (let key in this.detailForm.fields[i]) {
+                  if (this.mustFillField.indexOf(key) !== -1 && loadsh.isEmpty(this.form.detailForm.fields[i][key])) {
+                    validate = false;
+                  }
+                }
+              }
+              if (!validate) {
+                this.$msg.warning("请补充完整必填项!");
+                return;
+              }
             }
 
+            if (this.detailForm.isSendOa === '1') {
+              if (!this.detailForm.fileList || this.detailForm.fileList.length === 0) {
+                this.$msg.warning("请上传文件!");
+                return;
+              }
+            }
+            try {
+              let form = JSON.parse(JSON.stringify(this.detailForm))
+              form.processStatus = '01';
+              const p = this.$api.acntApplyApi.temporarySaveAcntApply(form);
+              await this.$app.blockingApp(p);
+              this.$msg.success('保存成功');
+
+              if (this.actionOk) {
+                await this.actionOk();
+              }
+              this.$emit("onClose");
+            } catch (reason) {
+              this.$msg.error(reason);
+            }
+          }
         },
 
         watch: {

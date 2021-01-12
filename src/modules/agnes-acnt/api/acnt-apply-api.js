@@ -8,25 +8,29 @@ export default {
     getAcntTypeList() {
         return request.get(`agnes-app/v1/acnt/type/list`);
     },
-    getLinkMan(extOrgId){
-        return request.post(`agnes-app/v1/dop/linkman/org/all/list`,{'extOrgId':extOrgId});
+    getLinkMan(extOrgId) {
+        return request.post(`agnes-app/v1/dop/linkman/org/all/list`, {'extOrgId': extOrgId});
     },
     queryAllLinkManList() {
         return request.get(`/agnes-app/v1/dop/linkman/all`);
     },
     saveApply(form) {
-        return request.post(`agnes-app/v1/acnt/apply/save`,form);
-    },
-    cancelApply(form) {
-        return request.post(`agnes-app/v1/acnt/apply/cancel/acnt-apply`,form);
+        return request.post(`agnes-app/v1/acnt/apply/save`, form);
     },
 
-    submitOa(applyIds,applySubIds) {
-        return request.post(`agnes-app/v1/acnt/apply/submitOa`,{'applyIds':applyIds,'applySubIds':applySubIds});
+    temporarySaveAcntApply(form) {
+        return request.post(`agnes-app/v1/acnt/apply/temporarySave`, form);
+    },
+    cancelApply(form) {
+        return request.post(`agnes-app/v1/acnt/apply/cancel/acnt-apply`, form);
+    },
+
+    submitOa(applyIds, applySubIds) {
+        return request.post(`agnes-app/v1/acnt/apply/submitOa`, {'applyIds': applyIds, 'applySubIds': applySubIds});
     },
 
     saveSubApply(form) {
-        return request.post(`agnes-app/v1/acnt/apply/sub/save`,form);
+        return request.post(`agnes-app/v1/acnt/apply/sub/save`, form);
     },
     cancelSubApply(form) {
         return request.post(`agnes-app/v1/acnt/apply/sub/cancel/acnt-sub-apply`,form);

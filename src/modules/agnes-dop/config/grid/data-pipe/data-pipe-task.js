@@ -18,6 +18,9 @@ const colButtons = [
             return params.data.status === '02'
         }
     },
+    {
+        key: 'execute', title: '执行'
+    },
 ];
 
 export default {

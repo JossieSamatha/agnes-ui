@@ -11,7 +11,7 @@
                 今天你有待办任务
                 <span style="color: #FA6A6A">{{effect}}</span> 件，加油！
             </p>
-            <el-button class="know" type="primary" size="small">我知道了</el-button>
+            <el-button class="know" type="primary" size="small" @click="hideUnit">我知道了</el-button>
         </div>
         <svg-icon name="indexIkon" height="165px"></svg-icon>
     </div>
@@ -21,6 +21,7 @@
     export default {
         props: {
             quartzTime: String,
+            unitPosData: Object
         },
         data() {
             return {
@@ -91,12 +92,20 @@
 
             startInterval(){
                 this.freshInterval = setInterval(() => {
-                    this.initData();
+                    if (this.$route.path === '/datav.client.view') {
+                        this.initData();
+                    }else{
+                        this.clearInterval();
+                    }
                 }, this.intervalMin);
             },
 
             clearInterval(){
                 clearInterval(this.freshInterval);
+            },
+
+            hideUnit(){
+                this.$emit('hideMyIndex',this.unitPosData);
             }
         },
     }
