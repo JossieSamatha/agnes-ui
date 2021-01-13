@@ -22,7 +22,7 @@
                 <em v-show="ifFold" class="fa fa-angle-double-down"></em>
             </p>
             <ul class="info-ul">
-                <li v-for="memo in memoArr" :key="memo.msgId">{{memo.msgData}}</li>
+                <li v-for="memo in memoArr" :key="memo.memoId">{{ memo.memoDesc }}</li>
             </ul>
         </template>
     </div>
