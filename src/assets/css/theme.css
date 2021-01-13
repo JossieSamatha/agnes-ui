@@ -863,7 +863,7 @@ form .el-icon-lock::before {
 }
 
 .gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs {
-    width: 100%;
+    width: calc(100% - 275px);
     height: 44px;
     color: #fff;
     background: transparent;
@@ -1777,6 +1777,10 @@ form .el-icon-lock::before {
 
 .el-tabs .el-tabs__nav-wrap::after {
     display: none;
+}
+
+.el-tabs.account:not(.el-tabs--card):not(.el-tabs--border-card) > .el-tabs__header .el-tabs__nav {
+    margin-top: 7px;
 }
 
 .el-tabs:not(.el-tabs--card):not(.el-tabs--border-card) > .el-tabs__header .el-tabs__nav {

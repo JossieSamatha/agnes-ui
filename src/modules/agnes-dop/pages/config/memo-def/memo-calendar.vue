@@ -46,6 +46,7 @@
                                 v-for="list in dayEventList"
                                 :key="list.msgId"
                                 :title="list.msgData"
+                                @click="dataEventReview"
                             >{{list.msgData}}</li>
                         </ul>
                         <span class="more" v-show="dayEventList.length>3">还有{{dayEventList.length-3}}项</span>
@@ -53,7 +54,7 @@
                     </span>
                 </template>
             </el-calendar>
-            <div class="detail-popover">
+            <div class="detail-popover" :style="detailPopoverStyle">
                 <div class="header">
                     <span>计划详情</span>
                     <span>
@@ -113,7 +114,8 @@
                 ],
 
                 calendarDetailVal: '',
-                monthData: []
+                monthData: [],
+                detailPopoverStyle: {right: 0}
             }
         },
 
@@ -193,6 +195,10 @@
                     }
                 );
             },
+
+            dataEventReview(){
+
+            },
         },
     }
 </script>
@@ -258,6 +264,11 @@
 
     .calendar-memo >>> .el-calendar__header .el-calendar__button-group {
         display: none;
+    }
+
+    .calendar-memo >>> .el-calendar-table td.is-selected,
+    .calendar-memo >>> .el-calendar-table .el-calendar-day:hover {
+        background: transparent;
     }
 
     .detail-popover {

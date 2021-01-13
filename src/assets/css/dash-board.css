@@ -309,9 +309,10 @@
 }
 
 .calendar-def .el-calendar__body .el-calendar-table .el-calendar-day>span.content.weekend {
-    color: #89BFDD;
+    color: #f56c6c;
 }
 
+.calendar-def .el-calendar-table td.is-today .el-calendar-day>span.content,
 .calendar-def .el-calendar-table td.is-selected .el-calendar-day>span.content {
     color: #fff;
     background: #0F5EFF;
@@ -339,8 +340,7 @@
     color: #666;
 }
 
-.calendar-def .el-calendar__body .el-backtop,
-.calendar-def .el-calendar__body .el-calendar-table td.is-today {
+.calendar-def .el-calendar__body .el-backtop {
     color: #0f5eff;
 }
 
@@ -775,210 +775,6 @@
      客户360相关样式
 
 ============================*/
-.datav_client_view .rapid-contact-form {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-}
-
-.datav_client_view .rapid-contact-form>p {
-    width: 100%;
-    height: 20%;
-    max-height: 37px;
-    border-radius: 19px;
-    border: 1px solid #EFF2F7;
-    background: #F4F6FB;
-}
-
-.datav_client_view .rapid-contact-form>p .el-input {
-    height: 100%;
-}
-
-.datav_client_view .rapid-contact-form>p .el-input>input {
-    border: none;
-    background: transparent;
-    line-height: 1;
-    height: 100%;
-    border-radius: 19px 0 0 19px;
-    padding-left: 45px;
-    padding-right: 10px;
-}
-
-.datav_client_view .rapid-contact-form>p .el-input
-.el-input__prefix {
-    left: 15px;
-}
-
-.datav_client_view .rapid-contact-form>p .el-input
-.el-input__prefix .el-input__icon {
-    font-size: 17px;
-    color: #666;
-    line-height: 1;
-}
-
-.datav_client_view .rapid-contact-form>p .el-input
-.el-input__prefix .el-input__icon.el-icon-phone-outline {
-    font-size: 20px;
-}
-
-.datav_client_view .rapid-contact-form>p .el-input
-.el-input-group__append {
-    border: none;
-    background: transparent;
-    height: 100%;
-    border-radius: 0 19px 19px 0;
-    color: #0f5eff;
-    font-size: 12px;
-}
-
-.datav_client_view .rapid-contact-form>p>.el-button {
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 19px;
-    font-size: 12px;
-    color: #0f5eff;
-    background: transparent;
-    padding: 0;
-}
-
-.datav_client_view .form_comp {
-    height: 100%;
-    padding: 0;
-}
-
-.datav_client_view .form_comp .el-form-item .el-form-item__label{
-    line-height: 28px;
-    font-size: 13px;
-    color: #333;
-}
-
-.datav_client_view .form_comp .el-form-item .el-form-item__content {
-    line-height: 28px;
-    font-size: 13px;
-}
-
-.datav_client_view .form_comp .el-form-item .el-form-item__content p {
-    width: 100%;
-    height: 100%;
-    line-height: 28px;
-}
-
-.datav_client_view .form_comp .el-form-item .el-form-item__content input {
-    line-height: 26px;
-    height: 26px;
-    border-color: #A8AED3;
-    font-size: 13px;
-    color: #666;
-}
-
-.datav_client_view .form_comp .el-form-item .el-form-item__content
-span.el-input__suffix .el-input__icon {
-    line-height: 26px;
-    font-size: 12px;
-}
-
-.datav_client_view .form_comp .el-form-item .el-form-item__content
-.el-radio+.el-radio {
-    line-height: 26px;
-    margin-left: 10px;
-}
-
-.datav_client_view .form_comp .el-form-item .el-form-item__content
-.el-radio .el-radio__input .el-radio__inner {
-    width: 12px;
-    height: 12px;
-}
-
-.datav_client_view .form_comp .el-form-item .el-form-item__content
-.el-radio .el-radio__input.is-checked .el-radio__inner {
-    border-color: #0f5eff;
-    background: #0f5eff;
-}
-
-.datav_client_view .form_comp .el-form-item .el-form-item__content
-.el-radio .el-radio__label {
-    padding-left: 3px;
-    font-size: 13px;
-}
-
-.datav_client_view .form_comp .el-form-item .el-form-item__content
-.el-radio .el-radio__input.is-checked+.el-radio__label {
-    color: #0f5eff;
-}
-
-.datav_client_view .form_comp .el-form-item .el-form-item__content
-.el-checkbox.is-checked:not(.is-disabled) .el-checkbox__label {
-    color: inherit;
-}
-
-.datav_client_view .form_comp .el-form-item .el-form-item__content
-.el-checkbox .el-checkbox__label {
-    font-size: 13px;
-    padding-left: 5px;
-}
-
-.datav_client_view .form_comp .el-form-item .el-form-item__content
-.el-checkbox:not(:last-child) {
-    margin-right: 10px;
-}
-
-.datav_client_view .form_comp .el-form-item .el-form-item__content
-.el-checkbox+.el-checkbox {
-    margin-left: 0;
-}
-
-.datav_client_view .form_comp .el-form-item .el-form-item__content
-.el-checkbox__inner{
-    width: 12px;
-    height: 12px;
-    border: 1px solid #C7C7C7;
-    border-radius: 2px;
-}
-
-.datav_client_view .form_comp .el-form-item .el-form-item__content
-.el-checkbox__input.is-checked:not(.is-disabled) .el-checkbox__inner,
-.datav_client_view .form_comp .el-form-item .el-form-item__content
-.el-checkbox__input.is-indeterminate:not(.is-disabled) .el-checkbox__inner{
-    background: #0f5eff;
-    border: 1px solid #0f5eff;
-    font-weight: bold;
-}
-
-.datav_client_view .form_comp .el-form-item .el-form-item__content
-.el-checkbox__input.is-indeterminate .el-checkbox__inner::before{
-    transform: scale(.7);
-}
-
-.datav_client_view .form_comp .el-form-item .el-form-item__content
-.el-checkbox__input.is-checked .el-checkbox__inner::after{
-    border-width: 2px;
-    height: 9px;
-    top: -2px;
-    width: 3px;
-    left: 3px;
-}
-
-.datav_client_view .form_comp .el-form-item .el-form-item__content button {
-    padding: 11px 15px;
-    border: none;
-    color: #fff;
-    background: #0f5eff;
-    line-height: 0;
-}
-
-.datav_client_view .form_comp .el-select-dropdown__wrap .el-select-dropdown__item {
-    height: 30px;
-    line-height: 30px;
-    font-size: 13px;
-}
-
-.datav_client_view .form_comp .el-select-dropdown__wrap
-.el-select-dropdown__item.selected{
-    color: #0f5eff;
-}
 
 .vue-grid-layout {
     height: 100%;

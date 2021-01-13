@@ -11,6 +11,7 @@ import ProductUserInfo from "./product-user-info/index"
 import DataChange from "./data-change-def/index"
 import Channel from "./channel-def/channel-list"
 import memoDef from "./memo-def/index"
+import memoCalendar from "./memo-def/memo-calendar"
 import RosterDef from "./roster-def/index";
 import DataPipeTask from "./data-pipe/index";
 import MonitorRiskDef from "./monitor-risk-def/index";
@@ -42,6 +43,7 @@ const Loading = {
         Gfui.componentView('agnes.dop.linkman', Linkman, {title: '外部联系人维护'});
         Gfui.componentView('agnes.dop.group.user', GroupUser, {title: '工作群组管理'});
         Gfui.componentView('agnes.dop.memo', memoDef, {title: '运营日历维护'});
+        Gfui.componentView('agnes.dop.memo.calendar', memoCalendar, {title: '运营日历'});
         Gfui.componentView('agnes.dop.roster', RosterDef, {title: '值班表维护'});
         Gfui.componentView('data.pipe.task', DataPipeTask, {title: '调度配置'});
         Gfui.componentView('agnes.app.monitor.risk', MonitorRiskDef, {title: '风险管理'});
