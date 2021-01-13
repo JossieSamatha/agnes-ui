@@ -306,7 +306,6 @@
                         });
 
                         let files = resp.files;
-                        debugger;
                         files.forEach((file)=>{
                             const hasFile = this.$lodash.find(oldFileList, {objectId: file.objectId});
                             if(!hasFile){
