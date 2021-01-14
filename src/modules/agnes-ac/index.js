@@ -9,6 +9,7 @@ import lcImg from "./assets/svgImg";
 
 import './style/little-case.css'
 import './style/elec-process.css'
+import './style/monitor.css'
 
 // 定义 Loading 对象
 const agnesAc = {

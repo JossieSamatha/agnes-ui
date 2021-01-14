@@ -1,9 +1,10 @@
 <template>
-    <el-tabs class="root" v-model="activeName" @tab-click="loadCount">
-        <el-tab-pane name="unfinishedApply"  style="height: 100%">
-            <span slot="label">
-                <span>申请中</span>
-                <el-badge :value="this.countUnfinishedApply" v-if="this.countUnfinishedApply !=='0'" size="mini" class="item"></el-badge>
+    <el-tabs class="account" v-model="activeName" @tab-click="loadCount">
+        <el-tab-pane name="unfinishedApply" style="height: 100%">
+            <span slot="label" style="margin-top: 7px">
+                <el-badge :value="this.countUnfinishedApply" v-if="this.countUnfinishedApply !=='0'" size="mini" class="item">
+                    <span>申请中</span>
+                </el-badge>
             </span>
 
             <acnt-apply-index-unfinished @loadCount="loadCount" :show-cond-prop="this.showCondProp"></acnt-apply-index-unfinished>

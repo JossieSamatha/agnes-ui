@@ -5,6 +5,13 @@
 <!--                <svg-icon name="HuaAn-logo" height="33px"/>-->
                 <img src="../../../assets/hex-logo.png" height="40px">
             </div>
+            <div class="gf-menu">
+                <div class="gf-menu-item noneMenu" @click="changeStudio">
+                    <svg-icon class="menuicon" name="application-model" width="46px" height="16px" v-show="!ifSideMenuFlod"/>
+                    <span class="menuname">{{appStudio ? '应用模式' : '管理模式'}}</span>
+                    <em class="menuicon fa fa-exchange" style="left: auto; right: 10px"></em>
+                </div>
+            </div>
             <div class="gf-menu normal" v-show="!ifSideMenuFlod">
                 <div class="content" v-clickoutside="clearCancelPopover">
                     <span class="gf-menu-item noneMenu">
@@ -41,11 +48,6 @@
                         <div class="arc bottom"></div>
                     </div>
                 </el-tooltip>
-                <div class="gf-menu-item noneMenu">
-                    <svg-icon class="menuicon" name="application-model" width="46px" height="16px"/>
-                    <span class="menuname">{{appStudio ? '应用模式' : '管理模式'}}</span>
-                    <em class="menuicon fa fa-exchange" style="left: auto; right: 10px" @click="changeStudio"></em>
-                </div>
             </div>
             <div class="gf-menu footer">
                 <div class="header">
