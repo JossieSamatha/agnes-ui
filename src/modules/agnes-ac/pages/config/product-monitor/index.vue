@@ -109,24 +109,14 @@
 
             <module-card title="产品任务">
                 <template slot="content">
-                    <el-tabs class="content-tab" type="card" value="first">
-                        <el-tab-pane label="全部" name="first" lazy>
+                    <el-tabs class="content-tab" type="card" value="0">
+                        <el-tab-pane v-for="(item, index) in proTaskArr" :key="index" :name="index" lazy>
+                            <span slot="label">
+                                <el-badge :value="item.num" :hidden="!item.num">
+                                    <span>{{item.label}}</span>
+                                </el-badge>
+                            </span>
                             <gf-grid grid-no="monitor-pro-task" :options="proTaskOption(this)" @row-double-click="showProDetail" style="height: 210px;"></gf-grid>
-                        </el-tab-pane>
-                        <el-tab-pane label="成立" name="second" lazy>
-                            <gf-grid grid-no="monitor-pro-task" @row-double-click="showProDetail" style="height: 210px;"></gf-grid>
-                        </el-tab-pane>
-                        <el-tab-pane label="开放" name="third" lazy>
-                            <gf-grid grid-no="monitor-pro-task" @row-double-click="showProDetail" style="height: 210px;"></gf-grid>
-                        </el-tab-pane>
-                        <el-tab-pane label="分红" name="fourth" lazy>
-                            <gf-grid grid-no="monitor-pro-task" @row-double-click="showProDetail" style="height: 210px;"></gf-grid>
-                        </el-tab-pane>
-                        <el-tab-pane label="考核" name="fifth" lazy>
-                            <gf-grid grid-no="monitor-pro-task" @row-double-click="showProDetail" style="height: 210px;"></gf-grid>
-                        </el-tab-pane>
-                        <el-tab-pane label="清算" name="sixth" lazy>
-                            <gf-grid grid-no="monitor-pro-task" @row-double-click="showProDetail" style="height: 210px;"></gf-grid>
                         </el-tab-pane>
                     </el-tabs>
                 </template>
@@ -180,6 +170,9 @@
                     {id:'444', label:'业务统计', icon:'bizStatistics'},
                     {id:'5555', label:'业务统计', icon:'bizStatistics'}
                 ],
+                proTaskArr: [
+                    {label: '全部', num: '4'},{label: '成立'},{label: '开放',num: '1'},
+                    {label: '分红'}, {label: '考核'}, {label: '清算', num: '3'}],
                 proTaskOption: (_this)=>{
                     return {
                         onCellClicked(params) {

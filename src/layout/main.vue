@@ -142,15 +142,15 @@
                 });
             },
             showMain() {
-                let clientViewId = 'datav.client.view';
-                let clientView = this.$app.views.getView(clientViewId);
-                let clientTabView = Object.assign({args: {}, id: clientViewId}, clientView);
+                let clientView = this.$app.views.getView('datav.client.view');
+                let clientTabView = Object.assign({args: {}, id: 'datav.client.view'}, clientView);
                 this.$nav.showView(clientTabView);
 
-                let depViewId = 'datav.dep.view';
-                let depView = this.$app.views.getView(depViewId);
-                let depTabView = Object.assign({args: {}, id: depViewId}, depView);
+                let depView = this.$app.views.getView('datav.dep.view');
+                let depTabView = Object.assign({args: {}, id: 'datav.dep.view'}, depView);
                 this.$nav.showView(depTabView);
+
+                document.querySelector('div[data-tab-id="datav.client.view"]').click();
             },
             studioTypeChange(val) {
                 if (val === 'appMenus') {

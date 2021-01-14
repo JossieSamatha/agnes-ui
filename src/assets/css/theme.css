@@ -1787,6 +1787,12 @@ form .el-icon-lock::before {
     border-bottom: 4px solid #D7DBE4;
 }
 
+.content-tab.el-tabs.el-tabs--card > .el-tabs__header .el-tabs__nav
+.el-badge .el-badge__content {
+    top: -1px;
+    left: 100%;
+}
+
 .el-tabs > .el-tabs__header .el-tabs__nav .el-tabs__active-bar{
     bottom: -4px;
     height: 4px;

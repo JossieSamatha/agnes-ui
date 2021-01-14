@@ -51,6 +51,9 @@
     export default {
         name: 'agnes-calendar',
         mixins: [Calendar],
+        props: {
+            bizDate: String
+        },
         data() {
             return {
                 monthVal: ''

@@ -1,42 +1,30 @@
 <template>
     <div class="datavPage" style="position: relative; height: 100%;padding: 0;">
         <el-checkbox-group class="bizTypeCheck" v-model="checkedBizType" size="small">
+            <el-checkbox v-for="item in bizBigArr" :key="item" :label="item" border></el-checkbox>
+        </el-checkbox-group>
+        <el-checkbox-group class="bizTypeCheck" v-model="checkedBizType" size="small">
             <el-checkbox v-for="item in bizTypeArr" :key="item.id" :label="item.id" border>{{item.label}}</el-checkbox>
         </el-checkbox-group>
-        <el-tabs class="content-tab-left" value="all" tab-position="left">
-            <el-tab-pane name="all" label="全部">
-                <module-card title="产品任务">
-                    <template slot="content">
-                        <gf-grid :options="productTaskGrid" style="height: 210px;margin-top: -40px"></gf-grid>
-                    </template>
-                </module-card>
-                <module-card title="风险事件">
-                    <template slot="content">
-                        <gf-grid :options="riskEventGrid" style="height: 210px;margin-top: -40px"></gf-grid>
-                    </template>
-                </module-card>
-                <module-card title="业务统计">
-                    <template slot="content">
-                        <p style="text-align: center;margin: 10px auto;">
-                            <img src="../../../assets/monitor/chart.png" width="auto" height="auto"/>
-                        </p>
-                    </template>
-                </module-card>
-            </el-tab-pane>
-            <el-tab-pane name="appraisement" label="估值核算">
-
-            </el-tab-pane>
-            <el-tab-pane name="TA" label="TA">
-
-            </el-tab-pane>
-            <el-tab-pane name="transSupport" label="交易支持">
-
-            </el-tab-pane>
-            <el-tab-pane name="operate" label="运营服务">
-
-            </el-tab-pane>
-
-        </el-tabs>
+        <div class="container">
+            <module-card title="产品任务">
+                <template slot="content">
+                    <gf-grid :options="productTaskGrid" style="height: 210px;margin-top: -40px"></gf-grid>
+                </template>
+            </module-card>
+            <module-card title="风险事件">
+                <template slot="content">
+                    <gf-grid :options="riskEventGrid" style="height: 210px;margin-top: -40px"></gf-grid>
+                </template>
+            </module-card>
+            <module-card title="业务统计">
+                <template slot="content">
+                    <p style="text-align: center;margin: 10px auto;">
+                        <img src="../../../assets/monitor/chart.png" width="auto" height="auto"/>
+                    </p>
+                </template>
+            </module-card>
+        </div>
     </div>
 </template>
 
@@ -47,6 +35,7 @@
             return {
                 productTaskGrid: data().productTaskGrid,
                 riskEventGrid: data().riskEventGrid,
+                bizBigArr: ['全部', '估值核算', 'TA', '交易支持', '运营服务'],
                 bizTypeArr: [
                     {id:'0', label: '产品成立'},
                     {id:'1', label: '产品运作变更'},
@@ -66,5 +55,9 @@
 </script>
 
 <style scoped>
-
+    .container {
+        flex: 1;
+        height: calc(100% - 110px);
+        overflow: auto;
+    }
 </style>

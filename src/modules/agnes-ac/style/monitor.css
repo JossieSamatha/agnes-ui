@@ -454,7 +454,7 @@ span.el-input__suffix .el-input__icon {
 .datavPage .el-tabs.el-tabs.content-tab .el-tabs__header
 .el-tabs__item {
     width: 90px;
-    font-size: 12px;
+    font-size: 14px;
     padding: 0;
     text-align: center;
     color: #666;
@@ -556,26 +556,24 @@ span.el-input__suffix .el-input__icon {
 /* datavPage card卡签相关样式  多选tag状checkbox */
 
 .datavPage .el-checkbox-group.bizTypeCheck {
-    position: absolute;
-    top: 309px;
-    width: 114px;
-    z-index: 10;
-    height: calc(100% - 350px);
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .datavPage .el-checkbox-group.bizTypeCheck
 .el-checkbox {
-    display: block;
-    width: 90px;
-    height: 24px;
-    line-height: 22px;
-    color: #999999;
+    flex: none;
+    width: 98px;
+    height: 28px;
+    line-height: 26px;
+    color: #666;
     border-color: #eee;
-    margin: 8px auto 0 auto;
     padding: 0px 5px;
     text-align: center;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    margin: 0 8px 8px 0!important;
     overflow: hidden;
 }
 
@@ -592,7 +590,13 @@ span.el-input__suffix .el-input__icon {
 
 .datavPage .el-checkbox-group.bizTypeCheck
 .el-checkbox .el-checkbox__label{
+    width: 100%;
+    font-size: 13px;
     padding-left: 0;
+    line-height: 26px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .datavPage .el-checkbox-group.bizTypeCheck

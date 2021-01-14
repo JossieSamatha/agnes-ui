@@ -312,7 +312,7 @@
     color: #f56c6c;
 }
 
-.calendar-def .el-calendar-table td.is-today .el-calendar-day>span.content,
+.calendar-def .el-calendar-table .el-calendar-day>span.content.bizDate,
 .calendar-def .el-calendar-table td.is-selected .el-calendar-day>span.content {
     color: #fff;
     background: #0F5EFF;
