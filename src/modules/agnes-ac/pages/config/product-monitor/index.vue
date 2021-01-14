@@ -111,22 +111,22 @@
                 <template slot="content">
                     <el-tabs class="content-tab" type="card" value="first">
                         <el-tab-pane label="全部" name="first" lazy>
-                            <gf-grid :options="productTaskGrid" style="height: 210px;"></gf-grid>
+                            <gf-grid grid-no="monitor-pro-task" :options="proTaskOption(this)" @row-double-click="showProDetail" style="height: 210px;"></gf-grid>
                         </el-tab-pane>
                         <el-tab-pane label="成立" name="second" lazy>
-                            <gf-grid :options="productTaskGrid" style="height: 210px;"></gf-grid>
+                            <gf-grid grid-no="monitor-pro-task" @row-double-click="showProDetail" style="height: 210px;"></gf-grid>
                         </el-tab-pane>
                         <el-tab-pane label="开放" name="third" lazy>
-                            <gf-grid :options="productTaskGrid" style="height: 210px;"></gf-grid>
+                            <gf-grid grid-no="monitor-pro-task" @row-double-click="showProDetail" style="height: 210px;"></gf-grid>
                         </el-tab-pane>
                         <el-tab-pane label="分红" name="fourth" lazy>
-                            <gf-grid :options="productTaskGrid" style="height: 210px;"></gf-grid>
+                            <gf-grid grid-no="monitor-pro-task" @row-double-click="showProDetail" style="height: 210px;"></gf-grid>
                         </el-tab-pane>
                         <el-tab-pane label="考核" name="fifth" lazy>
-                            <gf-grid :options="productTaskGrid" style="height: 210px;"></gf-grid>
+                            <gf-grid grid-no="monitor-pro-task" @row-double-click="showProDetail" style="height: 210px;"></gf-grid>
                         </el-tab-pane>
                         <el-tab-pane label="清算" name="sixth" lazy>
-                            <gf-grid :options="productTaskGrid" style="height: 210px;"></gf-grid>
+                            <gf-grid grid-no="monitor-pro-task" @row-double-click="showProDetail" style="height: 210px;"></gf-grid>
                         </el-tab-pane>
                     </el-tabs>
                 </template>
@@ -157,12 +157,12 @@
 
 <script>
     import data from './data'
+    import proDetail from "./pro-detail";
     export default {
         data() {
             return {
                 isBoardEdit: false,
                 productDetailGrid: data().productDetailGrid,
-                productTaskGrid: data().productTaskGrid,
                 guestRequireGrid: data().guestRequireGrid,
                 riskEventGrid: data().riskEventGrid,
                 choosedProduct: data().productDetailData[0],
@@ -179,7 +179,16 @@
                     {id:'333', label:'业务统计', icon:'bizStatistics'},
                     {id:'444', label:'业务统计', icon:'bizStatistics'},
                     {id:'5555', label:'业务统计', icon:'bizStatistics'}
-                ]
+                ],
+                proTaskOption: (_this)=>{
+                    return {
+                        onCellClicked(params) {
+                            if(params.colDef.field === 'proName'){
+                                _this.showProDetail();
+                            }
+                        },
+                    }
+                }
             }
         },
         methods: {
@@ -195,7 +204,24 @@
 
             getImgPath(img){
                 return require('../../../assets/monitor/'+img+'.svg');
+            },
+
+            showProDetail(){
+                // 抽屉创建
+                this.$drawerPage.create({
+                    width: 'calc(100% - 250px)',
+                    title: ['东方航空企业年金计划二期'],
+                    component: proDetail,
+                    pageEl: this.$el
+                })
             }
         }
     }
 </script>
+
+<style>
+    .ag-cell.link-option-cell:hover .ag-cell-value{
+        cursor: pointer;
+        text-decoration: underline;
+    }
+</style>

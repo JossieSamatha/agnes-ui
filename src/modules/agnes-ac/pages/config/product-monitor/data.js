@@ -1,25 +1,16 @@
 const productDetailData = [
-    {proName: 'XXXX企业年金计划一期',proNo: 'CJ1001',proType: '企业年金',proAttr: '4天',guest: 'XXX投资公司',custodianBank: '招商银行股份有限公司',foundDate: '2018-01-01',
-        projectName: 'XXXXXX资产管理计划一期',preEndDate: '2018-06-28',fundManage: '张三',department:'公募', custodianContacts:'张三三',},
-    {proName: 'XXXX企业年金计划二期',proNo: 'CJ1002',proType: '企业年金',proAttr: '4天',guest: 'XXX投资公司',custodianBank: '招商银行股份有限公司',foundDate: '2018-04-01',
-        projectName: 'XXXX企业年金计划二期',preEndDate: '2018-09-30',fundManage: '李四',department:'专户', custodianContacts:'李四四',},
-    {proName: 'XXXX企业年金计划三期',proNo: 'CJ1003',proType: '企业年金',proAttr: '4天',guest: 'XXX投资公司',custodianBank: '招商银行股份有限公司',foundDate: '2018-07-01',
-        projectName: 'XXXX企业年金计划三期',preEndDate: '2019-03-04',fundManage: '王五',department:'专户', custodianContacts:'王五五',},
-    {proName: 'XXXX资管计划一期',proNo: 'CJ0701',proType: '资管计划',proAttr: '4天',guest: 'XXX投资公司',custodianBank: '招商银行股份有限公司',foundDate: '2019-02-01',
-        projectName: 'XXXX资管计划一期',preEndDate: '2020-01-01',fundManage: '赵柳',department:'公募', custodianContacts:'赵柳六',},
-    {proName: 'XXXX资管计划二期',proNo: 'CJ1702',proType: '资管计划',proAttr: '4天',guest: 'XXX投资公司',custodianBank: '招商银行股份有限公司',foundDate: '2019-03-01',
-        projectName: 'XXXX资管计划二期',preEndDate: '2019-05-20',fundManage: '陆琪',department:'专户', custodianContacts:'陆琪七',},
-    {proName: 'XXXX资管计划三期',proNo: 'CJ0703',proType: '资管计划',proAttr: '4天',guest: 'XXX投资公司',custodianBank: '招商银行股份有限公司',foundDate: '2019-04-01',
-        projectName: 'XXXX资管计划三期',preEndDate: '2020-03-03',fundManage: '赵八',department:'公募', custodianContacts:'赵八八',},
-];
-
-const productTaskData = [
-    {taskName: 'XXXX产品专户产品清算',taskStep: '参数更新',startTime: '2020-01-06',endTime: '2020-01-09',restTime: '0天',proName: 'XXX资产管理计划',proNo: 'CJ10007'},
-    {taskName: 'XXXX产品专户产品清算',taskStep: '应付资金检查',startTime: '2020-01-06',endTime: '2020-01-09',restTime: '0天',proName: 'XXX资产管理计划',proNo: 'CJ10007'},
-    {taskName: 'XXXX产品专户产品清算',taskStep: '参数更新',startTime: '2020-01-06',endTime: '2020-01-09',restTime: '0天',proName: 'XXX资产管理计划',proNo: 'CJ10007'},
-    {taskName: 'XXXX产品专户产品清算',taskStep: '参数更新',startTime: '2020-01-06',endTime: '2020-01-09',restTime: '0天',proName: 'XXX资产管理计划',proNo: 'CJ10007'},
-    {taskName: 'XXXX产品专户产品清算',taskStep: '参数更新',startTime: '2020-01-06',endTime: '2020-01-09',restTime: '0天',proName: 'XXX资产管理计划',proNo: 'CJ10007'},
-    {taskName: 'XXXX产品专户产品清算',taskStep: '参数更新',startTime: '2020-01-06',endTime: '2020-01-09',restTime: '0天',proName: 'XXX资产管理计划',proNo: 'CJ10007'},
+    {proName: '东方航空企业年金计划二期',proNo: 'CJ1001',proType: '企业年金',proAttr: '4天',guest: 'XXX投资公司',custodianBank: '招商银行股份有限公司',foundDate: '2018-01-01',
+        projectName: '东方航空企业年金计划二期',preEndDate: '2018-06-28',fundManage: '张三',department:'公募', custodianContacts:'张三三',},
+    {proName: '东方航空企业年金计划二期',proNo: 'CJ1002',proType: '企业年金',proAttr: '4天',guest: 'XXX投资公司',custodianBank: '招商银行股份有限公司',foundDate: '2018-04-01',
+        projectName: '东方航空企业年金计划二期',preEndDate: '2018-09-30',fundManage: '李四',department:'专户', custodianContacts:'李四四',},
+    {proName: '东方航空企业年金计划二期',proNo: 'CJ1003',proType: '企业年金',proAttr: '4天',guest: 'XXX投资公司',custodianBank: '招商银行股份有限公司',foundDate: '2018-07-01',
+        projectName: '东方航空企业年金计划二期',preEndDate: '2019-03-04',fundManage: '王五',department:'专户', custodianContacts:'王五五',},
+    {proName: '东方航空企业年金计划二期',proNo: 'CJ0701',proType: '资管计划',proAttr: '4天',guest: 'XXX投资公司',custodianBank: '招商银行股份有限公司',foundDate: '2019-02-01',
+        projectName: '东方航空企业年金计划二期',preEndDate: '2020-01-01',fundManage: '赵柳',department:'公募', custodianContacts:'赵柳六',},
+    {proName: '东方航空企业年金计划二期',proNo: 'CJ1702',proType: '资管计划',proAttr: '4天',guest: 'XXX投资公司',custodianBank: '招商银行股份有限公司',foundDate: '2019-03-01',
+        projectName: '东方航空企业年金计划二期',preEndDate: '2019-05-20',fundManage: '陆琪',department:'专户', custodianContacts:'陆琪七',},
+    {proName: '东方航空企业年金计划二期',proNo: 'CJ0703',proType: '资管计划',proAttr: '4天',guest: 'XXX投资公司',custodianBank: '招商银行股份有限公司',foundDate: '2019-04-01',
+        projectName: '东方航空企业年金计划二期',preEndDate: '2020-03-03',fundManage: '赵八',department:'公募', custodianContacts:'赵八八',},
 ];
 
 const guestRequireData = [
@@ -51,40 +42,6 @@ const productDetailCol = [
 const productDetailGrid = {
     columnDefs: productDetailCol,
     rowData: productDetailData,
-    defaultColDef: {
-        filter: true,
-        enableRowGroup: true,
-        menuTabs: ['generalMenuTab', 'filterMenuTab', 'columnsMenuTab'],
-    },
-    ext: {
-        pagingMode: false,
-        checkboxColumn: 0,
-        autoFitColumnMode: 1,
-        enableExportLocal: true
-    }
-};
-
-const productTaskCol = [
-    {headerName: '任务名称', field: 'taskName'},
-    {headerName: "任务阶段", field: "taskStep"},
-    {headerName: "任务开始时间", field: "startTime"},
-    {headerName: "任务截止时间", field: "endTime"},
-    {headerName: "剩余完成时间", field: "restTime"},
-    {headerName: "产品名称", field: "proName"},
-    {headerName: "产品代码", field: "proNo"},
-    {headerName: "操作", field: "option",
-        cellRenderer: ()=>{
-            let eGui = document.createElement('a');
-            eGui.className = 'action-link';
-            eGui.innerHTML = '催办';
-            return eGui;
-        },
-    },
-];
-
-const productTaskGrid = {
-    columnDefs: productTaskCol,
-    rowData: productTaskData,
     defaultColDef: {
         filter: true,
         enableRowGroup: true,
@@ -165,7 +122,6 @@ export default function() {
     return {
         productDetailData,
         productDetailGrid,
-        productTaskGrid,
         guestRequireGrid,
         riskEventGrid
     }

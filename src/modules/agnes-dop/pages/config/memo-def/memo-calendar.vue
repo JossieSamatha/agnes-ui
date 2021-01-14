@@ -35,18 +35,18 @@
             <el-calendar ref="calendarMemo" class="calendar-memo"
                          v-model="calendarDetailVal"
                          :first-day-of-week="7">
-                <template slot="dateCell" slot-scope="{date, data}" >
+                <template slot="dateCell" slot-scope="{date, data}">
                     <span class="content" :class="{'weekend': getDateObj(date, 'workday')}">
                         <p class="day-num">
                             <span class="lunar">{{getLunarDay(data.day)}}</span>
                             <span class="solar">{{ getDay(date) }}</span>
                         </p>
-                        <ul class="day-event">
-                            <li :class="list.type"
+                        <ul class="day-event" v-clickoutside="hidePopover">
+                            <li class="day-event-li" :class="[list.type, {'active': list.msgId === dataEventObj.msgId}]"
                                 v-for="list in dayEventList"
                                 :key="list.msgId"
                                 :title="list.msgData"
-                                @click="dataEventReview"
+                                @click="dataEventReview(list)"
                             >{{list.msgData}}</li>
                         </ul>
                         <span class="more" v-show="dayEventList.length>3">还有{{dayEventList.length-3}}项</span>
@@ -54,37 +54,19 @@
                     </span>
                 </template>
             </el-calendar>
-            <div class="detail-popover" :style="detailPopoverStyle">
-                <div class="header">
-                    <span>计划详情</span>
-                    <span>
-                        <em class="el-icon-edit"></em>
-                        <em class="el-icon-delete"></em>
-                        <em class="el-icon-close"></em>
-                    </span>
-                </div>
-                <div class="body">
-                    <p>
-                        <svg-icon name="text" height="10px" color="#999"></svg-icon>
-                        <span>这里是个计划的展开的名称</span>
-                    </p>
-                    <p>
-                        <svg-icon name="clock" height="12px" color="#999"></svg-icon>
-                        <span>12月9日 周三 9:00~10:00 </span>
-                    </p>
-                    <p>
-                        <svg-icon name="calendar-line" height="12px" color="#999"></svg-icon>
-                        <span>每天</span>
-                    </p>
-                </div>
-            </div>
+            <detail-popver v-show="popoverShow"
+                           :styleProps="detailPopoverStyle"
+                           :dataEventObj="dataEventObj"
+                           @closePopover="closePopover"
+            ></detail-popver>
         </div>
     </div>
 </template>
 
 <script>
     import MemoDefDlg from "./memo-def-dlg-new";
-    import rosterDefDlg from './roster-type-dlg'
+    import rosterDefDlg from './roster-type-dlg';
+    import detailPopver from './detail-popover'
 
     export default {
         data() {
@@ -115,10 +97,14 @@
 
                 calendarDetailVal: '',
                 monthData: [],
-                detailPopoverStyle: {right: 0}
+                detailPopoverStyle: {},
+                dataEventObj: {},
+                popoverShow: false
             }
         },
-
+        components: {
+            'detail-popver': detailPopver
+        },
         methods: {
             dateChange(val){
                 if(this.$refs.calendarMemo){
@@ -196,9 +182,30 @@
                 );
             },
 
-            dataEventReview(){
-
+            dataEventReview(list){
+                this.dataEventObj = list;
+                this.popoverShow = true;
+                this.$nextTick(()=>{
+                    const chooseLiDOM = document.getElementsByClassName('day-event-li active')[0].getBoundingClientRect();
+                    const left = chooseLiDOM.left + chooseLiDOM.width - 10;
+                    this.detailPopoverStyle = {top: chooseLiDOM.top+'px', left: left +'px'};
+                });
             },
+
+            closePopover(){
+                this.popoverShow = false;
+            },
+
+            hidePopover(e){
+                const pNode = document.getElementsByClassName('detail-popover')[0];
+                if(!(e.target.className.includes('day-event-li') || pNode.contains(e.target))) {
+                    this.closePopover();
+                }
+            },
+
+            editDetail(){
+
+            }
         },
     }
 </script>
@@ -269,74 +276,6 @@
     .calendar-memo >>> .el-calendar-table td.is-selected,
     .calendar-memo >>> .el-calendar-table .el-calendar-day:hover {
         background: transparent;
-    }
-
-    .detail-popover {
-        position: absolute;
-        right: 0;
-        width: 200px;
-        font-size: 12px;
-        padding: 14px;
-        background: #fff;
-        box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.16);
-        border-radius: 6px;
-    }
-
-    .detail-popover .header {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .detail-popover .header>span:first-child {
-        position: relative;
-        color: #333;
-        font-family: SourceHanSansCN-Medium;
-        padding-left: 10px;
-    }
-
-    .detail-popover .header>span:first-child::before {
-        content: '';
-        position: absolute;
-        top: 6px;
-        left: 0;
-        display: block;
-        width: 6px;
-        height: 6px;
-        background: #3CACEC;
-        border-radius: 50%;
-    }
-
-    .detail-popover .header>span:last-child {
-        color: #999;
-    }
-
-    .detail-popover .header>span:last-child em {
-        font-size: 14px;
-        cursor: pointer;
-    }
-
-    .detail-popover .header>span:last-child em:hover {
-        color: #0F5EFF;
-    }
-
-    .detail-popover .header>span:last-child em + em {
-        margin-left: 6px;
-    }
-
-    .detail-popover .body {
-        margin-top: 6px;
-    }
-
-    .detail-popover .body p {
-        display: flex;
-        align-items: center;
-        height: 24px;
-        line-height: 24px;
-    }
-
-    .detail-popover .body .svg-icon {
-        line-height: 0;
-        margin-right: 6px;
     }
 
 </style>
