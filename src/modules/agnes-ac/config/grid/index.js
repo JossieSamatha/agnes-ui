@@ -10,6 +10,7 @@ import MotDef from "./mot-def"
 import FlowTaskField from './flow-task-def'
 import elecProcessField from './elec-process'
 import ServiceRespLevelConf from "./service-resp-conf"
+import ProMonitor from './product-monitor/index'
 
 const Loading = {
     load: function (Gfui) {
@@ -25,6 +26,7 @@ const Loading = {
         Gfui.use(FlowTaskField);
         Gfui.use(elecProcessField);
         Gfui.use(ServiceRespLevelConf);
+        Gfui.use(ProMonitor);
     }
 };
 
