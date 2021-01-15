@@ -6,4 +6,8 @@ export default {
         return request.post("/dop-bpmn/execution/complete", null,{params: {id}});
     },
 
+    queryBpmnAll() {
+        return request.post("/dop-bpmn/processDefinition/listAll");
+    },
+
 };

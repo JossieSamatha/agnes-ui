@@ -300,11 +300,18 @@
                 //获取文件列表
                 this.$api.ecmUploadApi.getOisFileList(docId).then( (resp) => {
                     if (resp) {
+                        let oldFileList = this.fileList.splice(0, this.fileList.length);
 
-                        // let oldFileList = this.fileList.splice(0, this.fileList.length);
+                        let type2FileList = [];
+                        oldFileList.forEach((file)=>{
+                            if(file.type === '2'){
+                                type2FileList.push(this.$lodash.cloneDeep(file));
+                            }
+                        });
+
                         let files = resp.files;
                         files.forEach((file)=>{
-                            const hasFile = this.$lodash.find(this.fileList, {objectId: file.objectId});
+                            const hasFile = this.$lodash.find(oldFileList, {objectId: file.objectId});
                             if(!hasFile){
                                 let fileType = '1';
                                 if('receipt'  === this.applyType){
@@ -318,12 +325,16 @@
                                     remark: '',
                                     type:fileType,
                                 });
+                            }else{
+                                this.fileList.push(hasFile);
                             }
-                            // else{
-                            //     this.fileList.push(hasFile);
-                            // }
                         });
 
+                        if(type2FileList && type2FileList.length >0){
+                            type2FileList.forEach((file)=>{
+                                this.fileList.push(file);
+                            });
+                        }
                     }
                 });
             },

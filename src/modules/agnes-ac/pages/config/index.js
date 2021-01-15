@@ -16,9 +16,16 @@ import ServiceRespLevelConf from "./service-resp-level-conf/index";
 import MonitorKPI from './monitor-kpi/index.vue'
 import MonitorDetailPage from './monitor-kpi/detail-page'
 
+import bizMonitor from './biz-monitor/index'
+import productMonitor from './product-monitor/index'
+import gusterMonitor from './guster-monitor/index'
+
+import guestComp from './guster-monitor/guest/index'
+
 
 const Loading = {
     install: function(Vue){
+        Vue.use(guestComp);
         Vue.component('step-act-type', stepActType);
         Vue.component('case-config-index', CaseConfigIndex);
         Vue.component('monitor-detail-page', MonitorDetailPage);
@@ -45,6 +52,11 @@ const Loading = {
 
 
         Gfui.componentView('agnes.monitor.kpi', MonitorKPI, {title: '指标监控看板'});
+
+
+        Gfui.componentView('agnes.dop.busi.monitor', bizMonitor, {title: '业务监控'});
+        Gfui.componentView('agnes.dop.prdt.monitor', productMonitor, {title: '产品监控'});
+        Gfui.componentView('agnes.dop.customer.monitor', gusterMonitor, {title: '客户监控'});
     }
 };
 

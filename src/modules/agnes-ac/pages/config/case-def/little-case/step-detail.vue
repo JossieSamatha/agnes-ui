@@ -85,7 +85,7 @@
             <el-form-item v-if="stepInfo.stepActType === '3'" label="流程定义选择" prop="stepActKey">
                 <el-select v-model="caseStepDef.stepActKey" placeholder="请选择">
                     <el-option
-                            v-for="item in flowData"
+                            v-for="item in bpmnOptions"
                             :key="item.value"
                             :label="item.label"
                             :value="item.value">
@@ -337,6 +337,7 @@
                 caseSteptype: [],
                 kpiOptions:[],
                 rpaOptions:[],
+                bpmnOptions:[],
                 serviceRes:[],
                 startTimeForDay:'',
                 endTimeForDay:'',
@@ -427,6 +428,7 @@
                     }
                 });
             });
+            this.getBpmnData();
             this.getRpaData();
             this.getKpiData();
             this.getServiceResponse();
@@ -494,6 +496,14 @@
                 rpaList.forEach((item)=>{
                     let robotName = item.robotName;
                     this.rpaOptions.push({label:robotName,value:item.robotId});
+                });
+            },
+            async getBpmnData(){
+                const bpmn = this.$api.BpmnApi.queryBpmnAll();
+                const bpmnOptions = await this.$app.blockingApp(bpmn);
+                bpmnOptions.forEach((item)=>{
+                    let bpmnName = '('+item.key+')'+ item.title
+                    this.bpmnOptions.push({label:bpmnName,value:item.key});
                 });
             },
             editExecTime( execScheduler,title) {

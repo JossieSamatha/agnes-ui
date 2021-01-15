@@ -1,0 +1,711 @@
+/*============================
+
+        监控大屏 -- 客户360
+
+==============================*/
+.guster-monitor {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.guster-monitor .topPanel {
+    margin-bottom: 5px;
+}
+
+.guster-monitor .topPanel .optionPanel{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    height: 35px;
+}
+
+.guster-monitor .topPanel .optionPanel
+.searchInput {
+    width: 320px;
+}
+
+.guster-monitor .topPanel .optionPanel
+.searchInput input{
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+    color: #666;
+}
+
+.guster-monitor .topPanel .optionPanel
+.searchInput .el-input__icon{
+    line-height: 30px;
+}
+
+.guster-monitor .topPanel .content {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 10px 7px;
+}
+
+.guster-monitor .topPanel .content>p{
+    flex: 0 20%;
+    margin-bottom: 3px;
+}
+
+.guster-monitor .topPanel .content>p>label{
+    color: #333;
+}
+
+.guster-monitor .topPanel .content>p>span{
+    color: #666;
+}
+
+.guster-monitor .gridContainer{
+    position: relative;
+    flex: 1;
+}
+
+.guster-monitor .gridContainer .vue-grid-layout {
+    width: 100%;
+    height: 100%;
+}
+
+.guster-monitor .gridContainer .vue-grid-layout .vue-grid-item
+.menuContent {
+    position: relative;
+    min-height: 100%;
+    max-height: 100%;
+    padding: 5px;
+    overflow: hidden;
+}
+
+.guster-monitor .gridContainer .vue-grid-layout .vue-grid-item
+.menuContent>div{
+    position: absolute;
+    top: 0px;
+    left: 5px;
+    width: calc(100% - 10px);
+    height: calc(100% - 5px);
+}
+
+.guster-monitor .gridContainer .vue-grid-layout .vue-grid-item
+.menuContent .el-card.module-card{
+    height: 100%;
+    margin-bottom: 0;
+    box-shadow: none;
+}
+
+.guster-monitor .gridContainer .vue-grid-layout .vue-grid-item
+.menuContent .el-card.module-card .el-card__body>.content {
+    height: 100%;
+}
+
+.guster-monitor .gridContainer .vue-grid-layout .vue-grid-item
+.menuContent .el-card.module-card .el-card__body {
+    height: calc(100% - 31px);
+    padding: 0 10px;
+}
+
+.guster-monitor .rapid-contact-form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.guster-monitor .rapid-contact-form>p {
+    width: 100%;
+    height: 20%;
+    max-height: 37px;
+    border-radius: 19px;
+    border: 1px solid #EFF2F7;
+    background: #F4F6FB;
+}
+
+.guster-monitor .rapid-contact-form>p .el-input {
+    height: 100%;
+}
+
+.guster-monitor .rapid-contact-form>p .el-input>input {
+    border: none;
+    background: transparent;
+    line-height: 1;
+    height: 100%;
+    border-radius: 19px 0 0 19px;
+    padding-left: 45px;
+    padding-right: 10px;
+}
+
+.guster-monitor .rapid-contact-form>p .el-input
+.el-input__prefix {
+    left: 15px;
+}
+
+.guster-monitor .rapid-contact-form>p .el-input
+.el-input__prefix .el-input__icon {
+    font-size: 17px;
+    color: #666;
+    line-height: 1;
+}
+
+.guster-monitor .rapid-contact-form>p .el-input
+.el-input__prefix .el-input__icon.el-icon-phone-outline {
+    font-size: 20px;
+}
+
+.guster-monitor .rapid-contact-form>p .el-input
+.el-input-group__append {
+    border: none;
+    background: transparent;
+    height: 100%;
+    border-radius: 0 19px 19px 0;
+    color: #0f5eff;
+    font-size: 12px;
+}
+
+.guster-monitor .rapid-contact-form>p>.el-button {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 19px;
+    font-size: 12px;
+    color: #0f5eff;
+    background: transparent;
+    padding: 0;
+}
+
+.guster-monitor .form_comp {
+    height: 100%;
+    padding: 0;
+    margin-top: 15px;
+    overflow-y: auto;
+}
+
+.guster-monitor .form_comp::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+.guster-monitor .form_comp:hover::-webkit-scrollbar-thumb {
+    background: #D7DBE4;
+}
+
+.guster-monitor .form_comp .el-form-item .el-form-item__label{
+    line-height: 28px;
+    font-size: 13px;
+    color: #333;
+}
+
+.guster-monitor .form_comp .el-form-item .el-form-item__content {
+    line-height: 28px;
+    font-size: 13px;
+}
+
+.guster-monitor .form_comp .el-form-item .el-form-item__content p {
+    width: 100%;
+    height: 100%;
+    line-height: 28px;
+}
+
+.guster-monitor .form_comp .el-form-item .el-form-item__content input {
+    line-height: 26px;
+    height: 26px;
+    border-color: #A8AED3;
+    font-size: 13px;
+    color: #666;
+}
+
+.guster-monitor .form_comp .el-form-item .el-form-item__content
+span.el-input__suffix .el-input__icon {
+    line-height: 26px;
+    font-size: 12px;
+}
+
+.guster-monitor .form_comp .el-form-item .el-form-item__content
+.el-radio+.el-radio {
+    line-height: 26px;
+    margin-left: 10px;
+}
+
+.guster-monitor .form_comp .el-form-item .el-form-item__content
+.el-radio .el-radio__input .el-radio__inner {
+    width: 12px;
+    height: 12px;
+}
+
+.guster-monitor .form_comp .el-form-item .el-form-item__content
+.el-radio .el-radio__input.is-checked .el-radio__inner {
+    border-color: #0f5eff;
+    background: #0f5eff;
+}
+
+.guster-monitor .form_comp .el-form-item .el-form-item__content
+.el-radio .el-radio__label {
+    padding-left: 3px;
+    font-size: 13px;
+}
+
+.guster-monitor .form_comp .el-form-item .el-form-item__content
+.el-radio .el-radio__input.is-checked+.el-radio__label {
+    color: #0f5eff;
+}
+
+.guster-monitor .form_comp .el-form-item .el-form-item__content
+.el-checkbox.is-checked:not(.is-disabled) .el-checkbox__label {
+    color: inherit;
+}
+
+.guster-monitor .form_comp .el-form-item .el-form-item__content
+.el-checkbox .el-checkbox__label {
+    font-size: 13px;
+    padding-left: 5px;
+}
+
+.guster-monitor .form_comp .el-form-item .el-form-item__content
+.el-checkbox:not(:last-child) {
+    margin-right: 10px;
+}
+
+.guster-monitor .form_comp .el-form-item .el-form-item__content
+.el-checkbox+.el-checkbox {
+    margin-left: 0;
+}
+
+.guster-monitor .form_comp .el-form-item .el-form-item__content
+.el-checkbox__inner{
+    width: 12px;
+    height: 12px;
+    border: 1px solid #C7C7C7;
+    border-radius: 2px;
+}
+
+.guster-monitor .form_comp .el-form-item .el-form-item__content
+.el-checkbox__input.is-checked:not(.is-disabled) .el-checkbox__inner,
+.guster-monitor .form_comp .el-form-item .el-form-item__content
+.el-checkbox__input.is-indeterminate:not(.is-disabled) .el-checkbox__inner{
+    background: #0f5eff;
+    border: 1px solid #0f5eff;
+    font-weight: bold;
+}
+
+.guster-monitor .form_comp .el-form-item .el-form-item__content
+.el-checkbox__input.is-indeterminate .el-checkbox__inner::before{
+    transform: scale(.7);
+}
+
+.guster-monitor .form_comp .el-form-item .el-form-item__content
+.el-checkbox__input.is-checked .el-checkbox__inner::after{
+    border-width: 2px;
+    height: 9px;
+    top: -2px;
+    width: 3px;
+    left: 3px;
+}
+
+.guster-monitor .el-form.form_comp .el-form-item .el-form-item__content button {
+    padding: 11px 15px;
+    border: none;
+    color: #fff;
+    background: #0f5eff;
+    line-height: 0;
+}
+
+.guster-monitor .form_comp .el-select-dropdown__wrap .el-select-dropdown__item {
+    height: 30px;
+    line-height: 30px;
+    font-size: 13px;
+}
+
+.guster-monitor .form_comp .el-select-dropdown__wrap
+.el-select-dropdown__item.selected{
+    color: #0f5eff;
+}
+
+/*==========================
+
+    imfoForm表格样式
+
+============================*/
+
+.el-form.infoForm {
+    padding: 0;
+    border-left: 1px solid #EAEAEA;
+    border-bottom: 1px solid #EAEAEA;
+}
+
+.el-form.infoForm .line {
+    display: flex;
+    height: 29px;
+    line-height: 28px;
+}
+
+.el-form.infoForm .line .el-form-item {
+    width: 100%;
+    border-right: 1px solid #EAEAEA;
+    border-top: 1px solid #EAEAEA;
+    margin-bottom: 0!important;
+}
+
+.el-form.infoForm .line .el-form-item .el-form-item__label {
+    height: 100%;
+    color: #333;
+    font-size: 12px;
+    background: #F6F8FA;
+    border-right: 1px solid #EAEAEA;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.el-form.infoForm .line .el-form-item .el-form-item__content{
+    font-size: 12px;
+}
+
+.el-form.infoForm .line .el-form-item .el-form-item__content input{
+    border: none;
+    padding-left: 15px;
+    height: 28px;
+    line-height: 28px;
+    background: #FBFCE3;
+}
+
+.el-form.infoForm .line .el-form-item .el-form-item__content>span{
+    padding-left: 15px;
+}
+
+.el-form.infoForm .line .el-form-item .el-form-item__content .el-input.is-disabled .el-input__inner{
+    background: #fff;
+    color: #333;
+    cursor: default;
+}
+
+.el-form.infoForm .line .el-form-item .el-form-item__content .el-input.is-disabled .el-input__prefix,
+.el-form.infoForm .line .el-form-item .el-form-item__content .el-input.is-disabled .el-input__suffix{
+    display: none;
+}
+
+.el-form.infoForm .line .el-form-item .el-form-item__content .el-input__prefix{
+    right: 4px;
+    width: 28px;
+    left: auto;
+}
+
+.el-form.infoForm .line .el-form-item .el-form-item__content .el-select,
+.el-form.infoForm .line .el-form-item .el-form-item__content .el-date-editor.el-input{
+    width: 100%;
+}
+
+.el-form.infoForm .line .el-form-item .el-form-item__content .el-select input{
+    height: 28px!important;
+}
+
+.el-form.infoForm .line .el-form-item .el-form-item__content .el-checkbox {
+    margin-left: 15px;
+}
+
+.el-form.infoForm .line .el-form-item .el-form-item__content .uploadBtn{
+    border: none;
+    padding: 0 15px;
+    color: #0F5EFF;
+    text-decoration: underline;
+}
+
+.el-form.infoForm .line .el-form-item .el-form-item__content .wrapContainer {
+    width: 80%;
+    margin: 10px auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.el-form.infoForm .line .el-form-item .el-form-item__content .wrapContainer>li .el-checkbox__label {
+    width: 120px;
+    text-align: left;
+    color: #333;
+}
+
+
+/* datavPage card卡签相关样式 */
+.datavPage .el-card.module-card {
+    border-radius: 0 4px 4px 4px;
+    border: none;
+    box-shadow: none!important;
+    margin-bottom: 10px;
+}
+
+.datavPage .el-card.module-card .el-card__header .headOption {
+    width: calc(100% - 97px);
+    cursor: pointer;
+}
+
+.datavPage .el-card.module-card .el-card__header .clearfix::before {
+    width: 3px;
+    top: calc(25% + 4px);
+}
+
+.datavPage .el-card.module-card .el-card__header .headOption .foldBtn{
+    padding: 10px;
+}
+
+.datavPage .el-tabs.content-tab>.el-tabs__header
+.el-tabs__nav {
+    border-radius: 0px;
+}
+
+.datavPage .el-tabs.el-tabs.content-tab .el-tabs__header
+.el-tabs__item {
+    width: 90px;
+    font-size: 14px;
+    padding: 0;
+    text-align: center;
+    color: #666;
+    background: #fff!important;
+}
+
+.datavPage .el-tabs.el-tabs.content-tab .el-tabs__header
+.el-tabs__item.is-active{
+    position: relative;
+    color: #0F5EFF;
+    border-bottom: none;
+}
+
+.datavPage .el-tabs.el-tabs.content-tab .el-tabs__header
+.el-tabs__item.is-active::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: -1px;
+    width: 100%;
+    height: 2px;
+    background: #0F5EFF;
+}
+
+.datavPage .el-tabs.content-tab .el-tabs__content {
+    min-height: 232px;
+    padding: 10px!important;
+}
+
+/* datavPage card卡签相关样式  侧边tab */
+.datavPage .el-tabs.content-tab-left {
+    height: 100%;
+}
+
+.datavPage .el-tabs.content-tab-left .el-tabs__nav.is-left {
+    border-bottom: 1px solid #EFF2F7!important;
+}
+
+.datavPage .el-tabs.content-tab-left .el-tabs__nav.is-left
+.el-tabs__active-bar.is-left{
+    top: 17px;
+    height: 0!important;
+    width: 0;
+    background: transparent;
+    border: 6px solid transparent;
+    border-right: 6px solid #0F5EFF;
+}
+
+.datavPage .el-tabs.content-tab-left .el-tabs__content {
+    padding: 0;
+    border: none;
+    padding-left: 15px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.datavPage .el-tabs.content-tab-left .el-tabs__content::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+.datavPage .el-tabs.content-tab-left:hover .el-tabs__content::-webkit-scrollbar-thumb {
+    background: #D7DBE4;
+}
+
+.datavPage .el-tabs.content-tab-left .el-tabs__header.is-left
+.el-tabs__nav-wrap::after{
+    width: 1px;
+    background-color: #EFF2F7;
+}
+
+.datavPage .el-tabs.content-tab-left .el-tabs__header.is-left
+.el-tabs__item.is-left{
+    width: 114px;
+    height: 43px;
+    line-height: 43px;
+    text-align: left;
+    color: #666;
+    font-weight: 400;
+    background: #fff;
+    border: none;
+    border-left: 2px solid transparent;
+    border-right: 1px solid #EFF2F7;
+}
+
+.datavPage .el-tabs.content-tab-left .el-tabs__header.is-left
+.el-tabs__item.is-left:hover{
+    color: #0F5EFF;
+}
+
+.datavPage .el-tabs.content-tab-left .el-tabs__header.is-left
+.el-tabs__item.is-left.is-active{
+    color: #0F5EFF;
+    border-left-color: #0F5EFF;
+    background: #EFF2F7;
+}
+
+
+/* datavPage card卡签相关样式  多选tag状checkbox */
+
+.datavPage .el-checkbox-group.bizTypeCheck {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.datavPage .el-checkbox-group.bizTypeCheck
+.el-checkbox {
+    flex: none;
+    width: 98px;
+    height: 28px;
+    line-height: 26px;
+    color: #666;
+    border-color: #eee;
+    padding: 0px 5px;
+    text-align: center;
+    margin: 0 8px 8px 0!important;
+    overflow: hidden;
+}
+
+.datavPage .el-checkbox-group.bizTypeCheck
+.el-checkbox .el-checkbox__input{
+    display: none;
+}
+
+.datavPage .el-checkbox-group.bizTypeCheck
+.el-checkbox.is-checked {
+    border-color: #0F5EFF;
+    background: #fff;
+}
+
+.datavPage .el-checkbox-group.bizTypeCheck
+.el-checkbox .el-checkbox__label{
+    width: 100%;
+    font-size: 13px;
+    padding-left: 0;
+    line-height: 26px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.datavPage .el-checkbox-group.bizTypeCheck
+.el-checkbox.is-checked .el-checkbox__input.is-checked+.el-checkbox__label{
+    color: #0F5EFF;
+}
+
+.datavPage .optionPanel {
+    position: absolute;
+    right: 18px;
+    text-align: right;
+    color: #0F5EFF;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 2px 5px;
+    z-index: 1000;
+}
+
+.datavPage .drawer-wrapper {
+    position: fixed;
+    top: 145px;
+    right: 0;
+    width: 120px;
+    height: calc(100% - 180px);
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.24);
+    z-index: 1000;
+}
+
+.datavPage .drawer-wrapper .drawer-container {
+    height: 100%;
+}
+
+.datavPage .drawer-wrapper .drawer-container .drawer-title {
+    height: 54px;
+    line-height: 54px;
+    text-align: center;
+    color: #333;
+    font-size: 14px;
+}
+
+.datavPage .drawer-wrapper .drawer-container .drawer-body {
+    position: relative;
+    height: calc(100% - 54px);
+    padding-bottom: 60px;
+}
+
+.datavPage .drawer-wrapper .drawer-body .contentUl {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.datavPage .drawer-wrapper .drawer-body .contentUl::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+.datavPage .drawer-wrapper .drawer-body:hover .contentUl::-webkit-scrollbar-thumb {
+    background: #D7DBE4;
+}
+
+.datavPage .drawer-wrapper .drawer-body .contentUl
+li.contentLi {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 98px;
+    height: 98px;
+    margin: auto;
+    text-align: center;
+    border: 1px solid #EFF2F7;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.datavPage .drawer-wrapper .drawer-body .contentUl
+li.contentLi+li.contentLi {
+    margin-top: 12px;
+}
+
+.datavPage .drawer-wrapper .drawer-body .contentUl
+li.contentLi>span {
+    color: #666;
+    font-size: 12px;
+}
+
+.datavPage .drawer-wrapper .drawer-container .drawer-body>.note {
+    position: absolute;
+    bottom: 10px;
+    color: #999;
+    padding: 2px 10px;
+}
+
+.gf-ag-grid.ag-theme-balham .ag-row .ag-cell .action-link:not(.is-disabled) {
+    color: #0F5EFF;
+    cursor: pointer;
+}
+
+.gf-ag-grid.ag-theme-balham .ag-row.ag-row-selected .ag-cell .action-link:not(.is-disabled) {
+    color: #fff;
+}
+
+
+.guster-monitor .ag-body-horizontal-scroll .ag-body-horizontal-scroll-viewport::-webkit-scrollbar-thumb,
+.guster-monitor .ag-body-viewport.ag-layout-normal::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+.guster-monitor .ag-grid-box .ag-root-wrapper-body:hover .ag-body-horizontal-scroll-viewport::-webkit-scrollbar-thumb,
+.guster-monitor .ag-grid-box .ag-root-wrapper-body:hover .ag-body-viewport.ag-layout-normal::-webkit-scrollbar-thumb {
+    background: #D7DBE4;
+}
