@@ -2,8 +2,8 @@
     <div class="left-side-container" :class="ifSideMenuFlod?'fold':''" v-clickoutside="closeSideMenu">
         <div id="gfVerticalExpand" class="gf-vertical-expand" :class="ifSideMenuFlod?'fold':''">
             <div class="gf-app-logo">
-<!--                <svg-icon name="HuaAn-logo" height="33px"/>-->
-                <img src="../../../assets/hex-logo.png" height="40px">
+                <svg-icon name="HuaAn-logo" height="33px"/>
+<!--                <img src="../../../assets/hex-logo.png" height="40px">-->
             </div>
             <div class="gf-menu normal" v-show="!ifSideMenuFlod">
                 <div class="content" v-clickoutside="clearCancelPopover">
