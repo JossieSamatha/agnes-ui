@@ -175,13 +175,17 @@
         methods: {
             // 新增服务行
             addRule(){
+                let fileType = '2';
+                if(this.applyType === 'receipt'){
+                    fileType = '3'
+                }
                 this.fileList.push({
                     docId: "",
                     objectId: '',
                     fileName: '',
                     fileNum: '',
                     remark: '',
-                    type:'2'
+                    type:fileType
                 });
             },
             removeRule(item){
@@ -282,7 +286,7 @@
                     res = await this.$api.acntMaterialApi.getApplyMaterialListByType(id,"2");
                 }else if('applySub' === applyType){
                     res = this.fileList = await this.$api.acntMaterialApi.getApplySubMaterialListByType(id,"2");
-                }else if("loadInfo" === applyType){
+                }else if("receipt" === applyType){
                     res = this.fileList = await this.$api.acntMaterialApi.getApplyMaterialListByType(id,"3");
                 }
                 if(res != null && res.data != null){
@@ -309,13 +313,17 @@
                         files.forEach((file)=>{
                             const hasFile = this.$lodash.find(oldFileList, {objectId: file.objectId});
                             if(!hasFile){
+                                let fileType = '1';
+                                if('receipt'  === this.applyType){
+                                    fileType = '3';
+                                }
                                 this.fileList.push({
                                     docId: docId,
                                     objectId: file.objectId,
                                     fileName: file.name,
                                     fileNum: '',
                                     remark: '',
-                                    type:'1',
+                                    type:fileType,
                                 });
                             }else{
                                 this.fileList.push(hasFile);
