@@ -7,9 +7,11 @@
                         @selectDate="selectDate"
                         @pickDay="pickDay">
             <template slot="dateCell" slot-scope="{date, data}">
-                <span class="content" :class="{'weekend': data.type === 'current-month' ? getDateObj(date, 'workday') : false}">
+                <span class="content"
+                      :class="{'weekend': data.type === 'current-month' ? getDateObj(date, 'workday') : false,
+                      'bizDate': data.type === 'current-month' && bizDate === data.day}">
                     <span>{{ getDay(date) }}</span>
-                    <em v-show="getDateObj(date, 'event')" class="circle"></em>
+                    <em v-show="data.type === 'current-month' && getDateObj(date, 'event')" class="circle"></em>
                 </span>
             </template>
         </agnes-calendar>
@@ -37,6 +39,7 @@
         },
         data() {
             return {
+                bizDate: '',
                 calendarVal: '',
                 workStatus: '',
                 todayDate: new Date().toLocaleDateString().replace(/\//g, '-'),
@@ -47,8 +50,12 @@
                 freshInterval: null,
             }
         },
-        created() {
-            this.getCalendarData(this.todayDate);
+        async created() {
+            const resp = await this.$api.changeDataApi.getChangeData();
+            this.calendarVal = resp.data ? resp.data.bizDate : this.todayDate;
+            this.bizDate = this.calendarVal;
+            this.getCalendarData(this.calendarVal);
+            this.pickDay(this.calendarVal);
             this.startInterval();
         },
         watch: {
@@ -124,7 +131,9 @@
                 this.freshInterval = setInterval(() => {
                     if (this.pageType === 'personal' && this.$route.path === '/datav.client.view' ||
                         this.pageType === 'department' && this.$route.path === '/datav.dep.view') {
-                        this.getCalendarData(this.todayDate);
+                        this.calendarVal = this.bizDate;
+                        this.getCalendarData(this.calendarVal);
+                        this.pickDay(this.calendarVal);
                     }else{
                         this.clearInterval();
                     }
