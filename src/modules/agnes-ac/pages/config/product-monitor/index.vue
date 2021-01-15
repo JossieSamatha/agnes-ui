@@ -109,14 +109,17 @@
 
             <module-card title="产品任务">
                 <template slot="content">
-                    <el-tabs class="content-tab" type="card" value="0">
-                        <el-tab-pane v-for="(item, index) in proTaskArr" :key="index" :name="index" lazy>
+                    <el-tabs class="content-tab" type="card" value="全部">
+                        <el-tab-pane v-for="(item, index) in proTaskArr" :key="index" :name="item.label" lazy>
                             <span slot="label">
                                 <el-badge :value="item.num" :hidden="!item.num">
                                     <span>{{item.label}}</span>
                                 </el-badge>
                             </span>
-                            <gf-grid grid-no="monitor-pro-task" :options="proTaskOption(this)" @row-double-click="showProDetail" style="height: 210px;"></gf-grid>
+                            <gf-grid grid-no="monitor-pro-task"
+                                     :options="proTaskOption(showProDetail)"
+                                     @row-double-click="showProDetail"
+                                     style="height: 210px;"></gf-grid>
                         </el-tab-pane>
                     </el-tabs>
                 </template>
@@ -173,11 +176,11 @@
                 proTaskArr: [
                     {label: '全部', num: '4'},{label: '成立'},{label: '开放',num: '1'},
                     {label: '分红'}, {label: '考核'}, {label: '清算', num: '3'}],
-                proTaskOption: (_this)=>{
+                proTaskOption: (fun) => {
                     return {
                         onCellClicked(params) {
                             if(params.colDef.field === 'proName'){
-                                _this.showProDetail();
+                                fun();
                             }
                         },
                     }

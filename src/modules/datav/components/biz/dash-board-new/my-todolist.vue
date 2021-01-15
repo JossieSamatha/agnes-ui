@@ -12,7 +12,7 @@
                               :style="{color: choosedTaskId === 'account' ? '#fff' : '#0f5eff'}"
                         >{{this.needTodoOfAcnt}}</span> 笔
                 </span>
-                <span class="type">账户申请</span>
+                <span class="type">账户申请管理</span>
                 <span class="date-time" style="display: block;width: 134px"></span>
             </div>
             <div class="deal" @click="todoForAcntApply">
