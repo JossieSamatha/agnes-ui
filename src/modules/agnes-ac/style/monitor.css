@@ -584,7 +584,7 @@ span.el-input__suffix .el-input__icon {
 
 .datavPage .el-checkbox-group.bizTypeCheck
 .el-checkbox.is-checked {
-    border-color: rgba(71, 109, 190, 0.4);
+    border-color: #0F5EFF;
     background: #fff;
 }
 
