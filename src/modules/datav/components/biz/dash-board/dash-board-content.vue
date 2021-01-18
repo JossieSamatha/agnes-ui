@@ -24,7 +24,7 @@
                 <span class="delUnitGrid" @click="delContent" v-if="ifCloseIconShow">
                     <em class="fa fa-close"></em>
                 </span>
-                <span v-if="unit.arrowShow"
+                <span v-show="unit.arrowShow === '1'"
                       class="compEntrance"
                       :class="{'bcg': unit.arrowBlock === '1'}"
                       @click="entranceMenu(unit)">
