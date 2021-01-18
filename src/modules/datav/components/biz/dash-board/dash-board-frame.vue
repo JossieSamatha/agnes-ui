@@ -81,12 +81,9 @@ export default {
             type: Boolean,
             default: true
         },
-        extAttr: {
-            type: Object
-        },
-        extEvent: {
-            type: Object,
-        }
+        extAttr: Object,
+        extEvent: Object,
+        ifNail: Boolean
     },
     data: function () {
         return {

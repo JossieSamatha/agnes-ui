@@ -60,7 +60,7 @@
                 }else{
                     resData = dashboardsRes.data[1];
                 }
-                resData.boardData = JSON.parse(resData.comtent);
+                resData.boardData = resData.comtent ? JSON.parse(resData.comtent): [];
                 this.gridLayout = resData;
                 const boardDataArr = JSON.parse(this.gridLayout.comtent);
                 boardDataArr.forEach((boardItem)=>{
@@ -68,6 +68,8 @@
                     if(compObj){
                         const objArr = [compObj];
                         this.$set(this.gridDataArr, boardItem.i, objArr);
+                    }else{
+                        this.$set(this.gridDataArr, boardItem.i, []);
                     }
                 })
             }
