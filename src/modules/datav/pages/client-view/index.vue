@@ -7,7 +7,7 @@
                 <div>
                     <span class="boardeEdit" :id="pageId+'EditBtn'" v-show="false" @click="boardEdit"
                     >配置看板</span>
-                    <span class="boardeEdit" v-if="isGridEdit" @click="boardEdit">切换看板</span>
+                    <span class="boardeEdit" v-if="isGridEdit" @click="boardChange">切换看板</span>
                     <span class="boardeEdit" v-if="isGridEdit" @click="boardEditFinish('content')">完成配置</span>
                     <span class="boardeEdit" v-if="isGridDefine" @click="addUnitGrid">新增面板</span>
                     <span class="boardeEdit" v-if="isGridDefine" @click="boardEditFinish('layout')">保存面板</span>
@@ -54,6 +54,11 @@
                 }
             },
 
+            // 切换看板
+            boardChange(){
+                this.boardChooseDialog = true;
+            },
+
             // 配置看板 -- 自定义面板
             defineBoard(choosedBoard) {
                 this.isGridEdit = false;
@@ -97,9 +102,11 @@
                     }
 
                     const comtent = this.$refs.gridContainer.gridLayout.boardData.map((item)=>{
+                        const compItem = this.$refs.gridContainer.gridDataArr[item.i];
+                        const compId = compItem[0] && compItem[0].compId ? compItem[0].compId : '';
                         return {
                             x: item.x, y: item.y, w: item.w, h: item.h, i: item.i,
-                            compId: this.$refs.gridContainer.gridDataArr[item.i][0].compId
+                            compId: compId
                         };
                     })
                     let newdDefineBoard = {
@@ -155,6 +162,8 @@
                             const objArr = [compObj];
                             gridDataArr[boardItem.i] = objArr;
                         }
+                    }else{
+                        gridDataArr[boardItem.i] = [];
                     }
                 })
 

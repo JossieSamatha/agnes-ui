@@ -8,7 +8,10 @@ import myTodoList from './my-todolist'
 import myException from './my-exception'
 import noticeComp from './notice-comp'
 import calendarDef from './calendar-def'
-import AgnesCalendar from './agnes-calendar'
+import AgnesCalendar from './agnes-calendar';
+import stackBar from './stack-bar';
+import depWorkStatistics from './dep-work-statistics';
+import stationWorkloadAnalysis from './station-workload-analysis'
 
 const Loading = {
     install: function (Vue) {
@@ -23,6 +26,9 @@ const Loading = {
         Vue.component('notice-comp', noticeComp);
         Vue.component('agnes-calendar', AgnesCalendar);
         Vue.component('calendar-def', calendarDef);
+        Vue.component('stack-bar', stackBar);
+        Vue.component('work-statistics', depWorkStatistics);
+        Vue.component('workload-analysis', stationWorkloadAnalysis);
     }
 };
 

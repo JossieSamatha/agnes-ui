@@ -20,7 +20,7 @@
                     <p :class="choosedBoard.boardId==board.boardId?'active':''"
                        v-for="board in boardArrDefault" :key="board.boardId"
                        @click="chooseBoard(board)">
-                        <dash-board-frame v-if="showDialog" ref="dialogGridLayout" :gridData="board.boardData" :rowHeight="10" :gridMargin="[1,1]"></dash-board-frame>
+                        <dash-board-frame v-if="showDialog" ref="dialogGridLayout" :gridData="board.boardData" :rowHeight="10" :gridMargin="[1,1]" :ifNail="true"></dash-board-frame>
                     </p>
                 </template>
                 <template v-if="boardBigType == 'defineBoard'">
@@ -28,7 +28,7 @@
                     <span class="delUnitGrid" v-if="defineBoardSet" @click="removeDefineBoard(board)">
                         <em class="fa fa-close"></em>
                     </span>
-                        <dash-board-frame v-if="showDialog" ref="dialogGridLayout" :gridData="board.boardData" :rowHeight="10" :gridMargin="[1,1]"></dash-board-frame>
+                        <dash-board-frame v-if="showDialog" ref="dialogGridLayout" :gridData="board.boardData" :rowHeight="10" :gridMargin="[1,1]" :ifNail="true"></dash-board-frame>
                     </p>
                 </template>
             </div>

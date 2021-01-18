@@ -623,7 +623,7 @@
     color: #666;
     padding: 2px 3px;
     cursor: pointer;
-    z-index: 1;
+    z-index: 101;
 }
 
 .datav_client_view .boardChoose .boardContainer .delUnitGrid:hover,
