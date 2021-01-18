@@ -4,9 +4,11 @@ import fileScan from "./file-scan-config/index"
 import fileScanList from "./file-scan-list/index"
 import fileMove from "./file-move-config/index"
 import fileMoveList from "./file-move-list/index"
+import fileDealConfig from "./file-deal-config/index"
 
 const Loading = {
     load: function (Gfui) {
+        Gfui.componentView('dataservice.filedeal.config', fileDealConfig, {title: '文件处理配置'});
         Gfui.componentView('dataservice.fileanaly.config', fileAnaly, {title: '文件解析配置'});
         Gfui.componentView('dataservice.filescan.config', fileScan, {title: '文件扫描配置'});
         Gfui.componentView('dataservice.filescan.list', fileScanList, {title: '文件扫描记录'});
