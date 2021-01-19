@@ -298,6 +298,7 @@ form .el-icon-lock::before {
     transition: 1s all ease;
 }
 
+.gf-vertical-expand.fold .gf-app-logo > .svg-icon,
 .gf-vertical-expand.fold .gf-app-logo > img{
     opacity: 0;
 }
