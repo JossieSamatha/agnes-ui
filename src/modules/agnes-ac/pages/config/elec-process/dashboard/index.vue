@@ -73,6 +73,8 @@
                                         <em v-if="task.taskIcon" :class="task.taskIcon"></em>
                                         <em v-else class="fa fa-cogs"></em>
                                     </p>
+                                    <el-badge :value="task.errNum" :max="99" :hidden="!task.errNum || task.errNum<=0">
+                                    </el-badge>
                                     <p class="title" :title="task.taskName" :style="{transform: 'scale('+ cardScale +')'}">{{task.taskName}}</p>
                                     <p style="height: 15px">
                                         <el-progress v-if="task.finishedRate"
