@@ -1,4 +1,4 @@
-import FileAnalyConfig from "../file-analy-config/file-analy-config-field";
+import FileAnalyConfig from "./file-analy-config-field";
 
 const Loading = {
     load: function (Gfui) {
