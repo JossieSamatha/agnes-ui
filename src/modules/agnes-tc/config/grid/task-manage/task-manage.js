@@ -25,7 +25,7 @@ export default {
         {headerName: "任务编号", field: "taskCode"},
         {headerName: "发起时间", field: "execStartTimes"},
         {headerName: "完成时间", field: "execEndTimes"},
-        {headerName: "完成状态", field: "taskStatus", dictType: "AGNES_TASK_MGR_STATUS"},
+        {headerName: "完成状态", field: "taskStatus", formatType: 'dict',dictType: "AGNES_TASK_MGR_STATUS"},
         column.buildOpCol(80, colButtons)
     ],
     // headerHeight: 40,

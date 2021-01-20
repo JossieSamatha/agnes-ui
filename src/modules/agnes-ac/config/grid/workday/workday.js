@@ -16,7 +16,7 @@ export default {
             }
         },
         {headerName: "日期", field: "bizDate"},
-        {headerName: "星期", field: "week",dictType:'AC_WEEK'},
+        {headerName: "星期", field: "week",formatType: 'dict',dictType:'AC_WEEK'},
         column.colUpdUser,
         column.colUpdTm,
         column.buildOpCol(120, colButtons)

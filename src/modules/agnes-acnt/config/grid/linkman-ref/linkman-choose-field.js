@@ -3,7 +3,7 @@ export default {
         {headerName: "联系人姓名", field: "linkmanName"},
         {headerName: "职位", field: "linkmanRoleId"},
         {headerName: "部门", field: "linkmanDept"},
-        {headerName: "状态", field: "linkmanStatus", dictType: "DOP_LINKMAN_STATUS"},
+        {headerName: "状态", field: "linkmanStatus", formatType: 'dict',dictType: "DOP_LINKMAN_STATUS"},
         {headerName: "所属机构", field: "extOrgName"}
     ],
     ext: {

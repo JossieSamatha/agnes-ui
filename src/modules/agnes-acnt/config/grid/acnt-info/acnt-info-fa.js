@@ -53,6 +53,7 @@ export default {
         {
             headerName: "账户状态", field: "acntStatus", width: 95,
             suppressSizeToFit: true,
+            formatType: 'dict',
             dictType: 'AGNES_ACNT_INFO_STATUS',
             cellStyle: function (params) {
                 if (!params.value) {

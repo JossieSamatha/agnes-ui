@@ -25,10 +25,10 @@ const colButtons = [
 export default {
     columnDefs: [
         column.buildOpCol(100, colButtons),
-        {headerName: "业务归属", field: "paramBizType", dictType: "AGNES_PRODUCT_PARAM_BIZTYPE"},
+        {headerName: "业务归属", field: "paramBizType", formatType: 'dict',dictType: "AGNES_PRODUCT_PARAM_BIZTYPE"},
         {headerName: "参数名称", field: "paramName"},
-        {headerName: "参数类型", field: "paramType", dictType: "AGNES_PRODUCT_PARAM_TYPE"},
-        {headerName: "参数状态", field: "paramStatus", dictType: 'AGNES_RELEASE_STATUS'},
+        {headerName: "参数类型", field: "paramType", formatType: 'dict',dictType: "AGNES_PRODUCT_PARAM_TYPE"},
+        {headerName: "参数状态", field: "paramStatus", formatType: 'dict',dictType: 'AGNES_RELEASE_STATUS'},
     ],
 
     ext: {

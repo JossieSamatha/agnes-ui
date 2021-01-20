@@ -10,7 +10,7 @@ export default {
         {headerName: "字段编码", field: "fieldKey"},
         {headerName: "字段名称", field: "fieldName"},
         {headerName: "字段类型", field: "fieldType"},
-        {headerName: "是否必填", field: "mustFill", dictType: 'GF_BOOL_TYPE'},
+        {headerName: "是否必填", field: "mustFill", formatType: 'dict',dictType: 'GF_BOOL_TYPE'},
         column.colCrtUser,
         column.colCrtTm,
         column.buildOpCol(120, colButtons)

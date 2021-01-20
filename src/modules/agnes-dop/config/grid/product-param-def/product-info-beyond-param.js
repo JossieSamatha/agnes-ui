@@ -2,8 +2,8 @@ export default {
     columnDefs: [
         {headerName: "产品代码", field: "productCode"},
         {headerName: "产品全称", field: "productName"},
-        {headerName: "产品种类", field: "productClass", dictType: "AGNES_PRODUCT_CLASS"},
-        {headerName: "产品类型", field: "productType", dictType: "AGNES_PRODUCT_TYPE"},
+        {headerName: "产品种类", field: "productClass", formatType: 'dict',dictType: "AGNES_PRODUCT_CLASS"},
+        {headerName: "产品类型", field: "productType", formatType: 'dict',dictType: "AGNES_PRODUCT_TYPE"},
     ],
     rowSelection: 'multiple',
     ext: {
