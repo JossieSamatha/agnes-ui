@@ -25,8 +25,8 @@ export default {
     columnDefs: [
         column.buildOpCol(80, colButtons),
         {headerName: "姓名", field: "linkmanName"},
-        {headerName: "岗位", field: "linkmanRoleId", dictType: "AGNES_ROSTER_POST"},
-        {headerName: "部门", field: "linkmanDept", dictType: "AGNES_ROSTER_DEPT"},
+        {headerName: "岗位", field: "linkmanRoleId", formatType: 'dict',dictType: "AGNES_ROSTER_POST"},
+        {headerName: "部门", field: "linkmanDept", formatType: 'dict',dictType: "AGNES_ROSTER_DEPT"},
         {headerName: "状态", field: "linkmanStatus", formatType: 'dict', dictType: 'DOP_LINKMAN_STATUS'},
         {headerName: "电话", field: "linkmanPhone"},
         // {headerName: "操作状态", field: "status", formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},

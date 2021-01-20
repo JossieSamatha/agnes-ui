@@ -11,6 +11,7 @@ export default {
         {
             headerName: "状态", field: "stepStatus", width: 95,
             suppressSizeToFit: true,
+            formatType: 'dict',
             dictType: 'AGNES_TASK_STEP_STATUS',
             cellStyle: function (params) {
                 if (!params.value) {

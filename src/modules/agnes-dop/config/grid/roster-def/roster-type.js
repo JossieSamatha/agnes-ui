@@ -29,7 +29,7 @@ const colButtons = [
 export default {
     columnDefs: [
         column.buildOpCol(130, colButtons),
-        {headerName: "值班类型", field: "rosterType", dictType: 'AGNES_ROSTER_TYPE'},
+        {headerName: "值班类型", field: "rosterType", formatType: 'dict',dictType: 'AGNES_ROSTER_TYPE'},
         {headerName: "值班日期", field: "rosterDate"},
         {headerName: "值班人员", field: "userName"},
         {headerName: "状态", field: "status", formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},

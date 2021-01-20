@@ -3,10 +3,10 @@
 export default {
     columnDefs: [
         {headerName: "消息名称", field: "msgName"},
-        {headerName: "消息类型", field: "msgType", dictType: 'REMIND_NOTICE_TYPE'},
+        {headerName: "消息类型", field: "msgType", formatType: 'dict',dictType: 'REMIND_NOTICE_TYPE'},
         {headerName: "通知时间", field: "remindTime"},
         {headerName: "完成时间", field: "updateTs"},
-        {headerName: "状态", field: "hasRead", dictType: 'REMIND_HAS_READ'},
+        {headerName: "状态", field: "hasRead", formatType: 'dict',dictType: 'REMIND_HAS_READ'},
     ],
     // headerHeight: 40,
     // rowHeight: 37,

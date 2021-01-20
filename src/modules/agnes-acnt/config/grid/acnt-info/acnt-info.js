@@ -22,11 +22,11 @@ export default {
         {headerName: "账号", field: "accNo"},
         {headerName: "流程类型", field: "processType"},
         {headerName: "账户类型", field: "typeName"},
-        {headerName: "状态", field: "acntStatus", dictType:"AGNES_ACNT_INFO_STATUS"},
+        {headerName: "状态", field: "acntStatus", formatType: 'dict',dictType:"AGNES_ACNT_INFO_STATUS"},
         {headerName: "归属机构", field: "extOrgName"},
         {headerName: "开户机构", field: "openBank"},
         {headerName: "账户对方联系人", field: "openLinkMan"},
-        {headerName: "币种", field: "currency" , dictType:"AGNES_ACNT_CURRENCY_TYPE"},
+        {headerName: "币种", field: "currency" , formatType: 'dict',dictType:"AGNES_ACNT_CURRENCY_TYPE"},
         {headerName: "账户启用日期", field: "acntStartDt"},
 
         {headerName: "利率", field: "rateLabel"},

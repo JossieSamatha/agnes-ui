@@ -8,7 +8,7 @@ export default {
     columnDefs: [
         column.buildOpCol(60, colButtons),
         // {headerName: "部门", field: "deptId", dictType: 'AGNES_ROSTER_DEPT'},
-        {headerName: "值班类型", field: "rosterType", dictType: 'AGNES_ROSTER_TYPE'},
+        {headerName: "值班类型", field: "rosterType", formatType: 'dict',dictType: 'AGNES_ROSTER_TYPE'},
         {headerName: "值班日期", field: "rosterDate"},
         {headerName: "值班时间", field: "rosterTs"},
        // {headerName: "姓名", field: "userName"},
