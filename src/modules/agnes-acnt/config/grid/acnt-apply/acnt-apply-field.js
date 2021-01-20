@@ -9,8 +9,8 @@ export default {
             return "【"+params.data.crtUserName+"】发起的"+ dictName +"申请流程"
         }
         },
-        {headerName: "业务类型", field: "bizType",dictType:"AGNES_ACNT_BIZ_TYPE"},
-        {headerName: "流程节点", field: "processStatus",dictType:"AGNES_ACNT_APPLY_STATUS"},
+        {headerName: "业务类型", field: "bizType",formatType: 'dict',dictType:"AGNES_ACNT_BIZ_TYPE"},
+        {headerName: "流程节点", field: "processStatus",formatType: 'dict',dictType:"AGNES_ACNT_APPLY_STATUS"},
         {headerName: "是否提交OA", field: "isSendOa",
             valueFormatter: function (params) {
                 if(params.value==='0'){
@@ -28,7 +28,7 @@ export default {
         {headerName: "基金名称", field: "productName"},
 
         {headerName: "申请截止日期", field: "applyDeadlineDt"},
-        {headerName: "申请超时状态", field: "applyDeadlineStatus",dictType: 'AGNES_ACNT_APPLY_DEADLINE_STATUS'},
+        {headerName: "申请超时状态", field: "applyDeadlineStatus",formatType: 'dict',dictType: 'AGNES_ACNT_APPLY_DEADLINE_STATUS'},
 
         {headerName: "创建人", field: "crtUserName"},
         column.colCrtTm,

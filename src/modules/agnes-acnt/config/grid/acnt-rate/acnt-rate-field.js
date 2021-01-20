@@ -55,7 +55,7 @@ export default {
         {headerName: "利率(%)", field: "rate"},
         {headerName: "大额支付号", field: "bigPayNo"},
         {headerName: "网点名称", field: "branchName"},
-        {headerName: "状态", field: "status" , dictType: "AGNES_RELEASE_STATUS"},
+        {headerName: "状态", field: "status" , formatType: 'dict',dictType: "AGNES_RELEASE_STATUS"},
         {headerName: "生效日期", field: "startDt"},
         {headerName: "失效日期", field: "endDt"},
         column.colUpdUser,

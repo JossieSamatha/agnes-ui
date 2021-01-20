@@ -15,9 +15,9 @@ export default {
     columnDefs: [
         {headerName: "风险描述", field: "riskDesc"},
         {headerName: "风险调入时间", field: "crtTs"},
-        {headerName: "风险类型", field: "riskType", dictType: 'AGNES_DOP_RISK_TYPE'},
-        {headerName: "风险等级", field: "riskLevel", dictType: 'AGNES_DOP_RISK_LEVEL'},
-        {headerName: "状态", field: "status", dictType: 'AGNES_RELEASE_STATUS'},
+        {headerName: "风险类型", field: "riskType", formatType: 'dict',dictType: 'AGNES_DOP_RISK_TYPE'},
+        {headerName: "风险等级", field: "riskLevel", formatType: 'dict',dictType: 'AGNES_DOP_RISK_LEVEL'},
+        {headerName: "状态", field: "status", formatType: 'dict',dictType: 'AGNES_RELEASE_STATUS'},
         {headerName: "任务名称", field: "taskName"},
         {headerName: "异常描述", field: "errDesc"},
         {headerName: "操作人员", field: "crtUser"},

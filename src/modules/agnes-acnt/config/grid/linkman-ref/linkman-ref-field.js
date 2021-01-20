@@ -63,7 +63,7 @@ export default {
 
         {headerName: "联系人姓名", field: "linkmanName"},
         {headerName: "联系方式", field: "linkmanMobile"},
-        {headerName: "状态", field: "status", dictType: 'AGNES_RELEASE_STATUS'},
+        {headerName: "状态", field: "status", formatType: 'dict',dictType: 'AGNES_RELEASE_STATUS'},
         {headerName: "生效日期", field: "startDt"},
         {headerName: "失效日期", field: "endDt"},
         column.colUpdUser,

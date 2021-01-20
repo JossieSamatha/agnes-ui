@@ -61,7 +61,7 @@ export default {
         {headerName: "利率(%)", field: "rate"},
         {headerName: "方案代码", field: "rateCode"},
         {headerName: "方案名称", field: "rateName"},
-        {headerName: "状态", field: "status",dictType: 'AGNES_RELEASE_STATUS'},
+        {headerName: "状态", field: "status",formatType: 'dict',dictType: 'AGNES_RELEASE_STATUS'},
         {headerName: "生效日期", field: "startDt"},
         {headerName: "失效日期", field: "endDt"},
         column.colUpdUser,

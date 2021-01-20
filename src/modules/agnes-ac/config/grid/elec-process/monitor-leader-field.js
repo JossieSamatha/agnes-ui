@@ -6,6 +6,7 @@ export default {
     columnDefs:[
         {headerName: "状态", field: "stepStatus", width: 95,
             suppressSizeToFit: true,
+            formatType: 'dict',
             dictType: 'AGNES_TASK_STEP_STATUS',
             cellStyle: function(params) {
                 if(!params.value){
@@ -54,7 +55,7 @@ export default {
                 }
             }
         },
-        {headerName: "任务类型", field: "stepActType", dictType: 'AGNES_CASE_STEPTYPE'},
+        {headerName: "任务类型", field: "stepActType", formatType: 'dict',dictType: 'AGNES_CASE_STEPTYPE'},
         {headerName: "执行人员", field: "updateUser"},
         {headerName: "备注", field: "remark"},
     ],

@@ -3,13 +3,14 @@ export default {
     columnDefs: [
         {headerName: "开始日期", field: "startDtStr"},
         {headerName: "结束日期", field: "endDtStr"},
-        {headerName: "业务类型", field: "bizType",dictType:"AGNES_ACNT_BIZ_TYPE"},
+        {headerName: "业务类型", field: "bizType",formatType: 'dict',dictType:"AGNES_ACNT_BIZ_TYPE"},
 
         {headerName: "账户名称", field: "acntName"},
         {headerName: "账户类型", field: "typeName"},
         {
             headerName: "账户状态", field: "acntStatus", width: 95,
             suppressSizeToFit: true,
+            formatType: 'dict',
             dictType: 'AGNES_ACNT_INFO_STATUS',
             cellStyle: function (params) {
                 if (!params.value) {
@@ -50,7 +51,7 @@ export default {
 
         {headerName: "账户简称", field: "acntShortName"},
         {headerName: "账户启用日期", field: "acntStartDt"},
-        {headerName: "是否开通银企直连", field: "isOpenBankCorDirect", dictType: "OPDS_YES_NO"},
+        {headerName: "是否开通银企直连", field: "isOpenBankCorDirect", formatType: 'dict',dictType: "OPDS_YES_NO"},
         {headerName: "到期提醒", field: "maturityDt"},
         {headerName: "备注", field: "remark"},
 
