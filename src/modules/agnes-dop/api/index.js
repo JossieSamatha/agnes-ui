@@ -16,6 +16,7 @@ import branchApi from './branch-data-api';
 import helpDefApi from './help-def-api';
 import funcConfigApi from './func-config-api';
 import compBoardApi from './comp-board-api';
+import wordsTranslApi from './words-transl-api';
 
 export default {
     orgDefineApi,
@@ -35,5 +36,6 @@ export default {
     branchApi,
     helpDefApi,
     funcConfigApi,
-    compBoardApi
+    compBoardApi,
+    wordsTranslApi
 };

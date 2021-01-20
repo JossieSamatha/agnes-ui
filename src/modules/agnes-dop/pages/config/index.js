@@ -22,6 +22,8 @@ import FuncConfig from "./func-config/index";
 import MenuConfig from "./menu-base-config/index";
 import FuncConfigAdd from "./func-config/add-config";
 import Compent from "./compents/index";
+import FactorDef from "./factor-def/index";
+import TransRule from "./trans-rule-def/index";
 
 const Loading = {
     install: function(Vue){
@@ -51,6 +53,8 @@ const Loading = {
         Gfui.componentView('agnes.dop.branch', Branch, {title: '网点信息维护'});
         Gfui.componentView('agnes.dop.help', HelpDef, {title: '帮助文档维护'});
         Gfui.componentView('agnes.dop.comp', Compent, {title: '组件维护'});
+        Gfui.componentView('agnes.chzh.yzwh', FactorDef, {title: '因子维护'});
+        Gfui.componentView('agnes.chzh.zhgz', TransRule, {title: '转换规则维护'});
     }
 };
 
