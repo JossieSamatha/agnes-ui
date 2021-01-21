@@ -7,7 +7,10 @@ const colButtons = [
             return params.data.status === '01'
         }
     },
-    {key: 'deleteTask', title: '删除', cellClass: 'red-cell'},
+    {key: 'deleteTask', title: '删除', cellClass: 'red-cell',disabled: (params) => {
+            return params.data.status === '01'
+        }
+        },
     {
         key: 'start', title: '停用', visiable: (params) => {
             return params.data.status === '01'
@@ -28,8 +31,8 @@ export default {
         {headerName: "任务名称", field: "taskName"},
         {headerName: "任务代码", field: "taskCode"},
         {headerName: "执行频率", field: "exeCron"},
-        {headerName: "状态", field: "status", dictType: 'DATA_PIPE_TASK_STATUS'},
-        column.buildOpCol(110, colButtons),
+        {headerName: "状态", field: "status", formatType: 'dict',dictType: 'DATA_PIPE_TASK_STATUS'},
+        column.buildOpCol(140, colButtons),
     ],
     ext: {
 

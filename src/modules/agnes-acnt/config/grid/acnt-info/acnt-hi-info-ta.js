@@ -4,13 +4,14 @@ export default {
     columnDefs: [
         {headerName: "开始日期", field: "startDtStr"},
         {headerName: "结束日期", field: "endDtStr"},
-        {headerName: "业务类型", field: "bizType",dictType:"AGNES_ACNT_BIZ_TYPE"},
+        {headerName: "业务类型", field: "bizType",formatType: 'dict',dictType:"AGNES_ACNT_BIZ_TYPE"},
 
         {headerName: "账户名称", field: "acntName"},
         {headerName: "账户类型", field: "typeName"},
         {
             headerName: "账户状态", field: "acntStatus", width: 95,
             suppressSizeToFit: true,
+            formatType: 'dict',
             dictType: 'AGNES_ACNT_INFO_STATUS',
             cellStyle: function (params) {
                 if (!params.value) {
@@ -55,8 +56,8 @@ export default {
         {headerName: "三证合一变更情况", field: "threeLicenseInfo"},
         {headerName: "账户启用日期", field: "acntStartDt"},
         {headerName: "账户用途描述", field: "acntPurpose"},
-        {headerName: "是否开立网银", field: "isOpenEbank", dictType:"OPDS_YES_NO"},
-        {headerName: "是否开立银企直联", field: "isOpenBankCorDirect", dictType:"OPDS_YES_NO"},
+        {headerName: "是否开立网银", field: "isOpenEbank", formatType: 'dict',dictType:"OPDS_YES_NO"},
+        {headerName: "是否开立银企直联", field: "isOpenBankCorDirect", formatType: 'dict',dictType:"OPDS_YES_NO"},
         {headerName: "备付金账户对应的银行账户", field: "provisionBankAcntNames"},
         {headerName: "卡账户对应的对公户", field: "cardCorporateAcntName"},
         {headerName: "其他", field: "other"},

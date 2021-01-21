@@ -64,7 +64,8 @@ import FileScanConfigDetail from './file-scan-config-detail'
                     title: ['文件扫描配置',mode],
                     component: FileScanConfigDetail,
                     args: {row, mode, actionOk},
-                    okButtonVisible:mode!=='view'
+                    okButtonVisible:mode!=='view',
+                    pageEl: this.$el
                 })
             },
             startFileMove(params){

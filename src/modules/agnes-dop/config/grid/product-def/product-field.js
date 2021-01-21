@@ -27,11 +27,11 @@ export default {
         {headerName: "产品代码", field: "productCode", enableRowGroup: false},
         {headerName: "产品简称", field: "productShortName", enableRowGroup: false},
         {headerName: "产品全称", field: "productName", enableRowGroup: false},
-        {headerName: "产品种类", field: "productClass", dictType: "AGNES_PRODUCT_CLASS"},
-        {headerName: "产品类型", field: "productType", dictType: "AGNES_PRODUCT_TYPE"},
-        {headerName: "产品阶段", field: "productStage", dictType: "AGNES_PRODUCT_STAGE"},
-        {headerName: "当前状态", field: "productCurStatus", dictType: 'AGNES_PRODUCT_STATUS'},
-        {headerName: "操作状态", field: "productStatus", dictType: 'AGNES_RELEASE_STATUS'},
+        {headerName: "产品种类", field: "productClass", formatType: 'dict',dictType: "AGNES_PRODUCT_CLASS"},
+        {headerName: "产品类型", field: "productType", formatType: 'dict',dictType: "AGNES_PRODUCT_TYPE"},
+        {headerName: "产品阶段", field: "productStage", formatType: 'dict',dictType: "AGNES_PRODUCT_STAGE"},
+        {headerName: "当前状态", field: "productCurStatus", formatType: 'dict',dictType: 'AGNES_PRODUCT_STATUS'},
+        {headerName: "操作状态", field: "productStatus", formatType: 'dict',dictType: 'AGNES_RELEASE_STATUS'},
         {
             headerName: "成立日期", field: "startDate", valueFormatter: function (params) {
                 if (params.value) {

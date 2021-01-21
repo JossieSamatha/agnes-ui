@@ -9,7 +9,7 @@ export default {
         column.buildOpCol(80, colButtons, {field: 'option'}),
         {headerName: "序号", field: "id", valueGetter: params => params.node.rowIndex + 1},
         {headerName: "当前操作", field: "confName"},
-        {headerName: "使用状态", field: "status", dictType: 'DATA_PIPE_TASK_STATUS'},
+        {headerName: "使用状态", field: "status", formatType: 'dict',dictType: 'DATA_PIPE_TASK_STATUS'},
     ],
     ext: {
         pagingMode: false, //不分页

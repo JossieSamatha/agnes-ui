@@ -15,6 +15,8 @@ import MonitorErrDef from "./monitor-err-def"
 import BranchDef from "./branch-def"
 import FuncConfig from "./func-config"
 import Compent from "./compents"
+import Roster from "./roster"
+import Memo from "./memo"
 
 const Loading = {
     load: function (Gfui) {
@@ -35,6 +37,9 @@ const Loading = {
         Gfui.use(BranchDef);
         Gfui.use(FuncConfig);
         Gfui.use(Compent);
+        Gfui.use(Roster);
+        Gfui.use(Memo);
+
     }
 };
 

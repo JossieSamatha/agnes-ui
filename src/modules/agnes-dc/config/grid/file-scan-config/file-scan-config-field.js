@@ -54,7 +54,7 @@ export default {
         {headerName: "传输方式", field: "transMode",formatType: 'dict', dictType: 'AGNES_DC_TRANS_MODE'},
         {headerName: "服务器地址", field: "serverAddress"},
         {headerName: "服务器端口", field: "serverPort"},
-        {headerName: "状态", field: "status",dictType: 'AGNES_RELEASE_STATUS'},
+        {headerName: "状态", field: "status",formatType: 'dict',dictType: 'AGNES_RELEASE_STATUS'},
         {headerName: "扫描路径", field: "filePath"},
         {headerName: "扫描文件", field: "fileName"},
         column.colCrtTm,

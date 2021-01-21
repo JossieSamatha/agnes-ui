@@ -1,5 +1,5 @@
 
-import FileAnaly from "./file-analy-config/index"
+import FileAnaly from "./file-deal-config"
 import FileScan from "./file-scan-config"
 import FileMove from "./file-move-config"
 import FileMoveList from "./file-move-list"

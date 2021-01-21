@@ -20,5 +20,29 @@ export default {
     },
     getMemoList(memoDt, memoStatus) {
         return request.get("/agnes-app/v1/dop/memo/list", {params: {memoDt, memoStatus}});
-    }
+    },
+
+
+    //新版本运营日历接口
+    selectMemoDefList(memoStatus) {
+        return request.post("/agnes-app/v2/dop/memo/def/list", null, {params: {memoStatus}});
+    },
+    getMemoListOfMonth(pageType, memoDate) {
+        return request.post("/agnes-app/v2/dop/memo/detail", null, {params: {pageType, memoDate}});
+    },
+    saveMemoDef(form) {
+        return request.post("/agnes-app/v2/dop/memo/def/save", form);
+    },
+    approve(pkId) {
+        return request.post("/agnes-app/v2/dop/memo/def/approve", null, {params: {pkId}});
+    },
+    deleteMemoDef(pkId) {
+        return request.post("/agnes-app/v2/dop/memo/def/delete", null, {params: {pkId}});
+    },
+    deleteRuMemo(form) {
+        return request.post("/agnes-app/v2/dop/memo/ru/delete", form);
+    },
+    saveRuMemo(form) {
+        return request.post("/agnes-app/v2/dop/memo/ru/save", form);
+    },
 };

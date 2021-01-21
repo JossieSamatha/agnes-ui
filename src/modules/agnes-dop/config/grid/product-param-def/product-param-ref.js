@@ -38,7 +38,7 @@ export default {
                 return params.value;
             }
         },
-        {headerName: "状态", field: "status", dictType: 'AGNES_RELEASE_STATUS'},
+        {headerName: "状态", field: "status", formatType: 'dict',dictType: 'AGNES_RELEASE_STATUS'},
         column.colCrtUser,
     ],
     ext: {
