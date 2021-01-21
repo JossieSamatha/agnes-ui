@@ -39,7 +39,7 @@
         },
         data() {
             return {
-                bizDate: '',
+                bizDate: new Date().toLocaleDateString().replace(/\//g, '-'),
                 calendarVal: '',
                 workStatus: '',
                 todayDate: new Date().toLocaleDateString().replace(/\//g, '-'),
