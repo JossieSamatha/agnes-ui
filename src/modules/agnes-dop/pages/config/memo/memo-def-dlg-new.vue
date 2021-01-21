@@ -112,10 +112,11 @@
 
         beforeMount() {
             this.rosterDate = window.bizDate;
-
-            if(!this.mode === 'add'){
-                this.memoForm = this.row;
-                this.memoForm.memberRefList = JSON.parse(this.row.memoNoticeUser);
+            if (this.mode !== 'add') {
+              this.memoForm = this.row;
+              console.log(this.row)
+              console.log(this.memoForm)
+              this.memoForm.memberRefList = JSON.parse(this.row.memoNoticeUser);
             }
         },
         methods: {

@@ -29,7 +29,7 @@ export default {
       this.reloadData();
     },
     editMemoDef(param) {
-      this.showTodoDlg('add', param.date, this.onEditMemoDef.bind(this));
+      this.showTodoDlg('edit', param.data, this.onEditMemoDef.bind(this));
     },
     addMemoDef() {
       this.showTodoDlg('add', {}, this.onAddMemoDef.bind(this));
@@ -51,7 +51,7 @@ export default {
         return
       }
       try {
-        const p = this.$api.memoApi.deleteMemoDef(param.date.pkId);
+        const p = this.$api.memoApi.deleteMemoDef(param.data.pkId);
         await this.$app.blockingApp(p);
         this.reloadData();
       } catch (reason) {
@@ -64,7 +64,8 @@ export default {
         return
       }
       try {
-        const p = this.$api.memoApi.approve(param.date.pkId);
+        console.log(param)
+        const p = this.$api.memoApi.approve(param.data.pkId);
         await this.$app.blockingApp(p);
         this.reloadData();
       } catch (reason) {

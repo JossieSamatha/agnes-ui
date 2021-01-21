@@ -29,7 +29,7 @@ export default {
       this.reloadData();
     },
     editRosterDef(param) {
-      this.showScheduleDlg('add', param.date, this.onEditRosterDef.bind(this));
+      this.showScheduleDlg('add', param.data, this.onEditRosterDef.bind(this));
     },
     addRosterDef() {
       this.showScheduleDlg('add', {}, this.onAddRosterDef.bind(this));
@@ -51,7 +51,7 @@ export default {
         return
       }
       try {
-        const p = this.$api.rosterApi.deleteRef(param.date.pkId);
+        const p = this.$api.rosterApi.deleteRef(param.data.pkId);
         await this.$app.blockingApp(p);
         this.reloadData();
       } catch (reason) {
@@ -64,7 +64,7 @@ export default {
         return
       }
       try {
-        const p = this.$api.rosterApi.approve(param.date.pkId);
+        const p = this.$api.rosterApi.approve(param.data.pkId);
         await this.$app.blockingApp(p);
         this.reloadData();
       } catch (reason) {

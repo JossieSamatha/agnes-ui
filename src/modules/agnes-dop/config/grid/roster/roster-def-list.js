@@ -47,7 +47,7 @@ export default {
     ext: {
         fetchUrl: "/agnes-app/v2/dop/roster/def/page",    //后台查询数据的URL地址
         fetchMethod: 'post',
-        pagingMode: false, //不分页
+        pagingMode: true, //不分页
         checkboxColumn: 2, //是否显示checkbox列,
         enableExportLocal: true,
         autoFitColumnMode: 1,
