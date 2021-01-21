@@ -105,6 +105,11 @@
         components: {
             'detail-popver': detailPopver
         },
+        async created(){
+            debugger
+            const p = await this.$api.memoApi.selectMemoDefList('01');
+            console.log('selectMemoDefList', p);
+        },
         methods: {
             dateChange(val){
                 if(this.$refs.calendarMemo){

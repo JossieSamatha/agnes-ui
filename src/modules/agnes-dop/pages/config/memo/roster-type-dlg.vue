@@ -2,30 +2,34 @@
     <div>
         <el-form class="fit-box" :disabled="mode==='view'" :model="form" ref="form" :rules="rules" label-width="85px"
                  style="padding: 10px;">
-            <el-form-item label="值班区间" prop="rosterDate">
+            <el-form-item label="值班区间" prop="rosterStartDate">
                 <div class="line">
-                    <el-date-picker
-                            v-model="form.rosterDate"
-                            align="left"
-                            type="date"
-                            value-format="yyyy-MM-dd"
-                            placeholder="选择日期">
-                    </el-date-picker>
+                    <el-form-item prop="rosterStartDate">
+                        <el-date-picker
+                                v-model="form.rosterStartDate"
+                                align="left"
+                                type="date"
+                                value-format="yyyy-MM-dd"
+                                placeholder="选择日期">
+                        </el-date-picker>
+                    </el-form-item>
                     <span style="margin: 0 15px">至</span>
-                    <el-date-picker
-                            v-model="form.rosterDate"
-                            align="left"
-                            type="date"
-                            value-format="yyyy-MM-dd"
-                            placeholder="选择日期">
-                    </el-date-picker>
+                    <el-form-item prop="rosterEndDate">
+                        <el-date-picker
+                                v-model="form.rosterEndDate"
+                                align="left"
+                                type="date"
+                                value-format="yyyy-MM-dd"
+                                placeholder="选择日期">
+                        </el-date-picker>
+                    </el-form-item>
                 </div>
             </el-form-item>
-            <el-form-item label="值班类型" prop="rosterType">
-                <gf-dict-select
-                        dict-type="AGNES_ROSTER_TYPE"
-                        v-model="form.rosterType"
-                        multiple/>
+            <el-form-item label="值班类型" prop="rosterTypeArr">
+                <el-select v-model="form.rosterTypeArr" multiple clearable>
+                    <el-option v-for="item in rosterTypeDict" :key="item.dictId" :label="item.dictName" :value="item.dictId">
+                    </el-option>
+                </el-select>
             </el-form-item>
             <el-form-item label="值班人员" prop="memberRefList">
                 <gf-person-chosen ref="memberRef"
@@ -46,19 +50,20 @@
     export default {
         data() {
             return {
+                rosterTypeDict: this.$app.dict.getDictItems('AGNES_ROSTER_TYPE'),
                 form: {
-                    rosterType: [],
-                    rosterDate: "",
-                    rosterTs: "",
-                    memberRefList: []
+                    rosterStartDate: '',
+                    rosterEndDate: '',
+                    rosterTypeArr: [],
+                    rosterType: '',
+                    memberRefList: [],
+                    rosterNoticeUser: ''
                 },
-                rosterId: "",
                 rules: {
-                    'memberRefList': [{required: true, message: "请选择员工姓名"}],
-                    'rosterType': [{required: true, message: "请选择值班类型"}],
-                    // 'rosterTs': [{required: true, message: "请选择值班时间"}],
-                    'rosterDate': [{required: true, message: "请选择值班日期"}],
-                    'memberRef': [{required: true, message: "请选择值班人员", trigger: ['blur', 'change']}],
+                    'rosterStartDate': [{required: true, message: "请选择值班开始时间"}],
+                    'rosterEndDate': [{required: true, message: "请选择值班结束时间"}],
+                    'rosterTypeArr': [{type: 'array', required: true, message: "请选择值班类型"}],
+                    'memberRefList': [{type: 'array',required: true, message: "请选择值班人员"}],
                 },
             };
         },
@@ -71,56 +76,28 @@
             actionOk: Function
         },
 
-        mounted() {
-            this.transferTime()
+        beforeMount() {
+            if(!this.mode === 'add'){
+                this.form = this.row;
+                this.form.memberRefList = JSON.parse(this.row.rosterNoticeUser);
+                this.form.rosterTypeArr = JSON.parse(this.row.rosterType);
+            }
         },
 
         methods: {
-            async loadUserInfos() {
-                const p = this.$api.userGroupApi.getUserInfos({'userGroupId': this.form.userGroupId});
-                const resp = await this.$app.blockingApp(p);
-                if (resp.data) {
-                    let userInfoList = resp.data;
-                    const chosenData = userInfoList.map(item => {
-                        return {
-                            'refType': '1',
-                            'memberId': item.userId,
-                            'memberDesc': item.userName
-                        }
-                    });
-                    // 初始赋值，调用initChosenData方法传入
-                    this.$refs.memberRef.initChosenData(chosenData);
-                }
-            },
-            // 人员选择数组变化回调事件，返回参数为最新选择人员数组
-            getMemberList(newChosenData) {
-                this.form.memberRefList = newChosenData;
-                this.form.userIds = newChosenData.map(item => {
-                    return item.memberId
-                });
-            },
-            transferTime() {
-                Object.assign(this.form, this.row);
-                const chosenData = [];
-                //let that = this;
-                if (this.mode !== 'add') {
-                    chosenData.push({
-                        'refType': '1',
-                        'memberId': this.row.userId,
-                        'memberDesc': this.row.userName
-                    })
-                    // 初始赋值，调用initChosenData方法传入
-                    this.$refs.memberRef.initChosenData(chosenData);
-                }
+            getMemberList(val){
+                this.form.memberRefList = val;
             },
 
             async onSave() {
-                const ok = await this.$refs['form'].validate();
+                const ok = await this.$refs.form.validate();
                 if (!ok) {
                     return;
                 }
                 try {
-                    const p = this.$api.rosterApi.saveRoster(this.form);
+                    this.form.rosterNoticeUser = JSON.stringify(this.form.memberRefList);
+                    this.form.rosterType = JSON.stringify(this.form.rosterTypeArr);
+                    const p = this.$api.rosterApi.saveDef(this.form);
                     const req = await this.$app.blockingApp(p);
                     if (req.data != null) {
                         this.$msg.warning(req.data);
