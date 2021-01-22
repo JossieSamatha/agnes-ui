@@ -77,9 +77,9 @@
         },
 
         beforeMount() {
-            if(!this.mode === 'add'){
-                this.form = this.row;
-                this.form.memberRefList = JSON.parse(this.row.rosterNoticeUser);
+            if(!(this.mode === 'add')){
+                this.$lodash.assign(this.form, this.row);
+                this.form.memberRefList = this.row.rosterNoticeUser.split(',');
                 this.form.rosterTypeArr = JSON.parse(this.row.rosterType);
             }
         },
@@ -95,7 +95,7 @@
                     return;
                 }
                 try {
-                    this.form.rosterNoticeUser = JSON.stringify(this.form.memberRefList);
+                    this.form.rosterNoticeUser = this.form.memberRefList.join(',');
                     this.form.rosterType = JSON.stringify(this.form.rosterTypeArr);
                     const p = this.$api.rosterApi.saveDef(this.form);
                     const req = await this.$app.blockingApp(p);

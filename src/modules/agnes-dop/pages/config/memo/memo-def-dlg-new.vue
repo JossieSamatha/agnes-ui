@@ -6,14 +6,16 @@
                 <gf-input v-model="memoForm.memoDesc" type="textarea" :max-byte-len="512"></gf-input>
             </el-form-item>
             <el-form-item label="创建方式选择" prop="createType" required>
-                <el-radio-group class="alter-radio-btn" v-model="memoForm.createType" size="small" @change="createTypeChange">
+                <el-radio-group class="alter-radio-btn" v-model="memoForm.createType" size="small"
+                                @change="clearMemoRules(['memoDate', 'memoStartDate', 'memoEndDate','memoCron'])">
                     <el-radio label="01">按照指定日期</el-radio>
                     <el-radio label="02">按照自定义频率</el-radio>
                 </el-radio-group>
             </el-form-item>
             <template v-if="memoForm.createType === '01'">
                 <el-form-item label="指定日期方式" required>
-                    <el-radio-group class="alter-radio-btn" v-model="dateType" size="small" @change="dateTypeChange">
+                    <el-radio-group class="alter-radio-btn" v-model="dateType" size="small"
+                                    @change="clearMemoRules(['memoDate', 'memoStartDate', 'memoEndDate'])">
                         <el-radio label="01">提醒日期</el-radio>
                         <el-radio label="02">创建周期</el-radio>
                     </el-radio-group>
@@ -55,7 +57,8 @@
                 </el-form-item>
             </template>
             <el-form-item label="日历类型" prop="memoType" required>
-                <el-radio-group class="alter-radio-btn" v-model="memoForm.memoType" size="small" @change="memoTypeChange">
+                <el-radio-group class="alter-radio-btn" v-model="memoForm.memoType" size="small"
+                                @change="clearMemoRules('memberRefList')">
                     <el-radio label="01">我的日历</el-radio>
                     <el-radio label="02">部门日历</el-radio>
                 </el-radio-group>
@@ -112,11 +115,13 @@
 
         beforeMount() {
             this.rosterDate = window.bizDate;
-            if (this.mode !== 'add') {
-              this.memoForm = this.row;
-              console.log(this.row)
-              console.log(this.memoForm)
-              this.memoForm.memberRefList = JSON.parse(this.row.memoNoticeUser);
+
+            if(!(this.mode === 'add')){
+                this.$lodash.assign(this.memoForm, this.row);
+                if(this.row.memoStartDate){
+                    this.dateType = '02'
+                }
+                this.memoForm.memberRefList = JSON.parse(this.row.memoNoticeUser);
             }
         },
         methods: {
@@ -129,36 +134,8 @@
                 }
             },
 
-            clearMemoRules(){
-                this.$refs.memoForm.clearValidate();
-            },
-
-            createTypeChange(val){
-                if(val === '01'){
-                    this.memoForm.memoCron = '';
-                }else{
-                    this.memoForm.memoDate = '';
-                    this.memoForm.memoStartDate = '';
-                    this.memoForm.memoEndDate = '';
-                }
-                this.$refs.memoForm.clearValidate(['memoDate', 'memoStartDate', 'memoEndDate','memoCron']);
-            },
-
-            dateTypeChange(val){
-                if(val === '01'){
-                    this.memoForm.memoStartDate = '';
-                    this.memoForm.memoEndDate = '';
-                }else{
-                    this.memoForm.memoDate = '';
-                }
-                this.$refs.memoForm.clearValidate(['memoDate', 'memoStartDate', 'memoEndDate']);
-            },
-
-            memoTypeChange(val){
-                if(val === '02'){
-                    this.memoForm.memoNoticeUser = '';
-                    this.memoForm.memberRefList = [];
-                }
+            clearMemoRules(fields){
+                this.$refs.memoForm.clearValidate(fields);
             },
 
             async save() {
@@ -167,8 +144,21 @@
                     return;
                 }
                 try {
-                    this.memoForm.memoNoticeUser = JSON.stringify(this.memoForm.memberRefList);
-                    const p = this.$api.memoApi.saveMemoDef(this.memoForm);
+                    const memoFormCopy = this.$lodash.deepClone(this.memoForm);
+                    if(memoFormCopy.createType === '01'){
+                        memoFormCopy.memoCron = '';
+                    } else if(memoFormCopy.dateType === '01'){
+                        this.memoForm.memoStartDate = '';
+                        this.memoForm.memoEndDate = '';
+                    }else{
+                        this.memoForm.memoDate = '';
+                    }
+                    if(memoFormCopy.memoType === '01'){
+                        this.memoForm.memoNoticeUser = '';
+                        this.memoForm.memberRefList = [];
+                    }
+                    memoFormCopy.memoNoticeUser = JSON.stringify(memoFormCopy.memberRefList);
+                    const p = this.$api.memoApi.saveMemoDef(memoFormCopy);
                     await this.$app.blockingApp(p);
                     this.$msg.success('保存成功');
                     this.$dialog.close(this);
