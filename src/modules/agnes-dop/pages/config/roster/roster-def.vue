@@ -6,7 +6,8 @@
              @row-double-click="showRosterDef"
     >
       <template slot="left">
-        <gf-button class="action-btn" @click="addRosterDef" size="mini">
+        <gf-button v-if="$hasPermission('agnes.dop.roster.def.add')" class="action-btn" @click="addRosterDef"
+                   size="mini">
           添加
         </gf-button>
       </template>
@@ -29,10 +30,13 @@ export default {
       this.reloadData();
     },
     editRosterDef(param) {
-      this.showScheduleDlg('add', param.data, this.onEditRosterDef.bind(this));
+      this.showScheduleDlg('edit', param.data, this.onEditRosterDef.bind(this));
     },
     addRosterDef() {
       this.showScheduleDlg('add', {}, this.onAddRosterDef.bind(this));
+    },
+    showRosterDef(param) {
+      this.showScheduleDlg('view', param.data, this.onAddRosterDef.bind(this));
     },
     showScheduleDlg(mode, row, actionOk) {
       this.$nav.showDialog(

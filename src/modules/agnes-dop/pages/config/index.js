@@ -56,7 +56,7 @@ const Loading = {
         Gfui.componentView('agnes.dop.help', HelpDef, {title: '帮助文档维护'});
         Gfui.componentView('agnes.dop.comp', Compent, {title: '组件维护'});
         Gfui.componentView('agnes.dop.memo.def', ReMemoDef, {title: '运营日历定义'});
-        Gfui.componentView('agnes.dop.memo', RuMemo, {title: '运营日历维护'});
+        Gfui.componentView('agnes.dop.memo', RuMemo, {title: '运营日历'});
         Gfui.componentView('agnes.dop.roster.def', ReRosterDef, {title: '智能排班定义'});
         Gfui.componentView('agnes.dop.roster', RuRoster, {title: '智能排班'});
     }

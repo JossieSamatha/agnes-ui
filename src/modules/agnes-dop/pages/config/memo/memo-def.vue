@@ -6,7 +6,7 @@
              @row-double-click="showMemoDef"
     >
       <template slot="left">
-        <gf-button class="action-btn" @click="addMemoDef" size="mini">
+        <gf-button v-if="$hasPermission('agnes.dop.memo.def.add')" class="action-btn" @click="addMemoDef" size="mini">
           添加
         </gf-button>
       </template>
@@ -27,6 +27,10 @@ export default {
     },
     async onEditMemoDef() {
       this.reloadData();
+    },
+    showMemoDef(param) {
+      this.showTodoDlg('view', param.data, this.onEditMemoDef.bind(this));
+
     },
     editMemoDef(param) {
       this.showTodoDlg('edit', param.data, this.onEditMemoDef.bind(this));

@@ -5,19 +5,19 @@ import Permission from "../../../../../utils/hasPermission"
 const colButtons = [
     {
         key: 'editMemoDef', title: '编辑', visiable: () => {
-            return Permission.hasPermission('agnes.dop.memo.edit');
+            return Permission.hasPermission('agnes.dop.memo.def.edit');
         }
     },
     {
         key: 'deleteMemoDef', title: '删除', cellClass: 'red-cell', visiable: () => {
-            return Permission.hasPermission('agnes.dop.memo.delete');
+            return Permission.hasPermission('agnes.dop.memo.def.delete');
         }
     },
     {
         key: 'approveMemoDef', title: '审核', disabled: (params) => {
             return params.data.memoStatus === '04'
         }, visiable: () => {
-            return Permission.hasPermission('agnes.dop.memo.approve');
+            return Permission.hasPermission('agnes.dop.memo.def.approve');
         }
     },
 ];
@@ -26,7 +26,7 @@ export default {
     columnDefs: [
         column.buildOpCol(120, colButtons),
         {headerName: "记录事项", field: "memoDesc", width: 120},
-        {headerName: "创建方式", field: "createType"},
+        {headerName: "创建方式", field: "createType", dictType: "AGNES_MEMO_CREATE_TYPE"},
         {headerName: "日历类型", field: "memoType", dictType: "AGNES_MEMO_TYPE"},
         {headerName: "状态", field: "memoStatus", formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
         column.colCrtUser,

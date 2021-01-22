@@ -68,7 +68,8 @@
                                 :memberRefList="memoForm.memberRefList"
                                 chosenType="user, group, roster"
                                 :rosterDate="rosterDate"
-                                @getMemberList="getMemberList">
+                                @getMemberList="getMemberList"
+                                :disabled="mode==='view'">
               </gf-person-chosen>
             </el-form-item>
         </el-form>
@@ -91,15 +92,15 @@
             return {
                 dateType: '01',
                 memoForm: {
-                    memoDesc: '',
-                    createType: '01',
-                    memoType: '01',
-                    memoDate: '',
-                    memoStartDate: '',
-                    memoEndDate: '',
-                    memoCron: '',
-                    memoNoticeUser: '',
-                    memberRefList: []
+                  memoDesc: '',
+                  createType: '01',
+                  memoType: '01',
+                  memoDate: '',
+                  memoStartDate: '',
+                  memoEndDate: '',
+                  memoCron: '',
+                  memoNoticeUsermemoNoticeUser: '',
+                  memberRefList: []
                 },
                 rosterDate: '',
                 memoFormRules: {

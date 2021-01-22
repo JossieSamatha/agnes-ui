@@ -33,7 +33,7 @@
             </el-form-item>
             <el-form-item label="值班人员" prop="memberRefList">
                 <gf-person-chosen ref="memberRef"
-                                  :disabled="mode !== 'add'"
+                                  :disabled="mode !== 'add' && mode !== 'edit'"
                                   :memberRefList="form.memberRefList"
                                   chosenType="user"
                                   @getMemberList="getMemberList"
@@ -77,10 +77,11 @@
         },
 
         beforeMount() {
-            if(!(this.mode === 'add')){
-                this.$lodash.assign(this.form, this.row);
-                this.form.memberRefList = this.row.rosterNoticeUser.split(',');
-                this.form.rosterTypeArr = JSON.parse(this.row.rosterType);
+            if(!(this.mode === 'add')) {
+              this.$lodash.assign(this.form, this.row);
+              //this.form.memberRefList = this.row.rosterNoticeUser.split(',');
+              this.form.rosterTypeArr = this.row.rosterType.split(',');
+              this.form.memberRefList = JSON.parse(this.row.rosterNoticeUser);
             }
         },
 
@@ -95,18 +96,18 @@
                     return;
                 }
                 try {
-                    this.form.rosterNoticeUser = this.form.memberRefList.join(',');
-                    this.form.rosterType = JSON.stringify(this.form.rosterTypeArr);
-                    const p = this.$api.rosterApi.saveDef(this.form);
-                    const req = await this.$app.blockingApp(p);
-                    if (req.data != null) {
-                        this.$msg.warning(req.data);
-                        return;
-                    }
-                    if (this.actionOk) {
-                        await this.actionOk(this.form, this.row);
-                    }
-                    this.$msg.success('保存成功');
+                  this.form.rosterNoticeUser = JSON.stringify(this.form.memberRefList);
+                  this.form.rosterType = this.form.rosterTypeArr.join(',');
+                  const p = this.$api.rosterApi.saveDef(this.form);
+                  const req = await this.$app.blockingApp(p);
+                  if (req.data != null) {
+                    this.$msg.warning(req.data);
+                    return;
+                  }
+                  if (this.actionOk) {
+                    await this.actionOk(this.form, this.row);
+                  }
+                  this.$msg.success('保存成功');
                     this.$dialog.close(this);
                 } catch (e) {
                     this.$msg.error(e);

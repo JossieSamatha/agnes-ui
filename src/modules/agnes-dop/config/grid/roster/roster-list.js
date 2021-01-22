@@ -4,12 +4,7 @@ import Permission from "../../../../../utils/hasPermission"
 
 const colButtons = [
     {
-        key: 'editRosterDef', title: '编辑', visiable: () => {
-            return Permission.hasPermission('agnes.dop.roster.edit');
-        }
-    },
-    {
-        key: 'deleteRosterDef', title: '删除', cellClass: 'red-cell', visiable: () => {
+        key: 'deleteRuRoster', title: '删除', cellClass: 'red-cell', visiable: () => {
             return Permission.hasPermission('agnes.dop.roster.delete');
         }
     },
@@ -18,7 +13,7 @@ const colButtons = [
 
 export default {
     columnDefs: [
-        column.buildOpCol(120, colButtons),
+        column.buildOpCol(80, colButtons),
         {headerName: "值班日期", field: "rosterDate"},
         {headerName: "值班类型", field: "rosterType", dictType: 'AGNES_ROSTER_TYPE'},
         {headerName: "值班人员", field: "userName"},

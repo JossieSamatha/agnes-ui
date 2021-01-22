@@ -5,19 +5,19 @@ import Permission from "../../../../../utils/hasPermission"
 const colButtons = [
     {
         key: 'editRosterDef', title: '编辑', visiable: () => {
-            return Permission.hasPermission('agnes.dop.roster.edit');
+            return Permission.hasPermission('agnes.dop.roster.def.edit');
         }
     },
     {
         key: 'deleteRosterDef', title: '删除', cellClass: 'red-cell', visiable: () => {
-            return Permission.hasPermission('agnes.dop.roster.delete');
+            return Permission.hasPermission('agnes.dop.roster.def.delete');
         }
     },
     {
         key: 'approveRosterDef', title: '审核', disabled: (params) => {
-            return params.data.status === '04'
+            return params.data.rosterStatus === '04'
         }, visiable: () => {
-            return Permission.hasPermission('agnes.dop.roster.approve');
+            return Permission.hasPermission('agnes.dop.roster.def.approve');
         }
     },
 
@@ -41,6 +41,7 @@ export default {
                 return "";
             }
         },
+        {headerName: "状态", field: "rosterStatus", formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
         column.colCrtUser,
         column.colCrtTm
     ],

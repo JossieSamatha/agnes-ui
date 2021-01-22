@@ -3,7 +3,7 @@
     <gf-grid ref="grid"
              grid-no="agnes-dop-memo-ru-list"
              toolbar="find,refresh,more"
-             @row-double-click="showMemo"
+             @row-double-click="showRuMemo"
     >
     </gf-grid>
   </div>
@@ -25,7 +25,10 @@ export default {
       this.reloadData();
     },
     async editRuMemo(param) {
-      this.showTodoDlg('add', param.date, this.onEditMemoDef.bind(this));
+      this.showTodoDlg('edit', param.data, this.onEditMemoDef.bind(this));
+    },
+    async showRuMemo(param) {
+      this.showTodoDlg('show', param.data, this.onEditMemoDef.bind(this));
     },
     showTodoDlg(mode, row, actionOk) {
       this.$nav.showDialog(
@@ -40,15 +43,47 @@ export default {
     },
     async deleteRuMemo(param) {
       const ok = await this.$msg.ask(`是否一同删除本批次运营日历?`);
-      param.date.isDelete == ok;
+      const form = {
+        pkId: param.data.pkId,
+        memoDefId: param.data.memoDefId,
+        isDelete: ok
+      }
       try {
-        const p = this.$api.memoApi.deleteMemo(param.date);
+        const p = this.$api.memoApi.deleteRuMemo(form);
         await this.$app.blockingApp(p);
         this.reloadData();
       } catch (reason) {
         this.$msg.error(reason);
       }
     },
+    deleteRuRoster(param) {
+      this.$confirm('是否删除同一批次所有数据?', '日历计划删除', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '批次删除',
+        cancelButtonText: '单条删除',
+        type: 'warning',
+        beforeClose: async (action, instance, done) => {
+          if (action === 'close') {
+            done();
+            return;
+          }
+          let newObj = {
+            pkId: param.data.pkId,
+            memoDefId: param.data.memoDefId,
+            isDelete: action === 'confirm'
+          }
+          try {
+            let p = this.$api.memoApi.deleteRuMemo(newObj);
+            await this.$app.blockingApp(p);
+            this.$msg.success('删除成功');
+            this.reloadData();
+            done();
+          } catch (reason) {
+            this.$msg.error(reason);
+          }
+        }
+      })
+    }
 
   }
 }
