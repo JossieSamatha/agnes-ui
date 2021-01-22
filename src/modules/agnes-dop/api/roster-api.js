@@ -17,5 +17,22 @@ export default {
     },
     updateRosterStatus(rosterId, status) {
         return request.post("/agnes-app/v1/dop/roster/update/status", null, {params: {rosterId, status}});
+    },
+
+    //新排班表接口
+    selectReRosterList(rosterStatus) {
+        return request.post("/agnes-app/v2/dop/roster/def/list", null, {params: {rosterStatus}});
+    },
+    saveDef(form) {
+        return request.post("/agnes-app/v2/dop/roster/def/save", form);
+    },
+    approve(pkId) {
+        return request.post("/agnes-app/v2/dop/roster/def/approve", null, {params: {pkId}});
+    },
+    deleteRef(pkId) {
+        return request.post("/agnes-app/v2/dop/roster/def/delete", null, {params: {pkId}});
+    },
+    deleteRuRoster(form) {
+        return request.post("/agnes-app/v2/dop/roster/ru/delete", form);
     }
 };

@@ -510,16 +510,34 @@
 .calendar-memo .el-calendar-table .el-calendar-day {
     min-height: 100%;
     max-height: 100%;
-    padding: 8px 0;
-    border: 1px solid transparent;
-    overflow: hidden;
+    padding: 0;
 }
 
-.calendar-memo .el-calendar-table td.is-today {
+.calendar-memo .el-calendar-table .el-calendar-day .content{
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    padding: 8px 0;
+    border: 1px solid transparent;
+}
+
+.calendar-memo .el-calendar-table td.is-selected .el-calendar-day .content {
+    height: auto;
+}
+
+.calendar-memo .el-calendar-table td.is-selected .el-calendar-day .content .more {
+    display: none;
+}
+
+.calendar-memo .el-calendar-table .el-calendar-day .content.bizDate,
+.calendar-memo .el-calendar-table td.is-selected .el-calendar-day .content.bizDate{
     background: #E2EBFC;
 }
 
-.calendar-memo .el-calendar-table td.is-today .el-calendar-day {
+.calendar-memo .el-calendar-table .el-calendar-day .content.bizDate,
+.calendar-memo .el-calendar-table td.is-selected .el-calendar-day .content {
     border: 1px solid #0F5EFF;
 }
 
@@ -547,13 +565,17 @@
     font-family: SourceHanSansCN-Medium;
 }
 
-.calendar-memo .el-calendar-table td.is-today .el-calendar-day
-.content .day-num .lunar {
+.calendar-memo .el-calendar-table td:not(.prev):not(.next) .el-calendar-day
+.content.weekend .day-num .solar{
+    color: #f56c6c;
+}
+
+.calendar-memo .el-calendar-table .el-calendar-day .content.bizDate .day-num .lunar,
+.calendar-memo .el-calendar-table td.is-selected .el-calendar-day .content .day-num .lunar {
     color: #0F5EFF;
 }
 
-.calendar-memo .el-calendar-table td.is-today .el-calendar-day
-.content .day-num .solar {
+.calendar-memo .el-calendar-table .el-calendar-day .content.bizDate .day-num .solar {
     color: #fff;
     background: #0F5EFF;
     font-family: SourceHanSansCN-Normal;
@@ -573,6 +595,11 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     padding: 0 6px 0 15px;
+}
+
+.calendar-memo .el-calendar-table td.is-selected .el-calendar-day .content .day-event>li {
+    background: #fff;
+    z-index: 10;
 }
 
 .calendar-memo .el-calendar-table .el-calendar-day .content .day-event>li:hover {
@@ -596,7 +623,28 @@
 }
 
 .calendar-memo .el-calendar-table .el-calendar-day .content .more {
-    display: none;
+    display: block;
+    width: calc(100% + 16px);
     color: #999;
     font-size: 12px;
+    background: inherit;
+    margin: -8px -8px 0;
+    padding-left: 8px;
+    transform: scale(.9);
+}
+
+.popconfirm .el-popconfirm__action{
+    text-align: center;
+    margin-top: 15px;
+}
+
+.popconfirm .el-popconfirm__action button{
+    padding: 5px 10px;
+    font-size: 12px;
+    background: #0f5eff;
+    border: none;
+}
+
+.popconfirm .el-popconfirm__action button+button{
+    margin-left: 5px;
 }

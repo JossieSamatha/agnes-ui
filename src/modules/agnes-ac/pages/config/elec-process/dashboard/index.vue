@@ -151,7 +151,7 @@
                     </div>
                 </div>
                 <div class="battery-container">
-                    <div class="container">
+                    <div class="container" @dblclick="reivewDetail">
                         <div class="header"></div>
                         <div class="battery" :class="{'is-mini': curTask.finishedRate <= 0.05}"></div>
                         <div class="battery-copy">

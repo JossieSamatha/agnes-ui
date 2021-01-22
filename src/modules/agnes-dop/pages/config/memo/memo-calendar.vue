@@ -14,19 +14,20 @@
         </div>
         <div class="container">
             <div class="left">
-                <calendar-def pageType="memo" @getMonthData="getMonthData" @dateChange="dateChange">
+                <calendar-def ref="memoCalendarDef" pageType="memo" @getMonthData="getMonthData" @dateChange="dateChange">
                     <template slot="list-slot">
                         <p class="split-line"></p>
-                        <template v-if="calendarCheckList.length>0">
+                        <template v-if="memoCheckList.length>0">
                             <span class="title">待复核日历计划</span>
                             <ul class="info-ul calendar">
-                                <li v-for="list in calendarCheckList" :key="list.msgId">{{list.msgData}}</li>
+                                <li v-for="list in memoCheckList" :key="list.pkId">{{list.memoDesc}}</li>
                             </ul>
                         </template>
                         <template v-if="rosterCheckList.length>0">
                             <span class="title">待复核排班计划</span>
                             <ul class="info-ul roster">
-                                <li v-for="list in rosterCheckList" :key="list.msgId">{{list.msgData}}</li>
+                                <li v-for="list in rosterCheckList" :key="list.pkId">
+                                    {{ list.rosterStartDate }}-{{ list.rosterEndDate }}排班计划</li>
                             </ul>
                         </template>
                     </template>
@@ -36,27 +37,43 @@
                          v-model="calendarDetailVal"
                          :first-day-of-week="7">
                 <template slot="dateCell" slot-scope="{date, data}">
-                    <span class="content" :class="{'weekend': getDateObj(date, 'workday')}">
+                    <span class="content" :class="{'weekend': monthData[data.day] && monthData[data.day].ifWorkDay,
+                        'bizDate': data.type === 'current-month' && bizDate === data.day}">
                         <p class="day-num">
                             <span class="lunar">{{getLunarDay(data.day)}}</span>
                             <span class="solar">{{ getDay(date) }}</span>
                         </p>
-                        <ul class="day-event" v-clickoutside="hidePopover">
-                            <li class="day-event-li" :class="[list.type, {'active': list.msgId === dataEventObj.msgId}]"
-                                v-for="list in dayEventList"
-                                :key="list.msgId"
-                                :title="list.msgData"
-                                @click="dataEventReview(list)"
-                            >{{list.msgData}}</li>
-                        </ul>
-                        <span class="more" v-show="dayEventList.length>3">还有{{dayEventList.length-3}}项</span>
-                        <em v-show="getDateObj(date, 'event')" class="circle"></em>
+                        <span v-if="monthData[data.day]">
+                            <ul class="day-event" v-clickoutside="hidePopover">
+                                <template v-if="monthData[data.day].dopRuMemoList.length>0">
+                                    <li class="day-event-li memo" :class="{'active': list.pkId === dataEventObj.pkId}"
+                                        v-for="list in monthData[data.day].dopRuMemoList"
+                                        :key="list.pkId"
+                                        :title="list.memoDesc"
+                                        @click="dataEventReview('memo', list)"
+                                    >{{list.memoDesc}}</li>
+                                </template>
+                                <template v-if="monthData[data.day].dopRuRosterVoList.length>0">
+                                    <li class="day-event-li roster" :class="{'active': list.pkId === dataEventObj.pkId}"
+                                        v-for="list in monthData[data.day].dopRuRosterVoList"
+                                        :key="list.pkId"
+                                        :title="getRosterInfo(list.userName, list.rosterType, list)"
+                                        @click="dataEventReview('roster', list)"
+                                    >{{getRosterInfo(list.userName, list.rosterType, list)}}</li>
+                                </template>
+                            </ul>
+                            <span class="more" v-show="monthData[data.day].eventNum > maxEventListNum">
+                                还有{{monthData[data.day].eventNum - maxEventListNum}}项...
+                            </span>
+                        </span>
                     </span>
                 </template>
             </el-calendar>
-            <detail-popver v-show="popoverShow"
+            <detail-popver v-if="popoverShow"
                            :styleProps="detailPopoverStyle"
+                           :dataEventType="dataEventType"
                            :dataEventObj="dataEventObj"
+                           @refreshCalendar="refreshCalendar"
                            @closePopover="closePopover"
             ></detail-popver>
         </div>
@@ -71,41 +88,43 @@
     export default {
         data() {
             return {
+                bizDate: window.bizDate,
                 filterValue: '',
                 calendarVal: '',
-                calendarCheckList: [
-                    {msgId: '01', msgData: '瑞安本封闭期即将结束'},
-                    {msgId: '02', msgData: '安信收益三年运作将进入过渡期，赎回巴拉巴拉巴拉巴拉巴拉巴拉'},
-                    {msgId: '03', msgData: '华安锦源0-7年开始发行至2021/02/26'},
-                    {msgId: '04', msgData: '瑞安本封闭期即将结束'},
-                    {msgId: '05', msgData: '瑞安本封闭期即将结束'},
-                ],
-                rosterCheckList: [
-                    {msgId: '01', msgData: '王大陆-早班计划'},
-                    {msgId: '02', msgData: '王大陆-早班计划'},
-                    {msgId: '03', msgData: '王大陆-早班计划'},
-                    {msgId: '04', msgData: '王大陆-晚班计划'},
-                    {msgId: '05', msgData: '王大陆-晚班计划'}
-                ],
-                dayEventList: [
-                    {msgId: '01', msgData: '安信收益三年运作将进入过渡期，赎回巴拉巴拉巴拉巴拉巴拉巴拉', type: 'memo'},
-                    {msgId: '02', msgData: '瑞安本封闭期即将结束', type: 'memo'},
-                    {msgId: '03', msgData: '王大陆-早班计划', type: 'roster'},
-                    {msgId: '04', msgData: '王大陆-晚班计划', type: 'roster'},
-                    {msgId: '05', msgData: '瑞安本封闭期即将结束', type: 'memo'},
-                ],
-
-                calendarDetailVal: '',
+                memoCheckList: [],
+                rosterCheckList: [],
+                calendarDetailVal: window.bizDate ? window.bizDate : new Date().toLocaleDateString().replace(/\//g, '-'),
                 monthData: [],
                 detailPopoverStyle: {},
                 dataEventObj: {},
-                popoverShow: false
+                dataEventType: '',
+                popoverShow: false,
+                rosterTypeDict: this.$app.dict.getDictItems('AGNES_ROSTER_TYPE'),
+                maxEventListNum: 0
             }
         },
         components: {
             'detail-popver': detailPopver
         },
+        created(){
+            this.getMemoDef();
+            this.getRosterDef();
+        },
         methods: {
+            async getMemoDef(){
+                const memoDefRes = await this.$api.memoApi.selectMemoDefList('01');
+                if(memoDefRes.data && memoDefRes.data.length>0){
+                    this.memoCheckList = memoDefRes.data;
+                }
+            },
+
+            async getRosterDef(){
+                const rosterDefRes = await this.$api.rosterApi.selectReRosterList('01');
+                if(rosterDefRes.data && rosterDefRes.data.length>0){
+                    this.rosterCheckList = rosterDefRes.data;
+                }
+            },
+
             dateChange(val){
                 if(this.$refs.calendarMemo){
                     this.$refs.calendarMemo.pickDay(val);
@@ -113,7 +132,41 @@
             },
 
             getMonthData(data) {
-                this.monthData = data;
+                let monthObj = {};
+                let markIndex = -1;
+                for(let i=0; i < data.length; i++){
+                    let dateObj = data[i];
+                    if(dateObj){
+                        dateObj.ifWorkDay = dateObj.workday && dateObj.workday === '0';
+                        dateObj.eventNum = dateObj.dopRuMemoList.length + dateObj.dopRuRosterVoList.length;
+                        if(markIndex === -1 && dateObj.eventNum>0){
+                            markIndex = i;
+                        }
+                        monthObj[dateObj.bizDate] = dateObj;
+                    }
+                }
+                this.monthData = monthObj;
+                if(markIndex !== -1){
+                    this.$nextTick(()=>{
+                        const eventList = document.getElementsByClassName('day-event');
+                        const eventListHeight = eventList && eventList.length>0 ? eventList[markIndex].clientHeight : false;
+                        this.maxEventListNum = parseInt(eventListHeight/19) ;
+                    })
+                }else{
+                    this.maxEventListNum = 100;
+                }
+            },
+
+            getRosterInfo(userName, dictId, list){
+                const obj = this.$lodash.find(this.rosterTypeDict, {dictId});
+                const name = userName ? userName+'-' : '';
+                const dictName = obj && obj.dictName ? obj.dictName : '';
+                if(!list.rosterInfo){
+                    this.$set(list, 'rosterInfo', name + dictName);
+                }else{
+                    list.rosterInfo = name + dictName;
+                }
+                return name + dictName;
             },
 
             getDay(date) {
@@ -130,17 +183,6 @@
                     return lunarDate[5];
                 }else{
                     return lunarDate[6];
-                }
-            },
-
-            getDateObj(date, type) {
-                const dateObj = this.monthData[new Date(date).getDate()-1];
-                if(dateObj){
-                    if(type === 'workday'){
-                        return dateObj.workday && dateObj.workday === '0';
-                    }else if(type === 'event'){
-                        return dateObj.calendarNum && parseInt(dateObj.calendarNum) > 0;
-                    }
                 }
             },
 
@@ -162,7 +204,9 @@
             },
 
             refreshCalendar(){
-
+                const calendarObj = this.$refs.memoCalendarDef;
+                const curDate = calendarObj.calendarVal.toLocaleDateString();
+                calendarObj.getCalendarData(curDate);
             },
 
             // 新建日历计划
@@ -182,29 +226,34 @@
                 );
             },
 
-            dataEventReview(list){
+            dataEventReview(type, list){
+                this.dataEventType = type;
                 this.dataEventObj = list;
                 this.popoverShow = true;
                 this.$nextTick(()=>{
+                    const windowInnerWidth = window.innerWidth;
                     const chooseLiDOM = document.getElementsByClassName('day-event-li active')[0].getBoundingClientRect();
-                    const left = chooseLiDOM.left + chooseLiDOM.width - 10;
+                    let left = '';
+                    if(windowInnerWidth - chooseLiDOM.right > 210){
+                        left = chooseLiDOM.left + chooseLiDOM.width;
+                    }else{
+                        left = chooseLiDOM.left - 203;
+                    }
                     this.detailPopoverStyle = {top: chooseLiDOM.top+'px', left: left +'px'};
                 });
             },
 
             closePopover(){
+                this.dataEventType = '';
+                this.dataEventObj = {};
                 this.popoverShow = false;
             },
 
             hidePopover(e){
                 const pNode = document.getElementsByClassName('detail-popover')[0];
-                if(!(e.target.className.includes('day-event-li') || pNode.contains(e.target))) {
+                if(pNode && !(e.target.className.includes('day-event-li') || pNode.contains(e.target))) {
                     this.closePopover();
                 }
-            },
-
-            editDetail(){
-
             }
         },
     }

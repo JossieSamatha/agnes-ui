@@ -8,10 +8,10 @@
                         @pickDay="pickDay">
             <template slot="dateCell" slot-scope="{date, data}">
                 <span class="content"
-                      :class="{'weekend': data.type === 'current-month' ? getDateObj(date, 'workday') : false,
+                      :class="{'weekend': getDateObj(data.day).ifWorkDay,
                       'bizDate': data.type === 'current-month' && bizDate === data.day}">
                     <span>{{ getDay(date) }}</span>
-                    <em v-show="data.type === 'current-month' && getDateObj(date, 'event')" class="circle"></em>
+                    <em v-show="getDateObj(data.day).hasMemoNum" class="circle"></em>
                 </span>
             </template>
         </agnes-calendar>
@@ -39,7 +39,7 @@
         },
         data() {
             return {
-                bizDate: '',
+                bizDate: new Date().toLocaleDateString().replace(/\//g, '-'),
                 calendarVal: '',
                 workStatus: '',
                 todayDate: new Date().toLocaleDateString().replace(/\//g, '-'),
@@ -84,25 +84,37 @@
                 return new Date(date).getDate();
             },
 
-            getDateObj(date, type) {
-                const dateObj = this.monthData[new Date(date).getDate()-1];
-                if(dateObj){
-                    if(type === 'workday'){
-                        return dateObj.workday && dateObj.workday === '0';
-                    }else if(type === 'event'){
-                        return dateObj.calendarNum && parseInt(dateObj.calendarNum) > 0;
+            getDateObj(date) {
+                if(this.monthData && this.monthData.length>0){
+                    const dateObj = this.$lodash.find(this.monthData, {bizDate: date});
+                    if(dateObj) {
+                        dateObj.ifWorkDay = dateObj.workday && dateObj.workday === '0';
+                        if(this.pageType === 'memo'){
+                            dateObj.hasMemoNum = dateObj.dopRuMemoList.length>0 || dateObj.dopRuRosterVoList.length>0;
+                        }else{
+                            dateObj.hasMemoNum = dateObj.calendarNum && parseInt(dateObj.calendarNum) > 0
+                        }
+                        return dateObj;
                     }
+                }
+                return {
+                    ifWorkDay: false,
+                    hasMemoNum: false
                 }
             },
 
             async getCalendarData(date) {
-                const pageType = this.pageType === 'memo' ? 'department' : this.pageType
-                const res = await this.$api.HomePageApi.selectMemoDetailOfMonth({
-                    pageType: pageType,
-                    memoDate: date
-                });
-                this.monthData = res.data;
-                this.$emit('getMonthData', res.data)
+                let apiRes = [];
+                if(this.pageType === 'memo'){
+                    apiRes = await this.$api.memoApi.getMemoListOfMonth('memo', date);
+                    this.$emit('getMonthData', apiRes.data);
+                }else{
+                    apiRes = await this.$api.HomePageApi.selectMemoDetailOfMonth({
+                        pageType: this.pageType,
+                        memoDate: date
+                    });
+                }
+                this.monthData = apiRes.data;
             },
 
             flodCalendar() {

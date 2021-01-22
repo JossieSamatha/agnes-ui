@@ -72,6 +72,10 @@
                 return rate;
             },
 
+            getTitle(doneNum, targetNum){
+                return `${doneNum} / ${targetNum}`
+            },
+
             startInterval(){
                 this.freshInterval = setInterval(() => {
                     if (this.$route.path === '/datav.dep.view') {

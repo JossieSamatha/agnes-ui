@@ -308,7 +308,8 @@
     margin: 0 auto;
 }
 
-.calendar-def .el-calendar__body .el-calendar-table .el-calendar-day>span.content.weekend {
+.calendar-def .el-calendar__body .el-calendar-table td:not(.prev):not(.next)
+.el-calendar-day>span.content.weekend {
     color: #f56c6c;
 }
 
