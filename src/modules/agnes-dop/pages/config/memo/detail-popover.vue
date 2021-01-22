@@ -54,24 +54,24 @@
             },
 
             editDetail(){
-                const _that = this;
                 this.$prompt('请输入记录事项', '日历计划-记录事项编辑', {
                     distinguishCancelAndClose: true,
                     confirmButtonText: '批次修改',
                     cancelButtonText: '单条修改',
                     inputType: 'textarea',
-                    inputValue: _that.dataEventObj.memoDesc,
+                    inputValue: this.dataEventObj.memoDesc,
                     type: 'warning',
                     beforeClose: async (action, instance, done) => {
                         if(action === 'close') {
                             done();return;
                         }
-                        let newObj = _that.dataEventObj;
+                        let newObj = this.dataEventObj;
                         newObj.memoDesc = instance.inputValue;
                         newObj.isDelete = action === 'confirm';
                         try {
                             const p = this.$api.memoApi.saveRuMemo(newObj);
                             await this.$app.blockingApp(p);
+                            this.$emit('refreshCalendar');
                             this.$msg.success('修改成功');
                             done();
                         } catch (reason) {
@@ -82,10 +82,10 @@
             },
 
             deleteDetail(){
-                const _that = this;
                 const ifMemo = this.dataEventType === 'memo';
                 const title = ifMemo ? '日历' : '排班';
                 this.$confirm('是否删除同一批次所有数据?', title+'计划删除', {
+                    distinguishCancelAndClose: true,
                     confirmButtonText: '批次删除',
                     cancelButtonText: '单条删除',
                     type: 'warning',
@@ -93,7 +93,7 @@
                         if(action === 'close') {
                             done();return;
                         }
-                        let newObj = _that.dataEventObj;
+                        let newObj = this.dataEventObj;
                         newObj.isDelete = action === 'confirm';
                         try {
                             let p = {};
@@ -102,9 +102,15 @@
                             }else{
                                 p = this.$api.rosterApi.deleteRuRoster(newObj);
                             }
-                            await this.$app.blockingApp(p);
-                            this.$msg.success('删除成功');
-                            done();
+                            const res = await this.$app.blockingApp(p);
+                            if(res) {
+                                this.$emit('refreshCalendar');
+                                this.$msg.success('删除成功');
+                                done();
+                            }else{
+                                this.$msg.success('删除失败');
+                            }
+
                         } catch (reason) {
                             this.$msg.error(reason);
                         }

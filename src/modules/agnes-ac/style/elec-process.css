@@ -1036,6 +1036,7 @@ p span.num {
 
 .gf-page-drawer.elec-dashboard-drawer.full-screen .el-drawer {
     width: 100% !important;
+    padding: 0;
 }
 
 .gf-page-drawer.elec-dashboard-drawer.full-screen .el-drawer__header {
@@ -1055,6 +1056,15 @@ p span.num {
     color: #0f5eff;
     background: #fff;
     border-color: #fff;
+}
+
+.gf-page-drawer.elec-dashboard-drawer .elec-process.board-detail > .full-screen-btn{
+    top: 22px;
+}
+
+.gf-page-drawer.elec-dashboard-drawer.full-screen .elec-process.board-detail > .full-screen-btn{
+    fill: #fff;
+    top: 14px;
 }
 
 .elec-process.board-detail > .full-screen-btn {
@@ -1350,7 +1360,7 @@ p span.num {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 20;
+    z-index: 2021;
 }
 
 .elec-process-dashboard .drag-column .close-container,

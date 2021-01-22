@@ -14,7 +14,7 @@
         </div>
         <div class="container">
             <div class="left">
-                <calendar-def pageType="memo" @getMonthData="getMonthData" @dateChange="dateChange">
+                <calendar-def ref="memoCalendarDef" pageType="memo" @getMonthData="getMonthData" @dateChange="dateChange">
                     <template slot="list-slot">
                         <p class="split-line"></p>
                         <template v-if="memoCheckList.length>0">
@@ -73,6 +73,7 @@
                            :styleProps="detailPopoverStyle"
                            :dataEventType="dataEventType"
                            :dataEventObj="dataEventObj"
+                           @refreshCalendar="refreshCalendar"
                            @closePopover="closePopover"
             ></detail-popver>
         </div>
@@ -99,7 +100,7 @@
                 dataEventType: '',
                 popoverShow: false,
                 rosterTypeDict: this.$app.dict.getDictItems('AGNES_ROSTER_TYPE'),
-                maxEventListNum: 3
+                maxEventListNum: 0
             }
         },
         components: {
@@ -132,20 +133,28 @@
 
             getMonthData(data) {
                 let monthObj = {};
+                let markIndex = -1;
                 for(let i=0; i < data.length; i++){
                     let dateObj = data[i];
                     if(dateObj){
                         dateObj.ifWorkDay = dateObj.workday && dateObj.workday === '0';
                         dateObj.eventNum = dateObj.dopRuMemoList.length + dateObj.dopRuRosterVoList.length;
+                        if(markIndex === -1 && dateObj.eventNum>0){
+                            markIndex = i;
+                        }
                         monthObj[dateObj.bizDate] = dateObj;
                     }
                 }
                 this.monthData = monthObj;
-                this.$nextTick(()=>{
-                    const eventList = document.getElementsByClassName('day-event');
-                    const eventListHeight = eventList && eventList.length>0 ? eventList[0].clientHeight : false;
-                    this.maxEventListNum = parseInt(eventListHeight/19) ;
-                })
+                if(markIndex !== -1){
+                    this.$nextTick(()=>{
+                        const eventList = document.getElementsByClassName('day-event');
+                        const eventListHeight = eventList && eventList.length>0 ? eventList[markIndex].clientHeight : false;
+                        this.maxEventListNum = parseInt(eventListHeight/19) ;
+                    })
+                }else{
+                    this.maxEventListNum = 100;
+                }
             },
 
             getRosterInfo(userName, dictId, list){
@@ -177,23 +186,6 @@
                 }
             },
 
-            getDateObj(date) {
-                if(this.monthData && this.monthData.length>0){
-                    const dateObj = this.$lodash.find(this.monthData, {bizDate: date});
-                    if(dateObj) {
-                        dateObj.ifWorkDay = dateObj.workday && dateObj.workday === '0';
-                        dateObj.hasMemoNum = dateObj.dopRuMemoList.length>0 || dateObj.dopRuRosterVoList.length>0;
-                        return dateObj;
-                    }
-                }
-                return {
-                    ifWorkDay: false,
-                    hasMemoNum: false,
-                    dopRuMemoList: [],
-                    dopRuRosterVoList: []
-                }
-            },
-
             // 新建日历计划
             addTodo(){
                 this.showTodoDlg('add', {}, this.refreshCalendar.bind(this));
@@ -212,7 +204,9 @@
             },
 
             refreshCalendar(){
-
+                const calendarObj = this.$refs.memoCalendarDef;
+                const curDate = calendarObj.calendarVal.toLocaleDateString();
+                calendarObj.getCalendarData(curDate);
             },
 
             // 新建日历计划
