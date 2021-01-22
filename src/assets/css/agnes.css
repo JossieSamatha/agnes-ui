@@ -511,15 +511,24 @@
     min-height: 100%;
     max-height: 100%;
     padding: 0;
-    overflow: hidden;
 }
 
 .calendar-memo .el-calendar-table .el-calendar-day .content{
+    position: relative;
     display: block;
     width: 100%;
     height: 100%;
+    min-height: 100%;
     padding: 8px 0;
     border: 1px solid transparent;
+}
+
+.calendar-memo .el-calendar-table td.is-selected .el-calendar-day .content {
+    height: auto;
+}
+
+.calendar-memo .el-calendar-table td.is-selected .el-calendar-day .content .more {
+    display: none;
 }
 
 .calendar-memo .el-calendar-table .el-calendar-day .content.bizDate,
@@ -588,6 +597,11 @@
     padding: 0 6px 0 15px;
 }
 
+.calendar-memo .el-calendar-table td.is-selected .el-calendar-day .content .day-event>li {
+    background: #fff;
+    z-index: 10;
+}
+
 .calendar-memo .el-calendar-table .el-calendar-day .content .day-event>li:hover {
     background: #E0EAFF;
 }
@@ -609,9 +623,14 @@
 }
 
 .calendar-memo .el-calendar-table .el-calendar-day .content .more {
-    display: none;
+    display: block;
+    width: calc(100% + 16px);
     color: #999;
     font-size: 12px;
+    background: inherit;
+    margin: -8px -8px 0;
+    padding-left: 8px;
+    transform: scale(.9);
 }
 
 .popconfirm .el-popconfirm__action{

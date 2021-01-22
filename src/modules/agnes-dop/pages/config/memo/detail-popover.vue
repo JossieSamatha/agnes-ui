@@ -1,9 +1,10 @@
 <template>
     <div class="detail-popover" :style="styleProps">
         <div class="header">
-            <span>计划详情</span>
+            <span class="title" :class="{roster: dataEventType === 'roster'}">
+                {{dataEventType === 'memo' ? '计划详情' : '排班详情'}}</span>
             <span>
-                <em class="el-icon-edit" @click="editDetail"></em>
+                <em class="el-icon-edit" v-show="dataEventType === 'memo'" @click="editDetail"></em>
                 <em class="el-icon-delete" @click="deleteDetail"></em>
                 <em class="el-icon-close" @click="closePopover"></em>
             </span>
@@ -11,15 +12,23 @@
         <div class="body">
             <p>
                 <svg-icon name="text" height="10px" color="#999"></svg-icon>
-                <span class="text" :title="dataEventObj.msgData">{{dataEventObj.msgData}}</span>
+                <span class="text" :title="dataEventObj.memoDesc || dataEventObj.rosterInfo">
+                    {{dataEventObj.memoDesc || dataEventObj.rosterInfo}}
+                </span>
             </p>
             <p>
-                <svg-icon name="clock" height="12px" color="#999"></svg-icon>
-                <span>12月9日 周三 9:00~10:00 </span>
+                <template v-if="dataEventType === 'memo'">
+                    <svg-icon name="user" height="12px" color="#999"></svg-icon>
+                    <span>{{dataEventObj.memoNoticeUser}}</span>
+                </template>
+                <template v-else>
+                    <svg-icon name="phone" height="12px" color="#999"></svg-icon>
+                    <span>{{dataEventObj.oTel}}</span>
+                </template>
             </p>
             <p>
-                <svg-icon name="calendar-line" height="12px" color="#999"></svg-icon>
-                <span>每天</span>
+                <svg-icon name="calendar" height="12px" color="#999"></svg-icon>
+                <span>{{dataEventObj.memoDate || dataEventObj.rosterDate}}</span>
             </p>
         </div>
     </div>
@@ -28,6 +37,7 @@
 <script>
     export default {
         props: {
+            dataEventType: String,
             styleProps: Object,
             dataEventObj: Object
         },
@@ -35,17 +45,71 @@
             return {
             }
         },
+        mounted(){
+            console.log('this.dataEventObj', this.dataEventObj)
+        },
         methods: {
             closePopover() {
                 this.$emit('closePopover');
             },
 
-            deleteDetail(){
-
+            editDetail(){
+                const _that = this;
+                this.$prompt('请输入记录事项', '日历计划-记录事项编辑', {
+                    distinguishCancelAndClose: true,
+                    confirmButtonText: '批次修改',
+                    cancelButtonText: '单条修改',
+                    inputType: 'textarea',
+                    inputValue: _that.dataEventObj.memoDesc,
+                    type: 'warning',
+                    beforeClose: async (action, instance, done) => {
+                        if(action === 'close') {
+                            done();return;
+                        }
+                        let newObj = _that.dataEventObj;
+                        newObj.memoDesc = instance.inputValue;
+                        newObj.isDelete = action === 'confirm';
+                        try {
+                            const p = this.$api.memoApi.saveRuMemo(newObj);
+                            await this.$app.blockingApp(p);
+                            this.$msg.success('修改成功');
+                            done();
+                        } catch (reason) {
+                            this.$msg.error(reason);
+                        }
+                    }
+                })
             },
 
-            editDetail(){
-                this.$emit('editDetail');
+            deleteDetail(){
+                const _that = this;
+                const ifMemo = this.dataEventType === 'memo';
+                const title = ifMemo ? '日历' : '排班';
+                this.$confirm('是否删除同一批次所有数据?', title+'计划删除', {
+                    confirmButtonText: '批次删除',
+                    cancelButtonText: '单条删除',
+                    type: 'warning',
+                    beforeClose: async (action, instance, done) => {
+                        if(action === 'close') {
+                            done();return;
+                        }
+                        let newObj = _that.dataEventObj;
+                        newObj.isDelete = action === 'confirm';
+                        try {
+                            let p = {};
+                            if(ifMemo){
+                                p = this.$api.memoApi.deleteRuMemo(newObj);
+                            }else{
+                                p = this.$api.rosterApi.deleteRuRoster(newObj);
+                            }
+                            await this.$app.blockingApp(p);
+                            this.$msg.success('删除成功');
+                            done();
+                        } catch (reason) {
+                            this.$msg.error(reason);
+                        }
+                    }
+                })
             }
         },
     }
@@ -84,7 +148,7 @@
         padding-left: 10px;
     }
 
-    .detail-popover .header>span:first-child::before {
+    .detail-popover .header>span.title::before {
         content: '';
         position: absolute;
         top: 6px;
@@ -96,6 +160,10 @@
         border-radius: 50%;
     }
 
+    .detail-popover .header>span.title.roster::before {
+        background: #FFB727;
+    }
+
     .detail-popover .header>span:last-child {
         color: #999;
     }
@@ -105,12 +173,13 @@
         cursor: pointer;
     }
 
-    .detail-popover .header>span:last-child em:hover {
+    .detail-popover .header>span:last-child .el-icon-edit {
         color: #0F5EFF;
     }
 
-    .detail-popover .header>span:last-child em + em {
-        margin-left: 6px;
+    .detail-popover .header>span:last-child .el-icon-delete {
+        color: #f7603d;
+        margin: 0 6px;
     }
 
     .detail-popover .body {

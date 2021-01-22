@@ -37,31 +37,35 @@
                          v-model="calendarDetailVal"
                          :first-day-of-week="7">
                 <template slot="dateCell" slot-scope="{date, data}">
-                    <span class="content" :class="{'weekend': getDateObj(data.day).ifWorkDay,
-                    'bizDate': data.type === 'current-month' && bizDate === data.day}">
+                    <span class="content" :class="{'weekend': monthData[data.day] && monthData[data.day].ifWorkDay,
+                        'bizDate': data.type === 'current-month' && bizDate === data.day}">
                         <p class="day-num">
                             <span class="lunar">{{getLunarDay(data.day)}}</span>
                             <span class="solar">{{ getDay(date) }}</span>
                         </p>
-                        <ul class="day-event" v-clickoutside="hidePopover">
-                            <template v-if="getDateObj(data.day).dopRuMemoList.length>0">
-                                <li class="day-event-li memo" :class="{'active': list.pkId === dataEventObj.pkId}"
-                                    v-for="list in getDateObj(data.day).dopRuMemoList"
-                                    :key="list.pkId"
-                                    :title="list.memoDesc"
-                                    @click="dataEventReview('memo', list)"
-                                >{{list.memoDesc}}</li>
-                            </template>
-                            <template v-if="getDateObj(data.day).dopRuRosterVoList.length>0">
-                                <li class="day-event-li roster" :class="{'active': list.pkId === dataEventObj.pkId}"
-                                    v-for="list in getDateObj(data.day).dopRuRosterVoList"
-                                    :key="list.pkId"
-                                    :title="getRosterInfo(list.userName, list.rosterType, list)"
-                                    @click="dataEventReview('roster', list)"
-                                >{{getRosterInfo(list.userName, list.rosterType, list)}}</li>
-                            </template>
-                        </ul>
-<!--                        <span class="more" v-show="dayEventList.length>3">还有{{dayEventList.length-3}}项</span>-->
+                        <span v-if="monthData[data.day]">
+                            <ul class="day-event" v-clickoutside="hidePopover">
+                                <template v-if="monthData[data.day].dopRuMemoList.length>0">
+                                    <li class="day-event-li memo" :class="{'active': list.pkId === dataEventObj.pkId}"
+                                        v-for="list in monthData[data.day].dopRuMemoList"
+                                        :key="list.pkId"
+                                        :title="list.memoDesc"
+                                        @click="dataEventReview('memo', list)"
+                                    >{{list.memoDesc}}</li>
+                                </template>
+                                <template v-if="monthData[data.day].dopRuRosterVoList.length>0">
+                                    <li class="day-event-li roster" :class="{'active': list.pkId === dataEventObj.pkId}"
+                                        v-for="list in monthData[data.day].dopRuRosterVoList"
+                                        :key="list.pkId"
+                                        :title="getRosterInfo(list.userName, list.rosterType, list)"
+                                        @click="dataEventReview('roster', list)"
+                                    >{{getRosterInfo(list.userName, list.rosterType, list)}}</li>
+                                </template>
+                            </ul>
+                            <span class="more" v-show="monthData[data.day].eventNum > maxEventListNum">
+                                还有{{monthData[data.day].eventNum - maxEventListNum}}项...
+                            </span>
+                        </span>
                     </span>
                 </template>
             </el-calendar>
@@ -95,6 +99,7 @@
                 dataEventType: '',
                 popoverShow: false,
                 rosterTypeDict: this.$app.dict.getDictItems('AGNES_ROSTER_TYPE'),
+                maxEventListNum: 3
             }
         },
         components: {
@@ -126,7 +131,21 @@
             },
 
             getMonthData(data) {
-                this.monthData = data;
+                let monthObj = {};
+                for(let i=0; i < data.length; i++){
+                    let dateObj = data[i];
+                    if(dateObj){
+                        dateObj.ifWorkDay = dateObj.workday && dateObj.workday === '0';
+                        dateObj.eventNum = dateObj.dopRuMemoList.length + dateObj.dopRuRosterVoList.length;
+                        monthObj[dateObj.bizDate] = dateObj;
+                    }
+                }
+                this.monthData = monthObj;
+                this.$nextTick(()=>{
+                    const eventList = document.getElementsByClassName('day-event');
+                    const eventListHeight = eventList && eventList.length>0 ? eventList[0].clientHeight : false;
+                    this.maxEventListNum = parseInt(eventListHeight/19) ;
+                })
             },
 
             getRosterInfo(userName, dictId, list){
@@ -218,8 +237,14 @@
                 this.dataEventObj = list;
                 this.popoverShow = true;
                 this.$nextTick(()=>{
+                    const windowInnerWidth = window.innerWidth;
                     const chooseLiDOM = document.getElementsByClassName('day-event-li active')[0].getBoundingClientRect();
-                    const left = chooseLiDOM.left + chooseLiDOM.width;
+                    let left = '';
+                    if(windowInnerWidth - chooseLiDOM.right > 210){
+                        left = chooseLiDOM.left + chooseLiDOM.width;
+                    }else{
+                        left = chooseLiDOM.left - 203;
+                    }
                     this.detailPopoverStyle = {top: chooseLiDOM.top+'px', left: left +'px'};
                 });
             },
