@@ -1198,6 +1198,9 @@
 }
 
 .rule-table .rule-cell > .cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     padding: 0 !important;
     font-size: 12px;
@@ -1267,11 +1270,13 @@
 }
 
 .rule-table .rule-cell input {
-    height: 28px;
-    line-height: 28px;
+    height: 28px!important;
+    line-height: 28px!important;
     color: #666;
     font-size: 12px;
     padding: 0 5px;
+    border-radius: 2px!important;
+    border-color: #eaeaea!important;
 }
 
 .rule-table .rule-cell .el-select {

@@ -26,6 +26,8 @@ import ReMemoDef from "./memo/memo-def"
 import ReRosterDef from "./roster/roster-def"
 import RuRoster from "./roster/roster"
 
+import FactorDef from "./factor-def/index";
+import TransRule from "./trans-rule-def/index";
 
 const Loading = {
     install: function (Vue) {
@@ -59,6 +61,8 @@ const Loading = {
         Gfui.componentView('agnes.dop.memo', RuMemo, {title: '运营日历'});
         Gfui.componentView('agnes.dop.roster.def', ReRosterDef, {title: '智能排班定义'});
         Gfui.componentView('agnes.dop.roster', RuRoster, {title: '智能排班'});
+        Gfui.componentView('agnes.chzh.yzwh', FactorDef, {title: '因子维护'});
+        Gfui.componentView('agnes.chzh.zhgz', TransRule, {title: '转换规则维护'});
     }
 };
 

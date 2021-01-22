@@ -26,7 +26,7 @@ export default {
     // headerHeight: 40,
     // rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-app//v1/dop/func/config/get/page/list",    //后台查询数据的URL地址
+        fetchUrl: "/agnes-app/v1/dop/func/config/get/page/list",    //后台查询数据的URL地址
         pagingMode: true, //是否分页
         checkboxColumn: 1, //是否显示checkbox列,
         autoFitColumnMode: 1,
