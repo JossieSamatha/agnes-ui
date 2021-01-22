@@ -32,4 +32,7 @@ export default {
     deleteRef(pkId) {
         return request.post("/agnes-app/v2/dop/roster/def/delete", null, {params: {pkId}});
     },
+    deleteRuRoster(form) {
+        return request.post("/agnes-app/v2/dop/roster/ru/delete", form);
+    }
 };

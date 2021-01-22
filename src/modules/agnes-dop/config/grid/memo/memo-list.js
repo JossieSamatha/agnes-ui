@@ -21,7 +21,7 @@ export default {
         {headerName: "记录事项", field: "memoDesc", width: 120},
         {headerName: "提醒日期", field: "memoDate"},
         {headerName: "日历类型", field: "memoType", dictType: "AGNES_MEMO_TYPE"},
-        {headerName: "通知人员", field: "memoNoticeUser"},
+        {headerName: "通知人员", field: "userName"},
         column.colCrtUser,
         column.colCrtTm
     ],
