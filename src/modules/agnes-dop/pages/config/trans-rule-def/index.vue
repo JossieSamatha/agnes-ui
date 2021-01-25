@@ -1,7 +1,7 @@
 <template>
     <gf-grid grid-no="agnes-trans-rule" ref="grid" quick-text-max-width="300px" height="100%" >
         <template slot="left" >
-            <gf-button class="action-btn"  @click="addRule" size="mini">添加</gf-button>
+            <gf-button class="action-btn" v-if="$hasPermission('agnes.chzh.zhgz.add')"  @click="addRule" size="mini">添加</gf-button>
         </template>
     </gf-grid>
 </template>
