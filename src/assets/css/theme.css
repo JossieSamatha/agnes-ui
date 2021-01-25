@@ -897,6 +897,7 @@ form .el-icon-lock::before {
 .gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tabs-content {
     display: flex;
     height: 44px;
+    padding-left: 199px;
 }
 
 .gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tab {
@@ -971,6 +972,18 @@ form .el-icon-lock::before {
     border-radius: 0;
     justify-content: center;
     align-items: center;
+}
+
+.gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tab[title=我的首页],
+.gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tab[title=部门首页] {
+    position: fixed;
+    top: 0;
+    left: 280px;
+    height: 39px;
+}
+
+.gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tab[title=部门首页] {
+    left: 385px;
 }
 
 .gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tab[active]
