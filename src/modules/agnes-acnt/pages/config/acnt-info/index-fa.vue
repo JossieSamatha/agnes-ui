@@ -117,6 +117,7 @@
                   'isShowAll':'',
                   'orgIdList': [],
                 },
+                menuConfigInfo:{},
               typeCodeOption: [{
                 label: 'TA',
                 options: []
@@ -154,6 +155,10 @@
                 this.typeCodeOption[1].options.push(item);
               }
             });
+              let resp1 = await this.$api.funcConfigApi.queryMenuByActionUrl({'actionUrl':this.$app.nav.tabBar.currentTabKey});
+              if(resp1){
+                  this.menuConfigInfo = resp1.data;
+              }
           } catch (reason) {
             this.$msg.error(reason);
                 }
@@ -318,7 +323,25 @@
               })
           },
 
-          exoprtV45(){}
+          async exoprtV45() {
+              if(this.menuConfigInfo == undefined || this.menuConfigInfo.outputParam == null || this.menuConfigInfo.outputParam == undefined){
+                  this.$msg.error('请完善导出相关配置！');
+                  return ;
+              }
+              let pkIds = '';
+              let rows = this.$refs.grid.getSelectedRows();
+              if(rows.length == 0){
+                  rows = this.$refs.grid.getRowData();
+              }
+              rows.forEach((item)=>{
+                  pkIds = pkIds + item.acntId +",";
+              });
+              pkIds = pkIds.substring(0, pkIds.lastIndexOf(","));
+              let pkId = this.menuConfigInfo.outputParam;
+              let fileName = this.menuConfigInfo.resName;
+              const basePath = window.location.href.split("#/")[0];
+              window.open(basePath + "api/data-pipe/v1/etl/file/exportexcel?pkId="+pkId+"&fileName="+fileName+"&pkIds="+pkIds);
+          },
         }
     }
 </script>
