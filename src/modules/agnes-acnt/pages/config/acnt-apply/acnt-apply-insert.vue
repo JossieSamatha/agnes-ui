@@ -1238,6 +1238,9 @@
                     form.processStatus = '07';
                     form.accNoList = this.accNoList;
                     form.moneyAccNoList = this.moneyAccNoList;
+                    if(form.acntStartDt && form.acntStartDt=='1900-01-01'){
+                        form.acntStartDt = '2000-01-01';
+                    }
                     if(!loadsh.isEmpty(this.detailForm.processStatus)){
                         //状态机控制
                         if(this.detailForm.processStatus=='06'){

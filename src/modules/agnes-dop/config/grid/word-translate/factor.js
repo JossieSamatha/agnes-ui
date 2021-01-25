@@ -1,14 +1,22 @@
 import column from "../../../../../config/column";
-// import Permission from "../../../../../utils/hasPermission";
+import Permission from "../../../../../utils/hasPermission";
 const colButtons = [
-    {key: 'editFactor', title: '编辑'},
-    {key: 'deleteFactor', title: '删除', cellClass: 'red-cell'},
+    {
+        key: 'editFactor', title: '编辑',visiable: () => {
+            return Permission.hasPermission('agnes.chzh.yzwh.edit');
+    }
+    },
+    {
+        key: 'deleteFactor', title: '删除', cellClass: 'red-cell',visiable: () => {
+            return Permission.hasPermission('agnes.chzh.yzwh.delete');
+        }
+    },
 ];
 
 export default {
     columnDefs: [
         column.buildOpCol(90, colButtons),
-        {headerName: "姓名", field: "factorName"},
+        {headerName: "名称", field: "factorName"},
         {headerName: "类型", field: "factorType",formatType: 'dict',dictType:'AGNES_WORDS_FACTOR_TYPE'},
         {headerName: "创建人", field: "crtUser"},
         {headerName: "创建时间", field: "crtTs"},

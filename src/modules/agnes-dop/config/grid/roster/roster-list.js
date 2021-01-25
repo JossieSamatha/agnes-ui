@@ -5,7 +5,7 @@ import Permission from "../../../../../utils/hasPermission"
 const colButtons = [
     {
         key: 'deleteRuRoster', title: '删除', cellClass: 'red-cell', visiable: () => {
-            return Permission.hasPermission('agnes.dop.roster.delete');
+            return Permission.hasPermission('agnes.dop.roster.ru.delete');
         }
     },
 

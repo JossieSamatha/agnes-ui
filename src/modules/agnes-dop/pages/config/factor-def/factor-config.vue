@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-form class="task-def-form" :model="factorObj"
+        <el-form :model="factorObj"
                  label-width="80px" ref="factor" :rules="factorRules">
             <el-form-item label="名称" prop="factorName">
                 <gf-input v-model.trim="factorObj.factorName" placeholder="名称"/>

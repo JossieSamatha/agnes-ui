@@ -41,22 +41,7 @@ export default {
           }
       );
     },
-    async deleteRuMemo(param) {
-      const ok = await this.$msg.ask(`是否一同删除本批次运营日历?`);
-      const form = {
-        pkId: param.data.pkId,
-        memoDefId: param.data.memoDefId,
-        isDelete: ok
-      }
-      try {
-        const p = this.$api.memoApi.deleteRuMemo(form);
-        await this.$app.blockingApp(p);
-        this.reloadData();
-      } catch (reason) {
-        this.$msg.error(reason);
-      }
-    },
-    deleteRuRoster(param) {
+    deleteRuMemo(param) {
       this.$confirm('是否删除同一批次所有数据?', '日历计划删除', {
         distinguishCancelAndClose: true,
         confirmButtonText: '批次删除',
