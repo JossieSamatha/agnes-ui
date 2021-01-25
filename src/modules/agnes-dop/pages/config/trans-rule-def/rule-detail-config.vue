@@ -1,5 +1,5 @@
 <template>
-    <el-form ref="form" class="task-def-form" :model="form"
+    <el-form ref="form" :model="form"
              label-width="110px">
         <el-form-item label="规则名称" prop="fileTable">
             <el-input  v-model="form.ruleName" :disabled="true"></el-input>
