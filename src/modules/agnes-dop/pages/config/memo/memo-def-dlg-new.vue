@@ -13,14 +13,7 @@
                 </el-radio-group>
             </el-form-item>
             <template v-if="memoForm.createType === '01'">
-                <el-form-item label="指定日期方式" required>
-                    <el-radio-group class="alter-radio-btn" v-model="dateType" size="small"
-                                    @change="clearMemoRules(['memoDate', 'memoStartDate', 'memoEndDate'])">
-                        <el-radio label="01">提醒日期</el-radio>
-                        <el-radio label="02">创建周期</el-radio>
-                    </el-radio-group>
-                </el-form-item>
-                <el-form-item label="提醒日期" prop="memoDate" v-if="dateType === '01'">
+                <el-form-item label="提醒日期" prop="memoDate">
                     <gf-date-picker v-model="memoForm.memoDate"
                                     type="date"
                                     value-format="yyyy-MM-dd"
@@ -29,7 +22,14 @@
                     >
                     </gf-date-picker>
                 </el-form-item>
-                <el-form-item label="创建周期" v-else>
+            </template>
+            <template v-else>
+                <el-form-item label="创建频率配置" prop="memoCron">
+                    <el-button type="text" @click="editExecTime(memoForm.memoCron)">
+                        {{memoForm.memoCron}}点击配置
+                    </el-button>
+                </el-form-item>
+                <el-form-item label="创建周期" required :show-message="false">
                     <div class="line">
                         <el-form-item prop="memoStartDate">
                             <gf-date-picker v-model="memoForm.memoStartDate"
@@ -47,13 +47,6 @@
                             ></gf-date-picker>
                         </el-form-item>
                     </div>
-                </el-form-item>
-            </template>
-            <template v-else>
-                <el-form-item label="创建频率配置" prop="memoCron">
-                    <el-button type="text" @click="editExecTime(memoForm.memoCron)">
-                        {{memoForm.memoCron}}点击配置
-                    </el-button>
                 </el-form-item>
             </template>
             <el-form-item label="日历类型" prop="memoType" required>
@@ -90,7 +83,6 @@
         },
         data() {
             return {
-                dateType: '01',
                 memoForm: {
                   memoDesc: '',
                   createType: '01',
@@ -119,9 +111,6 @@
 
             if(!(this.mode === 'add')){
                 this.$lodash.assign(this.memoForm, this.row);
-                if(this.row.memoStartDate){
-                    this.dateType = '02'
-                }
                 this.memoForm.memberRefList = JSON.parse(this.row.memoNoticeUser);
             }
         },
@@ -148,11 +137,10 @@
                     const memoFormCopy = this.$lodash.deepClone(this.memoForm);
                     if(memoFormCopy.createType === '01'){
                         memoFormCopy.memoCron = '';
-                    } else if(memoFormCopy.dateType === '01'){
-                        this.memoForm.memoStartDate = '';
-                        this.memoForm.memoEndDate = '';
-                    }else{
-                        this.memoForm.memoDate = '';
+                        memoFormCopy.memoStartDate = '';
+                        memoFormCopy.memoEndDate = '';
+                    } else {
+                        memoFormCopy.memoDate = '';
                     }
                     if(memoFormCopy.memoType === '01'){
                         this.memoForm.memoNoticeUser = '';

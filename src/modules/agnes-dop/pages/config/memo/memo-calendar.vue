@@ -8,8 +8,12 @@
                     <el-option label="日历计划" value="1"></el-option>
                     <el-option label="排班计划" value="2"></el-option>
                 </el-select>
-                <el-button icon="el-icon-plus" type="primary" @click="addTodo">新建日历</el-button>
-                <el-button icon="el-icon-user" type="primary" @click="addSchedule">智能排班</el-button>
+                <el-button icon="el-icon-plus" type="primary"
+                           v-if="$hasPermission('agnes.dop.memo.calendar.addMemo')"
+                           @click="addTodo" >新建日历</el-button>
+                <el-button icon="el-icon-user" type="primary"
+                           v-if="$hasPermission('agnes.dop.memo.calendar.addRoster')"
+                           @click="addSchedule">智能排班</el-button>
             </span>
         </div>
         <div class="container">
