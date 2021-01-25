@@ -145,7 +145,7 @@
                     return;
                 }
                 try {
-                    const memoFormCopy = this.$lodash.deepClone(this.memoForm);
+                    const memoFormCopy = this.$lodash.cloneDeep(this.memoForm);
                     if(memoFormCopy.createType === '01'){
                         memoFormCopy.memoCron = '';
                     } else if(memoFormCopy.dateType === '01'){
