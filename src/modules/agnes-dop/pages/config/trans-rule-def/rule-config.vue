@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-form class="task-def-form" :model="ruleObj"
+        <el-form :model="ruleObj"
                  label-width="110px" ref="rule" :rules="formRules">
             <el-form-item label="规则名称" prop="ruleName">
                 <gf-input v-model.trim="ruleObj.ruleName" placeholder="规则名称"/>
