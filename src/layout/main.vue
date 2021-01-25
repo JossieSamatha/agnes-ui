@@ -16,7 +16,7 @@
                 <svg-icon name="skin-change" height="16px"/>
             </div>
             <div class="top-menu-item" title="消息提醒"  @click="handelNotice">
-                <el-badge :value=unreadCount :hidden="!unreadCount">
+                <el-badge :value=unreadCount :hidden="!unreadCount" :max="99">
                     <svg-icon name="msg-inform" height="20px"/>
                 </el-badge>
             </div>

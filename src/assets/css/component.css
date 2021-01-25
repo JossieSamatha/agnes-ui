@@ -859,57 +859,59 @@
     gf-grid 树形结构样式
 
    ============================= */
-.gf-ag-grid.ag-theme-balham .ag-ltr .ag-group-expanded,
-.gf-ag-grid.ag-theme-balham .ag-ltr .ag-group-contracted{
+.acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-ltr .ag-group-expanded,
+.acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-ltr .ag-group-contracted{
     position: absolute;
     left: -4px;
 }
 
-.gf-ag-grid.ag-theme-balham .ag-ltr .ag-icon.ag-icon-tree-open::before,
-.gf-ag-grid.ag-theme-balham .ag-ltr .ag-icon.ag-icon-tree-closed::before {
+.acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-ltr .ag-icon.ag-icon-tree-open::before,
+.acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-ltr .ag-icon.ag-icon-tree-closed::before {
     color: #A8AED3;
     font-family: element-icons;
     font-size: 14px;
     line-height: 28px;
 }
 
-.gf-ag-grid.ag-theme-balham .ag-row-selected .ag-icon.ag-icon-tree-open::before,
-.gf-ag-grid.ag-theme-balham .ag-row-selected .ag-icon.ag-icon-tree-closed::before {
+.acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-row-selected .ag-icon.ag-icon-tree-open::before,
+.acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-row-selected .ag-icon.ag-icon-tree-closed::before {
     color: #fff;
 }
 
-.gf-ag-grid.ag-theme-balham .ag-ltr .ag-icon.ag-icon-tree-open::before {
+.acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-ltr .ag-icon.ag-icon-tree-open::before {
     content: "\e790";
 }
 
-.gf-ag-grid.ag-theme-balham .ag-ltr .ag-icon.ag-icon-tree-closed::before {
+.acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-ltr .ag-icon.ag-icon-tree-closed::before {
     content: "\e791";
 }
 
-.gf-ag-grid.ag-theme-balham .ag-row-selected .ag-group-expanded .ag-icon,
-.gf-ag-grid.ag-theme-balham .ag-row-selected .ag-group-contracted .ag-icon{
+.acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-row-selected .ag-group-expanded .ag-icon,
+.acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-row-selected .ag-group-contracted .ag-icon{
     color: #fff;
 }
 
-.gf-ag-grid.ag-theme-balham .ag-row-group-expanded,
-.gf-ag-grid.ag-theme-balham .ag-row-group-contracted {
+.acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-row-group-expanded {
     background: #D4E0FF;
 }
 
-.gf-ag-grid.ag-theme-balham .ag-row.ag-row-level-1 {
+.acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-row.ag-row-level-1 {
     background: #E8EFFF;
 }
 
-.gf-ag-grid.ag-theme-balham .ag-cell .ag-group-value{
+.acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-cell .ag-group-value{
     margin-left: 5px!important;
 }
 
-.gf-ag-grid.ag-theme-balham .ag-ltr .ag-row-level-1 .ag-row-group-leaf-indent,
-.gf-ag-grid.ag-theme-balham .ag-ltr .ag-row-group-leaf-indent {
+.acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-ltr .ag-row-level-1 .ag-row-group-leaf-indent,
+.acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-ltr .ag-row-group-leaf-indent {
     margin-left: 0;
     padding-left: 0;
 }
 
+.acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-ltr .ag-row-level-1 .ag-row-group-leaf-indent {
+    margin-left: 10px;
+}
 
 .tree-grid .gf-ag-grid.ag-theme-balham .ag-ltr .ag-selection-checkbox,
 .tree-grid .gf-ag-grid.ag-theme-balham .ag-ltr .ag-header-select-all {
