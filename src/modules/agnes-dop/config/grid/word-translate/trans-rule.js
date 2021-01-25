@@ -1,9 +1,22 @@
 import column from "../../../../../config/column";
+import Permission from "../../../../../utils/hasPermission";
 
 const colButtons = [
-    {key: 'editRule', title: '编辑'},
-    {key: 'addRuleDetail', title: '明细配置'},
-    {key: 'deleteRule', title: '删除', cellClass: 'red-cell'},
+    {
+        key: 'editRule', title: '编辑',visiable: () => {
+            return Permission.hasPermission('agnes.chzh.zhgz.edit');
+        }
+    },
+    {
+        key: 'addRuleDetail', title: '明细配置',visiable: () => {
+            return Permission.hasPermission('agnes.chzh.zhgz.detail.edit');
+        }
+    },
+    {
+        key: 'deleteRule', title: '删除', cellClass: 'red-cell',visiable: () => {
+            return Permission.hasPermission('agnes.chzh.zhgz.delete');
+        }
+    },
 ];
 export default {
     columnDefs: [
