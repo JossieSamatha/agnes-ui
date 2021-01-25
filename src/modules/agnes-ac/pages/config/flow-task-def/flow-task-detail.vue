@@ -258,8 +258,13 @@
                         let data = {reTaskDef:resData,
                             caseDefId: this.detailForm.caseDefId, caseDefBody: this.detailForm.caseDefBody,versionId:this.detailForm.versionId,isCheckCode:this.isCheckCode}
                         const p = this.$api.flowTaskApi.saveFlowTask(data);
-                        await this.$app.blockingApp(p);
+                        let resp = await this.$app.blockingApp(p);
+                        if(resp && resp.code == 'rwbhycz'){
+                            this.$msg.error(resp.message);
+                            return ;
+                        }
                         msg = '保存成功';
+
                     }
                     if (this.actionOk) {
                         await this.actionOk();
