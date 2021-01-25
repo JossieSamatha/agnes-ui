@@ -5,12 +5,12 @@ import Permission from "../../../../../utils/hasPermission"
 const colButtons = [
     {
         key: 'editRuMemo', title: '编辑', visiable: () => {
-            return Permission.hasPermission('agnes.dop.memo.edit');
+            return Permission.hasPermission('agnes.dop.memo.ru.edit');
         }
     },
     {
         key: 'deleteRuMemo', title: '删除', cellClass: 'red-cell', visiable: () => {
-            return Permission.hasPermission('agnes.dop.memo.delete');
+            return Permission.hasPermission('agnes.dop.memo.ru.delete');
         }
     },
 ];

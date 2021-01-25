@@ -205,7 +205,7 @@
 
             refreshCalendar(){
                 const calendarObj = this.$refs.memoCalendarDef;
-                const curDate = calendarObj.calendarVal.toLocaleDateString();
+              let curDate = this.$dateUtils.formatDate(calendarObj.calendarVal, 'yyyy-MM-dd');
                 calendarObj.getCalendarData(curDate);
             },
 
