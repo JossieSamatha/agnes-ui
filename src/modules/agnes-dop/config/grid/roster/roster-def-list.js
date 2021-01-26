@@ -32,7 +32,7 @@ export default {
             headerName: "值班类型", field: "rosterType",
             valueFormatter: function (params) {
                 if (params.value) {
-                    let Ids = JSON.parse(params.value)
+                    let Ids = params.value.split(',');
                     return Ids.map((dictId) => {
                         const dictObj = window.$gfui.$app.dict.getDictItem('AGNES_ROSTER_TYPE', dictId);
                         return dictObj ? dictObj.dictName : false;
