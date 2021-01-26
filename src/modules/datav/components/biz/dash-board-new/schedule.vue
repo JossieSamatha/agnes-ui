@@ -11,7 +11,9 @@
                 </p>
                 <p>
                     <svg-icon :name="pageType === 'personal' ? 'clock' : 'phone'" height="12px" color="#666"></svg-icon>
-                    <span>{{ pageType === 'personal' ? roster.rosterDate : roster.mobileNo.substr(0, 4) }}</span>
+                    <span>{{
+                        pageType === 'personal' ? roster.rosterDate : roster.mobileNo && roster.mobileNo.substr(0, 4)
+                      }}</span>
                     <template v-if="pageType === 'department'">
                         <svg-icon name="mobile" height="12px" color="#666"></svg-icon>
                         <span class="telSpan">{{ roster.oTel }}</span>
