@@ -876,7 +876,7 @@ form .el-icon-lock::before {
 }
 
 .gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs {
-    width: calc(100% - 270px);
+    width: calc(100% - 300px);
     height: 44px;
     color: #fff;
     background: transparent;
