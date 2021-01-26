@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <div style="height: 100%">
     <gf-grid ref="grid"
              grid-no="agnes-dop-roster-ru-list"
              toolbar="find,refresh,more"
-
+             height="100%"
+             :query-args="queryArgs"
     >
     </gf-grid>
   </div>
@@ -11,20 +12,24 @@
 
 <script>
 export default {
+  props: {
+    mode: {
+      type: String,
+      default: 'add'
+    },
+    row: Object,
+  },
+  data() {
+    return {
+      queryArgs: {
+        'rosterDefId': ''
+      }
+    }
+  },
+  mounted() {
+    this.queryArgs.rosterDefId = this.row.pkId;
+  },
   methods: {
-    // async deleteRuRoster(param) {
-    //   const ok = await this.$msg.ask(`确认删除所选排班数据吗, 是否继续?`);
-    //   if (!ok) {
-    //     return
-    //   }
-    //   try {
-    //     const p = this.$api.rosterApi.deleteRef(param.data.pkId);
-    //     await this.$app.blockingApp(p);
-    //     this.reloadData();
-    //   } catch (reason) {
-    //     this.$msg.error(reason);
-    //   }
-    // },
     reloadData() {
       this.$refs.grid.reloadData(true);
     },
@@ -55,7 +60,10 @@ export default {
           }
         }
       })
-    }
+    },
+    onCancel() {
+      this.$emit("onClose");
+    },
   }
 }
 

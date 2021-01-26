@@ -4,19 +4,15 @@
              grid-no="agnes-dop-roster-def-list"
              toolbar="find,refresh,more"
              @row-double-click="showRosterDef"
+             height="100%"
     >
-      <template slot="left">
-        <gf-button v-if="$hasPermission('agnes.dop.roster.def.add')" class="action-btn" @click="addRosterDef"
-                   size="mini">
-          添加
-        </gf-button>
-      </template>
     </gf-grid>
   </div>
 </template>
 
 <script>
-import rosterDefDlg from '../memo/roster-type-dlg';
+import rosterDefDlg from './roster-type-dlg';
+import rosterDetail from './roster'
 
 export default {
   methods: {
@@ -74,7 +70,25 @@ export default {
       } catch (reason) {
         this.$msg.error(reason);
       }
-    }
+    },
+    async viewDetail(param) {
+      this.showDrawer('view', param.data)
+    },
+    showDrawer(mode, row) {
+      if (mode !== 'add' && !row) {
+        this.$msg.warning("请选中一条记录!");
+        return;
+      }
+      this.$drawerPage.create({
+        width: 'calc(97% - 215px)',
+        title: ['运营日历', mode],
+        component: rosterDetail,
+        args: {row, mode},
+        okButtonVisible: false,                             // 保存按钮是否显示
+        okButtonTitle: '保存',       // 保存按钮名称按需传入
+        cancelButtonTitle: '取消', // 取消按钮名称按需传入
+      });
+    },
   }
 }
 </script>

@@ -1,9 +1,11 @@
 <template>
-  <div>
+  <div style="height: 100%">
     <gf-grid ref="grid"
              grid-no="agnes-dop-memo-ru-list"
              toolbar="find,refresh,more"
              @row-double-click="showRuMemo"
+             :query-args="queryArgs"
+             height="100%"
     >
     </gf-grid>
   </div>
@@ -13,7 +15,23 @@
 import MemoDlg from './memo-dlg'
 
 export default {
-
+  props: {
+    mode: {
+      type: String,
+      default: 'add'
+    },
+    row: Object,
+  },
+  data() {
+    return {
+      queryArgs: {
+        'memoDefId': ''
+      }
+    }
+  },
+  mounted() {
+    this.queryArgs.memoDefId = this.row.pkId;
+  },
   methods: {
     reloadData() {
       this.$refs.grid.reloadData(true);
@@ -40,6 +58,10 @@ export default {
             title: this.$dialog.formatTitle('运营日历', mode),
           }
       );
+    },
+    // 取消onCancel事件，触发抽屉关闭事件this.$emit("onClose");
+    onCancel() {
+      this.$emit("onClose");
     },
     deleteRuMemo(param) {
       this.$confirm('是否删除同一批次所有数据?', '日历计划删除', {

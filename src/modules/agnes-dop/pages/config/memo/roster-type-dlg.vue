@@ -1,16 +1,17 @@
 <template>
     <div>
-        <el-form class="fit-box" :disabled="mode==='view'" :model="form" ref="form" :rules="rules" label-width="85px"
+        <el-form class="fit-box" :disabled="mode==='view' ||mode==='approve' " :model="form" ref="form" :rules="rules"
+                 label-width="85px"
                  style="padding: 10px;">
-            <el-form-item label="值班区间" prop="rosterStartDate">
-                <div class="line">
-                    <el-form-item prop="rosterStartDate">
-                        <el-date-picker
-                                v-model="form.rosterStartDate"
-                                align="left"
-                                type="date"
-                                value-format="yyyy-MM-dd"
-                                placeholder="选择日期">
+          <el-form-item label="值班区间" prop="rosterStartDate">
+            <div class="line">
+              <el-form-item prop="rosterStartDate">
+                <el-date-picker
+                    v-model="form.rosterStartDate"
+                    align="left"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    placeholder="选择日期">
                         </el-date-picker>
                     </el-form-item>
                     <span style="margin: 0 15px">至</span>
@@ -32,17 +33,19 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="值班人员" prop="memberRefList">
-                <gf-person-chosen ref="memberRef"
-                                  :disabled="mode !== 'add' && mode !== 'edit'"
-                                  :memberRefList="form.memberRefList"
-                                  chosenType="user"
-                                  @getMemberList="getMemberList"
-                >
-                </gf-person-chosen>
+              <gf-person-chosen ref="memberRef"
+                                :disabled="mode !== 'add' && mode !== 'edit'"
+                                :memberRefList="form.memberRefList"
+                                chosenType="user"
+                                @getMemberList="getMemberList"
+              >
+              </gf-person-chosen>
             </el-form-item>
         </el-form>
-        <span class="note">注：值班类型多选与值班人员多选一致，会按照顺序进行对应批量生产排班，可以选择时调整顺序。</span>
-        <dialog-footer :ok-button-visible="mode !== 'view'" :on-save="onSave" ok-button-title="确定"></dialog-footer>
+      <span class="note">注：值班类型多选与值班人员多选一致，会按照顺序进行对应批量生产排班，可以选择时调整顺序。</span>
+      <dialog-footer v-if="mode=== 'add' || mode === 'edit'" :ok-button-visible="mode !== 'view'"
+                     :on-save="onSave"></dialog-footer>
+      <dialog-footer v-if="mode=== 'approve'" :on-save="approveRosterDef" okButtonTitle="审核"></dialog-footer>
     </div>
 </template>
 
@@ -108,11 +111,23 @@
                     await this.actionOk(this.form, this.row);
                   }
                   this.$msg.success('保存成功');
-                    this.$dialog.close(this);
+                  this.$dialog.close(this);
                 } catch (e) {
-                    this.$msg.error(e);
+                  this.$msg.error(e);
                 }
+            },
+          async approveRosterDef() {
+            try {
+              const p = this.$api.rosterApi.approve(this.form.pkId);
+              await this.$app.blockingApp(p);
+              if (this.actionOk) {
+                await this.actionOk();
+              }
+              this.$dialog.close(this);
+            } catch (reason) {
+              this.$msg.error(reason);
             }
+          }
         }
     }
 </script>
