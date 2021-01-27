@@ -258,9 +258,11 @@ export default {
             },
 
             refreshCalendar(){
-                const calendarObj = this.$refs.memoCalendarDef;
+              const calendarObj = this.$refs.memoCalendarDef;
               let curDate = this.$dateUtils.formatDate(calendarObj.calendarVal, 'yyyy-MM-dd');
-                calendarObj.getCalendarData(curDate);
+              calendarObj.getCalendarData(curDate);
+              this.getMemoDef();
+              this.getRosterDef();
             },
 
             // 新建日历计划

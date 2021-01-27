@@ -32,15 +32,19 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="值班人员" prop="memberRefList">
-              <gf-person-chosen ref="memberRef"
-                                :disabled="mode !== 'add' && mode !== 'edit'"
-                                :memberRefList="form.memberRefList"
-                                chosenType="user"
-                                @getMemberList="getMemberList"
-              >
-              </gf-person-chosen>
-            </el-form-item>
+          <el-form-item label="值班人员" prop="memberRefList">
+            <gf-person-chosen ref="memberRef"
+                              :disabled="mode !== 'add' && mode !== 'edit'"
+                              :memberRefList="form.memberRefList"
+                              chosenType="user"
+                              @getMemberList="getMemberList"
+            >
+            </gf-person-chosen>
+          </el-form-item>
+          <el-form-item label="日期类型" prop="workday">
+            <el-radio v-model="form.workday" label="0">自然日</el-radio>
+            <el-radio v-model="form.workday" label="1">工作日</el-radio>
+          </el-form-item>
         </el-form>
       <span class="note">注：值班类型多选与值班人员多选一致，会按照顺序进行对应批量生产排班，可以选择时调整顺序。</span>
       <dialog-footer v-if="mode=== 'add' || mode === 'edit'" :ok-button-visible="mode !== 'view'"
@@ -55,11 +59,12 @@
             return {
                 rosterTypeDict: this.$app.dict.getDictItems('AGNES_ROSTER_TYPE'),
                 form: {
-                    rosterStartDate: '',
-                    rosterEndDate: '',
-                    rosterType: '',
-                    memberRefList: [],
-                    rosterNoticeUser: ''
+                  rosterStartDate: '',
+                  rosterEndDate: '',
+                  rosterType: '',
+                  memberRefList: [],
+                  rosterNoticeUser: '',
+                  workday: '0',
                 },
                 rules: {
                     'rosterStartDate': [{required: true, message: "请选择值班开始时间"}],

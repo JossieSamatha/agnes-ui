@@ -72,9 +72,9 @@ export default {
       }
     },
     async viewDetail(param) {
-      this.showDrawer('view', param.data)
+      this.showDrawer('view', param.data, this.onEditRosterDef.bind(this))
     },
-    showDrawer(mode, row) {
+    showDrawer(mode, row, actionOk) {
       if (mode !== 'add' && !row) {
         this.$msg.warning("请选中一条记录!");
         return;
@@ -83,7 +83,7 @@ export default {
         width: 'calc(97% - 215px)',
         title: ['运营日历', mode],
         component: rosterDetail,
-        args: {row, mode},
+        args: {row, mode, actionOk},
         okButtonVisible: false,                             // 保存按钮是否显示
         okButtonTitle: '保存',       // 保存按钮名称按需传入
         cancelButtonTitle: '取消', // 取消按钮名称按需传入
