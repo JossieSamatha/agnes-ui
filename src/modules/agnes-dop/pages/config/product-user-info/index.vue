@@ -105,7 +105,7 @@
                     rows = this.$refs.grid.getRowData();
                 }
                 rows.forEach((item)=>{
-                    pkIds = pkIds + item.compId +",";
+                    pkIds = pkIds + item.productAuthId +",";
                 });
                 pkIds = pkIds.substring(0, pkIds.lastIndexOf(","));
                 let pkId = this.menuConfigInfo.outputParam;
