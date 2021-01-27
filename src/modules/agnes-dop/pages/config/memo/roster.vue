@@ -18,6 +18,7 @@ export default {
       default: 'add'
     },
     row: Object,
+    actionOk: Function
   },
   data() {
     return {
@@ -61,7 +62,10 @@ export default {
         }
       })
     },
-    onCancel() {
+    async onCancel() {
+      if (this.actionOk) {
+        await this.actionOk();
+      }
       this.$emit("onClose");
     },
   }

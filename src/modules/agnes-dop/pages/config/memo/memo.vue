@@ -21,6 +21,7 @@ export default {
       default: 'add'
     },
     row: Object,
+    actionOk: Function
   },
   data() {
     return {
@@ -60,7 +61,10 @@ export default {
       );
     },
     // 取消onCancel事件，触发抽屉关闭事件this.$emit("onClose");
-    onCancel() {
+    async onCancel() {
+      if (this.actionOk) {
+        await this.actionOk();
+      }
       this.$emit("onClose");
     },
     deleteRuMemo(param) {
