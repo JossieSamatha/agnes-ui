@@ -88,7 +88,6 @@
             refreshData(){
                 this.initData();
             },
-
             startInterval(){
                 this.freshInterval = setInterval(() => {
                     if (this.$route.path === '/datav.client.view') {
