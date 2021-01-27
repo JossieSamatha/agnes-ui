@@ -115,12 +115,19 @@
 
           async getCalendarData(date) {
             let apiRes = [];
-            if (this.pageParams !== null && this.pageParams !== '' && this.pageParams !== undefined) {
-              apiRes = await this.$api.memoApi.getMemoListOfMonth(this.pageParams, date, this.filterValue);
+            if (this.pageType === 'memo') {
+              if (this.pageParams !== null && this.pageParams !== '' && this.pageParams !== undefined) {
+                apiRes = await this.$api.memoApi.getMemoListOfMonth(this.pageParams, date, this.filterValue);
+              } else {
+                apiRes = await this.$api.memoApi.getMemoListOfMonth('memo', date, this.filterValue);
+              }
+              this.$emit('getMonthData', apiRes.data);
             } else {
-              apiRes = await this.$api.memoApi.getMemoListOfMonth('memo', date, this.filterValue);
+              apiRes = await this.$api.HomePageApi.selectMemoDetailOfMonthOld({
+                pageType: this.pageType,
+                memoDate: date
+              });
             }
-            this.$emit('getMonthData', apiRes.data);
 
             this.monthData = apiRes.data;
           },
