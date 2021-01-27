@@ -20,12 +20,17 @@ const colButtons = [
             return Permission.hasPermission('agnes.dop.roster.def.approve');
         }
     },
+    {
+        key: 'viewDetail', title: '查看详情', visiable: () => {
+            return Permission.hasPermission('agnes.dop.roster.def.view');
+        }
+    },
 
 ];
 
 export default {
     columnDefs: [
-        column.buildOpCol(120, colButtons),
+        column.buildOpCol(180, colButtons),
         {headerName: "值班开始时间", field: "rosterStartDate"},
         {headerName: "值班结束时间", field: "rosterEndDate"},
         {
