@@ -185,7 +185,7 @@
                     'gf-cron-modal',
                     {
                         args: {
-                            showType: 'day,month',
+                            showType: 'day,month,extSetting',
                             cornObj: data,
                             action: (cronData)=>{
                                 _that.memoForm.memoCron = cronData;
