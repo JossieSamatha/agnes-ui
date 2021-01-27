@@ -91,7 +91,6 @@
               this.form.memberRefList = JSON.parse(this.row.rosterNoticeUser);
             }
         },
-
         methods: {
             getMemberList(val){
                 this.form.memberRefList = val;
