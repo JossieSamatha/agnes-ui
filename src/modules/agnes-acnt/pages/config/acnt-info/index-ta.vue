@@ -57,9 +57,9 @@
              :query-args="queryArgs"
              grid-no="agnes-acnt-info-ta">
       <template slot="left">
-        <gf-button class="action-btn" @click="exoprtV45" size="mini"
-                   v-if="$hasPermission('agnes.acnt.info.ta.exportV45')">导出v45接口
-        </gf-button>
+<!--        <gf-button class="action-btn" @click="exoprtV45" size="mini"-->
+<!--                   v-if="$hasPermission('agnes.acnt.info.ta.exportV45')">导出v45接口-->
+<!--        </gf-button>-->
         <gf-button class="action-btn" @click="registration" size="mini"
                    v-if="$hasPermission('agnes.acnt.info.ta.registration')">账户登记
         </gf-button>
@@ -332,7 +332,7 @@ export default {
       });
       pkIds = pkIds.substring(0, pkIds.lastIndexOf(","));
       let pkId = this.menuConfigInfo.outputParam;
-      let fileName = this.menuConfigInfo.resName;
+      let fileName = "账户信息导出V45";
       const basePath = window.location.href.split("#/")[0];
       window.open(basePath + "api/data-pipe/v1/etl/file/exportexcel?pkId="+pkId+"&fileName="+fileName+"&pkIds="+pkIds);
     },
