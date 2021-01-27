@@ -123,7 +123,10 @@
                 window.addEventListener('resize', () => {
                     this.stackBar.resize()
                 });
-            }
+            },
+            refreshData(){
+                this.stackBarInit();
+            },
         },
         watch: {
             xAxis(val){

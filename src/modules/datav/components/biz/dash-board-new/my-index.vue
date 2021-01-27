@@ -3,11 +3,6 @@
         <div>
             <p class="hello">欢迎登陆，{{userName}}，{{sayHello}}！</p>
             <p class="text">欢迎登录，{{userName}}，
-<!--                近期你完成任务超时天数为<span style="color: #FA6A6A">{{overTimeDay}}</span> 天，-->
-<!--                正常完成任务天数为-->
-<!--                <span style="color: #4C6CFF">{{normalDay}}</span>天，-->
-<!--                工作效率超过了-->
-<!--                <span style="color: #4C6CFF">{{effect}}%</span>的同事，-->
                 今天你有待办任务
                 <span style="color: #FA6A6A">{{effect}}</span> 件，加油！
             </p>
@@ -88,6 +83,10 @@
                     });
                 })
 
+            },
+
+            refreshData(){
+                this.initData();
             },
 
             startInterval(){

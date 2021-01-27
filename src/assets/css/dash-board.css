@@ -650,7 +650,9 @@
 
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item
 .menuContent .el-card.module-card .el-card__header .clearfix{
+    width: fit-content;
     padding: 0;
+    justify-content: flex-start;
 }
 
 .datav_client_view .gridContainer .vue-grid-layout .vue-grid-item

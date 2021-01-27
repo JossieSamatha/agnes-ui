@@ -41,13 +41,6 @@
             styleProps: Object,
             dataEventObj: Object
         },
-        data() {
-            return {
-            }
-        },
-        mounted(){
-            console.log('this.dataEventObj', this.dataEventObj)
-        },
         methods: {
             closePopover() {
                 this.$emit('closePopover');
