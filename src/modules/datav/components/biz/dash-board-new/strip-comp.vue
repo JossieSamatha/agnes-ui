@@ -60,6 +60,9 @@
                     this.dataArr = resp1.data.splice(0,6);
                 }
             },
+            refreshData(){
+                this.getData();
+            },
             startInterval(){
                 this.freshInterval = setInterval(() => {
                     if (this.pageType === 'personal' && this.$route.path === '/datav.client.view' ||

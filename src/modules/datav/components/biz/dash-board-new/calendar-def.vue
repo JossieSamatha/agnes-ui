@@ -139,6 +139,11 @@
                 }
             },
 
+            refreshData(){
+                this.getCalendarData(this.calendarVal);
+                this.pickDay(this.calendarVal);
+            },
+
             startInterval(){
                 this.freshInterval = setInterval(() => {
                     if (this.pageType === 'personal' && this.$route.path === '/datav.client.view' ||

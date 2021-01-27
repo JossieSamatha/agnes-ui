@@ -95,6 +95,11 @@
                     this.needTodoOfAcnt = resp.data;
                 }
             },
+
+            async refreshData(){
+                this.initData();
+            },
+
             todoForAcntApply(){
                 let clientView = this.$app.views.getView('agnes.acnt.apply');
                 let clientTabView = Object.assign({args: {showCondProp:'02'}, id: 'agnes.acnt.apply'}, clientView);

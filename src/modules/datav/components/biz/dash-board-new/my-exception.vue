@@ -55,6 +55,10 @@
                 }
             },
 
+            refreshData(){
+                this.getData();
+            },
+
             startInterval(){
                 this.freshInterval = setInterval(() => {
                     if (this.$route.path === '/datav.client.view') {

@@ -113,6 +113,10 @@
                     tooltip: {
                         show: false
                     },
+                    animationDuration: function (idx) {
+                        // 越往后的数据时长越大
+                        return idx * 30000;
+                    },
                     series: [
                         {
                             name: '任务类型',
@@ -145,8 +149,8 @@
                             hoverAnimation:false,
                             label: {
                                 show: true,
-                                    padding:[0,-25],
-                                    formatter: function(params){
+                                padding:[0,-25],
+                                formatter: function(params){
                                     if(params.dataIndex%2 === 0){
                                         return '[已完成]\n'+params.value+'%';
                                     }else{
@@ -178,8 +182,11 @@
                     this.pieChart.resize();
                 });
                 window.addEventListener('resize', () => {
-                    this.pieChart.resize()
+                    this.pieChart.resize();
                 });
+            },
+            refreshData(){
+                this.getData();
             },
             getDictName(item){
                 const dictObj = this.$app.dict.getDictItem("AGNES_TASK_TYPE",item);

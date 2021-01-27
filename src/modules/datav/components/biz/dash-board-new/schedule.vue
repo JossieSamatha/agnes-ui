@@ -80,6 +80,9 @@
                     });
                 });
             },
+            refreshData(){
+                this.initDate();
+            },
             showRoster(item) {
                 let depViewId = 'agnes.dop.roster';
                 let depView = this.$app.views.getView(depViewId);
