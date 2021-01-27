@@ -219,8 +219,19 @@ form .el-icon-lock::before {
 /* 顶部菜单右边功能样式 */
 .gf-top-menubar .top-menu-right,
 .gf-top-menubar .gf-nav-right {
+    position: relative;
     display: flex;
     align-items: center;
+}
+
+.gf-top-menubar .gf-nav-right::before {
+    content: '';
+    position: absolute;
+    left: 0px;
+    top: 8px;
+    width: 1px;
+    height: 14px;
+    background: #fff;
 }
 
 .gf-top-menubar .gf-nav-right .top-menu-item {
@@ -870,7 +881,8 @@ form .el-icon-lock::before {
     color: #fff;
     background: transparent;
     padding: 0;
-    padding-left: 100px;
+    padding-left: 60px;
+    padding-right: 15px;
 }
 
 .chrome-tabs>div {
@@ -897,16 +909,36 @@ form .el-icon-lock::before {
 .gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tabs-content {
     display: flex;
     height: 44px;
+    padding-left: 197px;
 }
 
 .gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tab {
     position: relative;
     width: auto !important;
-    min-width: 105px;
+    max-width: fit-content!important;
     transform: none !important;
     height: calc(100% - 5px);
     margin-top: 5px;
     cursor: pointer;
+    overflow: hidden;
+}
+
+.gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tab[active] {
+    overflow: initial;
+}
+
+
+.gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tab[title=我的首页],
+.gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tab[title=部门首页] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 105px!important;
+    height: 39px;
+}
+
+.gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tab[title=部门首页] {
+    left: 105px;
 }
 
 .gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tab:not([active]) {
@@ -976,6 +1008,7 @@ form .el-icon-lock::before {
 .gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tab[active]
 .chrome-tab-content {
     position: relative;
+    width: 100%;
     background: #fff;
     border-radius: 15px 15px 0 0;
     padding: 0 10px;
@@ -985,15 +1018,20 @@ form .el-icon-lock::before {
 .gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tab
 .chrome-tab-content .chrome-tab-title {
     position: relative;
+    width: 100%;
+    flex: 0 0 auto;
     font-size: 14px;
     mask-image: none;
-    flex: 0 0 auto;
     color: #fff;
     line-height: 14px;
-    font-weight: normal;  
-    font-family: 'SourceHanSansCN-Regular';
+    text-align: center;
     margin-left: 0;
     padding-top: 4px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-weight: normal;
+    font-family: 'SourceHanSansCN-Regular';
 }
 
 .gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tab[title=我的首页]

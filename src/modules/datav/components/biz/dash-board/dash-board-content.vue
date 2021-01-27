@@ -96,10 +96,11 @@
             },
 
           entranceMenu(moduleItem) {
-            const {menuId, moduleArgs} = moduleItem
+            const {menuId, compParams} = moduleItem;
+            const compParamObj = JSON.parse(compParams || "{}")
             if (menuId) {
               let clientView = this.$app.views.getView(menuId);
-              let clientTabView = Object.assign({args: moduleArgs, id: menuId}, clientView);
+              let clientTabView = Object.assign({args: compParamObj, id: menuId}, clientView);
               this.$nav.showView(clientTabView);
             }
           }

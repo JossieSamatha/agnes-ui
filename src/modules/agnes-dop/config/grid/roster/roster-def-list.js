@@ -20,19 +20,24 @@ const colButtons = [
             return Permission.hasPermission('agnes.dop.roster.def.approve');
         }
     },
+    {
+        key: 'viewDetail', title: '查看详情', visiable: () => {
+            return Permission.hasPermission('agnes.dop.roster.def.view');
+        }
+    },
 
 ];
 
 export default {
     columnDefs: [
-        column.buildOpCol(120, colButtons),
+        column.buildOpCol(180, colButtons),
         {headerName: "值班开始时间", field: "rosterStartDate"},
         {headerName: "值班结束时间", field: "rosterEndDate"},
         {
             headerName: "值班类型", field: "rosterType",
             valueFormatter: function (params) {
                 if (params.value) {
-                    let Ids = JSON.parse(params.value)
+                    let Ids = params.value.split(',');
                     return Ids.map((dictId) => {
                         const dictObj = window.$gfui.$app.dict.getDictItem('AGNES_ROSTER_TYPE', dictId);
                         return dictObj ? dictObj.dictName : false;

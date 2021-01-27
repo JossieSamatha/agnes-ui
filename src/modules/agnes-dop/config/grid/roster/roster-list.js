@@ -5,7 +5,7 @@ import Permission from "../../../../../utils/hasPermission"
 const colButtons = [
     {
         key: 'deleteRuRoster', title: '删除', cellClass: 'red-cell', visiable: () => {
-            return Permission.hasPermission('agnes.dop.roster.delete');
+            return Permission.hasPermission('agnes.dop.roster.ru.delete');
         }
     },
 
@@ -15,15 +15,15 @@ export default {
     columnDefs: [
         column.buildOpCol(80, colButtons),
         {headerName: "值班日期", field: "rosterDate"},
-        {headerName: "值班类型", field: "rosterType", dictType: 'AGNES_ROSTER_TYPE'},
+        {headerName: "值班类型", field: "rosterType", formatType: 'dict', dictType: 'AGNES_ROSTER_TYPE'},
         {headerName: "值班人员", field: "userName"},
         column.colCrtUser,
         column.colCrtTm
     ],
     ext: {
-        fetchUrl: "/agnes-app/v2/dop/roster/ru/page",    //后台查询数据的URL地址
+        fetchUrl: "/agnes-app/v2/dop/roster/ru/list",    //后台查询数据的URL地址
         fetchMethod: 'post',
-        pagingMode: true, //不分页
+        pagingMode: false, //不分页
         checkboxColumn: 2, //是否显示checkbox列,
         enableExportLocal: true,
         autoFitColumnMode: 1,
