@@ -338,7 +338,7 @@
               });
               pkIds = pkIds.substring(0, pkIds.lastIndexOf(","));
               let pkId = this.menuConfigInfo.outputParam;
-              let fileName = this.menuConfigInfo.resName;
+              let fileName = "账户信息导出V45";
               const basePath = window.location.href.split("#/")[0];
               window.open(basePath + "api/data-pipe/v1/etl/file/exportexcel?pkId="+pkId+"&fileName="+fileName+"&pkIds="+pkIds);
           },

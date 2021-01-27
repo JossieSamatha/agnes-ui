@@ -27,8 +27,8 @@ export default {
     selectMemoDefList(memoStatus) {
         return request.post("/agnes-app/v2/dop/memo/def/list", null, {params: {memoStatus}});
     },
-    getMemoListOfMonth(pageType, memoDate) {
-        return request.post("/agnes-app/v2/dop/memo/detail", null, {params: {pageType, memoDate}});
+    getMemoListOfMonth(pageType, memoDate, filterValue) {
+        return request.post("/agnes-app/v2/dop/memo/detail", null, {params: {pageType, memoDate, filterValue}});
     },
     saveMemoDef(form) {
         return request.post("/agnes-app/v2/dop/memo/def/save", form);

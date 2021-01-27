@@ -185,38 +185,38 @@
                 if (!value) {
                     callback();
                 } else {
-                    const reg = /^[a-z][a-z0-9]{5,19}$/;
-                    const ding = reg.test(value);
-                    if (!ding) {
-                        callback(new Error("字母开头,6-20个数字或字母"));
-                    } else {
-                        callback();
-                    }
-                }
-            };
-            const isMobile = (rule, value, callback) => {
-                if (!value) {
+                  const reg = /^[a-z][a-z0-9]{5,19}$/;
+                  const ding = reg.test(value);
+                  if (!ding) {
+                    callback(new Error("字母开头,6-20个数字或字母"));
+                  } else {
                     callback();
-                } else {
-                    const reg = /^((\+|00)86)?((134\d{4})|((13[0-3|5-9]|14[1|5-9]|15[0-9]|16[2|5|6|7]|17[0-8]|18[0-9]|19[0-2|5-9])\d{8}))$/;
-                    const mobile = reg.test(value);
-                    if (!mobile) {
-                        callback(new Error("手机号格式有误"));
-                    } else {
-                        callback();
-                    }
+                  }
                 }
             };
+          // const isMobile = (rule, value, callback) => {
+          //     if (!value) {
+          //         callback();
+          //     } else {
+          //         const reg = /^((\+|00)86)?((134\d{4})|((13[0-3|5-9]|14[1|5-9]|15[0-9]|16[2|5|6|7]|17[0-8]|18[0-9]|19[0-2|5-9])\d{8}))$/;
+          //         const mobile = reg.test(value);
+          //         if (!mobile) {
+          //             callback(new Error("手机号格式有误"));
+          //         } else {
+          //             callback();
+          //         }
+          //     }
+          // };
 
-            return {
-                form: {
-                    dopReLinkman: {
-                        linkmanName: '',
-                        extOrgId: '',
-                        linkmanStatus: '',
-                        linkmanRoleId: '',
-                        linkmanDept: '',
-                        linkmanMobile: '',
+          return {
+            form: {
+              dopReLinkman: {
+                linkmanName: '',
+                extOrgId: '',
+                linkmanStatus: '',
+                linkmanRoleId: '',
+                linkmanDept: '',
+                linkmanMobile: '',
                         linkmanOther: '',
                         linkmanRemark: '',
                         linkmanPhone: '',
@@ -239,7 +239,7 @@
                   'linkmanWechat': [{validator: isWeChat, trigger: ['blur', 'change']}],
                   'linkmanDing': [{validator: isDing, trigger: ['blur', 'change']}],
                   'linkmanPost': [{validator: isPostCode, trigger: ['blur', 'change']}],
-                  'linkmanMobile': [{required: true, validator: isMobile, trigger: ['blur', 'change']}]
+                  // 'linkmanMobile': [{required: true, validator: isMobile, trigger: ['blur', 'change']}]
                 },
             };
         },

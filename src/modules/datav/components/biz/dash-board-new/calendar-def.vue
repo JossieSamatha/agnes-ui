@@ -34,8 +34,10 @@
 <script>
     export default {
         props: {
-            pageType: String,
-            quartzTime: String,
+          pageType: String,
+          quartzTime: String,
+          pageParams: String,
+          filterValue: String,
         },
         data() {
             return {
@@ -51,25 +53,25 @@
             }
         },
         async created() {
-            const resp = await this.$api.changeDataApi.getChangeData();
-            this.calendarVal = resp.data ? resp.data.bizDate : this.todayDate;
-            this.bizDate = this.calendarVal;
-            this.getCalendarData(this.calendarVal);
-            this.pickDay(this.calendarVal);
-            this.startInterval();
+          this.onload();
         },
         watch: {
-            // 监听,当路由发生变化的时候执行
-            $route(to, from) {
-                if (this.pageType === 'personal' && from.path === '/datav.client.view' ||
-                    this.pageType === 'department' && from.path === '/datav.dep.view') {
-                    this.clearInterval();
-                }
-                if (this.pageType === 'personal' && to.path === '/datav.client.view' ||
-                    this.pageType === 'department' && to.path === '/datav.dep.view') {
-                    this.startInterval();
-                }
+          filterValue() {
+            this.onload();
+          },
+
+          // 监听,当路由发生变化的时候执行
+          $route(to, from) {
+            if (this.pageType === 'personal' && from.path === '/datav.client.view' ||
+                this.pageType === 'department' && from.path === '/datav.dep.view') {
+              this.clearInterval();
             }
+            if (this.pageType === 'personal' && to.path === '/datav.client.view' ||
+                this.pageType === 'department' && to.path === '/datav.dep.view') {
+              this.startInterval();
+            }
+          },
+
         },
 
         computed: {
@@ -80,87 +82,99 @@
         },
 
         methods: {
-            getDay(date) {
-                return new Date(date).getDate();
-            },
+          async onload() {
+            const resp = await this.$api.changeDataApi.getChangeData();
+            this.calendarVal = resp.data ? resp.data.bizDate : this.todayDate;
+            this.bizDate = this.calendarVal;
+            this.getCalendarData(this.calendarVal);
+            this.pickDay(this.calendarVal);
+            this.startInterval();
+          },
+          getDay(date) {
+            return new Date(date).getDate();
+          },
 
-            getDateObj(date) {
-                if(this.monthData && this.monthData.length>0){
-                    const dateObj = this.$lodash.find(this.monthData, {bizDate: date});
-                    if(dateObj) {
-                        dateObj.ifWorkDay = dateObj.workday && dateObj.workday === '0';
-                        if(this.pageType === 'memo'){
-                            dateObj.hasMemoNum = dateObj.dopRuMemoList.length>0 || dateObj.dopRuRosterVoList.length>0;
-                        }else{
-                            dateObj.hasMemoNum = dateObj.calendarNum && parseInt(dateObj.calendarNum) > 0
-                        }
-                        return dateObj;
-                    }
+          getDateObj(date) {
+            if (this.monthData && this.monthData.length > 0) {
+              const dateObj = this.$lodash.find(this.monthData, {bizDate: date});
+              if (dateObj) {
+                dateObj.ifWorkDay = dateObj.workday && dateObj.workday === '0';
+                if (this.pageType === 'memo') {
+                  dateObj.hasMemoNum = dateObj.dopRuMemoList.length > 0 || dateObj.dopRuRosterVoList.length > 0;
+                } else {
+                  dateObj.hasMemoNum = dateObj.calendarNum && parseInt(dateObj.calendarNum) > 0
                 }
-                return {
-                    ifWorkDay: false,
-                    hasMemoNum: false
-                }
-            },
+                return dateObj;
+              }
+            }
+            return {
+              ifWorkDay: false,
+              hasMemoNum: false
+            }
+          },
 
-            async getCalendarData(date) {
-                let apiRes = [];
-                if(this.pageType === 'memo'){
-                    apiRes = await this.$api.memoApi.getMemoListOfMonth('memo', date);
-                    this.$emit('getMonthData', apiRes.data);
-                }else{
-                    apiRes = await this.$api.HomePageApi.selectMemoDetailOfMonth({
-                        pageType: this.pageType,
-                        memoDate: date
-                    });
-                }
-                this.monthData = apiRes.data;
-            },
-
-            flodCalendar() {
-                this.ifFold = !this.ifFold;
-            },
-
-            // 日历月份切换
-            selectDate(date){
-                this.getCalendarData(date)
-            },
-
-            // 获取当前日期信息
-            async pickDay(day){
-                if(this.pageType === 'memo'){
-                    this.$emit('dateChange', day);
-                }else{
-                    const res = await this.$api.HomePageApi.selectMemoByMemoDate({
-                        pageType: this.pageType,
-                        memoDate: day
-                    });
-                    this.memoArr = res.data;
-                }
-            },
-
-            refreshData(){
-                this.getCalendarData(this.calendarVal);
-                this.pickDay(this.calendarVal);
-            },
-
-            startInterval(){
-                this.freshInterval = setInterval(() => {
-                    if (this.pageType === 'personal' && this.$route.path === '/datav.client.view' ||
-                        this.pageType === 'department' && this.$route.path === '/datav.dep.view') {
-                        this.calendarVal = this.bizDate;
-                        this.getCalendarData(this.calendarVal);
-                        this.pickDay(this.calendarVal);
-                    }else{
-                        this.clearInterval();
-                    }
-                }, this.intervalMin);
-            },
-
-            clearInterval(){
-                clearInterval(this.freshInterval);
+          async getCalendarData(date) {
+            let apiRes = [];
+            if (this.pageType === 'memo') {
+              if (this.pageParams !== null && this.pageParams !== '' && this.pageParams !== undefined) {
+                apiRes = await this.$api.memoApi.getMemoListOfMonth(this.pageParams, date, this.filterValue);
+              } else {
+                apiRes = await this.$api.memoApi.getMemoListOfMonth('memo', date, this.filterValue);
+              }
+              this.$emit('getMonthData', apiRes.data);
+            } else {
+              apiRes = await this.$api.HomePageApi.selectMemoDetailOfMonthOld({
+                pageType: this.pageType,
+                memoDate: date
+              });
             }
 
-        }
+            this.monthData = apiRes.data;
+          },
+
+          flodCalendar() {
+            this.ifFold = !this.ifFold;
+          },
+
+          // 日历月份切换
+          selectDate(date) {
+            this.getCalendarData(date)
+          },
+
+          // 获取当前日期信息
+          async pickDay(day) {
+            if (this.pageType === 'memo') {
+              this.$emit('dateChange', day);
+            } else {
+              const res = await this.$api.HomePageApi.selectMemoByMemoDate({
+                pageType: this.pageType,
+                memoDate: day
+              });
+              this.memoArr = res.data;
+            }
+          },
+
+            refreshData(){
+                this.onload();
+            },
+
+          startInterval() {
+            this.freshInterval = setInterval(() => {
+              if (this.pageType === 'personal' && this.$route.path === '/datav.client.view' ||
+                  this.pageType === 'department' && this.$route.path === '/datav.dep.view') {
+                this.calendarVal = this.bizDate;
+                this.getCalendarData(this.calendarVal);
+                this.pickDay(this.calendarVal);
+              } else {
+                this.clearInterval();
+              }
+            }, this.intervalMin);
+          },
+
+          clearInterval() {
+            clearInterval(this.freshInterval);
+          }
+        },
+
     }
 </script>

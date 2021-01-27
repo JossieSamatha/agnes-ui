@@ -20,7 +20,7 @@ export default {
         column.buildOpCol(110, colButtons),
         {headerName: "记录事项", field: "memoDesc", width: 120},
         {headerName: "提醒日期", field: "memoDate"},
-        {headerName: "日历类型", field: "memoType", dictType: "AGNES_MEMO_TYPE"},
+        {headerName: "日历类型", field: "memoType", formatType: 'dict', dictType: "AGNES_MEMO_TYPE"},
         {headerName: "通知人员", field: "userName"},
         column.colCrtUser,
         column.colCrtTm
@@ -28,9 +28,9 @@ export default {
     // headerHeight: 40,
     // rowHeight: 37,
     ext: {
-        fetchUrl: "/agnes-app/v2/dop/memo/ru/page",
+        fetchUrl: "/agnes-app/v2/dop/memo/ru/list",
         fetchMethod: 'post',
-        pagingMode: true, //是否分页
+        pagingMode: false, //是否分页
         checkboxColumn: 2, //是否显示checkbox列,
         autoFitColumnMode: 1,
         enableExportLocal: true,

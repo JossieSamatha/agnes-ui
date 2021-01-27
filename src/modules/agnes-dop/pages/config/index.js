@@ -24,8 +24,8 @@ import FuncConfigAdd from "./func-config/add-config";
 import Compent from "./compents/index";
 import RuMemo from "./memo/memo";
 import ReMemoDef from "./memo/memo-def";
-import ReRosterDef from "./roster/roster-def";
-import RuRoster from "./roster/roster";
+import ReRosterDef from "./memo/roster-def";
+import RuRoster from "./memo/roster";
 
 import FactorDef from "./factor-def/index";
 import TransRule from "./trans-rule-def/index";
