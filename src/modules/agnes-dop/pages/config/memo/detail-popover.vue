@@ -37,9 +37,10 @@
 <script>
     export default {
         props: {
-            dataEventType: String,
-            styleProps: Object,
-            dataEventObj: Object
+          dataEventType: String,
+          styleProps: Object,
+          dataEventObj: Object,
+          actionOk: Function,
         },
         data() {
             return {
@@ -69,11 +70,14 @@
                         newObj.memoDesc = instance.inputValue;
                         newObj.isDelete = action === 'confirm';
                         try {
-                            const p = this.$api.memoApi.saveRuMemo(newObj);
-                            await this.$app.blockingApp(p);
-                            this.$emit('refreshCalendar');
-                            this.$msg.success('修改成功');
-                            done();
+                          const p = this.$api.memoApi.saveRuMemo(newObj);
+                          await this.$app.blockingApp(p);
+                          this.$emit('refreshCalendar');
+                          this.$msg.success('修改成功');
+                          if (this.actionOk) {
+                            await this.actionOk();
+                          }
+                          done();
                         } catch (reason) {
                             this.$msg.error(reason);
                         }
@@ -105,6 +109,9 @@
                           await this.$app.blockingApp(p);
                           this.$emit('refreshCalendar');
                           this.$msg.success('删除成功');
+                          if (this.actionOk) {
+                            await this.actionOk();
+                          }
                           done();
                         } catch (reason) {
                           this.$msg.error('删除失败');

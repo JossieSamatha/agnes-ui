@@ -91,6 +91,7 @@
                            :dataEventObj="dataEventObj"
                            @refreshCalendar="refreshCalendar"
                            @closePopover="closePopover"
+                           :actionOk="refreshCalendar"
             ></detail-popver>
           </div>
           <memoDef class="calendar-table" v-if="filterValue === '1' && display === '02'"></memoDef>
