@@ -134,9 +134,11 @@
                         taskId: task.taskId,
                     },
                     stepInfo :{
-                        remark: task.taskRemark,
-                        caseId: task.caseId,
-                        stepCode: task.stepCode
+                      remark: task.taskRemark,
+                      caseId: task.caseId,
+                      stepCode: task.stepCode,
+                      bizDate: window.bizDate,
+                      stepStatus: '07'
                     }
                 };
                 try {
