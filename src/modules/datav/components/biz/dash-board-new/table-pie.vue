@@ -100,11 +100,11 @@
                         innerPieData.push({
                             value: 100, name: this.getDictName(item.taskCategory), color: this.statusColor[index]
                         });
-                        const finishedRate = parseFloat((item.doneNum/item.targetNum).toFixed(2) );
+                        const finishedRate = parseFloat((item.doneNum/item.targetNum*100).toFixed(2) );
                         const unFinishedRate = 1 - finishedRate ;
                         outerPieData.push(
-                            {value: finishedRate*100, name: '已完成'},
-                            {value: unFinishedRate*100, name: '未完成'}
+                            {value: finishedRate, name: '已完成'},
+                            {value: unFinishedRate, name: '未完成'}
                         );
                     });
                     this.legendRec = innerPieData;
