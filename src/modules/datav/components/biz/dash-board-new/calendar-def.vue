@@ -123,7 +123,7 @@
               }
               this.$emit('getMonthData', apiRes.data);
             } else {
-              apiRes = await this.$api.HomePageApi.selectMemoDetailOfMonthOld({
+              apiRes = await this.$api.HomePageApi.selectMemoDetailOfMonth({
                 pageType: this.pageType,
                 memoDate: date
               });
