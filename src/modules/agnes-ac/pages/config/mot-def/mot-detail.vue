@@ -441,6 +441,10 @@
                     return;
                 }
                 try {
+                    if(this.detailForm.stepActOwner == '[]'){
+                        this.$message.warning("请选择通知人员！");
+                        return ;
+                    }
                     let resData = this.dataTransfer();
                     resData.reTaskDef.taskType = '6'
                     if(this.row.isCheck){

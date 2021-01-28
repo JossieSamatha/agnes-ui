@@ -590,6 +590,10 @@
                     if (!valid) {
                         return;
                     }
+                    if(this.stepInfo.stepFormInfo.caseStepDef.stepActOwner == '[]'){
+                        this.$message.warning("请选择通知人员！");
+                        return ;
+                    }
                     if (this.timeType === '2') {
                         this.stepInfo.stepFormInfo.caseStepDef.warningMintues = this.stepInfo.stepFormInfo.caseStepDef.warningMintues * 60
                     } else if (this.timeType === '3') {
