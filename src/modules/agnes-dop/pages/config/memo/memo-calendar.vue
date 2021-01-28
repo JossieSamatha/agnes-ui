@@ -3,7 +3,10 @@
         <div class="option-panel">
             <span class="title">运营日历</span>
             <span>
-              <el-radio-group v-model="display" size="small" style="margin-right: 6px;vertical-align: bottom">
+              <el-button type="primary"
+                         @click="refreshCalendar">刷新</el-button>
+              <el-radio-group v-model="display" size="small"
+                              style="margin-right: 6px;vertical-align: bottom;margin-left: 6px;">
                     <el-radio-button label="01">视图</el-radio-button>
                     <el-radio-button label="02">表格</el-radio-button>
                 </el-radio-group>
@@ -166,6 +169,7 @@ export default {
             );
           },
           async getMemoDef() {
+            this.memoCheckList = [];
             const memoDefRes = await this.$api.memoApi.selectMemoDefList('01');
             if (memoDefRes.data && memoDefRes.data.length > 0) {
               this.memoCheckList = memoDefRes.data;
@@ -173,10 +177,11 @@ export default {
           },
 
           async getRosterDef() {
+            this.rosterCheckList = [];
             const rosterDefRes = await this.$api.rosterApi.selectReRosterList('01');
             if (rosterDefRes.data && rosterDefRes.data.length > 0) {
-                    this.rosterCheckList = rosterDefRes.data;
-                }
+              this.rosterCheckList = rosterDefRes.data;
+            }
             },
 
             dateChange(val){
