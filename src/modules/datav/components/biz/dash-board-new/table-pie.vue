@@ -100,7 +100,7 @@
                         innerPieData.push({
                             value: 100, name: this.getDictName(item.taskCategory), color: this.statusColor[index]
                         });
-                        const finishedRate = parseFloat((item.doneNum/item.targetNum*100)).toFixed(2);
+                        const finishedRate = parseInt((item.doneNum/item.targetNum*100));
                         const unFinishedRate = 100 - finishedRate ;
                         outerPieData.push(
                             {value: finishedRate, name: '已完成'},
