@@ -140,7 +140,7 @@ export default {
         },
         methods: {
           approveMemo(params) {
-            this.showMemo('approve', params, this.getMemoDef.bind(this));
+            this.showMemo('approve', params, this.refreshCalendar.bind(this));
           },
           showMemo(mode, row, actionOk) {
             this.$nav.showDialog(
@@ -154,7 +154,7 @@ export default {
             );
           },
           approveRoster(params) {
-            this.showRoster('approve', params, this.getRosterDef.bind(this));
+            this.showRoster('approve', params, this.refreshCalendar.bind(this));
           },
 
           showRoster(mode, row, actionOk) {
@@ -262,13 +262,13 @@ export default {
                 );
             },
 
-            refreshCalendar(){
-              const calendarObj = this.$refs.memoCalendarDef;
-              let curDate = this.$dateUtils.formatDate(calendarObj.calendarVal, 'yyyy-MM-dd');
-              calendarObj.getCalendarData(curDate);
-              this.getMemoDef();
-              this.getRosterDef();
-            },
+          async refreshCalendar() {
+            const calendarObj = this.$refs.memoCalendarDef;
+            let curDate = this.$dateUtils.formatDate(calendarObj.calendarVal, 'yyyy-MM-dd');
+            calendarObj.getCalendarData(curDate);
+            this.getMemoDef();
+            this.getRosterDef();
+          },
 
             // 新建日历计划
             addSchedule(){
