@@ -185,6 +185,9 @@
                     document.getElementById("personalEditBtn").click();
                 }else if(curTab ==='datav.dep.view'){
                     document.getElementById("departmentEditBtn").click();
+                }else{
+                    this.$router.push('/datav.client.view');
+                    document.getElementById("personalEditBtn").click();
                 }
             },
 
