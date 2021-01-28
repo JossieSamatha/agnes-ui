@@ -108,7 +108,6 @@
                           done();
                         } catch (reason) {
                           this.$msg.error('删除失败');
-                          ;
                         }
                     }
                 })
