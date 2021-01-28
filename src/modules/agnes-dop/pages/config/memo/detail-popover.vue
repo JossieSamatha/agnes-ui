@@ -102,7 +102,7 @@
                           } else {
                             p = this.$api.rosterApi.deleteRuRoster(newObj);
                           }
-                          const res = await this.$app.blockingApp(p);
+                          await this.$app.blockingApp(p);
                           this.$emit('refreshCalendar');
                           this.$msg.success('删除成功');
                           done();
