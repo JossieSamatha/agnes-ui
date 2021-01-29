@@ -642,9 +642,9 @@ p span.num {
     min-height: 320px;
 }
 
-.elec-process > section .bottom.left > .drag-column .ag-grid-box .gf-ag-grid {
-    height: 100%;
-}
+/*.elec-process > section .bottom.left > .drag-column .ag-grid-box .gf-ag-grid {*/
+/*    height: 100%;*/
+/*}*/
 
 .elec-process > section > .right {
     width: 380px;
@@ -993,6 +993,10 @@ p span.num {
 
 .lcSvg.theme-color .cls-1 {
     fill: #0f5eff;
+}
+
+.gf-ag-grid.ag-theme-balham .ag-row-selected .lcSvg.theme-color .cls-1 {
+    fill: #fff;
 }
 
 .optional-cell .el-button.is-disabled .svgSpan {
