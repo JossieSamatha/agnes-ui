@@ -37,9 +37,10 @@
 <script>
     export default {
         props: {
-            dataEventType: String,
-            styleProps: Object,
-            dataEventObj: Object
+          dataEventType: String,
+          styleProps: Object,
+          dataEventObj: Object,
+          actionOk: Function,
         },
         methods: {
             closePopover() {
@@ -62,11 +63,14 @@
                         newObj.memoDesc = instance.inputValue;
                         newObj.isDelete = action === 'confirm';
                         try {
-                            const p = this.$api.memoApi.saveRuMemo(newObj);
-                            await this.$app.blockingApp(p);
-                            this.$emit('refreshCalendar');
-                            this.$msg.success('修改成功');
-                            done();
+                          const p = this.$api.memoApi.saveRuMemo(newObj);
+                          await this.$app.blockingApp(p);
+                          this.$emit('refreshCalendar');
+                          this.$msg.success('修改成功');
+                          if (this.actionOk) {
+                            await this.actionOk();
+                          }
+                          done();
                         } catch (reason) {
                             this.$msg.error(reason);
                         }
@@ -89,23 +93,21 @@
                         let newObj = this.dataEventObj;
                         newObj.isDelete = action === 'confirm';
                         try {
-                            let p = {};
-                            if(ifMemo){
-                                p = this.$api.memoApi.deleteRuMemo(newObj);
-                            }else{
-                                p = this.$api.rosterApi.deleteRuRoster(newObj);
-                            }
-                            const res = await this.$app.blockingApp(p);
-                            if(res) {
-                                this.$emit('refreshCalendar');
-                                this.$msg.success('删除成功');
-                                done();
-                            }else{
-                                this.$msg.success('删除失败');
-                            }
-
+                          let p = {};
+                          if (ifMemo) {
+                            p = this.$api.memoApi.deleteRuMemo(newObj);
+                          } else {
+                            p = this.$api.rosterApi.deleteRuRoster(newObj);
+                          }
+                          await this.$app.blockingApp(p);
+                          this.$emit('refreshCalendar');
+                          this.$msg.success('删除成功');
+                          if (this.actionOk) {
+                            await this.actionOk();
+                          }
+                          done();
                         } catch (reason) {
-                            this.$msg.error(reason);
+                          this.$msg.error('删除失败');
                         }
                     }
                 })
