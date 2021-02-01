@@ -554,7 +554,6 @@
                 }
                 return {reTaskDef: kpiTaskDef, caseDefId: this.row.caseDefId, caseDefBody: JSON.stringify(caseDef),versionId:this.versionId,isCheckCode:this.isCheckCode};
             },
-
             reDataTransfer() {
                 this.rosterDate = window.bizDate;
                 if (this.mode && this.mode !== 'add') {
