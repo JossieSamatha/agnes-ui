@@ -148,12 +148,16 @@
     }
 
     .refresh-btn {
-        color: #0f5eff;
+        color: #999;
         font-size: 16px;
         font-weight: bold;
         line-height: 16px;
         margin-left: 6px;
         cursor: pointer;
+    }
+
+    .refresh-btn:hover {
+        color: #0f5eff;
     }
 
     .mask {
