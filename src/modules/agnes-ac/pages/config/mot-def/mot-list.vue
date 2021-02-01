@@ -125,7 +125,6 @@
                     this.$msg.error(reason);
                 }
             },
-
             copyMotTask(){
                 let rows = this.$refs.grid.getSelectedRows();
                 let row =[];
