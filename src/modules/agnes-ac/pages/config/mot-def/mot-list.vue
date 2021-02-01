@@ -103,7 +103,6 @@
                     return;
                 }
             },
-
             // 发布
             async checkMotBeforePulish(params){
                 const rowData = params.data;
