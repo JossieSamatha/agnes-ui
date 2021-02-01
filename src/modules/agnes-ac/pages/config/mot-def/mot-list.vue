@@ -94,7 +94,6 @@
                     this.$msg.error(reason);
                 }
             },
-
             //复核
             checkTask(params){
                 if(params.data.reTaskDef.taskStatus.match(/01|04/)){
@@ -104,7 +103,6 @@
                     return;
                 }
             },
-
             // 发布
             async checkMotBeforePulish(params){
                 const rowData = params.data;
@@ -127,7 +125,6 @@
                     this.$msg.error(reason);
                 }
             },
-
             copyMotTask(){
                 let rows = this.$refs.grid.getSelectedRows();
                 let row =[];
