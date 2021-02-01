@@ -94,7 +94,6 @@
                     this.$msg.error(reason);
                 }
             },
-
             //复核
             checkTask(params){
                 if(params.data.reTaskDef.taskStatus.match(/01|04/)){
