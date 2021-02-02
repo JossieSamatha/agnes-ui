@@ -60,9 +60,9 @@
                 this.$nav.showDialog(
                     userGroup,
                     {
-                        args: {row, mode, actionOk},
-                        width: '50%',
-                        title: this.$dialog.formatTitle('群组', mode),
+                      args: {row, mode, actionOk},
+                      width: '40%',
+                      title: this.$dialog.formatTitle('群组', mode),
                     }
                 );
             },

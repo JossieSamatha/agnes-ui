@@ -1,7 +1,9 @@
 <template>
     <gf-grid grid-no="data-pipe-task" ref="grid" quick-text-max-width="300px" height="100%" @row-double-click="showTask">
         <template slot="left" >
-            <gf-button class="action-btn" @click="addTask" size="mini">添加</gf-button>
+            <gf-button class="action-btn" v-if="$hasPermission('agnes.dop.data.pipe.add')" @click="addTask" size="mini">
+              添加
+            </gf-button>
         </template>
     </gf-grid>
 </template>

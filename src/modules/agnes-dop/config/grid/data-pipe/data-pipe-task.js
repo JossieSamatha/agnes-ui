@@ -1,28 +1,36 @@
-import column from "../../../../../config/column"
+import column from "../../../../../config/column";
+import Permission from "../../../../../utils/hasPermission";
 
 const colButtons = [
 
     {
         key: 'editTask', title: '编辑', disabled: (params) => {
             return params.data.status === '01'
+        }, visiable: () => {
+            return Permission.hasPermission('agnes.dop.data.pipe.edit');
         }
     },
-    {key: 'deleteTask', title: '删除', cellClass: 'red-cell',disabled: (params) => {
-            return params.data.status === '01'
-        }
-        },
     {
-        key: 'start', title: '停用', visiable: (params) => {
+        key: 'deleteTask', title: '删除', cellClass: 'red-cell', disabled: (params) => {
             return params.data.status === '01'
+        }, visiable: () => {
+            return Permission.hasPermission('agnes.dop.data.pipe.delete');
+        }
+    },
+    {
+        key: 'start', title: '发布', visiable: (params) => {
+            return params.data.status === '02' && Permission.hasPermission('agnes.dop.data.pipe.start');
         }, cellClass: 'red-cell'
     },
     {
-        key: 'stop', title: '发布', visiable: (params) => {
-            return params.data.status === '02'
+        key: 'stop', title: '停止', visiable: (params) => {
+            return params.data.status === '01' && Permission.hasPermission('agnes.dop.data.pipe.stop');
         }
     },
     {
-        key: 'execute', title: '执行'
+        key: 'execute', title: '执行', visiable: () => {
+            return Permission.hasPermission('agnes.dop.data.pipe.execute');
+        }
     },
 ];
 

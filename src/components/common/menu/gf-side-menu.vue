@@ -87,24 +87,27 @@
                 this.showMenu = this.$utils.deepClone(this.sideMenu);
             },
             showView: function (menu) {
-                const viewId = menu.menucode;
+              const viewId = menu.menucode;
+              this.$agnesUtils.closeTab(viewId);
+              this.$nextTick(() => {
                 let tabObj = {};
-                if(menu.actionUrl && menu.actionUrl.includes('link:')){
-                    const hrefUrl = menu.actionUrl.replace('link:', '');
-                    window.open(hrefUrl, '_blank');
-                    return;
-                }else if(menu.actionUrl && menu.actionUrl.includes('goframe/p')){
-                    tabObj = menu;
-                    tabObj.title = menu.menuname;
-                    tabObj.ifIframe = true;
-                }else{
-                    tabObj = this.$app.views.getView(viewId);
+                if (menu.actionUrl && menu.actionUrl.includes('link:')) {
+                  const hrefUrl = menu.actionUrl.replace('link:', '');
+                  window.open(hrefUrl, '_blank');
+                  return;
+                } else if (menu.actionUrl && menu.actionUrl.includes('goframe/p')) {
+                  tabObj = menu;
+                  tabObj.title = menu.menuname;
+                  tabObj.ifIframe = true;
+                } else {
+                  tabObj = this.$app.views.getView(viewId);
                 }
-                if(!tabObj){
-                    return false;
+                if (!tabObj) {
+                  return false;
                 }
                 const tabView = Object.assign({args: {data: menu}}, tabObj, {id: viewId || ''});
                 this.$nav.showView(tabView);
+              })
             },
 
             showMenuTab(menu) {
