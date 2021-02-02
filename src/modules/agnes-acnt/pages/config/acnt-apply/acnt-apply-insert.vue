@@ -471,7 +471,7 @@
                         <el-form-item label="账户回执" prop="fileTable">
                             <div class="rule-table">
                                 <acc-ecm-upload style="width: 100%;"
-                                                :disabled="this.detailForm.processStatus!='06'?true:false"
+                                                :disabled="this.detailForm.processStatus!='06'&&this.detailForm.bizType!='04'?true:false"
                                                 :applyType="this.receipt"
                                                 :showRemove="this.detailForm.processStatus==='06'?true:false"
                                                 :file-list="detailForm.receiptFileList">

@@ -47,11 +47,9 @@
                         </el-option-group>
                     </el-select>
                 </el-form-item>
-
-                <el-form-item></el-form-item>
-<!--              <el-form-item label="账户状态">-->
-<!--                <gf-dict filterable clearable v-model="queryArgs.acntStatus" dict-type="AGNES_ACNT_INFO_STATUS"/>-->
-<!--              </el-form-item>-->
+              <el-form-item label="产品阶段">
+                <gf-dict filterable clearable v-model="queryArgs.productStage" dict-type="AGNES_PRODUCT_STAGE"/>
+              </el-form-item>
 
               <el-button @click="reSetSearch" class="option-btn">重置</el-button>
             </div>
@@ -110,6 +108,7 @@
                   'processType': 'FA',
                   'typeCode': '',
                   'acntName': '',
+                  'productStage':'',
                   'accNos': '',
                   'productName':'',
                   'fundAccNos': '',
@@ -176,6 +175,7 @@
               this.queryArgs.fundAccNos = '';
               this.queryArgs.acntStatus = '01';
               this.queryArgs.isShowAll = '';
+                this.queryArgs.productStage = '';
               this.queryArgs.orgIdList = [];
               this.reloadData();
             },

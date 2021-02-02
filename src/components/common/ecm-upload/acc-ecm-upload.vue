@@ -24,7 +24,7 @@
         <div slot="tip" class="el-upload__tip">
             <ul class="el-upload-list el-upload-list--text">
                 <li class="upload-list head">
-                    <span>用印文件名</span>
+                    <span>文件名称</span>
                     <span class="piece">份数</span>
                     <span>备注</span>
                     <span class="option">操作</span>
@@ -369,7 +369,7 @@
 <style>
     .acc-ecm-upload .el-upload-dragger{
         height: 80px;
-        width: 170px;
+        width: 500px;
         font-size: 12px;
         border-radius: 4px;
     }
@@ -397,13 +397,13 @@
         text-overflow: ellipsis;
     }
     .acc-ecm-upload {
-        display: flex;
+        /*display: flex;*/
         align-items: flex-start;
     }
 
     .acc-ecm-upload .el-upload__tip{
         flex: 1;
-        margin: 0 0 0 10px;
+        margin: 0 0 0 0px;
     }
 
     .acc-ecm-upload .el-upload-list {
