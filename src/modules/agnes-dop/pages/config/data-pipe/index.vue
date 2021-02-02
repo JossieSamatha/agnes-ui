@@ -1,7 +1,9 @@
 <template>
     <gf-grid grid-no="data-pipe-task" ref="grid" quick-text-max-width="300px" height="100%" @row-double-click="showTask">
         <template slot="left" >
-            <gf-button class="action-btn" @click="addTask" size="mini">添加</gf-button>
+            <gf-button class="action-btn" v-if="$hasPermission('agnes.dop.data.pipe.add')" @click="addTask" size="mini">
+              添加
+            </gf-button>
         </template>
     </gf-grid>
 </template>
@@ -81,8 +83,15 @@
           stop(params) {
             this.updateTaskStatus(params);
           },
-          execute(params) {
-            console.log(params)
+          async execute(params) {
+            try {
+              const p = this.$api.dataPipeApi.execute(params.data.taskId);
+              await this.$app.blockingApp(p);
+              this.$msg.success("执行成功");
+              this.reloadData();
+            } catch (reason) {
+              this.$msg.error(reason);
+            }
           }
         }
     }

@@ -7,13 +7,25 @@ const colButtons = [
 export default {
     columnDefs: [
         column.buildOpCol(80, colButtons),
-        {headerName: "群组代码", field: "userGroupCode"},
+        {
+            headerName: "群组标签", field: "userGroupTag",
+            valueFormatter: function (params) {
+                if (params.value) {
+                    let Ids = params.value.split(',');
+                    return Ids.map((dictId) => {
+                        const dictObj = window.$gfui.$app.dict.getDictItem('AGNES_USER_GROUP_TAG', dictId);
+                        return dictObj ? dictObj.dictName : false;
+                    }).join(',');
+                }
+                return "";
+            }
+        },
         {headerName: "群组名称", field: "userGroupName"}
     ],
     ext: {
-        fetchUrl: "/agnes-app/v1/dop/user/group/page/group/list",
-        fetchMethod: 'post',
-        pagingMode: true, //分页
+        fetchUrl: "/agnes-app/v1/dop/user/group/list/all",
+        fetchMethod: 'get',
+        pagingMode: false, //分页
         checkboxColumn: 2, //是否显示checkbox列,
         enableExportLocal: true,
         autoFitColumnMode: 1,
