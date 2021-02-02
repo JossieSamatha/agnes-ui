@@ -60,11 +60,11 @@
                 </el-form-item>
             </el-col>
         </el-row>
-        <div>
-            <el-tabs v-model = "currentTab" type="border-card" editable @edit="handleTabsEdit">
+        <div v-show="configInfo.fileType !== 'xml'">
+            <el-tabs v-model="currentTab" type="card" editable @edit="handleTabsEdit">
                 <el-tab-pane :key="item.name" v-for="(item,index) in configInfo.configDetails" :label="item.title" :name="item.name">
                     <div>
-                        <el-row  v-show="configInfo.fileType !== 'xml'" >
+                        <el-row v-show="configInfo.fileType !== 'xml'" >
                             <el-col :span="6">
                                 <el-form-item label="目标表名">
                                     <el-input v-model="item.targetTable" size="small" placeholder=""
@@ -130,7 +130,7 @@
                         </el-row>
                         <el-row  v-show="configInfo.execType === '02' " >
                             <el-col :spam="24" >
-                                <el-tabs>
+                                <el-tabs type="card">
                                     <el-tab-pane label="导出SQL">
                                         <el-input type="textarea" :rows="8" placeholder="请输入导出SQL..." v-model="item.exportSql"></el-input>
                                     </el-tab-pane>
@@ -141,23 +141,18 @@
                             </el-col>
                         </el-row>
                     </div>
-                    <div  v-show="configInfo.fileType !== 'xml'"  style="width: 100%;margin-top: 17px;">
+                    <div v-show="configInfo.fileType !== 'xml'"  style="width: 100%;margin-top: 17px;">
                         <div class="optionButtonGroup">
-                            <span>
-                                <gf-button @click="addRow(item.fieldMappings)" class="action-btn" size="mini">添加行</gf-button>
-                            </span>
-                            <span>
-                                <gf-button @click="removeRow(item.fieldMappings,index)" class="action-btn" size="mini">删除行</gf-button>
-                            </span>
-                            <span>
-                                <gf-button @click="upRow(item.fieldMappings)" class="action-btn" size="mini">上移</gf-button>
-                            </span>
-                            <span>
-                                <gf-button @click="downRow(item.fieldMappings)" class="action-btn" size="mini">下移</gf-button>
-                            </span>
+                            <gf-button @click="addRow(item.fieldMappings)" class="action-btn" size="mini">添加行</gf-button>
+                            <gf-button @click="removeRow(item.fieldMappings,index)" class="action-btn" size="mini">删除行</gf-button>
+                            <gf-button @click="upRow(item.fieldMappings)" class="action-btn" size="mini">上移</gf-button>
+                            <gf-button @click="downRow(item.fieldMappings)" class="action-btn" size="mini">下移</gf-button>
                         </div>
                         <el-row>
-                            <el-table ref="multipleTable" stripe border :data="item.fieldMappings" @selection-change="handleSelectionChange" tooltip-effect="dark" style="width:100%;height:280px;overflow-y:scroll;">
+                            <el-table ref="multipleTable" stripe border :data="item.fieldMappings" @selection-change="handleSelectionChange"
+                                      tooltip-effect="dark"
+                                      height="282"
+                                      style="width:100%;">
                                 <el-table-column type="selection" width="55"></el-table-column>
                                 <el-table-column type="index" width="50"></el-table-column>
                                 <el-table-column label="目标字段">
@@ -192,7 +187,7 @@
             </el-tabs>
         </div>
         <div style="margin-top: 10px;">
-            <el-tabs type="border-card">
+            <el-tabs type="card">
                 <el-tab-pane label="前置操作">
                     <el-input type="textarea" :rows="5" placeholder="请输入前置操作..." v-model="configInfo.headSql"></el-input>
                 </el-tab-pane>
@@ -394,8 +389,31 @@
 </script>
 
 <style scoped>
+    .optionButtonGroup {
+        margin-bottom: 6px;
+    }
+
     .action-btn{
         color: #0f5eff !important;
         border: 1px solid #0f5eff !important;
+    }
+
+    .action-btn+.action-btn{
+        margin-left: 6px;
+    }
+
+    .el-tabs>>>.el-tabs__new-tab {
+        margin: 0;
+        width: auto;
+        padding: 0 10px;
+        height: 24px;
+        line-height: 22px;
+        color: #0e56ea;
+        border-color: #0e56ea;
+    }
+
+    .el-tabs>>>.el-tabs__new-tab::after {
+        content: '新增字段配置';
+        margin-left: 3px;
     }
 </style>
