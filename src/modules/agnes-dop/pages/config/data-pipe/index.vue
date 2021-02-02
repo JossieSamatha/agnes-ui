@@ -81,8 +81,15 @@
           stop(params) {
             this.updateTaskStatus(params);
           },
-          execute(params) {
-            console.log(params)
+          async execute(params) {
+            try {
+              const p = this.$api.dataPipeApi.execute(params.data.taskId);
+              await this.$app.blockingApp(p);
+              this.$msg.success("执行成功");
+              this.reloadData();
+            } catch (reason) {
+              this.$msg.error(reason);
+            }
           }
         }
     }
