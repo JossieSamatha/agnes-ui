@@ -101,7 +101,6 @@
             },
 
             todoForAcntApply(){
-                this.$agnesUtils.closeTab('agnes.acnt.apply')
                 let clientView = this.$app.views.getView('agnes.acnt.apply');
                 let clientTabView = Object.assign({args: {showCondProp:'02'}, id: 'agnes.acnt.apply'}, clientView);
                 this.$nav.showView(clientTabView);
