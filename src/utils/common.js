@@ -10,8 +10,14 @@ function randomString(len) {
     return result;
 }
 
+function closeTab(tabKey) {
+    const tabBar = window.$gfui.$app.nav.tabBar;
+    tabBar.closeTab(tabKey);
+}
+
 
 
 export default {
-    randomString
+    randomString,
+    closeTab
 }
