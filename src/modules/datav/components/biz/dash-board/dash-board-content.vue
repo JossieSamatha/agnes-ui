@@ -101,13 +101,16 @@
             },
 
             entranceMenu(moduleItem) {
-                const {menuId, compParams} = moduleItem;
+              const {menuId, compParams} = moduleItem;
+              this.$agnesUtils.closeTab(menuId);
+              this.$nextTick(() => {
                 const compParamObj = JSON.parse(compParams || "{}")
                 if (menuId) {
-                    let clientView = this.$app.views.getView(menuId);
-                    let clientTabView = Object.assign({args: compParamObj, id: menuId}, clientView);
-                    this.$nav.showView(clientTabView);
+                  let clientView = this.$app.views.getView(menuId);
+                  let clientTabView = Object.assign({args: compParamObj, id: menuId}, clientView);
+                  this.$nav.showView(clientTabView);
                 }
+              })
             },
 
             refreshData(unit) {
