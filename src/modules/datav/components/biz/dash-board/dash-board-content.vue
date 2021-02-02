@@ -35,9 +35,9 @@
                 <common-search-panel v-if="unit.compType === 'common-search-panel'"></common-search-panel>
                 <module-card v-else :title="unit.label">
                     <template slot="headOption">
-                        <i class="refresh-btn el-icon-refresh-left" @click="refreshData"></i>
+                        <i class="refresh-btn el-icon-refresh-left" @click="refreshData(unit)"></i>
                     </template>
-                    <template slot="content">
+                    <template slot="content" v-if="!unit.hide">
                         <slot ref="groupContent" name="group-content" :unitData="unit"></slot>
                     </template>
                 </module-card>
@@ -110,8 +110,11 @@
                 }
             },
 
-            refreshData() {
-                this.$children[0].$children[0].$children[0].$children[0].refreshData();
+            refreshData(unit) {
+                this.$set(unit, 'hide', true);
+                setTimeout(()=>{
+                    this.$set(unit, 'hide', false);
+                }, 1);
             }
         }
     }

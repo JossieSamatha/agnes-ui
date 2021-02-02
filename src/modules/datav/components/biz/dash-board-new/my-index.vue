@@ -1,7 +1,7 @@
 <template>
     <div class="my-index">
         <div>
-            <p class="hello">欢迎登陆，{{userName}}，{{sayHello}}！</p>
+            <p class="hello">欢迎登录，{{userName}}，{{sayHello}}！</p>
             <p class="text">欢迎登录，{{userName}}，
                 今天你有待办任务
                 <span style="color: #FA6A6A">{{effect}}</span> 件，加油！
