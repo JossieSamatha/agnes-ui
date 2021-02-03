@@ -1317,8 +1317,7 @@ form .el-icon-lock::before {
 .el-form .el-form-item .el-form-item__content .el-input.is-disabled .el-input__suffix {
     display: none;
 }
-
-.el-form .el-form-item .el-form-item__content .el-upload.el-upload--text .el-button {
+.el-form .el-form-item .el-form-item__content .el-upload.el-upload--text .el-button:not(.normal-link){
     font-weight: bold;
     color: #0f5eff;
     text-decoration: underline;

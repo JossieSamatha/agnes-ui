@@ -3,10 +3,10 @@ import column from "../../../../../config/column"
 export default {
     columnDefs: [
         {headerName: "流程申请名称", field: "#", valueFormatter: function (params){
-            const dictObj = window.$gfui.$app.dict.getDictItem('AGNES_ACNT_BIZ_TYPE', params.data.bizType);
+            const dictObj = window.$gfui.$app.dict.getDictItem('AGNES_ACNT_BIZ_TYPE', params.node.data.bizType);
             const dictName = dictObj ? dictObj.dictName : '--';
 
-            return "【"+params.data.crtUserName+"】发起的"+ dictName +"申请流程"
+            return "【"+params.node.data.crtUserName+"】发起的"+ dictName +"申请流程"
         }
         },
         {headerName: "业务类型", field: "bizType",formatType: 'dict',dictType:"AGNES_ACNT_BIZ_TYPE"},

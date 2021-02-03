@@ -83,6 +83,7 @@ export default {
         // {headerName: "币种", field: "currency", dictType:"AGNES_ACNT_CURRENCY_TYPE"},
         {headerName: "基金代码", field: "productCode"},
         {headerName: "基金名称", field: "productName"},
+        {headerName: "产品阶段", field: "productStage"},
 
         {headerName: "大额支付号", field: "bigPayNo"},
         {headerName: "开户网点", field: "openBank"},
@@ -121,6 +122,7 @@ export default {
     rowGroupPanelShow: "always",
     suppressDragLeaveHidesColumns: true,
     groupDefaultExpanded: -1,
+    rowSelection: 'multiple',
     ext: {
         fetchUrl: "/agnes-app/v1/acnt/info/list/page",
         fetchMethod: 'post',
