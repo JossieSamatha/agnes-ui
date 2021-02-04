@@ -34,7 +34,8 @@
 </template>
 
 <script>
-    import RosterTypeDlg from "./roster-type-dlg";
+
+import RosterTypeDlg from "./roster-type-dlg";
     import RosterList from "./roster-list";
 
     export default {
