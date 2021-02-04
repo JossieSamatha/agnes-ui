@@ -2,7 +2,7 @@
     <el-upload class="ecm-upload acc-ecm-upload"
                :class="disabled ? 'is-disabled': ''"
                action="/api/ecm-server/ecm/doc/upload"
-               :drag="false"
+               :drag="true"
                :data="uploadData"
                :before-upload="checkFile"
                :on-progress="uploadProgress"
@@ -18,9 +18,10 @@
                v-loading.fullscreen.lock="uploadFileLoading"
                element-loading-background="rgba(0, 0, 0, 0.3)" element-loading-text="文件上传中，请稍后">
         <div>
-            <el-button class="normal-link" style="left: 0" v-show="!disabled">上传文件</el-button>
-            <!--            <em class="el-icon-upload"></em>-->
-<!--            <p style="color: #999">将文件拖到此处，或<em>点击上传</em></p>-->
+<!--            <el-button class="normal-link" style="left: 0" v-show="!disabled">上传文件</el-button>-->
+                        <em class="el-icon
+                        -upload"></em>
+            <p style="color: #999">将文件拖到此处，或<em>点击上传</em></p>
         </div>
         <div slot="tip" class="el-upload__tip">
             <ul class="el-upload-list el-upload-list--text">
