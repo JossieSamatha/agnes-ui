@@ -24,7 +24,7 @@
                 sayHello: '',
                 overTimeDay: '0',
                 normalDay: '2',
-                effect: '80',
+                effect: '',
                 freshInterval: null,
                 todayDate: new Date().toLocaleDateString().replace(/\//g, '-'),
             }
@@ -78,8 +78,17 @@
                 this.$api.changeDataApi.getChangeData().then((resp)=> {
                     const resChangeData = resp.data;
                     const exeTime = resChangeData ? resChangeData.bizDate : this.todayDate;
+                    let that = this;
                     this.$api.HomePageApi.selectTodoTaskOfUser({taskStartTime: exeTime}).then((resp1)=>{
                         this.effect = resp1.data.rows ? resp1.data.rows.length : '--';
+                        this.$api.acntApplyApi.getCountUnfinishedAndCanDo().then((resp2)=> {
+                            if(this.effect!='--'){
+                                let num = parseInt(resp2.data)+parseInt(that.effect);
+                                that.effect = num.toString();
+                            }else {
+                                this.effect = resp2.data;
+                            }
+                        });
                     });
                 })
 

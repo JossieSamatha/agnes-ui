@@ -473,7 +473,7 @@
                                 <acc-ecm-upload style="width: 100%;"
                                                 :disabled="this.detailForm.processStatus==='07'?true:false"
                                                 :applyType="this.receipt"
-                                                :showRemove="this.detailForm.processStatus==='06'||this.detailForm.bizType==='04'?true:false"
+                                                :showRemove="this.detailForm.processStatus!='07'?true:false"
                                                 :src-doc-id="this.fjSrcId"
                                                 :file-list="this.receiptFileList">
                                 </acc-ecm-upload>
@@ -1128,7 +1128,7 @@
 
                     }
                     if(loadsh.isEmpty(this.fjSrcId)
-                        &&(this.detailForm.processStatus=='06'||this.detailForm.bizType=='04')){
+                        &&(this.detailForm.processStatus!='07')){
                         let resp = await this.$api.acntApplyApi.createDocAndGetDocId("2");
                         if(resp.data){
                             this.fjSrcId = resp.data.objectId;
@@ -1262,7 +1262,7 @@
                             form.processStatus = '08';
                         }
                     }else {
-                        if(this.detailForm.bizType=='04' && this.receiptFileList.length>0){
+                        if(this.receiptFileList.length>0){
                             form.fileList = form.fileList.concat(this.receiptFileList);
                         }
                     }

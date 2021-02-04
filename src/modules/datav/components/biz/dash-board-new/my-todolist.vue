@@ -49,7 +49,7 @@
         },
         data() {
             return {
-                needTodoOfAcnt:'1',
+                needTodoOfAcnt:'',
                 taskDemoArr: [],
                 bizdate: null,
                 caseStepTypeDict: this.$app.dict.getDictItems('AGNES_CASE_STEPTYPE'),
@@ -127,6 +127,10 @@
             async dealTodo(task, index){
                 const ok = await this.$msg.ask('是否快速办理该任务？');
                 if (!ok) {
+                    return
+                }
+                if(task.stepStatus === '01'){
+                    this.$msg.warning("该任务状态为未开始，处理失败！")
                     return
                 }
                 const taskCommit = {
