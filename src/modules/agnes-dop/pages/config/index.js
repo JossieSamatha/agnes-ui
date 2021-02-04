@@ -24,9 +24,9 @@ import FuncConfigAdd from "./func-config/add-config";
 import Compent from "./compents/index";
 import RuMemo from "./memo/memo";
 import ReMemoDef from "./memo/memo-def";
-import ReRosterDef from "./memo/roster-def";
-import RuRoster from "./memo/roster";
-
+import ReRosterDef from "./roster/roster-def";
+import RuRoster from "./roster/roster";
+import RosterCalendar from "./roster/roster-calendar"
 import FactorDef from "./factor-def/index";
 import TransRule from "./trans-rule-def/index";
 
@@ -64,6 +64,7 @@ const Loading = {
         Gfui.componentView('agnes.dop.roster.ru', RuRoster, {title: '智能排班维护NEW'});
         Gfui.componentView('agnes.chzh.yzwh', FactorDef, {title: '因子维护'});
         Gfui.componentView('agnes.chzh.zhgz', TransRule, {title: '转换规则维护'});
+        Gfui.componentView('agnes.dop.roster.calendar', RosterCalendar, {title: '值班日历'});
     }
 };
 
