@@ -6,14 +6,14 @@
              height="100%"
              :query-args="queryArgs"
     >
+      <template slot="left">
+        <gf-button v-if="$hasPermission('agnes.dop.roster.def.export')" @click="exportExcel" class="action-btn">导出
+        </gf-button>
+        <menu-config-upload v-if="$hasPermission('agnes.dop.roster.def.import')" :res-name=menuConfigInfo.resName
+                            :if-pk-id="menuConfigInfo.inputParam">
+        </menu-config-upload>
+      </template>
     </gf-grid>
-    <template slot="left">
-      <gf-button v-if="$hasPermission('agnes.dop.roster.def.export')" @click="exportExcel" class="action-btn">导出
-      </gf-button>
-      <menu-config-upload v-if="$hasPermission('agnes.dop.roster.def.import')" :res-name=menuConfigInfo.resName
-                          :if-pk-id="menuConfigInfo.inputParam">
-      </menu-config-upload>
-    </template>
   </div>
 </template>
 
@@ -37,8 +37,15 @@ export default {
   },
   mounted() {
     this.queryArgs.rosterDefId = this.row.pkId;
+    this.initData();
   },
   methods: {
+    async initData() {
+      let resp1 = await this.$api.funcConfigApi.queryMenuByActionUrl({'actionUrl': this.$app.nav.tabBar.currentTabKey});
+      if (resp1) {
+        this.menuConfigInfo = resp1.data;
+      }
+    },
     reloadData() {
       this.$refs.grid.reloadData(true);
     },
@@ -75,6 +82,25 @@ export default {
         await this.actionOk();
       }
       this.$emit("onClose");
+    },
+    async exportExcel() {
+      if (this.menuConfigInfo == undefined || this.menuConfigInfo.outputParam == null || this.menuConfigInfo.outputParam == undefined) {
+        this.$msg.error('请完善导出相关配置！');
+        return;
+      }
+      let pkIds = '';
+      let rows = this.$refs.grid.getSelectedRows();
+      if (rows.length == 0) {
+        rows = this.$refs.grid.getRowData();
+      }
+      rows.forEach((item) => {
+        pkIds = pkIds + item.pkId + ",";
+      });
+      pkIds = pkIds.substring(0, pkIds.lastIndexOf(","));
+      let pkId = this.menuConfigInfo.outputParam;
+      let fileName = this.menuConfigInfo.resName;
+      const basePath = window.location.href.split("#/")[0];
+      window.open(basePath + "api/data-pipe/v1/etl/file/exportexcel?pkId=" + pkId + "&fileName=" + fileName + "&pkIds=" + pkIds);
     },
   }
 }
