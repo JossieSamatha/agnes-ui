@@ -19,8 +19,7 @@
                element-loading-background="rgba(0, 0, 0, 0.3)" element-loading-text="文件上传中，请稍后">
         <div>
 <!--            <el-button class="normal-link" style="left: 0" v-show="!disabled">上传文件</el-button>-->
-                        <em class="el-icon
-                        -upload"></em>
+            <em class="el-icon-upload"></em>
             <p style="color: #999">将文件拖到此处，或<em>点击上传</em></p>
         </div>
         <div slot="tip" class="el-upload__tip">
@@ -376,7 +375,7 @@
 <style>
     .acc-ecm-upload .el-upload-dragger{
         height: 80px;
-        width: 500px;
+        width: 400px;
         font-size: 12px;
         border-radius: 4px;
     }
