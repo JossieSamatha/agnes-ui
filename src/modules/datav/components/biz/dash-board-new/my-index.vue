@@ -80,14 +80,10 @@
                     const exeTime = resChangeData ? resChangeData.bizDate : this.todayDate;
                     let that = this;
                     this.$api.HomePageApi.selectTodoTaskOfUser({taskStartTime: exeTime}).then((resp1)=>{
-                        this.effect = resp1.data.rows ? resp1.data.rows.length : '--';
+                        let num1 = resp1.data.rows ? resp1.data.rows.length : '0';
                         this.$api.acntApplyApi.getCountUnfinishedAndCanDo().then((resp2)=> {
-                            if(this.effect!='--'){
-                                let num = parseInt(resp2.data)+parseInt(that.effect);
-                                that.effect = num.toString();
-                            }else {
-                                this.effect = resp2.data;
-                            }
+                            let num2 = parseInt(resp2.data)+parseInt(num1);
+                            that.effect = num2.toString();
                         });
                     });
                 })
