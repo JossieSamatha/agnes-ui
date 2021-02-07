@@ -10,16 +10,9 @@
                     <el-radio-button label="01">视图</el-radio-button>
                     <el-radio-button label="02">表格</el-radio-button>
                 </el-radio-group>
-                <el-select v-model="filterValue" placeholder="过滤" size="small">
-                    <el-option label="日历计划" value="1"></el-option>
-                    <el-option label="排班计划" value="2"></el-option>
-                </el-select>
                 <el-button icon="el-icon-plus" type="primary"
                            v-if="$hasPermission('agnes.dop.memo.calendar.addMemo')"
-                           @click="addTodo">新建日历</el-button>
-                <el-button icon="el-icon-user" type="primary"
-                           v-if="$hasPermission('agnes.dop.memo.calendar.addRoster')"
-                           @click="addSchedule">智能排班</el-button>
+                           @click="addTodo">新建备忘录</el-button>
             </span>
         </div>
         <div class="container">
@@ -33,14 +26,6 @@
                     <ul class="info-ul calendar">
                       <li v-for="list in memoCheckList" :key="list.pkId" @dblclick="approveMemo(list)">
                         {{ list.memoDesc }}
-                      </li>
-                    </ul>
-                  </template>
-                  <template v-if="rosterCheckList.length>0">
-                    <span class="title">待复核排班计划</span>
-                    <ul class="info-ul roster">
-                      <li v-for="list in rosterCheckList" :key="list.pkId" @dblclick="approveRoster(list)">
-                        {{ list.rosterStartDate }}-{{ list.rosterEndDate }}排班计划
                       </li>
                     </ul>
                   </template>
@@ -94,17 +79,16 @@
                            :actionOk="refreshCalendar"
             ></detail-popver>
           </div>
-          <memoDef class="calendar-table" v-if="filterValue === '1' && display === '02'"></memoDef>
-          <rosterDef class="calendar-table" v-if="filterValue === '2' && display === '02'"></rosterDef>
+          <memoDef class="calendar-table" v-if="display === '02'" :display="this.display"></memoDef>
         </div>
     </div>
 </template>
 
 <script>
-import rosterDefDlg from './roster-type-dlg';
+// import rosterDefDlg from './roster-type-dlg';
 import detailPopver from './detail-popover'
 import memoDef from "./memo-def"
-import rosterDef from "./roster-def"
+// import rosterDefrosterDef from "./roster-def"
 import MemoDefDlg from "./memo-def-dlg-new";
 
 export default {
@@ -132,12 +116,11 @@ export default {
         components: {
           'detail-popver': detailPopver,
           memoDef,
-          rosterDef
 
         },
         created(){
             this.getMemoDef();
-            this.getRosterDef();
+          // this.getRosterDef();
         },
         methods: {
           approveMemo(params) {
@@ -154,21 +137,21 @@ export default {
                 }
             );
           },
-          approveRoster(params) {
-            this.showRoster('approve', params, this.refreshCalendar.bind(this));
-          },
-
-          showRoster(mode, row, actionOk) {
-            this.$nav.showDialog(
-                rosterDefDlg,
-                {
-                  args: {row, mode, actionOk},
-                  width: '650px',
-                  closeOnClickModal: false,
-                  title: '智能排班-审核',
-                }
-            );
-          },
+          // approveRoster(params) {
+          //   this.showRoster('approve', params, this.refreshCalendar.bind(this));
+          // },
+          //
+          // showRoster(mode, row, actionOk) {
+          //   this.$nav.showDialog(
+          //       rosterDefDlg,
+          //       {
+          //         args: {row, mode, actionOk},
+          //         width: '650px',
+          //         closeOnClickModal: false,
+          //         title: '智能排班-审核',
+          //       }
+          //   );
+          // },
           async getMemoDef() {
             this.memoCheckList = [];
             const memoDefRes = await this.$api.memoApi.selectMemoDefList('01');
@@ -258,7 +241,7 @@ export default {
                         args: {row, mode, actionOk},
                         width: '650px',
                         closeOnClickModal: false,
-                        title: this.$dialog.formatTitle('运营日历', mode),
+                      title: this.$dialog.formatTitle('运营日历', mode),
                     }
                 );
             },
@@ -268,35 +251,35 @@ export default {
             let curDate = this.$dateUtils.formatDate(calendarObj.calendarVal, 'yyyy-MM-dd');
             calendarObj.getCalendarData(curDate);
             this.getMemoDef();
-            this.getRosterDef();
+            //this.getRosterDef();
           },
 
-            // 新建日历计划
-            addSchedule(){
-                this.showScheduleDlg('add', {}, this.refreshCalendar.bind(this));
-            },
+          // // 新建日历计划
+          // addSchedule(){
+          //     this.showScheduleDlg('add', {}, this.refreshCalendar.bind(this));
+          // },
+          //
+          // showScheduleDlg(mode, row, actionOk) {
+          //     this.$nav.showDialog(
+          //         rosterDefDlg,
+          //         {
+          //             args: {row, mode, actionOk},
+          //             width: '650px',
+          //             closeOnClickModal: false,
+          //             title: this.$dialog.formatTitle('智能排班', mode),
+          //         }
+          //     );
+          // },
 
-            showScheduleDlg(mode, row, actionOk) {
-                this.$nav.showDialog(
-                    rosterDefDlg,
-                    {
-                        args: {row, mode, actionOk},
-                        width: '650px',
-                        closeOnClickModal: false,
-                        title: this.$dialog.formatTitle('智能排班', mode),
-                    }
-                );
-            },
-
-            dataEventReview(type, list){
-                this.dataEventType = type;
-                this.dataEventObj = list;
-                this.popoverShow = true;
-                this.$nextTick(()=>{
-                    const windowInnerWidth = window.innerWidth;
-                    const chooseLiDOM = document.getElementsByClassName('day-event-li active')[0].getBoundingClientRect();
-                    let left = '';
-                    if(windowInnerWidth - chooseLiDOM.right > 210){
+          dataEventReview(type, list) {
+            this.dataEventType = type;
+            this.dataEventObj = list;
+            this.popoverShow = true;
+            this.$nextTick(() => {
+              const windowInnerWidth = window.innerWidth;
+              const chooseLiDOM = document.getElementsByClassName('day-event-li active')[0].getBoundingClientRect();
+              let left = '';
+              if (windowInnerWidth - chooseLiDOM.right > 210) {
                         left = chooseLiDOM.left + chooseLiDOM.width;
                     }else{
                         left = chooseLiDOM.left - 203;
