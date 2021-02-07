@@ -25,17 +25,17 @@ function recursionData(nowData,steps,caseDefKey,type){
         if(nowData[i].defType==='step'){
             if(type==='list'){
                 let currentData = {};
+                let stepActType = '';
                 if(nowData[i].stepActType === '1'){
-                    nowData[i].stepActType = 'action';
+                    stepActType = 'action';
                 }
-                if(nowData[i].stepActType === '6'){
-                    nowData[i].stepActType = 'form';
+                if(nowData[i].stepActType === '6' || nowData[i].stepActType === '7'){
+                    stepActType = 'form';
                 }
-                currentData['@stepType'] = nowData[i].stepActType;
+                currentData['@stepType'] = stepActType;
                 Object.assign(currentData, nowData[i]);
                 currentData.autoActive = true;
-                currentData.defName = currentData.stepName;
-                currentData.defId = caseDefKey;
+                // currentData.defName = currentData.stepName;
                 let actionDef = {
                     "automation":true,
                 };
@@ -47,9 +47,16 @@ function recursionData(nowData,steps,caseDefKey,type){
                     delete currentData.stepFormInfo
                     let sentryInData = {};
                     let sentryOut = {};
+                    let sentryEx = {};
                     sentryOut.ifExpr = temporaryData.successRuleTableData.ruleBody
+                    sentryInData.ifExpr = temporaryData.activeRuleTableData.ruleBody
+                    sentryEx.ifExpr = temporaryData.failRuleTableData.ruleBody
+                    currentData.defId = temporaryData.caseStepDef.stepCode;
+                    currentData.defName = temporaryData.caseStepDef.stepName;
                     currentData.sentryIn = sentryInData
                     currentData.sentryOut = sentryOut
+                    currentData.sentryEx = sentryEx
+                    currentData.autoActive = !temporaryData.activeRuleTableData.ruleBody;
                 }
                 steps.push(currentData)
             }else {
