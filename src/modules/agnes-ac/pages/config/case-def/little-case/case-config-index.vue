@@ -132,6 +132,9 @@
                     this.$utils.removeFromArray(this.stepCodeArr, dialogForm);
                     return false;
                 }
+                if(!this.row.caseDefInfo.reTaskDef.bizType){
+                    this.row.caseDefInfo.reTaskDef.bizType='';
+                }
                 args.bizType = this.row.caseDefInfo.reTaskDef.bizType;
                 this.drawerVisible = true;
                 this.stepDetailProps = {

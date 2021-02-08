@@ -750,10 +750,6 @@
                 this.caseModelData = item;
             },
             confFlowNode(){
-                if(!this.detailForm.bizType){
-                    this.$msg.warning("选择业务场景!");
-                    return;
-                }
                 let caseDefInfo = {};
                 if(this.mode=='add'){
                         caseDefInfo={
@@ -772,10 +768,6 @@
             },
             showFlowNode(row, mode, actionOk) {
                 // 抽屉创建
-                if (row.caseDefInfo.length === 0) {
-                    this.$msg.warning("请选中一条记录!");
-                    return;
-                }
                 this.$drawerPage.create({
                     width: 'calc(100% - 250px)',
                     title: ['任务节点配置'],
