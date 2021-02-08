@@ -364,9 +364,6 @@
                     taskName: [
                         {required: true, message: '任务名称必填', trigger: 'blur'},
                     ],
-                    bizType:[
-                        {required: true, message: '业务场景必填', trigger: 'blur'},
-                    ],
                     caseKey: [
                         {validator: this.hasRepetCode, required: true, trigger: 'change'},
                     ],
