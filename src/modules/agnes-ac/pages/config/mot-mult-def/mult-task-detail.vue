@@ -301,7 +301,9 @@
         </template>
         <template v-if="detailForm.configType==2">
             <el-form-item label="配置任务节点">
-                <span @click="confFlowNode" style="cursor: pointer;text-decoration: underline;color: #0f5eff">点击配置</span>
+                <el-button type="text" @click="confFlowNode">
+                    点击配置
+                </el-button>
             </el-form-item>
         </template>
     </el-form>
@@ -361,6 +363,9 @@
                     ],
                     taskName: [
                         {required: true, message: '任务名称必填', trigger: 'blur'},
+                    ],
+                    bizType:[
+                        {required: true, message: '业务场景必填', trigger: 'blur'},
                     ],
                     caseKey: [
                         {validator: this.hasRepetCode, required: true, trigger: 'change'},
@@ -792,6 +797,7 @@
                 if(val === '1'){
                     this.detailForm.flowType = '';
                     this.caseModelData = {};
+                    this.detailForm.taskType = '';
                 }else if(val === '2'){
                     this.detailForm.taskType = '2';
                 }
