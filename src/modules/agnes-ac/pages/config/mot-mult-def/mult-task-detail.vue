@@ -761,7 +761,7 @@
                     caseDefInfo.caseDefBody=this.caseModelData;
                 }
                 caseDefInfo.reTaskDef.bizType = this.detailForm.bizType;
-                this.showFlowNode({caseDefInfo:caseDefInfo},'addMotMult',this.onEditFlowInfo.bind(this))
+                this.showFlowNode({caseDefInfo:caseDefInfo},'addMult',this.onEditFlowInfo.bind(this))
             },
             showFlowNode(row, mode, actionOk) {
                 // 抽屉创建

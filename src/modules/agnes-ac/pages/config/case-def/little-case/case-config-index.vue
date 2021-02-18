@@ -101,7 +101,7 @@
             async onSave(){
                 this.caseModelData.stepCodeArr = this.stepCodeArr;
                 this.row.caseDefInfo.caseDefBody = JSON.stringify(this.caseModelData)
-                if(this.mode==='addMotMult'){
+                if(this.mode==='addMult'){
                     if (this.actionOk) {
                         await this.actionOk(this.row.caseDefInfo.caseDefBody);
                     }
