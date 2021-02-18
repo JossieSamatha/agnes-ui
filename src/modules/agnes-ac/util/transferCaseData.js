@@ -29,7 +29,7 @@ function recursionData(nowData,steps,caseDefKey,type){
                 if(nowData[i].stepActType === '1'){
                     stepActType = 'action';
                 }
-                if(nowData[i].stepActType === '6' || nowData[i].stepActType === '7'){
+                if(nowData[i].stepActType === '6'){
                     stepActType = 'form';
                 }
                 currentData['@stepType'] = stepActType;

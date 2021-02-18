@@ -3,7 +3,7 @@ export default function () {
         // 任务对象初始字段
         taskId: '',
         taskName: '',            // 任务名称
-        taskType: '',            // 任务类型 -- 2：流程任务；6：MOT任务；1：监控指标任务 7:新单节点MOT任务 8:新多节点MOT任务
+        taskType: '',            // 任务类型 -- 2：流程任务；6：MOT任务；1：监控指标任务
         taskStatus: '',          // 任务状态 -- 0：新建；1：待复核；2：已复核；3：存在更新需再次复核；
         caseKey: '',             // 关联case -- 对应case caseDefKey
         bizType: '',             // 业务场景

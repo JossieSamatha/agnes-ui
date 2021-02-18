@@ -125,10 +125,10 @@
             showTask(params) {
                 this.showDrawer('view', params.data);
             },
-            editKpiTask(params) {
+            editTask(params) {
                 this.showDrawer('edit', params.data, this.onEditModel.bind(this));
             },
-            async deleteKpiTask(params) {
+            async deleteTask(params) {
                 const row = params.data.reTaskDef;
                 const ok = await this.$msg.ask(`确认删除任务:[${row.taskName}]吗, 是否继续?`);
                 if (!ok) {
@@ -169,7 +169,7 @@
             },
 
             // 发布
-            async checkMotBeforePulish(params){
+            async checkMotBeforePublish(params){
                 const rowData = params.data;
                 if(rowData.reTaskDef.taskStatus.match(/00|01|03|04/)){
                     this.$msg.warning("该状态无法发布!");

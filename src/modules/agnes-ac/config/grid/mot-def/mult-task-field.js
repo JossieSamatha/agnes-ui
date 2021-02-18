@@ -2,7 +2,7 @@ import column from "../../../../../config/column"
 import Permission from "../../../../../utils/hasPermission";
 
 const colButtons = [
-    {key: 'editKpiTask', title: '编辑',disabled: (params)=>{
+    {key: 'editTask', title: '编辑',disabled: (params)=>{
             let result = false;
             if(params.data.reTaskDef.taskStatus === '03'){
                 result =true;
@@ -10,7 +10,7 @@ const colButtons = [
             return result;}, visiable: () => {
             return Permission.hasPermission('agnes.config.mult.task.edit');
         }},
-    {key: 'deleteKpiTask', title: '删除', cellClass: 'red-cell',disabled: (params)=>{
+    {key: 'deleteTask', title: '删除', cellClass: 'red-cell',disabled: (params)=>{
             let result = false;
             if(params.data.reTaskDef.taskStatus === '03'){
                 result =true;
@@ -26,14 +26,14 @@ const colButtons = [
             return result;}, visiable: () => {
             return Permission.hasPermission('agnes.config.mult.task.check');
         }},
-    {key: 'checkMotBeforePulish', title: '发布',disabled: (params)=>{
+    {key: 'checkMotBeforePublish', title: '发布',disabled: (params)=>{
             let result = false;
             if(params.data.reTaskDef.taskStatus === '00' ||params.data.reTaskDef.taskStatus === '01' || params.data.reTaskDef.taskStatus === '03'){
                 result =true;
             }
             return result;},visiable:(params)=>{
             let result = true;
-            if(!Permission.hasPermission('agnes.config.mult.task.pulish') && params.data.reTaskDef.taskStatus === '03'){
+            if(!Permission.hasPermission('agnes.config.mult.task.publish') && params.data.reTaskDef.taskStatus === '03'){
                 result =false;
             }
             return result;}},
