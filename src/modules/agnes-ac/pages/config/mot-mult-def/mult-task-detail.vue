@@ -628,12 +628,12 @@
                 if(this.msgInformParam.indexOf('3') === -1){
                     this.detailForm.exceptionRemind=[];
                 }
-                let kpiTaskDef = this.$utils.deepClone(this.staticData.kpiTaskDef);
+                let taskDef = this.$utils.deepClone(this.staticData.kpiTaskDef);
                 this.detailForm.bizTag = this.detailForm.bizTagArr.join(",");
                 this.detailForm.stepActType = this.detailForm.taskType;
                 this.detailForm.stepCode = this.detailForm.caseKey;
                 this.detailForm.caseDefKey = this.detailForm.caseKey;
-                this.keyToValue(kpiTaskDef, 'task_');
+                this.keyToValue(taskDef, 'task_');
                 let caseDef = this.$utils.deepClone(this.staticData.caseDef);
                 let defId = this.$agnesUtils.randomString(32);
                 let defName = this.detailForm.taskName;
@@ -652,20 +652,20 @@
                     }
                 })
                 caseDef.stages[0].children[0].stepFormInfo = stepFormInfo;
-                if(this.mode === 'add' || this.row.reTaskDef.caseKey != kpiTaskDef.caseKey){
+                if(this.mode === 'add' || this.row.reTaskDef.caseKey != taskDef.caseKey){
                     this.isCheckCode = true;
                 }
                 let caseFlowInfos = JSON.stringify(caseDef);
                 if(this.detailForm.configType==='2'){
                     caseFlowInfos = this.caseModelData;
                 }
-                return {reTaskDef: kpiTaskDef, caseDefId: this.row.caseDefId, caseDefBody: caseFlowInfos,versionId:this.versionId,isCheckCode:this.isCheckCode};
+                return {reTaskDef: taskDef, caseDefId: this.row.caseDefId, caseDefBody: caseFlowInfos,versionId:this.versionId,isCheckCode:this.isCheckCode};
             },
             reDataTransfer() {
                 this.rosterDate = window.bizDate;
                 if (this.mode && this.mode !== 'add') {
-                    let kpiTaskDef = this.$utils.deepClone(this.row.reTaskDef);
-                    this.reKeyToValue(kpiTaskDef, 'task_');
+                    let taskDef = this.$utils.deepClone(this.row.reTaskDef);
+                    this.reKeyToValue(taskDef, 'task_');
                     this.versionId = this.row.versionId;
                     let caseDefBody = JSON.parse(this.row.caseDefBody);
                     let stepFormInfo = this.$utils.deepClone(caseDefBody.stages[0].children[0].stepFormInfo);
@@ -700,7 +700,7 @@
                             this.msgInformParam.push(index+'');
                         }
                     });
-                    if(kpiTaskDef.taskType == '2'){
+                    if(taskDef.taskType == '2'){
                         this.detailForm.configType='2';
                     }
                 }
