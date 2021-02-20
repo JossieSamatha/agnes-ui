@@ -136,6 +136,40 @@
                 </gf-filter-option>
             </el-select>
         </el-form-item>
+        <el-form-item v-if="detailForm.taskType === '6'" label="回填参数">
+                <div class="rule-table">
+                    <el-table header-row-class-name="rule-header-row"
+                              header-cell-class-name="rule-header-cell"
+                              row-class-name="rule-row"
+                              cell-class-name="rule-cell"
+                              :data="paramList"
+                              border stripe
+                              :header-cell-style="{'text-align':'center'}">
+                        style="width: 100%">
+                        <el-table-column prop="accNo" label="参数关键字">
+                            <template slot-scope="scope">
+                                <el-input v-model="scope.row.paramKey"></el-input>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="accNo" label="参数名称">
+                            <template slot-scope="scope">
+                                <el-input v-model="scope.row.paramName"></el-input>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="market" label="参数类型">
+                            <template slot-scope="scope">
+                                <gf-dict filterable clearable v-model="scope.row.paramType" dict-type="TASK_DEF_DATATYPE"/>
+                            </template>
+                        </el-table-column>
+                        <el-table-column  prop="option" label="操作" width="52" align="center">
+                            <template slot-scope="scope">
+                                <span class="option-span" @click="deleteRuleRow(scope.$index)">删除</span>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                    <el-button  @click="addRule()" class="rule-add-btn" size="small">新增</el-button>
+                </div>
+            </el-form-item>
         <el-form-item v-if="detailForm.taskType === '3'" label="流程定义选择" prop="stepActKey">
             <el-select v-model="detailForm.stepActKey" placeholder="请选择">
                 <el-option
@@ -327,6 +361,7 @@
         data() {
             return {
                 caseModelData:'',
+                paramList:[],
                 configType:'1',
                 isCheckCode:false,
                 rosterDate:'',
@@ -505,6 +540,18 @@
                 this.curExecScheduler = curObj;
                 this.showDlg(execScheduler, this.setExecScheduler.bind(this));
             },
+            // 回填参数新增、删除服务行
+            addRule() {
+                const newTableObj = {
+                    paramKey:'',
+                    paramName:'',
+                    paramType:'',
+                };
+                this.paramList.push(newTableObj);
+            },
+            deleteRuleRow(rowIndex) {
+                this.paramList.splice(rowIndex, 1);
+            },
             showDlg(data, action) {
                 if (this.mode === 'view') {
                     return;
@@ -659,12 +706,15 @@
                 if(this.detailForm.configType==='2'){
                     caseFlowInfos = this.caseModelData;
                 }
-                return {reTaskDef: taskDef, caseDefId: this.row.caseDefId, caseDefBody: caseFlowInfos,versionId:this.versionId,isCheckCode:this.isCheckCode};
+                return {reTaskDef: taskDef, caseDefId: this.row.caseDefId, caseDefBody: caseFlowInfos,versionId:this.versionId,isCheckCode:this.isCheckCode,paramList:this.paramList};
             },
             reDataTransfer() {
                 this.rosterDate = window.bizDate;
                 if (this.mode && this.mode !== 'add') {
                     let taskDef = this.$utils.deepClone(this.row.reTaskDef);
+                    if(taskDef.taskType=='6' && this.row.paramList){
+                        this.paramList = this.row.paramList;
+                    }
                     this.reKeyToValue(taskDef, 'task_');
                     this.versionId = this.row.versionId;
                     let caseDefBody = JSON.parse(this.row.caseDefBody);

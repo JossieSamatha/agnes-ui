@@ -424,6 +424,7 @@
                     inst: {
                         taskId: "",
                     },
+                    paramListStr:'',
                 };
                 taskCommit.stepInfo.remark = params.data.remark;
                 taskCommit.stepInfo.stepStatus = "06";
@@ -432,6 +433,7 @@
                 taskCommit.stepInfo.stepCode = params.data.stepCode;
                 taskCommit.stepInfo.bizDate = this.bizDate;
                 taskCommit.stepInfo.caseId = params.data.caseId;
+                taskCommit.paramListStr = JSON.stringify(params.data.paramList);
                 try {
                     const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
                     const resp = await this.$app.blockingApp(p);

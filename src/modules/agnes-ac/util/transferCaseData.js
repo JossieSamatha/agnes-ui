@@ -31,6 +31,7 @@ function recursionData(nowData,steps,caseDefKey,type){
                 }
                 if(nowData[i].stepActType === '6'){
                     stepActType = 'form';
+                    nowData[i].stepFormInfo.caseStepDef.stepActKey='';
                 }
                 currentData['@stepType'] = stepActType;
                 Object.assign(currentData, nowData[i]);
