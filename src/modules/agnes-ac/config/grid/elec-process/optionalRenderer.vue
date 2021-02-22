@@ -2,14 +2,50 @@
     <div class="optional-cell" v-if="params.data">
         <el-popover ref="popover"
                     placement="top-start"
-                    title="备注"
-                    width="300"
+                    title="手工确认"
+                    width="600"
                     trigger="manual"
                     v-model="popoverVisible"
         >
-            <el-input type="textarea" :rows="1" placeholder="请输入备注内容"
-                      v-model="remark">
-            </el-input>
+            <el-form ref="form" :model="form"
+                     label-width="80px">
+                <el-form-item label="回填参数" v-show="form.paramList.length>0">
+                    <div class="rule-table">
+                        <el-table header-row-class-name="rule-header-row"
+                                  header-cell-class-name="rule-header-cell"
+                                  row-class-name="rule-row"
+                                  cell-class-name="rule-cell"
+                                  :data="form.paramList"
+                                  border stripe
+                                  style="width: 100%">
+                            <el-table-column prop="stepCode" label="参数名">
+                                <template slot-scope="scope">
+                                    <el-input v-model="scope.row.paramName" disabled/>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="stepCode" label="参数值">
+                                <template slot-scope="scope">
+                                    <el-input v-model="scope.row.paramString" v-if="scope.row.paramType=='string'"/>
+                                    <el-input v-model="scope.row.paramNumber" oninput="value=value.replace(/[^\d]/g,'')"
+                                              maxLength='9' placeholder="请输入数字" v-if="scope.row.paramType=='number'"/>
+                                    <el-input v-model.number="scope.row.paramAmount" placeholder="请输入金额" v-if="scope.row.paramType=='amount'"/>
+                                    <el-date-picker
+                                        v-model="scope.row.paramDate"
+                                        type="date"
+                                        placeholder="选择日期" v-if="scope.row.paramType=='date'">
+                                </el-date-picker>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </div>
+                </el-form-item>
+                <el-form-item label="备注">
+                    <el-input type="textarea" :rows="1" placeholder="请输入备注内容"
+                              v-model="form.remark">
+                    </el-input>
+                </el-form-item>
+            </el-form>
+
             <div style="text-align: right; margin-top: 10px">
                 <el-button class="op-btn" size="mini" type="text" @click="popoverVisible = false">取消</el-button>
                 <el-button class="op-btn primary" size="mini" @click="confirmRemark">保存</el-button>
@@ -62,6 +98,10 @@
     export default {
         data() {
             return {
+                form:{
+                    paramList:[],
+                    remark:'',
+                },
                 remark: '',
                 popoverVisible: false,
                 actionType: '',
@@ -91,8 +131,12 @@
             }
         },
         methods: {
-            popoverClick(actionType) {
-                this.remark = this.params.data.remark;
+            async popoverClick(actionType) {
+                this.form.paramList=[];
+                const p = this.$api.taskTodoApi.selectRollBackTaskParams({stepExecId:this.params.data.stepExecId})
+                const resp = await this.$app.blockingApp(p);
+                this.form.paramList=resp.data;
+                this.form.remark = this.params.data.remark;
                 this.popoverVisible = true;
                 this.actionType = actionType;
             },
@@ -112,7 +156,8 @@
             // 备注确定 -- 保存
             confirmRemark() {
                 this.popoverVisible = false;
-                this.params.data.remark = this.remark;
+                this.params.data.remark = this.form.remark;
+                this.params.data.paramList = this.form.paramList;
                 this.params.api.refreshCells(this.params.node)
                 this.handleCmd(this.actionType);
             },
