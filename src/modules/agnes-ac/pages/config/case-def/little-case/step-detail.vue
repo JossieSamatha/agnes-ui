@@ -363,6 +363,8 @@
                 rosterDate:'',
                 stepInfo: resetForm(),
                 paramList:[],
+                caseKey:'',
+                hisStepCode:'',
                 initStepCode: '',
                 texts: ['普通', '重要', '非常重要'],
                 max: 3,
@@ -444,7 +446,6 @@
                     this.memberRefList = JSON.parse(stepActOwner);
                 }
             }
-
         },
         computed:{
             caseStepDef(){
@@ -497,6 +498,12 @@
                 }
             },
 
+            async getParamList(){
+                let repData = {caseKey:this.args.caseKey,stepCode:this.caseStepDef.stepCode};
+                const c = this.$api.motConfigApi.queryReCaseParams(repData);
+                const resp = await this.$app.blockingApp(c);
+                this.paramList = resp.data;
+            },
             async serviceResChange(param){
                 this.serviceRes.forEach((item)=>{
                     if(item.value === param){
@@ -607,11 +614,11 @@
                 this.stepInfo.stepActType = this.args.stepData;
                 this.resetFormFields();
                 this.bizType = this.args.bizType;
+                this.caseKey = this.args.caseKey;
                 this.bizTagArr = this.args.bizTagArr;
             },
 
             onLoadForm() {
-                console.log(this.formObj);
                 for (let key in this.formObj) {
                     if (this.stepInfo[key]) {
                         this.stepInfo[key] = this.formObj && this.formObj[key] ? this.formObj[key] : this.stepInfo[key];
@@ -619,6 +626,7 @@
                         this.stepInfo[key] = this.formObj[key];
                     }
                 }
+                this.hisStepCode = JSON.parse(JSON.stringify(this.stepInfo.stepFormInfo.caseStepDef.stepCode));
                 this.initStepCode = this.stepInfo.stepFormInfo.caseStepDef.stepCode;
                 this.stepInfo.stepFormInfo.caseStepDef.stepName = this.stepInfo.stepName;
                 const activeRuleTableData = this.stepInfo.stepFormInfo.activeRuleTableData.ruleList || [];
@@ -631,12 +639,32 @@
                 const endDay = this.caseStepDef.endDay;
                 this.dayChecked = startDay || endDay ? '1': '0'
                 if(this.stepInfo.stepActType=='6'){
-                    this.paramList = JSON.parse(this.stepInfo.stepFormInfo.caseStepDef.stepActKey);
+                    this.getParamList();
                 }
             },
 
             // 保存表单数据
-            saveForm() {
+            async saveForm() {
+                try {
+                    if(this.stepInfo.stepActType=='6' && this.paramList.length>0){
+                        let resData = {
+                            paramList : this.paramList,
+                            reTaskDef:{caseKey:this.caseKey},
+                            stepCode:this.caseStepDef.stepCode,
+                        };
+                        if(this.caseStepDef.stepCode!=this.hisStepCode){
+                            resData.hisStepCode = this.hisStepCode;
+                        }
+                        const c = this.$api.motConfigApi.checkAndSaveReCaseParams(resData);
+                        const resp1 = await this.$app.blockingApp(c);
+                        if(resp1 && resp1.code == 'existKey'){
+                            this.$msg.error(resp1.message);
+                            return ;
+                        }
+                    }
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
                 this.$refs['stepInfoForm'].validate(valid=> {
                     if (!valid) {
                         return;
@@ -658,9 +686,6 @@
                     }
                     if (this.activeTerm === '1') {
                         this.stepInfo.stepFormInfo.activeRuleTableData = {}
-                    }
-                    if(this.stepInfo.stepActType=='6' && this.paramList.length>0){
-                        this.stepInfo.stepFormInfo.caseStepDef.stepActKey = JSON.stringify(this.paramList);
                     }
                     if(this.stepInfo.stepFormInfo.activeRuleTableData
                         && this.stepInfo.stepFormInfo.activeRuleTableData.ruleList){

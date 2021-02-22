@@ -136,6 +136,7 @@
                     this.row.caseDefInfo.reTaskDef.bizType='';
                 }
                 args.bizType = this.row.caseDefInfo.reTaskDef.bizType;
+                args.caseKey = this.row.caseDefInfo.reTaskDef.caseKey;
                 this.drawerVisible = true;
                 this.stepDetailProps = {
                     optionType: optionType,
