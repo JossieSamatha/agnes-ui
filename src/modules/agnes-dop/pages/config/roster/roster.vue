@@ -81,7 +81,8 @@ export default {
           let newObj = {
             pkId: param.data.pkId,
             rosterDefId: param.data.rosterDefId,
-            isDelete: action === 'confirm'
+            isDelete: action === 'confirm',
+            bizDate: window.bizDate,
           }
           try {
             let p = this.$api.rosterApi.deleteRuRoster(newObj);
