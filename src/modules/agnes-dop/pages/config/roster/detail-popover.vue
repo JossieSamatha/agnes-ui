@@ -92,6 +92,7 @@ export default {
           }
           let newObj = this.dataEventObj;
           newObj.isDelete = action === 'confirm';
+          newObj.bizDate = window.bizDate;
           try {
             let p = {};
             if (ifMemo) {
