@@ -6,12 +6,16 @@ const colButtons = [
     {
         key: 'editRuMemo', title: '编辑', visiable: () => {
             return Permission.hasPermission('agnes.dop.memo.ru.edit');
-        }
+        }, disabled: (params) => {
+            return params.data.memoDate < window.bizDate
+        },
     },
     {
         key: 'deleteRuMemo', title: '删除', cellClass: 'red-cell', visiable: () => {
             return Permission.hasPermission('agnes.dop.memo.ru.delete');
-        }
+        }, disabled: (params) => {
+            return params.data.memoDate < window.bizDate
+        },
     },
 ];
 

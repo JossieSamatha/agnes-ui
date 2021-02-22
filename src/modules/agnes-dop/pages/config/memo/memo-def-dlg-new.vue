@@ -1,16 +1,16 @@
 <template>
     <div>
-        <el-form :model="memoForm" :disabled="mode==='view' ||mode==='approve' " ref="memoForm" :rules="memoFormRules"
+        <el-form :model="memoForm" :disabled="mode==='view' " ref="memoForm" :rules="memoFormRules"
                  label-width="105px"
                  style="padding: 10px;">
-            <el-form-item label="记录事项" prop="memoDesc">
-                <gf-input v-model="memoForm.memoDesc" type="textarea" :max-byte-len="512"></gf-input>
-            </el-form-item>
-            <el-form-item label="创建方式选择" prop="createType" required :show-message="false">
-                <el-radio-group class="alter-radio-btn" v-model="memoForm.createType" size="small"
-                                @change="clearMemoRules(['memoDate', 'memoStartDate', 'memoEndDate','memoCron'])">
-                    <el-radio label="01">按照指定日期</el-radio>
-                    <el-radio label="02">按照自定义频率</el-radio>
+          <el-form-item label="记录事项" prop="memoDesc">
+            <gf-input v-model="memoForm.memoDesc" type="textarea" :max-byte-len="512"></gf-input>
+          </el-form-item>
+          <el-form-item label="创建方式选择" prop="createType" required :show-message="false">
+            <el-radio-group class="alter-radio-btn" v-model="memoForm.createType" size="small"
+                            @change="clearMemoRules(['memoDate', 'memoStartDate', 'memoEndDate','memoCron'])">
+              <el-radio label="01">按照指定日期</el-radio>
+              <el-radio label="02">按照自定义频率</el-radio>
                 </el-radio-group>
             </el-form-item>
             <template v-if="memoForm.createType === '01'">
@@ -61,13 +61,13 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="通知人员" prop="memberRefList" v-if="memoForm.memoType === '01'">
-                <gf-person-chosen ref="memberRef"
-                                  :memberRefList="memoForm.memberRefList"
-                                  chosenType="user, group, roster"
-                                  :rosterDate="rosterDate"
-                                  @getMemberList="getMemberList"
-                                  :disabled="mode==='view' || mode==='approve'">
-                </gf-person-chosen>
+              <gf-person-chosen ref="memberRef"
+                                :memberRefList="memoForm.memberRefList"
+                                chosenType="user, group, roster"
+                                :rosterDate="rosterDate"
+                                @getMemberList="getMemberList"
+                                :disabled="mode==='view'">
+              </gf-person-chosen>
             </el-form-item>
         </el-form>
         <dialog-footer v-if="mode=== 'add' || mode === 'edit'" :ok-button-visible="mode !== 'view'"

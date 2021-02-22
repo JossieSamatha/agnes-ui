@@ -4,8 +4,8 @@
             <span class="title" :class="{roster: dataEventType === 'roster'}">
                 {{ dataEventType === 'memo' ? '计划详情' : '排班详情' }}</span>
       <span>
-                <em class="el-icon-edit" v-show="dataEventType === 'memo'" @click="editDetail"></em>
-                <em class="el-icon-delete" @click="deleteDetail"></em>
+                <em class="el-icon-edit" v-show="isDisabled === '0'" @click="editDetail"></em>
+                <em class="el-icon-delete" @click="deleteDetail" v-show="isDisabled === '0'"></em>
                 <em class="el-icon-close" @click="closePopover"></em>
             </span>
     </div>
@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import rosterDlg from './roster-dlg'
 export default {
   props: {
     dataEventType: String,
@@ -42,43 +43,40 @@ export default {
     dataEventObj: Object,
     actionOk: Function,
   },
+  computed: {
+    isDisabled() {
+      if (this.dataEventObj.memoDate < window.bizDate || this.dataEventObj.rosterDate < window.bizDate) {
+        return '1';
+      } else {
+        return '0';
+      }
+    },
+  },
   methods: {
     closePopover() {
       this.$emit('closePopover');
     },
 
     editDetail() {
-      this.$prompt('请输入记录事项', '日历计划-记录事项编辑', {
-        distinguishCancelAndClose: true,
-        confirmButtonText: '批次修改',
-        cancelButtonText: '单条修改',
-        inputType: 'textarea',
-        inputValue: this.dataEventObj.memoDesc,
-        type: 'warning',
-        beforeClose: async (action, instance, done) => {
-          if (action === 'close') {
-            done();
-            return;
-          }
-          let newObj = this.dataEventObj;
-          newObj.memoDesc = instance.inputValue;
-          newObj.isDelete = action === 'confirm';
-          try {
-            const p = this.$api.memoApi.saveRuMemo(newObj);
-            await this.$app.blockingApp(p);
-            this.$emit('refreshCalendar');
-            this.$msg.success('修改成功');
-            if (this.actionOk) {
-              await this.actionOk();
-            }
-            done();
-          } catch (reason) {
-            this.$msg.error(reason);
-          }
-        }
-      })
+      console.log(this.dataEventObj)
+      this.showScheduleDlg('edit', this.dataEventObj, this.onEditRoster.bind(this));
     },
-
+    async onEditRoster() {
+      if (this.actionOk) {
+        await this.actionOk();
+      }
+    },
+    showScheduleDlg(mode, row, actionOk) {
+      this.$nav.showDialog(
+          rosterDlg,
+          {
+            args: {row, mode, actionOk},
+            width: '650px',
+            closeOnClickModal: false,
+            title: this.$dialog.formatTitle('智能排班', mode),
+          }
+      );
+    },
     deleteDetail() {
       const ifMemo = this.dataEventType === 'memo';
       const title = ifMemo ? '日历' : '排班';

@@ -70,13 +70,14 @@ export default {
       }
 
       //消息对象必填项校验
-      if (this.form.memoMemberRefList.length == 0) {
-        this.$msg.error("请选择参与人员");
+      if (this.form.memoMemberRefList.length == 0 && this.form.memo.memoType === '01') {
+        this.$msg.error("请选择通知人员");
         return;
       }
 
       try {
-        const p = this.$api.memoApi.saveMemo(this.form);
+        this.form.memo.isDelete = false;
+        const p = this.$api.memoApi.saveRuMemo(this.form.memo);
         await this.$app.blockingApp(p);
 
         if (this.actionOk) {
