@@ -4,8 +4,8 @@
             <span class="title" :class="{roster: dataEventType === 'roster'}">
                 {{dataEventType === 'memo' ? '计划详情' : '排班详情'}}</span>
             <span>
-                <em class="el-icon-edit" v-show="dataEventType === 'memo'" @click="editDetail"></em>
-                <em class="el-icon-delete" @click="deleteDetail"></em>
+                <em class="el-icon-edit" v-show="isDisabled === '0'" @click="editDetail"></em>
+                <em class="el-icon-delete" @click="deleteDetail" v-show="isDisabled === '0'"></em>
                 <em class="el-icon-close" @click="closePopover"></em>
             </span>
         </div>
@@ -36,24 +36,32 @@
 
 <script>
     export default {
-        props: {
-          dataEventType: String,
-          styleProps: Object,
-          dataEventObj: Object,
-          actionOk: Function,
+      props: {
+        dataEventType: String,
+        styleProps: Object,
+        dataEventObj: Object,
+        actionOk: Function,
+      },
+      computed: {
+        isDisabled() {
+          if (this.dataEventObj.memoDate < window.bizDate || this.dataEventObj.rosterDate < window.bizDate) {
+            return '1';
+          } else {
+            return '0';
+          }
         },
-        methods: {
-            closePopover() {
-                this.$emit('closePopover');
-            },
-
-            editDetail(){
-                this.$prompt('请输入记录事项', '日历计划-记录事项编辑', {
-                    distinguishCancelAndClose: true,
-                    confirmButtonText: '批次修改',
-                    cancelButtonText: '单条修改',
-                    inputType: 'textarea',
-                    inputValue: this.dataEventObj.memoDesc,
+      },
+      methods: {
+        closePopover() {
+          this.$emit('closePopover');
+        },
+        editDetail() {
+          this.$prompt('请输入记录事项', '日历计划-记录事项编辑', {
+            distinguishCancelAndClose: true,
+            confirmButtonText: '批次修改',
+            cancelButtonText: '单条修改',
+            inputType: 'textarea',
+            inputValue: this.dataEventObj.memoDesc,
                     type: 'warning',
                     beforeClose: async (action, instance, done) => {
                         if(action === 'close') {
@@ -61,7 +69,8 @@
                         }
                         let newObj = this.dataEventObj;
                         newObj.memoDesc = instance.inputValue;
-                        newObj.isDelete = action === 'confirm';
+                      newObj.isDelete = action === 'confirm';
+                      newObj.bizDate = this.dataEventObj.memoDate;
                         try {
                           const p = this.$api.memoApi.saveRuMemo(newObj);
                           await this.$app.blockingApp(p);
@@ -91,7 +100,8 @@
                             done();return;
                         }
                         let newObj = this.dataEventObj;
-                        newObj.isDelete = action === 'confirm';
+                      newObj.isDelete = action === 'confirm';
+                      newObj.bizDate = window.bizDate;
                         try {
                           let p = {};
                           if (ifMemo) {

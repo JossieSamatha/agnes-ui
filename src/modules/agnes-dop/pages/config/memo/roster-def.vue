@@ -81,7 +81,7 @@ export default {
       }
       this.$drawerPage.create({
         width: 'calc(97% - 215px)',
-        title: ['运营日历', mode],
+        title: ['运营日历明细', mode],
         component: rosterDetail,
         args: {row, mode, actionOk},
         okButtonVisible: false,                             // 保存按钮是否显示

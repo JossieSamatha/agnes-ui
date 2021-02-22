@@ -162,7 +162,7 @@
             async handelNotice() {
                 this.showNoticeDrawer = true;
                 const resp = await this.$api.ruleTableApi.getMsgBoxList();
-                this.noticeData = resp.data.splice(0,9);
+                this.noticeData = resp.data;
             },
 
             noticeDrawerClose() {
