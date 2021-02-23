@@ -34,5 +34,8 @@ export default {
     },
     deleteRuRoster(form) {
         return request.post("/agnes-app/v2/dop/roster/ru/delete", form);
-    }
+    },
+    save(form) {
+        return request.post("/agnes-app/v2/dop/roster/ru/save", form);
+    },
 };

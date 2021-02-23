@@ -102,6 +102,40 @@
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
+            <el-form-item v-if="stepInfo.stepActType === '6'" label="回填参数">
+                <div class="rule-table">
+                    <el-table header-row-class-name="rule-header-row"
+                              header-cell-class-name="rule-header-cell"
+                              row-class-name="rule-row"
+                              cell-class-name="rule-cell"
+                              :data="this.paramList"
+                              border stripe
+                              :header-cell-style="{'text-align':'center'}">
+                        style="width: 100%">
+                        <el-table-column prop="accNo" label="参数关键字">
+                            <template slot-scope="scope">
+                                <el-input v-model="scope.row.paramKey"></el-input>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="accNo" label="参数名称">
+                            <template slot-scope="scope">
+                                <el-input v-model="scope.row.paramName"></el-input>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="market" label="参数类型">
+                            <template slot-scope="scope">
+                                <gf-dict filterable clearable v-model="scope.row.paramType" dict-type="TASK_DEF_DATATYPE"/>
+                            </template>
+                        </el-table-column>
+                        <el-table-column  prop="option" label="操作" width="52" align="center">
+                            <template slot-scope="scope">
+                                <span class="option-span" @click="deleteRuleRow(scope.$index)">删除</span>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                    <el-button  @click="addRule()" class="rule-add-btn" size="small">新增</el-button>
+                </div>
+            </el-form-item>
             <el-form-item label="执行频率配置" v-if="stepInfo.stepActType === '1' || stepInfo.stepActType === '4'" prop="execScheduler">
                 <el-button type="text" @click="editExecTime(caseStepDef.execScheduler,'执行频率配置')">
                     {{caseStepDef.execScheduler}}点击配置
@@ -328,6 +362,7 @@
                 memberRefList:[],
                 rosterDate:'',
                 stepInfo: resetForm(),
+                paramList:[],
                 initStepCode: '',
                 texts: ['普通', '重要', '非常重要'],
                 max: 3,
@@ -506,6 +541,18 @@
                     this.bpmnOptions.push({label:bpmnName,value:item.key});
                 });
             },
+            // 回填参数新增、删除服务行
+            addRule() {
+                const newTableObj = {
+                    paramKey:'',
+                    paramName:'',
+                    paramType:'',
+                };
+                this.paramList.push(newTableObj);
+            },
+            deleteRuleRow(rowIndex) {
+                this.paramList.splice(rowIndex, 1);
+            },
             editExecTime( execScheduler,title) {
                 this.showDlg(execScheduler,title, this.setExecScheduler.bind(this));
             },
@@ -564,6 +611,7 @@
             },
 
             onLoadForm() {
+                console.log(this.formObj);
                 for (let key in this.formObj) {
                     if (this.stepInfo[key]) {
                         this.stepInfo[key] = this.formObj && this.formObj[key] ? this.formObj[key] : this.stepInfo[key];
@@ -582,6 +630,9 @@
                 const startDay = this.caseStepDef.startDay;
                 const endDay = this.caseStepDef.endDay;
                 this.dayChecked = startDay || endDay ? '1': '0'
+                if(this.stepInfo.stepActType=='6'){
+                    this.paramList = JSON.parse(this.stepInfo.stepFormInfo.caseStepDef.stepActKey);
+                }
             },
 
             // 保存表单数据
@@ -608,7 +659,9 @@
                     if (this.activeTerm === '1') {
                         this.stepInfo.stepFormInfo.activeRuleTableData = {}
                     }
-
+                    if(this.stepInfo.stepActType=='6' && this.paramList.length>0){
+                        this.stepInfo.stepFormInfo.caseStepDef.stepActKey = JSON.stringify(this.paramList);
+                    }
                     if(this.stepInfo.stepFormInfo.activeRuleTableData
                         && this.stepInfo.stepFormInfo.activeRuleTableData.ruleList){
                         const activeRuleJson = this.$refs.activeRuleTable.jsonFormatter();
