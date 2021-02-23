@@ -12,7 +12,7 @@ const colButtons = [
     },
     {
         key: 'editRuRoster', title: '编辑', visiable: () => {
-            return Permission.hasPermission('agnes.dop.roster.ru.delete');
+            return Permission.hasPermission('agnes.dop.roster.ru.edit');
         }, disabled: (params) => {
             return params.data.rosterDate < window.bizDate
         },

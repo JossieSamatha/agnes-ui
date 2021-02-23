@@ -37,7 +37,9 @@ export default {
     }
   },
   mounted() {
-    this.queryArgs.rosterDefId = this.row.pkId;
+    if (this.row) {
+      this.queryArgs.rosterDefId = this.row.pkId;
+    }
     this.initData();
   },
   methods: {
