@@ -502,7 +502,9 @@
                 let repData = {caseKey:this.args.caseKey,stepCode:this.caseStepDef.stepCode};
                 const c = this.$api.motConfigApi.queryReCaseParams(repData);
                 const resp = await this.$app.blockingApp(c);
-                this.paramList = resp.data;
+                if(resp.data){
+                    this.paramList = resp.data;
+                }
             },
             async serviceResChange(param){
                 this.serviceRes.forEach((item)=>{
@@ -626,7 +628,9 @@
                         this.stepInfo[key] = this.formObj[key];
                     }
                 }
-                this.hisStepCode = JSON.parse(JSON.stringify(this.stepInfo.stepFormInfo.caseStepDef.stepCode));
+                if (this.optionType !== 'add') {
+                    this.hisStepCode = JSON.parse(JSON.stringify(this.stepInfo.stepFormInfo.caseStepDef.stepCode));
+                }
                 this.initStepCode = this.stepInfo.stepFormInfo.caseStepDef.stepCode;
                 this.stepInfo.stepFormInfo.caseStepDef.stepName = this.stepInfo.stepName;
                 const activeRuleTableData = this.stepInfo.stepFormInfo.activeRuleTableData.ruleList || [];
@@ -652,7 +656,7 @@
                             reTaskDef:{caseKey:this.caseKey},
                             stepCode:this.caseStepDef.stepCode,
                         };
-                        if(this.caseStepDef.stepCode!=this.hisStepCode){
+                        if(this.hisStepCode != '' && this.caseStepDef.stepCode!=this.hisStepCode){
                             resData.hisStepCode = this.hisStepCode;
                         }
                         const c = this.$api.motConfigApi.checkAndSaveReCaseParams(resData);
