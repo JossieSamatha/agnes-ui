@@ -45,7 +45,15 @@
         </el-form-item>
 
         <el-form-item label="产品阶段">
-          <gf-dict filterable clearable v-model="queryArgs.productStage" dict-type="AGNES_PRODUCT_STAGE"/>
+          <el-select class="multiple-select" v-model="queryArgs.productStages" multiple collapse-tags filterable
+                     placeholder="请选择">
+            <gf-filter-option
+                    v-for="item in productStageDict"
+                    :key="item.typeId"
+                    :label="item.typeName"
+                    :value="item.typeId">
+            </gf-filter-option>
+          </el-select>
         </el-form-item>
 
         <el-button @click="reSetSearch" class="option-btn">重置</el-button>
@@ -97,11 +105,12 @@ import AcntHiInfoTaDlg from "./acnt-hi-info-ta";
 export default {
   data() {
     return {
+      productStageDict:[],
       queryArgs: {
         'processType': 'TA',
         'typeCode': '',
         'acntName': '',
-        'productStage':'',
+        'productStages':[],
         'accNos': '',
         'productName':'',
         'fundAccNos': '',
@@ -141,6 +150,12 @@ export default {
       }
     },
     async getOptionData() {
+      this.productStageDict = this.$app.dict.getDictItems("AGNES_PRODUCT_STAGE").map((dictItem) => {
+        return {
+          typeId: dictItem.dictId,
+          typeName: dictItem.dictName
+        }
+      });
       try {
         let typeCodeOption = await this.$api.acntApplyApi.getAcntTypeList();
         typeCodeOption.data.forEach(item => {
@@ -168,7 +183,7 @@ export default {
       this.queryArgs.productName = '';
       this.queryArgs.fundAccNos = '';
       this.queryArgs.acntStatus = '01';
-      this.queryArgs.productStage = '';
+      this.queryArgs.productStages = [];
       // this.queryArgs.isShowAll = '1';
       this.queryArgs.isShowAll = '';
       this.queryArgs.orgIdList = [];

@@ -200,7 +200,7 @@
                     this.$msg.warning("请选择流程任务进行配置!");
                     return ;
                 }
-                this.showFlowNode({caseDefInfo:row},'add',this.onAddFlowTask.bind(this))
+                this.showFlowNode({caseDefInfo:row},'add',this.onAddModel.bind(this))
             },
             showFlowNode(row, mode, actionOk) {
                 // 抽屉创建
