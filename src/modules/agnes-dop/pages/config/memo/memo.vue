@@ -81,6 +81,7 @@ export default {
           let newObj = {
             pkId: param.data.pkId,
             memoDefId: param.data.memoDefId,
+            bizDate: window.bizDate,
             isDelete: action === 'confirm'
           }
           try {

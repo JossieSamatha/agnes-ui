@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-form class="fit-box" :disabled="mode==='view' ||mode==='approve' " :model="form" ref="form" :rules="rules"
+        <el-form class="fit-box" :disabled="mode==='view' " :model="form" ref="form" :rules="rules"
                  label-width="85px"
                  style="padding: 10px;">
           <el-form-item label="值班区间" prop="rosterStartDate">

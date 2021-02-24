@@ -6,7 +6,16 @@ const colButtons = [
     {
         key: 'deleteRuRoster', title: '删除', cellClass: 'red-cell', visiable: () => {
             return Permission.hasPermission('agnes.dop.roster.ru.delete');
-        }
+        }, disabled: (params) => {
+            return params.data.rosterDate < window.bizDate
+        },
+    },
+    {
+        key: 'editRuRoster', title: '编辑', visiable: () => {
+            return Permission.hasPermission('agnes.dop.roster.ru.edit');
+        }, disabled: (params) => {
+            return params.data.rosterDate < window.bizDate
+        },
     },
 
 ];

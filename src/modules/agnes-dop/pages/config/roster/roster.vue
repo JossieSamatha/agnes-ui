@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import rosterDlg from './roster-dlg'
 export default {
   props: {
     mode: {
@@ -36,7 +37,9 @@ export default {
     }
   },
   mounted() {
-    this.queryArgs.rosterDefId = this.row.pkId;
+    if (this.row) {
+      this.queryArgs.rosterDefId = this.row.pkId;
+    }
     this.initData();
   },
   methods: {
@@ -48,6 +51,23 @@ export default {
     },
     reloadData() {
       this.$refs.grid.reloadData(true);
+    },
+    editRuRoster(param) {
+      this.showScheduleDlg('edit', param.data, this.onEditRoster.bind(this));
+    },
+    async onEditRoster() {
+      this.reloadData();
+    },
+    showScheduleDlg(mode, row, actionOk) {
+      this.$nav.showDialog(
+          rosterDlg,
+          {
+            args: {row, mode, actionOk},
+            width: '650px',
+            closeOnClickModal: false,
+            title: this.$dialog.formatTitle('智能排班', mode),
+          }
+      );
     },
     deleteRuRoster(param) {
       this.$confirm('是否删除同一批次所有数据?', '排班计划删除', {
@@ -63,7 +83,8 @@ export default {
           let newObj = {
             pkId: param.data.pkId,
             rosterDefId: param.data.rosterDefId,
-            isDelete: action === 'confirm'
+            isDelete: action === 'confirm',
+            bizDate: window.bizDate,
           }
           try {
             let p = this.$api.rosterApi.deleteRuRoster(newObj);
