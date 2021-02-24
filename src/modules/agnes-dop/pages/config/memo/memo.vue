@@ -31,7 +31,9 @@ export default {
     }
   },
   mounted() {
-    this.queryArgs.memoDefId = this.row.pkId;
+    if (this.row) {
+      this.queryArgs.memoDefId = this.row.pkId;
+    }
   },
   methods: {
     reloadData() {
