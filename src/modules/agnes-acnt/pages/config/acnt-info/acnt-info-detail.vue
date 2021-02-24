@@ -305,32 +305,27 @@
                         <el-form-item v-if="showRules.remark&&showRules.remark.isShow" label="备注" prop="remark">
                             <gf-input type='textarea' v-model="detailFormBefore.remark" placeholder="备注"/>
                         </el-form-item>
-                        <div class="line" v-show="this.mode=='view'">
-                            <el-form-item label="附件上传" prop="fileTable">
-                                <div class="rule-table">
-                                    <acc-ecm-upload style="width: 100%;"
-                                                    :disabled="true"
-                                                    :applyType="this.receipt"
-                                                    :showRemove="false"
-                                                    :src-doc-id="this.fjSrcId"
-                                                    :file-list="this.receiptFileList">
-                                    </acc-ecm-upload>
-                                </div>
-                            </el-form-item>
-                        </div>
-                        <div v-if="this.mode=='view'" class="line">
-                            <el-form-item label="OA用印文件" prop="fileTable">
-                                <div class="rule-table">
-                                    <acc-ecm-upload style="width: 100%;"
-                                                    :disabled="true"
-                                                    :showRemove="false"
-                                                    :src-doc-id="this.srcDocId" :file-list="this.fileList">
-                                    </acc-ecm-upload>
-                                </div>
-                            </el-form-item>
-                        </div>
-
                     </div>
+                    <el-form-item v-show="this.mode=='view'" label="附件上传" prop="fileTable">
+                        <div class="rule-table">
+                            <acc-ecm-upload style="width: 100%;"
+                                            :disabled="true"
+                                            :applyType="this.receipt"
+                                            :showRemove="false"
+                                            :src-doc-id="this.fjSrcId"
+                                            :file-list="this.receiptFileList">
+                            </acc-ecm-upload>
+                        </div>
+                    </el-form-item>
+                    <el-form-item v-if="this.mode=='view'" label="OA用印文件" prop="fileTable">
+                        <div class="rule-table">
+                            <acc-ecm-upload style="width: 100%;"
+                                            :disabled="true"
+                                            :showRemove="false"
+                                            :src-doc-id="this.srcDocId" :file-list="this.fileList">
+                            </acc-ecm-upload>
+                        </div>
+                    </el-form-item>
 
                 </template>
             </module-card>

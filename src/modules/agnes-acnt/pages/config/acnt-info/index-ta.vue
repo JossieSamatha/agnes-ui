@@ -9,7 +9,7 @@
           <el-input v-model="queryArgs.fundAccNos"></el-input>
         </el-form-item>
         <el-form-item label="归属机构">
-          <el-select v-model="queryArgs.orgIdList" multiple collapse-tags filterable placeholder="请选择">
+          <el-select v-model="orgIdList" multiple collapse-tags filterable placeholder="请选择">
             <gf-filter-option
                 v-for="item in orgOption"
                 :key="item.value"
@@ -45,7 +45,7 @@
         </el-form-item>
 
         <el-form-item label="产品阶段">
-          <el-select class="multiple-select" v-model="queryArgs.productStages" multiple collapse-tags filterable
+          <el-select class="multiple-select" v-model="productStages" multiple collapse-tags filterable
                      placeholder="请选择">
             <gf-filter-option
                     v-for="item in productStageDict"
@@ -106,18 +106,20 @@ export default {
   data() {
     return {
       productStageDict:[],
+      orgIdList:[],
+      productStages:[],
       queryArgs: {
         'processType': 'TA',
         'typeCode': '',
         'acntName': '',
-        'productStages':[],
         'accNos': '',
         'productName':'',
         'fundAccNos': '',
         'acntStatus': '01',
         // 'isShowAll':'1',
         'isShowAll':'',
-        'orgIdList': [],
+        'orgIdListStr': '',
+        'productStagesStr': '',
       },
       menuConfigInfo:{},
       typeCodeOption: [{
@@ -173,6 +175,22 @@ export default {
     },
 
     reloadData() {
+      let orgIdListStr = '';
+      this.orgIdList.forEach(((item,index)=>{
+        if(index!=0){
+          orgIdListStr=orgIdListStr+','
+        }
+        orgIdListStr=orgIdListStr+item;
+      }));
+      let productStagesStr = '';
+      this.productStages.forEach(((item,index)=>{
+        if(index!=0){
+          productStagesStr=productStagesStr+','
+        }
+        productStagesStr=productStagesStr+item;
+      }));
+      this.queryArgs.orgIdListStr = orgIdListStr;
+      this.queryArgs.productStagesStr = productStagesStr;
       this.$refs.grid.reloadData();
     },
     reSetSearch() {
@@ -183,10 +201,11 @@ export default {
       this.queryArgs.productName = '';
       this.queryArgs.fundAccNos = '';
       this.queryArgs.acntStatus = '01';
-      this.queryArgs.productStages = [];
-      // this.queryArgs.isShowAll = '1';
       this.queryArgs.isShowAll = '';
-      this.queryArgs.orgIdList = [];
+      this.productStages = [];
+      this.orgIdList = [];
+      this.queryArgs.orgIdListStr = '';
+      this.queryArgs.productStagesStr = '';
       this.reloadData();
     },
     showOpenDlg(mode, row, actionOk, isDisabled = false) {
