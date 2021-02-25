@@ -12,7 +12,7 @@
 <!--                    <el-input v-model="queryArgs.accNos"></el-input>-->
 <!--                </el-form-item>-->
                 <el-form-item label="归属机构">
-                  <el-select class="multiple-select" v-model="queryArgs.orgIdList" multiple collapse-tags filterable
+                  <el-select class="multiple-select" v-model="orgIdList" multiple collapse-tags filterable
                              placeholder="请选择">
                     <gf-filter-option
                         v-for="item in orgOption"
@@ -48,7 +48,7 @@
                     </el-select>
                 </el-form-item>
               <el-form-item label="产品阶段">
-                  <el-select class="multiple-select" v-model="queryArgs.productStages" multiple collapse-tags filterable
+                  <el-select class="multiple-select" v-model="productStages" multiple collapse-tags filterable
                              placeholder="请选择">
                       <gf-filter-option
                               v-for="item in productStageDict"
@@ -113,17 +113,19 @@
         data() {
             return {
                 productStageDict:[],
+                productStages:[],
+                orgIdList: [],
                 queryArgs: {
                   'processType': 'FA',
                   'typeCode': '',
                   'acntName': '',
-                  'productStages':[],
                   'accNos': '',
                   'productName':'',
                   'fundAccNos': '',
                   'acntStatus': '01',
                   'isShowAll':'',
-                  'orgIdList': [],
+                  'orgIdListStr': '',
+                  'productStagesStr': '',
                 },
                 menuConfigInfo:{},
               typeCodeOption: [{
@@ -179,6 +181,22 @@
             },
 
             reloadData() {
+                let orgIdListStr = '';
+                this.orgIdList.forEach(((item,index)=>{
+                    if(index!=0){
+                        orgIdListStr=orgIdListStr+','
+                    }
+                    orgIdListStr=orgIdListStr+item;
+                }));
+                let productStagesStr = '';
+                this.productStages.forEach(((item,index)=>{
+                    if(index!=0){
+                        productStagesStr=productStagesStr+','
+                    }
+                    productStagesStr=productStagesStr+item;
+                }));
+                this.queryArgs.orgIdListStr = orgIdListStr;
+                this.queryArgs.productStagesStr = productStagesStr;
                 this.$refs.grid.reloadData();
             },
             reSetSearch() {
@@ -190,8 +208,10 @@
               this.queryArgs.fundAccNos = '';
               this.queryArgs.acntStatus = '01';
               this.queryArgs.isShowAll = '';
-                this.queryArgs.productStages = [];
-              this.queryArgs.orgIdList = [];
+              this.productStages = [];
+              this.orgIdList = [];
+              this.queryArgs.orgIdListStr = '';
+              this.queryArgs.productStagesStr = '';
               this.reloadData();
             },
             showOpenDlg(mode, row, actionOk,isDisabled=false) {
