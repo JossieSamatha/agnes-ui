@@ -31,6 +31,7 @@ export default {
         {headerName: "申请超时状态", field: "applyDeadlineStatus",formatType: 'dict',dictType: 'AGNES_ACNT_APPLY_DEADLINE_STATUS'},
 
         {headerName: "创建人", field: "crtUserName"},
+        {headerName: "审核人", field: "checkUserId"},
         column.colCrtTm,
         {headerName: "更新人", field: "updateUserName"},
         column.colUpdTm
