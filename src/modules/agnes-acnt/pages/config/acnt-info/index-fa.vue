@@ -127,7 +127,9 @@
                   'orgIdListStr': '',
                   'productStagesStr': '',
                 },
-                menuConfigInfo:{},
+                menuConfigInfo:{
+                    resName:'',
+                    inputParam:'',},
               typeCodeOption: [{
                 label: 'TA',
                 options: []
@@ -172,7 +174,7 @@
               }
             });
               let resp1 = await this.$api.funcConfigApi.queryMenuByActionUrl({'actionUrl':this.$app.nav.tabBar.currentTabKey});
-              if(resp1){
+              if(resp1.data){
                   this.menuConfigInfo = resp1.data;
               }
           } catch (reason) {
