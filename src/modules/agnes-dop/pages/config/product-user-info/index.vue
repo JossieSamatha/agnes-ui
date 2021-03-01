@@ -11,15 +11,8 @@
                 <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
             </div>
             <div class="line">
-                <el-form-item label="产品代码">
-                    <el-select class="multiple-select" v-model="productCodes" placeholder="请选择" filterable clearable multiple>
-                        <gf-filter-option
-                                v-for="item in productList"
-                                :key="item.productCode"
-                                :label="item.productName"
-                                :value="item.productCode">
-                        </gf-filter-option>
-                    </el-select>
+                <el-form-item label="产品信息">
+                    <gf-input type="text" v-model="queryArgs.productCodeOrName" placeholder="产品代码/名称"/>
                 </el-form-item>
                 <el-form-item>
                 </el-form-item>
@@ -48,9 +41,8 @@
                 queryArgs:{
                     'checkUserName':'',
                     'clearUserName':'',
-                    'productCodesStr':'',
+                    'productCodeOrName':'',
                 },
-                productList:[],
                 menuConfigInfo:{
                     resName:'',
                     inputParam:'',
@@ -64,29 +56,18 @@
         },
         methods: {
             async initData(){
-                let resp = await this.$api.productAuthApi.getPrdtInfoAuthList();
-                this.productList = resp.data.productList;
                 let resp1 = await this.$api.funcConfigApi.queryMenuByActionUrl({'actionUrl':this.$app.nav.tabBar.currentTabKey});
                 if(resp1.data){
                     this.menuConfigInfo = resp1.data;
                 }
             },
             reloadData() {
-                let productCodesStr = '';
-                this.productCodes.forEach(((item,index)=>{
-                    if(index!=0){
-                        productCodesStr=productCodesStr+','
-                    }
-                    productCodesStr=productCodesStr+item;
-                }));
-                this.queryArgs.productCodesStr =productCodesStr;
                 this.$refs.grid.reloadData();
             },
             reSetSearch() {
                 this.queryArgs.checkUserName ='';
                 this.queryArgs.clearUserName ='';
-                this.queryArgs.productCodesStr ='';
-                this.productCodes = [];
+                this.queryArgs.productCodeOrName ='';
                 this.reloadData();
             },
             async exportExcel() {
