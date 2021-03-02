@@ -651,6 +651,12 @@
             async saveForm() {
                 // try {
                 //     if(this.stepInfo.stepActType=='6' && this.paramList.length>0){
+                //         this.paramList.forEach((item)=>{
+                //             if(item.paramKey == ''){
+                //                 this.$message.warning("回填参数中，参数关键字必填！");
+                //                 return ;
+                //             }
+                //         });
                 //         let resData = {
                 //             paramList : this.paramList,
                 //             reTaskDef:{caseKey:this.caseKey},
