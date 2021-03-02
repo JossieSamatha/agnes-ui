@@ -649,32 +649,32 @@
 
             // 保存表单数据
             async saveForm() {
-                try {
-                    if(this.stepInfo.stepActType=='6' && this.paramList.length>0){
-                        this.paramList.forEach((item)=>{
-                            if(item.paramKey == ''){
-                                this.$message.warning("回填参数中，参数关键字必填！");
-                                return ;
-                            }
-                        });
-                        let resData = {
-                            paramList : this.paramList,
-                            reTaskDef:{caseKey:this.caseKey},
-                            stepCode:this.caseStepDef.stepCode,
-                        };
-                        if(this.hisStepCode != '' && this.caseStepDef.stepCode!=this.hisStepCode){
-                            resData.hisStepCode = this.hisStepCode;
-                        }
-                        const c = this.$api.motConfigApi.checkAndSaveReCaseParams(resData);
-                        const resp1 = await this.$app.blockingApp(c);
-                        if(resp1 && resp1.code == 'existKey'){
-                            this.$msg.error(resp1.message);
-                            return ;
-                        }
-                    }
-                } catch (reason) {
-                    this.$msg.error(reason);
-                }
+                // try {
+                //     if(this.stepInfo.stepActType=='6' && this.paramList.length>0){
+                //         this.paramList.forEach((item)=>{
+                //             if(item.paramKey == ''){
+                //                 this.$message.warning("回填参数中，参数关键字必填！");
+                //                 return ;
+                //             }
+                //         });
+                //         let resData = {
+                //             paramList : this.paramList,
+                //             reTaskDef:{caseKey:this.caseKey},
+                //             stepCode:this.caseStepDef.stepCode,
+                //         };
+                //         if(this.hisStepCode != '' && this.caseStepDef.stepCode!=this.hisStepCode){
+                //             resData.hisStepCode = this.hisStepCode;
+                //         }
+                //         const c = this.$api.motConfigApi.checkAndSaveReCaseParams(resData);
+                //         const resp1 = await this.$app.blockingApp(c);
+                //         if(resp1 && resp1.code == 'existKey'){
+                //             this.$msg.error(resp1.message);
+                //             return ;
+                //         }
+                //     }
+                // } catch (reason) {
+                //     this.$msg.error(reason);
+                // }
                 this.$refs['stepInfoForm'].validate(valid=> {
                     if (!valid) {
                         return;
