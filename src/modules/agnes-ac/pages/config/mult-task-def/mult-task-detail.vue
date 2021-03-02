@@ -610,6 +610,12 @@
                         this.$emit("onClose");
                     }else {
                         if(resData.reTaskDef.taskType=='6' && resData.paramList.length>0){
+                            resData.paramList.forEach((item)=>{
+                                if(item.paramKey == ''){
+                                    this.$message.warning("回填参数中，参数关键字必填！");
+                                    return ;
+                                }
+                            });
                             resData.stepCode = resData.reTaskDef.caseKey;
                             if(resData.stepCode != this.hisStepCode){
                                 resData.hisStepCode = this.hisStepCode;
