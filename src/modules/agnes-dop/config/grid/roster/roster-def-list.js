@@ -13,9 +13,7 @@ const colButtons = [
     {
         key: 'deleteRosterDef', title: '删除', cellClass: 'red-cell', visiable: () => {
             return Permission.hasPermission('agnes.dop.roster.def.delete');
-        }, disabled: (params) => {
-            return params.data.rosterType === '99'
-        },
+        }
     },
     {
         key: 'approveRosterDef', title: '审核', disabled: (params) => {
