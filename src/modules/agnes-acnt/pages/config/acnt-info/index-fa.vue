@@ -12,7 +12,7 @@
 <!--                    <el-input v-model="queryArgs.accNos"></el-input>-->
 <!--                </el-form-item>-->
                 <el-form-item label="归属机构">
-                  <el-select class="multiple-select" v-model="queryArgs.orgIdList" multiple collapse-tags filterable
+                  <el-select class="multiple-select" v-model="orgIdList" multiple collapse-tags filterable
                              placeholder="请选择">
                     <gf-filter-option
                         v-for="item in orgOption"
@@ -48,7 +48,15 @@
                     </el-select>
                 </el-form-item>
               <el-form-item label="产品阶段">
-                <gf-dict filterable clearable v-model="queryArgs.productStage" dict-type="AGNES_PRODUCT_STAGE"/>
+                  <el-select class="multiple-select" v-model="productStages" multiple collapse-tags filterable
+                             placeholder="请选择">
+                      <gf-filter-option
+                              v-for="item in productStageDict"
+                              :key="item.typeId"
+                              :label="item.typeName"
+                              :value="item.typeId">
+                      </gf-filter-option>
+                  </el-select>
               </el-form-item>
 
               <el-button @click="reSetSearch" class="option-btn">重置</el-button>
@@ -104,19 +112,24 @@
     export default {
         data() {
             return {
+                productStageDict:[],
+                productStages:[],
+                orgIdList: [],
                 queryArgs: {
                   'processType': 'FA',
                   'typeCode': '',
                   'acntName': '',
-                  'productStage':'',
                   'accNos': '',
                   'productName':'',
                   'fundAccNos': '',
                   'acntStatus': '01',
                   'isShowAll':'',
-                  'orgIdList': [],
+                  'orgIdListStr': '',
+                  'productStagesStr': '',
                 },
-                menuConfigInfo:{},
+                menuConfigInfo:{
+                    resName:'',
+                    inputParam:'',},
               typeCodeOption: [{
                 label: 'TA',
                 options: []
@@ -147,6 +160,12 @@
           }
         },
         async getOptionData() {
+            this.productStageDict = this.$app.dict.getDictItems("AGNES_PRODUCT_STAGE").map((dictItem) => {
+                return {
+                    typeId: dictItem.dictId,
+                    typeName: dictItem.dictName
+                }
+            });
           try {
             let typeCodeOption = await this.$api.acntApplyApi.getAcntTypeList();
             typeCodeOption.data.forEach(item => {
@@ -155,7 +174,7 @@
               }
             });
               let resp1 = await this.$api.funcConfigApi.queryMenuByActionUrl({'actionUrl':this.$app.nav.tabBar.currentTabKey});
-              if(resp1){
+              if(resp1.data){
                   this.menuConfigInfo = resp1.data;
               }
           } catch (reason) {
@@ -164,6 +183,22 @@
             },
 
             reloadData() {
+                let orgIdListStr = '';
+                this.orgIdList.forEach(((item,index)=>{
+                    if(index!=0){
+                        orgIdListStr=orgIdListStr+','
+                    }
+                    orgIdListStr=orgIdListStr+item;
+                }));
+                let productStagesStr = '';
+                this.productStages.forEach(((item,index)=>{
+                    if(index!=0){
+                        productStagesStr=productStagesStr+','
+                    }
+                    productStagesStr=productStagesStr+item;
+                }));
+                this.queryArgs.orgIdListStr = orgIdListStr;
+                this.queryArgs.productStagesStr = productStagesStr;
                 this.$refs.grid.reloadData();
             },
             reSetSearch() {
@@ -175,8 +210,10 @@
               this.queryArgs.fundAccNos = '';
               this.queryArgs.acntStatus = '01';
               this.queryArgs.isShowAll = '';
-                this.queryArgs.productStage = '';
-              this.queryArgs.orgIdList = [];
+              this.productStages = [];
+              this.orgIdList = [];
+              this.queryArgs.orgIdListStr = '';
+              this.queryArgs.productStagesStr = '';
               this.reloadData();
             },
             showOpenDlg(mode, row, actionOk,isDisabled=false) {

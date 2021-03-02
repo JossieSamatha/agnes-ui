@@ -305,8 +305,27 @@
                         <el-form-item v-if="showRules.remark&&showRules.remark.isShow" label="备注" prop="remark">
                             <gf-input type='textarea' v-model="detailFormBefore.remark" placeholder="备注"/>
                         </el-form-item>
-
                     </div>
+                    <el-form-item v-show="this.mode=='view'" label="附件上传" prop="fileTable">
+                        <div class="rule-table">
+                            <acc-ecm-upload style="width: 100%;"
+                                            :disabled="true"
+                                            :applyType="this.receipt"
+                                            :showRemove="false"
+                                            :src-doc-id="this.fjSrcId"
+                                            :file-list="this.receiptFileList">
+                            </acc-ecm-upload>
+                        </div>
+                    </el-form-item>
+                    <el-form-item v-if="this.mode=='view'" label="OA用印文件" prop="fileTable">
+                        <div class="rule-table">
+                            <acc-ecm-upload style="width: 100%;"
+                                            :disabled="true"
+                                            :showRemove="false"
+                                            :src-doc-id="this.srcDocId" :file-list="this.fileList">
+                            </acc-ecm-upload>
+                        </div>
+                    </el-form-item>
 
                 </template>
             </module-card>
@@ -336,6 +355,10 @@
                 memberRefList:[],
                 serviceRes:[],
                 staticData: {},
+                receiptFileList: [],
+                fileList: [],
+                fjSrcId:'',
+                srcDocId:'',
                 detailForm: {
                     applyId:'',
                     typeCode:'', 
@@ -517,6 +540,25 @@
                     this.detailFormBefore = detailFormBefore.data
 
                     this.loadProductNameBeafore();
+
+                    //资料文件列表加载
+                    if(this.detailForm.acntId){
+                        let fileList = await this.$api.acntMaterialApi.getAcntMaterialList(this.detailForm.acntId);
+                        if(fileList.data != null){
+                            for(let i=0;i<fileList.data.length;i++){
+                                if(fileList.data[i].type === '1'){
+                                    this.srcDocId = fileList.data[i].docId;
+                                    this.fileList.push(fileList.data[i]);
+                                }else if(fileList.data[i].type === '2'){
+                                    this.fileList.push(fileList.data[i]);
+                                }else {
+                                    this.fjSrcId = fileList.data[i].docId;
+                                    this.receiptFileList.push(fileList.data[i]);
+                                }
+                            }
+                        }
+
+                    }
 
                 } catch (reason) {
                     this.$msg.error(reason);

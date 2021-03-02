@@ -11,6 +11,9 @@ export default {
     saveAuthData(form) {
         return request.post("/agnes-app/v1/dop/user/group/save/auth/data", form);
     },
+    updateSequenceNum(form) {
+        return request.post("/agnes-app/v1/dop/user/group/update-seq-num", form);
+    },
     deleteUserGroup(form) {
         return request.post("/agnes-app/v1/dop/user/group/delete", form);
     },

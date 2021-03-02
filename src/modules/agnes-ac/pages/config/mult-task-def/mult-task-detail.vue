@@ -365,6 +365,7 @@
                 configType:'1',
                 isCheckCode:false,
                 rosterDate:'',
+                hisStepCode:'',
                 memberRefList:[],
                 versionId:'',
                 serviceRes:[],
@@ -608,6 +609,24 @@
                         }
                         this.$emit("onClose");
                     }else {
+                        if(resData.reTaskDef.taskType=='6' && resData.paramList.length>0){
+                            resData.paramList.forEach((item)=>{
+                                if(item.paramKey == ''){
+                                    this.$message.warning("回填参数中，参数关键字必填！");
+                                    return ;
+                                }
+                            });
+                            resData.stepCode = resData.reTaskDef.caseKey;
+                            if(resData.stepCode != this.hisStepCode){
+                                resData.hisStepCode = this.hisStepCode;
+                            }
+                            const c = this.$api.motConfigApi.checkAndSaveReCaseParams(resData);
+                            const resp1 = await this.$app.blockingApp(c);
+                            if(resp1 && resp1.code == 'existKey'){
+                                this.$msg.error(resp1.message);
+                                return ;
+                            }
+                        }
                         const p = this.$api.motConfigApi.saveTask(resData);
                         const resp = await this.$app.blockingApp(p);
                         if(resp && resp.code == 'rwbhycz'){
@@ -712,6 +731,7 @@
                 this.rosterDate = window.bizDate;
                 if (this.mode && this.mode !== 'add') {
                     let taskDef = this.$utils.deepClone(this.row.reTaskDef);
+                    this.hisStepCode = JSON.parse(JSON.stringify(taskDef.caseKey));
                     if(taskDef.taskType=='6' && this.row.paramList){
                         this.paramList = this.row.paramList;
                     }

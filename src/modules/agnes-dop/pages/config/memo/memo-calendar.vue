@@ -8,7 +8,8 @@
               <el-radio-group v-model="display" size="small"
                               style="margin-right: 6px;vertical-align: bottom;margin-left: 6px;">
                     <el-radio-button label="01">视图</el-radio-button>
-                    <el-radio-button label="02">表格</el-radio-button>
+                    <el-radio-button label="02">计划</el-radio-button>
+                    <el-radio-button label="03">明细</el-radio-button>
                 </el-radio-group>
                 <el-button icon="el-icon-plus" type="primary"
                            v-if="$hasPermission('agnes.dop.memo.calendar.addMemo')"
@@ -80,6 +81,7 @@
             ></detail-popver>
           </div>
           <memoDef class="calendar-table" v-if="display === '02'" :display="this.display"></memoDef>
+          <Memo class="calendar-table" v-if="display === '03'" :display="this.display"></Memo>
         </div>
     </div>
 </template>
@@ -90,6 +92,7 @@ import detailPopver from './detail-popover'
 import memoDef from "./memo-def"
 // import rosterDefrosterDef from "./roster-def"
 import MemoDefDlg from "./memo-def-dlg-new";
+import Memo from "./memo"
 
 export default {
   props: {
@@ -116,6 +119,7 @@ export default {
         components: {
           'detail-popver': detailPopver,
           memoDef,
+          Memo,
 
         },
         created(){

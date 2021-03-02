@@ -6,7 +6,9 @@ const colButtons = [
     {
         key: 'editRosterDef', title: '编辑', visiable: () => {
             return Permission.hasPermission('agnes.dop.roster.def.edit');
-        }
+        }, disabled: (params) => {
+            return params.data.rosterType === '99'
+        },
     },
     {
         key: 'deleteRosterDef', title: '删除', cellClass: 'red-cell', visiable: () => {
@@ -15,7 +17,7 @@ const colButtons = [
     },
     {
         key: 'approveRosterDef', title: '审核', disabled: (params) => {
-            return params.data.rosterStatus === '04'
+            return params.data.rosterStatus === '04' || params.data.rosterType === '99'
         }, visiable: () => {
             return Permission.hasPermission('agnes.dop.roster.def.approve');
         }
