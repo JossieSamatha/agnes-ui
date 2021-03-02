@@ -11,6 +11,7 @@
 <script>
     import UserSelect from "./select";
     import lodash from "lodash";
+    import UpdateSeqNumDlg from "./user-update-seq-num";
     export default {
         name: "userAuth",
         props: {
@@ -32,7 +33,26 @@
                     this.$refs.grid.reloadData(true);
                 }
             },
-
+            showDlg(mode, row, actionOk) {
+                if (mode !== 'add' && !row) {
+                    this.$msg.warning("请选中一条记录!");
+                    return;
+                }
+                this.$nav.showDialog(
+                    UpdateSeqNumDlg,
+                    {
+                        args: {row, mode, actionOk},
+                        width: '50%',
+                        title: this.$dialog.formatTitle('序号修改', mode),
+                    }
+                );
+            },
+            async onEditModel() {
+                this.onSearch();
+            },
+            editRow(param){
+                this.showDlg('edit', param.data, this.onEditModel.bind(this));
+            },
             addRow() {
                 if(this.row===null){
                     this.$msg.warning("请选择群组!");

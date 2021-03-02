@@ -4,17 +4,21 @@ const colButtons = [
     {
         key: 'removeRow', title: '删除', cellClass: 'redCell'
     },
+    {
+        key: 'editRow', title: '修改'
+    },
 ];
 
 export default {
     columnDefs: [
+        {headerName: "序号", field: "sequenceNum"},
         {headerName: "用户ID", field: "userId"},
         {headerName: "用户名", field: "userName"},
         {headerName: "所属机构", field: "orgName"},
         {headerName: "用户状态", field: "userStatus", formatType:"dict", dictType:'GF_USER_STATUS'},
         {headerName: "群组名称", field: "userGroupName"},
         {headerName: "授权时间", field: "crtTs"},
-        column.buildOpCol(60, colButtons),
+        column.buildOpCol(90, colButtons),
     ],
     ext: {
         fetchUrl: "/agnes-app/v1/dop/user/group/query",
