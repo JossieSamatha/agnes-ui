@@ -12,6 +12,8 @@ export default function () {
             bizTag: '',              // 业务标签 -- str
             stepScene: '',          // 业务场景
             startTime: null,
+            flowType:'',
+            taskIcon:'',
             endTime: null,
             standardDate: '',       // 基准日期(新增字段)
             execMode: '1',          // 任务创建频率 -- 0：一次；1：重复执行；2：事件

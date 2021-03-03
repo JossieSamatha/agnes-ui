@@ -17,6 +17,8 @@ export default function () {
         standardDate: '',       // 基准日期(新增字段)
         task_execMode: '1',          // 任务创建频率 -- 1：一次；2：重复执行；3：事件
         configType:'1',
+        flowType:'',
+        taskIcon:'',
         task_execScheduler: '',      // 任务创建频率 -- 重复执行
         eventId: '',            // 事件Id -- 执行频率--事件
         needApprove: '0',       // 是否需要复核
