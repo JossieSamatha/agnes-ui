@@ -4,7 +4,7 @@
         <el-form-item label="任务名称" prop="taskName">
             <gf-input v-model.trim="detailForm.taskName" placeholder="任务名称" :max-byte-len="120"/>
         </el-form-item>
-        <el-form-item label="任务等级" prop="stepLevel">
+        <el-form-item label="任务等级" prop="stepLevel"  v-show="this.detailForm.configType!='2'">
             <el-rate v-model="detailForm.stepLevel" show-text
                      :max="3"
                      :low-threshold="1"
@@ -13,6 +13,27 @@
                      :colors="detailForm.rateColor">
             </el-rate>
             <em class="el-icon-refresh-left" @click="detailForm.stepLevel = 0"></em>
+        </el-form-item>
+        <el-form-item label="任务图标" prop="taskIcon" v-show="this.detailForm.configType=='2'">
+            <gf-input v-model.trim="detailForm.taskIcon"
+                      placeholder="任务图标"
+                      style="width: calc(100% - 30px); margin-right: 10px"
+            />
+            <el-popover placement="bottom"
+                        title="图标库使用"
+                        width="220"
+                        trigger="click"
+                        popper-class="question-popover">
+                <el-button slot="reference"
+                           icon="fa fa-question-circle-o"
+                           style="border: none;padding: 0;font-size: 20px;vertical-align: middle"
+                ></el-button>
+                <p>图标库中选择需要的图标对应名称，前面加上【fa fa-】前缀即可。</p>
+                <p>如：<span><em class="fa fa-bus"></em> bus</span>填写为【fa fa-bus】</p>
+                <p>图标库链接地址为：
+                    <a href="https://fontawesome.dashgame.com/" target="_blank" rel="noopener noreferrer" style="color: #4183C4;">点我跳转</a>
+                </p>
+            </el-popover>
         </el-form-item>
         <el-form-item label="任务编号" prop="caseKey">
             <gf-input v-model.trim="detailForm.caseKey" clear-regex="[^0-9]" placeholder="任务编号" :max-byte-len="8"/>
@@ -35,7 +56,7 @@
                 </gf-filter-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="任务说明" prop="stepRemark">
+        <el-form-item label="任务说明" prop="stepRemark" v-if="detailForm.taskType != '2'">
             <gf-input type="textarea" v-model.trim="detailForm.stepRemark" placeholder="任务说明"/>
         </el-form-item>
         <el-form-item label="运行周期配置" prop="task_startTime">
@@ -196,9 +217,9 @@
             </el-button>
         </el-form-item>
         <el-form-item label="任务控制参数">
-                <gf-strbool-checkbox v-model="detailForm.needApprove">是否需要复核</gf-strbool-checkbox>
-                <gf-strbool-checkbox v-model="detailForm.isTodo">是否进入待办</gf-strbool-checkbox>
-            <gf-strbool-checkbox v-model="detailForm.allowManualConfirm">是否允许人工干预通过</gf-strbool-checkbox>
+                <gf-strbool-checkbox v-model="detailForm.needApprove" >是否需要复核</gf-strbool-checkbox>
+                <gf-strbool-checkbox v-model="detailForm.isTodo" v-show="detailForm.taskType != '2'">是否进入待办</gf-strbool-checkbox>
+            <gf-strbool-checkbox v-model="detailForm.allowManualConfirm" v-show="detailForm.taskType != '2'">是否允许人工干预通过</gf-strbool-checkbox>
             </el-form-item>
         <el-form-item label="消息通知参数">
             <span class="default-checked">系统内部消息</span>
@@ -394,9 +415,6 @@
                 ruleTypeOp: [{label: '默认完成规则', value: '0'}, {label: '自定义完成规则', value: '1'}],
                 ruleErrorTypeOp: [{label: '默认异常规则', value: '0'}, {label: '自定义异常规则', value: '1'}],
                 detailFormRules: {
-                    stepLevel: [
-                        {required: true, message: '任务等级必填', trigger: 'blur'},
-                    ],
                     taskName: [
                         {required: true, message: '任务名称必填', trigger: 'blur'},
                     ],
@@ -420,9 +438,6 @@
                     ],
                     task_startTime: [
                         {required: true, message: '运行周期开始时间必填', trigger: 'blur'},
-                    ],
-                    stepRemark: [
-                        {required: true, message: '任务说明必填', trigger: 'blur'},
                     ],
                     step_endTime: [
                         {required: true, message: '执行结束时间必填', trigger: 'change'},
@@ -594,6 +609,14 @@
                         this.$message.warning("请选择通知人员！");
                         return ;
                     }
+                    if(this.detailForm.stepRemark == '' && this.detailForm.configType !='2'){
+                        this.$message.warning("任务说明必填！");
+                        return ;
+                    }
+                    if(this.detailForm.stepLevel == '' && this.detailForm.configType !='2'){
+                        this.$message.warning("服务等级必填！");
+                        return ;
+                    }
                     if(this.detailForm.flowType == '' && this.detailForm.configType ==='2'){
                         this.$message.warning("请选流程类型！");
                         return ;
@@ -737,41 +760,42 @@
                     }
                     this.reKeyToValue(taskDef, 'task_');
                     this.versionId = this.row.versionId;
-                    let caseDefBody = JSON.parse(this.row.caseDefBody);
-                    let stepFormInfo = this.$utils.deepClone(caseDefBody.stages[0].children[0].stepFormInfo);
-                    Object.keys(stepFormInfo).forEach((key) => {
-                        if (key === 'caseStepDef') {
-                            this.reKeyToValue(stepFormInfo.caseStepDef, 'step_');
-                        } else {
-                            this.detailForm[key] = stepFormInfo[key] || this.detailForm[key];
+                    if(taskDef.taskType == '2'){
+                        this.detailForm.configType='2';
+                    }else {
+                        let caseDefBody = JSON.parse(this.row.caseDefBody);
+                        let stepFormInfo = this.$utils.deepClone(caseDefBody.stages[0].children[0].stepFormInfo);
+                        Object.keys(stepFormInfo).forEach((key) => {
+                            if (key === 'caseStepDef') {
+                                this.reKeyToValue(stepFormInfo.caseStepDef, 'step_');
+                            } else {
+                                this.detailForm[key] = stepFormInfo[key] || this.detailForm[key];
+                            }
+                        })
+                        if(this.detailForm.stepActOwner){
+                            this.memberRefList = JSON.parse(this.detailForm.stepActOwner);
                         }
-                    })
-                    if(this.detailForm.stepActOwner){
-                        this.memberRefList = JSON.parse(this.detailForm.stepActOwner);
-                    }
-                    if (this.detailForm.task_endTime === '9999-12-31') {
-                        this.startAllTime = true;
+                        if (this.detailForm.task_endTime === '9999-12-31') {
+                            this.startAllTime = true;
+                        }
+                        if(!loadsh.isEmpty(this.detailForm.successRuleTableData)){
+                            this.succeedRule ='1'
+                        }
+                        if(!loadsh.isEmpty(this.detailForm.failRuleTableData)){
+                            this.abnormalRule ='1'
+                        }
+                        if(this.detailForm.endDay === '1' && this.detailForm.startDay === '0'){
+                            this.dayChecked = '1';
+                        }
+                        //消息通知参数回显
+                        this.msgInfoStr.forEach((strItem, index)=>{
+                            if(this.detailForm[strItem] && this.detailForm[strItem].length>0){
+                                this.msgInformParam.push(index+'');
+                            }
+                        });
                     }
                     if (this.detailForm.bizTag) {
                         this.detailForm.bizTagArr = this.detailForm.bizTag.split(",");
-                    }
-                    if(!loadsh.isEmpty(this.detailForm.successRuleTableData)){
-                        this.succeedRule ='1'
-                    }
-                    if(!loadsh.isEmpty(this.detailForm.failRuleTableData)){
-                        this.abnormalRule ='1'
-                    }
-                    if(this.detailForm.endDay === '1' && this.detailForm.startDay === '0'){
-                        this.dayChecked = '1';
-                    }
-                    //消息通知参数回显
-                    this.msgInfoStr.forEach((strItem, index)=>{
-                        if(this.detailForm[strItem] && this.detailForm[strItem].length>0){
-                            this.msgInformParam.push(index+'');
-                        }
-                    });
-                    if(taskDef.taskType == '2'){
-                        this.detailForm.configType='2';
                     }
                 }
             },
