@@ -44,7 +44,7 @@ const Loading = {
         Gfui.componentView('agnes.dop.product.def', Product, {title: '产品信息维护'});
         Gfui.componentView('agnes.dop.product.param.ref', ProductParam, {title: '产品参数关系维护'});
         Gfui.componentView('agnes.dop.product.user', ProductAuth, {title: '产品核算员维护'});
-        Gfui.componentView('agnes.dop.product.user.info', ProductUserInfo, {title: '产品核算员查询'});
+        Gfui.componentView('agnes.dop.product.user.info', ProductUserInfo, {title: '核算分工信息查询'});
         Gfui.componentView('agnes.app.conf.channel', Channel, {title: '渠道表维护'});
         Gfui.componentView('agnes.app.conf.dayend', DataChange, {title: '工作日切换'});
         Gfui.componentView('agnes.dop.linkman', Linkman, {title: '外部联系人维护'});
@@ -59,9 +59,9 @@ const Loading = {
         Gfui.componentView('agnes.dop.help', HelpDef, {title: '帮助文档维护'});
         Gfui.componentView('agnes.dop.comp', Compent, {title: '组件维护'});
         Gfui.componentView('agnes.dop.memo.def', ReMemoDef, {title: '运营日历定义'});
-        Gfui.componentView('agnes.dop.memo.ru', RuMemo, {title: '运营日历维护NEW'});
+        Gfui.componentView('agnes.dop.memo.ru', RuMemo, {title: '运营日历明细'});
         Gfui.componentView('agnes.dop.roster.def', ReRosterDef, {title: '智能排班定义'});
-        Gfui.componentView('agnes.dop.roster.ru', RuRoster, {title: '智能排班维护NEW'});
+        Gfui.componentView('agnes.dop.roster.ru', RuRoster, {title: '智能排班明细'});
         Gfui.componentView('agnes.chzh.yzwh', FactorDef, {title: '因子维护'});
         Gfui.componentView('agnes.chzh.zhgz', TransRule, {title: '转换规则维护'});
         Gfui.componentView('agnes.dop.roster.calendar', RosterCalendar, {title: '值班日历'});
