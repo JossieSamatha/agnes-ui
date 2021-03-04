@@ -33,7 +33,7 @@ const colButtons = [
             }
             return result;},visiable:(params)=>{
             let result = true;
-            if(!Permission.hasPermission('agnes.config.mult.task.publish') && params.data.reTaskDef.taskStatus === '03'){
+            if(!Permission.hasPermission('agnes.config.mult.task.publish') || params.data.reTaskDef.taskStatus === '03'){
                 result =false;
             }
             return result;}},

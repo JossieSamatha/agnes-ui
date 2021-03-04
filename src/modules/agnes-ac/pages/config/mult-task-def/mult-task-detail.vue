@@ -724,28 +724,30 @@
                 this.detailForm.caseDefKey = this.detailForm.caseKey;
                 this.keyToValue(taskDef, 'task_');
                 let caseDef = this.$utils.deepClone(this.staticData.caseDef);
-                let defId = this.$agnesUtils.randomString(32);
-                let defName = this.detailForm.taskName;
-                this.detailForm.stepName = defName;
-                caseDef.stages[0].defId = defId;
-                caseDef.stages[0].children[0].stepId = defId;
-                caseDef.stages[0].children[0].stepActType = this.detailForm.taskType;
-                caseDef.stages[0].defName = defName;
-                caseDef.stages[0].children[0].stepName = defName;
-                let stepFormInfo = this.$utils.deepClone(this.staticData.caseDef.stages[0].children[0].stepFormInfo);
-                Object.keys(stepFormInfo).forEach((key) => {
-                    if (key === 'caseStepDef') {
-                        this.keyToValue(stepFormInfo.caseStepDef, 'step_');
-                    } else {
-                        stepFormInfo[key] = this.detailForm[key] || stepFormInfo[key];
+                let caseFlowInfos = '';
+                if(this.detailForm.configType!='2') {
+                    let defId = this.$agnesUtils.randomString(32);
+                    let defName = this.detailForm.taskName;
+                    this.detailForm.stepName = defName;
+                    caseDef.stages[0].defId = defId;
+                    caseDef.stages[0].children[0].stepId = defId;
+                    caseDef.stages[0].children[0].stepActType = this.detailForm.taskType;
+                    caseDef.stages[0].defName = defName;
+                    caseDef.stages[0].children[0].stepName = defName;
+                    let stepFormInfo = this.$utils.deepClone(this.staticData.caseDef.stages[0].children[0].stepFormInfo);
+                    Object.keys(stepFormInfo).forEach((key) => {
+                        if (key === 'caseStepDef') {
+                            this.keyToValue(stepFormInfo.caseStepDef, 'step_');
+                        } else {
+                            stepFormInfo[key] = this.detailForm[key] || stepFormInfo[key];
+                        }
+                    })
+                    caseDef.stages[0].children[0].stepFormInfo = stepFormInfo;
+                    if (this.mode === 'add' || this.row.reTaskDef.caseKey != taskDef.caseKey) {
+                        this.isCheckCode = true;
                     }
-                })
-                caseDef.stages[0].children[0].stepFormInfo = stepFormInfo;
-                if(this.mode === 'add' || this.row.reTaskDef.caseKey != taskDef.caseKey){
-                    this.isCheckCode = true;
-                }
-                let caseFlowInfos = JSON.stringify(caseDef);
-                if(this.detailForm.configType==='2'){
+                    caseFlowInfos = JSON.stringify(caseDef);
+                }else{
                     caseFlowInfos = this.caseModelData;
                 }
                 return {reTaskDef: taskDef, caseDefId: this.row.caseDefId, caseDefBody: caseFlowInfos,versionId:this.versionId,isCheckCode:this.isCheckCode,paramList:this.paramList};
@@ -762,6 +764,7 @@
                     this.versionId = this.row.versionId;
                     if(taskDef.taskType == '2'){
                         this.detailForm.configType='2';
+                        this.caseModelData = this.row.caseDefBody;
                     }else {
                         let caseDefBody = JSON.parse(this.row.caseDefBody);
                         let stepFormInfo = this.$utils.deepClone(caseDefBody.stages[0].children[0].stepFormInfo);
