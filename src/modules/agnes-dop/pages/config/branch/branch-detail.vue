@@ -38,6 +38,9 @@
         },
         data() {
             var checkExistsBigPayNo = async (rule, value, callback) => {
+                if(this.detailFormData.bigPayNo==''){
+                    return ;
+                }
                 const resp = await this.$api.branchApi.existsBigPayNo(this.detailFormData.bigPayNo, this.detailFormData.bankBranchId);
                 if (resp.data === true) {
                     callback(new Error('大额支付号已存在！'));
@@ -98,7 +101,7 @@
                 }
                 try {
                     let formData = JSON.parse(JSON.stringify(this.detailFormData))
-                    if(this.mode!=='add' && this.detailFormData.branchCode !== this.row.branchCode){
+                    if(this.mode!=='add' && this.detailFormData.branchCode !== this.row.branchCode && this.detailFormData.bigPayNo != ''){
                        formData.isCheck = true
                     }else{
                        formData.isCheck = false

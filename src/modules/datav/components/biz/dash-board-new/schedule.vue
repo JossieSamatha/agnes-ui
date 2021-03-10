@@ -12,16 +12,16 @@
                 <p>
                     <svg-icon :name="pageType === 'personal' ? 'clock' : 'phone'" height="12px" color="#666"></svg-icon>
                     <span>{{
-                        pageType === 'personal' ? roster.rosterDate : roster.mobileNo && roster.mobileNo.substr(0, 4)
+                        pageType === 'personal' ? roster.rosterDate : roster.oTel && roster.oTel.substr(roster.oTel.length - 4, roster.oTel.length - 1)
                       }}</span>
                     <template v-if="pageType === 'department'">
                         <svg-icon name="mobile" height="12px" color="#666"></svg-icon>
-                        <span class="telSpan">{{ roster.oTel }}</span>
+                      <span class="telSpan">{{ roster.mobileNo }}</span>
                     </template>
                 </p>
             </div>
             <div class="type">
-                <span>{{getRosterType(roster.rosterType)}}</span>
+              <div @click="showRoster(roster)">{{ getRosterType(roster.rosterType) }}</div>
             </div>
         </div>
     </div>
@@ -84,11 +84,11 @@
                 this.initDate();
             },
             showRoster(item) {
-                let depViewId = 'agnes.dop.roster';
-                let depView = this.$app.views.getView(depViewId);
+              let depViewId = 'agnes.dop.roster.ru';
+              let depView = this.$app.views.getView(depViewId);
                 let depTabView = Object.assign({
-                    args: {rosterType: item.rosterType, pageType: this.pageType},
-                    id: depViewId
+                  args: {rosterType: item.rosterType},
+                  id: depViewId
                 }, depView);
                 this.$nav.showView(depTabView);
             },

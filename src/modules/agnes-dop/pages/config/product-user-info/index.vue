@@ -2,10 +2,10 @@
     <div style="height: 100%">
         <el-form class="search-panel" label-width="100px">
             <div class="line">
-                <el-form-item label="核算员姓名">
+                <el-form-item label="核算员">
                     <gf-input type="text" v-model="queryArgs.checkUserName"/>
                 </el-form-item>
-                <el-form-item label="清算员姓名">
+                <el-form-item label="清算员">
                     <gf-input type="text" v-model="queryArgs.clearUserName"/>
                 </el-form-item>
                 <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
