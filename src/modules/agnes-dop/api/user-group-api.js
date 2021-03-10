@@ -34,6 +34,9 @@ export default {
     },
     getUserInfos(userGroupId) {
         return request.post("/agnes-app/v1/dop/user/group/get/user-info?userGroupId="+userGroupId);
+    },
+    getUserGroupByTag(form) {
+        return request.post("/agnes-app/v1/dop/user/group/query-group-by-tag",form);
     }
 
 };
