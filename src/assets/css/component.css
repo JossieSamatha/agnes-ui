@@ -589,10 +589,6 @@
     font-family: SourceHanSansCN-Regular;
 }
 
-.ag-ltr .ag-pinned-left-cols-viewport {
-    /*border-right: 1px dotted #A8AED3;*/
-}
-
 .gf-ag-grid.ag-theme-balham .ag-root-wrapper {
     border-color: #A8AED3;
     border-radius: 8px 8px 0 0;
