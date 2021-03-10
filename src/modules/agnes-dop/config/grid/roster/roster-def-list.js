@@ -52,6 +52,16 @@ export default {
         column.colCrtUser,
         column.colCrtTm
     ],
+    defaultColDef: {
+        filter: true,
+        enableRowGroup: true,
+        menuTabs: ['generalMenuTab', 'filterMenuTab', 'columnsMenuTab'],
+    },
+    groupUseEntireRow: true,
+    rowGroupPanelShow: "always",
+    suppressDragLeaveHidesColumns: true,
+    tooltipShowDelay: 0,
+    groupDefaultExpanded: -1,
     ext: {
         fetchUrl: "/agnes-app/v2/dop/roster/def/page",    //后台查询数据的URL地址
         fetchMethod: 'post',
