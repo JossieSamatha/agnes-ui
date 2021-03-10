@@ -4,6 +4,7 @@
             <div class="gf-app-logo">
 <!--                <svg-icon name="HuaAn-logo" height="33px"/>-->
                 <img src="../../../assets/hex-logo.png" height="40px">
+
             </div>
             <div class="gf-menu">
                 <div class="gf-menu-item noneMenu" @click="changeStudio">
