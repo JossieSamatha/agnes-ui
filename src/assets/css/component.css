@@ -1029,10 +1029,6 @@
     padding-right: 0;
 }
 
-.ag-grid-box .gf-grid-status-bar .el-pagination .el-pagination__total::after {
-    content: '，';
-}
-
 .ag-grid-box .gf-grid-status-bar .el-pagination .el-pagination__sizes::before {
     content: '显示';
 }
