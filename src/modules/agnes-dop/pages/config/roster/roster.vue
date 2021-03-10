@@ -26,12 +26,14 @@ export default {
       default: 'add'
     },
     row: Object,
-    actionOk: Function
+    actionOk: Function,
+    rosterType: String,
   },
   data() {
     return {
       queryArgs: {
-        'rosterDefId': ''
+        'rosterDefId': '',
+        'rosterType': '',
       },
       menuConfigInfo: {
         resName:'',
@@ -41,6 +43,9 @@ export default {
   mounted() {
     if (this.row) {
       this.queryArgs.rosterDefId = this.row.pkId;
+    }
+    if (this.rosterType != null) {
+      this.queryArgs.rosterType = this.rosterType;
     }
     this.initData();
   },
