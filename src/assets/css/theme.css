@@ -910,7 +910,6 @@ form .el-icon-lock::before {
 .gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tabs-content {
     display: flex;
     height: 44px;
-    padding-left: 197px;
 }
 
 .gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tab {
