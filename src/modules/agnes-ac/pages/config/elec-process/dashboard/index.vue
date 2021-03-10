@@ -79,10 +79,8 @@
                                     <p style="height: 15px">
                                         <el-progress v-if="task.finishedRate"
                                                      class="monitor-progress"
-                                                     :class="{'is-roll': task.finishedRate < 1}"
                                                      show-text
                                                      :percentage="getPercentage(task.finishedRate)"
-                                                     :color="curTask.taskId==task.taskId ? '#4C6CFF': '#496AAF'"
                                                      :stroke-width="12*cardScale"
                                         ></el-progress>
                                     </p>
@@ -114,10 +112,9 @@
                             <div>
                                 <div class="define-progress-bar" @click="stageDetailView(stage)">
                                     <el-progress class="define-progress"
-                                                 :class="{'is-roll': stage.percentage < 1, 'has-error': stage.status === '03' || stage.status === '04'}"
+                                                 :class="{'has-error': stage.status === '03' || stage.status === '04'}"
                                                  :style="{color: getDetailColor(stage.status)}"
                                                  :percentage="getStagePercentage(stage)"
-                                                 :color="getDetailColor(stage.status)"
                                                  :stroke-width="20"
                                                  :show-text="false"
                                     ></el-progress>
@@ -125,26 +122,17 @@
                                 </div>
                                 <p :style="{color: getDetailColor(stage.status), position: setPos}">
                                     <span class="num">{{stage.completeNum}}/{{stage.targetNum}}</span>
-                                    <span class="fa fa-circle"
-                                          v-if="stage.status === '03' || stage.status === '04' "
-                                          style="cursor: pointer;
-                                            color:#FA6A6A;
-                                            position: absolute;
-                                            right: 6px;
-                                            top: 3px;"
-                                          @click="showStageError(stage)"
-                                    ></span>
                                 </p>
-                                <div class="link-line"></div>
+                                <div class="link-line"
+                                     :class="{error: stage.status === '03' || stage.status === '04' }"
+                                     @click="()=>{ stage.status === '03' || stage.status === '04' ? showStageError(stage) : null}"
+                                ></div>
                             </div>
                         </div>
                         <div class="link-line whole">
-                            <svg-icon name="lightning" color="#4c6cff" style="animation-delay: 1s"/>
-                            <svg-icon name="lightning" color="#4c6cff" style="animation-delay: 2s"/>
-                            <svg-icon name="lightning" color="#4c6cff" style="animation-delay: 3s"/>
-                            <svg-icon name="lightning" color="#4c6cff" style="animation-delay: 4s"/>
-                            <svg-icon name="lightning" color="#4c6cff" style="animation-delay: 5s"/>
-                            <span class="text-info">已完成：
+                            <svg-icon name="charge-ing" v-show="curTask.finishedRate < 1" height="120px" />
+                            <svg-icon name="charge-done" v-show="curTask.finishedRate >= 1" height="120px"/>
+                            <span class="text-info" v-show="curTask.finishedRate < 1">已充能：
                                 <span>{{getPercentage(curTask.finishedRate)}}%</span>
                             </span>
                         </div>

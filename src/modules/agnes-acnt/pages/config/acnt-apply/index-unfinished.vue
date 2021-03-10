@@ -167,6 +167,9 @@
                     return {
                         onRowClicked: (params)=>{
                             _that.crtStepRow = params.data
+                        },
+                        onRowDataChanged: (params)=>{
+                            params.api.selectIndex(0);
                         }
                     }
                 },
