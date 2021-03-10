@@ -18,13 +18,14 @@
                v-loading.fullscreen.lock="uploadFileLoading"
                element-loading-background="rgba(0, 0, 0, 0.3)" element-loading-text="文件上传中，请稍后">
         <div>
+<!--            <el-button class="normal-link" style="left: 0" v-show="!disabled">上传文件</el-button>-->
             <em class="el-icon-upload"></em>
             <p style="color: #999">将文件拖到此处，或<em>点击上传</em></p>
         </div>
         <div slot="tip" class="el-upload__tip">
             <ul class="el-upload-list el-upload-list--text">
                 <li class="upload-list head">
-                    <span>用印文件名</span>
+                    <span>文件名称</span>
                     <span class="piece">份数</span>
                     <span>备注</span>
                     <span class="option">操作</span>
@@ -106,7 +107,12 @@
             limit:{
                 type: Number
             },
-            fileList: Array
+            fileList: {
+                type: Array,
+                default: ()=>{
+                    return []
+                }
+            },
         },
         data() {
             return {
@@ -297,11 +303,11 @@
             //20201031
             async refreshFolder(docId) {
                 docId = docId ? docId : '';
+                let that = this;
                 //获取文件列表
                 this.$api.ecmUploadApi.getOisFileList(docId).then( (resp) => {
                     if (resp) {
-                        let oldFileList = this.fileList.splice(0, this.fileList.length);
-
+                        let oldFileList = that.fileList.splice(0, that.fileList.length);
                         let type2FileList = [];
                         oldFileList.forEach((file)=>{
                             if(file.type === '2'){
@@ -311,13 +317,13 @@
 
                         let files = resp.files;
                         files.forEach((file)=>{
-                            const hasFile = this.$lodash.find(oldFileList, {objectId: file.objectId});
+                            const hasFile = that.$lodash.find(oldFileList, {objectId: file.objectId});
                             if(!hasFile){
                                 let fileType = '1';
-                                if('receipt'  === this.applyType){
+                                if('receipt'  === that.applyType){
                                     fileType = '3';
                                 }
-                                this.fileList.push({
+                                that.fileList.push({
                                     docId: docId,
                                     objectId: file.objectId,
                                     fileName: file.name,
@@ -326,13 +332,13 @@
                                     type:fileType,
                                 });
                             }else{
-                                this.fileList.push(hasFile);
+                                that.fileList.push(hasFile);
                             }
                         });
 
                         if(type2FileList && type2FileList.length >0){
                             type2FileList.forEach((file)=>{
-                                this.fileList.push(file);
+                                that.fileList.push(file);
                             });
                         }
                     }
@@ -369,7 +375,7 @@
 <style>
     .acc-ecm-upload .el-upload-dragger{
         height: 80px;
-        width: 170px;
+        width: 400px;
         font-size: 12px;
         border-radius: 4px;
     }
@@ -397,13 +403,13 @@
         text-overflow: ellipsis;
     }
     .acc-ecm-upload {
-        display: flex;
+        /*display: flex;*/
         align-items: flex-start;
     }
 
     .acc-ecm-upload .el-upload__tip{
         flex: 1;
-        margin: 0 0 0 10px;
+        margin: 0 0 0 0px;
     }
 
     .acc-ecm-upload .el-upload-list {
@@ -429,7 +435,7 @@
 
     .el-upload-list>.upload-list.content,
     .el-upload-list>.upload-list>span a:not(:hover){
-        color: #666;
+        color: blue;
     }
 
     .el-upload-list>.upload-list>span {
@@ -456,7 +462,7 @@
         height: 100%;
         line-height: 1;
         border: none;
-        border-bottom: 1px solid #666!important;
+        border-bottom: 1px solid #ccc!important;
         border-radius: 0;
         font-size: 12px;
     }

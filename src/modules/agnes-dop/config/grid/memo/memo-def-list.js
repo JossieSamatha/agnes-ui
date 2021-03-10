@@ -20,14 +20,19 @@ const colButtons = [
             return Permission.hasPermission('agnes.dop.memo.def.approve');
         }
     },
+    {
+        key: 'viewDetail', title: '查看详情', visiable: () => {
+            return Permission.hasPermission('agnes.dop.memo.def.view');
+        }
+    },
 ];
 
 export default {
     columnDefs: [
-        column.buildOpCol(120, colButtons),
+        column.buildOpCol(180, colButtons),
         {headerName: "记录事项", field: "memoDesc", width: 120},
-        {headerName: "创建方式", field: "createType", dictType: "AGNES_MEMO_CREATE_TYPE"},
-        {headerName: "日历类型", field: "memoType", dictType: "AGNES_MEMO_TYPE"},
+        {headerName: "创建方式", field: "createType", formatType: 'dict', dictType: "AGNES_MEMO_CREATE_TYPE"},
+        {headerName: "日历类型", field: "memoType", formatType: 'dict', dictType: "AGNES_MEMO_TYPE"},
         {headerName: "状态", field: "memoStatus", formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
         column.colCrtUser,
         column.colCrtTm

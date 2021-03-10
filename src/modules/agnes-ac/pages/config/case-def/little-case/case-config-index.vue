@@ -101,17 +101,24 @@
             async onSave(){
                 this.caseModelData.stepCodeArr = this.stepCodeArr;
                 this.row.caseDefInfo.caseDefBody = JSON.stringify(this.caseModelData)
-                try {
-                    this.row.caseDefInfo.isCheckCode=false;
-                    const p = this.$api.flowTaskApi.saveFlowTask(this.row.caseDefInfo);
-                    await this.$app.blockingApp(p);
-                    this.$msg.success('保存成功');
+                if(this.mode==='addMult'){
                     if (this.actionOk) {
-                        await this.actionOk();
+                        await this.actionOk(this.row.caseDefInfo.caseDefBody);
                     }
                     this.$emit("onClose");
-                } catch (e) {
-                    this.$msg.error(e);
+                }else {
+                    try {
+                        this.row.caseDefInfo.isCheckCode = false;
+                        const p = this.$api.flowTaskApi.saveFlowTask(this.row.caseDefInfo);
+                        await this.$app.blockingApp(p);
+                        this.$msg.success('保存成功');
+                        if (this.actionOk) {
+                            await this.actionOk();
+                        }
+                        this.$emit("onClose");
+                    } catch (e) {
+                        this.$msg.error(e);
+                    }
                 }
             },
             // 新增action
@@ -125,7 +132,11 @@
                     this.$utils.removeFromArray(this.stepCodeArr, dialogForm);
                     return false;
                 }
+                if(!this.row.caseDefInfo.reTaskDef.bizType){
+                    this.row.caseDefInfo.reTaskDef.bizType='';
+                }
                 args.bizType = this.row.caseDefInfo.reTaskDef.bizType;
+                args.caseKey = this.row.caseDefInfo.reTaskDef.caseKey;
                 this.drawerVisible = true;
                 this.stepDetailProps = {
                     optionType: optionType,

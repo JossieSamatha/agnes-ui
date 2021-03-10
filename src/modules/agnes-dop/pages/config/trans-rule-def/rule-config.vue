@@ -1,12 +1,12 @@
 <template>
     <div>
-        <el-form class="task-def-form" :model="ruleObj"
+        <el-form :model="ruleObj"
                  label-width="110px" ref="rule" :rules="formRules">
             <el-form-item label="规则名称" prop="ruleName">
-                <gf-input v-model.trim="ruleObj.ruleName" placeholder="规则名称"/>
+                <gf-input v-model.trim="ruleObj.ruleName" placeholder="规则名称" :disabled="this.isEdit"/>
             </el-form-item>
             <el-form-item label="规则编号" prop="ruleCode">
-                <gf-input v-model.trim="ruleObj.ruleCode" placeholder="规则编号"/>
+                <gf-input v-model.trim="ruleObj.ruleCode" placeholder="规则编号" :disabled="this.isEdit"/>
             </el-form-item>
             <el-form-item label="业务类型" prop="bizType">
                 <gf-dict v-model="ruleObj.bizType" dict-type="AGNES_WORDS_RULE_BIZ_TYPE"/>
@@ -52,6 +52,7 @@ export default {
     },
     data(){
         return {
+            isEdit:false,
             factorOption:[],
             ruleObj:{
                 isCheckd:true,
@@ -86,6 +87,9 @@ export default {
     beforeMount() {
         if(this.mode!='add') {
             Object.assign(this.ruleObj, this.row);
+        }
+        if(this.mode == 'edit'){
+            this.isEdit=true;
         }
     },
     mounted() {

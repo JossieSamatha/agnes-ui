@@ -1,13 +1,8 @@
 <template>
     <div class="my-index">
         <div>
-            <p class="hello">欢迎登陆，{{userName}}，{{sayHello}}！</p>
+            <p class="hello">欢迎登录，{{userName}}，{{sayHello}}！</p>
             <p class="text">欢迎登录，{{userName}}，
-<!--                近期你完成任务超时天数为<span style="color: #FA6A6A">{{overTimeDay}}</span> 天，-->
-<!--                正常完成任务天数为-->
-<!--                <span style="color: #4C6CFF">{{normalDay}}</span>天，-->
-<!--                工作效率超过了-->
-<!--                <span style="color: #4C6CFF">{{effect}}%</span>的同事，-->
                 今天你有待办任务
                 <span style="color: #FA6A6A">{{effect}}</span> 件，加油！
             </p>
@@ -29,7 +24,7 @@
                 sayHello: '',
                 overTimeDay: '0',
                 normalDay: '2',
-                effect: '80',
+                effect: '',
                 freshInterval: null,
                 todayDate: new Date().toLocaleDateString().replace(/\//g, '-'),
             }
@@ -83,13 +78,21 @@
                 this.$api.changeDataApi.getChangeData().then((resp)=> {
                     const resChangeData = resp.data;
                     const exeTime = resChangeData ? resChangeData.bizDate : this.todayDate;
+                    let that = this;
                     this.$api.HomePageApi.selectTodoTaskOfUser({taskStartTime: exeTime}).then((resp1)=>{
-                        this.effect = resp1.data.rows ? resp1.data.rows.length : '--';
+                        let num1 = resp1.data.rows ? resp1.data.rows.length : '0';
+                        this.$api.acntApplyApi.getCountUnfinishedAndCanDo().then((resp2)=> {
+                            let num2 = parseInt(resp2.data)+parseInt(num1);
+                            that.effect = num2.toString();
+                        });
                     });
                 })
 
             },
 
+            refreshData(){
+                this.initData();
+            },
             startInterval(){
                 this.freshInterval = setInterval(() => {
                     if (this.$route.path === '/datav.client.view') {

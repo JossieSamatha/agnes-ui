@@ -3,7 +3,7 @@ export default function () {
         // 任务对象初始字段
         taskId: '',
         taskName: '',            // 任务名称
-        taskType: '',            // 任务类型 -- 1：流程任务；2：MOT任务；3：监控指标任务
+        taskType: '',            // 任务类型 -- 2：流程任务；6：MOT任务；1：监控指标任务
         taskStatus: '',          // 任务状态 -- 0：新建；1：待复核；2：已复核；3：存在更新需再次复核；
         caseKey: '',             // 关联case -- 对应case caseDefKey
         bizType: '',             // 业务场景
@@ -16,6 +16,9 @@ export default function () {
         task_endTime: null,          // endTime 重复名称
         standardDate: '',       // 基准日期(新增字段)
         task_execMode: '1',          // 任务创建频率 -- 1：一次；2：重复执行；3：事件
+        configType:'1',
+        flowType:'',
+        taskIcon:'',
         task_execScheduler: '',      // 任务创建频率 -- 重复执行
         eventId: '',            // 事件Id -- 执行频率--事件
         needApprove: '0',       // 是否需要复核

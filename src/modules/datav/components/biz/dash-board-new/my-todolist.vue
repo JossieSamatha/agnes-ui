@@ -49,7 +49,7 @@
         },
         data() {
             return {
-                needTodoOfAcnt:'1',
+                needTodoOfAcnt:'',
                 taskDemoArr: [],
                 bizdate: null,
                 caseStepTypeDict: this.$app.dict.getDictItems('AGNES_CASE_STEPTYPE'),
@@ -95,6 +95,11 @@
                     this.needTodoOfAcnt = resp.data;
                 }
             },
+
+            async refreshData(){
+                this.initData();
+            },
+
             todoForAcntApply(){
                 let clientView = this.$app.views.getView('agnes.acnt.apply');
                 let clientTabView = Object.assign({args: {showCondProp:'02'}, id: 'agnes.acnt.apply'}, clientView);
@@ -124,14 +129,20 @@
                 if (!ok) {
                     return
                 }
+                if(task.stepStatus === '01'){
+                    this.$msg.warning("该任务状态为未开始，处理失败！")
+                    return
+                }
                 const taskCommit = {
                     inst: {
                         taskId: task.taskId,
                     },
                     stepInfo :{
-                        remark: task.taskRemark,
-                        caseId: task.caseId,
-                        stepCode: task.stepCode
+                      remark: task.taskRemark,
+                      caseId: task.caseId,
+                      stepCode: task.stepCode,
+                      bizDate: window.bizDate,
+                      stepStatus: '07'
                     }
                 };
                 try {

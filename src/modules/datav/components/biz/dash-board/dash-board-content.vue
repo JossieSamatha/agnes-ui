@@ -18,8 +18,10 @@
 
 <template>
     <draggable class="menuContent" :list="draggableList" group="unitGroup" :disabled="dragDisabled"
-        @start="gridUnitDragStart(draggableList)" @end="gridUnitDragEnd" @add="gridUnitDragAdd(draggableList,$event)">
-        <div :class="{nonePadding: unit.compType === 'common-search-panel'}" v-for="(unit, unitIndex) in draggableList" :key="unit.compId">
+               @start="gridUnitDragStart(draggableList)" @end="gridUnitDragEnd"
+               @add="gridUnitDragAdd(draggableList,$event)">
+        <div :class="{nonePadding: unit.compType === 'common-search-panel'}" v-for="(unit, unitIndex) in draggableList"
+             :key="unit.compId">
             <template v-if="unitIndex == 0">
                 <span class="delUnitGrid" @click="delContent" v-if="ifCloseIconShow">
                     <em class="fa fa-close"></em>
@@ -32,8 +34,11 @@
                 </span>
                 <common-search-panel v-if="unit.compType === 'common-search-panel'"></common-search-panel>
                 <module-card v-else :title="unit.label">
-                    <template slot="content">
-                        <slot name="group-content" :unitData="unit"></slot>
+                    <template slot="headOption">
+                        <i class="refresh-btn el-icon-refresh-left" @click="refreshData(unit)"></i>
+                    </template>
+                    <template slot="content" v-if="!unit.hide">
+                        <slot ref="groupContent" name="group-content" :unitData="unit"></slot>
                     </template>
                 </module-card>
             </template>
@@ -59,10 +64,10 @@
             }
         },
         computed: {
-            ifCloseIconShow(){
+            ifCloseIconShow() {
                 return this.isGridEdit;
             },
-            dragDisabled(){
+            dragDisabled() {
                 return !this.isGridEdit;
             },
         },
@@ -73,36 +78,47 @@
             },
 
             // 面板grid -- 单元开始拖动
-            gridUnitDragStart(){
+            gridUnitDragStart() {
                 const movedUnitId = this.draggableId;
                 this.$emit('gridUnitDragStart', movedUnitId);
             },
 
             // 面板grid -- 单元拖动结束
-            gridUnitDragEnd(){
+            gridUnitDragEnd() {
                 this.$emit('gridUnitDragEnd');
             },
 
             // 面板grid -- 单元draggable数组新增
             gridUnitDragAdd(newArr, evt) {
-              if (newArr.length == 2) {
-                if (evt.from.className.indexOf('menuContent') == -1) {
-                  newArr.splice(1, 1);
-                } else {
-                  const changeData = newArr.splice(0, 1);
-                  this.$emit('gridUnitDragAdd', changeData);
+                if (newArr.length == 2) {
+                    if (evt.from.className.indexOf('menuContent') == -1) {
+                        newArr.splice(1, 1);
+                    } else {
+                        const changeData = newArr.splice(0, 1);
+                        this.$emit('gridUnitDragAdd', changeData);
+                    }
                 }
-              }
             },
 
-          entranceMenu(moduleItem) {
-            const {menuId, moduleArgs} = moduleItem
-            if (menuId) {
-              let clientView = this.$app.views.getView(menuId);
-              let clientTabView = Object.assign({args: moduleArgs, id: menuId}, clientView);
-              this.$nav.showView(clientTabView);
+            entranceMenu(moduleItem) {
+              const {menuId, compParams} = moduleItem;
+              this.$agnesUtils.closeTab(menuId);
+              this.$nextTick(() => {
+                const compParamObj = JSON.parse(compParams || "{}")
+                if (menuId) {
+                  let clientView = this.$app.views.getView(menuId);
+                  let clientTabView = Object.assign({args: compParamObj, id: menuId}, clientView);
+                  this.$nav.showView(clientTabView);
+                }
+              })
+            },
+
+            refreshData(unit) {
+                this.$set(unit, 'hide', true);
+                setTimeout(()=>{
+                    this.$set(unit, 'hide', false);
+                }, 1);
             }
-          }
         }
     }
 </script>
@@ -111,6 +127,7 @@
     .vue-grid-item.rightPined .compEntrance {
         top: 24px;
     }
+
     .compEntrance {
         position: absolute;
         top: 0;
@@ -121,7 +138,7 @@
         cursor: pointer;
     }
 
-    .compEntrance.bcg {
+    .vue-grid-item.rightPined .compEntrance.bcg {
         top: 20px;
         color: #666;
         background: #EEF1FC;
@@ -129,11 +146,24 @@
         border-radius: 4px;
     }
 
-    .compEntrance>em {
+    .compEntrance > em {
         font-size: 14px;
         color: #999;
         vertical-align: baseline;
         margin-left: 6px;
+    }
+
+    .refresh-btn {
+        color: #999;
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 16px;
+        margin-left: 6px;
+        cursor: pointer;
+    }
+
+    .refresh-btn:hover {
+        color: #0f5eff;
     }
 
     .mask {

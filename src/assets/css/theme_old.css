@@ -1343,7 +1343,6 @@ form input[type=submit] {
     background: #fff;
 }
 
-.gf-ag-grid.ag-theme-balham .ag-row-selected,
 .gf-ag-grid.ag-theme-balham .ag-row-hover {
     background-color: #E6F0FA !important;
     border-color: transparent;

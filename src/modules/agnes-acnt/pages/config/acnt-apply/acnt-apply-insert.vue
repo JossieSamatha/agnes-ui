@@ -468,13 +468,14 @@
 
                     </div>
                     <div class="line">
-                        <el-form-item label="账户回执" prop="fileTable">
+                        <el-form-item label="附件上传" prop="fileTable">
                             <div class="rule-table">
                                 <acc-ecm-upload style="width: 100%;"
-                                                :disabled="this.detailForm.processStatus!='06'?true:false"
+                                                :disabled="this.detailForm.processStatus==='07'?true:false"
                                                 :applyType="this.receipt"
-                                                :showRemove="this.detailForm.processStatus==='06'?true:false"
-                                                :file-list="detailForm.receiptFileList">
+                                                :showRemove="this.detailForm.processStatus!='07'?true:false"
+                                                :src-doc-id="this.fjSrcId"
+                                                :file-list="this.receiptFileList">
                                 </acc-ecm-upload>
                             </div>
                         </el-form-item>
@@ -806,7 +807,9 @@
         data() {
             return {
                 loading: false,
+                receiptFileList: [],
                 rosterDate:'',
+                fjSrcId:'',
                 memberRefList:[],
                 receipt:'receipt',
                 serviceRes:[],
@@ -860,7 +863,6 @@
                     crtUser:'',
                     updateUser:'',
                     fileList: [],
-                    receiptFileList:[],
                 },
                 detailFormBefore: {
                   typeCode: '',
@@ -1118,11 +1120,19 @@
                                 }else if(fileList.data[i].type === '2'){
                                     this.detailForm.fileList.push(fileList.data[i]);
                                 }else {
-                                    this.detailForm.receiptFileList.push(fileList.data[i]);
+                                    this.fjSrcId = fileList.data[i].docId;
+                                    this.receiptFileList.push(fileList.data[i]);
                                 }
                             }
                         }
 
+                    }
+                    if(loadsh.isEmpty(this.fjSrcId)
+                        &&(this.detailForm.processStatus!='07')){
+                        let resp = await this.$api.acntApplyApi.createDocAndGetDocId("2");
+                        if(resp.data){
+                            this.fjSrcId = resp.data.objectId;
+                        }
                     }
 
                     //获取账户关联表数据
@@ -1238,15 +1248,22 @@
                     form.processStatus = '07';
                     form.accNoList = this.accNoList;
                     form.moneyAccNoList = this.moneyAccNoList;
+                    if(form.acntStartDt && form.acntStartDt=='1900-01-01'){
+                        form.acntStartDt = '2000-01-01';
+                    }
                     if(!loadsh.isEmpty(this.detailForm.processStatus)){
                         //状态机控制
                         if(this.detailForm.processStatus=='06'){
                             form.processStatus = '07';
-                            if(this.detailForm.receiptFileList.length>0){
-                                form.fileList = form.fileList.concat(this.detailForm.receiptFileList);
+                            if(this.receiptFileList.length>0){
+                                form.fileList = form.fileList.concat(this.receiptFileList);
                             }
                         }else if(this.detailForm.processStatus=='07'){
                             form.processStatus = '08';
+                        }
+                    }else {
+                        if(this.receiptFileList.length>0){
+                            form.fileList = form.fileList.concat(this.receiptFileList);
                         }
                     }
                     if(!loadsh.isEmpty(this.detailForm.processStatus) && this.detailForm.processStatus=='07'){

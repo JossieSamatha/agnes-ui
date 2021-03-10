@@ -60,6 +60,9 @@
                     this.msgDemoArr = resp1.data;
                 }
             },
+            refreshData(){
+                this.initData();
+            },
             expandMore(item) {
                 if (!item.expand) {
                     this.$set(item, 'expand', 'expand');

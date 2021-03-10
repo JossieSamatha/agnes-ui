@@ -12,6 +12,8 @@ import AgnesCalendar from './agnes-calendar';
 import stackBar from './stack-bar';
 import depWorkStatistics from './dep-work-statistics';
 import stationWorkloadAnalysis from './station-workload-analysis'
+import calendarDefOld from './calendar-def-old'
+import scheduleOld from './schedule-old'
 
 const Loading = {
     install: function (Vue) {
@@ -29,6 +31,8 @@ const Loading = {
         Vue.component('stack-bar', stackBar);
         Vue.component('work-statistics', depWorkStatistics);
         Vue.component('workload-analysis', stationWorkloadAnalysis);
+        Vue.component('calendar-def-old', calendarDefOld);
+        Vue.component('schedule-comp-old', scheduleOld);
     }
 };
 

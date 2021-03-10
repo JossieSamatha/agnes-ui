@@ -5,13 +5,15 @@ export default function () {
             taskId: '',
             taskName: '',            // 任务名称
             dayendDefId: '',     // 日期类型 -- 1：工作日；2：自然日；（是否保存）
-            taskType: '',            // 任务类型 -- 1：流程任务；2：MOT任务；3：监控指标任务
+            taskType: '',            // 任务类型 --
             taskStatus: '',          // 任务状态 -- 0：新建；1：待复核；2：已复核；3：存在更新需再次复核；
             caseKey: '',             // 关联case -- 对应case caseDefKey
             bizType: '',             // 业务场景
             bizTag: '',              // 业务标签 -- str
             stepScene: '',          // 业务场景
             startTime: null,
+            flowType:'',
+            taskIcon:'',
             endTime: null,
             standardDate: '',       // 基准日期(新增字段)
             execMode: '1',          // 任务创建频率 -- 0：一次；1：重复执行；2：事件

@@ -441,6 +441,10 @@
                     return;
                 }
                 try {
+                    if(this.detailForm.stepActOwner == '[]'){
+                        this.$message.warning("请选择通知人员！");
+                        return ;
+                    }
                     let resData = this.dataTransfer();
                     resData.reTaskDef.taskType = '6'
                     if(this.row.isCheck){
@@ -488,7 +492,6 @@
                     }
                 );
             },
-
             // 数据结构转换
             dataTransfer() {
                 //完成规则判断是否勾选
@@ -550,7 +553,6 @@
                 }
                 return {reTaskDef: kpiTaskDef, caseDefId: this.row.caseDefId, caseDefBody: JSON.stringify(caseDef),versionId:this.versionId,isCheckCode:this.isCheckCode};
             },
-
             reDataTransfer() {
                 this.rosterDate = window.bizDate;
                 if (this.mode && this.mode !== 'add') {

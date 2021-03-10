@@ -2,7 +2,7 @@
     <div>
     <gf-grid grid-no="agnes-factor" ref="grid" quick-text-max-width="300px" height="100%">
         <template slot="left" >
-            <gf-button class="action-btn" @click="addFactor" size="mini">添加</gf-button>
+            <gf-button class="action-btn" v-if="$hasPermission('agnes.chzh.yzwh.add')" @click="addFactor" size="mini">添加</gf-button>
         </template>
     </gf-grid>
     </div>

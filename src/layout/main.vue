@@ -16,7 +16,7 @@
                 <svg-icon name="skin-change" height="16px"/>
             </div>
             <div class="top-menu-item" title="消息提醒"  @click="handelNotice">
-                <el-badge :value=unreadCount :hidden="!unreadCount">
+                <el-badge :value=unreadCount :hidden="!unreadCount" :max="99">
                     <svg-icon name="msg-inform" height="20px"/>
                 </el-badge>
             </div>
@@ -162,7 +162,7 @@
             async handelNotice() {
                 this.showNoticeDrawer = true;
                 const resp = await this.$api.ruleTableApi.getMsgBoxList();
-                this.noticeData = resp.data.splice(0,9);
+                this.noticeData = resp.data;
             },
 
             noticeDrawerClose() {
@@ -185,6 +185,9 @@
                     document.getElementById("personalEditBtn").click();
                 }else if(curTab ==='datav.dep.view'){
                     document.getElementById("departmentEditBtn").click();
+                }else{
+                    this.$router.push('/datav.client.view');
+                    document.getElementById("personalEditBtn").click();
                 }
             },
 

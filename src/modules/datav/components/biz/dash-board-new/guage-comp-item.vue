@@ -26,15 +26,6 @@
             gaugeCompInit() {
                 this.guageChart = this.echarts.init(this.$refs.guageCharts);
                 const gaugeOption = {
-                    // title: {
-                    //     text: this.title,
-                    //     textStyle: {
-                    //         color: this.rateValue<1 ? '#0F5EFF': '#4BE16E',
-                    //         fontSize: 14,
-                    //     },
-                    //     left : 'center',
-                    //     bottom: '25%'
-                    // },
                     series: [
                         {
                             name: '完成情况',
@@ -92,12 +83,6 @@
         watch: {
             rateValue(val){
                 this.pieChart.setOption({
-                    // title: {
-                    //     text: this.title,
-                    //     textStyle: {
-                    //         color: this.rateValue<1 ? '#0F5EFF': '#4BE16E'
-                    //     }
-                    // },
                     series: [
                         {
                             axisLine: {            // 坐标轴线

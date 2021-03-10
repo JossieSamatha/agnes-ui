@@ -4,10 +4,12 @@
              grid-no="agnes-dop-memo-def-list"
              toolbar="find,refresh,more"
              @row-double-click="showMemoDef"
+             height="100%"
     >
       <template slot="left">
-        <gf-button v-if="$hasPermission('agnes.dop.memo.def.add')" class="action-btn" @click="addMemoDef" size="mini">
-          添加
+        <gf-button v-if="$hasPermission('agnes.dop.memo.def.add') && this.display === '01'" class="action-btn"
+                   @click="addMemoDef"
+                   size="mini">添加
         </gf-button>
       </template>
     </gf-grid>
@@ -16,8 +18,18 @@
 
 <script>
 import MemoDefDlg from "./memo-def-dlg-new";
+import MemoDetail from "./memo"
 
 export default {
+  props: {
+    display: {
+      type: String,
+      default: '01'
+    },
+  },
+  mounted() {
+    console.log(this.display)
+  },
   methods: {
     reloadData() {
       this.$refs.grid.reloadData(true);
@@ -68,14 +80,31 @@ export default {
         return
       }
       try {
-        console.log(param)
         const p = this.$api.memoApi.approve(param.data.pkId);
         await this.$app.blockingApp(p);
         this.reloadData();
       } catch (reason) {
         this.$msg.error(reason);
       }
-    }
+    },
+    async viewDetail(param) {
+      this.showDrawer('view', param.data, this.onEditMemoDef.bind(this))
+    },
+    showDrawer(mode, row, actionOk) {
+      if (mode !== 'add' && !row) {
+        this.$msg.warning("请选中一条记录!");
+        return;
+      }
+      this.$drawerPage.create({
+        width: 'calc(97% - 215px)',
+        title: ['运营日历', mode],
+        component: MemoDetail,
+        args: {row, mode, actionOk},
+        okButtonVisible: false,                             // 保存按钮是否显示
+        okButtonTitle: '保存',       // 保存按钮名称按需传入
+        cancelButtonTitle: '取消', // 取消按钮名称按需传入
+      });
+    },
   }
 }
 </script>

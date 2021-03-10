@@ -67,6 +67,10 @@
                 }
             },
 
+            refreshData(){
+                this.getData();
+            },
+
             rateCalc(numerator, denominator) {
                 const rate = parseFloat((numerator / denominator).toFixed(2));
                 return rate;

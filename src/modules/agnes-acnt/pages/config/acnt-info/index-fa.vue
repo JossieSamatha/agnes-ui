@@ -12,7 +12,7 @@
 <!--                    <el-input v-model="queryArgs.accNos"></el-input>-->
 <!--                </el-form-item>-->
                 <el-form-item label="归属机构">
-                  <el-select class="multiple-select" v-model="queryArgs.orgIdList" multiple collapse-tags filterable
+                  <el-select class="multiple-select" v-model="orgIdList" multiple collapse-tags filterable
                              placeholder="请选择">
                     <gf-filter-option
                         v-for="item in orgOption"
@@ -47,11 +47,17 @@
                         </el-option-group>
                     </el-select>
                 </el-form-item>
-
-                <el-form-item></el-form-item>
-<!--              <el-form-item label="账户状态">-->
-<!--                <gf-dict filterable clearable v-model="queryArgs.acntStatus" dict-type="AGNES_ACNT_INFO_STATUS"/>-->
-<!--              </el-form-item>-->
+              <el-form-item label="产品阶段">
+                  <el-select class="multiple-select" v-model="productStages" multiple collapse-tags filterable
+                             placeholder="请选择">
+                      <gf-filter-option
+                              v-for="item in productStageDict"
+                              :key="item.typeId"
+                              :label="item.typeName"
+                              :value="item.typeId">
+                      </gf-filter-option>
+                  </el-select>
+              </el-form-item>
 
               <el-button @click="reSetSearch" class="option-btn">重置</el-button>
             </div>
@@ -66,7 +72,7 @@
                 grid-no="agnes-acnt-info-fa">
             <template slot="left">
                <gf-button class="action-btn" @click="exoprtV45" size="mini"
-                          v-if="$hasPermission('agnes.acnt.info.fa.exportV45')">导出v45接口
+                          v-if="$hasPermission('agnes.acnt.info.fa.exportV45')">导出v45
                </gf-button>
                <gf-button class="action-btn" @click="registration" size="mini"
                           v-if="$hasPermission('agnes.acnt.info.fa.registration')">账户登记</gf-button>
@@ -106,6 +112,9 @@
     export default {
         data() {
             return {
+                productStageDict:[],
+                productStages:[],
+                orgIdList: [],
                 queryArgs: {
                   'processType': 'FA',
                   'typeCode': '',
@@ -115,9 +124,12 @@
                   'fundAccNos': '',
                   'acntStatus': '01',
                   'isShowAll':'',
-                  'orgIdList': [],
+                  'orgIdListStr': '',
+                  'productStagesStr': '',
                 },
-                menuConfigInfo:{},
+                menuConfigInfo:{
+                    resName:'',
+                    inputParam:'',},
               typeCodeOption: [{
                 label: 'TA',
                 options: []
@@ -148,6 +160,12 @@
           }
         },
         async getOptionData() {
+            this.productStageDict = this.$app.dict.getDictItems("AGNES_PRODUCT_STAGE").map((dictItem) => {
+                return {
+                    typeId: dictItem.dictId,
+                    typeName: dictItem.dictName
+                }
+            });
           try {
             let typeCodeOption = await this.$api.acntApplyApi.getAcntTypeList();
             typeCodeOption.data.forEach(item => {
@@ -156,7 +174,7 @@
               }
             });
               let resp1 = await this.$api.funcConfigApi.queryMenuByActionUrl({'actionUrl':this.$app.nav.tabBar.currentTabKey});
-              if(resp1){
+              if(resp1.data){
                   this.menuConfigInfo = resp1.data;
               }
           } catch (reason) {
@@ -165,6 +183,22 @@
             },
 
             reloadData() {
+                let orgIdListStr = '';
+                this.orgIdList.forEach(((item,index)=>{
+                    if(index!=0){
+                        orgIdListStr=orgIdListStr+','
+                    }
+                    orgIdListStr=orgIdListStr+item;
+                }));
+                let productStagesStr = '';
+                this.productStages.forEach(((item,index)=>{
+                    if(index!=0){
+                        productStagesStr=productStagesStr+','
+                    }
+                    productStagesStr=productStagesStr+item;
+                }));
+                this.queryArgs.orgIdListStr = orgIdListStr;
+                this.queryArgs.productStagesStr = productStagesStr;
                 this.$refs.grid.reloadData();
             },
             reSetSearch() {
@@ -176,7 +210,10 @@
               this.queryArgs.fundAccNos = '';
               this.queryArgs.acntStatus = '01';
               this.queryArgs.isShowAll = '';
-              this.queryArgs.orgIdList = [];
+              this.productStages = [];
+              this.orgIdList = [];
+              this.queryArgs.orgIdListStr = '';
+              this.queryArgs.productStagesStr = '';
               this.reloadData();
             },
             showOpenDlg(mode, row, actionOk,isDisabled=false) {
@@ -338,7 +375,7 @@
               });
               pkIds = pkIds.substring(0, pkIds.lastIndexOf(","));
               let pkId = this.menuConfigInfo.outputParam;
-              let fileName = this.menuConfigInfo.resName;
+              let fileName = "账户信息导出V45";
               const basePath = window.location.href.split("#/")[0];
               window.open(basePath + "api/data-pipe/v1/etl/file/exportexcel?pkId="+pkId+"&fileName="+fileName+"&pkIds="+pkIds);
           },

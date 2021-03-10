@@ -1,52 +1,28 @@
 <template>
     <div>
-        <el-form :model="memoForm" :disabled="mode==='view'" ref="memoForm" :rules="memoFormRules" label-width="105px"
+        <el-form :model="memoForm" :disabled="mode==='view' " ref="memoForm" :rules="memoFormRules"
+                 label-width="105px"
                  style="padding: 10px;">
-            <el-form-item label="记录事项" prop="memoDesc">
-                <gf-input v-model="memoForm.memoDesc" type="textarea" :max-byte-len="512"></gf-input>
-            </el-form-item>
-            <el-form-item label="创建方式选择" prop="createType" required>
-                <el-radio-group class="alter-radio-btn" v-model="memoForm.createType" size="small"
-                                @change="clearMemoRules(['memoDate', 'memoStartDate', 'memoEndDate','memoCron'])">
-                    <el-radio label="01">按照指定日期</el-radio>
-                    <el-radio label="02">按照自定义频率</el-radio>
+          <el-form-item label="记录事项" prop="memoDesc">
+            <gf-input v-model="memoForm.memoDesc" type="textarea" :max-byte-len="512"></gf-input>
+          </el-form-item>
+          <el-form-item label="创建方式选择" prop="createType" required :show-message="false">
+            <el-radio-group class="alter-radio-btn" v-model="memoForm.createType" size="small"
+                            @change="clearMemoRules(['memoDate', 'memoStartDate', 'memoEndDate','memoCron'])">
+              <el-radio label="01">按照指定日期</el-radio>
+              <el-radio label="02">按照自定义频率</el-radio>
                 </el-radio-group>
             </el-form-item>
             <template v-if="memoForm.createType === '01'">
-                <el-form-item label="指定日期方式" required>
-                    <el-radio-group class="alter-radio-btn" v-model="dateType" size="small"
-                                    @change="clearMemoRules(['memoDate', 'memoStartDate', 'memoEndDate'])">
-                        <el-radio label="01">提醒日期</el-radio>
-                        <el-radio label="02">创建周期</el-radio>
-                    </el-radio-group>
-                </el-form-item>
-                <el-form-item label="提醒日期" prop="memoDate" v-if="dateType === '01'">
+                <el-form-item label="提醒日期" prop="memoDate">
                     <gf-date-picker v-model="memoForm.memoDate"
                                     type="date"
                                     value-format="yyyy-MM-dd"
                                     placeholder="指定日期"
                                     style="width: 223px"
+                                    :picker-options="pickerMemoOptions"
                     >
                     </gf-date-picker>
-                </el-form-item>
-                <el-form-item label="创建周期" v-else>
-                    <div class="line">
-                        <el-form-item prop="memoStartDate">
-                            <gf-date-picker v-model="memoForm.memoStartDate"
-                                            type="date"
-                                            value-format="yyyy-MM-dd"
-                                            placeholder="开始日期"
-                            ></gf-date-picker>
-                        </el-form-item>
-                        <span style="margin: 0 15px">至</span>
-                        <el-form-item prop="memoEndDate">
-                            <gf-date-picker v-model="memoForm.memoEndDate"
-                                            type="date"
-                                            value-format="yyyy-MM-dd"
-                                            placeholder="结束日期"
-                            ></gf-date-picker>
-                        </el-form-item>
-                    </div>
                 </el-form-item>
             </template>
             <template v-else>
@@ -55,8 +31,29 @@
                         {{memoForm.memoCron}}点击配置
                     </el-button>
                 </el-form-item>
+                <el-form-item label="创建周期" prop="memoStartDate" required :show-message="false">
+                    <div class="line">
+                        <el-form-item prop="memoStartDate">
+                            <gf-date-picker v-model="memoForm.memoStartDate"
+                                            type="date"
+                                            value-format="yyyy-MM-dd"
+                                            placeholder="开始日期"
+                                            :picker-options="pickerMemoStart"
+                            ></gf-date-picker>
+                        </el-form-item>
+                        <span style="margin: 0 15px">至</span>
+                        <el-form-item prop="memoEndDate">
+                            <gf-date-picker v-model="memoForm.memoEndDate"
+                                            type="date"
+                                            value-format="yyyy-MM-dd"
+                                            placeholder="结束日期"
+                                            :picker-options="pickerMemoEnd"
+                            ></gf-date-picker>
+                        </el-form-item>
+                    </div>
+                </el-form-item>
             </template>
-            <el-form-item label="日历类型" prop="memoType" required>
+            <el-form-item label="日历类型" prop="memoType" required :show-message="false">
                 <el-radio-group class="alter-radio-btn" v-model="memoForm.memoType" size="small"
                                 @change="clearMemoRules('memberRefList')">
                     <el-radio label="01">我的日历</el-radio>
@@ -73,8 +70,9 @@
               </gf-person-chosen>
             </el-form-item>
         </el-form>
-        <span class="note">注：值班类型多选与值班人员多选一致，会按照顺序进行对应批量生产排班，可以选择时调整顺序。</span>
-        <dialog-footer :ok-button-visible="mode !== 'view'" :on-save="save"></dialog-footer>
+        <dialog-footer v-if="mode=== 'add' || mode === 'edit'" :ok-button-visible="mode !== 'view'"
+                       :on-save="save"></dialog-footer>
+        <dialog-footer v-if="mode=== 'approve'" :on-save="approveMemoDef" okButtonTitle="审核"></dialog-footer>
     </div>
 </template>
 
@@ -90,38 +88,60 @@
         },
         data() {
             return {
-                dateType: '01',
                 memoForm: {
-                  memoDesc: '',
-                  createType: '01',
-                  memoType: '01',
-                  memoDate: '',
-                  memoStartDate: '',
-                  memoEndDate: '',
-                  memoCron: '',
-                  memoNoticeUsermemoNoticeUser: '',
-                  memberRefList: []
+                    memoDesc: '',
+                    createType: '01',
+                    memoType: '01',
+                    memoDate: '',
+                    memoStartDate: '',
+                    memoEndDate: '',
+                    memoCron: '',
+                    memoNoticeUsermemoNoticeUser: '',
+                    memberRefList: []
                 },
                 rosterDate: '',
                 memoFormRules: {
-                    memoDesc: [{ required: true, message: '请补充记录事项', trigger: 'blur' }],
-                    memoDate: [{ required: true, message: '请补充提请日期', trigger: 'change' }],
-                    memoStartDate: [{ required: true, message: '请补充开始日期', trigger: 'change' }],
-                    memoEndDate: [{ required: true, message: '请补充结束日期', trigger: 'change' }],
-                    memoCron: [{ required: true, message: '请补充创建频率', trigger: 'change' }],
-                    memberRefList: [{ type: 'array', required: true, message: '请补充通知人员', trigger: 'change' }]
-                }
+                    memoDesc: [{required: true, message: '请补充记录事项', trigger: 'blur'}],
+                    memoDate: [{required: true, message: '请补充提请日期', trigger: 'change'}],
+                    memoStartDate: [{required: true, message: '请补充开始日期', trigger: 'change'}],
+                    memoEndDate: [{required: true, message: '请补充结束日期', trigger: 'change'}],
+                    memoCron: [{required: true, message: '请补充创建频率', trigger: 'change'}],
+                    memberRefList: [{type: 'array', required: true, message: '请补充通知人员', trigger: 'change'}]
+                },
+                pickerMemoOptions: {
+                    disabledDate: time => {
+                        return time.getTime() < new Date(window.bizDate).getTime() - 86400000;
+                    }
+                },
+                pickerMemoStart: {
+                    disabledDate: time => {
+                        let endDateVal = this.memoForm.memoEndDate;
+                        if (endDateVal) {
+                            return !(time.getTime() < new Date(endDateVal).getTime() &&
+                                time.getTime() > (new Date(window.bizDate).getTime() - 86400000));
+                        }else{
+                            return !(time.getTime() > (new Date(window.bizDate).getTime() - 86400000));
+                        }
+                    }
+                },
+                pickerMemoEnd: {
+                    disabledDate: time => {
+                        let beginDateVal = this.memoForm.memoStartDate;
+                        if (beginDateVal) {
+                            return !(time.getTime() > (new Date(beginDateVal).getTime() - 86400000));
+                        }else{
+                            return !(time.getTime() > (new Date(window.bizDate).getTime() - 86400000));
+                        }
+                    }
+                },
             }
         },
 
         beforeMount() {
             this.rosterDate = window.bizDate;
 
-            if(!(this.mode === 'add')){
+            if (!(this.mode === 'add')) {
                 this.$lodash.assign(this.memoForm, this.row);
-                if(this.row.memoStartDate){
-                    this.dateType = '02'
-                }
                 this.memoForm.memberRefList = JSON.parse(this.row.memoNoticeUser);
             }
         },
@@ -135,7 +155,7 @@
                 }
             },
 
-            clearMemoRules(fields){
+            clearMemoRules(fields) {
                 this.$refs.memoForm.clearValidate(fields);
             },
 
@@ -145,16 +165,15 @@
                     return;
                 }
                 try {
-                    const memoFormCopy = this.$lodash.deepClone(this.memoForm);
-                    if(memoFormCopy.createType === '01'){
+                    const memoFormCopy = this.$lodash.cloneDeep(this.memoForm);
+                    if (memoFormCopy.createType === '01') {
                         memoFormCopy.memoCron = '';
-                    } else if(memoFormCopy.dateType === '01'){
-                        this.memoForm.memoStartDate = '';
-                        this.memoForm.memoEndDate = '';
-                    }else{
-                        this.memoForm.memoDate = '';
+                        memoFormCopy.memoStartDate = '';
+                        memoFormCopy.memoEndDate = '';
+                    } else {
+                        memoFormCopy.memoDate = '';
                     }
-                    if(memoFormCopy.memoType === '01'){
+                    if (memoFormCopy.memoType === '01') {
                         this.memoForm.memoNoticeUser = '';
                         this.memoForm.memberRefList = [];
                     }
@@ -162,13 +181,27 @@
                     const p = this.$api.memoApi.saveMemoDef(memoFormCopy);
                     await this.$app.blockingApp(p);
                     this.$msg.success('保存成功');
+                    if (this.actionOk) {
+                        await this.actionOk();
+                    }
                     this.$dialog.close(this);
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
             },
-
-            getMemberList(val){
+            async approveMemoDef() {
+                try {
+                    const p = this.$api.memoApi.approve(this.memoForm.pkId);
+                    await this.$app.blockingApp(p);
+                    if (this.actionOk) {
+                        await this.actionOk();
+                    }
+                    this.$dialog.close(this);
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
+            },
+            getMemberList(val) {
                 this.memoForm.memberRefList = val;
             },
 
@@ -181,9 +214,9 @@
                     'gf-cron-modal',
                     {
                         args: {
-                            showType: 'day,month',
+                            showType: 'day,month,extSetting',
                             cornObj: data,
-                            action: (cronData)=>{
+                            action: (cronData) => {
                                 _that.memoForm.memoCron = cronData;
                             }
                         },
@@ -197,9 +230,10 @@
 </script>
 
 <style scoped>
-    .el-tag{
+    .el-tag {
         margin-left: 10px;
     }
+
     .el-tag + .el-tag {
         margin-left: 10px;
         margin-top: 10px;

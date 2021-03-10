@@ -1,9 +1,11 @@
 <template>
-  <div>
+  <div style="height: 100%">
     <gf-grid ref="grid"
              grid-no="agnes-dop-memo-ru-list"
              toolbar="find,refresh,more"
              @row-double-click="showRuMemo"
+             :query-args="queryArgs"
+             height="100%"
     >
     </gf-grid>
   </div>
@@ -13,7 +15,26 @@
 import MemoDlg from './memo-dlg'
 
 export default {
-
+  props: {
+    mode: {
+      type: String,
+      default: 'add'
+    },
+    row: Object,
+    actionOk: Function
+  },
+  data() {
+    return {
+      queryArgs: {
+        'memoDefId': ''
+      }
+    }
+  },
+  mounted() {
+    if (this.row) {
+      this.queryArgs.memoDefId = this.row.pkId;
+    }
+  },
   methods: {
     reloadData() {
       this.$refs.grid.reloadData(true);
@@ -41,22 +62,14 @@ export default {
           }
       );
     },
-    async deleteRuMemo(param) {
-      const ok = await this.$msg.ask(`是否一同删除本批次运营日历?`);
-      const form = {
-        pkId: param.data.pkId,
-        memoDefId: param.data.memoDefId,
-        isDelete: ok
+    // 取消onCancel事件，触发抽屉关闭事件this.$emit("onClose");
+    async onCancel() {
+      if (this.actionOk) {
+        await this.actionOk();
       }
-      try {
-        const p = this.$api.memoApi.deleteRuMemo(form);
-        await this.$app.blockingApp(p);
-        this.reloadData();
-      } catch (reason) {
-        this.$msg.error(reason);
-      }
+      this.$emit("onClose");
     },
-    deleteRuRoster(param) {
+    deleteRuMemo(param) {
       this.$confirm('是否删除同一批次所有数据?', '日历计划删除', {
         distinguishCancelAndClose: true,
         confirmButtonText: '批次删除',
@@ -70,6 +83,7 @@ export default {
           let newObj = {
             pkId: param.data.pkId,
             memoDefId: param.data.memoDefId,
+            bizDate: window.bizDate,
             isDelete: action === 'confirm'
           }
           try {
