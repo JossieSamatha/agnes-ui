@@ -169,7 +169,7 @@
                       label="属性值"
                       width="150">
                     <template slot-scope="scope">
-                      <el-input v-model="scope.row.fieldValue" :disabled="scope.row.fieldType==='02'"></el-input>
+                      <el-input v-model="scope.row.fieldValue"></el-input>
                     </template>
                   </el-table-column>
                 </el-table>

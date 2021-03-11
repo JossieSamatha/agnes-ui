@@ -1,5 +1,6 @@
 import processRenderer from './processRenderer'
 import optionalRenderer from './optionalRenderer'
+import AcUtil from "@/modules/agnes-ac/util/common";
 
 export default {
     columnDefs: [
@@ -7,12 +8,27 @@ export default {
             headerName: "操作", field: "option", enableRowGroup: false,
             cellRenderer: 'optionalRenderer'
         },
+        {
+            headerName: "完成状态", field: "stepStatus", width: 95,
+            suppressSizeToFit: true,
+            formatType: 'dict',
+            dictType: 'AGNES_TASK_STEP_STATUS',
+            cellStyle: function (params) {
+                if (!params.value) {
+                    return {display: 'none'}
+                } else {
+                    const colorSet = AcUtil.getStepStatusMap();
+                    const color = colorSet.get(params.value).color
+                    return {color: color};
+                }
+            },
+            cellClass: ['fa fa-circle', 'status-circle-cell'],
+        },
         {headerName: "任务名称", field: "taskName"},
         {headerName: "业务场景", field: "bizType", formatType: 'dict', dictType: 'AGNES_BIZ_CASE'},
-        {headerName: "完成状态", field: "stepStatus", formatType: 'dict', dictType: 'AGNES_TASK_STEP_STATUS'},
         {headerName: "任务开始日", field: "taskStartTime"},
         {headerName: "任务截止日", field: "taskEndTime"},
-        {headerName: "剩余天数", field: ""},
+        {headerName: "剩余天数", field: "remainDays"},
         {headerName: "处理角色", field: ""},
         {headerName: "处理人", field: ""},
         {headerName: "产品代码", field: ""},
