@@ -26,11 +26,10 @@ function recursionData(nowData,steps,caseDefKey,type){
             if(type==='list'){
                 let currentData = {};
                 let stepActType = '';
-                if(nowData[i].stepActType === '1'){
-                    stepActType = 'action';
-                }
                 if(nowData[i].stepActType === '6'){
-                    stepActType = 'form';
+                    stepActType = 'form'
+                }else {
+                    stepActType = 'action';
                 }
                 currentData['@stepType'] = stepActType;
                 Object.assign(currentData, nowData[i]);
