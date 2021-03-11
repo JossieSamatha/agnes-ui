@@ -11,6 +11,7 @@ import FlowTaskField from './flow-task-def'
 import elecProcessField from './elec-process'
 import ServiceRespLevelConf from "./service-resp-conf"
 import ProMonitor from './product-monitor/index'
+import BizMonitor from './biz-monitor/index'
 
 const Loading = {
     load: function (Gfui) {
@@ -27,6 +28,7 @@ const Loading = {
         Gfui.use(elecProcessField);
         Gfui.use(ServiceRespLevelConf);
         Gfui.use(ProMonitor);
+        Gfui.use(BizMonitor);
     }
 };
 
