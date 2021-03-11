@@ -18,6 +18,7 @@ import Compent from "./compents"
 import Roster from "./roster"
 import Memo from "./memo"
 import WordsTransl from "./word-translate/index"
+import ProductCalendar from "./product-calendar"
 
 const Loading = {
     load: function (Gfui) {
@@ -40,8 +41,8 @@ const Loading = {
         Gfui.use(Compent);
         Gfui.use(Roster);
         Gfui.use(Memo);
-
         Gfui.use(WordsTransl);
+        Gfui.use(ProductCalendar)
     }
 };
 

@@ -17,6 +17,7 @@ import helpDefApi from './help-def-api';
 import funcConfigApi from './func-config-api';
 import compBoardApi from './comp-board-api';
 import wordsTranslApi from './words-transl-api';
+import productCalendarApi from './product-calendar-api'
 
 export default {
     orgDefineApi,
@@ -37,5 +38,6 @@ export default {
     helpDefApi,
     funcConfigApi,
     compBoardApi,
-    wordsTranslApi
+    wordsTranslApi,
+    productCalendarApi
 };
