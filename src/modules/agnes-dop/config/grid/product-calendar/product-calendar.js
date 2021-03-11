@@ -9,7 +9,7 @@ export default {
         },
         {headerName: "任务名称", field: "taskName"},
         {headerName: "业务场景", field: "bizType", formatType: 'dict', dictType: 'AGNES_BIZ_CASE'},
-        {headerName: "完成状态", field: "taskStatus", formatType: 'dict', dictType: 'AGNES_TASK_STEP_STATUS'},
+        {headerName: "完成状态", field: "stepStatus", formatType: 'dict', dictType: 'AGNES_TASK_STEP_STATUS'},
         {headerName: "任务开始日", field: "taskStartTime"},
         {headerName: "任务截止日", field: "taskEndTime"},
         {headerName: "剩余天数", field: ""},
