@@ -222,10 +222,6 @@
         line-height: 17px;
     }
 
-    .gf-ag-grid.ag-theme-balham .ag-row-selected .detail-btn>>>.fa.fa-eye {
-        color: #fff;
-    }
-
     .detail-btn.is-disabled>>>.fa.fa-eye {
         color: #ccc;
     }

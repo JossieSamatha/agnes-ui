@@ -445,6 +445,10 @@
                         this.$message.warning("请选择通知人员！");
                         return ;
                     }
+                    if(this.detailForm.task_execMode == '3' && this.detailForm.eventId == ''){
+                        this.$message.warning("请选择触发事件！");
+                        return ;
+                    }
                     let resData = this.dataTransfer();
                     resData.reTaskDef.taskType = '6'
                     if(this.row.isCheck){
