@@ -1,5 +1,5 @@
-import optionalRenderer from "@/modules/agnes-ac/config/grid/elec-process/optionalRenderer";
-import processRenderer from "@/modules/agnes-ac/config/grid/elec-process/processRenderer";
+import processRenderer from './processRenderer'
+import optionalRenderer from './optionalRenderer'
 
 export default {
     columnDefs: [
@@ -10,8 +10,8 @@ export default {
         {headerName: "任务名称", field: "taskName"},
         {headerName: "业务场景", field: "bizType", formatType: 'dict', dictType: 'AGNES_BIZ_CASE'},
         {headerName: "完成状态", field: "taskStatus", formatType: 'dict', dictType: 'AGNES_TASK_STEP_STATUS'},
-        {headerName: "任务开始日", field: "execStartTime"},
-        {headerName: "任务截止日", field: "execEndTime"},
+        {headerName: "任务开始日", field: "taskStartTime"},
+        {headerName: "任务截止日", field: "taskEndTime"},
         {headerName: "剩余天数", field: ""},
         {headerName: "处理角色", field: ""},
         {headerName: "处理人", field: ""},
