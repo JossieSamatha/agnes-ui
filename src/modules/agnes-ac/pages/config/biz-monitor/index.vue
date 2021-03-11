@@ -70,15 +70,18 @@
                 this.$refs.productGrid.reloadData();
             },
             async initParams(){
-                this.bizTypeArr = this.$app.dict.getDictItems('AGNES_CASE_FLOWTYPE');
-                console.log(this.bizTypeArr);
+                this.bizTypeArr = this.$app.dict.getDictItems('AGNES_BIZ_CASE');
                 const p = this.$api.userGroupApi.getUserGroupByTag({'userGroupTag': '03'});
                 const resp = await this.$app.blockingApp(p);
                 if(resp){
                     let groupList = resp.data;
                     groupList.forEach((item)=>{
                        this.groupArr.push({id: item.userGroupId,label: item.userGroupName});
+                        this.checkedGroupType.push(item.userGroupId);
                     });
+                    this.groupIds = this.checkedGroupType;
+                    this.productGridReloadData();
+                    this.checkedGroupType.push("-1");
                 }
             },
             selectAll(params){
