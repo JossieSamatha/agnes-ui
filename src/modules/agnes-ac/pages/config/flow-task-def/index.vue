@@ -220,10 +220,10 @@
                     if(nowData[i].defType==='step'){
                         let currentData = {};
                         let stepActType = '';
-                        if(nowData[i].stepActType === '1'){
-                            stepActType = 'action'
-                        }else if(nowData[i].stepActType === '6' || nowData[i].stepActType === '7'){
+                        if(nowData[i].stepActType === '6'){
                             stepActType = 'form'
+                        }else {
+                            stepActType = 'action';
                         }
                         currentData['@stepType'] = stepActType;
                         Object.assign(currentData, nowData[i]);

@@ -10,12 +10,12 @@
         <div class="container">
             <module-card title="产品任务">
                 <template slot="content">
-                    <gf-grid ref="productGrid" grid-no="product-task-field" :query-args="productQuery" style="height: 500px;margin-top: -40px"></gf-grid>
+                    <gf-grid ref="productGrid" grid-no="product-task-field" :query-args="productQuery" height="410px" style="margin-top: -40px"></gf-grid>
                 </template>
             </module-card>
             <module-card title="风险事件">
                 <template slot="content">
-                    <RiskTask style="height: 400px;margin-top: -40px"></RiskTask>
+                    <RiskTask style="height: 300px;margin-top: -40px"></RiskTask>
                 </template>
             </module-card>
         </div>
@@ -93,6 +93,8 @@
                     this.bizTypes = this.checkedBizType;
                     this.productGridReloadData();
                     this.checkedGroupType.push("-1");
+                }else {
+                    this.productGridReloadData();
                 }
             },
             selectByItem(params,type){
@@ -118,7 +120,7 @@
                 this.$api.kpiDefineApi.execTask(kpiTaskReq).then((resp) => {
                     if (resp.data.status) {
                         this.$msg.success("重新执行成功");
-                        this.freshFlowData(false);
+                        this.productGridReloadData();
                     } else {
                         this.$msg.error("操作失败");
                     }
@@ -150,7 +152,7 @@
                             await this.actionOk();
                         }
                         this.$msg.success('提交成功');
-                        this.freshFlowData(false); // 刷新页面数据
+                        this.productGridReloadData(); // 刷新页面数据
                         this.$emit("onClose");
                     } else {
                         this.$msg.warning('提交失败');
@@ -184,7 +186,7 @@
                             await this.actionOk();
                         }
                         this.$msg.success('提交成功');
-                        this.freshFlowData(false); // 刷新页面数据
+                        this.productGridReloadData();// 刷新页面数据
                         this.$emit("onClose");
                     } else {
                         this.$msg.warning('提交失败');
