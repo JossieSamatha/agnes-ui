@@ -240,6 +240,10 @@
                 if (!ok) {
                     return;
                 }
+                if(this.detailForm.execMode == '3' && this.detailForm.eventId == ''){
+                    this.$message.warning("请选择触发事件！");
+                    return ;
+                }
                 try {
                     this.detailForm.bizTag = this.detailForm.bizTagArr.join(",");
                     let resData = this.detailForm;

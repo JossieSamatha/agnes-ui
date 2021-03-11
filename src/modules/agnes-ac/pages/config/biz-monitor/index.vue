@@ -10,7 +10,7 @@
         <div class="container">
             <module-card title="产品任务">
                 <template slot="content">
-                    <gf-grid ref="productGrid" grid-no="product-task-field" :query-args="productQuery" style="height: 500px;margin-top: -40px"></gf-grid>
+                    <gf-grid ref="productGrid" grid-no="product-task-field" :query-args="productQuery" height="500px" style="margin-top: -40px"></gf-grid>
                 </template>
             </module-card>
             <module-card title="风险事件">
@@ -93,6 +93,8 @@
                     this.bizTypes = this.checkedBizType;
                     this.productGridReloadData();
                     this.checkedGroupType.push("-1");
+                }else {
+                    this.productGridReloadData();
                 }
             },
             selectByItem(params,type){
