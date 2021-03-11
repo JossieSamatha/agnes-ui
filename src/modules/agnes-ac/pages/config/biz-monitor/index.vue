@@ -133,7 +133,6 @@
                     }
                 });
             },
-
             // 手工确认
             async actionConfirm(params) {
                 let taskCommit = {
