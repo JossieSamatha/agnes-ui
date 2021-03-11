@@ -10,12 +10,12 @@
         <div class="container">
             <module-card title="产品任务">
                 <template slot="content">
-                    <gf-grid ref="productGrid" grid-no="product-task-field" :query-args="productQuery" height="500px" style="margin-top: -40px"></gf-grid>
+                    <gf-grid ref="productGrid" grid-no="product-task-field" :query-args="productQuery" height="410px" style="margin-top: -40px"></gf-grid>
                 </template>
             </module-card>
             <module-card title="风险事件">
                 <template slot="content">
-                    <RiskTask style="height: 400px;margin-top: -40px"></RiskTask>
+                    <RiskTask style="height: 300px;margin-top: -40px"></RiskTask>
                 </template>
             </module-card>
         </div>
