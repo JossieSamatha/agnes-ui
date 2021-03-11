@@ -5,7 +5,7 @@
             <el-checkbox v-for="item in groupArr" :key="item.id" :label="item.id" border  @change="selectByItem(params,'gruop')" >{{item.label}}</el-checkbox>
         </el-checkbox-group>
         <el-checkbox-group class="bizTypeCheck" v-model="checkedBizType" size="small">
-            <el-checkbox v-for="item in bizTypeArr" :key="item.dictId" :label="item.dictId" border  @change="selectByItem(params,'bizType')">{{item.dictName}}</el-checkbox>
+            <el-checkbox v-for="item in bizTypeArr" :key="item.bizType" :label="item.bizType" border  @change="selectByItem(params,'bizType')">{{item.bizTypeName}}</el-checkbox>
         </el-checkbox-group>
         <div class="container">
             <module-card title="产品任务">
@@ -70,7 +70,6 @@
                 this.$refs.productGrid.reloadData();
             },
             async initParams(){
-                this.bizTypeArr = this.$app.dict.getDictItems('AGNES_BIZ_CASE');
                 const p = this.$api.userGroupApi.getUserGroupByTag({'userGroupTag': '03'});
                 const resp = await this.$app.blockingApp(p);
                 if(resp){
@@ -82,6 +81,11 @@
                     this.groupIds = this.checkedGroupType;
                     this.productGridReloadData();
                     this.checkedGroupType.push("-1");
+                    const p1 = this.$api.taskDefineApi.queryTaskBizTypebyTag({'groupIdList': this.checkedGroupType});
+                    const resp1 = await this.$app.blockingApp(p1);
+                    if(resp1.data) {
+                        this.bizTypeArr = resp1.data;
+                    }
                 }
             },
             selectAll(params){
