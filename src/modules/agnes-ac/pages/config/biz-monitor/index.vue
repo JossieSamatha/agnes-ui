@@ -120,7 +120,7 @@
                 this.$api.kpiDefineApi.execTask(kpiTaskReq).then((resp) => {
                     if (resp.data.status) {
                         this.$msg.success("重新执行成功");
-                        this.freshFlowData(false);
+                        this.productGridReloadData();
                     } else {
                         this.$msg.error("操作失败");
                     }
@@ -152,7 +152,7 @@
                             await this.actionOk();
                         }
                         this.$msg.success('提交成功');
-                        this.freshFlowData(false); // 刷新页面数据
+                        this.productGridReloadData(); // 刷新页面数据
                         this.$emit("onClose");
                     } else {
                         this.$msg.warning('提交失败');
@@ -186,7 +186,7 @@
                             await this.actionOk();
                         }
                         this.$msg.success('提交成功');
-                        this.freshFlowData(false); // 刷新页面数据
+                        this.productGridReloadData();// 刷新页面数据
                         this.$emit("onClose");
                     } else {
                         this.$msg.warning('提交失败');
