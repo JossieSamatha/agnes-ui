@@ -56,7 +56,7 @@
                     const dateObj = this.$lodash.find(this.monthData, {bizDate: date});
                     if (dateObj) {
                       //dateObj.ifWorkDay = dateObj.workday && dateObj.workday === '0';
-                      dateObj.hasMemoNum = dateObj.prdtSatrtDateList.length > 0;
+                      dateObj.hasMemoNum = dateObj.prdtSatrtDateList.length > 0 || dateObj.prdtClearDateList.length > 0 || dateObj.prdtDueDateList.length > 0 || dateObj.prdtCloseDateList.length > 0;
                       return dateObj;
                     }
                 }
@@ -73,8 +73,7 @@
             const apiRes = await this.$api.productCalendarApi.selectPrdtInfo(date);
             this.$emit('getMonthData', apiRes.data);
             this.monthData = apiRes.data;
-
-
+            this.pickDay(this.bizDate);
           },
 
           // 日历月份切换
