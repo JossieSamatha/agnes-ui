@@ -7,6 +7,9 @@ export default {
     saveTask(form) {
         return request.post("/agnes-ac/v1/config/task/save", form);
     },
+    queryTaskBizTypebyTag(form) {
+        return request.post("/agnes-ac/v1/config/task/query-task-biz-type/by-group", form);
+    },
     stopAndCancelTask(form) {
         return request.post("/agnes-ac/v1/config/task/stop-cancel/task", form);
     },
