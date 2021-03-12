@@ -73,7 +73,6 @@
           calendarVal: '',
           calendarDetailVal: window.bizDate ? window.bizDate : new Date().toLocaleDateString().replace(/\//g, '-'),
           monthData: [],
-          // rosterTypeDict: this.$app.dict.getDictItems('AGNES_ROSTER_TYPE'),
           curDayData: [],
           colorArr: ['blue', 'orange', 'grey'],
           bizDateStart: '',
@@ -97,37 +96,36 @@
               if (dateObj) {
                 if (dateObj.prdtSatrtDateList.length > 0) {
                   this.curDayData.push({
-                    title: "分红日",
-                    type: "fenhong",
+                    title: "成立日",
+                    type: "start",
                     data: dateObj.prdtSatrtDateList,
                   })
                 }
-                // this.curDayData.push({
-                //   title: "产品成立日",
-                //   type: "chengli",
-                //   data: [],
-                // }),
-                // this.curDayData.push({
-                //   title: "备忘",
-                //   type: "beiwang",
-                //   data: [],
-                // })
-
+                if (dateObj.prdtClearDateList.length > 0) {
+                  this.curDayData.push({
+                    title: "清算日",
+                    type: "settlement",
+                    data: dateObj.prdtClearDateList,
+                  })
+                }
+                if (dateObj.prdtDueDateList.length > 0) {
+                  this.curDayData.push({
+                    title: "到期日",
+                    type: "due",
+                    data: dateObj.prdtDueDateList,
+                  })
+                }
+                if (dateObj.prdtCloseDateList.length > 0) {
+                  this.curDayData.push({
+                    title: "关账日",
+                    type: "close",
+                    data: dateObj.prdtCloseDateList,
+                  })
+                }
               }
             }
             this.queryArgs.bizDate = date;
           },
-          // getRosterInfo(userName, dictId, list) {
-          //     const obj = this.$lodash.find(this.rosterTypeDict, {dictId});
-          //     const name = userName ? userName + '-' : '';
-          //     const dictName = obj && obj.dictName ? obj.dictName : '';
-          //     if (!list.rosterInfo) {
-          //         this.$set(list, 'rosterInfo', name + dictName);
-          //     } else {
-          //         list.rosterInfo = name + dictName;
-          //     }
-          //     return name + dictName;
-          // },
 
           getDay(date) {
             return new Date(date).getDate();
