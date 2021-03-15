@@ -18,13 +18,15 @@
             </section>
             <section class="taskSection">
                 <div class="option-panel">
-                    <span>阶段层级任务</span>
+                    <span>阶段层级任务
+                        <el-button type="text" @click="getStepCodeArr">stepCode数组重新获取</el-button>
+                    </span>
                     <span>
-                <el-radio-group class="alter-radio-btn" v-model="workflowType" size="small">
-                  <el-radio-button label="lifeRecycle">生命周期</el-radio-button>
-                  <el-radio-button label="ableChoosed">可选任务</el-radio-button>
-                </el-radio-group>
-            </span>
+                        <el-radio-group class="alter-radio-btn" v-model="workflowType" size="small">
+                          <el-radio-button label="lifeRecycle">生命周期</el-radio-button>
+                          <el-radio-button label="ableChoosed">可选任务</el-radio-button>
+                        </el-radio-group>
+                    </span>
                 </div>
                 <div class="content">
                     <template v-if="workflowType === 'lifeRecycle'">
@@ -47,7 +49,7 @@
                        :show-close="false"
                        :visible.sync="drawerVisible"
                        :destroy-on-close="true"
-                       :append-to-body="true"
+                       :append-to-body="false"
                        :modal="false"
                        direction="rtl"
                        size="890px">
@@ -79,7 +81,7 @@
                 drawerVisible: false,
                 stepDetailProps: {},
                 stepList:[],
-                stepCodeArr: [], // 记录当前所有stepCode
+                stepCodeArr: {}, // 记录当前所有stepCode
             }
         },
         components: {
@@ -88,10 +90,35 @@
         },
         mounted() {
             this.caseModelData = this.row.caseDefInfo.caseDefBody?JSON.parse(this.row.caseDefInfo.caseDefBody) : this.$utils.deepClone(mockData);
-            this.stepCodeArr = this.caseModelData.stepCodeArr || [];
+            this.stepCodeArr = this.caseModelData.stepCodeArr || {};
             this.$app.registerCmd("openStepDialog", this.onShowDialog);
         },
         methods: {
+            getStepCodeArr(){
+                const modelData = this.$lodash.cloneDeep(this.caseModelData.stages);
+                const stepCodeObj = {};
+                for(let i=0; i<modelData.length; i++ ){
+                    modelData[i].children.forEach((stages)=>{
+                        if(stages.defType === "step"){
+                            stepCodeObj[stages.stepFormInfo.caseStepDef.stepCode] = stages.stepName
+                        }else{
+                            this.traverseData(stages.steps, stepCodeObj);
+                        }
+                    })
+                }
+                this.stepCodeArr = stepCodeObj;
+            },
+
+            traverseData(arr, stepCodeObj){
+                arr.forEach((groupItem)=>{
+                    if(groupItem.defType === 'group'){
+                        this.traverseData(groupItem.steps, stepCodeObj);
+                    }else{
+                        stepCodeObj[groupItem.stepFormInfo.caseStepDef.stepCode] = groupItem.stepName
+                    }
+                });
+            },
+
             // 取消onCancel事件，触发抽屉关闭事件this.$emit("onClose");
             onCancel(){
                 this.$emit("onClose");
@@ -129,7 +156,12 @@
             // 打开step详情配置页
             onShowDialog(optionType, dialogForm, args) {
                 if(optionType === 'deleteStep'){
-                    this.$utils.removeFromArray(this.stepCodeArr, dialogForm);
+                    this.$delete(this.stepCodeArr, dialogForm);
+                    return false;
+                }else if(optionType === 'deleteStage'){
+                    const deleteObj = {};
+                    this.traverseData(dialogForm, deleteObj);
+                    this.stepCodeArr = this.$lodash.omit(this.stepCodeArr, Object.keys(deleteObj));
                     return false;
                 }
                 if(!this.row.caseDefInfo.reTaskDef.bizType){
@@ -153,6 +185,7 @@
                 // 获得step操作list数据
                 let taskArgs = stepObj.taskArgs;
                 const stepCode = stepInfoCopy.stepFormInfo.caseStepDef.stepCode;
+                const stepName = stepInfoCopy.stepName;
 
                 // 如果是新增step任务
                 if (stepObj.optionType === 'add') {
@@ -176,14 +209,15 @@
                     let taskIndex = taskArgs.stepIndex;
                     let stepList = taskArgs.stepList;
                     stepList.splice(taskIndex, 1, stepInfoCopy);
-                    this.$utils.removeFromArray(this.stepCodeArr, stepInfoCopy.initialStepCode);
+                    this.$delete(this.stepCodeArr, stepInfoCopy.initialStepCode);
                 }
                 if (stepObj.optionType === 'copy') {
                     let taskIndex = taskArgs.stepIndex + 1;
                     let stepList = taskArgs.stepList;
                     stepList.splice(taskIndex, 0, stepInfoCopy);
                 }
-                this.stepCodeArr.push(stepCode);
+                this.stepCodeArr[stepCode] = stepName;
+                // this.stepCodeArr.push(stepCode);
                 this.$refs.stepDetailDrawer.closeDrawer();
             },
 

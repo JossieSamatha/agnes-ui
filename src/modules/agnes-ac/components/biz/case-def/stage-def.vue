@@ -110,6 +110,7 @@
             async deleteStage() {
                 const ok = await this.$msg.ask(`确认删除吗, 是否继续?`);
                 if (ok) {
+                    this.$app.runCmd('openStepDialog', 'deleteStage', this.stage.children);
                     this.stageList.splice(this.stageIndex, 1)
                 }
             },

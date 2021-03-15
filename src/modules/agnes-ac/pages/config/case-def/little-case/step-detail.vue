@@ -354,7 +354,7 @@
                 type: Object
             },
             stepCodeArr: {
-                type: Array
+                type: Object
             }
         },
         data() {
@@ -435,7 +435,7 @@
                     ]
                 },
                 ruleTargetOp: {
-                   step:this.stepCodeArr
+                   step: this.stepCodeArr
                 },
             }
         },
@@ -487,11 +487,12 @@
                 this.stepInfo.stepFormInfo.caseStepDef.stepActOwner = JSON.stringify(val);
             },
             hasRepetCode(rule, value, callback) {
+                const stepCodeArr = Object.keys(this.stepCodeArr);
                 if (!value) {
                     callback(new Error('任务编号必填'));
                 }else if(value.length !== 8){
                     callback(new Error('任务编号需为8位数字'));
-                }else if(this.stepCodeArr.includes(value) && value !== this.initStepCode){
+                }else if(stepCodeArr.includes(value) && value !== this.initStepCode){
                     callback(new Error('当前case中已含有相同任务编号，请勿重复'));
                 }else{
                     callback();

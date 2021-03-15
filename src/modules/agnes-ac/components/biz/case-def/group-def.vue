@@ -80,7 +80,10 @@
                 default: false
             },
             getStatusIcon: Function,
-            showTableDetail: Function,
+            showTableDetail: {
+                type: Function,
+                default: ()=>{}
+            },
             chooseActive: Function,
             ruCaseStepList: Object
         },
