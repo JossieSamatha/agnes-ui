@@ -702,6 +702,14 @@
     color: #67C23A;
 }
 
+.gf-ag-grid.ag-theme-balham .green-cell {
+    color: #4ACE69;
+}
+
+.gf-ag-grid.ag-theme-balham .orange-cell {
+    color: #EE924C;
+}
+
 .gf-ag-grid.ag-theme-balham .ag-cell.align-center {
     text-align: center;
     line-height: 36px;
