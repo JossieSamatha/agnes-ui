@@ -79,7 +79,7 @@ function recursionData(nowData,steps,caseDefKey,type){
                 steps.push(currentData)
             }
         }else if(nowData[i].defType==='group'){
-            this.recursionData(nowData[i].steps,steps,caseDefKey,type)
+            recursionData(nowData[i].steps,steps,caseDefKey,type)
         }
     }
 }
