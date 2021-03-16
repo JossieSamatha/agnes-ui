@@ -498,37 +498,45 @@
                 this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
                 const e = this.$api.eventlDefConfigApi.getEventDefList();
                 const eventR = await this.$app.blockingApp(e);
-                const eventList = eventR.data
-                eventList.forEach((item)=>{
-                    this.detailForm.eventOptions.push({label:item.eventName,value:item.eventId});
-                });
+                if(eventR.data) {
+                    const eventList = eventR.data
+                    eventList.forEach((item) => {
+                        this.detailForm.eventOptions.push({label: item.eventName, value: item.eventId});
+                    });
+                }
             },
 
             async getKpiData(){
                 const kpi = this.$api.kpiTaskApi.getAllKpiList();
                 const kpiData = await this.$app.blockingApp(kpi);
-                const kpiList = kpiData.data
-                kpiList.forEach((item)=>{
-                    let kpiName = '('+item.kpiCode+')'+ item.kpiName
-                    this.kpiOptions.push({label:kpiName,value:item.kpiCode});
-                });
+                if(kpiData.data) {
+                    const kpiList = kpiData.data
+                    kpiList.forEach((item) => {
+                        let kpiName = '(' + item.kpiCode + ')' + item.kpiName
+                        this.kpiOptions.push({label: kpiName, value: item.kpiCode});
+                    });
+                }
             },
             async getRpaData(){
                 const rpa = this.$api.flowTaskApi.queryAllRPAList();
                 const rpaOptions = await this.$app.blockingApp(rpa);
-                const rpaList = rpaOptions.data
-                rpaList.forEach((item)=>{
-                    let robotName = item.robotName;
-                    this.rpaOptions.push({label:robotName,value:item.robotId});
-                });
+                if(rpaOptions.data) {
+                    const rpaList = rpaOptions.data
+                    rpaList.forEach((item) => {
+                        let robotName = item.robotName;
+                        this.rpaOptions.push({label: robotName, value: item.robotId});
+                    });
+                }
             },
             async getBpmnData(){
                 const bpmn = this.$api.BpmnApi.queryBpmnAll();
                 const bpmnOptions = await this.$app.blockingApp(bpmn);
-                bpmnOptions.forEach((item)=>{
-                    let bpmnName = '('+item.key+')'+ item.title
-                    this.bpmnOptions.push({label:bpmnName,value:item.key});
-                });
+                if(bpmnOptions) {
+                    bpmnOptions.forEach((item) => {
+                        let bpmnName = '(' + item.key + ')' + item.title
+                        this.bpmnOptions.push({label: bpmnName, value: item.key});
+                    });
+                }
             },
             async serviceResChange(param){
                 this.serviceRes.forEach((item)=>{
@@ -542,11 +550,13 @@
             async getServiceResponse(){
                 const serviceRes = this.$api.kpiTaskApi.getServiceResponse();
                 const serviceResData = await this.$app.blockingApp(serviceRes);
-                const serviceResList = serviceResData.data;
-                serviceResList.forEach((item)=>{
-                    this.serviceRes.push({label:item.serviceResponseName,value:item.serviceResponseId,
-                        repeatMinutes:item.repeatMinutes,maxRepeatCount:item.maxRepeatCount});
-                });
+                if(serviceResData.data){
+                    const serviceResList = serviceResData.data;
+                    serviceResList.forEach((item)=>{
+                        this.serviceRes.push({label:item.serviceResponseName,value:item.serviceResponseId,
+                            repeatMinutes:item.repeatMinutes,maxRepeatCount:item.maxRepeatCount});
+                    });
+                }
             },
             getMemberList(val){
                 this.memberRefList = val;

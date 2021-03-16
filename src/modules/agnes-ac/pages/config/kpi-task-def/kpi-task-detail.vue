@@ -401,26 +401,34 @@
             async getServiceResponse(){
                 const serviceRes = this.$api.kpiTaskApi.getServiceResponse();
                 const serviceResData = await this.$app.blockingApp(serviceRes);
-                const serviceResList = serviceResData.data;
-                serviceResList.forEach((item)=>{
-                    this.serviceRes.push({label:item.serviceResponseName,value:item.serviceResponseId,
-                        repeatMinutes:item.repeatMinutes,maxRepeatCount:item.maxRepeatCount});
-                });
+                if(serviceResData.data) {
+                    const serviceResList = serviceResData.data;
+                    serviceResList.forEach((item) => {
+                        this.serviceRes.push({
+                            label: item.serviceResponseName, value: item.serviceResponseId,
+                            repeatMinutes: item.repeatMinutes, maxRepeatCount: item.maxRepeatCount
+                        });
+                    });
+                }
             },
             async getOptions(){
                 this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
                 const e = this.$api.eventlDefConfigApi.getEventDefList();
                 const eventR = await this.$app.blockingApp(e);
-                const eventList = eventR.data
-                eventList.forEach((item)=>{
-                    this.detailForm.eventOptions.push({label:item.eventName,value:item.eventId});
-                });
+                if(eventR.data){
+                    const eventList = eventR.data
+                    eventList.forEach((item)=>{
+                        this.detailForm.eventOptions.push({label:item.eventName,value:item.eventId});
+                    });
+                }
                 const k = this.$api.kpiTaskApi.getAllKpiList();
                 const kpiR = await this.$app.blockingApp(k);
-                const kpiList = kpiR.data
-                kpiList.forEach((item)=>{
-                    this.detailForm.kpiOptions.push({label:item.kpiName,value:item.kpiCode});
-                });
+                if(kpiR.data){
+                    const kpiList = kpiR.data
+                    kpiList.forEach((item)=>{
+                        this.detailForm.kpiOptions.push({label:item.kpiName,value:item.kpiCode});
+                    });
+                }
             },
             getMemberList(val){
                 this.memberRefList = val;
