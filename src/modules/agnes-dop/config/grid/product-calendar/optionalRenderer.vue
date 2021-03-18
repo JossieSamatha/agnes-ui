@@ -78,16 +78,8 @@
     >
       <span class="svgSpan" v-html="svgImg.forcePass"></span>
     </el-button>
-    <el-button size="mini" type="text"
-               v-if="indexSetShow"
-               @click="reExecute('reExecute')"
-               title="重新执行"
-               :disabled="isDisabled"
-    >
-      <span class="svgSpan" v-html="svgImg.reExecute"></span>
-    </el-button>
     <el-button v-if="indexSetShow" class="detail-btn" size="mini" type="text" icon="fa fa-eye"
-               @click="indexDetail('showIndexDetail')"
+               @click="indexDetail('showProDetail')"
                title="查看明细"
                :disabled="isKpiDisabled"
     >
@@ -119,7 +111,7 @@ export default {
       return this.params.data.taskType === '6';
     },
     indexSetShow() {
-      return this.params.data.taskType === '1';
+      return true;
     },
     autoSetShow() {
       return this.params.data.taskType === '7';

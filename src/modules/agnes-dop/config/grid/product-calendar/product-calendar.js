@@ -9,7 +9,7 @@ export default {
             cellRenderer: 'optionalRenderer'
         },
         {
-            headerName: "完成状态", field: "stepStatus", width: 95,
+            headerName: "完成状态", field: "stageStatus", width: 95,
             suppressSizeToFit: true,
             formatType: 'dict',
             dictType: 'AGNES_TASK_STEP_STATUS',
@@ -25,6 +25,7 @@ export default {
             cellClass: ['fa fa-circle', 'status-circle-cell'],
         },
         {headerName: "任务名称", field: "taskName"},
+        {headerName: "任务节点", field: "stageName"},
         {headerName: "业务场景", field: "bizType", formatType: 'dict', dictType: 'AGNES_BIZ_CASE'},
         {headerName: "任务开始日", field: "taskStartTime"},
         {headerName: "任务截止日", field: "taskEndTime"},
@@ -55,7 +56,7 @@ export default {
     tooltipShowDelay: 0,
     groupDefaultExpanded: -1,
     ext: {
-        fetchUrl: "/agnes-app/v1/task/todo/lc/list",    //后台查询数据的URL地址
+        fetchUrl: "/agnes-ac/v1/ac/stage/list",    //后台查询数据的URL地址
         fetchMethod: 'get',
         pagingMode: false, //不分页
         checkboxColumn: 2, //是否显示checkbox列,

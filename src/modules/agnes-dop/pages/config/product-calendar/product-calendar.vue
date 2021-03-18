@@ -57,6 +57,7 @@
 
 <script>
     import proCalendar from './pro-calendar-comp'
+    import proDetail from './pro-detail'
 
     export default {
       watch: {
@@ -135,7 +136,17 @@
             const calendarObj = this.$refs.proCalendarDef;
             let curDate = this.$dateUtils.formatDate(calendarObj.calendarVal, 'yyyy-MM-dd');
             calendarObj.getCalendarData(curDate);
+          },
+          showProDetail() {
+            // 抽屉创建
+            this.$drawerPage.create({
+              width: 'calc(100% - 250px)',
+              title: ['东方航空企业年金计划二期'],
+              component: proDetail,
+              pageEl: this.$el
+            })
           }
+
         },
     }
 </script>
