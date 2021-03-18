@@ -11,10 +11,10 @@ export default function () {
             bizType: '',             // 业务场景
             bizTag: '',              // 业务标签 -- str
             stepScene: '',          // 业务场景
-            startTime: null,
+            startTime: '',
             flowType:'',
             taskIcon:'',
-            endTime: null,
+            endTime: '',
             standardDate: '',       // 基准日期(新增字段)
             execMode: '1',          // 任务创建频率 -- 0：一次；1：重复执行；2：事件
             execScheduler: '',      // 任务创建频率 -- 重复执行
@@ -76,6 +76,7 @@ export default function () {
                         failRuleTableData: {},      // 异常规则
                         successRuleTableData: {},   // 完成规则
                         activeRuleTableData: {},    // 激活规则
+                        timeoutRuleTableData: {},    // 超时规则
                     },
                 }]
             }]

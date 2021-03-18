@@ -73,6 +73,11 @@
                 }
             }
         },
+        watch: {
+            stageIndex(val){
+                this.stage.sortNum = val+1;
+            }
+        },
         mounted(){
             if(this.stage.edit){
                 this.$refs.titleInput.focus()
