@@ -235,13 +235,18 @@
                             let sentryInData = {};
                             let sentryOut = {};
                             let sentryEx = {};
+                            let sentryTsOut = {};
                             sentryInData.ifExpr = temporaryData.activeRuleTableData.ruleBody
                             sentryOut.ifExpr = temporaryData.successRuleTableData.ruleBody
                             sentryEx.ifExpr = temporaryData.failRuleTableData.ruleBody
+                            if(temporaryData.timeoutRuleTableData){
+                                sentryTsOut.ifExpr = temporaryData.timeoutRuleTableData.ruleBody
+                            }
                             currentData.defId = temporaryData.caseStepDef.stepCode;
                             currentData.sentryIn = sentryInData
                             currentData.sentryOut= sentryOut
                             currentData.sentryEx = sentryEx
+                            currentData.sentryTsOut = sentryTsOut
                             currentData.actionDef = {'automation':true}
                             currentData.autoActive = !temporaryData.activeRuleTableData.ruleBody;
                         }

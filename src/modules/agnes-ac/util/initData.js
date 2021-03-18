@@ -34,6 +34,7 @@ export default function () {
         failRuleTableData: {},      // 异常规则
         successRuleTableData: {},   // 完成规则
         activeRuleTableData: {},    // 激活规则
+        timeoutRuleTableData: {},    // 超时规则
 
         // caseStepDef
         stepName: '',   // 任务名称
