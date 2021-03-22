@@ -1,40 +1,40 @@
 <template>
   <div class="datavPage pro-detail">
-    <el-radio-group class="stage-list" v-model="curStage">
-      <el-radio-button class="stage-list-item" v-for="stageItem in stageList" :key="stageItem.id" :label="stageItem.id">
-        {{ stageItem.name }}
+    <el-radio-group class="stage-list" v-model="curStageId" @change="changeStage">
+      <el-radio-button class="stage-list-item" v-for="(stageItem,index) in stageList" :key="index" :label="stageItem.pkId">
+        {{ stageItem.stageName }}
       </el-radio-button>
     </el-radio-group>
     <module-card title="任务信息">
       <template slot="content">
         <el-form label-width="50%" class="infoForm" size="mini">
           <div class="line">
-            <el-form-item label="业务场景" prop="proName">
-              <span>{{ taskInfo.proName }}</span>
+            <el-form-item label="业务场景" prop="bizType">
+              <span>{{ getBizType(taskInfo.bizType).dictName }}</span>
             </el-form-item>
-            <el-form-item label="当前节点" prop="proNo">
-              <span>{{ taskInfo.proNo }}</span>
+            <el-form-item label="当前节点" prop="msgName">
+              <span>{{ taskInfo.msgName }}</span>
             </el-form-item>
           </div>
           <div class="line">
-            <el-form-item label="任务触发事件" prop="projectName">
-              <span>{{ taskInfo.projectName }}</span>
+            <el-form-item label="任务触发事件" prop="eventName">
+              <span>{{ taskInfo.eventName }}</span>
             </el-form-item>
             <el-form-item label="执行方式" prop="custodianBank">
               <span>{{ taskInfo.custodianBank }}</span>
             </el-form-item>
           </div>
           <div class="line">
-            <el-form-item label="任务开始时间" prop="proType">
-              <span>{{ taskInfo.proType }}</span>
+            <el-form-item label="任务开始时间" prop="execStartTime">
+              <span>{{ taskInfo.execStartTime }}</span>
             </el-form-item>
-            <el-form-item label="任务截止时间" prop="proAttr">
-              <span>{{ taskInfo.proAttr }}</span>
+            <el-form-item label="任务提醒时间" prop="remindTime">
+              <span>{{ taskInfo.remindTime }}</span>
             </el-form-item>
           </div>
           <div class="line">
-            <el-form-item label="开始人" label-width="25%" prop="Email">
-              <span>{{ taskInfo.proAttr }}</span>
+            <el-form-item label="开始人" label-width="25%" prop="crtName">
+              <span>{{ taskInfo.crtName }}</span>
             </el-form-item>
           </div>
         </el-form>
@@ -55,7 +55,7 @@
             <span><em class="fa fa-circle" style="color: #4C6CFF"></em>已完成</span>
             <span><em class="fa fa-circle" style="color: #D7DBE4"></em>未完成</span>
           </div>
-          <gf-grid grid-no="monitor-sub-pro-task" style="height: 210px;margin: -40px auto auto"></gf-grid>
+          <gf-grid ref="subTaskGrid" grid-no="monitor-sub-pro-task" style="height: 210px;margin: -40px auto auto"></gf-grid>
         </div>
       </template>
     </module-card>
@@ -69,12 +69,34 @@
 
 <script>
 export default {
+  props: {
+    row: {
+      type: Object,
+      required: true
+    },
+    mode: {
+      type: String,
+      default: 'view'
+    },
+  },
   data() {
     return {
-      curStage: '01',
-      stageList: [{id: '01', name: '参数更新'}, {id: '02', name: '应付资金检查'},
-        {id: '03', name: '应收资金检查'}, {id: '04', name: '特殊事项检查'}],
-      taskInfo: {}
+      curStage: {},
+      curStageId: '',
+      stageList: [],
+      taskInfo: {},
+      bizTypeDic: this.$app.dict.getDictItems('AGNES_BIZ_CASE'),
+    }
+  },
+  async mounted() {
+    const { caseId, pkId } = this.row;
+    const taskDetail = await this.$api.productCalendarApi.selectTaskDetail(caseId);
+    this.taskInfo = taskDetail.data;
+    if(taskDetail && taskDetail.data){
+      this.stageList = taskDetail.data.acReCaseStageVos;
+      this.curStage = this.$lodash.find(this.stageList, {pkId: pkId});
+      this.curStageId = pkId;
+      this.getSubTasks(this.curStage);
     }
   },
   methods: {
@@ -84,6 +106,24 @@ export default {
 
     onSave() {
       this.$emit("onClose");
+    },
+
+    getBizType(dictId){
+      if(dictId){
+        return this.$lodash.find(this.bizTypeDic, {dictId});
+      }
+      return {};
+    },
+
+    changeStage(stagePkId){
+      this.curStage = this.$lodash.find(this.stageList, {pkId: stagePkId});
+      this.getSubTasks(this.curStage);
+    },
+
+    getSubTasks(stage){
+      if(stage.ruCaseStepVos && stage.ruCaseStepVos.length){
+        this.$refs.subTaskGrid.setRowData(stage.ruCaseStepVos);
+      }
     }
   },
 }
