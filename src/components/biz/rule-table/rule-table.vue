@@ -42,7 +42,8 @@
                                v-model="scope.row.ruleTarget"
                                filterable clearable
                                placeholder="请选择">
-                        <gf-filter-option v-for="step in ruleTargetOp[scope.row.ruleType]" :key="step" :label="step" :value="step">
+                        <gf-filter-option v-for="(stepName, stepCode) in ruleTargetOp[scope.row.ruleType]" :key="stepCode" :label="stepCode" :value="stepCode">
+                            <span>({{stepCode}}){{stepName}} </span>
                         </gf-filter-option>
                     </el-select>
                     <el-select v-else :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"

@@ -37,7 +37,7 @@
         </el-form-item>
       </el-row>
       <el-form-item label="传入参数" prop="fnArgs">
-        <el-select v-model="form.reFunDef.fnArgs" placeholder="选择业务对象" style="width: 86%" filterable>
+        <el-select v-model="form.reFunDef.fnArgs" placeholder="选择业务对象" style="width: 86%" filterable clearable>
           <el-option
               v-for="item in modelType"
               :key="item.modelTypeId"
@@ -48,7 +48,7 @@
       </el-form-item>
       <el-form-item label="返回参数" prop="fnReturn">
         <div class="line none-shrink">
-          <el-select v-model="form.reFunDef.fnReturn" placeholder="选择业务对象" style="width: 86%" filterable>
+          <el-select v-model="form.reFunDef.fnReturn" placeholder="选择业务对象" style="width: 86%" filterable clearable>
             <el-option
                 v-for="item in modelType"
                 :key="item.modelTypeId"

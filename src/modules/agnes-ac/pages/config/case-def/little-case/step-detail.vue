@@ -41,25 +41,42 @@
             <el-form-item label="任务说明" prop="stepRemark">
                 <gf-input v-model="caseStepDef.stepRemark" type="textarea"></gf-input>
             </el-form-item>
-            <el-form-item label="执行时间配置" class="is-required">
+            <el-form-item label="执行开始时间" prop="step_startTime" style="width: 90%">
                 <div class="line none-shrink">
-                    <el-form-item prop="startTime">
-                        <el-time-picker v-model="caseStepDef.startTime"
-                                        :picker-options=startTimeForDay
-                                        placeholder="任意时间点"
-                                        value-format="HH:mm" format="HH:mm">
-                        </el-time-picker>
-                    </el-form-item>
-                    <span style="margin: 0 10px">~</span>
-                    <el-form-item prop="endTime">
-                        <el-time-picker v-model="caseStepDef.endTime"
-                                        :picker-options=endTimeForDay
-                                        placeholder="任意时间点"
-                                        value-format="HH:mm" format="HH:mm">
-                        </el-time-picker>
-                    </el-form-item>
-                    <gf-strbool-checkbox v-model="dayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
+                    <el-input v-model.number="caseStepDef.startDay" v-show="startDayChecked === '1'" style="width: 10%;margin-right: 10px"></el-input>
+                    <span v-show="startDayChecked === '1'" >天
+                </span>
+                    <el-time-picker
+                            v-model="caseStepDef.startTime"
+                            :picker-options=startTimeForDay
+                            placeholder="执行开始时间"
+                            value-format="HH:mm" @change="timeChange" style="margin-left: 10px">
+                    </el-time-picker>
+                    <gf-strbool-checkbox v-model="startDayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
                 </div>
+                <gf-strbool-checkbox v-model="startStepRuleChecked" style="margin-left: 10px">自定义激活规则</gf-strbool-checkbox>
+            </el-form-item>
+            <el-form-item v-if="startStepRuleChecked == '1'">
+                <rule-table ref="activeRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.activeRuleTableData"
+                            :ruleTargetOp="ruleTargetOp"></rule-table>
+            </el-form-item>
+            <el-form-item label="执行结束时间" prop="step_endTime" style="width: 90%">
+                <div class="line none-shrink">
+                    <el-input v-model.number="caseStepDef.endDay" v-show="endDayChecked === '1'" style="width: 10%;margin-right: 10px"></el-input>
+                    <span v-show="endDayChecked === '1'" >天
+                </span>
+                    <el-time-picker
+                            v-model="caseStepDef.endTime"
+                            :picker-options=endTimeForDay
+                            placeholder="执行结束时间"
+                            value-format="HH:mm" @change="timeChange" style="margin-left: 10px">
+                    </el-time-picker>
+                    <gf-strbool-checkbox v-model="endDayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
+                </div>
+                <gf-strbool-checkbox v-model="timeoutRuleChecked" style="margin-left: 10px">自定义超时规则</gf-strbool-checkbox>
+            </el-form-item>
+            <el-form-item v-if="timeoutRuleChecked == '1'">
+                <rule-table ref="timeoutRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.timeoutRuleTableData"></rule-table>
             </el-form-item>
             <el-form-item label="通知人员" prop="">
                 <gf-person-chosen ref="memberRef"
@@ -252,19 +269,19 @@
                     </el-tab-pane>
                 </el-tabs>
             </el-form-item>
-            <el-form-item label="激活条件">
-                <el-radio-group v-model="activeTerm">
-                    <el-radio v-for="activeItem in activeConfOp"
-                              :key="activeItem.value"
-                              :label="activeItem.value">
-                        {{activeItem.label}}
-                    </el-radio>
-                </el-radio-group>
-            </el-form-item>
-            <el-form-item v-if="activeTerm === '2'">
-                <rule-table ref="activeRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.activeRuleTableData"
-                            :ruleTargetOp="ruleTargetOp"></rule-table>
-            </el-form-item>
+<!--            <el-form-item label="激活条件">-->
+<!--                <el-radio-group v-model="activeTerm">-->
+<!--                    <el-radio v-for="activeItem in activeConfOp"-->
+<!--                              :key="activeItem.value"-->
+<!--                              :label="activeItem.value">-->
+<!--                        {{activeItem.label}}-->
+<!--                    </el-radio>-->
+<!--                </el-radio-group>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item v-if="activeTerm === '2'">-->
+<!--                <rule-table ref="activeRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.activeRuleTableData"-->
+<!--                            :ruleTargetOp="ruleTargetOp"></rule-table>-->
+<!--            </el-form-item>-->
             <el-form-item label="完成规则">
                 <el-radio-group v-model="succeedRule">
                     <el-radio v-for="ruleType in ruleTypeOp"
@@ -335,6 +352,7 @@
                 failRuleTableData: {},
                 successRuleTableData: {},
                 activeRuleTableData: {},
+                timeoutRuleTableData: {},
             },
 
         };
@@ -354,7 +372,7 @@
                 type: Object
             },
             stepCodeArr: {
-                type: Array
+                type: Object
             }
         },
         data() {
@@ -368,7 +386,10 @@
                 initStepCode: '',
                 texts: ['普通', '重要', '非常重要'],
                 max: 3,
-                dayChecked: '0',
+                startDayChecked: '0',  // 执行开始时间跨日
+                endDayChecked: '0',  // 执行结束时间跨日
+                timeoutRuleChecked: '0',  // 超时规则确认框
+                startStepRuleChecked: '0',  // 激活规则确认框
                 activeTerm: '1',
                 timeType: '1',
                 caseSteptype: [],
@@ -376,8 +397,8 @@
                 rpaOptions:[],
                 bpmnOptions:[],
                 serviceRes:[],
-                startTimeForDay:'',
-                endTimeForDay:'',
+                startTimeForDay:null,
+                endTimeForDay:null,
                 flowData: [{
                     value: '1001',
                     label: '分TA流程'
@@ -435,11 +456,13 @@
                     ]
                 },
                 ruleTargetOp: {
-                   step:this.stepCodeArr
+                   step: this.stepCodeArr
                 },
             }
         },
         beforeMount(){
+            this.startTimeForDay = {selectableRange:`00:00:00-${this.caseStepDef.endTime ? this.caseStepDef.endTime + ':00' : '23:59:59'}`};
+            this.endTimeForDay = {selectableRange:`${this.caseStepDef.startTime ? this.caseStepDef.startTime + ':00' : '00:00:00'}-23:59:59`};
             if(this.args.stepList){
                 let stepActOwner = this.args.stepList[this.args.stepIndex].stepFormInfo.caseStepDef.stepActOwner;
                 if(stepActOwner){
@@ -487,11 +510,12 @@
                 this.stepInfo.stepFormInfo.caseStepDef.stepActOwner = JSON.stringify(val);
             },
             hasRepetCode(rule, value, callback) {
+                const stepCodeArr = Object.keys(this.stepCodeArr);
                 if (!value) {
                     callback(new Error('任务编号必填'));
                 }else if(value.length !== 8){
                     callback(new Error('任务编号需为8位数字'));
-                }else if(this.stepCodeArr.includes(value) && value !== this.initStepCode){
+                }else if(stepCodeArr.includes(value) && value !== this.initStepCode){
                     callback(new Error('当前case中已含有相同任务编号，请勿重复'));
                 }else{
                     callback();
@@ -518,37 +542,47 @@
             async getServiceResponse(){
                 const serviceRes = this.$api.flowTaskApi.getServiceResponse();
                 const serviceResData = await this.$app.blockingApp(serviceRes);
-                const serviceResList = serviceResData.data;
-                serviceResList.forEach((item)=>{
-                    this.serviceRes.push({label:item.serviceResponseName,value:item.serviceResponseId,
-                        repeatMinutes:item.repeatMinutes,maxRepeatCount:item.maxRepeatCount});
-                });
+                if(serviceResData.data) {
+                    const serviceResList = serviceResData.data;
+                    serviceResList.forEach((item) => {
+                        this.serviceRes.push({
+                            label: item.serviceResponseName, value: item.serviceResponseId,
+                            repeatMinutes: item.repeatMinutes, maxRepeatCount: item.maxRepeatCount
+                        });
+                    });
+                }
             },
             async getKpiData(){
                 const kpi = this.$api.kpiTaskApi.getAllKpiList();
                 const kpiData = await this.$app.blockingApp(kpi);
-                const kpiList = kpiData.data
-                kpiList.forEach((item)=>{
-                    let kpiName = '('+item.kpiCode+')'+ item.kpiName
-                    this.kpiOptions.push({label:kpiName,value:item.kpiCode});
-                });
+                if(kpiData.data) {
+                    const kpiList = kpiData.data
+                    kpiList.forEach((item) => {
+                        let kpiName = '(' + item.kpiCode + ')' + item.kpiName
+                        this.kpiOptions.push({label: kpiName, value: item.kpiCode});
+                    });
+                }
             },
             async getRpaData(){
                 const rpa = this.$api.flowTaskApi.queryAllRPAList();
                 const rpaOptions = await this.$app.blockingApp(rpa);
-                const rpaList = rpaOptions.data
-                rpaList.forEach((item)=>{
-                    let robotName = item.robotName;
-                    this.rpaOptions.push({label:robotName,value:item.robotId});
-                });
+                if(rpaOptions.data){
+                    const rpaList = rpaOptions.data
+                    rpaList.forEach((item)=>{
+                        let robotName = item.robotName;
+                        this.rpaOptions.push({label:robotName,value:item.robotId});
+                    });
+                }
             },
             async getBpmnData(){
                 const bpmn = this.$api.BpmnApi.queryBpmnAll();
                 const bpmnOptions = await this.$app.blockingApp(bpmn);
-                bpmnOptions.forEach((item)=>{
-                    let bpmnName = '('+item.key+')'+ item.title
-                    this.bpmnOptions.push({label:bpmnName,value:item.key});
-                });
+                if(bpmnOptions) {
+                    bpmnOptions.forEach((item) => {
+                        let bpmnName = '(' + item.key + ')' + item.title
+                        this.bpmnOptions.push({label: bpmnName, value: item.key});
+                    });
+                }
             },
             // 回填参数新增、删除服务行
             addRule() {
@@ -636,14 +670,31 @@
                 const activeRuleTableData = this.stepInfo.stepFormInfo.activeRuleTableData.ruleList || [];
                 const successRuleTableData = this.stepInfo.stepFormInfo.successRuleTableData.ruleList || [];
                 const failRuleTableData = this.stepInfo.stepFormInfo.failRuleTableData.ruleList || [];
-                this.activeTerm = activeRuleTableData.length <= 0 ? '1' : '2'
+                const timeoutRuleTableData = this.stepInfo.stepFormInfo.timeoutRuleTableData.ruleList || [];
+                this.startStepRuleChecked = activeRuleTableData.length <= 0 ? '0' : '1'
                 this.succeedRule = successRuleTableData.length <= 0 ? '0' : '1'
                 this.abnormalRule = failRuleTableData.length <= 0 ? '0' : '1'
+                this.timeoutRuleChecked = timeoutRuleTableData.length <= 0 ? '0' : '1'
                 const startDay = this.caseStepDef.startDay;
                 const endDay = this.caseStepDef.endDay;
+                if(startDay){
+                    this.startDayChecked = '1';
+                }
+                if(endDay){
+                    this.endDayChecked = '1';
+                }
                 this.dayChecked = startDay || endDay ? '1': '0'
                 if(this.stepInfo.stepActType=='6'){
                     this.getParamList();
+                }
+            },
+            timeChange(){
+                if(this.endDayChecked == '1' || this.startDayChecked == '1'){
+                    this.startTimeForDay = {selectableRange:'00:00:00-23:59:59'};
+                    this.endTimeForDay = {selectableRange:'00:00:00-23:59:59'};
+                }else {
+                    this.startTimeForDay = {selectableRange:`00:00:00-${this.caseStepDef.endTime ? this.caseStepDef.endTime + ':00' : '23:59:59'}`};
+                    this.endTimeForDay = {selectableRange:`${this.caseStepDef.startTime ? this.caseStepDef.startTime + ':00' : '00:00:00'}-23:59:59`};
                 }
             },
 
@@ -675,13 +726,21 @@
                 } catch (reason) {
                     this.$msg.error(reason);
                 }
+                if(this.stepInfo.stepFormInfo.caseStepDef.stepActOwner == '[]'){
+                    this.$message.warning("请选择通知人员！");
+                    return ;
+                }
+                if(this.startDayChecked == '1' && !this.stepInfo.stepFormInfo.caseStepDef.startDay){
+                    this.$message.warning("请输入执行开始时间的跨日天数！");
+                    return ;
+                }
+                if(this.endDayChecked == '1' && !this.stepInfo.stepFormInfo.caseStepDef.endDay){
+                    this.$message.warning("请输入执行结束时间的跨日天数！");
+                    return ;
+                }
                 this.$refs['stepInfoForm'].validate(valid=> {
                     if (!valid) {
                         return;
-                    }
-                    if(this.stepInfo.stepFormInfo.caseStepDef.stepActOwner == '[]'){
-                        this.$message.warning("请选择通知人员！");
-                        return ;
                     }
                     if (this.timeType === '2') {
                         this.stepInfo.stepFormInfo.caseStepDef.warningMintues = this.stepInfo.stepFormInfo.caseStepDef.warningMintues * 60
@@ -694,8 +753,11 @@
                     if (this.abnormalRule === '0') {
                         this.stepInfo.stepFormInfo.failRuleTableData = {}
                     }
-                    if (this.activeTerm === '1') {
+                    if (this.startStepRuleChecked === '0') {
                         this.stepInfo.stepFormInfo.activeRuleTableData = {}
+                    }
+                    if (this.timeoutRuleChecked === '0') {
+                        this.stepInfo.stepFormInfo.timeoutRuleTableData = {}
                     }
                     if(this.stepInfo.stepFormInfo.activeRuleTableData
                         && this.stepInfo.stepFormInfo.activeRuleTableData.ruleList){
@@ -706,6 +768,11 @@
                         && this.stepInfo.stepFormInfo.successRuleTableData.ruleList){
                         const successRuleJson = this.$refs.successRuleTable.jsonFormatter();
                         this.stepInfo.stepFormInfo.successRuleTableData.ruleBody = successRuleJson;
+                    }
+                    if(this.stepInfo.stepFormInfo.timeoutRuleTableData
+                        && this.stepInfo.stepFormInfo.timeoutRuleTableData.ruleList){
+                        const timeoutRuleJson = this.$refs.timeoutRuleTable.jsonFormatter();
+                        this.stepInfo.stepFormInfo.timeoutRuleTableData.ruleBody = timeoutRuleJson;
                     }
                     if(this.stepInfo.stepFormInfo.failRuleTableData
                         && this.stepInfo.stepFormInfo.failRuleTableData.ruleList){
@@ -731,23 +798,23 @@
             },
         },
         watch: {
-            'dayChecked'(val){
-                if (val==='1') {
-                    this.endTimeForDay = {selectableRange:'00:00:00-23:59:59'};
-                    this.startTimeForDay = {selectableRange:'00:00:00-23:59:59'};
-                    this.caseStepDef.endDay = '1';
-                    this.caseStepDef.startDay = '0';
-                } else {
-                    this.endTimeForDay = {selectableRange:`${this.caseStepDef.startTime ? this.caseStepDef.startTime + ':00' : '00:00:00'}-23:59:59`};
-                    this.startTimeForDay = {selectableRange:`00:00:00-${this.caseStepDef.endTime ? this.caseStepDef.endTime + ':00' : '23:59:59'}`};
-                    this.caseStepDef.endDay = '';
-                    this.caseStepDef.startDay = '';
-                    this.caseStepDef.endTime = '';
+            'stepInfo.stepActType'(val){
+                this.caseStepDef.stepActKey = "";
+                if(!val.match(/1|4/)){
+                    this.caseStepDef.execScheduler = "";
                 }
             },
-            'stepInfo.stepActType'(){
-                this.caseStepDef.stepActKey = "";
-                this.caseStepDef.execScheduler = "";
+            'endDayChecked'(val){
+                if (val==='0') {
+                    this.caseStepDef.endDay = '';
+                }
+                this.timeChange();
+            },
+            'startDayChecked'(val){
+                if (val==='0'){
+                    this.caseStepDef.startDay = '';
+                }
+                this.timeChange();
             }
         }
     }

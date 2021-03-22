@@ -6,9 +6,27 @@ import dateUtil from "@hex/gf-ui/src/util/date-utils";
 export default {
     columnDefs: [
         {
-            headerName: "操作", field: "option", enableRowGroup: false,
+            headerName: "操作", field: "option", enableRowGroup: false,width: 90,
             cellRenderer: 'optionalRenderer'
         },
+        {
+            headerName: "状态", field: "stepStatus", width: 95,
+            suppressSizeToFit: true,
+            formatType: 'dict',
+            dictType: 'AGNES_TASK_STEP_STATUS',
+            cellStyle: function (params) {
+                if (!params.value) {
+                    return {display: 'none'}
+                } else {
+                    const colorSet = AcUtil.getStepStatusMap();
+                    const color = colorSet.get(params.value).color
+                    return {color: color};
+                }
+            },
+            cellClass: ['fa fa-circle', 'status-circle-cell'],
+        },
+        {headerName: "业务场景", field: "bizType",formatType: 'dict', dictType: 'AGNES_BIZ_CASE'},
+        {headerName: "任务编号", field: "stepCode"},
         {headerName: '任务名称', field: 'stepName',
             cellRenderer: (params)=>{
                 let eGui = document.createElement('div');
@@ -27,23 +45,8 @@ export default {
             },
             tooltipField: 'stepRemark',
         },
-        {
-            headerName: "任务阶段", field: "stepStatus", width: 95,
-            suppressSizeToFit: true,
-            formatType: 'dict',
-            dictType: 'AGNES_TASK_STEP_STATUS',
-            cellStyle: function (params) {
-                if (!params.value) {
-                    return {display: 'none'}
-                } else {
-                    const colorSet = AcUtil.getStepStatusMap();
-                    const color = colorSet.get(params.value).color
-                    return {color: color};
-                }
-            },
-            cellClass: ['fa fa-circle', 'status-circle-cell'],
-        },
-        {headerName: "任务编号", field: "stepCode"},
+        {headerName: "产品代码", field: "proNo"},
+        {headerName: "产品名称", field: "proName"},
         {
             headerName: "完成进度", field: "finishedRate", enableRowGroup: false,
             cellRenderer: 'processRenderer',
@@ -51,7 +54,15 @@ export default {
             suppressSizeToFit: true,
             tooltipField: 'proportion',
         },
-        {headerName: "计划执行时间", field: "planTime"},
+        {headerName: "任务开始时间", field: "taskStartTime"},
+        {headerName: "任务截止时间", field: "taskEndTime"},
+        {headerName: "剩余时长", field: "restTime",
+            valueFormatter: function (params) {
+                if (params.value) {
+                    return params.value+"  天";
+                }
+                return "";
+            }},
         {
             headerName: "实际完成时间", field: "execEndTime",
             cellRenderer: (params) => {
@@ -77,8 +88,6 @@ export default {
         {headerName: "任务类型", field: "stepActType", formatType: 'dict',dictType: 'AGNES_CASE_STEPTYPE'},
         {headerName: "执行人员", field: "execUser"},
         {headerName: "备注", field: "remark", enableRowGroup: false},
-        // {headerName: "产品名称", field: "proName"},
-        // {headerName: "产品代码", field: "proNo"},
     ],
     // headerHeight: 40,
     // rowHeight: 37,
@@ -102,6 +111,7 @@ export default {
         pagingMode: true, //是否分页
         checkboxColumn: 2, //是否显示checkbox列,
         autoFitColumnMode: 1,
+        loadDataOnReady: false,
         enableExportLocal: true, // 是否显示下载按钮（有勾选则下载勾选项，没勾选则下载所有）
         pageOptions: {
             // 分页大小

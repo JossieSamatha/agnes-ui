@@ -3,17 +3,17 @@
         <div class="container">
             <div class="left">
                 <el-button class="add-pro-btn" @click="refreshCalendar">新增</el-button>
-                <pro-calendar class="pro-calendar" ref="proCalendarDef" @getMonthData="getMonthData">
-                    <template slot="list-slot">
-                        <p class="split-line"></p>
-                        <div class="scroll-blank" v-if="curDayData.length>0">
-                            <div class="ul-container" v-for="(obj, index) in curDayData" :key="obj.typeId">
-                                <span class="title">{{obj.title}}</span>
-                                <ul class="info-ul calendar" :class="colorArr[index]">
-                                    <li v-for="list in obj.data" :key="list.pkId">
-                                        {{ list.desc }}
-                                    </li>
-                                </ul>
+                <pro-calendar class="pro-calendar" ref="proCalendarDef" @getMonthData="getMonthData" @pickDay="pickDay">
+                  <template slot="list-slot">
+                    <p class="split-line"></p>
+                    <div class="scroll-blank" v-if="curDayData.length>0">
+                      <div class="ul-container" v-for="(obj, index) in curDayData" :key="obj.typeId">
+                        <span class="title">{{ obj.title }}</span>
+                        <ul class="info-ul calendar" :class="colorArr[index]">
+                          <li v-for="list in obj.data" :key="list.productId">
+                            {{ list.productName }}
+                          </li>
+                        </ul>
                             </div>
                         </div>
                     </template>
@@ -44,9 +44,10 @@
                     </div>
                 </el-form>
                 <gf-grid class="calendar-table" ref="grid"
-                         grid-no="agnes-dop-roster-def-list"
+                         grid-no="agnes-product-calendar"
                          toolbar="find,refresh,more"
                          height="100%"
+                         :query-args="queryArgs"
                 >
                 </gf-grid>
             </div>
@@ -56,66 +57,96 @@
 
 <script>
     import proCalendar from './pro-calendar-comp'
+    import proDetail from './pro-detail'
 
     export default {
-        data() {
-            return {
-                bizDate: window.bizDate,
-                calendarVal: '',
-                calendarDetailVal: window.bizDate ? window.bizDate : new Date().toLocaleDateString().replace(/\//g, '-'),
-                monthData: [],
-                rosterTypeDict: this.$app.dict.getDictItems('AGNES_ROSTER_TYPE'),
-                curDayData: [
-                    {
-                        title: "分红日",
-                        type: "fenhong",
-                        data: [{pkId: '001', desc: "XXX产品"}, {pkId: '002', desc: "安信收益三年运作将进入过渡期巴拉巴拉"}, {pkId: '003', desc: "XXX产品"}]
-                    },
-                    {
-                        title: "产品成立日",
-                        type: "chengli",
-                        data: [{pkId: '001', desc: "XXX产品"}, {pkId: '002', desc: "XXX产品"}, {pkId: '003', desc: "安信收益三年运作将进入过渡期巴拉巴拉"}]
-                    },
-                    {
-                        title: "备忘",
-                        type: "beiwang",
-                        data: [{pkId: '001', desc: "备忘1备忘1备忘1备忘1备忘1备忘1"}, {pkId: '002', desc: "备忘2"}, {pkId: '003', desc: "备忘5"}]
-                    }
-                ],
-                colorArr: ['blue', 'orange', 'grey'],
-                bizDateStart: '',
-                bizDateEnd: '',
-            }
+      watch: {
+        queryArgs: {
+          handler() {
+            this.$refs.grid.reloadData(true);
+          },
+          deep: true
+        },
+      },
+      data() {
+        return {
+          bizDate: window.bizDate,
+          calendarVal: '',
+          calendarDetailVal: window.bizDate ? window.bizDate : new Date().toLocaleDateString().replace(/\//g, '-'),
+          monthData: [],
+          curDayData: [],
+          colorArr: ['blue', 'orange', 'grey'],
+          bizDateStart: '',
+          bizDateEnd: '',
+          queryArgs: {
+            'bizDate': window.bizDate,
+          },
+        }
         },
         components: {
             'pro-calendar': proCalendar
         },
         methods: {
-            getMonthData(data) {
-                data
-            },
-
-            getRosterInfo(userName, dictId, list) {
-                const obj = this.$lodash.find(this.rosterTypeDict, {dictId});
-                const name = userName ? userName + '-' : '';
-                const dictName = obj && obj.dictName ? obj.dictName : '';
-                if (!list.rosterInfo) {
-                    this.$set(list, 'rosterInfo', name + dictName);
-                } else {
-                    list.rosterInfo = name + dictName;
+          getMonthData(data) {
+            this.monthData = data;
+          },
+          pickDay(date) {
+            this.curDayData = [];
+            if (this.monthData && this.monthData.length > 0) {
+              const dateObj = this.$lodash.find(this.monthData, {bizDate: date});
+              if (dateObj) {
+                if (dateObj.prdtSatrtDateList.length > 0) {
+                  this.curDayData.push({
+                    title: "成立日",
+                    type: "start",
+                    data: dateObj.prdtSatrtDateList,
+                  })
                 }
-                return name + dictName;
-            },
-
-            getDay(date) {
-                return new Date(date).getDate();
-            },
-
-            async refreshCalendar() {
-                const calendarObj = this.$refs.proCalendarDef;
-                let curDate = this.$dateUtils.formatDate(calendarObj.calendarVal, 'yyyy-MM-dd');
-                calendarObj.getCalendarData(curDate);
+                if (dateObj.prdtClearDateList.length > 0) {
+                  this.curDayData.push({
+                    title: "清算日",
+                    type: "settlement",
+                    data: dateObj.prdtClearDateList,
+                  })
+                }
+                if (dateObj.prdtDueDateList.length > 0) {
+                  this.curDayData.push({
+                    title: "到期日",
+                    type: "due",
+                    data: dateObj.prdtDueDateList,
+                  })
+                }
+                if (dateObj.prdtCloseDateList.length > 0) {
+                  this.curDayData.push({
+                    title: "关账日",
+                    type: "close",
+                    data: dateObj.prdtCloseDateList,
+                  })
+                }
+              }
             }
+            this.queryArgs.bizDate = date;
+          },
+
+          getDay(date) {
+            return new Date(date).getDate();
+          },
+
+          async refreshCalendar() {
+            const calendarObj = this.$refs.proCalendarDef;
+            let curDate = this.$dateUtils.formatDate(calendarObj.calendarVal, 'yyyy-MM-dd');
+            calendarObj.getCalendarData(curDate);
+          },
+          showProDetail() {
+            // 抽屉创建
+            this.$drawerPage.create({
+              width: 'calc(100% - 250px)',
+              title: ['东方航空企业年金计划二期'],
+              component: proDetail,
+              pageEl: this.$el
+            })
+          }
+
         },
     }
 </script>

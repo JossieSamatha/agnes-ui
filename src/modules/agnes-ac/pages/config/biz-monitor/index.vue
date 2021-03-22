@@ -5,17 +5,17 @@
             <el-checkbox v-for="item in groupArr" :key="item.id" :label="item.id" border  @change="selectByItem(params,'gruop')" >{{item.label}}</el-checkbox>
         </el-checkbox-group>
         <el-checkbox-group class="bizTypeCheck" v-model="checkedBizType" size="small">
-            <el-checkbox v-for="item in bizTypeArr" :key="item.dictId" :label="item.dictId" border  @change="selectByItem(params,'bizType')">{{item.dictName}}</el-checkbox>
+            <el-checkbox v-for="item in bizTypeArr" :key="item.bizType" :label="item.bizType" border  @change="selectByItem(params,'bizType')">{{item.bizTypeName}}</el-checkbox>
         </el-checkbox-group>
         <div class="container">
             <module-card title="产品任务">
                 <template slot="content">
-                    <gf-grid ref="productGrid" grid-no="product-task-field" :query-args="productQuery" style="height: 500px;margin-top: -40px"></gf-grid>
+                    <gf-grid ref="productGrid" grid-no="product-task-field" :query-args="productQuery" height="410px" style="margin-top: -40px"></gf-grid>
                 </template>
             </module-card>
             <module-card title="风险事件">
                 <template slot="content">
-                    <RiskTask style="height: 400px;margin-top: -40px"></RiskTask>
+                    <RiskTask style="height: 300px;margin-top: -40px"></RiskTask>
                 </template>
             </module-card>
         </div>
@@ -70,15 +70,22 @@
                 this.$refs.productGrid.reloadData();
             },
             async initParams(){
-                this.bizTypeArr = this.$app.dict.getDictItems('AGNES_CASE_FLOWTYPE');
-                console.log(this.bizTypeArr);
                 const p = this.$api.userGroupApi.getUserGroupByTag({'userGroupTag': '03'});
                 const resp = await this.$app.blockingApp(p);
                 if(resp){
                     let groupList = resp.data;
                     groupList.forEach((item)=>{
                        this.groupArr.push({id: item.userGroupId,label: item.userGroupName});
+                        this.checkedGroupType.push(item.userGroupId);
                     });
+                    this.groupIds = this.checkedGroupType;
+                    this.productGridReloadData();
+                    this.checkedGroupType.push("-1");
+                    const p1 = this.$api.taskDefineApi.queryTaskBizTypebyTag({'groupIdList': this.checkedGroupType});
+                    const resp1 = await this.$app.blockingApp(p1);
+                    if(resp1.data) {
+                        this.bizTypeArr = resp1.data;
+                    }
                 }
             },
             selectAll(params){
@@ -93,6 +100,8 @@
                     this.bizTypes = this.checkedBizType;
                     this.productGridReloadData();
                     this.checkedGroupType.push("-1");
+                }else {
+                    this.productGridReloadData();
                 }
             },
             selectByItem(params,type){
@@ -118,13 +127,12 @@
                 this.$api.kpiDefineApi.execTask(kpiTaskReq).then((resp) => {
                     if (resp.data.status) {
                         this.$msg.success("重新执行成功");
-                        this.freshFlowData(false);
+                        this.productGridReloadData();
                     } else {
                         this.$msg.error("操作失败");
                     }
                 });
             },
-
             // 手工确认
             async actionConfirm(params) {
                 let taskCommit = {
@@ -150,7 +158,7 @@
                             await this.actionOk();
                         }
                         this.$msg.success('提交成功');
-                        this.freshFlowData(false); // 刷新页面数据
+                        this.productGridReloadData(); // 刷新页面数据
                         this.$emit("onClose");
                     } else {
                         this.$msg.warning('提交失败');
@@ -184,7 +192,7 @@
                             await this.actionOk();
                         }
                         this.$msg.success('提交成功');
-                        this.freshFlowData(false); // 刷新页面数据
+                        this.productGridReloadData();// 刷新页面数据
                         this.$emit("onClose");
                     } else {
                         this.$msg.warning('提交失败');
