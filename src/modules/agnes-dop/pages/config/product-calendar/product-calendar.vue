@@ -137,12 +137,13 @@
             let curDate = this.$dateUtils.formatDate(calendarObj.calendarVal, 'yyyy-MM-dd');
             calendarObj.getCalendarData(curDate);
           },
-          showProDetail() {
+          showProDetail(params) {
             // 抽屉创建
             this.$drawerPage.create({
               width: 'calc(100% - 250px)',
               title: ['东方航空企业年金计划二期'],
               component: proDetail,
+                args: { row: params.data , mode: 'view'},
               pageEl: this.$el
             })
           }

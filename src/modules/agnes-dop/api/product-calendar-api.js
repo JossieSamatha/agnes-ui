@@ -7,5 +7,9 @@ export default {
     },
     selectRuTaskByBizDate(bizDate) {
         return request.post("/agnes-ac/v1/config/task/ru/list", null, {params: {bizDate}});
-    }
+    },
+
+    selectTaskDetail(taskCaseId) {
+        return request.post("/agnes-ac/v1/ac/stage/task/detail", null, {params: {taskCaseId}});
+    },
 };
