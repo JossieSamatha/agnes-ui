@@ -3,7 +3,7 @@
                  :percentage="percentage"
                  show-text
                  :color="getStatusColor"
-                 :style="{color: params.data.status === '01' ? '#4ACE69' : '#EE924C'}"
+                 :style="{color: params.data.stepStatus === '01' ? '#4ACE69' : '#EE924C'}"
                  style="width: 120px" :title="`${percentage}%`">
     </el-progress>
 </template>
@@ -19,7 +19,7 @@
         },
         beforeMount(){
             if(this.params.data){
-                this.percentage = parseInt(this.params.value*100);
+                this.percentage = parseInt(this.params.value*100) || 0;
             }
         },
         methods: {
@@ -27,7 +27,7 @@
                 if(this.percentage > 100){
                     return '#F5222E';
                 }else{
-                    return this.params.data.status === '01' ? '#4ACE69' : '#EE924C';
+                    return this.params.data.stepStatus === '01' ? '#4ACE69' : '#EE924C';
                 }
             }
         }
