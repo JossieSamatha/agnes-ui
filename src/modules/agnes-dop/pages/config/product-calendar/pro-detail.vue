@@ -1,7 +1,8 @@
 <template>
   <div class="datavPage pro-detail">
     <el-radio-group class="stage-list" v-model="curStageId" @change="changeStage">
-      <el-radio-button class="stage-list-item" v-for="(stageItem,index) in stageList" :key="index" :label="stageItem.pkId">
+      <el-radio-button class="stage-list-item" v-for="(stageItem,index) in stageList" :key="index"
+                       :label="stageItem.pkId">
         {{ stageItem.stageName }}
       </el-radio-button>
     </el-radio-group>
@@ -13,7 +14,7 @@
               <span>{{ getBizType(taskInfo.bizType).dictName }}</span>
             </el-form-item>
             <el-form-item label="当前节点" prop="msgName">
-              <span>{{ taskInfo.msgName }}</span>
+              <span>{{ curStage.stageName }}</span>
             </el-form-item>
           </div>
           <div class="line">
@@ -55,7 +56,8 @@
             <span><em class="fa fa-circle" style="color: #4C6CFF"></em>已完成</span>
             <span><em class="fa fa-circle" style="color: #D7DBE4"></em>未完成</span>
           </div>
-          <gf-grid ref="subTaskGrid" grid-no="monitor-sub-pro-task" style="height: 210px;margin: -40px auto auto"></gf-grid>
+          <gf-grid ref="subTaskGrid" grid-no="monitor-sub-pro-task"
+                   style="height: 210px;margin: -40px auto auto"></gf-grid>
         </div>
       </template>
     </module-card>
@@ -89,10 +91,10 @@ export default {
     }
   },
   async mounted() {
-    const { caseId, pkId } = this.row;
+    const {caseId, pkId} = this.row;
     const taskDetail = await this.$api.productCalendarApi.selectTaskDetail(caseId);
     this.taskInfo = taskDetail.data;
-    if(taskDetail && taskDetail.data){
+    if (taskDetail && taskDetail.data) {
       this.stageList = taskDetail.data.acReCaseStageVos;
       this.curStage = this.$lodash.find(this.stageList, {pkId: pkId});
       this.curStageId = pkId;
@@ -108,23 +110,31 @@ export default {
       this.$emit("onClose");
     },
 
-    getBizType(dictId){
-      if(dictId){
+    getBizType(dictId) {
+      if (dictId) {
         return this.$lodash.find(this.bizTypeDic, {dictId});
       }
       return {};
     },
 
-    changeStage(stagePkId){
+    changeStage(stagePkId) {
       this.curStage = this.$lodash.find(this.stageList, {pkId: stagePkId});
       this.getSubTasks(this.curStage);
+      this.getSubReminds(this.curStage)
     },
 
-    getSubTasks(stage){
-      if(stage.ruCaseStepVos && stage.ruCaseStepVos.length){
+    getSubTasks(stage) {
+      if (stage.ruCaseStepVos && stage.ruCaseStepVos.length) {
         this.$refs.subTaskGrid.setRowData(stage.ruCaseStepVos);
       }
+    },
+    getSubReminds(stage) {
+      if (stage.remindMsgDetailVos && stage.remindMsgDetailVos.length) {
+        this.$refs.subRemindGrid.setRowData(stage.remindMsgDetailVos);
+      }
+
     }
+
   },
 }
 </script>
