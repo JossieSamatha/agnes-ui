@@ -47,7 +47,7 @@
           <el-progress class="subtask-progress"
                        style="height: 180px;margin: auto 50px auto auto;"
                        type="circle"
-                       :percentage="70"
+                       :percentage="percentage"
                        color="#4C6CFF"
                        :width="180"
                        :stroke-width="22"
@@ -63,7 +63,7 @@
     </module-card>
     <module-card title="处理日志">
       <template slot="content">
-        <gf-grid grid-no="monitor-deal-log" style="height: 210px;margin: -40px auto auto"></gf-grid>
+        <gf-grid ref="subRemindGrid" grid-no="monitor-deal-log" style="height: 210px;margin: -40px auto auto"></gf-grid>
       </template>
     </module-card>
   </div>
@@ -88,6 +88,7 @@ export default {
       stageList: [],
       taskInfo: {},
       bizTypeDic: this.$app.dict.getDictItems('AGNES_BIZ_CASE'),
+      percentage: 0,
     }
   },
   async mounted() {
@@ -98,7 +99,9 @@ export default {
       this.stageList = taskDetail.data.acReCaseStageVos;
       this.curStage = this.$lodash.find(this.stageList, {pkId: pkId});
       this.curStageId = pkId;
+      this.percentage = this.curStage.percentage * 100;
       this.getSubTasks(this.curStage);
+      this.getSubReminds(this.curStage);
     }
   },
   methods: {
@@ -124,14 +127,19 @@ export default {
     },
 
     getSubTasks(stage) {
+      let rowData = [];
+      this.percentage = stage.percentage * 100;
       if (stage.ruCaseStepVos && stage.ruCaseStepVos.length) {
-        this.$refs.subTaskGrid.setRowData(stage.ruCaseStepVos);
+        rowData = stage.ruCaseStepVos;
       }
+      this.$refs.subTaskGrid.setRowData(rowData);
     },
     getSubReminds(stage) {
+      let rowDate = [];
       if (stage.remindMsgDetailVos && stage.remindMsgDetailVos.length) {
-        this.$refs.subRemindGrid.setRowData(stage.remindMsgDetailVos);
+        rowDate = stage.remindMsgDetailVos;
       }
+      this.$refs.subRemindGrid.setRowData(rowDate);
 
     }
 
