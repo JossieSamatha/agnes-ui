@@ -527,11 +527,13 @@
             async getKpiData(){
                 const kpi = this.$api.kpiTaskApi.getAllKpiList();
                 const kpiData = await this.$app.blockingApp(kpi);
-                const kpiList = kpiData.data
-                kpiList.forEach((item)=>{
-                    let kpiName = '('+item.kpiCode+')'+ item.kpiName
-                    this.kpiOptions.push({label:kpiName,value:item.kpiCode});
-                });
+                if(kpiData.data){
+                    const kpiList = kpiData.data
+                    kpiList.forEach((item)=>{
+                        let kpiName = '('+item.kpiCode+')'+ item.kpiName
+                        this.kpiOptions.push({label:kpiName,value:item.kpiCode});
+                    });
+                }
             },
             async getRpaData(){
                 const rpa = this.$api.flowTaskApi.queryAllRPAList();
