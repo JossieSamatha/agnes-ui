@@ -7,6 +7,7 @@ const whiteList = ['/login', '/datavpreview'];
 router.beforeEach((to, from, next) => {
     document.title = '智能运营平台(v2.0.1)';
 
+
     let token = localStorage.getItem('token');
     if (token) {
         if (to.path === '/login') {
