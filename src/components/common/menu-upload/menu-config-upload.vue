@@ -11,7 +11,7 @@
                :show-file-list="false"
                :multiple="false"
                :limit="1"
-               accept=".xlsx,.xls"
+               accept=".xlsx,.xlsm,.xls"
                v-loading.fullscreen.lock="uploadFileLoading"
                element-loading-background="rgba(0, 0, 0, 0.3)" element-loading-text="文件导入中，请稍后">
         <gf-button class="action-btn" size="mini" >导入</gf-button>
@@ -51,10 +51,10 @@
                 this.alanyId = this.ifPkId;
                 this.uploadFileLoading = true;
                 var fileType=file.name.substring(file.name.lastIndexOf('.')+1);
-                const isOffice = fileType ==='xls'||fileType ==='xlsx';
+                const isOffice = fileType ==='xls'||fileType ==='xlsx'||fileType ==='xlsm';
                 let isHasData = this.fileName != '' && this.alanyId != '';
                 if (!isOffice) {
-                    this.$msg.error('导入文件必须为如下格式：xls,xlsx');
+                    this.$msg.error('导入文件必须为如下格式：xls,xlsx,xlsm');
                     this.uploadFileLoading = false;
                 }
                 if (!isHasData) {

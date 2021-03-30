@@ -444,9 +444,6 @@
                     task_endTime: [
                         {required: true, message: '运行周期结束时间必填', trigger: 'blur'},
                     ],
-                    // dayendDefId: [
-                    //     {required: true, message: '基准日期必填', trigger: 'change'},
-                    // ],
                     task_execMode: [
                         {required: true, message: '启动方式必填', trigger: 'blur'},
                     ],

@@ -555,11 +555,11 @@
             async getKpiData(){
                 const kpi = this.$api.kpiTaskApi.getAllKpiList();
                 const kpiData = await this.$app.blockingApp(kpi);
-                if(kpiData.data) {
+                if(kpiData.data){
                     const kpiList = kpiData.data
-                    kpiList.forEach((item) => {
-                        let kpiName = '(' + item.kpiCode + ')' + item.kpiName
-                        this.kpiOptions.push({label: kpiName, value: item.kpiCode});
+                    kpiList.forEach((item)=>{
+                        let kpiName = '('+item.kpiCode+')'+ item.kpiName
+                        this.kpiOptions.push({label:kpiName,value:item.kpiCode});
                     });
                 }
             },

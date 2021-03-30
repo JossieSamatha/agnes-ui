@@ -14,7 +14,7 @@
                :disabled="disabled"
                :show-file-list="false"
                :file-list="fileList"
-               accept=".doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.pdf,.jpg,.jpeg,.png,.gif,.tif,.tiff,.bmp,.zip,.rar"
+               accept=".doc,.docx,.ppt,.pptx,.xls,.xlsx,.xlsm,.txt,.pdf,.jpg,.jpeg,.png,.gif,.tif,.tiff,.bmp,.zip,.rar"
                v-loading.fullscreen.lock="uploadFileLoading"
                element-loading-background="rgba(0, 0, 0, 0.3)" element-loading-text="文件上传中，请稍后">
         <div>
@@ -209,10 +209,10 @@
                 //doc,docx,ppt,pptx,xls,xlsx,txt,pdf,jpg,jpeg,png,gif,tif,tiff,bmp,zip,rar
                 var fileType=file.name.substring(file.name.lastIndexOf('.')+1);
                 const isImage = fileType === 'jpg'||fileType ==='jpeg'||fileType ==='png'||fileType ==='gif'||fileType ==='tif'||fileType ==='tiff'||fileType ==='bmp';
-                const isOffice = fileType === 'doc'||fileType ==='docx'||fileType ==='ppt'||fileType ==='pptx'||fileType ==='xls'||fileType ==='xlsx';
+                const isOffice = fileType === 'doc'||fileType ==='docx'||fileType ==='ppt'||fileType ==='pptx'||fileType ==='xls'||fileType ==='xlsx'||fileType ==='xlsm';
                 const isOther = fileType === 'zip'||fileType ==='rar'||fileType ==='pdf'||fileType ==='txt';
                 if (!isImage && !isOffice && !isOther) {
-                    this.$msg.error('上传文件必须为如下格式：doc,docx,ppt,pptx,xls,xlsx,txt,pdf,jpg,jpeg,png,gif,tif,tiff,bmp,zip,rar');
+                    this.$msg.error('上传文件必须为如下格式：doc,docx,ppt,pptx,xls,xlsx,xlsm,txt,pdf,jpg,jpeg,png,gif,tif,tiff,bmp,zip,rar');
                     this.uploadFileLoading = false;
                 }
 
