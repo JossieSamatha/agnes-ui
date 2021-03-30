@@ -144,6 +144,7 @@ form input {
     height: 44px;
     line-height: 44px;
     border-radius: 6px;
+    border-color: #A8AED3;
 }
 
 .gf-login-bg .ui.segments:not(.horizontal) > .segment:nth-of-type(2)
@@ -909,7 +910,6 @@ form .el-icon-lock::before {
 .gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tabs-content {
     display: flex;
     height: 44px;
-    padding-left: 197px;
 }
 
 .gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tab {

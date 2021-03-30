@@ -102,40 +102,40 @@
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
-<!--            <el-form-item v-if="stepInfo.stepActType === '6'" label="回填参数">-->
-<!--                <div class="rule-table">-->
-<!--                    <el-table header-row-class-name="rule-header-row"-->
-<!--                              header-cell-class-name="rule-header-cell"-->
-<!--                              row-class-name="rule-row"-->
-<!--                              cell-class-name="rule-cell"-->
-<!--                              :data="this.paramList"-->
-<!--                              border stripe-->
-<!--                              :header-cell-style="{'text-align':'center'}">-->
-<!--                        style="width: 100%">-->
-<!--                        <el-table-column prop="accNo" label="参数关键字">-->
-<!--                            <template slot-scope="scope">-->
-<!--                                <el-input v-model="scope.row.paramKey"></el-input>-->
-<!--                            </template>-->
-<!--                        </el-table-column>-->
-<!--                        <el-table-column prop="accNo" label="参数名称">-->
-<!--                            <template slot-scope="scope">-->
-<!--                                <el-input v-model="scope.row.paramName"></el-input>-->
-<!--                            </template>-->
-<!--                        </el-table-column>-->
-<!--                        <el-table-column prop="market" label="参数类型">-->
-<!--                            <template slot-scope="scope">-->
-<!--                                <gf-dict filterable clearable v-model="scope.row.paramType" dict-type="TASK_DEF_DATATYPE"/>-->
-<!--                            </template>-->
-<!--                        </el-table-column>-->
-<!--                        <el-table-column  prop="option" label="操作" width="52" align="center">-->
-<!--                            <template slot-scope="scope">-->
-<!--                                <span class="option-span" @click="deleteRuleRow(scope.$index)">删除</span>-->
-<!--                            </template>-->
-<!--                        </el-table-column>-->
-<!--                    </el-table>-->
-<!--                    <el-button  @click="addRule()" class="rule-add-btn" size="small">新增</el-button>-->
-<!--                </div>-->
-<!--            </el-form-item>-->
+            <el-form-item v-if="stepInfo.stepActType === '6'" label="回填参数">
+                <div class="rule-table">
+                    <el-table header-row-class-name="rule-header-row"
+                              header-cell-class-name="rule-header-cell"
+                              row-class-name="rule-row"
+                              cell-class-name="rule-cell"
+                              :data="this.paramList"
+                              border stripe
+                              :header-cell-style="{'text-align':'center'}">
+                        style="width: 100%">
+                        <el-table-column prop="accNo" label="参数关键字">
+                            <template slot-scope="scope">
+                                <el-input v-model="scope.row.paramKey"></el-input>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="accNo" label="参数名称">
+                            <template slot-scope="scope">
+                                <el-input v-model="scope.row.paramName"></el-input>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="market" label="参数类型">
+                            <template slot-scope="scope">
+                                <gf-dict filterable clearable v-model="scope.row.paramType" dict-type="TASK_DEF_DATATYPE"/>
+                            </template>
+                        </el-table-column>
+                        <el-table-column  prop="option" label="操作" width="52" align="center">
+                            <template slot-scope="scope">
+                                <span class="option-span" @click="deleteRuleRow(scope.$index)">删除</span>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                    <el-button  @click="addRule()" class="rule-add-btn" size="small">新增</el-button>
+                </div>
+            </el-form-item>
             <el-form-item label="执行频率配置" v-if="stepInfo.stepActType === '1' || stepInfo.stepActType === '4'" prop="execScheduler">
                 <el-button type="text" @click="editExecTime(caseStepDef.execScheduler,'执行频率配置')">
                     {{caseStepDef.execScheduler}}点击配置
@@ -644,39 +644,39 @@
                 const startDay = this.caseStepDef.startDay;
                 const endDay = this.caseStepDef.endDay;
                 this.dayChecked = startDay || endDay ? '1': '0'
-                // if(this.stepInfo.stepActType=='6'){
-                //     this.getParamList();
-                // }
+                if(this.stepInfo.stepActType=='6'){
+                    this.getParamList();
+                }
             },
 
             // 保存表单数据
             async saveForm() {
-                // try {
-                //     if(this.stepInfo.stepActType=='6' && this.paramList.length>0){
-                //         this.paramList.forEach((item)=>{
-                //             if(item.paramKey == ''){
-                //                 this.$message.warning("回填参数中，参数关键字必填！");
-                //                 return ;
-                //             }
-                //         });
-                //         let resData = {
-                //             paramList : this.paramList,
-                //             reTaskDef:{caseKey:this.caseKey},
-                //             stepCode:this.caseStepDef.stepCode,
-                //         };
-                //         if(this.hisStepCode != '' && this.caseStepDef.stepCode!=this.hisStepCode){
-                //             resData.hisStepCode = this.hisStepCode;
-                //         }
-                //         const c = this.$api.motConfigApi.checkAndSaveReCaseParams(resData);
-                //         const resp1 = await this.$app.blockingApp(c);
-                //         if(resp1 && resp1.code == 'existKey'){
-                //             this.$msg.error(resp1.message);
-                //             return ;
-                //         }
-                //     }
-                // } catch (reason) {
-                //     this.$msg.error(reason);
-                // }
+                try {
+                    if(this.stepInfo.stepActType=='6' && this.paramList.length>0){
+                        this.paramList.forEach((item)=>{
+                            if(item.paramKey == ''){
+                                this.$message.warning("回填参数中，参数关键字必填！");
+                                return ;
+                            }
+                        });
+                        let resData = {
+                            paramList : this.paramList,
+                            reTaskDef:{caseKey:this.caseKey},
+                            stepCode:this.caseStepDef.stepCode,
+                        };
+                        if(this.hisStepCode != '' && this.caseStepDef.stepCode!=this.hisStepCode){
+                            resData.hisStepCode = this.hisStepCode;
+                        }
+                        const c = this.$api.motConfigApi.checkAndSaveReCaseParams(resData);
+                        const resp1 = await this.$app.blockingApp(c);
+                        if(resp1 && resp1.code == 'existKey'){
+                            this.$msg.error(resp1.message);
+                            return ;
+                        }
+                    }
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
                 this.$refs['stepInfoForm'].validate(valid=> {
                     if (!valid) {
                         return;
