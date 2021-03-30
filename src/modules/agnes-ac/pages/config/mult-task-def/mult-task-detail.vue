@@ -114,28 +114,45 @@
             </el-radio-group>
         </el-form-item>
         <template v-if="detailForm.configType==1">
-        <el-form-item label="执行时间配置" prop="step_startTime">
+        <el-form-item label="执行开始时间" prop="step_startTime" style="width: 90%">
             <div class="line none-shrink">
-                <el-form-item prop="step_startTime">
-                    <el-time-picker
-                            v-model="detailForm.step_startTime"
-                            :picker-options=startTimeForDay
-                            placeholder="执行开始时间"
-                            value-format="HH:mm" @change="startTimeChange">
-                    </el-time-picker>
-                </el-form-item>
-                <span style="margin: 0 10px">~</span>
-                <el-form-item prop="step_endTime">
-                    <el-time-picker
-                            v-model="detailForm.step_endTime"
-                            :picker-options=endTimeForDay
-                            placeholder="执行结束时间"
-                            value-format="HH:mm" @change="endTimeChange">
-                    </el-time-picker>
-                </el-form-item>
-                <gf-strbool-checkbox v-model="dayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
+                <el-input v-model.number="detailForm.startDay" v-show="startDayChecked === '1'" style="width: 10%;margin-right: 10px"></el-input>
+                <span v-show="startDayChecked === '1'" >天
+                </span>
+                <el-time-picker
+                        v-model="detailForm.step_startTime"
+                        :picker-options=startTimeForDay
+                        placeholder="执行开始时间"
+                        value-format="HH:mm" @change="timeChange" style="margin-left: 10px">
+                </el-time-picker>
+                <gf-strbool-checkbox v-model="startDayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
             </div>
+            <gf-strbool-checkbox v-model="startStepRuleChecked" style="margin-left: 10px">自定义激活规则</gf-strbool-checkbox>
         </el-form-item>
+            <el-form-item v-if="startStepRuleChecked == '1'">
+                <rule-table ref="activeRuleTable" confType="fn,object,event" :ruleTableData="detailForm.activeRuleTableData"></rule-table>
+            </el-form-item>
+        <el-form-item label="执行结束时间" prop="step_endTime" style="width: 90%">
+            <div class="line none-shrink">
+                <el-input v-model.number="detailForm.endDay" v-show="endDayChecked === '1'" style="width: 10%;margin-right: 10px"></el-input>
+                <span v-show="endDayChecked === '1'" >天
+                </span>
+                <el-time-picker
+                        v-model="detailForm.step_endTime"
+                        :picker-options=endTimeForDay
+                        placeholder="执行结束时间"
+                        value-format="HH:mm" @change="timeChange" style="margin-left: 10px">
+                </el-time-picker>
+            <gf-strbool-checkbox v-model="endDayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
+            </div>
+            <gf-strbool-checkbox v-model="timeoutRuleChecked" style="margin-left: 10px">自定义超时规则</gf-strbool-checkbox>
+            </el-form-item>
+            <el-form-item v-if="timeoutRuleChecked == '1'">
+                <rule-table ref="timeoutRuleTable" confType="fn,object,event" :ruleTableData="detailForm.timeoutRuleTableData"></rule-table>
+            </el-form-item>
+
+
+
         <el-form-item label="通知人员">
             <gf-person-chosen ref="memberRef"
                               :memberRefList="this.memberRefList"
@@ -392,7 +409,10 @@
                 serviceRes:[],
                 staticData: staticData(),
                 detailForm: initData(),
-                dayChecked: '0',  // 跨日
+                startDayChecked: '0',  // 执行开始时间跨日
+                endDayChecked: '0',  // 执行结束时间跨日
+                timeoutRuleChecked: '0',  // 超时规则确认框
+                startStepRuleChecked: '0',  // 激活规则确认框
                 endTimeForDay:null,
                 startTimeForDay:null,
                 succeedRule: '0',
@@ -495,37 +515,45 @@
                 this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
                 const e = this.$api.eventlDefConfigApi.getEventDefList();
                 const eventR = await this.$app.blockingApp(e);
-                const eventList = eventR.data
-                eventList.forEach((item)=>{
-                    this.detailForm.eventOptions.push({label:item.eventName,value:item.eventId});
-                });
+                if(eventR.data) {
+                    const eventList = eventR.data
+                    eventList.forEach((item) => {
+                        this.detailForm.eventOptions.push({label: item.eventName, value: item.eventId});
+                    });
+                }
             },
 
             async getKpiData(){
                 const kpi = this.$api.kpiTaskApi.getAllKpiList();
                 const kpiData = await this.$app.blockingApp(kpi);
-                const kpiList = kpiData.data
-                kpiList.forEach((item)=>{
-                    let kpiName = '('+item.kpiCode+')'+ item.kpiName
-                    this.kpiOptions.push({label:kpiName,value:item.kpiCode});
-                });
+                if(kpiData.data) {
+                    const kpiList = kpiData.data
+                    kpiList.forEach((item) => {
+                        let kpiName = '(' + item.kpiCode + ')' + item.kpiName
+                        this.kpiOptions.push({label: kpiName, value: item.kpiCode});
+                    });
+                }
             },
             async getRpaData(){
                 const rpa = this.$api.flowTaskApi.queryAllRPAList();
                 const rpaOptions = await this.$app.blockingApp(rpa);
-                const rpaList = rpaOptions.data
-                rpaList.forEach((item)=>{
-                    let robotName = item.robotName;
-                    this.rpaOptions.push({label:robotName,value:item.robotId});
-                });
+                if(rpaOptions.data) {
+                    const rpaList = rpaOptions.data
+                    rpaList.forEach((item) => {
+                        let robotName = item.robotName;
+                        this.rpaOptions.push({label: robotName, value: item.robotId});
+                    });
+                }
             },
             async getBpmnData(){
                 const bpmn = this.$api.BpmnApi.queryBpmnAll();
                 const bpmnOptions = await this.$app.blockingApp(bpmn);
-                bpmnOptions.forEach((item)=>{
-                    let bpmnName = '('+item.key+')'+ item.title
-                    this.bpmnOptions.push({label:bpmnName,value:item.key});
-                });
+                if(bpmnOptions) {
+                    bpmnOptions.forEach((item) => {
+                        let bpmnName = '(' + item.key + ')' + item.title
+                        this.bpmnOptions.push({label: bpmnName, value: item.key});
+                    });
+                }
             },
             async serviceResChange(param){
                 this.serviceRes.forEach((item)=>{
@@ -539,11 +567,13 @@
             async getServiceResponse(){
                 const serviceRes = this.$api.kpiTaskApi.getServiceResponse();
                 const serviceResData = await this.$app.blockingApp(serviceRes);
-                const serviceResList = serviceResData.data;
-                serviceResList.forEach((item)=>{
-                    this.serviceRes.push({label:item.serviceResponseName,value:item.serviceResponseId,
-                        repeatMinutes:item.repeatMinutes,maxRepeatCount:item.maxRepeatCount});
-                });
+                if(serviceResData.data){
+                    const serviceResList = serviceResData.data;
+                    serviceResList.forEach((item)=>{
+                        this.serviceRes.push({label:item.serviceResponseName,value:item.serviceResponseId,
+                            repeatMinutes:item.repeatMinutes,maxRepeatCount:item.maxRepeatCount});
+                    });
+                }
             },
             getMemberList(val){
                 this.memberRefList = val;
@@ -616,6 +646,10 @@
                     }
                     if(this.detailForm.flowType == '' && this.detailForm.configType ==='2'){
                         this.$message.warning("请选流程类型！");
+                        return ;
+                    }
+                    if(this.detailForm.task_execMode == '3' && this.detailForm.eventId == ''){
+                        this.$message.warning("请选择触发事件！");
                         return ;
                     }
                     let resData = this.dataTransfer();
@@ -691,6 +725,12 @@
                 if(this.abnormalRule==='0'){
                     this.detailForm.failRuleTableData={}
                 }
+                if(this.startStepRuleChecked==='0'){
+                    this.detailForm.activeRuleTableData={}
+                }
+                if(this.timeoutRuleChecked==='0'){
+                    this.detailForm.timeoutRuleTableData={}
+                }
                 if(this.detailForm.successRuleTableData
                     && this.detailForm.successRuleTableData.ruleList){
                     const successRuleJson = this.$refs.successRuleTable.jsonFormatter();
@@ -700,6 +740,16 @@
                     && this.detailForm.failRuleTableData.ruleList){
                     const failRuleJson = this.$refs.failRuleTable.jsonFormatter();
                     this.detailForm.failRuleTableData.ruleBody = failRuleJson;
+                }
+                if(this.detailForm.timeoutRuleTableData
+                    && this.detailForm.timeoutRuleTableData.ruleList){
+                    const timeoutRuleJson = this.$refs.timeoutRuleTable.jsonFormatter();
+                    this.detailForm.timeoutRuleTableData.ruleBody = timeoutRuleJson;
+                }
+                if(this.detailForm.activeRuleTableData
+                    && this.detailForm.activeRuleTableData.ruleList){
+                    const activeRuleJson = this.$refs.activeRuleTable.jsonFormatter();
+                    this.detailForm.activeRuleTableData.ruleBody = activeRuleJson;
                 }
                 //消息通知参数判断是否勾选
                 if(this.msgInformParam.indexOf('0') === -1){
@@ -784,8 +834,17 @@
                         if(!loadsh.isEmpty(this.detailForm.failRuleTableData)){
                             this.abnormalRule ='1'
                         }
-                        if(this.detailForm.endDay === '1' && this.detailForm.startDay === '0'){
-                            this.dayChecked = '1';
+                        if(!loadsh.isEmpty(this.detailForm.timeoutRuleTableData)){
+                            this.timeoutRuleChecked ='1'
+                        }
+                        if(!loadsh.isEmpty(this.detailForm.activeRuleTableData)){
+                            this.startStepRuleChecked ='1'
+                        }
+                        if(this.detailForm.endDay != null || this.detailForm.endDay != ''){
+                            this.endDayChecked = '1';
+                        }
+                        if(this.detailForm.startDay != null || this.detailForm.startDay != ''){
+                            this.startDayChecked = '1';
                         }
                         //消息通知参数回显
                         this.msgInfoStr.forEach((strItem, index)=>{
@@ -821,17 +880,12 @@
                     }
                 });
             },
-            endTimeChange(){
-                if(this.dayChecked == '1'){
+            timeChange(){
+                if(this.endDayChecked == '1' || this.startDayChecked == '1'){
                     this.startTimeForDay = {selectableRange:'00:00:00-23:59:59'};
-                }else {
-                    this.startTimeForDay = {selectableRange:`00:00:00-${this.detailForm.step_endTime ? this.detailForm.step_endTime + ':00' : '23:59:59'}`};
-                }
-            },
-            startTimeChange(){
-                if(this.dayChecked == '1'){
                     this.endTimeForDay = {selectableRange:'00:00:00-23:59:59'};
                 }else {
+                    this.startTimeForDay = {selectableRange:`00:00:00-${this.detailForm.step_endTime ? this.detailForm.step_endTime + ':00' : '23:59:59'}`};
                     this.endTimeForDay = {selectableRange:`${this.detailForm.step_startTime ? this.detailForm.step_startTime + ':00' : '00:00:00'}-23:59:59`};
                 }
             },
@@ -895,19 +949,24 @@
                     this.detailForm.task_execScheduler= ''
                 }
             },
-            'dayChecked'(val){
-                if (val==='1') {
-                    this.endTimeForDay = {selectableRange:'00:00:00-23:59:59'};
-                    this.startTimeForDay = {selectableRange:'00:00:00-23:59:59'};
-                    this.detailForm.endDay = '1';
-                    this.detailForm.startDay = '0';
-                } else {
-                    this.endTimeForDay = {selectableRange:`${this.detailForm.step_startTime ? this.detailForm.step_startTime + ':00' : '00:00:00'}-23:59:59`};
-                    this.startTimeForDay = {selectableRange:`00:00:00-${this.detailForm.step_endTime ? this.detailForm.step_endTime + ':00' : '23:59:59'}`};
-                    this.detailForm.endDay = '';
-                    this.detailForm.startDay = '';
-                    this.detailForm.step_endTime = '';
+            'detailForm.taskType'(val){
+                this.detailForm.stepActKey = "";
+                if(!val.match(/1|4/)){
+                    this.detailForm.step_execScheduler = "";
                 }
+            },
+            'endDayChecked'(val){
+                if (val==='0') {
+                    this.detailForm.endDay = '';
+                }
+                this.timeChange();
+            },
+            'startDayChecked'(val){
+                if (val==='0'){
+                    this.detailForm.startDay = '';
+                }
+                this.timeChange();
+
             }
         }
     }
@@ -921,5 +980,8 @@
         font-size: 16px;
         font-weight: bold;
         cursor: pointer;
+    }
+    .el-form .el-form-item .el-form-item__content .el-date-editor .el-input__inner{
+        height: auto!important;
     }
 </style>

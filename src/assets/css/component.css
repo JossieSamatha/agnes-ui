@@ -674,10 +674,6 @@
     margin-left: 5px;
 }
 
-.gf-ag-grid.ag-theme-balham .ag-row-selected .ag-cell.status-circle-cell .ag-cell-value {
-    color: #fff;
-}
-
 .gf-ag-grid.ag-theme-balham .ag-cell .status-circle-cell i.fa.fa-circle {
     margin: 0 10px;
 }
@@ -706,13 +702,17 @@
     color: #67C23A;
 }
 
+.gf-ag-grid.ag-theme-balham .green-cell {
+    color: #4ACE69;
+}
+
+.gf-ag-grid.ag-theme-balham .orange-cell {
+    color: #EE924C;
+}
+
 .gf-ag-grid.ag-theme-balham .ag-cell.align-center {
     text-align: center;
     line-height: 36px;
-}
-
-.gf-ag-grid.ag-theme-balham .ag-row.ag-row-selected .ag-cell .el-button.grid-cell-op-link:not(.is-disabled) {
-    color: #fff;
 }
 
 .gf-ag-grid.ag-theme-balham .ag-cell .el-button.grid-cell-op-link:not(.is-disabled) {
@@ -751,11 +751,7 @@
     display: none;
 }
 .gf-ag-grid.ag-theme-balham .ag-row-selected {
-    background-color: #0f5eff !important;
-}
-
-.gf-ag-grid.ag-theme-balham .ag-row-selected .ag-cell {
-    color: #fff;
+    background-color: #CCE4FF!important;
 }
 
 .gf-ag-grid.ag-theme-balham .ag-row-hover:not(.ag-row-selected) {
@@ -869,11 +865,6 @@
     line-height: 28px;
 }
 
-.acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-row-selected .ag-icon.ag-icon-tree-open::before,
-.acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-row-selected .ag-icon.ag-icon-tree-closed::before {
-    color: #fff;
-}
-
 .acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-ltr .ag-icon.ag-icon-tree-open::before {
     content: "\e790";
 }
@@ -882,17 +873,12 @@
     content: "\e791";
 }
 
-.acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-row-selected .ag-group-expanded .ag-icon,
-.acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-row-selected .ag-group-contracted .ag-icon{
-    color: #fff;
-}
-
 .acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-row-group-expanded {
-    background: #D4E0FF;
+    background: #DBECFF;
 }
 
 .acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-row.ag-row-level-1 {
-    background: #E8EFFF;
+    background: #F0F9FF;
 }
 
 .acnt-apply-field.gf-ag-grid.ag-theme-balham .ag-cell .ag-group-value{
@@ -1052,7 +1038,7 @@
 }
 
 .ag-grid-box .gf-grid-status-bar .el-pagination .el-pagination__sizes::before {
-    content: '，显示';
+    content: '显示';
 }
 
 .ag-grid-box .gf-grid-status-bar .el-pagination .el-pagination__sizes {

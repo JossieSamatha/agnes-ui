@@ -108,7 +108,7 @@
                              :class="isBizDate ? 'isBizDate': ''"
                              height="100%"
                              grid-no="agnes-elec-process-field"
-                             :options="elecGridOptions"
+                             :options="elecGridOptions(this)"
                     ></gf-grid>
                 </div>
             </div>
@@ -190,9 +190,22 @@
                 ],
                 taskIdList: [],
                 loading: false,
-                elecGridOptions: {
-                    onRowDataChanged: (params) => {
-                        params.columnApi.columnController.autoSizeAllColumns()
+                elecGridSelected: null,
+                elecGridOptions: (_that)=>{
+                    return {
+                        onRowDataChanged: (params) => {
+                            params.columnApi.columnController.autoSizeAllColumns();
+                            if(_that.elecGridSelected){
+                                this.$nextTick(()=>{
+                                    const selectIndex = _that.elecGridSelected.childIndex;
+                                    params.api.ensureIndexVisible(selectIndex, 'middle');
+                                    params.api.selectIndex(selectIndex);
+                                })
+                            }
+                        },
+                        onSelectionChanged: (params)=>{
+                            _that.elecGridSelected = params.api.getSelectedNodes()[0];
+                        }
                     }
                 }
             }

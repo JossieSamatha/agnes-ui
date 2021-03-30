@@ -73,6 +73,11 @@
                 }
             }
         },
+        watch: {
+            stageIndex(val){
+                this.stage.sortNum = val+1;
+            }
+        },
         mounted(){
             if(this.stage.edit){
                 this.$refs.titleInput.focus()
@@ -110,6 +115,7 @@
             async deleteStage() {
                 const ok = await this.$msg.ask(`确认删除吗, 是否继续?`);
                 if (ok) {
+                    this.$app.runCmd('openStepDialog', 'deleteStage', this.stage.children);
                     this.stageList.splice(this.stageIndex, 1)
                 }
             },
