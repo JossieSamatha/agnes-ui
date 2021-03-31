@@ -30,6 +30,7 @@ import RosterCalendar from "./roster/roster-calendar"
 import ProductCalendar from "./product-calendar/product-calendar.vue"
 import FactorDef from "./factor-def/index";
 import TransRule from "./trans-rule-def/index";
+import ProductCalendar from "./product-calendar/product-calendar.vue"
 
 const Loading = {
     install: function (Vue) {
