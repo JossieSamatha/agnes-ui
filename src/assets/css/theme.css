@@ -144,6 +144,7 @@ form input {
     height: 44px;
     line-height: 44px;
     border-radius: 6px;
+    border-color: #A8AED3;
 }
 
 .gf-login-bg .ui.segments:not(.horizontal) > .segment:nth-of-type(2)

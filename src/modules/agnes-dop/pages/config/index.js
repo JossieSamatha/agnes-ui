@@ -29,6 +29,7 @@ import RuRoster from "./roster/roster";
 import RosterCalendar from "./roster/roster-calendar"
 import FactorDef from "./factor-def/index";
 import TransRule from "./trans-rule-def/index";
+import ProductCalendar from "./product-calendar/product-calendar.vue"
 
 const Loading = {
     install: function (Vue) {
@@ -65,6 +66,7 @@ const Loading = {
         Gfui.componentView('agnes.chzh.yzwh', FactorDef, {title: '因子维护'});
         Gfui.componentView('agnes.chzh.zhgz', TransRule, {title: '转换规则维护'});
         Gfui.componentView('agnes.dop.roster.calendar', RosterCalendar, {title: '值班日历'});
+        Gfui.componentView('agnes.dop.product.calendar', ProductCalendar, {title: '产品日历'});
     }
 };
 

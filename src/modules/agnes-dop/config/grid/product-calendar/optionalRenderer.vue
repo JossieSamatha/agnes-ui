@@ -28,7 +28,8 @@
                   <el-input v-model="scope.row.paramString" v-if="scope.row.paramType=='string'"/>
                   <el-input v-model="scope.row.paramNumber" oninput="value=value.replace(/[^\d]/g,'')"
                             maxLength='9' placeholder="请输入数字" v-if="scope.row.paramType=='number'"/>
-                  <el-input v-model.number="scope.row.paramAmount" placeholder="请输入金额" v-if="scope.row.paramType=='amount'"/>
+                  <el-input v-model.number="scope.row.paramAmount" placeholder="请输入金额"
+                            v-if="scope.row.paramType=='amount'"/>
                   <el-date-picker
                       v-model="scope.row.paramDate"
                       type="date"
@@ -77,16 +78,8 @@
     >
       <span class="svgSpan" v-html="svgImg.forcePass"></span>
     </el-button>
-    <el-button size="mini" type="text"
-               v-if="indexSetShow"
-               @click="reExecute('reExecute')"
-               title="重新执行"
-               :disabled="isDisabled"
-    >
-      <span class="svgSpan" v-html="svgImg.reExecute"></span>
-    </el-button>
     <el-button v-if="indexSetShow" class="detail-btn" size="mini" type="text" icon="fa fa-eye"
-               @click="indexDetail('showIndexDetail')"
+               @click="indexDetail('showProDetail')"
                title="查看明细"
                :disabled="isKpiDisabled"
     >
@@ -98,9 +91,9 @@
 export default {
   data() {
     return {
-      form:{
-        paramList:[],
-        remark:'',
+      form: {
+        paramList: [],
+        remark: '',
       },
       remark: '',
       popoverVisible: false,
@@ -115,13 +108,13 @@ export default {
   },
   computed: {
     actionShow() {
-      return this.params.data.stepActType === '6';
+      return this.params.data.taskType === '6';
     },
     indexSetShow() {
-      return this.params.data.stepActType === '1';
+      return true;
     },
     autoSetShow() {
-      return this.params.data.stepActType === '7';
+      return this.params.data.taskType === '7';
     },
     isDisabled() {
       return !this.params.data.buttonStatus;
@@ -132,10 +125,10 @@ export default {
   },
   methods: {
     async popoverClick(actionType) {
-      this.form.paramList=[];
-      const p = this.$api.taskTodoApi.selectRollBackTaskParams({stepExecId:this.params.data.stepExecId})
+      this.form.paramList = [];
+      const p = this.$api.taskTodoApi.selectRollBackTaskParams({stepExecId: this.params.data.stepExecId})
       const resp = await this.$app.blockingApp(p);
-      this.form.paramList=resp.data;
+      this.form.paramList = resp.data;
       this.form.remark = this.params.data.remark;
       this.popoverVisible = true;
       this.actionType = actionType;
@@ -149,7 +142,7 @@ export default {
       }
     },
 
-    indexDetail(actionType){
+    indexDetail(actionType) {
       this.handleCmd(actionType);
     },
 
@@ -215,14 +208,18 @@ export default {
   padding: 0;
 }
 
-.detail-btn>>>.fa.fa-eye{
+.detail-btn >>> .fa.fa-eye {
   font-size: 15px;
   vertical-align: text-bottom;
   color: #0f5eff;
   line-height: 17px;
 }
 
-.detail-btn.is-disabled>>>.fa.fa-eye {
+.gf-ag-grid.ag-theme-balham .ag-row-selected .detail-btn >>> .fa.fa-eye {
+  color: #fff;
+}
+
+.detail-btn.is-disabled >>> .fa.fa-eye {
   color: #ccc;
 }
 </style>
