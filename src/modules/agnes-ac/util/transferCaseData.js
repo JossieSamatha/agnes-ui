@@ -26,11 +26,10 @@ function recursionData(nowData,steps,caseDefKey,type){
             if(type==='list'){
                 let currentData = {};
                 let stepActType = '';
-                if(nowData[i].stepActType === '1'){
-                    stepActType = 'action';
-                }
                 if(nowData[i].stepActType === '6'){
-                    stepActType = 'form';
+                    stepActType = 'form'
+                }else {
+                    stepActType = 'action';
                 }
                 currentData['@stepType'] = stepActType;
                 Object.assign(currentData, nowData[i]);
@@ -48,14 +47,19 @@ function recursionData(nowData,steps,caseDefKey,type){
                     let sentryInData = {};
                     let sentryOut = {};
                     let sentryEx = {};
+                    let sentryTsOut = {};
                     sentryOut.ifExpr = temporaryData.successRuleTableData.ruleBody
                     sentryInData.ifExpr = temporaryData.activeRuleTableData.ruleBody
                     sentryEx.ifExpr = temporaryData.failRuleTableData.ruleBody
+                    if(temporaryData.timeoutRuleTableData){
+                        sentryTsOut.ifExpr = temporaryData.timeoutRuleTableData.ruleBody
+                    }
                     currentData.defId = temporaryData.caseStepDef.stepCode;
                     currentData.defName = temporaryData.caseStepDef.stepName;
                     currentData.sentryIn = sentryInData
                     currentData.sentryOut = sentryOut
                     currentData.sentryEx = sentryEx
+                    currentData.sentryTsOut = sentryTsOut
                     currentData.autoActive = !temporaryData.activeRuleTableData.ruleBody;
                 }
                 steps.push(currentData)
@@ -71,16 +75,19 @@ function recursionData(nowData,steps,caseDefKey,type){
                     let sentryInData = {};
                     let sentryOut = {};
                     let sentryEx = {};
+                    let sentryTsOut = {};
                     sentryOut.ifExpr = temporaryData.successRuleTableData.ruleBody
                     sentryEx.ifExpr = temporaryData.failRuleTableData.ruleBody
+                    sentryTsOut.ifExpr = temporaryData.timeoutRuleTableData.ruleBody
                     currentData.sentryIn = sentryInData
                     currentData.sentryOut = sentryOut
                     currentData.sentryEx = sentryEx
+                    currentData.sentryTsOut = sentryTsOut
                 }
                 steps.push(currentData)
             }
         }else if(nowData[i].defType==='group'){
-            this.recursionData(nowData[i].steps,steps,caseDefKey,type)
+            recursionData(nowData[i].steps,steps,caseDefKey,type)
         }
     }
 }

@@ -3,40 +3,41 @@
     <el-form :model="form.reFunDef" :disabled=this.isNoEdit ref="form" :rules="rules" label-width="85px"
              style="padding: 10px">
       <el-form-item label="函数名称" prop="fnName">
-        <gf-input type="text" v-model="form.reFunDef.fnName" :max-byte-len="64"/>
+        <gf-input type="text" v-model="form.reFunDef.fnName" :max-byte-len="64" style="width: 86%"/>
       </el-form-item>
       <el-form-item label="函数编号" prop="fnCode">
-        <gf-input type="text" v-model="form.reFunDef.fnCode" :max-byte-len="8"
+        <gf-input type="text" v-model="form.reFunDef.fnCode" :max-byte-len="8" style="width: 86%"
                   clear-regex="[^a-zA-Z\d\x00-\xff]"/>
       </el-form-item>
       <el-form-item label="函数类型" prop="fnType">
-        <gf-dict-select dict-type="AGNES_FUN_TYPE" v-model="form.reFunDef.fnType"></gf-dict-select>
+        <gf-dict-select dict-type="AGNES_FUN_TYPE" v-model="form.reFunDef.fnType" style="width: 86%"></gf-dict-select>
       </el-form-item>
       <el-form-item label="api方法名" v-if="form.reFunDef.fnType === 'api'">
-        <gf-input type="text" v-model="form.reFunDef.fnTarget" :max-byte-len="128"
+        <gf-input type="text" v-model="form.reFunDef.fnTarget" :max-byte-len="128" style="width: 86%"
                   clear-regex="[^a-zA-Z\x00-\xff]"/>
       </el-form-item>
       <el-form-item label="内部函数" v-if="form.reFunDef.fnType === 'inner'">
-        <gf-input type="text" v-model="form.reFunDef.fnTarget" :max-byte-len="128"
+        <gf-input type="text" v-model="form.reFunDef.fnTarget" :max-byte-len="128" style="width: 86%"
                   clear-regex="[^a-zA-Z\x00-\xff]"/>
       </el-form-item>
-      <el-form-item label="服务路径" v-if="form.reFunDef.fnType === 'svc'">
+      <el-form-item label="服务路径" v-if="form.reFunDef.fnType === 'svc'" style="width: 86%">
         <gf-input type="text" v-model="form.reFunDef.fnTarget" :max-byte-len="128"
                   clear-regex="[^a-zA-Z\x00-\xff]"/>
       </el-form-item>
       <el-row v-if="form.reFunDef.fnType === 'sql'">
         <el-form-item label="数据源" prop="bizParamDb">
-          <gf-ds v-model="form.reFunDef.bizParamDb"></gf-ds>
+          <gf-ds v-model="form.reFunDef.bizParamDb" style="width: 86%"></gf-ds>
         </el-form-item>
 
         <el-form-item label="SQL语句" prop="bizParamSql">
           <gf-input type="textarea" v-model="form.reFunDef.bizParamSql"
+                    style="width: 86%"
                     resize="none"
                     :autosize="{minRows: 2, maxRows: 6}" clear-regex="[^\x00-\xff]"/>
         </el-form-item>
       </el-row>
-      <el-form-item label="业务对象" prop="fnArgs">
-        <el-select v-model="form.reFunDef.fnArgs" placeholder="选择业务对象" style="width: 100%" filterable>
+      <el-form-item label="传入参数" prop="fnArgs">
+        <el-select v-model="form.reFunDef.fnArgs" placeholder="选择业务对象" style="width: 86%" filterable clearable>
           <el-option
               v-for="item in modelType"
               :key="item.modelTypeId"
@@ -45,8 +46,23 @@
           </el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="返回参数" prop="fnReturn">
+        <div class="line none-shrink">
+          <el-select v-model="form.reFunDef.fnReturn" placeholder="选择业务对象" style="width: 86%" filterable clearable>
+            <el-option
+                v-for="item in modelType"
+                :key="item.modelTypeId"
+                :label="item.typeName"
+                :value="item.modelTypeId">
+            </el-option>
+          </el-select>
+          <gf-strbool-checkbox v-model="form.reFunDef.isReturnArray" style="margin-left: 10px">数组类型
+          </gf-strbool-checkbox>
+        </div>
+      </el-form-item>
       <el-form-item label="函数描述" prop="fnDesc">
         <gf-input type="textarea" v-model="form.reFunDef.fnDesc"
+                  style="width: 86%"
                   resize="none" :max-byte-len="128"
                   :autosize="{minRows: 2, maxRows: 6}"/>
       </el-form-item>
@@ -70,7 +86,7 @@ export default {
       form: {
         reFunDef: {
           fnName: '',
-          fnId:'',
+          fnId: '',
           fnType: '',
           fnDesc: '',
           fnCode: '',
@@ -78,7 +94,8 @@ export default {
           fnArgs: '',
           fnReturn: '',
           bizParamDb: '',
-          bizParamSql: ''
+          bizParamSql: '',
+          isReturnArray: ''
         },
         isNeedCheck:false,
       },
