@@ -4,7 +4,7 @@
         <el-form-item label="任务名称" prop="taskName">
             <gf-input v-model.trim="detailForm.taskName" placeholder="任务名称" :max-byte-len="120"/>
         </el-form-item>
-        <el-form-item label="任务等级" prop="stepLevel">
+        <el-form-item label="任务等级" prop="stepLevel"  v-show="this.detailForm.configType!='2'">
             <el-rate v-model="detailForm.stepLevel" show-text
                      :max="3"
                      :low-threshold="1"
@@ -13,6 +13,27 @@
                      :colors="detailForm.rateColor">
             </el-rate>
             <em class="el-icon-refresh-left" @click="detailForm.stepLevel = 0"></em>
+        </el-form-item>
+        <el-form-item label="任务图标" prop="taskIcon" v-show="this.detailForm.configType=='2'">
+            <gf-input v-model.trim="detailForm.taskIcon"
+                      placeholder="任务图标"
+                      style="width: calc(100% - 30px); margin-right: 10px"
+            />
+            <el-popover placement="bottom"
+                        title="图标库使用"
+                        width="220"
+                        trigger="click"
+                        popper-class="question-popover">
+                <el-button slot="reference"
+                           icon="fa fa-question-circle-o"
+                           style="border: none;padding: 0;font-size: 20px;vertical-align: middle"
+                ></el-button>
+                <p>图标库中选择需要的图标对应名称，前面加上【fa fa-】前缀即可。</p>
+                <p>如：<span><em class="fa fa-bus"></em> bus</span>填写为【fa fa-bus】</p>
+                <p>图标库链接地址为：
+                    <a href="https://fontawesome.dashgame.com/" target="_blank" rel="noopener noreferrer" style="color: #4183C4;">点我跳转</a>
+                </p>
+            </el-popover>
         </el-form-item>
         <el-form-item label="任务编号" prop="caseKey">
             <gf-input v-model.trim="detailForm.caseKey" clear-regex="[^0-9]" placeholder="任务编号" :max-byte-len="8"/>
@@ -35,7 +56,7 @@
                 </gf-filter-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="任务说明" prop="stepRemark">
+        <el-form-item label="任务说明" prop="stepRemark" v-if="detailForm.taskType != '2'">
             <gf-input type="textarea" v-model.trim="detailForm.stepRemark" placeholder="任务说明"/>
         </el-form-item>
         <el-form-item label="运行周期配置" prop="task_startTime">
@@ -93,28 +114,45 @@
             </el-radio-group>
         </el-form-item>
         <template v-if="detailForm.configType==1">
-        <el-form-item label="执行时间配置" prop="step_startTime">
+        <el-form-item label="执行开始时间" prop="step_startTime" style="width: 90%">
             <div class="line none-shrink">
-                <el-form-item prop="step_startTime">
-                    <el-time-picker
-                            v-model="detailForm.step_startTime"
-                            :picker-options=startTimeForDay
-                            placeholder="执行开始时间"
-                            value-format="HH:mm" @change="startTimeChange">
-                    </el-time-picker>
-                </el-form-item>
-                <span style="margin: 0 10px">~</span>
-                <el-form-item prop="step_endTime">
-                    <el-time-picker
-                            v-model="detailForm.step_endTime"
-                            :picker-options=endTimeForDay
-                            placeholder="执行结束时间"
-                            value-format="HH:mm" @change="endTimeChange">
-                    </el-time-picker>
-                </el-form-item>
-                <gf-strbool-checkbox v-model="dayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
+                <el-input v-model.number="detailForm.startDay" v-show="startDayChecked === '1'" style="width: 10%;margin-right: 10px"></el-input>
+                <span v-show="startDayChecked === '1'" >天
+                </span>
+                <el-time-picker
+                        v-model="detailForm.step_startTime"
+                        :picker-options=startTimeForDay
+                        placeholder="执行开始时间"
+                        value-format="HH:mm" @change="timeChange" style="margin-left: 10px">
+                </el-time-picker>
+                <gf-strbool-checkbox v-model="startDayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
             </div>
+            <gf-strbool-checkbox v-model="startStepRuleChecked" style="margin-left: 10px">自定义激活规则</gf-strbool-checkbox>
         </el-form-item>
+            <el-form-item v-if="startStepRuleChecked == '1'">
+                <rule-table ref="activeRuleTable" confType="fn,object,event" :ruleTableData="detailForm.activeRuleTableData"></rule-table>
+            </el-form-item>
+        <el-form-item label="执行结束时间" prop="step_endTime" style="width: 90%">
+            <div class="line none-shrink">
+                <el-input v-model.number="detailForm.endDay" v-show="endDayChecked === '1'" style="width: 10%;margin-right: 10px"></el-input>
+                <span v-show="endDayChecked === '1'" >天
+                </span>
+                <el-time-picker
+                        v-model="detailForm.step_endTime"
+                        :picker-options=endTimeForDay
+                        placeholder="执行结束时间"
+                        value-format="HH:mm" @change="timeChange" style="margin-left: 10px">
+                </el-time-picker>
+            <gf-strbool-checkbox v-model="endDayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
+            </div>
+            <gf-strbool-checkbox v-model="timeoutRuleChecked" style="margin-left: 10px">自定义超时规则</gf-strbool-checkbox>
+            </el-form-item>
+            <el-form-item v-if="timeoutRuleChecked == '1'">
+                <rule-table ref="timeoutRuleTable" confType="fn,object,event" :ruleTableData="detailForm.timeoutRuleTableData"></rule-table>
+            </el-form-item>
+
+
+
         <el-form-item label="通知人员">
             <gf-person-chosen ref="memberRef"
                               :memberRefList="this.memberRefList"
@@ -196,9 +234,9 @@
             </el-button>
         </el-form-item>
         <el-form-item label="任务控制参数">
-                <gf-strbool-checkbox v-model="detailForm.needApprove">是否需要复核</gf-strbool-checkbox>
-                <gf-strbool-checkbox v-model="detailForm.isTodo">是否进入待办</gf-strbool-checkbox>
-            <gf-strbool-checkbox v-model="detailForm.allowManualConfirm">是否允许人工干预通过</gf-strbool-checkbox>
+                <gf-strbool-checkbox v-model="detailForm.needApprove" >是否需要复核</gf-strbool-checkbox>
+                <gf-strbool-checkbox v-model="detailForm.isTodo" v-show="detailForm.taskType != '2'">是否进入待办</gf-strbool-checkbox>
+            <gf-strbool-checkbox v-model="detailForm.allowManualConfirm" v-show="detailForm.taskType != '2'">是否允许人工干预通过</gf-strbool-checkbox>
             </el-form-item>
         <el-form-item label="消息通知参数">
             <span class="default-checked">系统内部消息</span>
@@ -371,7 +409,10 @@
                 serviceRes:[],
                 staticData: staticData(),
                 detailForm: initData(),
-                dayChecked: '0',  // 跨日
+                startDayChecked: '0',  // 执行开始时间跨日
+                endDayChecked: '0',  // 执行结束时间跨日
+                timeoutRuleChecked: '0',  // 超时规则确认框
+                startStepRuleChecked: '0',  // 激活规则确认框
                 endTimeForDay:null,
                 startTimeForDay:null,
                 succeedRule: '0',
@@ -394,9 +435,6 @@
                 ruleTypeOp: [{label: '默认完成规则', value: '0'}, {label: '自定义完成规则', value: '1'}],
                 ruleErrorTypeOp: [{label: '默认异常规则', value: '0'}, {label: '自定义异常规则', value: '1'}],
                 detailFormRules: {
-                    stepLevel: [
-                        {required: true, message: '任务等级必填', trigger: 'blur'},
-                    ],
                     taskName: [
                         {required: true, message: '任务名称必填', trigger: 'blur'},
                     ],
@@ -406,9 +444,6 @@
                     task_endTime: [
                         {required: true, message: '运行周期结束时间必填', trigger: 'blur'},
                     ],
-                    // dayendDefId: [
-                    //     {required: true, message: '基准日期必填', trigger: 'change'},
-                    // ],
                     task_execMode: [
                         {required: true, message: '启动方式必填', trigger: 'blur'},
                     ],
@@ -420,9 +455,6 @@
                     ],
                     task_startTime: [
                         {required: true, message: '运行周期开始时间必填', trigger: 'blur'},
-                    ],
-                    stepRemark: [
-                        {required: true, message: '任务说明必填', trigger: 'blur'},
                     ],
                     step_endTime: [
                         {required: true, message: '执行结束时间必填', trigger: 'change'},
@@ -483,37 +515,45 @@
                 this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
                 const e = this.$api.eventlDefConfigApi.getEventDefList();
                 const eventR = await this.$app.blockingApp(e);
-                const eventList = eventR.data
-                eventList.forEach((item)=>{
-                    this.detailForm.eventOptions.push({label:item.eventName,value:item.eventId});
-                });
+                if(eventR.data) {
+                    const eventList = eventR.data
+                    eventList.forEach((item) => {
+                        this.detailForm.eventOptions.push({label: item.eventName, value: item.eventId});
+                    });
+                }
             },
 
             async getKpiData(){
                 const kpi = this.$api.kpiTaskApi.getAllKpiList();
                 const kpiData = await this.$app.blockingApp(kpi);
-                const kpiList = kpiData.data
-                kpiList.forEach((item)=>{
-                    let kpiName = '('+item.kpiCode+')'+ item.kpiName
-                    this.kpiOptions.push({label:kpiName,value:item.kpiCode});
-                });
+                if(kpiData.data) {
+                    const kpiList = kpiData.data
+                    kpiList.forEach((item) => {
+                        let kpiName = '(' + item.kpiCode + ')' + item.kpiName
+                        this.kpiOptions.push({label: kpiName, value: item.kpiCode});
+                    });
+                }
             },
             async getRpaData(){
                 const rpa = this.$api.flowTaskApi.queryAllRPAList();
                 const rpaOptions = await this.$app.blockingApp(rpa);
-                const rpaList = rpaOptions.data
-                rpaList.forEach((item)=>{
-                    let robotName = item.robotName;
-                    this.rpaOptions.push({label:robotName,value:item.robotId});
-                });
+                if(rpaOptions.data) {
+                    const rpaList = rpaOptions.data
+                    rpaList.forEach((item) => {
+                        let robotName = item.robotName;
+                        this.rpaOptions.push({label: robotName, value: item.robotId});
+                    });
+                }
             },
             async getBpmnData(){
                 const bpmn = this.$api.BpmnApi.queryBpmnAll();
                 const bpmnOptions = await this.$app.blockingApp(bpmn);
-                bpmnOptions.forEach((item)=>{
-                    let bpmnName = '('+item.key+')'+ item.title
-                    this.bpmnOptions.push({label:bpmnName,value:item.key});
-                });
+                if(bpmnOptions) {
+                    bpmnOptions.forEach((item) => {
+                        let bpmnName = '(' + item.key + ')' + item.title
+                        this.bpmnOptions.push({label: bpmnName, value: item.key});
+                    });
+                }
             },
             async serviceResChange(param){
                 this.serviceRes.forEach((item)=>{
@@ -527,11 +567,13 @@
             async getServiceResponse(){
                 const serviceRes = this.$api.kpiTaskApi.getServiceResponse();
                 const serviceResData = await this.$app.blockingApp(serviceRes);
-                const serviceResList = serviceResData.data;
-                serviceResList.forEach((item)=>{
-                    this.serviceRes.push({label:item.serviceResponseName,value:item.serviceResponseId,
-                        repeatMinutes:item.repeatMinutes,maxRepeatCount:item.maxRepeatCount});
-                });
+                if(serviceResData.data){
+                    const serviceResList = serviceResData.data;
+                    serviceResList.forEach((item)=>{
+                        this.serviceRes.push({label:item.serviceResponseName,value:item.serviceResponseId,
+                            repeatMinutes:item.repeatMinutes,maxRepeatCount:item.maxRepeatCount});
+                    });
+                }
             },
             getMemberList(val){
                 this.memberRefList = val;
@@ -594,8 +636,20 @@
                         this.$message.warning("请选择通知人员！");
                         return ;
                     }
+                    if(this.detailForm.stepRemark == '' && this.detailForm.configType !='2'){
+                        this.$message.warning("任务说明必填！");
+                        return ;
+                    }
+                    if(this.detailForm.stepLevel == '' && this.detailForm.configType !='2'){
+                        this.$message.warning("服务等级必填！");
+                        return ;
+                    }
                     if(this.detailForm.flowType == '' && this.detailForm.configType ==='2'){
                         this.$message.warning("请选流程类型！");
+                        return ;
+                    }
+                    if(this.detailForm.task_execMode == '3' && this.detailForm.eventId == ''){
+                        this.$message.warning("请选择触发事件！");
                         return ;
                     }
                     let resData = this.dataTransfer();
@@ -671,6 +725,12 @@
                 if(this.abnormalRule==='0'){
                     this.detailForm.failRuleTableData={}
                 }
+                if(this.startStepRuleChecked==='0'){
+                    this.detailForm.activeRuleTableData={}
+                }
+                if(this.timeoutRuleChecked==='0'){
+                    this.detailForm.timeoutRuleTableData={}
+                }
                 if(this.detailForm.successRuleTableData
                     && this.detailForm.successRuleTableData.ruleList){
                     const successRuleJson = this.$refs.successRuleTable.jsonFormatter();
@@ -680,6 +740,16 @@
                     && this.detailForm.failRuleTableData.ruleList){
                     const failRuleJson = this.$refs.failRuleTable.jsonFormatter();
                     this.detailForm.failRuleTableData.ruleBody = failRuleJson;
+                }
+                if(this.detailForm.timeoutRuleTableData
+                    && this.detailForm.timeoutRuleTableData.ruleList){
+                    const timeoutRuleJson = this.$refs.timeoutRuleTable.jsonFormatter();
+                    this.detailForm.timeoutRuleTableData.ruleBody = timeoutRuleJson;
+                }
+                if(this.detailForm.activeRuleTableData
+                    && this.detailForm.activeRuleTableData.ruleList){
+                    const activeRuleJson = this.$refs.activeRuleTable.jsonFormatter();
+                    this.detailForm.activeRuleTableData.ruleBody = activeRuleJson;
                 }
                 //消息通知参数判断是否勾选
                 if(this.msgInformParam.indexOf('0') === -1){
@@ -701,28 +771,30 @@
                 this.detailForm.caseDefKey = this.detailForm.caseKey;
                 this.keyToValue(taskDef, 'task_');
                 let caseDef = this.$utils.deepClone(this.staticData.caseDef);
-                let defId = this.$agnesUtils.randomString(32);
-                let defName = this.detailForm.taskName;
-                this.detailForm.stepName = defName;
-                caseDef.stages[0].defId = defId;
-                caseDef.stages[0].children[0].stepId = defId;
-                caseDef.stages[0].children[0].stepActType = this.detailForm.taskType;
-                caseDef.stages[0].defName = defName;
-                caseDef.stages[0].children[0].stepName = defName;
-                let stepFormInfo = this.$utils.deepClone(this.staticData.caseDef.stages[0].children[0].stepFormInfo);
-                Object.keys(stepFormInfo).forEach((key) => {
-                    if (key === 'caseStepDef') {
-                        this.keyToValue(stepFormInfo.caseStepDef, 'step_');
-                    } else {
-                        stepFormInfo[key] = this.detailForm[key] || stepFormInfo[key];
+                let caseFlowInfos = '';
+                if(this.detailForm.configType!='2') {
+                    let defId = this.$agnesUtils.randomString(32);
+                    let defName = this.detailForm.taskName;
+                    this.detailForm.stepName = defName;
+                    caseDef.stages[0].defId = defId;
+                    caseDef.stages[0].children[0].stepId = defId;
+                    caseDef.stages[0].children[0].stepActType = this.detailForm.taskType;
+                    caseDef.stages[0].defName = defName;
+                    caseDef.stages[0].children[0].stepName = defName;
+                    let stepFormInfo = this.$utils.deepClone(this.staticData.caseDef.stages[0].children[0].stepFormInfo);
+                    Object.keys(stepFormInfo).forEach((key) => {
+                        if (key === 'caseStepDef') {
+                            this.keyToValue(stepFormInfo.caseStepDef, 'step_');
+                        } else {
+                            stepFormInfo[key] = this.detailForm[key] || stepFormInfo[key];
+                        }
+                    })
+                    caseDef.stages[0].children[0].stepFormInfo = stepFormInfo;
+                    if (this.mode === 'add' || this.row.reTaskDef.caseKey != taskDef.caseKey) {
+                        this.isCheckCode = true;
                     }
-                })
-                caseDef.stages[0].children[0].stepFormInfo = stepFormInfo;
-                if(this.mode === 'add' || this.row.reTaskDef.caseKey != taskDef.caseKey){
-                    this.isCheckCode = true;
-                }
-                let caseFlowInfos = JSON.stringify(caseDef);
-                if(this.detailForm.configType==='2'){
+                    caseFlowInfos = JSON.stringify(caseDef);
+                }else{
                     caseFlowInfos = this.caseModelData;
                 }
                 return {reTaskDef: taskDef, caseDefId: this.row.caseDefId, caseDefBody: caseFlowInfos,versionId:this.versionId,isCheckCode:this.isCheckCode,paramList:this.paramList};
@@ -737,41 +809,52 @@
                     }
                     this.reKeyToValue(taskDef, 'task_');
                     this.versionId = this.row.versionId;
-                    let caseDefBody = JSON.parse(this.row.caseDefBody);
-                    let stepFormInfo = this.$utils.deepClone(caseDefBody.stages[0].children[0].stepFormInfo);
-                    Object.keys(stepFormInfo).forEach((key) => {
-                        if (key === 'caseStepDef') {
-                            this.reKeyToValue(stepFormInfo.caseStepDef, 'step_');
-                        } else {
-                            this.detailForm[key] = stepFormInfo[key] || this.detailForm[key];
+                    if(taskDef.taskType == '2'){
+                        this.detailForm.configType='2';
+                        this.caseModelData = this.row.caseDefBody;
+                    }else {
+                        let caseDefBody = JSON.parse(this.row.caseDefBody);
+                        let stepFormInfo = this.$utils.deepClone(caseDefBody.stages[0].children[0].stepFormInfo);
+                        Object.keys(stepFormInfo).forEach((key) => {
+                            if (key === 'caseStepDef') {
+                                this.reKeyToValue(stepFormInfo.caseStepDef, 'step_');
+                            } else {
+                                this.detailForm[key] = stepFormInfo[key] || this.detailForm[key];
+                            }
+                        })
+                        if(this.detailForm.stepActOwner){
+                            this.memberRefList = JSON.parse(this.detailForm.stepActOwner);
                         }
-                    })
-                    if(this.detailForm.stepActOwner){
-                        this.memberRefList = JSON.parse(this.detailForm.stepActOwner);
-                    }
-                    if (this.detailForm.task_endTime === '9999-12-31') {
-                        this.startAllTime = true;
+                        if (this.detailForm.task_endTime === '9999-12-31') {
+                            this.startAllTime = true;
+                        }
+                        if(!loadsh.isEmpty(this.detailForm.successRuleTableData)){
+                            this.succeedRule ='1'
+                        }
+                        if(!loadsh.isEmpty(this.detailForm.failRuleTableData)){
+                            this.abnormalRule ='1'
+                        }
+                        if(!loadsh.isEmpty(this.detailForm.timeoutRuleTableData)){
+                            this.timeoutRuleChecked ='1'
+                        }
+                        if(!loadsh.isEmpty(this.detailForm.activeRuleTableData)){
+                            this.startStepRuleChecked ='1'
+                        }
+                        if(this.detailForm.endDay != null || this.detailForm.endDay != ''){
+                            this.endDayChecked = '1';
+                        }
+                        if(this.detailForm.startDay != null || this.detailForm.startDay != ''){
+                            this.startDayChecked = '1';
+                        }
+                        //消息通知参数回显
+                        this.msgInfoStr.forEach((strItem, index)=>{
+                            if(this.detailForm[strItem] && this.detailForm[strItem].length>0){
+                                this.msgInformParam.push(index+'');
+                            }
+                        });
                     }
                     if (this.detailForm.bizTag) {
                         this.detailForm.bizTagArr = this.detailForm.bizTag.split(",");
-                    }
-                    if(!loadsh.isEmpty(this.detailForm.successRuleTableData)){
-                        this.succeedRule ='1'
-                    }
-                    if(!loadsh.isEmpty(this.detailForm.failRuleTableData)){
-                        this.abnormalRule ='1'
-                    }
-                    if(this.detailForm.endDay === '1' && this.detailForm.startDay === '0'){
-                        this.dayChecked = '1';
-                    }
-                    //消息通知参数回显
-                    this.msgInfoStr.forEach((strItem, index)=>{
-                        if(this.detailForm[strItem] && this.detailForm[strItem].length>0){
-                            this.msgInformParam.push(index+'');
-                        }
-                    });
-                    if(taskDef.taskType == '2'){
-                        this.detailForm.configType='2';
                     }
                 }
             },
@@ -797,17 +880,12 @@
                     }
                 });
             },
-            endTimeChange(){
-                if(this.dayChecked == '1'){
+            timeChange(){
+                if(this.endDayChecked == '1' || this.startDayChecked == '1'){
                     this.startTimeForDay = {selectableRange:'00:00:00-23:59:59'};
-                }else {
-                    this.startTimeForDay = {selectableRange:`00:00:00-${this.detailForm.step_endTime ? this.detailForm.step_endTime + ':00' : '23:59:59'}`};
-                }
-            },
-            startTimeChange(){
-                if(this.dayChecked == '1'){
                     this.endTimeForDay = {selectableRange:'00:00:00-23:59:59'};
                 }else {
+                    this.startTimeForDay = {selectableRange:`00:00:00-${this.detailForm.step_endTime ? this.detailForm.step_endTime + ':00' : '23:59:59'}`};
                     this.endTimeForDay = {selectableRange:`${this.detailForm.step_startTime ? this.detailForm.step_startTime + ':00' : '00:00:00'}-23:59:59`};
                 }
             },
@@ -871,19 +949,24 @@
                     this.detailForm.task_execScheduler= ''
                 }
             },
-            'dayChecked'(val){
-                if (val==='1') {
-                    this.endTimeForDay = {selectableRange:'00:00:00-23:59:59'};
-                    this.startTimeForDay = {selectableRange:'00:00:00-23:59:59'};
-                    this.detailForm.endDay = '1';
-                    this.detailForm.startDay = '0';
-                } else {
-                    this.endTimeForDay = {selectableRange:`${this.detailForm.step_startTime ? this.detailForm.step_startTime + ':00' : '00:00:00'}-23:59:59`};
-                    this.startTimeForDay = {selectableRange:`00:00:00-${this.detailForm.step_endTime ? this.detailForm.step_endTime + ':00' : '23:59:59'}`};
-                    this.detailForm.endDay = '';
-                    this.detailForm.startDay = '';
-                    this.detailForm.step_endTime = '';
+            'detailForm.taskType'(val){
+                this.detailForm.stepActKey = "";
+                if(!val.match(/1|4/)){
+                    this.detailForm.step_execScheduler = "";
                 }
+            },
+            'endDayChecked'(val){
+                if (val==='0') {
+                    this.detailForm.endDay = '';
+                }
+                this.timeChange();
+            },
+            'startDayChecked'(val){
+                if (val==='0'){
+                    this.detailForm.startDay = '';
+                }
+                this.timeChange();
+
             }
         }
     }
@@ -897,5 +980,8 @@
         font-size: 16px;
         font-weight: bold;
         cursor: pointer;
+    }
+    .el-form .el-form-item .el-form-item__content .el-date-editor .el-input__inner{
+        height: auto!important;
     }
 </style>

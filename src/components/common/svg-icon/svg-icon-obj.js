@@ -1180,49 +1180,50 @@ export default {
         '    </g>' +
         '  </g>' +
         '</svg>',
+    
+        'charge-ing': '<svg viewBox="0 0 120 120">' +
+            '  <defs>' +
+            '    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">' +
+            '      <stop offset="0" stop-color="#1d79f5"/>' +
+            '      <stop offset="0.536" stop-color="#2a8ff8"/>' +
+            '      <stop offset="1" stop-color="#4fd0ff"/>' +
+            '    </linearGradient>' +
+            '    <linearGradient id="linear-gradient-2" x1="0.5" x2="0.327" y2="1.046" gradientUnits="objectBoundingBox">' +
+            '      <stop offset="0" stop-color="#ffd58d"/>' +
+            '      <stop offset="1" stop-color="#fc7941"/>' +
+            '    </linearGradient>' +
+            '  </defs>' +
+            '  <g id="正在充能" transform="translate(-824.081 -572.081)">' +
+            '    <g id="椭圆_130" data-name="椭圆 130" transform="translate(824.081 572.081)" fill="#fff" stroke="#d7dbe4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">' +
+            '      <circle cx="60" cy="60" r="60" stroke="none"/>' +
+            '      <circle cx="60" cy="60" r="59" fill="none"/>' +
+            '    </g>' +
+            '    <g id="椭圆_128" data-name="椭圆 128" transform="translate(845.081 593.081)" fill="#fff" stroke="#d7dbe4" stroke-width="1">' +
+            '      <circle cx="39" cy="39" r="39" stroke="none"/>' +
+            '      <circle cx="39" cy="39" r="38.5" fill="none"/>' +
+            '    </g>' +
+            '    <path id="减去_11" data-name="减去 11" d="M53,106A53.014,53.014,0,0,1,32.37,4.165a53.014,53.014,0,0,1,41.26,97.67A52.668,52.668,0,0,1,53,106Zm0-95.106A42.105,42.105,0,1,0,95.1,53,42.152,42.152,0,0,0,53,10.895Z" transform="translate(831.081 685.081) rotate(-90)" opacity="0.6" fill="url(#linear-gradient)"/>' +
+            '    <path id="路径_236" data-name="路径 236" d="M13.319,15.566l-2.943.67a.781.781,0,0,1-.944-.888L11.8.91A.781.781,0,0,0,10.336.423L.09,20.111a.781.781,0,0,0,.866,1.122l2.943-.67a.781.781,0,0,1,.944.888L2.476,35.888a.781.781,0,0,0,1.464.487L14.185,16.688A.781.781,0,0,0,13.319,15.566Z" transform="matrix(0.985, 0.174, -0.174, 0.985, 880.536, 611.729)" fill="url(#linear-gradient-2)"/>' +
+            '  </g>' +
+            '</svg>',
+    
+        'charge-done': '<svg viewBox="0 0 120 120">' +
+            '  <g id="已完成" transform="translate(-801 -557)">' +
+            '    <g id="组_855" data-name="组 855" transform="translate(-23.053 -15.053)">' +
+            '      <g id="椭圆_130" data-name="椭圆 130" transform="translate(824.053 572.053)" fill="#fff" stroke="#d7dbe4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">' +
+            '        <circle cx="60" cy="60" r="60" stroke="none"/>' +
+            '        <circle cx="60" cy="60" r="59" fill="none"/>' +
+            '      </g>' +
+            '      <g id="椭圆_128" data-name="椭圆 128" transform="translate(845.053 593.053)" fill="#fff" stroke="#d8e0ff" stroke-width="1">' +
+            '        <circle cx="39" cy="39" r="39" stroke="none"/>' +
+            '        <circle cx="39" cy="39" r="38.5" fill="none"/>' +
+            '      </g>' +
+            '      <path id="减去_11" data-name="减去 11" d="M53,106A53.014,53.014,0,0,1,32.37,4.165a53.014,53.014,0,0,1,41.26,97.67A52.668,52.668,0,0,1,53,106Zm0-95.106A42.105,42.105,0,1,0,95.1,53,42.152,42.152,0,0,0,53,10.895Z" transform="translate(831.053 685.053) rotate(-90)" fill="#51e09b"/>' +
+            '    </g>' +
+            '    <text id="已完成-2" data-name="已完成" transform="translate(834 624)" fill="#35da1f" font-size="18" font-family="SourceHanSansCN-Normal, Source Han Sans CN"><tspan x="0" y="0">已完成</tspan></text>' +
+            '  </g>' +
+            '</svg>'
 
-    'charge-ing': '<svg viewBox="0 0 120 120">' +
-        '  <defs>' +
-        '    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">' +
-        '      <stop offset="0" stop-color="#1d79f5"/>' +
-        '      <stop offset="0.536" stop-color="#2a8ff8"/>' +
-        '      <stop offset="1" stop-color="#4fd0ff"/>' +
-        '    </linearGradient>' +
-        '    <linearGradient id="linear-gradient-2" x1="0.5" x2="0.327" y2="1.046" gradientUnits="objectBoundingBox">' +
-        '      <stop offset="0" stop-color="#ffd58d"/>' +
-        '      <stop offset="1" stop-color="#fc7941"/>' +
-        '    </linearGradient>' +
-        '  </defs>' +
-        '  <g id="正在充能" transform="translate(-824.081 -572.081)">' +
-        '    <g id="椭圆_130" data-name="椭圆 130" transform="translate(824.081 572.081)" fill="#fff" stroke="#d7dbe4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">' +
-        '      <circle cx="60" cy="60" r="60" stroke="none"/>' +
-        '      <circle cx="60" cy="60" r="59" fill="none"/>' +
-        '    </g>' +
-        '    <g id="椭圆_128" data-name="椭圆 128" transform="translate(845.081 593.081)" fill="#fff" stroke="#d7dbe4" stroke-width="1">' +
-        '      <circle cx="39" cy="39" r="39" stroke="none"/>' +
-        '      <circle cx="39" cy="39" r="38.5" fill="none"/>' +
-        '    </g>' +
-        '    <path id="减去_11" data-name="减去 11" d="M53,106A53.014,53.014,0,0,1,32.37,4.165a53.014,53.014,0,0,1,41.26,97.67A52.668,52.668,0,0,1,53,106Zm0-95.106A42.105,42.105,0,1,0,95.1,53,42.152,42.152,0,0,0,53,10.895Z" transform="translate(831.081 685.081) rotate(-90)" opacity="0.6" fill="url(#linear-gradient)"/>' +
-        '    <path id="路径_236" data-name="路径 236" d="M13.319,15.566l-2.943.67a.781.781,0,0,1-.944-.888L11.8.91A.781.781,0,0,0,10.336.423L.09,20.111a.781.781,0,0,0,.866,1.122l2.943-.67a.781.781,0,0,1,.944.888L2.476,35.888a.781.781,0,0,0,1.464.487L14.185,16.688A.781.781,0,0,0,13.319,15.566Z" transform="matrix(0.985, 0.174, -0.174, 0.985, 880.536, 611.729)" fill="url(#linear-gradient-2)"/>' +
-        '  </g>' +
-        '</svg>',
-
-    'charge-done': '<svg viewBox="0 0 120 120">' +
-        '  <g id="已完成" transform="translate(-801 -557)">' +
-        '    <g id="组_855" data-name="组 855" transform="translate(-23.053 -15.053)">' +
-        '      <g id="椭圆_130" data-name="椭圆 130" transform="translate(824.053 572.053)" fill="#fff" stroke="#d7dbe4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">' +
-        '        <circle cx="60" cy="60" r="60" stroke="none"/>' +
-        '        <circle cx="60" cy="60" r="59" fill="none"/>' +
-        '      </g>' +
-        '      <g id="椭圆_128" data-name="椭圆 128" transform="translate(845.053 593.053)" fill="#fff" stroke="#d8e0ff" stroke-width="1">' +
-        '        <circle cx="39" cy="39" r="39" stroke="none"/>' +
-        '        <circle cx="39" cy="39" r="38.5" fill="none"/>' +
-        '      </g>' +
-        '      <path id="减去_11" data-name="减去 11" d="M53,106A53.014,53.014,0,0,1,32.37,4.165a53.014,53.014,0,0,1,41.26,97.67A52.668,52.668,0,0,1,53,106Zm0-95.106A42.105,42.105,0,1,0,95.1,53,42.152,42.152,0,0,0,53,10.895Z" transform="translate(831.053 685.053) rotate(-90)" fill="#51e09b"/>' +
-        '    </g>' +
-        '    <text id="已完成-2" data-name="已完成" transform="translate(834 624)" fill="#35da1f" font-size="18" font-family="SourceHanSansCN-Normal, Source Han Sans CN"><tspan x="0" y="0">已完成</tspan></text>' +
-        '  </g>' +
-        '</svg>'
 
 
 

@@ -6,7 +6,7 @@ module.exports = {
         port: 8006,
         proxy: {
             '/api/ecm-server': {
-                target: 'http://127.0.0.1:8080/api/ecm-server',
+                target: 'http://127.0.0.1:7002/api/ecm',
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {
@@ -21,38 +21,6 @@ module.exports = {
                     '^/api/agnes-ec': '/'
                 }
             },
-            '/api/agnes-remind': {
-                target: 'http://127.0.0.1:9004',
-                ws: true,
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/api/agnes-remind': '/'
-                }
-            },
-            '/api/agnes-ac': {
-                target: 'http://127.0.0.1:9002',
-                ws: true,
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/api/agnes-ac': '/'
-                }
-            },
-            // '/api/ecm-server': {
-            //     target: 'http://127.0.0.1:8080/api/ecm-server',
-            //     ws: true,
-            //     changeOrigin: true,
-            //     pathRewrite: {
-            //         '^/api/ecm-server': '/'
-            //     }
-            // },
-            // '/api/agnes-ec': {
-            //     target: 'http://127.0.0.1:9001',
-            //     ws: true,
-            //     changeOrigin: true,
-            //     pathRewrite: {
-            //         '^/api/agnes-ec': '/'
-            //     }
-            // },
             // '/api/agnes-remind': {
             //     target: 'http://127.0.0.1:9004',
             //     ws: true,
