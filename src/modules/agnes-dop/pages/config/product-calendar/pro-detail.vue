@@ -46,7 +46,7 @@
           <el-progress class="subtask-progress"
                        style="height: 180px;margin: auto 50px auto auto;"
                        type="circle"
-                       :percentage="70"
+                       :percentage="percentage"
                        color="#4C6CFF"
                        :width="180"
                        :stroke-width="22"
@@ -61,7 +61,7 @@
     </module-card>
     <module-card title="处理日志">
       <template slot="content">
-        <gf-grid grid-no="monitor-deal-log" style="height: 210px;margin: -40px auto auto"></gf-grid>
+        <gf-grid ref="subRemindGrid" grid-no="monitor-deal-log" style="height: 210px;margin: -40px auto auto"></gf-grid>
       </template>
     </module-card>
   </div>
@@ -125,6 +125,7 @@ export default {
         this.$refs.subTaskGrid.setRowData(stage.ruCaseStepVos);
       }
     }
+
   },
 }
 </script>
