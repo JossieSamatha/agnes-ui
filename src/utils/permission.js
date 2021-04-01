@@ -11,9 +11,13 @@ router.beforeEach((to, from, next) => {
     let token = localStorage.getItem('token');
 
     if (token) {
+
         if (to.path === '/login') {
+
             next({path: '/'})
+
         } else if (!store.getters.roles || store.getters.roles.length === 0) {
+
             store.dispatch('getUserInfo').then((resp) => {
                 if (resp.ok) {
                     next({...to})
@@ -22,11 +26,16 @@ router.beforeEach((to, from, next) => {
                     next('/login')
                 }
             })
+
         } else {
+
             next();
+
         }
     } else if (whiteList.indexOf(to.path) !== -1) {
+
         next();
+
     } else {
         store.commit('resetUser');
         next('/login')
