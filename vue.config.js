@@ -29,14 +29,14 @@ module.exports = {
             //         '^/api/agnes-remind': '/'
             //     }
             // },
-            // '/api/agnes-ac': {
-            //     target: 'http://127.0.0.1:9002',
-            //     ws: true,
-            //     changeOrigin: true,
-            //     pathRewrite: {
-            //         '^/api/agnes-ac': '/'
-            //     }
-            // },
+            '/api/agnes-ac': {
+                target: 'http://127.0.0.1:9002',
+                ws: true,
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api/agnes-ac': '/'
+                }
+            },
             '/api/agnes-app': {
                 target: 'http://127.0.0.1:9003',
                 ws: true,
@@ -92,4 +92,3 @@ module.exports = {
         }
     }
 };
-
