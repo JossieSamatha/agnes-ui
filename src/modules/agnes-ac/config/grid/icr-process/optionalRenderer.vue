@@ -85,16 +85,10 @@
         >
           <span class="svgSpan" v-html="svgImg.reExecute"></span>
         </el-button>
-      <el-button v-if="indexSetShow" class="detail-btn" size="mini" type="text" icon="fa fa-eye"
+      <el-button v-if="indexIcrShow" class="detail-btn" size="mini" type="text" icon="fa fa-eye"
                  @click="indexDetail('showIndexDetail')"
                  title="查看明细"
-                 :disabled="isKpiDisabled"
-      >
-      </el-button>
-      <el-button v-if="indexircShow" class="detail-btn" size="mini" type="text" icon="fa fa-eye"
-                 @click="indexDetail('showIndexDetail')"
-                 title="查看明细"
-                 :disabled="isKpiDisabled"
+                 :disabled="isIcrDisabled"
       >
       </el-button>
     </div>
@@ -132,11 +126,11 @@
           isDisabled() {
             return !this.params.data.buttonStatus;
           },
-          isKpiDisabled() {
-            return this.params.data.stepStatus === '01';
+          isIcrDisabled() {
+            return false;//this.params.data.stepStatus === '01';
           },
-          indexircShow() {
-            return this.params.data.stepActType === '8';
+          indexIcrShow() {
+            return true;//this.params.data.stepActType === '8';
           }
         },
         methods: {

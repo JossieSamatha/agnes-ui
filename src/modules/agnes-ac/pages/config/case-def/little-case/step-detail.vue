@@ -89,7 +89,7 @@
             <el-form-item label="任务类型" prop="stepActType">
                 <gf-dict v-model="stepInfo.stepActType" dictType="AGNES_CASE_STEPTYPE" @change="stepActTypeChange"></gf-dict>
             </el-form-item>
-            <el-form-item v-if="stepInfo.stepActType === '1'" label="执行逻辑选择" prop="stepActKey">
+            <el-form-item v-if="stepInfo.stepActType === '1' || stepInfo.stepActType === '8'" label="执行逻辑选择" prop="stepActKey">
                 <el-select style="width: 100%" v-model="caseStepDef.stepActKey" placeholder="请选择" filterable clearable>
                     <gf-filter-option
                             v-for="item in kpiOptions"
@@ -799,7 +799,9 @@
         },
         watch: {
             'stepInfo.stepActType'(val){
-                this.caseStepDef.stepActKey = "";
+                if(!val.match(/1|8/)){
+                    this.caseStepDef.stepActKey = "";
+                }
                 if(!val.match(/1|4/)){
                     this.caseStepDef.execScheduler = "";
                 }

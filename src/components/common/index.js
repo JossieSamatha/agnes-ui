@@ -7,9 +7,11 @@ import GfStrBoolCheckBox from './select/gf-strbool-checkbox'
 import cronModal from "./cron-comp/cron-modal";
 import accEcmUpload from './ecm-upload/acc-ecm-upload';
 import MenuConfigUpload from './menu-upload/menu-config-upload';
+import TaskFileUpload from './task-file-upload/task-file-upload';
 import inputComp from './input/index'
 import svgIcon from './svg-icon/svg-icon-comp.vue'
 import skinDialog from './skin-dialog'
+import GfImageView from './image-viewer/gf-image-view.vue'
 
 import robotWisdom from './input/robot'
 
@@ -25,9 +27,11 @@ const Loading = {
         Vue.component('gf-strbool-checkbox',GfStrBoolCheckBox);
         Vue.component('acc-ecm-upload',accEcmUpload);
         Vue.component('menu-config-upload',MenuConfigUpload);
+        Vue.component('task-file-upload',TaskFileUpload);
         Vue.component('robot-wisdom',robotWisdom);
         Vue.component('svg-icon',svgIcon);
         Vue.component('skin-dialog',skinDialog);
+        Vue.component('gf-image-view',GfImageView);
     }
 };
 

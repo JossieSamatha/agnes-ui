@@ -119,6 +119,21 @@ export default {
         'C406.9,240.4,400.7,242.6,393.1,242.6L393.1,242.6z"/>'+
         '</svg>',
 
+    'icrApprove':
+        '<svg id="智能审单" width="500" height="500" viewBox="0 0 1024 1024">\n' +
+        '  <rect id="矩形_6" data-name="矩形 6" width="1024" height="1024" fill="#fff" opacity="0"/>\n' +
+        '  <g id="智能审单-2" data-name="智能审单" transform="translate(-17.555 22.749)">\n' +
+        '    <g id="组_1" data-name="组 1">\n' +
+        '      <rect id="矩形_1" data-name="矩形 1" width="439.436" height="64" rx="8" transform="translate(293.978 243.752)"/>\n' +
+        '      <rect id="矩形_2" data-name="矩形 2" width="272" height="64" rx="8" transform="translate(289.696 387.752)"/>\n' +
+        '    </g>\n' +
+        '    <path id="路径_1" data-name="路径 1" d="M488.31,848.752H223.555v-718.5h576V481.5a8,8,0,0,0,8,8h48a8,8,0,0,0,8-8V98.251a32,32,0,0,0-32-32h-640a32,32,0,0,0-32,32v782.5a32,32,0,0,0,32,32H488.31a8,8,0,0,0,8-8v-48A8,8,0,0,0,488.31,848.752Z"/>\n' +
+        '    <rect id="矩形_3" data-name="矩形 3" width="80" height="196.731" rx="8" transform="translate(544.055 716.021)"/>\n' +
+        '    <rect id="矩形_4" data-name="矩形 4" width="80" height="357.388" rx="8" transform="translate(682.028 555.364)"/>\n' +
+        '    <rect id="矩形_5" data-name="矩形 5" width="80" height="312.162" rx="8" transform="translate(820 600.59)"/>\n' +
+        '  </g>\n' +
+        '</svg>',
+
 
 'actionConfirm':
         '<svg class="lcSvg theme-color" viewBox="0 0 62.56 69.75">' +

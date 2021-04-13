@@ -77,7 +77,8 @@
             },
             selectedChanged(){
                 let rows = this.$refs.grid.getSelectedRows();
-                if(rows.length>0&& rows[0].reTaskDef.taskStatus != "03"&&rows[0].reTaskDef.taskType== "2"){
+                if(rows.length>0&& rows[0].reTaskDef.taskStatus != "03"&&rows[0].reTaskDef.taskType== "2" ||
+                    rows.length>0&& rows[0].reTaskDef.taskStatus != "03"&&rows[0].reTaskDef.taskType== "8"){
                     this.uploadStatus = true;
                 }else{
                     this.uploadStatus = false;
@@ -196,7 +197,7 @@
                 if(rows.length>0){
                     row = rows[0];
                 }
-                if(row.reTaskDef.taskType!='2'){
+                if(!row.reTaskDef.taskType.match(/2|8/)){
                     this.$msg.warning("请选择流程任务进行配置!");
                     return ;
                 }

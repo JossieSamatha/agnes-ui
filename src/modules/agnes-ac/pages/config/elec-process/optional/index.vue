@@ -18,11 +18,11 @@
                 </el-select>
             </div>
             <el-radio-group class="task-board" v-model="choosedTaskId" size="mini" @change="chooseTask">
-                <el-radio v-for="task in proTask" :key="task.taskId" :label="task.taskId" :title="task.taskName"
+                <el-radio v-for="task in proTask" :key="task.taskExecId" :label="task.taskExecId" :title="task.taskName"
                           border>
-                    <em v-if="task.taskIcon" :class="task.taskIcon"></em>
-                    <em v-else class="fa fa-cogs"></em>
-                    <span>{{task.taskName}}</span>
+                  <em v-if="task.taskIcon" :class="task.taskIcon"></em>
+                  <em v-else class="fa fa-cogs"></em>
+                  <span>{{ task.taskName }}</span>
                 </el-radio>
             </el-radio-group>
             <div class="date-search">
@@ -254,9 +254,9 @@
                     this.flowType = this.flowTypeOp[0].typeId;
                     this.proTask = this.flowTypeOp[0].proTask;
                     // 默认加载第一项流程数据
-                    this.choosedTaskId = this.proTask[0].taskId;
-                    this.currentTaskObj = this.proTask[0];
-                    this.getFLowDetail(this.proTask[0].taskId, bizDate, true);
+                  this.choosedTaskId = this.proTask[0].taskExecId;
+                  this.currentTaskObj = this.proTask[0];
+                  this.getFLowDetail(this.proTask[0].taskExecId, bizDate, true);
                 } else {
                     this.flowType = '';
                     this.flowTypeOp = [];
@@ -287,17 +287,17 @@
             },
 
             // 根据流程id及业务日期加载流程信息{"taskId":"","bizDate":""}、获取任务状态、获取执行情况
-            async getFLowDetail(taskId, bizDate, ifLoading) {
-                if (ifLoading) {
-                    this.loading = true;
-                }
-                try {
-                    const flowDetailStr = await this.$api.elecProcessApi.getExecProcessBrief({taskId, bizDate});
-                    if (flowDetailStr.data) {
-                        const flowDetailParse = this.$utils.fromJson(flowDetailStr.data);
-                        if (flowDetailParse && flowDetailParse.stages.length > 0) {
-                            this.taskStage = flowDetailParse.stages;
-                            if (this.curStage && this.curStage.defId) {
+          async getFLowDetail(taskExecId, bizDate, ifLoading) {
+            if (ifLoading) {
+              this.loading = true;
+            }
+            try {
+              const flowDetailStr = await this.$api.elecProcessApi.getExecProcessBrief({taskExecId, bizDate});
+              if (flowDetailStr.data) {
+                const flowDetailParse = this.$utils.fromJson(flowDetailStr.data);
+                if (flowDetailParse && flowDetailParse.stages.length > 0) {
+                  this.taskStage = flowDetailParse.stages;
+                  if (this.curStage && this.curStage.defId) {
                                 const hasStage = this.$lodash.find(flowDetailParse.stages, {defId: this.curStage.defId});
                                 if (hasStage) {
                                     this.curStage = hasStage;
@@ -347,18 +347,18 @@
                 this.curStage = {};
                 this.proTask = this.$lodash.find(this.flowTypeOp, {typeId: val}).proTask;
                 // 默认加载第一项流程数据
-                this.choosedTaskId = this.proTask[0].taskId;
-                this.currentTaskObj = this.proTask[0];
-                this.getFLowDetail(this.proTask[0].taskId, this.bizDate, true);
+              this.choosedTaskId = this.proTask[0].taskExecId;
+              this.currentTaskObj = this.proTask[0];
+              this.getFLowDetail(this.proTask[0].taskExecId, this.bizDate, true);
             },
 
             // 任务流程 -- 选择
-            chooseTask(taskId) {
-                this.curStage = {};
-                this.getFLowDetail(taskId, this.bizDate, true);
-                this.currentTaskObj = this.$lodash.find(this.proTask, {taskId});
-                this.choosedTaskId = taskId;
-            },
+          chooseTask(taskExecId) {
+            this.curStage = {};
+            this.getFLowDetail(taskExecId, this.bizDate, true);
+            this.currentTaskObj = this.$lodash.find(this.proTask, {taskExecId});
+            this.choosedTaskId = taskExecId;
+          },
 
             // 任务流程 -- 指定stage -- 选择
             chooseTaskStage(stage) {
