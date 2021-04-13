@@ -155,7 +155,7 @@
                     const containerHeight = document.getElementById('gfVerticalExpand').clientHeight;
                     const sideMenuHeight = document.getElementById('gf-side-menu').clientHeight;
                     const activeDomHeight = document.getElementsByClassName('gf-menu-item is-hover')[0].getBoundingClientRect().top;
-                    if(containerHeight && activeDomHeight && activeDomHeight){
+                    if(containerHeight && activeDomHeight){
                         if(containerHeight > sideMenuHeight + activeDomHeight){
                             this.sideMenuStyle = {top: activeDomHeight + 'px', bottom: 'auto'} ;
                         }else{
