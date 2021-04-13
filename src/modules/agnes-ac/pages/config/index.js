@@ -22,6 +22,8 @@ import productMonitor from './product-monitor/index'
 import gusterMonitor from './guster-monitor/index'
 
 import guestComp from './guster-monitor/guest/index'
+import icrTaskDef from './icr-task-def/index'
+import IcrProcess from './icr-process/optional/index'
 
 
 const Loading = {
@@ -40,6 +42,7 @@ const Loading = {
         Gfui.componentView('agnes.config.case', CaseDef, {title: 'case定义'});
         Gfui.componentView('agnes.config.mot', MotDef, {title: 'MOT任务配置'});
         Gfui.componentView('agnes.config.mult.task', MultTaskDef, {title: '综合任务配置'});
+        Gfui.componentView('agnes.config.icr.task', icrTaskDef, {title: '智能审单任务'});
 
         // Gfui.componentView('agnes.config.case.step', CaseConfigIndex, {title: 'case详情配置'});
         Gfui.componentView('agnes.kpi.task.def', KpiTaskDef, {title: '监控指标任务配置'});
@@ -49,6 +52,7 @@ const Loading = {
 
 
         Gfui.componentView('agnes.elec.operate', ElecProcessOp, {title: '电子流程操作'});
+        Gfui.componentView('agnes.icr.elec.operate', IcrProcess, {title: '智能审单工作台'});
         Gfui.componentView('agnes.app.monitor.leader', ElecProcessDB, {title: '综合监控看板'});
         Gfui.componentView('agnes.service.resp.level.conf', ServiceRespLevelConf, {title: '服务响应等级配置'});
 

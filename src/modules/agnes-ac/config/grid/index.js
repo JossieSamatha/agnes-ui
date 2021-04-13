@@ -9,6 +9,7 @@ import CaseDef from "./case-def"
 import MotDef from "./mot-def"
 import FlowTaskField from './flow-task-def'
 import elecProcessField from './elec-process'
+import icrProcessField from './icr-process'
 import ServiceRespLevelConf from "./service-resp-conf"
 import ProMonitor from './product-monitor/index'
 import BizMonitor from './biz-monitor/index'
@@ -26,6 +27,7 @@ const Loading = {
         Gfui.use(MotDef);
         Gfui.use(FlowTaskField);
         Gfui.use(elecProcessField);
+        Gfui.use(icrProcessField);
         Gfui.use(ServiceRespLevelConf);
         Gfui.use(ProMonitor);
         Gfui.use(BizMonitor);

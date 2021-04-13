@@ -88,6 +88,7 @@
                 <el-radio label="1">按运行周期创建一次</el-radio>
                 <el-radio label="2">按自定义频率创建</el-radio>
                 <el-radio label="3">按外部事件触发时创建</el-radio>
+                <el-radio label="4">手动触发</el-radio>
             </el-radio-group>
         </el-form-item>
         <template v-if="detailForm.task_execMode==2">
@@ -162,7 +163,15 @@
             </gf-person-chosen>
         </el-form-item>
         <el-form-item label="任务类型" prop="stepActType">
-            <gf-dict v-model="detailForm.taskType" :disabled="this.mode!='add'" dictType="AGNES_CASE_STEPTYPE" @change="stepActTypeChange"></gf-dict>
+            <el-select v-model="detailForm.taskType" placeholder="请选择"  :disabled="this.mode!='add'" @change="stepActTypeChange">
+                <el-option
+                        v-for="item in taskTypeOptions"
+                        :key="item.dictId"
+                        :label="item.dictName"
+                        :value="item.dictId"
+                        :disabled="item.dictId=='2'">
+                </el-option>
+            </el-select>
         </el-form-item>
         <el-form-item v-if="detailForm.taskType === '1'" label="执行逻辑选择" prop="stepActKey">
             <el-select style="width: 100%" v-model="detailForm.stepActKey" placeholder="请选择" filterable clearable>
@@ -402,11 +411,13 @@
                 paramList:[],
                 configType:'1',
                 isCheckCode:false,
+                configTypeDisable:false,
                 rosterDate:'',
                 hisStepCode:'',
                 memberRefList:[],
                 versionId:'',
                 serviceRes:[],
+                taskTypeOptions:[],
                 staticData: staticData(),
                 detailForm: initData(),
                 startDayChecked: '0',  // 执行开始时间跨日
@@ -516,6 +527,7 @@
             },
             async getOptions(){
                 this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
+                this.taskTypeOptions = this.$app.dict.getDictItems("AGNES_CASE_STEPTYPE");
                 const e = this.$api.eventlDefConfigApi.getEventDefList();
                 const eventR = await this.$app.blockingApp(e);
                 if(eventR.data) {
@@ -656,6 +668,9 @@
                         return ;
                     }
                     let resData = this.dataTransfer();
+                    if(this.detailForm.task_execMode=='4'){
+                        resData.reTaskDef.taskType = '8';
+                    }
                     if(this.row.isCheck){
                         resData.isPass = '1';
                         const p = this.$api.kpiTaskApi.checkTask(resData);
@@ -812,7 +827,7 @@
                     }
                     this.reKeyToValue(taskDef, 'task_');
                     this.versionId = this.row.versionId;
-                    if(taskDef.taskType == '2'){
+                    if(taskDef.taskType == '2' || taskDef.taskType == '8'){
                         this.detailForm.configType='2';
                         this.caseModelData = this.row.caseDefBody;
                     }else {
@@ -950,6 +965,9 @@
                 }else {
                     this.detailForm.eventId = '';
                     this.detailForm.task_execScheduler= ''
+                }
+                if(val === '4'){
+                    this.detailForm.configType = '2';
                 }
             },
             'detailForm.taskType'(val){

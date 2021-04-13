@@ -51,6 +51,12 @@
                         type: 'ocr',
                         label: 'OCR识别',
                         icon: 'ocr'
+                    },
+                    {
+                        id: '8',
+                        type: 'icrApprove',
+                        label: '智能审单',
+                        icon: 'icrApprove'
                     }
 
                 ]

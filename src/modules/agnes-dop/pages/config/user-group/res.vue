@@ -14,6 +14,14 @@
                                              height="100%" >
                                     </gf-grid>
                                 </div>
+                                <div class="gf-role-auth-form" v-if="app.appCode==='znsd'">
+                                    <gf-grid grid-no="group-icr"
+                                             ref="icrGrid"
+                                             :options="rowClassOption()"
+                                             @load-data="(params)=>{gridLoadData(taskList, params)}"
+                                             height="100%" >
+                                    </gf-grid>
+                                </div>
                                 <div class="gf-role-auth-form" v-if="app.appCode==='zb'">
                                     <gf-grid grid-no="group-kpi"
                                              ref="kpiGrid"
@@ -75,7 +83,7 @@
         },
         methods: {
             async loadAppList() {
-                this.apps = [{"appCode":"lc","appName":"流程任务","taskType":"2"},{"appCode":"zb","appName":"指标任务","taskType":"1"},{"appCode":"zhlx","appName":"账户类型","taskType":"3"}];
+                this.apps = [{"appCode":"lc","appName":"流程任务","taskType":"2"},{"appCode":"znsd","appName":"智能审单","taskType":"4"},{"appCode":"zb","appName":"指标任务","taskType":"1"},{"appCode":"zhlx","appName":"账户类型","taskType":"3"}];
                 this.currentApp = 'zb';
             },
             // 表格数据初始加载 -- 已勾选项赋值
@@ -102,6 +110,7 @@
                     this.disabled=false;
                     let authData = await this.$api.userGroupApi.getAuthDataList({"userGroupId":this.row.userGroupId});
                     this.taskList = authData.data;
+                    this.$refs.icrGrid[0].reloadData();
                     this.$refs.kpiGrid[0].reloadData();
                     this.$refs.flowGrid[0].reloadData();
                     this.$refs.acntTypeGrid[0].reloadData();
@@ -122,6 +131,13 @@
                             return item.reTaskDef.taskId;
                         });
                         const p = this.$api.userGroupApi.saveAuthData({"userGroupId":this.row.userGroupId,"taskIds":taskIds,"taskType":"2"});
+                        await this.$app.blockingApp(p);
+                    }else  if(this.currentApp === "znsd"){
+                        let rows = this.$refs.icrGrid[0].getSelectedRows();
+                        let taskIds = rows.map((item)=>{
+                            return item.reTaskDef.taskId;
+                        });
+                        const p = this.$api.userGroupApi.saveAuthData({"userGroupId":this.row.userGroupId,"taskIds":taskIds,"taskType":"4"});
                         await this.$app.blockingApp(p);
                     }else {
                         let rows = this.$refs.acntTypeGrid[0].getSelectedRows();

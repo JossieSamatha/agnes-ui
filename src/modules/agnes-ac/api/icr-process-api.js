@@ -15,9 +15,9 @@ export default {
     },
 
 
-    // 获得当前任务的流程信息详情（电子流程）
-    getExecProcessBrief(params) {
-        return request.post("/agnes-ac/v1/ac/exec/process/brief", params);
+    // 获得当前任务的流程信息详情（智能审单）
+    getIcrProcessBrief(params) {
+        return request.post("/agnes-ac/v1/ac/icr/process/brief", params);
     },
 
     // 获得当前任务的流程信息(领导驾驶仓)

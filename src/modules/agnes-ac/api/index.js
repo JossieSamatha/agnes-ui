@@ -10,7 +10,9 @@ import motConfigApi from './mot-config-api';
 import flowTaskApi from './flow-task-config-api';
 import ServiceConfApi from './service-conf-api';
 import elecProcessApi from './elec-process-api';
+import icrProcessApi from './icr-process-api';
 import monitorKpiApi from './monitor-kpi-api';
+import icrTaskApi from './icr-task-api';
 
 export default {
     modelConfigApi,
@@ -25,5 +27,7 @@ export default {
     flowTaskApi,
     ServiceConfApi,
     elecProcessApi,
-    monitorKpiApi
+    icrProcessApi,
+    monitorKpiApi,
+    icrTaskApi
 };
