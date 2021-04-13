@@ -336,7 +336,7 @@
                             }
                         });
 
-                        if(type2FileList && type2FileList.length >0){
+                        if(type2FileList){
                             type2FileList.forEach((file)=>{
                                 that.fileList.push(file);
                             });
