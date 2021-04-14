@@ -14,7 +14,13 @@
                                 <el-form-item v-for="item in items"
                                               :label="item.itemKey"
                                               :key="item.pkId">
-                                    <el-input v-model="item.itemString"></el-input>
+                                  <div class="line">
+                                    <el-input v-model="item.itemString" style="width: 85%;"></el-input>
+                                    <i v-if="item.isCorrect && item.isCorrect === '1'" class="el-icon-circle-check"
+                                       style="margin-left: 3px;font-size: 20px;vertical-align: middle;line-height:32px;color: #4ACE69;width: 15%"></i>
+                                    <i v-if="item.isCorrect && item.isCorrect === '0'" class="el-icon-circle-close"
+                                       style="margin-left: 3px;font-size: 20px;vertical-align: middle; line-height:32px;color: red;width: 15%"></i>
+                                  </div>
                                 </el-form-item>
                             </el-col>
                         </el-row>

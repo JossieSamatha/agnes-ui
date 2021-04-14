@@ -115,7 +115,7 @@
         },
         computed: {
             actionShow() {
-                return this.params.data.stepActType === '6';
+                return this.params.data.stepActType === '8';
             },
             indexSetShow() {
               return this.params.data.stepActType === '1';
