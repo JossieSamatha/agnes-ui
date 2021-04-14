@@ -3,7 +3,7 @@
         <el-form :model="form" :disabled="mode=='view'" ref="form" :rules="rules" label-width="110px"
                  style="padding: 10px">
             <el-form-item label="业务编号" prop="bizKey">
-                <gf-input v-model="form.bizKey" clear-regex="[^0-9]"  style="width: 60%"/>
+                <gf-input v-model="form.bizKey" clear-regex="[^A-Za-z0-9]"  style="width: 60%"/>
             </el-form-item>
             <el-form-item label="业务类别" prop="taskId">
                 <el-select v-model="form.taskId" placeholder="请选择"  style="width: 60%">

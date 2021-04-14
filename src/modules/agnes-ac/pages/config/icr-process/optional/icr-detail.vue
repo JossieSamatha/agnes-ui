@@ -85,7 +85,9 @@
                 let resp = await this.$app.blockingApp(p);
                 if (resp.data) {
                     this.files = JSON.parse(JSON.stringify(resp.data).replace(/fileId/g,"ecmFileId"));
-
+                    if(this.files.length<1){
+                        return ;
+                    }
                     if(this.files[0].splitDocId){
                         this.files[0].acRuTaskFileItemList.forEach((pageItem)=>{
                             if(pageItem.pageNum==1){

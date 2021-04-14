@@ -25,6 +25,10 @@ export default {
             },
             cellClass: ['fa fa-circle', 'status-circle-cell'],
         },
+        {
+            headerName: "任务名称", field: "stepName",
+            tooltipField: 'stepName',
+        },
         {headerName: "任务类型", field: "stepActType", formatType: 'dict', dictType: 'AGNES_CASE_STEPTYPE'},
         {
             headerName: "业务编号", field: "bizKey"

@@ -94,9 +94,11 @@
                 this.imageData.api.fitWidth();
             },
             download() {
-                const basePath = window.location.href.split("#/")[0];
-                let downLoadUrl = basePath + "api/ecm-server/ecm/file/download/" + this.ecmFieldId;
-                window.open(downLoadUrl, "_self");
+                if(this.ecmFieldId){
+                    const basePath = window.location.href.split("#/")[0];
+                    let downLoadUrl = basePath + "api/ecm-server/ecm/file/download/" + this.ecmFieldId;
+                    window.open(downLoadUrl, "_self");
+                }
             },
 
             //上一页
