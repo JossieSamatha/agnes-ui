@@ -81,8 +81,8 @@
             },
             async initParam() {
                 //获取图片
-                const p = this.$api.icrTaskApi.selectIcrFileInfo(this.task.stepCode);
-                let resp = await this.$app.blockingApp(p);
+                const p = this.$api.icrTaskApi.selectIcrFileInfo(this.task.stepCode, this.task.taskExecId);
+              let resp = await this.$app.blockingApp(p);
                 if (resp.data) {
                     this.files = JSON.parse(JSON.stringify(resp.data).replace(/fileId/g,"ecmFileId"));
                     if(this.files.length<1){
