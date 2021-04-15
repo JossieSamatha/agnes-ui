@@ -13,10 +13,10 @@ export default {
     getTaskFilesByTaskId(taskId) {
         return request.post("/agnes-ac/v1/ac/icr/task/get-files/by-task-id", null, {params: {taskId}});
     },
-    selectIcrFileInfo(stepCode) {
-        return request.post("/agnes-ac/v1/ac/icr/task/info", null, {params: {stepCode}});
+    selectIcrFileInfo(stepCode, taskExecId) {
+        return request.post("/agnes-ac/v1/ac/icr/task/info", null, {params: {stepCode, taskExecId}});
     },
     updateIcrFileItems(form) {
-        return request.post("/agnes-ac/v1/ac/icr/task/update/file-items",  form);
+        return request.post("/agnes-ac/v1/ac/icr/task/update/file-items", form);
     },
 };
