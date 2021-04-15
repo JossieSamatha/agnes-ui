@@ -106,6 +106,7 @@
             },
             toShowTaskProcess(param){
                 let task = param.data;
+                this.$agnesUtils.closeTab('agnes.icr.elec.operate');
                 let clientView = this.$app.views.getView('agnes.icr.elec.operate');
                 let clientTabView = Object.assign({args: {taskExecId:task.taskExecId,taskFlowType:task.flowType}, id: 'agnes.icr.elec.operate'}, clientView);
                 this.$nav.showView(clientTabView);
