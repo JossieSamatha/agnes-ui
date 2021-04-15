@@ -104,6 +104,12 @@
             async viewTask(param) {
                 this.showDrawer('view', param.data, this.onAddModel.bind(this));
             },
+            toShowTaskProcess(param){
+                let task = param.data;
+                let clientView = this.$app.views.getView('agnes.icr.elec.operate');
+                let clientTabView = Object.assign({args: {taskExecId:task.taskExecId,taskFlowType:task.flowType}, id: 'agnes.icr.elec.operate'}, clientView);
+                this.$nav.showView(clientTabView);
+            },
             showDrawer(mode, row, actionOk) {
                 if (mode !== 'add' && !row) {
                     this.$msg.warning("请选中一条记录!");
