@@ -799,10 +799,8 @@
         },
         watch: {
             'stepInfo.stepActType'(val){
-                if(!val.match(/1|8/)){
+                if(!val.match(/1|4|8/)){
                     this.caseStepDef.stepActKey = "";
-                }
-                if(!val.match(/1|4/)){
                     this.caseStepDef.execScheduler = "";
                 }
             },

@@ -118,7 +118,7 @@
                 return this.params.data.stepActType === '8';
             },
             indexSetShow() {
-              return this.params.data.stepActType === '1';
+              return this.params.data.stepActType === '8';
             },
           autoSetShow() {
             return this.params.data.stepActType === '7';
