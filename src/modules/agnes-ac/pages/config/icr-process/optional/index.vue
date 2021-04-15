@@ -154,6 +154,14 @@
 import IcrDetail from "./icr-detail";
 
 export default {
+  props: {
+    taskExecId: {
+      type: String
+    },
+    taskFlowType: {
+      type: String
+    }
+  },
   data() {
     return {
       svgImg: this.$svgImg,
@@ -253,12 +261,29 @@ export default {
       const flowDataList = await this.$api.icrProcessApi.getIcrTask(bizDate);
       if (flowDataList.data && flowDataList.data.length > 0) {
         this.flowTypeOp = this.getNeedFlowType(flowDataList.data);
-        this.flowType = this.flowTypeOp[0].typeId;
-        this.proTask = this.flowTypeOp[0].proTask;
-        // 默认加载第一项流程数据
-        this.choosedTaskId = this.proTask[0].taskExecId;
-        this.currentTaskObj = this.proTask[0];
-        this.getFLowDetail(this.proTask[0].taskExecId, bizDate, true);
+        if(this.taskExecId){
+          this.flowTypeOp.forEach((flow)=>{
+            if(flow.typeId == this.taskFlowType){
+              this.flowType = flow.typeId;
+              this.proTask = flow.proTask;
+              this.proTask.forEach((item)=>{
+                if(item.taskExecId == this.taskExecId){
+                  // 加载该流程数据
+                  this.choosedTaskId = item.taskExecId;
+                  this.currentTaskObj = item;
+                  this.getFLowDetail(item.taskExecId, bizDate, true);
+                }
+              });
+            }
+          });
+        }else {
+          this.flowType = this.flowTypeOp[0].typeId;
+          this.proTask = this.flowTypeOp[0].proTask;
+          // 默认加载第一项流程数据
+          this.choosedTaskId = this.proTask[0].taskExecId;
+          this.currentTaskObj = this.proTask[0];
+          this.getFLowDetail(this.proTask[0].taskExecId, bizDate, true);
+        }
       } else {
         this.flowType = '';
         this.flowTypeOp = [];

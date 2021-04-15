@@ -153,7 +153,7 @@
                     <el-button  @click="addRule()" class="rule-add-btn" size="small">新增</el-button>
                 </div>
             </el-form-item>
-            <el-form-item label="执行频率配置" v-if="stepInfo.stepActType === '1' || stepInfo.stepActType === '4'" prop="execScheduler">
+            <el-form-item label="执行频率配置" v-if="stepInfo.stepActType === '1' || stepInfo.stepActType === '4' || stepInfo.stepActType === '8'" prop="execScheduler">
                 <el-button type="text" @click="editExecTime(caseStepDef.execScheduler,'执行频率配置')">
                     {{caseStepDef.execScheduler}}点击配置
                 </el-button>

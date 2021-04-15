@@ -3,11 +3,12 @@ import dateUtil from '@hex/gf-ui/src/util/date-utils'
 const colButtons = [
     {key: 'deleteTask', title: '删除', cellClass: 'red-cell'},
     {key: 'viewTask', title: '查看'},
+    {key: 'toShowTaskProcess', title: '任务详情'},
 ];
 
 export default {
     columnDefs: [
-        column.buildOpCol(120, colButtons),
+        column.buildOpCol(140, colButtons),
         {headerName: "业务编号", field: "bizKey"},
         {headerName: "业务类别", field: "taskName"},
         {headerName: "审单状态", field: "approveStatus",
