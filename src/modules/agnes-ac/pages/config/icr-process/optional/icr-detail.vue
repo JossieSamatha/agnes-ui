@@ -21,6 +21,7 @@
                                     <i v-if="item.isCorrect && item.isCorrect === '0'" class="el-icon-circle-close"
                                        style="margin-left: 3px;font-size: 20px;vertical-align: middle; line-height:32px;color: red;width: 15%"></i>
                                   </div>
+                                    <el-input class="rt-input" v-if="item.isCorrect && item.isCorrect === '0'" v-model="item.checkString" disabled="true" style="width: 85%"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -111,5 +112,9 @@
 <style>
     .page_content {
         height: 100%;
+    }
+    .rt-input /deep/ .el-input__inner {
+        color: red !important;
+        cursor: pointer;
     }
 </style>
