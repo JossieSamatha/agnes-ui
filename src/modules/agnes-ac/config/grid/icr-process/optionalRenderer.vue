@@ -70,7 +70,7 @@
         </el-button>
         <el-button size="mini" type="text"
                    v-popover:popover
-                   v-if="indexSetShow"
+                   v-if="autoSetShow"
                    @click="popoverClick('forcePass')"
                    title="干预通过"
                    :disabled="isDisabled"
@@ -121,7 +121,7 @@
               return this.params.data.stepActType === '8';
             },
           autoSetShow() {
-            return this.params.data.stepActType === '7';
+            return false;
           },
           isDisabled() {
             return !this.params.data.buttonStatus;
