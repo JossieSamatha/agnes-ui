@@ -17,4 +17,7 @@ export default {
     checkCaseDefKey(caseDefKey) {
         return request.get("/agnes-ac/v1/ac/case/def/check", {params: {caseDefKey}});
     },
+    selectTaskCaseBody(caseDefId) {
+        return request.post("/agnes-ac/v1/ac/case/def/case-body", null, {params: {caseDefId}});
+    }
 };
