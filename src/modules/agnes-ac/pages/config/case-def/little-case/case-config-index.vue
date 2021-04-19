@@ -89,31 +89,44 @@
             stepDetail
         },
         mounted() {
-            this.caseModelData = this.row.caseDefInfo.caseDefBody?JSON.parse(this.row.caseDefInfo.caseDefBody) : this.$utils.deepClone(mockData);
-            this.stepCodeArr = this.caseModelData.stepCodeArr || {};
-            this.$app.registerCmd("openStepDialog", this.onShowDialog);
+          this.initTaskCaseBody();
+          this.stepCodeArr = this.caseModelData.stepCodeArr || {};
+          this.$app.registerCmd("openStepDialog", this.onShowDialog);
         },
         methods: {
-            getStepCodeArr(){
-                const modelData = this.$lodash.cloneDeep(this.caseModelData.stages);
-                const stepCodeObj = {};
-                for(let i=0; i<modelData.length; i++ ){
-                    modelData[i].children.forEach((stages)=>{
-                        if(stages.defType === "step"){
-                            stepCodeObj[stages.stepFormInfo.caseStepDef.stepCode] = stages.stepName
-                        }else{
-                            this.traverseData(stages.steps, stepCodeObj);
-                        }
-                    })
+          async initTaskCaseBody() {
+            let rep = null;
+            if (this.row.caseDefInfo.caseDefId) {
+              const p = this.$api.caseConfigApi.selectTaskCaseBody(this.row.caseDefInfo.caseDefId)
+              rep = await this.$app.blockingApp(p);
+            }
+            if (rep && rep.data) {
+              this.caseModelData = JSON.parse(rep.data.caseDefBody);
+              this.row.caseDefInfo.caseDefBody = rep.data.caseDefBody;
+            } else {
+              this.caseModelData = this.$utils.deepClone(mockData)
+            }
+          },
+          getStepCodeArr() {
+            const modelData = this.$lodash.cloneDeep(this.caseModelData.stages);
+            const stepCodeObj = {};
+            for (let i = 0; i < modelData.length; i++) {
+              modelData[i].children.forEach((stages) => {
+                if (stages.defType === "step") {
+                  stepCodeObj[stages.stepFormInfo.caseStepDef.stepCode] = stages.stepName
+                } else {
+                  this.traverseData(stages.steps, stepCodeObj);
                 }
-                this.stepCodeArr = stepCodeObj;
-            },
+              })
+            }
+            this.stepCodeArr = stepCodeObj;
+          },
 
-            traverseData(arr, stepCodeObj){
-                arr.forEach((groupItem)=>{
-                    if(groupItem.defType === 'group'){
-                        this.traverseData(groupItem.steps, stepCodeObj);
-                    }else{
+          traverseData(arr, stepCodeObj) {
+            arr.forEach((groupItem) => {
+              if (groupItem.defType === 'group') {
+                this.traverseData(groupItem.steps, stepCodeObj);
+              } else {
                         stepCodeObj[groupItem.stepFormInfo.caseStepDef.stepCode] = groupItem.stepName
                     }
                 });

@@ -647,38 +647,42 @@
                     return;
                 }
                 try {
-                    if(this.detailForm.stepActOwner == '[]' && this.detailForm.configType ==='1'){
-                        this.$message.warning("请选择通知人员！");
-                        return ;
+                  if (this.detailForm.stepActOwner == '[]' && this.detailForm.configType === '1') {
+                    this.$message.warning("请选择通知人员！");
+                    return;
+                  }
+                  if (this.detailForm.stepRemark == '' && this.detailForm.configType != '2') {
+                    this.$message.warning("任务说明必填！");
+                    return;
+                  }
+                  if (this.detailForm.configType == 1 && !this.detailForm.taskType) {
+                    this.$message.warning("请选择任务类型！");
+                    return;
+                  }
+                  if (this.detailForm.stepLevel == '' && this.detailForm.configType != '2') {
+                    this.$message.warning("任务等级必填！");
+                    return;
+                  }
+                  if (this.detailForm.flowType == '' && this.detailForm.configType === '2') {
+                    this.$message.warning("请选流程类型！");
+                    return;
+                  }
+                  if (this.detailForm.task_execMode == '3' && this.detailForm.eventId == '') {
+                    this.$message.warning("请选择触发事件！");
+                    return;
+                  }
+                  let resData = this.dataTransfer();
+                  if (this.detailForm.task_execMode == '4') {
+                    resData.reTaskDef.taskType = '8';
+                  }
+                  if (this.row.isCheck) {
+                    resData.isPass = '1';
+                    const p = this.$api.kpiTaskApi.checkTask(resData);
+                    await this.$app.blockingApp(p);
+                    this.$msg.success('审核成功');
+                    if (this.actionOk) {
+                      await this.actionOk();
                     }
-                    if(this.detailForm.stepRemark == '' && this.detailForm.configType !='2'){
-                        this.$message.warning("任务说明必填！");
-                        return ;
-                    }
-                    if(this.detailForm.stepLevel == '' && this.detailForm.configType !='2'){
-                        this.$message.warning("服务等级必填！");
-                        return ;
-                    }
-                    if(this.detailForm.flowType == '' && this.detailForm.configType ==='2'){
-                        this.$message.warning("请选流程类型！");
-                        return ;
-                    }
-                    if(this.detailForm.task_execMode == '3' && this.detailForm.eventId == ''){
-                        this.$message.warning("请选择触发事件！");
-                        return ;
-                    }
-                    let resData = this.dataTransfer();
-                    if(this.detailForm.task_execMode=='4'){
-                        resData.reTaskDef.taskType = '8';
-                    }
-                    if(this.row.isCheck){
-                        resData.isPass = '1';
-                        const p = this.$api.kpiTaskApi.checkTask(resData);
-                        await this.$app.blockingApp(p);
-                        this.$msg.success('审核成功');
-                        if (this.actionOk) {
-                            await this.actionOk();
-                        }
                         this.$emit("onClose");
                     }else {
                         if(resData.reTaskDef.taskType=='6' && resData.paramList.length>0){
