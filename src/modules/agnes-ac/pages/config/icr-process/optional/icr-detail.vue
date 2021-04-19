@@ -113,8 +113,7 @@
     .page_content {
         height: 100%;
     }
-    .rt-input /deep/ .el-input__inner {
-        color: red !important;
-        cursor: pointer;
+    .rt-input .el-input__inner {
+        color: #f5222e !important;
     }
 </style>
