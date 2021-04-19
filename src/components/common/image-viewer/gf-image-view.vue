@@ -62,9 +62,9 @@
                 showLastFile: false,//上一文件
                 showNextFile: true,//下一文件
                 fileIndex: 0,//当前文件序号
-                splitDocId:'',//分割后的docId（PDF、tif）
-                multFiles:[],//分割后的docId（PDF、tif）
-                filePageIndex:0//当前文件页数
+                splitDocId: '',//分割后的docId（PDF、tif）
+                multFiles: [],//分割后的docId（PDF、tif）
+                filePageIndex: 0//当前文件页数
             }
         },
         computed: {
@@ -80,8 +80,8 @@
         components: {
             GfAnnoView
         },
-        watch:{
-          'fileId':'fileIdChange'
+        watch: {
+            'fileId': 'fileIdChange'
         },
         methods: {
             zoomIn() {
@@ -94,7 +94,7 @@
                 this.imageData.api.fitWidth();
             },
             download() {
-                if(this.ecmFieldId){
+                if (this.ecmFieldId) {
                     const basePath = window.location.href.split("#/")[0];
                     let downLoadUrl = basePath + "api/ecm-server/ecm/file/download/" + this.ecmFieldId;
                     window.open(downLoadUrl, "_self");
@@ -103,30 +103,30 @@
 
             //上一页
             lastPage() {
-                let lastIndex = this.filePageIndex-1;
-                if(lastIndex<0){
+                let lastIndex = this.filePageIndex - 1;
+                if (lastIndex < 0) {
                     return;
                 }
-                if(lastIndex==0){
+                if (lastIndex == 0) {
                     this.showLastPage = false;
                     this.showNextPage = true;
                 }
                 this.filePageIndex = lastIndex;
                 let objectId = this.multFiles[lastIndex].objectId;
-                this.$emit("listenToChildEvent",this.fileIndex,lastIndex+1);
+                this.$emit("listenToChildEvent", this.fileIndex, lastIndex + 1);
                 this.changeImageHandle(this.splitDocId, objectId);
             },
 
             //下一页
             nextPage() {
-                let nextIndex = this.filePageIndex+1;
-                if(nextIndex==this.multFiles.length-1){
+                let nextIndex = this.filePageIndex + 1;
+                if (nextIndex == this.multFiles.length - 1) {
                     this.showNextPage = false;
                     this.showLastPage = true;
                 }
                 this.filePageIndex = nextIndex;
                 let objectId = this.multFiles[nextIndex].objectId;
-                this.$emit("listenToChildEvent",this.fileIndex,nextIndex+1);
+                this.$emit("listenToChildEvent", this.fileIndex, nextIndex + 1);
                 this.changeImageHandle(this.splitDocId, objectId);
             },
 
@@ -134,15 +134,15 @@
             lastFile() {
                 this.showLastPage = false;
                 this.showNextPage = false;
-                this.filePageIndex=0;
-                this.multFiles=[];
+                this.filePageIndex = 0;
+                this.multFiles = [];
                 this.fileIndex--;
                 this.ecmFieldId = this.files[this.fileIndex].ecmFileId;
-                if(this.files[this.fileIndex].splitDocId){
-                    this.$emit("listenToChildEvent",this.fileIndex,1);
+                if (this.files[this.fileIndex].splitDocId) {
+                    this.$emit("listenToChildEvent", this.fileIndex, 1);
                     this.detailSplitFile(this.files[this.fileIndex].splitDocId)
-                }else {
-                    this.$emit("listenToChildEvent",this.fileIndex);
+                } else {
+                    this.$emit("listenToChildEvent", this.fileIndex);
                     this.changeImageHandle(this.files[this.fileIndex].docId, this.ecmFieldId);
                 }
                 // this.refreshList();
@@ -162,16 +162,16 @@
             nextFile() {
                 this.showLastPage = false;
                 this.showNextPage = false;
-                this.filePageIndex=0;
-                this.multFiles=[];
+                this.filePageIndex = 0;
+                this.multFiles = [];
                 this.fileIndex++;
                 this.ecmFieldId = this.files[this.fileIndex].ecmFileId;
-                if(this.files[this.fileIndex].splitDocId){
-                    this.$emit("listenToChildEvent",this.fileIndex,1);
+                if (this.files[this.fileIndex].splitDocId) {
+                    this.$emit("listenToChildEvent", this.fileIndex, 1);
                     this.detailSplitFile(this.files[this.fileIndex].splitDocId)
-                }else {
-                    this.$emit("listenToChildEvent",this.fileIndex);
-                    this.changeImageHandle(this.files[this.fileIndex].docId,this.ecmFieldId);
+                } else {
+                    this.$emit("listenToChildEvent", this.fileIndex);
+                    this.changeImageHandle(this.files[this.fileIndex].docId, this.ecmFieldId);
                 }
                 this.showNextFile = false;
                 if (this.fileIndex >= (this.files.length - 1)) {
@@ -190,15 +190,15 @@
                 //防止控件初始化失败，初始化成功后查询数据并显示
                 this.init();
             },
-            detailSplitFile(splitDocId){
+            detailSplitFile(splitDocId) {
                 this.splitDocId = splitDocId;
                 //获取文件列表
-                this.$api.ecmUploadApi.getOisFileList(this.splitDocId).then( (resp) => {
+                this.$api.ecmUploadApi.getOisFileList(this.splitDocId).then((resp) => {
                     if (resp.files) {
                         this.multFiles = resp.files;
                         this.ecmFieldId = this.multFiles[this.filePageIndex].objectId;
                         this.changeImageHandle(this.splitDocId, this.ecmFieldId);
-                        if(this.multFiles.length>1){
+                        if (this.multFiles.length > 1) {
                             this.showNextPage = true;
                         }
                     }
@@ -212,20 +212,20 @@
                     if (this.files.length > 1) {
                         let fileInfo = this.files[0];
                         viewData.ecmFieldId = fileInfo.objectId;
-                        if(fileInfo.splitDocId){
+                        if (fileInfo.splitDocId) {
                             this.detailSplitFile(fileInfo.splitDocId)
-                        }else {
-                            this.splitDocId='';
+                        } else {
+                            this.splitDocId = '';
                         }
                         viewData.showNextFile = true;
                         viewData.showLastFile = false;
                     } else {
                         let fileInfo = this.files[0];
                         viewData.ecmFieldId = fileInfo.objectId;
-                        if(fileInfo.splitDocId){
+                        if (fileInfo.splitDocId) {
                             this.detailSplitFile(fileInfo.splitDocId)
-                        }else {
-                            this.splitDocId='';
+                        } else {
+                            this.splitDocId = '';
                         }
                         viewData.showNextFile = false;
                         viewData.showLastFile = false;
@@ -256,10 +256,33 @@
             changeImageHandle: function (docId, fileId) {
                 this.setImageUrl(docId, fileId);
             },
-            fileIdChange:function(){
+            fileIdChange: function () {
                 this.refreshList();
             },
-        },
+            showFieldZone: function (positionX, positionY, fieldWidth, fieldHeight, zoneStyle, centerAtZone) {
+                if (!zoneStyle) {
+                    zoneStyle = 'defaultZone';
+                }
+                let zone = {
+                    style: zoneStyle,
+                    rect: {x: positionX, y: positionY, width: fieldWidth, height: fieldHeight}
+                };
+                let zones = new Array();
+                zones.push(zone);
+
+                data.imageData.zoneList = zones;
+                data.imageData.api.updateZoneList();
+                if (centerAtZone) {
+                    data.imageData.api.centerAtZone(zone, 1);
+                }
+            },
+            showFieldZones: function (zoneList) {
+                zoneList.forEach((zone) => {
+                    this.showFieldZone(zone.positionX, zone.positionY, zone.fieldWidth, zone.fieldHeight, zone.zoneStyle);
+                });
+            }
+        }
+
     }
 
 </script>

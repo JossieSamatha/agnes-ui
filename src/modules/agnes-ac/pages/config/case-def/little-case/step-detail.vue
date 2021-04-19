@@ -421,7 +421,7 @@
                 bizTagArr: [],
                 bizTagOption: [],        // 业务类型下拉
                 // 规则选择类型选项
-                ruleTypeOp: [{label: '默认完成规则', value: '0'}, {label: '自定义完成规则', value: '1'}],
+                ruleTypeOp: [{label: '默认规则', value: '0'}, {label: '自定义规则', value: '1'}],
                 // 激活条件类型选项
                 activeConfOp: [{label: '随case启动', value: '1'}, {label: '条件触发', value: '2'}],
                 succeedRule: '0',
