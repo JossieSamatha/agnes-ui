@@ -43,9 +43,24 @@
             fileId: {
                 type: String
             },
+            isOutFocus: {
+                type: String
+            },
+            isFocus: {
+                type: String
+            },
+            currentItem: {
+                type: Object
+            },
+            preItem: {
+                type: Object
+            },
             files: {
                 type: Array
-            }
+            },
+            items: {
+                type: Array
+            },
         },
         data() {
             return {
@@ -57,6 +72,12 @@
                     },
                     imageUrl: ''
                 },
+                zones:[],
+                zoneColors:[{fillColor: "blue",borderColor: "",borderWidth: 0,opacity: 0.2},{fillColor: "green",borderColor: "",borderWidth: 0,opacity: 0.2}
+                ,{fillColor: "orange",borderColor: "",borderWidth: 0,opacity: 0.2},{fillColor: "pink",borderColor: "",borderWidth: 0,opacity: 0.2}
+                ,{fillColor: "peachpuff",borderColor: "",borderWidth: 0,opacity: 0.2},{fillColor: "steelblue",borderColor: "",borderWidth: 0,opacity: 0.2}
+                ,{fillColor: "turquoise",borderColor: "",borderWidth: 0,opacity: 0.2},{fillColor: "purple",borderColor: "",borderWidth: 0,opacity: 0.2}],
+                preColorStyle:{},
                 showLastPage: false,//上一页
                 showNextPage: false,//下一页
                 showLastFile: false,//上一文件
@@ -81,7 +102,9 @@
             GfAnnoView
         },
         watch: {
-            'fileId': 'fileIdChange'
+            'fileId': 'fileIdChange',
+            'isOutFocus': 'beforeShowFieldZones',
+            'isFocus': 'currentItemChange'
         },
         methods: {
             zoomIn() {
@@ -113,6 +136,7 @@
                 }
                 this.filePageIndex = lastIndex;
                 let objectId = this.multFiles[lastIndex].objectId;
+                this.zones = [];
                 this.$emit("listenToChildEvent", this.fileIndex, lastIndex + 1);
                 this.changeImageHandle(this.splitDocId, objectId);
             },
@@ -126,6 +150,7 @@
                 }
                 this.filePageIndex = nextIndex;
                 let objectId = this.multFiles[nextIndex].objectId;
+                this.zones = [];
                 this.$emit("listenToChildEvent", this.fileIndex, nextIndex + 1);
                 this.changeImageHandle(this.splitDocId, objectId);
             },
@@ -138,6 +163,7 @@
                 this.multFiles = [];
                 this.fileIndex--;
                 this.ecmFieldId = this.files[this.fileIndex].ecmFileId;
+                this.zones = [];
                 if (this.files[this.fileIndex].splitDocId) {
                     this.$emit("listenToChildEvent", this.fileIndex, 1);
                     this.detailSplitFile(this.files[this.fileIndex].splitDocId)
@@ -166,6 +192,7 @@
                 this.multFiles = [];
                 this.fileIndex++;
                 this.ecmFieldId = this.files[this.fileIndex].ecmFileId;
+                this.zones = [];
                 if (this.files[this.fileIndex].splitDocId) {
                     this.$emit("listenToChildEvent", this.fileIndex, 1);
                     this.detailSplitFile(this.files[this.fileIndex].splitDocId)
@@ -248,6 +275,7 @@
                 const basePath = window.location.href.split("#/")[0];
                 data.imageData.api.setImageUrl(basePath + "api/ecm-server/ecm/file/download/" + fileId);
                 data.imageData.api.fitWidth();
+                this.initFieldZones();
             },
             init: function () {
                 this.ecmFieldId = this.fileId;
@@ -259,6 +287,9 @@
             fileIdChange: function () {
                 this.refreshList();
             },
+            currentItemChange: function () {
+                this.showFieldZones(this.currentItem)
+            },
             showFieldZone: function (positionX, positionY, fieldWidth, fieldHeight, zoneStyle, centerAtZone) {
                 if (!zoneStyle) {
                     zoneStyle = 'defaultZone';
@@ -267,20 +298,70 @@
                     style: zoneStyle,
                     rect: {x: positionX, y: positionY, width: fieldWidth, height: fieldHeight}
                 };
-                let zones = new Array();
-                zones.push(zone);
-
-                data.imageData.zoneList = zones;
-                data.imageData.api.updateZoneList();
+                this.zones.forEach((item,index)=>{
+                    if(item.rect.x==zone.rect.x&&item.rect.y==zone.rect.y&&item.rect.width==zone.rect.width&&item.rect.height==zone.rect.height){
+                        this.zones.splice(index,1);
+                    }
+                })
+                this.zones.push(zone);
+                this.imageData.zoneList=this.zones;
+                this.imageData.api.updateZoneList();
                 if (centerAtZone) {
-                    data.imageData.api.centerAtZone(zone, 1);
+                    this.imageData.api.centerAtZone(zone, 1);
                 }
             },
-            showFieldZones: function (zoneList) {
-                zoneList.forEach((zone) => {
-                    this.showFieldZone(zone.positionX, zone.positionY, zone.fieldWidth, zone.fieldHeight, zone.zoneStyle);
+            beforeShowFieldZones: function () {
+                let zoneList = JSON.parse(this.preItem.itemPosition);
+                if(zoneList){
+                    zoneList.forEach((zone) => {
+                        let rect = {x: zone.coord.x, y: zone.coord.y, width: zone.coord.width, height: zone.coord.height};
+                        let styleIndex = this.getZoneColorStyle(rect);
+                        if(styleIndex != -1){
+                            this.zones[styleIndex].style = this.preColorStyle;
+                        }
+                    });
+                    this.imageData.zoneList=this.zones;
+                    this.imageData.api.updateZoneList();
+                    this.preColorStyle={};
+                }
+            },
+            showFieldZones: function (currentItem) {
+                let zoneList = JSON.parse(currentItem.itemPosition);
+                if(zoneList){
+                    let rect = {x: zoneList[0].coord.x, y: zoneList[0].coord.y, width: zoneList[0].coord.width, height: zoneList[0].coord.height};
+                    let styleIndex = this.getZoneColorStyle(rect);
+                    if(styleIndex != -1){
+                        this.preColorStyle = this.zones[styleIndex].style;
+                    }
+                    zoneList.forEach((zone) => {
+                        let item = zone;
+                        this.showFieldZone(item.coord.x, item.coord.y, item.coord.width, item.coord.height, item.zoneStyle);
+                    });
+                }
+            },
+            getZoneColorStyle(rect){
+                let styleIndex = -1;
+                this.zones.forEach((item,index)=>{
+                    if(item.rect.x==rect.x&&item.rect.y==rect.y&&item.rect.width==rect.width&&item.rect.height==rect.height){
+                        styleIndex = index
+                    }
                 });
-            }
+                return styleIndex;
+            },
+            initFieldZones: function () {
+                if(this.items){
+                    this.items.forEach((zone,index) => {
+                        let colorIndex = index;
+                        if(index>this.zoneColors.length-1){
+                            colorIndex = index-this.zoneColors.length;
+                        }
+                        let itemList = JSON.parse(zone.itemPosition);
+                        itemList.forEach((item) => {
+                            this.showFieldZone(item.coord.x, item.coord.y, item.coord.width, item.coord.height, this.zoneColors[colorIndex],false);
+                        })
+                    });
+                }
+            },
         }
 
     }

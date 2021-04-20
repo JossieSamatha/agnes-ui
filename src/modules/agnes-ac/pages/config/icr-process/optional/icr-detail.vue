@@ -2,7 +2,9 @@
     <div class="page_content">
         <el-container style="border: 1px solid #eee;height: 100%;">
             <el-aside width="652px" style="border-right: 1px solid #eee">
-                <gf-image-view :fileId="ecmFileId" :files="files"
+                <gf-image-view :fileId="ecmFileId" :isOutFocus="this.isOutFocus"
+                               :isFocus="this.isFocus" :files="files" :preItem="this.preItem"
+                               :currentItem="this.currentItem" :items="this.items"
                                @listenToChildEvent="listenToChildEvent"/>
             </el-aside>
             <el-main style="padding-left:0;">
@@ -15,7 +17,7 @@
                                               :label="item.itemKey"
                                               :key="item.pkId">
                                   <div class="line">
-                                    <el-input v-model="item.itemString" style="width: 85%;"></el-input>
+                                    <el-input v-model="item.itemString" style="width: 85%;" @focus="itemShow(item)" @blur="beforeItemShow(item)"></el-input>
                                     <i v-if="item.isCorrect && item.isCorrect === '1'" class="el-icon-circle-check"
                                        style="margin-left: 3px;font-size: 20px;vertical-align: middle;line-height:32px;color: #4ACE69;width: 15%"></i>
                                     <i v-if="item.isCorrect && item.isCorrect === '0'" class="el-icon-circle-close"
@@ -45,6 +47,10 @@
             return {
                 files: [],
                 fileItems: [],
+                currentItem:'',
+                isFocus:'',
+                isOutFocus:'',
+                preItem:'',
                 ecmFileId: '',
                 fit: 'fit',
                 items: [],
@@ -79,6 +85,14 @@
                     const p = this.$api.icrTaskApi.updateIcrFileItems({'acRuTaskFileItemList':this.items});
                     await this.$app.blockingApp(p);
                 }
+            },
+            itemShow(item){
+                this.isFocus = this.$agnesAcUtils.randomString(3);
+              this.currentItem =  item;
+            },
+            beforeItemShow(item){
+                this.isOutFocus = this.$agnesAcUtils.randomString(3);
+              this.preItem =  item;
             },
             async initParam() {
                 //获取图片

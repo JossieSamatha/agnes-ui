@@ -101,6 +101,11 @@
                         icon: 'fa fa-tag'
                     },
                     {
+                        type: 'icrApprove',
+                        label: '智能审单',
+                        icon: 'icrApprove'
+                    },
+                    {
                         type: 'form',
                         label: '表单流程',
                         icon: 'fa fa-columns'
