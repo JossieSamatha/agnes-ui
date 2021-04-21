@@ -7,6 +7,9 @@ export default {
     deleteIcrTask(taskExecId) {
         return request.post("/agnes-ac/v1/ac/icr/task/delete", null, {params: {taskExecId}});
     },
+    icrResultQuery() {
+        return request.post("/agnes-ac/v1/ac/icr/task/icr-result-query");
+    },
     getTaskFileItemsByIcrId(icrId) {
         return request.post("/agnes-ac/v1/ac/icr/task/get-items/by-icr-id", null, {params: {icrId}});
     },

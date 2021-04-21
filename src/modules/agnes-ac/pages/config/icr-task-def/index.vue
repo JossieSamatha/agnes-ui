@@ -40,6 +40,7 @@
         <gf-grid grid-no="agnes-icr-task" :query-args="queryArgs" ref="grid"  quick-text-max-width="300px">
             <template slot="left">
                 <gf-button class="action-btn" @click="addIcrTask">添加</gf-button>
+                <gf-button class="action-btn" @click="icrResultQuery">识别结果刷新</gf-button>
             </template>
         </gf-grid>
     </div>
@@ -131,6 +132,15 @@
             },
             async onAddModel() {
                 this.reloadData();
+            },
+            async icrResultQuery(){
+                try {
+                    const p = this.$api.icrTaskApi.icrResultQuery();
+                    await this.$app.blockingApp(p);
+                    this.$msg.success('识别结果刷新完成！');
+                } catch (reason) {
+                    this.$msg.error(reason);
+                }
             },
             async deleteTask(params){
                 const row = params.data;
