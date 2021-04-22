@@ -20,5 +20,7 @@ export default {
     checkFun(form) {
         return request.post("/agnes-ac/v1/config/fun/check", form);
     },
-
+    selectFunByEventId(eventId) {
+        return request.post("/agnes-ac/v1/config/fun/get/fun-by-eventid", null, {params: {eventId}});
+    },
 };
