@@ -10,6 +10,7 @@ export default function () {
             caseKey: '',             // 关联case -- 对应case caseDefKey
             bizType: '',             // 业务场景
             bizTag: '',              // 业务标签 -- str
+            bizParam: '',              // 业务参数
             stepScene: '',          // 业务场景
             startTime: '',
             flowType:'',
@@ -56,6 +57,7 @@ export default function () {
                             execScheduler: '00#01#01#* * * * * ?',   // 指标执行频率 -- 串串
                             stepActKey: '',      // 指标
                             stepActOwner: '',    // 通知人id
+                            stepInitType: '',    // 关联表创建方式
                             stepActOwnerName: '',    // 通知人姓名
                             isTodo: '',          // 是否进入待办
                             allowManualConfirm: '',       // 是否允许人工强制通过

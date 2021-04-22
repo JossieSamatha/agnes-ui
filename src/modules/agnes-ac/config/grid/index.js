@@ -13,6 +13,7 @@ import icrProcessField from './icr-process'
 import ServiceRespLevelConf from "./service-resp-conf"
 import ProMonitor from './product-monitor/index'
 import BizMonitor from './biz-monitor/index'
+import BizParamChosen from './biz-param-chosen/index'
 
 const Loading = {
     load: function (Gfui) {
@@ -31,6 +32,7 @@ const Loading = {
         Gfui.use(ServiceRespLevelConf);
         Gfui.use(ProMonitor);
         Gfui.use(BizMonitor);
+        Gfui.use(BizParamChosen);
     }
 };
 

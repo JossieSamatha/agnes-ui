@@ -72,7 +72,6 @@
                     defType: 'stage',
                     optional: this.stageType === 'stages',
                     edit: true,
-                    sortNum:this.stageList.length+1,
                     children: []
                 };
                 this.stageList.push(newStage);
