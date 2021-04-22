@@ -161,6 +161,8 @@
             <el-form-item label="任务控制参数">
                 <gf-strbool-checkbox v-model="caseStepDef.isTodo">是否进入待办</gf-strbool-checkbox>
                 <gf-strbool-checkbox v-model="caseStepDef.allowManualConfirm">是否允许人工干预通过</gf-strbool-checkbox>
+                <gf-strbool-checkbox v-model="stepInitTypeBox1" @change="stepInitTypeChange1">任务共享</gf-strbool-checkbox>
+                <gf-strbool-checkbox v-model="stepInitTypeBox2" @change="stepInitTypeChange2">任务分发</gf-strbool-checkbox>
             </el-form-item>
             <el-form-item label="消息通知参数">
                 <span class="default-checked">系统内部消息</span>
@@ -269,19 +271,6 @@
                     </el-tab-pane>
                 </el-tabs>
             </el-form-item>
-<!--            <el-form-item label="激活条件">-->
-<!--                <el-radio-group v-model="activeTerm">-->
-<!--                    <el-radio v-for="activeItem in activeConfOp"-->
-<!--                              :key="activeItem.value"-->
-<!--                              :label="activeItem.value">-->
-<!--                        {{activeItem.label}}-->
-<!--                    </el-radio>-->
-<!--                </el-radio-group>-->
-<!--            </el-form-item>-->
-<!--            <el-form-item v-if="activeTerm === '2'">-->
-<!--                <rule-table ref="activeRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.activeRuleTableData"-->
-<!--                            :ruleTargetOp="ruleTargetOp"></rule-table>-->
-<!--            </el-form-item>-->
             <el-form-item label="完成规则">
                 <el-radio-group v-model="succeedRule">
                     <el-radio v-for="ruleType in ruleTypeOp"
@@ -325,6 +314,7 @@
                     stepLevel: 0,
                     stepTag: '',
                     stepActOwner: '',
+                    stepInitType: '0',    // 关联表创建方式
                     execMode: '1',
                     stepActKey: '',
                     stepActParam1: '',
@@ -341,7 +331,7 @@
                     isRecordTimeoutError: '',
                     timeoutErrorType: '',
                     timeoutErrorContent: '',
-                    isTodo:'1',
+                    isTodo:'0',
                     warningMintues:''
                 },
                 exceptionRemind: [],
@@ -392,6 +382,8 @@
                 startStepRuleChecked: '0',  // 激活规则确认框
                 activeTerm: '1',
                 timeType: '1',
+                stepInitTypeBox1: '1',
+                stepInitTypeBox2: '0',
                 caseSteptype: [],
                 kpiOptions:[],
                 rpaOptions:[],
@@ -519,6 +511,18 @@
                     callback(new Error('当前case中已含有相同任务编号，请勿重复'));
                 }else{
                     callback();
+                }
+            },
+            stepInitTypeChange1(val){
+                if('1' === val){
+                    this.stepInitTypeBox2 = '0';
+                    this.caseStepDef.stepInitType = '0';
+                }
+            },
+            stepInitTypeChange2(val){
+                if('1' === val){
+                    this.stepInitTypeBox1 = '0';
+                    this.caseStepDef.stepInitType = '1';
                 }
             },
 

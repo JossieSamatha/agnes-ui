@@ -108,11 +108,43 @@
                 </gf-filter-option>
             </el-select>
         </el-form-item>
+        <el-form-item label="取值参数列表" v-if="hasEventParam">
+        <div class="rule-table">
+            <el-table header-row-class-name="rule-header-row"
+                      header-cell-class-name="rule-header-cell"
+                      row-class-name="rule-row"
+                      cell-class-name="rule-cell"
+                      :data="eventParam"
+                      border stripe
+                      :header-cell-style="{'text-align':'center'}">
+                style="width: 100%">
+                <el-table-column  label="参数代码">
+                    <template slot-scope="scope">
+                        <el-input v-model="scope.row.fieldKey" :disabled="true"></el-input>
+                    </template>
+                </el-table-column>
+                <el-table-column  label="参数名称">
+                    <template slot-scope="scope">
+                        <el-input v-model="scope.row.fieldName" :disabled="true"></el-input>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </div>
+        </el-form-item>
+        <el-form-item label="取值参数选择" v-if="!hasEventParam">
+            <biz-param-chosen
+                    ref="bizParamRef"
+                    :paramRefList="this.paramRefList"
+                    chosenType="prdt,prdtType"
+                    @getParamList="getParamList">
+            </biz-param-chosen>
+        </el-form-item>
         <el-form-item label="节点配置方式" prop="configType">
             <el-radio-group v-model="detailForm.configType" :disabled="this.mode!='add'">
                 <el-radio label="1">单节点配置</el-radio>
                 <el-radio label="2">多节点配置</el-radio>
             </el-radio-group>
+            <strong style="color: #f00;line-height: 5px;margin-left: 20px" v-if="this.mode=='add'">(注意:保存后将无法修改!)</strong>
         </el-form-item>
         <template v-if="detailForm.configType==1">
         <el-form-item label="执行开始时间" prop="step_startTime" style="width: 90%">
@@ -151,8 +183,6 @@
             <el-form-item v-if="timeoutRuleChecked == '1'">
                 <rule-table ref="timeoutRuleTable" confType="fn,object,event" :ruleTableData="detailForm.timeoutRuleTableData"></rule-table>
             </el-form-item>
-
-
 
         <el-form-item label="通知人员">
             <gf-person-chosen ref="memberRef"
@@ -216,7 +246,7 @@
                     </el-table>
                     <el-button  @click="addRule()" class="rule-add-btn" size="small">新增</el-button>
                 </div>
-            </el-form-item>
+        </el-form-item>
         <el-form-item v-if="detailForm.taskType === '3'" label="流程定义选择" prop="stepActKey">
             <el-select v-model="detailForm.stepActKey" placeholder="请选择">
                 <el-option
@@ -243,10 +273,12 @@
             </el-button>
         </el-form-item>
         <el-form-item label="任务控制参数">
-                <gf-strbool-checkbox v-model="detailForm.needApprove" >是否需要复核</gf-strbool-checkbox>
-                <gf-strbool-checkbox v-model="detailForm.isTodo" v-show="detailForm.taskType != '2'">是否进入待办</gf-strbool-checkbox>
+            <gf-strbool-checkbox v-model="detailForm.needApprove" >是否需要复核</gf-strbool-checkbox>
+            <gf-strbool-checkbox v-model="detailForm.isTodo" v-show="detailForm.taskType != '2'">是否进入待办</gf-strbool-checkbox>
             <gf-strbool-checkbox v-model="detailForm.allowManualConfirm" v-show="detailForm.taskType != '2'">是否允许人工干预通过</gf-strbool-checkbox>
-            </el-form-item>
+            <gf-strbool-checkbox v-model="stepInitTypeBox1" @change="stepInitTypeChange1">任务共享</gf-strbool-checkbox>
+            <gf-strbool-checkbox v-model="stepInitTypeBox2" @change="stepInitTypeChange2">任务分发</gf-strbool-checkbox>
+        </el-form-item>
         <el-form-item label="消息通知参数">
             <span class="default-checked">系统内部消息</span>
             <el-checkbox-group v-model="msgInformParam">
@@ -386,6 +418,10 @@
                     点击配置
                 </el-button>
             </el-form-item>
+            <el-form-item label="任务控制参数">
+            <gf-strbool-checkbox v-model="stepInitTypeBox1" @change="stepInitTypeChange1">任务共享</gf-strbool-checkbox>
+            <gf-strbool-checkbox v-model="stepInitTypeBox2" @change="stepInitTypeChange2">任务分发</gf-strbool-checkbox>
+        </el-form-item>
         </template>
     </el-form>
 </template>
@@ -412,9 +448,12 @@
                 configType:'1',
                 isCheckCode:false,
                 configTypeDisable:false,
+                eventParam:[],
+                hasEventParam:false,
                 rosterDate:'',
                 hisStepCode:'',
                 memberRefList:[],
+                paramRefList:[],
                 versionId:'',
                 serviceRes:[],
                 taskTypeOptions:[],
@@ -426,6 +465,8 @@
                 startStepRuleChecked: '0',  // 激活规则确认框
                 endTimeForDay:null,
                 startTimeForDay:null,
+                stepInitTypeBox1: '1',
+                stepInitTypeBox2: '0',
                 succeedRule: '0',
                 abnormalRule: '0',
                 repeatMinutes: '',
@@ -537,6 +578,24 @@
                     });
                 }
             },
+            async getEventParam(){
+                if(this.detailForm.eventId){
+                    const e = this.$api.modelConfigApi.getFieldByEventId(this.detailForm.eventId);
+                    const eventR = await this.$app.blockingApp(e);
+                    if(eventR.data) {
+                        this.paramRefList = [];
+                        this.detailForm.bizParam = '';
+                        this.hasEventParam = true;
+                        this.eventParam = eventR.data;
+                    }else {
+                        this.hasEventParam = false;
+                        this.eventParam = [];
+                    }
+                }else {
+                    this.hasEventParam = false;
+                    this.eventParam = [];
+                }
+            },
 
             async getKpiData(){
                 const kpi = this.$api.kpiTaskApi.getAllKpiList();
@@ -590,9 +649,35 @@
                     });
                 }
             },
+
+            stepInitTypeChange1(val){
+                if('1' === val){
+                    this.stepInitTypeBox2 = '0';
+                    this.detailForm.stepInitType = '0';
+                    this.detailForm.taskInitType = '0';
+                }else {
+                    this.detailForm.stepInitType = '0';
+                    this.detailForm.taskInitType = '0';
+                }
+            },
+            stepInitTypeChange2(val){
+                if('1' === val){
+                    this.stepInitTypeBox1 = '0';
+                    this.detailForm.stepInitType = '1';
+                    this.detailForm.taskInitType = '1';
+                }else {
+                    this.detailForm.stepInitType = '0';
+                    this.detailForm.taskInitType = '0';
+                }
+
+            },
             getMemberList(val){
                 this.memberRefList = val;
                 this.detailForm.stepActOwner = JSON.stringify(val);
+            },
+            getParamList(val){
+                this.paramRefList = val;
+                this.detailForm.bizParam = JSON.stringify(val);
             },
             editExecTime(curObj, execScheduler) {
                 this.curExecScheduler = curObj;
@@ -787,6 +872,7 @@
                     this.detailForm.exceptionRemind=[];
                 }
                 let taskDef = this.$utils.deepClone(this.staticData.kpiTaskDef);
+                taskDef.taskInitType = this.detailForm.taskInitType;
                 this.detailForm.bizTag = this.detailForm.bizTagArr.join(",");
                 this.detailForm.stepActType = this.detailForm.taskType;
                 this.detailForm.stepCode = this.detailForm.caseKey;
@@ -811,6 +897,7 @@
                             stepFormInfo[key] = this.detailForm[key] || stepFormInfo[key];
                         }
                     })
+                    stepFormInfo.stepInitType = this.detailForm.stepInitType;
                     caseDef.stages[0].children[0].stepFormInfo = stepFormInfo;
                     if (this.mode === 'add' || this.row.reTaskDef.caseKey != taskDef.caseKey) {
                         this.isCheckCode = true;
@@ -829,8 +916,14 @@
                     if(taskDef.taskType=='6' && this.row.paramList){
                         this.paramList = this.row.paramList;
                     }
+                    if(taskDef.taskInitType=='1'){
+                        this.stepInitTypeBox2 = '1';
+                    }
                     this.reKeyToValue(taskDef, 'task_');
                     this.versionId = this.row.versionId;
+                    if(taskDef.bizParam){
+                        this.paramRefList = JSON.parse(taskDef.bizParam);
+                    }
                     if(taskDef.taskType == '2' || taskDef.taskType == '8'){
                         this.detailForm.configType='2';
                         this.caseModelData = this.row.caseDefBody;
@@ -862,10 +955,10 @@
                         if(!loadsh.isEmpty(this.detailForm.activeRuleTableData)){
                             this.startStepRuleChecked ='1'
                         }
-                        if(this.detailForm.endDay != null || this.detailForm.endDay != ''){
+                        if(this.detailForm.endDay != null && this.detailForm.endDay != ''){
                             this.endDayChecked = '1';
                         }
-                        if(this.detailForm.startDay != null || this.detailForm.startDay != ''){
+                        if(this.detailForm.startDay != null && this.detailForm.startDay != ''){
                             this.startDayChecked = '1';
                         }
                         //消息通知参数回显
@@ -973,6 +1066,9 @@
                 if(val === '4'){
                     this.detailForm.configType = '2';
                 }
+            },
+            'detailForm.eventId'(){
+                this.getEventParam();
             },
             'detailForm.taskType'(val){
                 this.detailForm.stepActKey = "";

@@ -7,6 +7,7 @@ export default function () {
         taskStatus: '',          // 任务状态 -- 0：新建；1：待复核；2：已复核；3：存在更新需再次复核；
         caseKey: '',             // 关联case -- 对应case caseDefKey
         bizType: '',             // 业务场景
+        bizParam: '',              // 业务参数
         bizTag: '',              // 业务标签 -- str
         bizTagArr: [],           // 业务标签 -- arr
         stepScene: '',          // 业务场景
@@ -16,6 +17,7 @@ export default function () {
         task_endTime: null,          // endTime 重复名称
         standardDate: '',       // 基准日期(新增字段)
         task_execMode: '1',          // 任务创建频率 -- 1：一次；2：重复执行；3：事件
+        taskInitType: '0',          // 任务实例化方式 -- 0：共享；1：分发
         configType:'1',
         flowType:'',
         taskIcon:'',
@@ -52,6 +54,7 @@ export default function () {
         step_execScheduler: '00#01#01#* * * * * ?',   // 指标执行频率 -- 串串
         stepActKey: '',      // 指标
         stepActOwner: '',    // 通知人id
+        stepInitType: '',    // 关联表创建方式
         stepActOwnerName: '',    // 通知人姓名
         isTodo: '1',          // 是否进入待办
         allowManualConfirm: '0',       // 是否允许人工强制通过

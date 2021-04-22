@@ -3,6 +3,8 @@ import RemindDef from './remind-def/remind-def';
 import GfPersonChosen from './person-chosen/gf-person-chosen'
 import personChoseDialog from './person-chosen/person-chosen-dialog'
 import personGroupAdd from './person-chosen/person-group-add'
+import BizParamChosen from './biz-param-chosen/biz-param-chosen'
+import BizParamChoseDialog from './biz-param-chosen/biz-param-chosen-dialog'
 
 import chartComp from './chart-comp/index'
 
@@ -14,6 +16,8 @@ const Loading = {
         Vue.component('gf-person-chosen',GfPersonChosen);
         Vue.component('person-chosen-dialog',personChoseDialog);
         Vue.component('person-group-add',personGroupAdd);
+        Vue.component('biz-param-chosen',BizParamChosen);
+        Vue.component('biz-param-chosen-dialog',BizParamChoseDialog);
     }
 };
 

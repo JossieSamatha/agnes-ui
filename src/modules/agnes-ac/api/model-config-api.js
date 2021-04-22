@@ -2,6 +2,9 @@ import request from '@hex/gf-ui/src/util/request';
 
 
 export default {
+    getFieldByEventId(eventId) {
+        return request.post(`/agnes-ac/v1/config/model/get/field-by-eventid`, null, {params: {eventId}});
+    },
     getModelTypeList() {
         return request.get(`/agnes-ac/v1/config/model/type/list`);
     },
