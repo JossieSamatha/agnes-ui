@@ -123,10 +123,20 @@
             addTask() {
                 this.showDrawer('add', {}, this.onAddModel.bind(this));
             },
-            showTask(params) {
+            async showTask(params) {
+                if(!params.data.reTaskDef.taskType.match(/2|8/)){
+                    const p = this.$api.caseConfigApi.selectTaskCaseBody(params.data.caseDefId)
+                    let  rep = await this.$app.blockingApp(p);
+                    params.data.caseDefBody = rep.data.caseDefBody;
+                }
                 this.showDrawer('view', params.data);
             },
-            editTask(params) {
+            async editTask(params) {
+                if(!params.data.reTaskDef.taskType.match(/2|8/)){
+                    const p = this.$api.caseConfigApi.selectTaskCaseBody(params.data.caseDefId)
+                    let  rep = await this.$app.blockingApp(p);
+                    params.data.caseDefBody = rep.data.caseDefBody;
+                }
                 this.showDrawer('edit', params.data, this.onEditModel.bind(this));
             },
             async deleteTask(params) {
@@ -160,7 +170,12 @@
             },
 
             //复核
-            checkTask(params){
+            async checkTask(params){
+                if(!params.data.reTaskDef.taskType.match(/2|8/)){
+                    const p = this.$api.caseConfigApi.selectTaskCaseBody(params.data.caseDefId)
+                    let  rep = await this.$app.blockingApp(p);
+                    params.data.caseDefBody = rep.data.caseDefBody;
+                }
                 if(params.data.reTaskDef.taskStatus.match(/01|04/)){
                     this.showDrawer('check', params.data, this.onAddModel.bind(this));
                 }else {
@@ -180,6 +195,9 @@
                 if (!ok) {
                     return
                 }
+                const p = this.$api.caseConfigApi.selectTaskCaseBody(rowData.caseDefId)
+                let  rep = await this.$app.blockingApp(p);
+                rowData.caseDefBody = rep.data.caseDefBody;
                 try {
                     let sendInfo = transferCaseDefData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName,'list');
                     rowData.caseDefJson = JSON.stringify(sendInfo);
@@ -216,7 +234,7 @@
                     args: {row, mode, actionOk},
                 })
             },
-            copyTask(){
+            async copyTask(){
                 let rows = this.$refs.grid.getSelectedRows();
                 let row =[];
                 if(rows.length>0){
@@ -225,7 +243,11 @@
                     this.$msg.warning("请选中一条记录!");
                     return;
                 }
+
                 let copyRowData = this.$utils.deepClone(row);
+                const p = this.$api.caseConfigApi.selectTaskCaseBody(copyRowData.caseDefId)
+                let  rep = await this.$app.blockingApp(p);
+                copyRowData.caseDefBody = rep.data.caseDefBody;
                 copyRowData.reTaskDef.taskId = '';
                 copyRowData.reTaskDef.taskName = '';
                 copyRowData.reTaskDef.caseKey = '';
@@ -252,6 +274,9 @@
                 row.reTaskDef.jobId = ''
                 let fileName = row.reTaskDef.taskName + ".txt";
                 const rowData =  JSON.stringify(row);
+                const p = this.$api.caseConfigApi.selectTaskCaseBody(rowData.caseDefId)
+                let  rep = await this.$app.blockingApp(p);
+                rowData.caseDefBody = rep.data.caseDefBody;
                 this.exportRaw(fileName,rowData);
             },
             fakeClick(obj) {

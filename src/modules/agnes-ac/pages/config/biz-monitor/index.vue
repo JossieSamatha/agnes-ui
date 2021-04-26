@@ -85,6 +85,11 @@
                     const resp1 = await this.$app.blockingApp(p1);
                     if(resp1.data) {
                         this.bizTypeArr = resp1.data;
+                        this.bizTypeArr.forEach((item,index)=>{
+                           if(item == null){
+                               this.bizTypeArr.splice(index,1);
+                           }
+                        });
                     }
                 }
             },

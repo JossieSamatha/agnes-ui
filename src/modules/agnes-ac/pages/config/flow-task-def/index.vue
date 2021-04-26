@@ -183,6 +183,9 @@
                 if (!ok) {
                     return
                 }
+                const p = this.$api.caseConfigApi.selectTaskCaseBody(rowData.caseDefId)
+                let  rep = await this.$app.blockingApp(p);
+                rowData.caseDefBody = rep.data.caseDefBody;
                 try {
                     rowData.caseDefJson = JSON.stringify(this.checkData(JSON.parse(rowData.caseDefBody), rowData.reTaskDef.caseKey,rowData.reTaskDef.taskName));
                     const p = this.$api.caseConfigApi.publishCaseDef(rowData);
