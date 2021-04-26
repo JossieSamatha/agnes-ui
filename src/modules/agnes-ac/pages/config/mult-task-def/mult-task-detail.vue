@@ -869,186 +869,179 @@ export default {
     },
 
 
-    async showRemind(remindProp, remindSort) {
-      this.detailForm[remindSort] = remindProp;
-    },
-    // 告警方式配置，打开弹框
-    openRemindDlg(remindProp, remindSort) {
-      this.showRemindDlg(remindProp, remindSort, this.showRemind.bind(this));
-    },
-    showRemindDlg(remindProp, remindSort, actionOk) {
-      this.$nav.showDialog(
-          'remind-def',
-          {
-            args: {remindProp, remindSort, actionOk},
-            width: '530px',
-            title: this.$dialog.formatTitle('通知方式配置', "edit"),
-          }
-      );
-    },
-    // 数据结构转换
-    dataTransfer() {
-      //完成规则判断是否勾选
-      if (this.succeedRule === '0') {
-        this.detailForm.successRuleTableData = {}
-      }
-      if (this.nameCreateRule === '0') {
-        this.detailForm.taskNameExp = ''
-      }
-      if (this.abnormalRule === '0') {
-        this.detailForm.failRuleTableData = {}
-      }
-      if (this.startStepRuleChecked === '0') {
-        this.detailForm.activeRuleTableData = {}
-      }
-      if (this.timeoutRuleChecked === '0') {
-        this.detailForm.timeoutRuleTableData = {}
-      }
-      if (this.detailForm.successRuleTableData
-          && this.detailForm.successRuleTableData.ruleList) {
-        const successRuleJson = this.$refs.successRuleTable.jsonFormatter();
-        this.detailForm.successRuleTableData.ruleBody = successRuleJson;
-      }
-      if (this.detailForm.failRuleTableData
-          && this.detailForm.failRuleTableData.ruleList) {
-        const failRuleJson = this.$refs.failRuleTable.jsonFormatter();
-        this.detailForm.failRuleTableData.ruleBody = failRuleJson;
-      }
-      if (this.detailForm.timeoutRuleTableData
-          && this.detailForm.timeoutRuleTableData.ruleList) {
-        const timeoutRuleJson = this.$refs.timeoutRuleTable.jsonFormatter();
-        this.detailForm.timeoutRuleTableData.ruleBody = timeoutRuleJson;
-      }
-      if (this.detailForm.activeRuleTableData
-          && this.detailForm.activeRuleTableData.ruleList) {
-        const activeRuleJson = this.$refs.activeRuleTable.jsonFormatter();
-        this.detailForm.activeRuleTableData.ruleBody = activeRuleJson;
-      }
-      //消息通知参数判断是否勾选
-      if (this.msgInformParam.indexOf('0') === -1) {
-        this.detailForm.warningRemind = [];
-      }
-      if (this.msgInformParam.indexOf('1') === -1) {
-        this.detailForm.finishRemind = [];
-      }
-      if (this.msgInformParam.indexOf('2') === -1) {
-        this.detailForm.timeoutRemind = [];
-      }
-      if (this.msgInformParam.indexOf('3') === -1) {
-        this.detailForm.exceptionRemind = [];
-      }
-      let taskDef = this.$utils.deepClone(this.staticData.kpiTaskDef);
-      taskDef.taskInitType = this.detailForm.taskInitType;
-      this.detailForm.bizTag = this.detailForm.bizTagArr.join(",");
-      this.detailForm.stepActType = this.detailForm.taskType;
-      this.detailForm.stepCode = this.detailForm.caseKey;
-      this.detailForm.caseDefKey = this.detailForm.caseKey;
-      this.keyToValue(taskDef, 'task_');
-      let caseDef = this.$utils.deepClone(this.staticData.caseDef);
-      let caseFlowInfos = '';
-      if (this.detailForm.configType != '2') {
-        let defId = this.$agnesUtils.randomString(32);
-        let defName = this.detailForm.taskName;
-        this.detailForm.stepName = defName;
-        caseDef.stages[0].defId = defId;
-        caseDef.stages[0].children[0].stepId = defId;
-        caseDef.stages[0].children[0].stepActType = this.detailForm.taskType;
-        caseDef.stages[0].defName = defName;
-        caseDef.stages[0].children[0].stepName = defName;
-        let stepFormInfo = this.$utils.deepClone(this.staticData.caseDef.stages[0].children[0].stepFormInfo);
-        Object.keys(stepFormInfo).forEach((key) => {
-          if (key === 'caseStepDef') {
-            this.keyToValue(stepFormInfo.caseStepDef, 'step_');
-          } else {
-            stepFormInfo[key] = this.detailForm[key] || stepFormInfo[key];
-          }
-        })
-        stepFormInfo.stepInitType = this.detailForm.stepInitType;
-        caseDef.stages[0].children[0].stepFormInfo = stepFormInfo;
-        if (this.mode === 'add' || this.row.reTaskDef.caseKey != taskDef.caseKey) {
-          this.isCheckCode = true;
-        }
-        caseFlowInfos = JSON.stringify(caseDef);
-      } else {
-        caseFlowInfos = this.caseModelData;
-      }
-      return {
-        reTaskDef: taskDef,
-        caseDefId: this.row.caseDefId,
-        caseDefBody: caseFlowInfos,
-        versionId: this.versionId,
-        isCheckCode: this.isCheckCode,
-        paramList: this.paramList
-      };
-    },
-    reDataTransfer() {
-      this.rosterDate = window.bizDate;
-      if (this.mode && this.mode !== 'add') {
-        let taskDef = this.$utils.deepClone(this.row.reTaskDef);
-        this.hisStepCode = JSON.parse(JSON.stringify(taskDef.caseKey));
-        if (taskDef.taskType == '6' && this.row.paramList) {
-          this.paramList = this.row.paramList;
-        }
-        if (taskDef.taskInitType == '1') {
-          this.stepInitTypeBox2 = '1';
-        }
-        this.reKeyToValue(taskDef, 'task_');
-        this.versionId = this.row.versionId;
-        if (taskDef.bizParam) {
-          this.paramRefList = JSON.parse(taskDef.bizParam);
-        }
-        if (taskDef.taskType == '2' || taskDef.taskType == '8') {
-          this.detailForm.configType = '2';
-          this.caseModelData = this.row.caseDefBody;
-        } else {
-          let caseDefBody = JSON.parse(this.row.caseDefBody);
-          let stepFormInfo = this.$utils.deepClone(caseDefBody.stages[0].children[0].stepFormInfo);
-          Object.keys(stepFormInfo).forEach((key) => {
-            if (key === 'caseStepDef') {
-              this.reKeyToValue(stepFormInfo.caseStepDef, 'step_');
-            } else {
-              this.detailForm[key] = stepFormInfo[key] || this.detailForm[key];
-            }
-          })
-          if (this.detailForm.stepActOwner) {
-            this.memberRefList = JSON.parse(this.detailForm.stepActOwner);
-          }
-          if (this.detailForm.task_endTime === '9999-12-31') {
-            this.startAllTime = true;
-          }
-          if (!loadsh.isEmpty(this.detailForm.successRuleTableData)) {
-            this.succeedRule = '1'
-          }
-          if (this.detailForm.taskNameExp !== null) {
-            this.nameCreateRule = '1'
-          }
-          if (!loadsh.isEmpty(this.detailForm.failRuleTableData)) {
-            this.abnormalRule = '1'
-          }
-          if (!loadsh.isEmpty(this.detailForm.timeoutRuleTableData)) {
-            this.timeoutRuleChecked = '1'
-          }
-          if (!loadsh.isEmpty(this.detailForm.activeRuleTableData)) {
-            this.startStepRuleChecked = '1'
-          }
-          if (this.detailForm.endDay != null && this.detailForm.endDay != '') {
-            this.endDayChecked = '1';
-          }
-          if (this.detailForm.startDay != null && this.detailForm.startDay != '') {
-            this.startDayChecked = '1';
-          }
-          //消息通知参数回显
-          this.msgInfoStr.forEach((strItem, index) => {
-            if (this.detailForm[strItem] && this.detailForm[strItem].length > 0) {
-              this.msgInformParam.push(index + '');
-            }
-          });
-        }
-        if (this.detailForm.bizTag) {
-          this.detailForm.bizTagArr = this.detailForm.bizTag.split(",");
-        }
-      }
-    },
+            async showRemind(remindProp,remindSort){
+                this.detailForm[remindSort] = remindProp;
+            },
+            // 告警方式配置，打开弹框
+            openRemindDlg(remindProp,remindSort) {
+                this.showRemindDlg(remindProp,remindSort, this.showRemind.bind(this));
+            },
+            showRemindDlg(remindProp,remindSort, actionOk) {
+                this.$nav.showDialog(
+                    'remind-def',
+                    {
+                        args: {remindProp, remindSort, actionOk},
+                        width: '530px',
+                        title: this.$dialog.formatTitle('通知方式配置', "edit"),
+                    }
+                );
+            },
+            // 数据结构转换
+            dataTransfer() {
+                //完成规则判断是否勾选
+                if(this.succeedRule==='0'){
+                    this.detailForm.successRuleTableData={}
+                }
+                if (this.nameCreateRule === '0') {
+                    this.detailForm.taskNameExp = ''
+                }
+                if(this.abnormalRule==='0'){
+                    this.detailForm.failRuleTableData={}
+                }
+                if(this.startStepRuleChecked==='0'){
+                    this.detailForm.activeRuleTableData={}
+                }
+                if(this.timeoutRuleChecked==='0'){
+                    this.detailForm.timeoutRuleTableData={}
+                }
+                if(this.detailForm.successRuleTableData
+                    && this.detailForm.successRuleTableData.ruleList){
+                    const successRuleJson = this.$refs.successRuleTable.jsonFormatter();
+                    this.detailForm.successRuleTableData.ruleBody = successRuleJson;
+                }
+                if(this.detailForm.failRuleTableData
+                    && this.detailForm.failRuleTableData.ruleList){
+                    const failRuleJson = this.$refs.failRuleTable.jsonFormatter();
+                    this.detailForm.failRuleTableData.ruleBody = failRuleJson;
+                }
+                if(this.detailForm.timeoutRuleTableData
+                    && this.detailForm.timeoutRuleTableData.ruleList){
+                    const timeoutRuleJson = this.$refs.timeoutRuleTable.jsonFormatter();
+                    this.detailForm.timeoutRuleTableData.ruleBody = timeoutRuleJson;
+                }
+                if(this.detailForm.activeRuleTableData
+                    && this.detailForm.activeRuleTableData.ruleList){
+                    const activeRuleJson = this.$refs.activeRuleTable.jsonFormatter();
+                    this.detailForm.activeRuleTableData.ruleBody = activeRuleJson;
+                }
+                //消息通知参数判断是否勾选
+                if(this.msgInformParam.indexOf('0') === -1){
+                    this.detailForm.warningRemind=[];
+                }
+                if(this.msgInformParam.indexOf('1') === -1){
+                    this.detailForm.finishRemind=[];
+                }
+                if(this.msgInformParam.indexOf('2') === -1){
+                    this.detailForm.timeoutRemind=[];
+                }
+                if(this.msgInformParam.indexOf('3') === -1){
+                    this.detailForm.exceptionRemind=[];
+                }
+                let taskDef = this.$utils.deepClone(this.staticData.kpiTaskDef);
+                taskDef.taskInitType = this.detailForm.taskInitType;
+                this.detailForm.bizTag = this.detailForm.bizTagArr.join(",");
+                this.detailForm.stepActType = this.detailForm.taskType;
+                this.detailForm.stepCode = this.detailForm.caseKey;
+                this.detailForm.caseDefKey = this.detailForm.caseKey;
+                this.keyToValue(taskDef, 'task_');
+                let caseDef = this.$utils.deepClone(this.staticData.caseDef);
+                let caseFlowInfos = '';
+                if(this.detailForm.configType!='2') {
+                    let defId = this.$agnesUtils.randomString(32);
+                    let defName = this.detailForm.taskName;
+                    this.detailForm.stepName = defName;
+                    caseDef.stages[0].defId = defId;
+                    caseDef.stages[0].children[0].stepId = defId;
+                    caseDef.stages[0].children[0].stepActType = this.detailForm.taskType;
+                    caseDef.stages[0].defName = defName;
+                    caseDef.stages[0].children[0].stepName = defName;
+                    let stepFormInfo = this.$utils.deepClone(this.staticData.caseDef.stages[0].children[0].stepFormInfo);
+                    Object.keys(stepFormInfo).forEach((key) => {
+                        if (key === 'caseStepDef') {
+                            this.keyToValue(stepFormInfo.caseStepDef, 'step_');
+                        } else {
+                            stepFormInfo[key] = this.detailForm[key] || stepFormInfo[key];
+                        }
+                    })
+                    stepFormInfo.stepInitType = this.detailForm.stepInitType;
+                    caseDef.stages[0].children[0].stepFormInfo = stepFormInfo;
+                    if (this.mode === 'add' || this.row.reTaskDef.caseKey != taskDef.caseKey) {
+                        this.isCheckCode = true;
+                    }
+                    caseFlowInfos = JSON.stringify(caseDef);
+                }else{
+                    caseFlowInfos = this.caseModelData;
+                }
+                return {reTaskDef: taskDef, caseDefId: this.row.caseDefId, caseDefBody: caseFlowInfos,versionId:this.versionId,isCheckCode:this.isCheckCode,paramList:this.paramList};
+            },
+            reDataTransfer() {
+                this.rosterDate = window.bizDate;
+                if (this.mode && this.mode !== 'add') {
+                    let taskDef = this.$utils.deepClone(this.row.reTaskDef);
+                    this.hisStepCode = JSON.parse(JSON.stringify(taskDef.caseKey));
+                    if(taskDef.taskType=='6' && this.row.paramList){
+                        this.paramList = this.row.paramList;
+                    }
+                    if (taskDef.taskInitType == '1') {
+                        this.stepInitTypeBox2 = '1';
+                    }
+                    this.reKeyToValue(taskDef, 'task_');
+                    this.versionId = this.row.versionId;
+                    if (taskDef.bizParam) {
+                        this.paramRefList = JSON.parse(taskDef.bizParam);
+                    }
+                    if(taskDef.taskType == '2' || taskDef.taskType == '8'){
+                        this.detailForm.configType='2';
+                        this.caseModelData = this.row.caseDefBody;
+                    }else {
+                        let caseDefBody = JSON.parse(this.row.caseDefBody);
+                        let stepFormInfo = this.$utils.deepClone(caseDefBody.stages[0].children[0].stepFormInfo);
+                        Object.keys(stepFormInfo).forEach((key) => {
+                            if (key === 'caseStepDef') {
+                                this.reKeyToValue(stepFormInfo.caseStepDef, 'step_');
+                            } else {
+                                this.detailForm[key] = stepFormInfo[key] || this.detailForm[key];
+                            }
+                        })
+                        if(this.detailForm.stepActOwner){
+                            this.memberRefList = JSON.parse(this.detailForm.stepActOwner);
+                        }
+                        if (this.detailForm.task_endTime === '9999-12-31') {
+                            this.startAllTime = true;
+                        }
+                        if(!loadsh.isEmpty(this.detailForm.successRuleTableData)){
+                            this.succeedRule ='1'
+                        }
+                        if (this.detailForm.taskNameExp !== null) {
+                            this.nameCreateRule = '1'
+                        }
+                        if(!loadsh.isEmpty(this.detailForm.failRuleTableData)){
+                            this.abnormalRule ='1'
+                        }
+                        if(!loadsh.isEmpty(this.detailForm.timeoutRuleTableData)){
+                            this.timeoutRuleChecked ='1'
+                        }
+                        if(!loadsh.isEmpty(this.detailForm.activeRuleTableData)){
+                            this.startStepRuleChecked ='1'
+                        }
+                        if (this.detailForm.endDay != null && this.detailForm.endDay != '') {
+                            this.endDayChecked = '1';
+                        }
+                        if (this.detailForm.startDay != null && this.detailForm.startDay != '') {
+                            this.startDayChecked = '1';
+                        }
+                        //消息通知参数回显
+                        this.msgInfoStr.forEach((strItem, index)=>{
+                            if(this.detailForm[strItem] && this.detailForm[strItem].length>0){
+                                this.msgInformParam.push(index+'');
+                            }
+                        });
+                    }
+                    if (this.detailForm.bizTag) {
+                        this.detailForm.bizTagArr = this.detailForm.bizTag.split(",");
+                    }
+                }
+            },
 
     keyToValue(obj, type) {
       Object.keys(obj).forEach((key) => {
@@ -1127,56 +1120,56 @@ export default {
     },
   },
 
-  watch: {
-    'startAllTime'(val) {
-      if (val) {
-        this.detailForm.task_endTime = '9999-12-31'
-      } else {
-        this.detailForm.task_endTime = ''
-      }
-    },
-    'detailForm.configType'(val) {
-      if (val === '1') {
-        this.detailForm.flowType = '';
-        this.caseModelData = {};
-        this.detailForm.taskType = '';
-      } else if (val === '2') {
-        this.detailForm.taskType = '2';
-      }
-    },
-    'detailForm.task_execMode'(val) {
-      if (val === '2') {
-        this.detailForm.eventId = '';
-      } else if (val === '3') {
-        this.detailForm.task_execScheduler = ''
-      } else {
-        this.detailForm.eventId = '';
-        this.detailForm.task_execScheduler = ''
-      }
-      if (val === '4') {
-        this.detailForm.configType = '2';
-      }
-    },
-    'detailForm.eventId'() {
-      this.getEventParam();
-    },
-    'detailForm.taskType'(val) {
-      this.detailForm.stepActKey = "";
-      if (!val.match(/1|4/)) {
-        this.detailForm.step_execScheduler = "";
-      }
-    },
-    'endDayChecked'(val) {
-      if (val === '0') {
-        this.detailForm.endDay = '';
-      }
-      this.timeChange();
-    },
-    'startDayChecked'(val) {
-      if (val === '0') {
-        this.detailForm.startDay = '';
-      }
-      this.timeChange();
+        watch: {
+            'startAllTime'(val) {
+                if (val) {
+                    this.detailForm.task_endTime = '9999-12-31'
+                } else {
+                    this.detailForm.task_endTime = ''
+                }
+            },
+            'detailForm.configType'(val){
+                if(val === '1'){
+                    this.detailForm.flowType = '';
+                    this.caseModelData = {};
+                    this.detailForm.taskType = '';
+                }else if(val === '2'){
+                    this.detailForm.taskType = '2';
+                }
+            },
+            'detailForm.task_execMode'(val){
+                if(val === '2'){
+                    this.detailForm.eventId = '';
+                }else if(val === '3'){
+                    this.detailForm.task_execScheduler= ''
+                }else {
+                    this.detailForm.eventId = '';
+                    this.detailForm.task_execScheduler= ''
+                }
+                if(val === '4'){
+                    this.detailForm.configType = '2';
+                }
+            },
+            'detailForm.eventId'() {
+                this.getEventParam();
+            },
+            'detailForm.taskType'(val){
+                if(!val.match(/1|4|8/)){
+                    this.detailForm.stepActKey = "";
+                    this.detailForm.step_execScheduler = "";
+                }
+            },
+            'endDayChecked'(val){
+                if (val==='0') {
+                    this.detailForm.endDay = '';
+                }
+                this.timeChange();
+            },
+            'startDayChecked'(val){
+                if (val==='0'){
+                    this.detailForm.startDay = '';
+                }
+                this.timeChange();
 
     }
   }
