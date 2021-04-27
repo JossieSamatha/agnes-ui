@@ -95,6 +95,7 @@
                 this.rowNum = this.getTempRowNum(document.body.offsetWidth);
             });
             this.getDataVList();
+            this.$app.registerCmd('datav.getDataVList', () => this.getDataVList());
         },
         methods: {
             async getDataVList(){
