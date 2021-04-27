@@ -1,5 +1,5 @@
 <template>
-    <div class="template-edit-page">
+    <div class="template-edit-page" style="padding: 0px 0px 0px 0px!important;">
         <div class="header">
             <div>
                  <span class="header-item" @click="backIndex">
@@ -107,6 +107,7 @@
                 if(res.ok){
                     if(ifBack){
                         this.backIndex();
+                        this.$app.runCmd('datav.getDataVList')
                         this.$msg.success('保存成功!');
                     }
                 }else{
