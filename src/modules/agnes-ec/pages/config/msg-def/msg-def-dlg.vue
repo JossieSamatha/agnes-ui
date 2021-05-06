@@ -12,12 +12,13 @@
         <gf-dict v-model="form.msgTopic" dict-type="AC_MSG_TOPIC" style="width: 100%"/>
       </el-form-item>
       <el-form-item label="业务对象" prop="msgObjId">
-        <el-select v-model="form.msgObjId" filterable placeholder="请选择" style="width: 100%">
+        <el-select v-model="form.modelTypeKey" filterable placeholder="请选择" style="width: 100%">
           <el-option
               v-for="item in msgObjOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              :key="item.modelTypeKey"
+              :label="item.typeName"
+              :value="item.modelTypeKey"
+          >
           </el-option>
         </el-select>
       </el-form-item>
@@ -27,6 +28,7 @@
 </template>
 
 <script>
+import lodash from 'lodash'
 export default {
   name: "msg-def-dlg",
   props: {
@@ -47,10 +49,12 @@ export default {
       }
     };
     return {
-      form:{msgId:'',msgCode:'',msgName:'',msgTopic:'',msgObjId:''},
-      isNoEdit:false,
-      okTitle:'保存',
-      msgObjOptions:[],
+      form: {msgId: '', msgCode: '', msgName: '', msgTopic: '', msgObjId: '', modelTypeKey: ''},
+      modelTypeKey: '',
+      isNoEdit: false,
+      okTitle: '保存',
+      msgObjOptions: [],
+      modelTypeIdList: [],
       rules: {
         msgName: [
           {required: true, message: '消息名称必填', trigger: 'blur'},
@@ -59,36 +63,40 @@ export default {
         //   {required: true, message: '消息编码必填', trigger: 'blur'},
         // ],
         msgCode: [
-          { required: true, message: '消息编号必填', trigger: 'blur' },
-          { validator: checkExistsMsgCode, trigger: 'blur' }
+          {required: true, message: '消息编号必填', trigger: 'blur'},
+          {validator: checkExistsMsgCode, trigger: 'blur'}
         ],
         msgTopic: [
           {required: true, message: '消息类型必选', trigger: 'change'},
         ],
-        msgObjId: [
-          {required: true, message: '消息对象必选', trigger: 'change'},
-        ]
+        // msgObjId: [
+        //   {required: true, message: '消息对象必选', trigger: 'change'},
+        // ]
       }
     }
   },
   beforeMount() {
-    this.fetchObjType();
     Object.assign(this.form, this.row);
-    if(this.mode=='view' || this.mode=='check'){
+    if (this.mode == 'view' || this.mode == 'check') {
       this.isNoEdit = true;
       this.okTitle = '审核';
     }
-    if(this.mode && this.mode === 'copy'){
+    if (this.mode && this.mode === 'copy') {
       this.form.msgId = "";
       this.form.msgCode = "";
     }
+    this.fetchObjType();
+
   },
   methods: {
     async fetchObjType() {
+      if (this.form.msgObjId !== null) {
+        this.form.modelTypeKey = this.form.msgObjId.split('_')[0];
+      }
       const resp = await this.$api.modelConfigApi.getModelTypeList();
       let objList = resp.data;
-      objList.forEach((item)=>{
-        this.msgObjOptions.push({value:item.modelTypeId,label:item.typeName});
+      objList.forEach((item) => {
+        this.msgObjOptions.push(item);
       });
     },
     async onSave() {
@@ -114,8 +122,9 @@ export default {
           if(this.mode && this.mode === 'copy'){
             this.form.msgId = "";
           }
-
+          this.form.msgObjId = lodash.find(this.msgObjOptions, {'modelTypeKey': this.form.modelTypeKey}).modelTypeId;
           if(this.row.msgTopic !== this.form.msgTopic || this.row.msgName !== this.form.msgName || this.row.msgObjId !== this.form.msgObjId){
+            console.log(this.form)
             const checkP = this.$api.msgDefineApi.check(this.form);
             const resp = await this.$app.blockingApp(checkP);
             if(resp.data !== 0){

@@ -37,23 +37,23 @@
         </el-form-item>
       </el-row>
       <el-form-item label="传入参数" prop="fnArgs">
-        <el-select v-model="form.reFunDef.fnArgs" placeholder="选择业务对象" style="width: 86%" filterable clearable>
+        <el-select v-model="form.reFunDef.fnArgsKey" placeholder="选择业务对象" style="width: 86%" filterable clearable>
           <el-option
               v-for="item in modelType"
-              :key="item.modelTypeId"
+              :key="item.modelTypeKey"
               :label="item.typeName"
-              :value="item.modelTypeId">
+              :value="item.modelTypeKey">
           </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="返回参数" prop="fnReturn">
         <div class="line none-shrink">
-          <el-select v-model="form.reFunDef.fnReturn" placeholder="选择业务对象" style="width: 86%" filterable clearable>
+          <el-select v-model="form.reFunDef.fnReturnKey" placeholder="选择业务对象" style="width: 86%" filterable clearable>
             <el-option
                 v-for="item in modelType"
-                :key="item.modelTypeId"
+                :key="item.modelTypeKey"
                 :label="item.typeName"
-                :value="item.modelTypeId">
+                :value="item.modelTypeKey">
             </el-option>
           </el-select>
           <gf-strbool-checkbox v-model="form.reFunDef.isReturnArray" style="margin-left: 10px">数组类型
@@ -92,7 +92,9 @@ export default {
           fnCode: '',
           fnTarget: '',
           fnArgs: '',
+          fnArgsKey: '',
           fnReturn: '',
+          fnReturnKey: '',
           bizParamDb: '',
           bizParamSql: '',
           isReturnArray: ''
@@ -120,6 +122,12 @@ export default {
   },
   methods: {
     async loadModelType() {
+      if (this.form.reFunDef.fnArgs) {
+        this.form.reFunDef.fnArgsKey = this.form.reFunDef.fnArgs.split('_')[0];
+      }
+      if (this.form.reFunDef.fnReturn) {
+        this.form.reFunDef.fnReturnKey = this.form.reFunDef.fnReturn.split('_')[0];
+      }
       try {
         const p = this.$api.modelConfigApi.getModelTypeList();
         const resp = await this.$app.blockingApp(p);
@@ -158,6 +166,14 @@ export default {
           if(this.row.fnCode != this.form.reFunDef.fnCode){
             this.form.isNeedCheck=true;
           }
+          this.modelType.forEach((item)=>{
+            if(item.modelTypeKey == this.form.reFunDef.fnArgsKey){
+              this.form.reFunDef.fnArgs = item.modelTypeId;
+            }
+            if(item.modelTypeKey == this.form.reFunDef.fnReturnKey){
+              this.form.reFunDef.fnReturn = item.modelTypeId;
+            }
+          });
           const p = this.$api.funDefineApi.addFunDef({reFunDef:this.form.reFunDef,isNeedCheck:this.form.isNeedCheck});
           const resp = await this.$app.blockingApp(p);
           if(resp.data == "0011"){
