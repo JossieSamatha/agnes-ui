@@ -1,5 +1,5 @@
 <template>
-    <div class="step-comp" @dblclick="editTaskInfo">
+    <div class="step-comp" @dblclick="editTaskInfo" :style="{border:  isLastestVersion? '':'1px solid red'}">
         <em class="step-icon" :class="iconTypeObj" v-html="lcImg[iconTypeObj]"></em>
         <span class="name" :title="step.stepName">{{step.stepName}}</span>
         <span class="edit" v-if="!preview">
@@ -21,6 +21,9 @@
                 type: Array,
                 require: true
             },
+            updatedStepList: {
+                type: Array
+            },
             stepIndex: {
                 type: Number,
                 require: true
@@ -38,8 +41,12 @@
         },
         data(){
             return {
+                isLastestVersion:true,
                 lcImg: this.$lcImg
             }
+        },
+        watch:{
+            'updatedStepList':"isLastestVersionCheck"
         },
         computed: {
             iconTypeObj() {
@@ -52,7 +59,22 @@
                 return this.ruCaseStepList[stepCode].stepStatus;
             }
         },
+        mounted() {
+            this.isLastestVersionCheck();
+        },
         methods: {
+            isLastestVersionCheck(){
+                if(this.updatedStepList){
+                    this.isLastestVersion = true;
+                    this.updatedStepList.forEach((item=>{
+                        if(item.stepCode == this.step.stepFormInfo.caseStepDef.stepCode){
+                            this.isLastestVersion = false;
+                            this.step.stepFormInfo.caseStepDef.stepId = item.stepId;
+                            this.step.stepFormInfo.caseStepDef.isLastestVersion = false;
+                        }
+                    }));
+                }
+            },
             // 修改task信息
             editTaskInfo() {
                 if(this.preview){
