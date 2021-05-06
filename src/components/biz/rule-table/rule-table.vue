@@ -12,35 +12,42 @@
                   :style="{'min-height': tableHeight+'px'}">
             <el-table-column prop="ruleTag" label="标签" width="52" align="center"></el-table-column>
             <el-table-column prop="ruleType" label="类型" width="65" align="center"></el-table-column>
-            <el-table-column prop="ruleTarget" label="对象">
-                <template slot-scope="scope">
-                    <el-select v-if="scope.row.ruleType === 'fn'" :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
-                               v-model="scope.row.ruleTarget"
-                               placeholder="请选择"
-                               filterable clearable
-                               @change="ruleTargetChange(scope.$index, scope.row)">
-                        <gf-filter-option v-for="funItem in funArr" :key="funItem.fnId" :label="funItem.fnName" :value="funItem.fnId">
-                        </gf-filter-option>
-                    </el-select>
-                    <el-select v-else-if="scope.row.ruleType === 'event'" :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
-                               v-model="scope.row.ruleTarget"
-                               placeholder="请选择"
-                               filterable clearable
-                               @change="ruleTargetChange(scope.$index, scope.row)">
-                        <gf-filter-option v-for="event in eventArr" :key="event.eventId" :label="event.eventName" :value="event.eventId">
-                        </gf-filter-option>
-                    </el-select>
-                    <el-select v-else-if="scope.row.ruleType === 'object'" :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
-                               v-model="scope.row.ruleTarget"
-                               placeholder="请选择"
-                               filterable clearable
-                               @change="ruleTargetChange(scope.$index, scope.row)">
-                        <gf-filter-option v-for="funItem in ruleTargetOp[scope.row.ruleType]" :key="funItem.modelTypeId" :label="funItem.typeName" :value="funItem.modelTypeId">
-                        </gf-filter-option>
-                    </el-select>
-                    <el-select v-else-if="scope.row.ruleType === 'step'" :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
-                               v-model="scope.row.ruleTarget"
-                               filterable clearable
+            <el-table-column prop="ruleParamKey" label="对象">
+              <template slot-scope="scope">
+                <el-select v-if="scope.row.ruleType === 'fn'"
+                           :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
+                           v-model="scope.row.ruleParamKey"
+                           placeholder="请选择"
+                           filterable clearable
+                           @change="ruleTargetChange(scope.$index, scope.row)">
+                  <gf-filter-option v-for="funItem in funArr" :key="funItem.fnKey" :label="funItem.fnName"
+                                    :value="funItem.fnKey">
+                  </gf-filter-option>
+                </el-select>
+                <el-select v-else-if="scope.row.ruleType === 'event'"
+                           :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
+                           v-model="scope.row.ruleParamKey"
+                           placeholder="请选择"
+                           filterable clearable
+                           @change="ruleTargetChange(scope.$index, scope.row)">
+                  <gf-filter-option v-for="event in eventArr" :key="event.eventKey" :label="event.eventName"
+                                    :value="event.eventKey">
+                  </gf-filter-option>
+                </el-select>
+                <el-select v-else-if="scope.row.ruleType === 'object'"
+                           :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
+                           v-model="scope.row.ruleParamKey"
+                           placeholder="请选择"
+                           filterable clearable
+                           @change="ruleTargetChange(scope.$index, scope.row)">
+                  <gf-filter-option v-for="funItem in ruleTargetOp[scope.row.ruleType]" :key="funItem.modelTypeKey"
+                                    :label="funItem.typeName" :value="funItem.modelTypeKey">
+                  </gf-filter-option>
+                </el-select>
+                <el-select v-else-if="scope.row.ruleType === 'step'"
+                           :class="mustFill('ruleTarget') && !scope.row.ruleTarget ? 'error':''"
+                           v-model="scope.row.ruleTarget"
+                           filterable clearable
                                placeholder="请选择">
                         <gf-filter-option v-for="(stepName, stepCode) in ruleTargetOp[scope.row.ruleType]" :key="stepCode" :label="stepCode" :value="stepCode">
                             <span>({{stepCode}}){{stepName}} </span>
@@ -242,27 +249,33 @@
                     step: '完成',
                     kpi: '',
                     action: [{label: '已确认', value: '01'}, {label: '未确认', value: '02'}],
-                    service: '',
-                    RPA: [{label: '正常', value: '01'}, {label: '异常', value: '02'}],
-                    process: [{label: '审批通过', value: '01'}, {label: '审批拒绝', value: '02'},
-                        {label: '审批作废', value: '03'}, {label: '进行中', value: '04'}],
+                  service: '',
+                  RPA: [{label: '正常', value: '01'}, {label: '异常', value: '02'}],
+                  process: [{label: '审批通过', value: '01'}, {label: '审批拒绝', value: '02'},
+                    {label: '审批作废', value: '03'}, {label: '进行中', value: '04'}],
                 }
             }
         },
-        beforeMount(){
-            this.initData();
+      beforeMount() {
+        this.initData();
+      },
+      methods: {
+        setRuleTargetOp(optionData) {
+          this.initRuleList(optionData);
         },
-        methods: {
-            setRuleTargetOp(optionData) {
-                this.initRuleList(optionData);
-            },
-
-            async initData(){
-                let funArrEvent = new Promise((resolve) => {
-                    this.$api.ruleTableApi.getFnAndModelfields().then(function (res) {resolve(res);})
-                });
-                let eventArrEvent = new Promise((resolve) => {
-                    this.$api.ruleTableApi.eventForRuleTable().then(function (res) {resolve(res);})
+        reloadInitDate() {
+          this.initRuleList();
+        },
+        async initData() {
+          let funArrEvent = new Promise((resolve) => {
+            this.$api.ruleTableApi.getFnAndModelfields().then(function (res) {
+              resolve(res);
+            })
+          });
+          let eventArrEvent = new Promise((resolve) => {
+            this.$api.ruleTableApi.eventForRuleTable().then(function (res) {
+              resolve(res);
+            })
                 });
                 Promise.all([funArrEvent, eventArrEvent]).then((result) => {
                     if(result){
@@ -326,45 +339,47 @@
             // 新增规则行
             addRule(type){
                 const newRuleObj = {
-                    ruleType: type,
-                    ruleTag: this.getRuleTag(),
-                    ruleTarget: '',
-                    ruleParam: JSON.stringify(""),
-                    ruleKey: typeof(this.ruleKeyMap[type]) === 'string' ? this.ruleKeyMap[type] : '',
-                    ruleKeyOp: this.ruleKeyMap[type],
-                    ruleSign: '',
-                    ruleValue: type === 'step' ? '已完成' : '',
-                    ruleValueOp: this.ruleValueMap[type],
+                  ruleType: type,
+                  ruleTag: this.getRuleTag(),
+                  ruleTarget: '',
+                  ruleDetailKey: '',
+                  ruleParamKey: '',
+                  ruleParam: JSON.stringify(""),
+                  ruleKey: typeof (this.ruleKeyMap[type]) === 'string' ? this.ruleKeyMap[type] : '',
+                  ruleKeyOp: this.ruleKeyMap[type],
+                  ruleSign: '',
+                  ruleValue: type === 'step' ? '已完成' : '',
+                  ruleValueOp: this.ruleValueMap[type],
                 };
-                this.ruleTableData.ruleList.push(newRuleObj);
-                const judgeScript = this.ruleTableData.judgeScript;
-                if(judgeScript){
-                    this.ruleTableData.judgeScript = judgeScript + ' && ' + newRuleObj.ruleTag;
-                }else{
-                    this.$set(this.ruleTableData, 'judgeScript', newRuleObj.ruleTag);
-                }
+              this.ruleTableData.ruleList.push(newRuleObj);
+              const judgeScript = this.ruleTableData.judgeScript;
+              if (judgeScript) {
+                this.ruleTableData.judgeScript = judgeScript + ' && ' + newRuleObj.ruleTag;
+              } else {
+                this.$set(this.ruleTableData, 'judgeScript', newRuleObj.ruleTag);
+              }
 
             },
 
-            initRuleList(optionData){
-                if(!optionData){
-                    return;
-                }
-                this.ruleTableData.ruleList.forEach( (ruleInfo, ruleIndex)=> {
-                    this.ruleTargetChange(ruleIndex, ruleInfo, true, optionData);
-                })
-            },
+        initRuleList(optionData) {
+          // if(!optionData){
+          //     return;
+          // }
+          this.ruleTableData.ruleList.forEach((ruleInfo, ruleIndex) => {
+            this.ruleTargetChange(ruleIndex, ruleInfo, true, optionData);
+          })
+        },
 
-            // 编辑筛选条件
-            editRuleParam(rowIndex, rowInfo){
-                if(!rowInfo.ruleTarget){
-                    this.$msg.warning("请先选择对象");
-                    return false;
-                }
-                this.filterConfDialog = true;
-                this.editRowIndex = rowIndex;
-                let filterConfObj = JSON.parse(rowInfo.ruleParam) || [];
-                const targetObj = this.$lodash.find(this.funArr, { fnId: rowInfo.ruleTarget});
+        // 编辑筛选条件
+        editRuleParam(rowIndex, rowInfo) {
+          if (!rowInfo.ruleTarget) {
+            this.$msg.warning("请先选择对象");
+            return false;
+          }
+          this.filterConfDialog = true;
+          this.editRowIndex = rowIndex;
+              let filterConfObj = JSON.parse(rowInfo.ruleParam) || [];
+              const targetObj = this.$lodash.find(this.funArr, {fnKey: rowInfo.ruleParamKey});
                 this.filterConfFormData = targetObj.fnArgsModelFields;
                 this.filterConfFormData.forEach((filterItem, index) => {
                     if(filterItem.fieldValue){
@@ -382,8 +397,9 @@
                 rowInfo.ruleValueOp = this.ruleValueMap[rowInfo.ruleType];
                 let targetObj = {};
                 if(rowInfo.ruleType === 'fn'){
-                    targetObj = this.$lodash.find(this.funArr, { fnId: rowInfo.ruleTarget});
-                    rowInfo.ruleTargetType = targetObj.fnType;
+                  targetObj = this.$lodash.find(this.funArr, {fnKey: rowInfo.ruleParamKey});
+                  rowInfo.ruleTargetType = targetObj.fnType;
+                  rowInfo.ruleTarget = targetObj.fnId;
                     if(!targetObj.fnReturnModelFields){
                         rowInfo.ruleKeyOp = [];
                     }else{
@@ -400,21 +416,22 @@
                         rowInfo.bizParamSql = targetObj.bizParamSql;
                     }
                 }
-                if(rowInfo.ruleType === 'event'){
-                    targetObj = this.$lodash.find(this.eventArr, { eventId: rowInfo.ruleTarget});
-                    rowInfo.targetObj = targetObj;
-                    rowInfo.ruleKey = targetObj.fnReturnModelField.fieldName;
-                    rowInfo.fieldKey = targetObj.fnReturnModelField.fieldKey;
-                    rowInfo.ruleSignLabel = '大于';
-                    rowInfo.ruleValueOp = '0';
+                if(rowInfo.ruleType === 'event') {
+                  targetObj = this.$lodash.find(this.eventArr, {eventKey: rowInfo.ruleParamKey});
+                  rowInfo.targetObj = targetObj;
+                  rowInfo.ruleTarget = targetObj.eventId;
+                  rowInfo.ruleKey = targetObj.fnReturnModelField.fieldName;
+                  rowInfo.fieldKey = targetObj.fnReturnModelField.fieldKey;
+                  rowInfo.ruleSignLabel = '大于';
+                  rowInfo.ruleValueOp = '0';
                 }
                 if(rowInfo.ruleType === 'object') {
                     if(optionData){
-                        targetObj = this.$lodash.find(optionData.object, { modelTypeId: rowInfo.ruleTarget});
+                      targetObj = this.$lodash.find(optionData.object, {modelTypeKey: rowInfo.ruleParamKey});
                     }else{
-                        targetObj = this.$lodash.find(this.ruleTargetOp.object, { modelTypeId: rowInfo.ruleTarget});
+                      targetObj = this.$lodash.find(this.ruleTargetOp.object, {modelTypeKey: rowInfo.ruleParamKey});
                     }
-
+                  rowInfo.ruleTarget = targetObj.modelTypeId;
                     if(targetObj.fnType){
                         rowInfo.ruleTargetType = targetObj.fnType;
                     }

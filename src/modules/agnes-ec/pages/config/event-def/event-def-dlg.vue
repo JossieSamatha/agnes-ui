@@ -51,16 +51,16 @@
           </el-button>
         </el-form-item>
 
-        <el-form-item label="消息对象选择" prop="eventDef.msgId" v-if="form.eventDef.execMode === '2'">
-          <el-select v-model="form.eventDef.msgId" clearable filterable placeholder="请选择" style="width: 32%;"
+        <el-form-item label="消息对象选择" prop="eventDef.msgKey" v-if="form.eventDef.execMode === '2'">
+          <el-select v-model="form.eventDef.msgKey" clearable filterable placeholder="请选择" style="width: 32%;"
                      @change="onMsgDefChange"
                      @clear="onMsgDefClear"
           >
             <el-option
                 v-for="item in msgDefList"
-                :key="item.msgId"
+                :key="item.msgKey"
                 :label="item.msgName"
-                :value="item.msgId">
+                :value="item.msgKey">
             </el-option>
           </el-select>
         </el-form-item>
@@ -71,14 +71,14 @@
                       tableHeight="200" tableMaxHeight="300"></rule-table>
         </el-form-item>
 
-        <el-form-item label="取值函数" prop="funcId">
-          <el-select v-model="form.eventMsg.funcId" placeholder="选择业务对象" style="width: 50%" filterable
+        <el-form-item label="取值函数" prop="fnKey">
+          <el-select v-model="form.eventMsg.fnKey" placeholder="选择业务对象" style="width: 50%" filterable
                      @change="changeFunDef">
             <el-option
                 v-for="item in funDefList"
-                :key="item.fnId"
+                :key="item.fnKey"
                 :label="item.fnName"
-                :value="item.fnId">
+                :value="item.fnKey">
             </el-option>
           </el-select>
         </el-form-item>
@@ -118,14 +118,14 @@
           </div>
         </el-form-item>
 
-        <el-form-item label="消息对象选择" prop="modelTypeId">
-          <el-select v-model="form.eventMsg.modelTypeId" placeholder="选择业务对象" style="width: 50%" filterable
+        <el-form-item label="消息对象选择" prop="modelTypeKey">
+          <el-select v-model="form.eventMsg.modelTypeKey" placeholder="选择业务对象" style="width: 50%" filterable
                      @change="changeMsgType">
             <el-option
                 v-for="item in msgDefList"
-                :key="item.msgId"
+                :key="item.msgKey"
                 :label="item.msgName"
-                :value="item.msgId">
+                :value="item.msgKey">
             </el-option>
           </el-select>
         </el-form-item>
@@ -179,7 +179,7 @@
 
 <script>
 import fecha from 'element-ui/src/utils/date';
-//import lodash from "lodash";
+import lodash from "lodash";
 
 export default {
   props: {
@@ -207,6 +207,8 @@ export default {
         callback(new Error('请填写事件编号！'));
       } else if (resp.data === true) {
         callback(new Error('事件编号已存在！'));
+      } else {
+        callback();
       }
     };
     // var checkRuleTableData = async (rule, value, callback) => {
@@ -237,14 +239,17 @@ export default {
           eventStatus: '',
           jobId: '',
           dateRange: '',
-          noEnd: ''
+          noEnd: '',
+          msgKey: ''
         },
         eventMsg: {
           eventId: '',
           funcId: '',
           getValueParam: '',
           modelTypeId: '',
-          fieldMapping: ''
+          fieldMapping: '',
+          fnKey: '',
+          modelTypeKey: ''
         },
         ruleTableData: {
           ruleList: [],
@@ -383,14 +388,22 @@ export default {
       try {
         if (this.form.eventDef.eventId) {
           const resp = await this.$api.eventlDefConfigApi.getEventMsg(this.form.eventDef.eventId);
-          this.form.eventMsg = resp.data;
-          //消息对象JSON转换
-          if (this.form.eventMsg.fieldMapping) {
-            this.msgModelData = JSON.parse(this.form.eventMsg.fieldMapping);
-          }
+          if (resp && resp.data) {
+            this.form.eventMsg = resp.data;
+            if (this.form.eventMsg.funcId) {
+              this.form.eventMsg.fnKey = this.form.eventMsg.funcId.split('_')[0];
+            }
+            if (this.form.eventMsg.modelTypeId) {
+              this.form.eventMsg.modelTypeKey = this.form.eventMsg.modelTypeId.split('_')[0];
+            }
+            //消息对象JSON转换
+            if (this.form.eventMsg.fieldMapping) {
+              this.msgModelData = JSON.parse(this.form.eventMsg.fieldMapping);
+            }
 
-          if (this.form.eventMsg.getValueParam) {
-            this.funModelData = JSON.parse(this.form.eventMsg.getValueParam);
+            if (this.form.eventMsg.getValueParam) {
+              this.funModelData = JSON.parse(this.form.eventMsg.getValueParam);
+            }
           }
         }
 
@@ -417,7 +430,16 @@ export default {
       try {
         if (this.form.eventDef.eventRule) {
           const resp = await this.$api.ruleConfigApi.getRuleDetailList(this.form.eventDef.eventRule);
-          this.form.ruleTableData.ruleList = resp.data;
+          this.form.ruleTableData.ruleList = [];
+          if (resp && resp.data) {
+            resp.data.forEach(item => {
+              item.ruleParamKey = item.ruleTarget.split('_')[0];
+              this.form.ruleTableData.ruleList.push(item)
+            })
+          }
+          if (!this.form.eventDef.msgId) {
+            this.$refs.reloadInitDate();
+          }
           // this.form.ruleTableData.ruleList.forEach(item=>{
           //     if(item.ruleParam){
           //         item.ruleParam= JSON.parse(item.ruleParam);
@@ -454,7 +476,7 @@ export default {
         } else {
 
           // 定义需要校验的列数组，数组内容为列filed值
-          const validatefieldArr = ['ruleTarget', 'ruleParam', 'ruleKey', 'ruleSign', 'ruleValue'];
+          const validatefieldArr = ['ruleParamKey', 'ruleParam', 'ruleKey', 'ruleSign', 'ruleValue'];
           const validator = this.$refs.ruleTable.validator(validatefieldArr);
           if (!validator) {
             // 验证失败
@@ -482,6 +504,15 @@ export default {
 
           this.form.eventMsg.getValueParam = JSON.stringify(this.funModelData);
           this.form.eventMsg.fieldMapping = JSON.stringify(this.msgModelData);
+          if (this.form.eventMsg.fnKey) {
+            this.form.eventMsg.funcId = lodash.find(this.funDefList, {'fnKey': this.form.eventMsg.fnKey}).fnId;
+          }
+          if (this.form.eventMsg.modelTypeKey) {
+            this.form.eventMsg.modelTypeId = lodash.find(this.msgDefList, {'msgKey': this.form.eventMsg.modelTypeKey}).msgId;
+          }
+          if (this.form.eventDef.msgKey) {
+            this.form.eventDef.msgId = lodash.find(this.msgDefList, {'msgKey': this.form.eventDef.msgKey}).msgId;
+          }
           this.clearForCopy();
           const p = this.$api.eventlDefConfigApi.saveEventDef(this.form);
           await this.$app.blockingApp(p);
@@ -559,6 +590,9 @@ export default {
     },
     async fetchRuleTargetOp() {
       try {
+        if (this.form.eventDef.msgId !== null) {
+          this.form.eventDef.msgKey = this.form.eventDef.msgId.split('_')[0];
+        }
         let msgIdParam = this.form.eventDef.msgId;
         let msgObjId;
         this.msgDefList.forEach((item) => {
@@ -585,7 +619,7 @@ export default {
     onMsgDefChange(param) {
       let msgObjId;
       this.msgDefList.forEach((item) => {
-        if (item.msgId === param) {
+        if (item.msgKey === param) {
           msgObjId = item.msgObjId;
         }
       });
@@ -636,11 +670,11 @@ export default {
 
       }
     },
-    async changeMsgType(msgId) {
+    async changeMsgType(msgKey) {
       this.msgModelData = [];
       let msgObjId;
       this.msgDefList.forEach((item) => {
-        if (item.msgId === msgId) {
+        if (item.msgKey === msgKey) {
           msgObjId = item.msgObjId;
         }
       });
@@ -653,12 +687,12 @@ export default {
         }
       }
     },
-    async changeFunDef(fnId) {
+    async changeFunDef(fnKey) {
       this.funModelData = [];
       let fnReturn;
       let fnArgs;
       this.funDefList.forEach((item) => {
-        if (item.fnId === fnId) {
+        if (item.fnKey === fnKey) {
           fnReturn = item.fnReturn;
           fnArgs = item.fnArgs;
         }

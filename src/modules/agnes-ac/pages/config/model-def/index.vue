@@ -77,6 +77,7 @@
                 copyRowData.status='01';
                 copyRowData.typeCode='';
                 copyRowData.typeName='';
+                copyRowData.modelTypeId='';
                 this.showDlg('edit', copyRowData, this.onEditModel.bind(this));
             },
             async deleteModel(params) {

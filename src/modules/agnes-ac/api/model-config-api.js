@@ -6,7 +6,7 @@ export default {
         return request.post(`/agnes-ac/v1/config/model/get/field-by-eventid`, null, {params: {eventId}});
     },
     getModelTypeList() {
-        return request.get(`/agnes-ac/v1/config/model/type/list`);
+        return request.post(`/agnes-ac/v1/config/model/type/list`);
     },
     getModelFieldList(modelTypeId) {
         return request.get("/agnes-ac/v1/config/model/field/list", {params: {modelTypeId}});
