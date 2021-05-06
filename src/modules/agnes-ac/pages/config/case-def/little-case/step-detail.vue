@@ -317,6 +317,7 @@
                     stepInitType: '0',    // 关联表创建方式
                     execMode: '1',
                     stepActKey: '',
+                    stepId: '',
                     stepActParam1: '',
                     startDay: '',
                     startTime: '',

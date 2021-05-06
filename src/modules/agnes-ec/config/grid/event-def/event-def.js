@@ -1,6 +1,7 @@
 import column from "../../../../../config/column"
 import Permission from "../../../../../utils/hasPermission";
 
+
 const colButtons = [
     {key: 'editEventDef', title: '编辑', disabled: (params)=>{
             let result = false;
@@ -50,10 +51,18 @@ const colButtons = [
 export default {
     columnDefs: [
         column.buildOpCol(140, colButtons),
-        {headerName: "事件名称", field: "eventName"},
+        {
+            headerName: "事件名称", field: "eventName",
+            cellStyle: function (params) {
+                console.log(params)
+                if (params.data.isLastestVersion === '0') {
+                    return {color: 'red'}
+                }
+            },
+        },
         {headerName: "事件编号", field: "eventCode"},
-        {headerName: "监听方式", field: "execMode" ,formatType: 'dict', dictType: 'AGNES_EC_EVENT_EXEC_MODE'},
-        {headerName: "状态", field: "eventStatus" ,formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
+        {headerName: "监听方式", field: "execMode", formatType: 'dict', dictType: 'AGNES_EC_EVENT_EXEC_MODE'},
+        {headerName: "状态", field: "eventStatus", formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
         column.colCrtUser,
         column.colCrtTm
     ],

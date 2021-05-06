@@ -19,5 +19,8 @@ export default {
     },
     selectTaskCaseBody(caseDefId) {
         return request.post("/agnes-ac/v1/ac/case/def/case-body", null, {params: {caseDefId}});
-    }
+    },
+    selectHasUpdatedStepInfos(caseDefId) {
+        return request.post("/agnes-ac/v1/ac/case/def/has-updated-step", null, {params: {caseDefId}});
+    },
 };

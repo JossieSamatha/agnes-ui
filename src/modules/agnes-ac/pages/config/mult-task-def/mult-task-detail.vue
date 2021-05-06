@@ -851,6 +851,9 @@ export default {
               return;
             }
           }
+          if(this.detailForm.configType != '2'){
+            resData.isUpdateLastestVersion = '1';
+          }
           const p = this.$api.motConfigApi.saveTask(resData);
           const resp = await this.$app.blockingApp(p);
           if (resp && resp.code == 'rwbhycz') {

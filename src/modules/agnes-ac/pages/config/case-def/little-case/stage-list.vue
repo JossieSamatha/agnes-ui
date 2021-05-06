@@ -10,7 +10,7 @@
                             <stepDef :key="stageItem.stepCode"
                                      v-if="stageItem.defType == 'step' && curOptional(stageItem.optional)"
                                      :step.sync="stageItem" :stepList.sync="stage.children" :stepIndex="stageItemIndex"
-                                     :stepType.sync="stepType" @click.native.stop="chooseActive">
+                                     :stepType.sync="stepType" :updatedStepList="updatedStepList" @click.native.stop="chooseActive">
                             </stepDef>
                             <groupDef  ref="groupDef" :key="stageItem.defId" v-else
                                       :group.sync="stageItem"
@@ -38,6 +38,10 @@
     export default {
         props: {
             stageList: {
+                type: Array,
+                require: true
+            },
+            updatedStepList: {
                 type: Array,
                 require: true
             },

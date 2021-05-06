@@ -31,7 +31,13 @@ const colButtons = [
             return Permission.hasPermission('agnes.define.fun.publish');
         }}
 ];
-const fnName = {headerName: "函数名称", field: "fnName"};
+const fnName = {headerName: "函数名称", field: "fnName",
+    cellStyle: function (params) {
+        if(params.data.isLastestVersion == '0'){
+            return {color:'#F5222E'};
+        }else {
+            return null;
+        }}};
 const fnCode = {headerName: "函数编号", field: "fnCode"};
 const fnType = {headerName: "函数类型", field: "fnType"}
 const fnDesc = {headerName: "函数描述", field: "fnDesc"}

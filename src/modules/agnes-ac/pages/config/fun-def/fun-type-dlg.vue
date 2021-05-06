@@ -148,6 +148,12 @@ export default {
         if (!ok) {
           return;
         }
+        if(this.mode != 'add' && this.row.isLastestVersion == '0'){
+          const isSave = await this.$msg.ask(`该配置选项存在历史版本，请确定是否完成选项更新！`);
+          if (!isSave) {
+            return ;
+          }
+        }
         try {
           if(this.row.fnCode != this.form.reFunDef.fnCode){
             this.form.isNeedCheck=true;

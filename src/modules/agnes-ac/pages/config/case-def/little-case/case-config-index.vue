@@ -31,15 +31,15 @@
                 <div class="content">
                     <template v-if="workflowType === 'lifeRecycle'">
                         <stageList class="lifeRecycle" :stageList="caseModelData.stages" stageType="stages"
-                                   stepType="steps"></stageList>
+                                   stepType="steps" :updatedStepList="updatedStepList"></stageList>
                         <stageList class="able-choosed" :stageList="caseModelData.optionalStages" stageType="optionalStages"
-                                   stepType="steps"></stageList>
+                                   stepType="steps" :updatedStepList="updatedStepList"></stageList>
                     </template>
                     <template v-if="workflowType === 'ableChoosed'">
                         <stageList class="lifeRecyclstagee" :stageList="caseModelData.stages" stageType="stages"
-                                   stepType="optionalSteps"></stageList>
+                                   stepType="optionalSteps" :updatedStepList="updatedStepList"></stageList>
                         <stageList class="able-choosed" :stageList="caseModelData.optionalStages" stageType="optionalStages"
-                                   stepType="optionalSteps"></stageList>
+                                   stepType="optionalSteps" :updatedStepList="updatedStepList"></stageList>
                     </template>
                 </div>
             </section>
@@ -76,6 +76,7 @@
         data() {
             return {
                 workflowType: 'lifeRecycle',
+                updatedStepList:[],
                 actionOption: {group: {name: 'actionStep'}, put: false, ghostClass: 'stepGhost'},
                 caseModelData: {},
                 drawerVisible: false,
@@ -95,6 +96,9 @@
         },
         methods: {
           async initTaskCaseBody() {
+            const s = this.$api.caseConfigApi.selectHasUpdatedStepInfos(this.row.caseDefInfo.caseDefId)
+            let stepRep = await this.$app.blockingApp(s);
+            this.updatedStepList = stepRep.data;
             let rep = null;
             if (this.row.caseDefInfo.caseDefId) {
               const p = this.$api.caseConfigApi.selectTaskCaseBody(this.row.caseDefInfo.caseDefId)
@@ -139,6 +143,10 @@
 
             // 保存onSave事件，保存操作完成后触发抽屉关闭事件this.$emit("onClose");
             async onSave(){
+              if(this.updatedStepList&& this.updatedStepList.length>0){
+                  this.$msg.warning('存在异常step，请检查红框的step信息！');
+                  return ;
+              }
                 this.caseModelData.stepCodeArr = this.stepCodeArr;
                 this.row.caseDefInfo.caseDefBody = JSON.stringify(this.caseModelData)
                 if(this.mode==='addMult'){
@@ -149,6 +157,7 @@
                 }else {
                     try {
                         this.row.caseDefInfo.isCheckCode = false;
+                        this.row.caseDefInfo.isUpdateLastestVersion = '1';
                         const p = this.$api.flowTaskApi.saveFlowTask(this.row.caseDefInfo);
                         await this.$app.blockingApp(p);
                         this.$msg.success('保存成功');
@@ -193,6 +202,18 @@
 
             // 保存step详情配置页数据
             saveStepInfo(stepObj){
+              if(this.updatedStepList){
+                  let removeIndex = -1;
+                  this.updatedStepList.forEach((stepInfo,index)=>{
+                      if(stepInfo.stepCode == stepObj.stepInfo.initialStepCode){
+                          removeIndex = index;
+                      }
+                  });
+                  if(removeIndex!= -1){
+                      this.updatedStepList.splice(removeIndex,1);
+                  }
+              }
+                console.log(stepObj)
                 // 获得表单数据
                 let stepInfoCopy = this.$utils.deepClone(stepObj.stepInfo);
                 // 获得step操作list数据

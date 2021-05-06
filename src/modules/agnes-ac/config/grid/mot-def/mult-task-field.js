@@ -48,7 +48,15 @@ const colButtons = [
 export default {
     columnDefs: [
         column.buildOpCol(140, colButtons),
-        {headerName: "任务名称", field: "reTaskDef.taskName"},
+        {headerName: "任务名称", field: "reTaskDef.taskName",
+            cellStyle: function (params) {
+                let reTaskDef = params.data.reTaskDef;
+                if(reTaskDef.isLastestVersion == '0'){
+                    return {color:'#F5222E'};
+                }else {
+                    return null;
+                }
+            },},
         {headerName: "任务编号", field: "reTaskDef.caseKey"},
         {headerName: "业务场景", field: "reTaskDef.bizType",formatType: 'dict', dictType: 'AGNES_BIZ_CASE'},
         {headerName: "业务标签", field: "reTaskDef.bizTag",formatType: 'dict',dictType: 'AGNES_BIZ_TAG',

@@ -50,10 +50,18 @@ const colButtons = [
 export default {
     columnDefs: [
         column.buildOpCol(140, colButtons),
-        {headerName: "消息名称", field: "msgName"},
+        {
+            headerName: "消息名称", field: "msgName",
+            cellStyle: function (params) {
+                console.log(params)
+                if (params.data.isLastestVersion === '0') {
+                    return {color: 'red'}
+                }
+            },
+        },
         {headerName: "消息编号", field: "msgCode"},
-        {headerName: "消息类型", field: "msgTopic",formatType: 'dict', dictType: 'AC_MSG_TOPIC' },
-        {headerName: "状态", field: "msgStatus" ,formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
+        {headerName: "消息类型", field: "msgTopic", formatType: 'dict', dictType: 'AC_MSG_TOPIC'},
+        {headerName: "状态", field: "msgStatus", formatType: 'dict', dictType: 'AGNES_RELEASE_STATUS'},
         column.colCrtUser,
         column.colCrtTm
     ],
