@@ -19,6 +19,7 @@ import Roster from "./roster"
 import Memo from "./memo"
 import WordsTransl from "./word-translate/index"
 import ProductCalendar from "./product-calendar"
+import CustomQuery from "./custom-query/index"
 
 const Loading = {
     load: function (Gfui) {
@@ -42,7 +43,8 @@ const Loading = {
         Gfui.use(Roster);
         Gfui.use(Memo);
         Gfui.use(WordsTransl);
-        Gfui.use(ProductCalendar)
+        Gfui.use(ProductCalendar);
+        Gfui.use(CustomQuery)
     }
 };
 

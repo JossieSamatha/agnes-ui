@@ -4,6 +4,7 @@ import Flowlist from "./group-flow-task"
 import Icrlist from "./group-icr-task"
 import Kpilist from "./group-kpi-task"
 import AccntTypelist from "./group-acnt-type"
+import CustomQuery from "./group-custom-query"
 
 const Loading = {
     load: function (Gfui) {
@@ -13,6 +14,7 @@ const Loading = {
         Gfui.grid('group-icr', Icrlist);
         Gfui.grid('group-kpi', Kpilist);
         Gfui.grid('group-acnt-type', AccntTypelist);
+        Gfui.grid('group-custom-query', CustomQuery);
     }
 };
 

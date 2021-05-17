@@ -30,17 +30,26 @@
                                              height="100%" >
                                     </gf-grid>
                                 </div>
-                                <div class="gf-role-auth-form" v-if="app.appCode==='zhlx'">
-                                    <gf-grid grid-no="group-acnt-type"
-                                             ref="acntTypeGrid"
-                                             :options="rowClassOption()"
-                                             @load-data="(params)=>{acntTypeGridLoadData(taskList, params)}"
-                                             height="100%" >
-                                    </gf-grid>
-                                </div>
-                                <el-row class="gf-role-auth-btns gf-form-btn">
-                                    <el-button  type="primary" :disabled="disabled" size="mini" @click="submitForm()">保存</el-button>
-                                </el-row>
+                              <div class="gf-role-auth-form" v-if="app.appCode==='zhlx'">
+                                <gf-grid grid-no="group-acnt-type"
+                                         ref="acntTypeGrid"
+                                         :options="rowClassOption()"
+                                         @load-data="(params)=>{acntTypeGridLoadData(taskList, params)}"
+                                         height="100%">
+                                </gf-grid>
+                              </div>
+                              <div class="gf-role-auth-form" v-if="app.appCode==='customQuery'">
+                                <gf-grid grid-no="group-custom-query"
+                                         ref="customQueryGrid"
+                                         :options="rowClassOption()"
+                                         @load-data="(params)=>{customerQueryLoadData(taskList, params)}"
+                                         height="100%">
+                                </gf-grid>
+                              </div>
+                              <el-row class="gf-role-auth-btns gf-form-btn">
+                                <el-button type="primary" :disabled="disabled" size="mini" @click="submitForm()">保存
+                                </el-button>
+                              </el-row>
                             </div>
                         </div>
                     </el-tab-pane>
@@ -83,8 +92,14 @@
         },
         methods: {
             async loadAppList() {
-                this.apps = [{"appCode":"lc","appName":"流程任务","taskType":"2"},{"appCode":"znsd","appName":"智能审单","taskType":"4"},{"appCode":"zb","appName":"指标任务","taskType":"1"},{"appCode":"zhlx","appName":"账户类型","taskType":"3"}];
-                this.currentApp = 'zb';
+              this.apps = [
+                {"appCode": "zb", "appName": "指标任务", "taskType": "1"},
+                {"appCode": "lc", "appName": "流程任务", "taskType": "2"},
+                {"appCode": "zhlx", "appName": "账户类型", "taskType": "3"},
+                {"appCode": "znsd", "appName": "智能审单", "taskType": "4"},
+                {"appCode": "customQuery", "appName": "自定义查询", "taskType": "5"},
+              ];
+              this.currentApp = 'zb';
             },
             // 表格数据初始加载 -- 已勾选项赋值
             gridLoadData(list, params){
@@ -96,24 +111,34 @@
                     }
                 });
             },
-            acntTypeGridLoadData(list, params){
-                params.rows.forEach((oneData)=>{
-                    let acntType = oneData;
-                    const hasChecked = this.$lodash.find(list, {taskId: acntType.typeCode});
-                    if(hasChecked){
-                        oneData.checked = true;
-                    }
-                });
-            },
-            async initResList(row) {
-                if(row){
-                    this.disabled=false;
-                    let authData = await this.$api.userGroupApi.getAuthDataList({"userGroupId":this.row.userGroupId});
-                    this.taskList = authData.data;
-                    this.$refs.icrGrid[0].reloadData();
-                    this.$refs.kpiGrid[0].reloadData();
-                    this.$refs.flowGrid[0].reloadData();
-                    this.$refs.acntTypeGrid[0].reloadData();
+          acntTypeGridLoadData(list, params) {
+            params.rows.forEach((oneData) => {
+              let acntType = oneData;
+              const hasChecked = this.$lodash.find(list, {taskId: acntType.typeCode});
+              if (hasChecked) {
+                oneData.checked = true;
+              }
+            });
+          },
+          customerQueryLoadData(list, params) {
+            params.rows.forEach((oneData) => {
+              let customQueryRule = oneData;
+              const hasChecked = this.$lodash.find(list, {taskId: customQueryRule.pkId});
+              if (hasChecked) {
+                oneData.checked = true;
+              }
+            });
+          },
+          async initResList(row) {
+            if (row) {
+              this.disabled = false;
+              let authData = await this.$api.userGroupApi.getAuthDataList({"userGroupId": this.row.userGroupId});
+              this.taskList = authData.data;
+              this.$refs.icrGrid[0].reloadData();
+              this.$refs.kpiGrid[0].reloadData();
+              this.$refs.flowGrid[0].reloadData();
+              this.$refs.acntTypeGrid[0].reloadData();
+              this.$refs.customQueryGrid[0].reloadData();
                 }
             },
             async submitForm() {
@@ -132,20 +157,39 @@
                         });
                         const p = this.$api.userGroupApi.saveAuthData({"userGroupId":this.row.userGroupId,"taskIds":taskIds,"taskType":"2"});
                         await this.$app.blockingApp(p);
-                    }else  if(this.currentApp === "znsd"){
-                        let rows = this.$refs.icrGrid[0].getSelectedRows();
-                        let taskIds = rows.map((item)=>{
-                            return item.reTaskDef.taskId;
-                        });
-                        const p = this.$api.userGroupApi.saveAuthData({"userGroupId":this.row.userGroupId,"taskIds":taskIds,"taskType":"4"});
-                        await this.$app.blockingApp(p);
-                    }else {
-                        let rows = this.$refs.acntTypeGrid[0].getSelectedRows();
-                        let typeIds = rows.map((item)=>{
-                            return item.typeCode;
-                        });
-                        const p = this.$api.userGroupApi.saveAuthData({"userGroupId":this.row.userGroupId,"taskIds":typeIds,"taskType":"3"});
-                        await this.$app.blockingApp(p);
+                    }else if (this.currentApp === "znsd") {
+                      let rows = this.$refs.icrGrid[0].getSelectedRows();
+                      let taskIds = rows.map((item) => {
+                        return item.reTaskDef.taskId;
+                      });
+                      const p = this.$api.userGroupApi.saveAuthData({
+                        "userGroupId": this.row.userGroupId,
+                        "taskIds": taskIds,
+                        "taskType": "4"
+                      });
+                      await this.$app.blockingApp(p);
+                    } else if (this.currentApp === "customQuery") {
+                      let rows = this.$refs.customQueryGrid[0].getSelectedRows();
+                      let pkIds = rows.map((item) => {
+                        return item.pkId;
+                      });
+                      const p = this.$api.userGroupApi.saveAuthData({
+                        "userGroupId": this.row.userGroupId,
+                        "taskIds": pkIds,
+                        "taskType": "5"
+                      });
+                      await this.$app.blockingApp(p);
+                    } else {
+                      let rows = this.$refs.acntTypeGrid[0].getSelectedRows();
+                      let typeIds = rows.map((item) => {
+                        return item.typeCode;
+                      });
+                      const p = this.$api.userGroupApi.saveAuthData({
+                        "userGroupId": this.row.userGroupId,
+                        "taskIds": typeIds,
+                        "taskType": "3"
+                      });
+                      await this.$app.blockingApp(p);
                     }
                     this.$msg.success('保存成功');
                     await this.initResList({"userGroupId":this.row.userGroupId});
