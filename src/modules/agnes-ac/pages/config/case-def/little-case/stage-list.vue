@@ -3,27 +3,28 @@
         <draggable class="stage-list" :list="stageList" :options="stageOption">
             <stageDef v-for="(stage, stageIndex) in stageList" :key="stage.defId"
                       :stage.sync="stage" :stageList.sync="stageList" :stageIndex="stageIndex"
-                      :stageType.sync="stageType" :stepType.sync="stepType">
+                      :stageType.sync="stageType" :stepType.sync="stepType" :mode="mode">
                 <template slot="stageSlot">
                     <draggable tag="ul" class="process-list" :list="stage.children" :options="groupOption">
                         <template v-for="(stageItem, stageItemIndex) in stage.children">
                             <stepDef :key="stageItem.stepCode"
                                      v-if="stageItem.defType == 'step' && curOptional(stageItem.optional)"
                                      :step.sync="stageItem" :stepList.sync="stage.children" :stepIndex="stageItemIndex"
-                                     :stepType.sync="stepType" :updatedStepList="updatedStepList" @click.native.stop="chooseActive">
+                                     :stepType.sync="stepType" :mode="mode" :updatedStepList="updatedStepList" @click.native.stop="chooseActive">
                             </stepDef>
                             <groupDef  ref="groupDef" :key="stageItem.defId" v-else
                                       :group.sync="stageItem"
                                       :groupList.sync="stage.children"
                                       :groupIndex="stageItemIndex"
                                       :groupType.sync="stepType"
+                                       :mode="mode"
                                       :chooseActive="chooseActive"></groupDef>
                         </template>
                     </draggable>
                 </template>
             </stageDef>
         </draggable>
-        <div class="stage-item add-btn" @click="addStage">
+        <div class="stage-item add-btn" @click="addStage" v-show="mode!='view'">
             <div class="stage-item-title">
                 <em class="el-icon-plus"></em>
                 <span class="title">stage</span>
@@ -40,6 +41,10 @@
             stageList: {
                 type: Array,
                 require: true
+            },
+            mode: {
+                type: String,
+                default: 'add'
             },
             updatedStepList: {
                 type: Array,

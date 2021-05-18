@@ -1,4 +1,5 @@
 <template>
+  <div>
   <el-form :disabled="mode==='view'" :model="detailForm" :rules="detailFormRules" class="task-def-form"
            label-width="110px" ref="taskDefForm">
     <el-form-item label="任务名称" prop="taskName">
@@ -440,8 +441,8 @@
       </el-form-item>
     </template>
     <template v-if="detailForm.configType==2">
-      <el-form-item label="配置任务节点">
-        <el-button @click="confFlowNode" type="text">
+      <el-form-item label="配置任务节点"  v-show="mode!='view'">
+        <el-button @click="confFlowNode('addMult')" type="text">
           点击配置
         </el-button>
       </el-form-item>
@@ -451,6 +452,14 @@
       </el-form-item>
     </template>
   </el-form>
+  <el-form>
+    <el-form-item label="查看任务节点"  v-show="mode=='view'">
+      <el-button @click="confFlowNode('view')" type="text">
+        点击配置
+      </el-button>
+    </el-form-item>
+  </el-form>
+  </div>
 </template>
 
 <script>
@@ -1078,7 +1087,7 @@ export default {
     async onEditFlowInfo(item) {
       this.caseModelData = item;
     },
-    confFlowNode() {
+    confFlowNode(val) {
       let caseDefInfo = {};
       if (this.mode == 'add') {
         caseDefInfo = {
@@ -1093,7 +1102,7 @@ export default {
         caseDefInfo.caseDefBody = this.caseModelData;
       }
       caseDefInfo.reTaskDef.bizType = this.detailForm.bizType;
-      this.showFlowNode({caseDefInfo: caseDefInfo}, 'addMult', this.onEditFlowInfo.bind(this))
+      this.showFlowNode({caseDefInfo: caseDefInfo}, val, this.onEditFlowInfo.bind(this))
     },
     showFlowNode(row, mode, actionOk) {
       // 抽屉创建
@@ -1101,6 +1110,7 @@ export default {
         width: 'calc(100% - 250px)',
         title: ['任务节点配置'],
         component: 'case-config-index',
+        okButtonVisible:mode=='view'?false:true,
         args: {row, mode, actionOk},
       })
     },

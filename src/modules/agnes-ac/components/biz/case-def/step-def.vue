@@ -3,8 +3,8 @@
         <em class="step-icon" :class="iconTypeObj" v-html="lcImg[iconTypeObj]"></em>
         <span class="name" :title="step.stepName">{{step.stepName}}</span>
         <span class="edit" v-if="!preview">
-            <em class="fa fa-copy" @click="copyTask"></em>
-            <em class="fa fa-trash-o" @click="deleteTask"></em>
+            <em class="fa fa-copy" @click="copyTask" v-show="mode!='view'"></em>
+            <em class="fa fa-trash-o" @click="deleteTask" v-show="mode!='view'"></em>
         </span>
         <span class="status" v-else-if="stepStatus"><em v-html="getStatusIcon(stepStatus).icon"></em></span>
     </div>
@@ -16,6 +16,10 @@
             step: {
                 type: Object,
                 require: true
+            },
+            mode: {
+                type: String,
+                default: 'add'
             },
             stepList: {
                 type: Array,

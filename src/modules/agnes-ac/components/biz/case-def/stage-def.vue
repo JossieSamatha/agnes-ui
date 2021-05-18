@@ -6,7 +6,7 @@
                 <el-input ref="titleInput" class="title-input" :title="stage.defName" v-model="stage.defName"
                           :disabled="!stage.edit" size="mini" clearable
                           @keyup.enter.native="saveStageTitle" @blur="saveStageTitle"></el-input>
-                <span class="edit" :class="{'is-disabled':!stage.edit}">
+                <span class="edit" :class="{'is-disabled':!stage.edit}" v-show="mode!='view'">
                     <em class="fa fa-trash-o" @click="deleteStage"></em>
                 </span>
             </span>
@@ -21,7 +21,7 @@
         <div class="stage-item-content">
             <slot name="stageSlot"></slot>
         </div>
-        <div class="add-task" v-if="!preview">
+        <div class="add-task" v-if="!preview&&mode!='view'">
             <span class="stage-add">
                 <em class="el-icon-plus"></em>
                 <span class="title">STEP</span>
@@ -57,6 +57,10 @@
             stepType: {
                 type: String,
                 require: true
+            },
+            mode: {
+                type: String,
+                default: 'add'
             },
             preview: {
                 type: Boolean,

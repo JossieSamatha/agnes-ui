@@ -1,10 +1,10 @@
 <template>
     <div class="form-page">
         <div class="form__footer">
-            <el-button class="primary" @click="saveForm">保存</el-button>
+            <el-button class="primary" v-show="optionType!='view'" @click="saveForm">保存</el-button>
             <el-button @click="cancelForm">取消</el-button>
         </div>
-        <el-form ref="stepInfoForm"  class="task-def-form" :rules="caseStepRules"
+        <el-form ref="stepInfoForm" :disabled="optionType=='view'"  class="task-def-form" :rules="caseStepRules"
                  :model="caseStepDef" label-width="105px">
             <el-form-item label="任务名称" prop="stepName">
                 <gf-input v-model.trim="caseStepDef.stepName" :max-byte-len="120"/>

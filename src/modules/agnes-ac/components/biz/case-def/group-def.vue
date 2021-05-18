@@ -41,7 +41,7 @@
                 </template>
             </draggable>
         </div>
-        <div class="add-task" v-if="!preview">
+        <div class="add-task" v-if="!preview&&mode!='view'">
             <span class="stage-add">
                 <em class="el-icon-plus"></em>
                 <span class="title">STEP</span>
@@ -62,6 +62,10 @@
             group: {
                 type: Object,
                 require: true
+            },
+            mode: {
+                type: String,
+                default: 'add'
             },
             groupList: {
                 type: Array,
