@@ -7,7 +7,7 @@
                     <template slot="steps">
                         <draggable class="step-list" :list="caseModelData.actions" :options="actionOption">
                             <stepDef v-for="(action, actionIndex) in caseModelData.actions" :key="action.stepCode"
-                                     :step="{actionIndex: actionIndex,...action}" :stepIndex="actionIndex"></stepDef>
+                                     :step="{actionIndex: actionIndex,...action}" :stepIndex="actionIndex" :mode="mode"></stepDef>
                         </draggable>
                         <div class="add-task" @click="addAction(caseModelData, 'actions')">
                             <em class="el-icon-plus"></em>
@@ -30,15 +30,15 @@
                 </div>
                 <div class="content">
                     <template v-if="workflowType === 'lifeRecycle'">
-                        <stageList class="lifeRecycle" :stageList="caseModelData.stages" stageType="stages"
+                        <stageList class="lifeRecycle" :mode="mode" :stageList="caseModelData.stages" stageType="stages"
                                    stepType="steps" :updatedStepList="updatedStepList"></stageList>
-                        <stageList class="able-choosed" :stageList="caseModelData.optionalStages" stageType="optionalStages"
+                        <stageList class="able-choosed" :mode="mode" :stageList="caseModelData.optionalStages" stageType="optionalStages"
                                    stepType="steps" :updatedStepList="updatedStepList"></stageList>
                     </template>
                     <template v-if="workflowType === 'ableChoosed'">
-                        <stageList class="lifeRecyclstagee" :stageList="caseModelData.stages" stageType="stages"
+                        <stageList class="lifeRecyclstagee" :mode="mode" :stageList="caseModelData.stages" stageType="stages"
                                    stepType="optionalSteps" :updatedStepList="updatedStepList"></stageList>
-                        <stageList class="able-choosed" :stageList="caseModelData.optionalStages" stageType="optionalStages"
+                        <stageList class="able-choosed" :mode="mode" :stageList="caseModelData.optionalStages" stageType="optionalStages"
                                    stepType="optionalSteps" :updatedStepList="updatedStepList"></stageList>
                     </template>
                 </div>
@@ -192,6 +192,9 @@
                 args.bizType = this.row.caseDefInfo.reTaskDef.bizType;
                 args.caseKey = this.row.caseDefInfo.reTaskDef.caseKey;
                 this.drawerVisible = true;
+                if(this.mode == 'view'){
+                    optionType = 'view';
+                }
                 this.stepDetailProps = {
                     optionType: optionType,
                     formObj: dialogForm,
