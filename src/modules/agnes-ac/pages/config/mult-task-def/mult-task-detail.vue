@@ -627,20 +627,17 @@ export default {
       }
     },
     async getEventParam() {
+      this.hasEventParam = false;
+      this.eventParam = [];
       if (this.detailForm.eventId) {
         const e = this.$api.modelConfigApi.getFieldByEventId(this.detailForm.eventId);
         const eventR = await this.$app.blockingApp(e);
-        if (eventR.data) {
+        if (eventR.data && eventR.data.length>0) {
           this.paramRefList = [];
           this.detailForm.bizParam = '';
           this.hasEventParam = true;
           this.eventParam = eventR.data;
-        } else {
-          this.eventParam = [];
         }
-      } else {
-        this.hasEventParam = false;
-        this.eventParam = [];
       }
       this.getEventFun();
     },

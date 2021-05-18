@@ -2,7 +2,21 @@
     <div>
         <div class="container">
             <div class="left">
-                <el-button class="add-pro-btn" @click="refreshCalendar">新增</el-button>
+                <el-popover popper-class="rule-table-popover"
+                            placement="right"
+                            title="新增"
+                            width="340"
+                            trigger="click">
+                    <div class="conf-type">
+                        <template v-for="type in addTypeArr">
+                            <el-button size="small"
+                                       :key="type.value"
+                                       @click="addTask(type.value)"
+                                       >{{type.name}}</el-button>
+                        </template>
+                    </div>
+                    <el-button slot="reference" class="add-pro-btn" size="small">新增</el-button>
+                </el-popover>
                 <pro-calendar class="pro-calendar" ref="proCalendarDef" @getMonthData="getMonthData" @pickDay="pickDay">
                   <template slot="list-slot">
                     <p class="split-line"></p>
@@ -58,6 +72,7 @@
 <script>
     import proCalendar from './pro-calendar-comp'
     import proDetail from './pro-detail'
+    import addTempTask from './add-temp-task'
 
     export default {
       watch: {
@@ -75,6 +90,7 @@
           calendarDetailVal: window.bizDate ? window.bizDate : new Date().toLocaleDateString().replace(/\//g, '-'),
           monthData: [],
           curDayData: [],
+          addTypeArr:  [{name:"临时任务",value:"1"}],
           colorArr: ['blue', 'orange', 'grey'],
           bizDateStart: '',
           bizDateEnd: '',
@@ -130,6 +146,18 @@
 
           getDay(date) {
             return new Date(date).getDate();
+          },
+
+          addTask(type) {
+              if(type=="1"){
+                  // 抽屉创建
+                  this.$drawerPage.create({
+                      width: 'calc(100% - 250px)',
+                      title: ['新增临时任务'],
+                      component: addTempTask,
+                      pageEl: this.$el
+                  })
+              }
           },
 
           async refreshCalendar() {
