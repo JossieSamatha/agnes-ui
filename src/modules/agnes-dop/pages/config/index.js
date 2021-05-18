@@ -30,6 +30,8 @@ import RosterCalendar from "./roster/roster-calendar"
 import ProductCalendar from "./product-calendar/product-calendar.vue"
 import FactorDef from "./factor-def/index";
 import TransRule from "./trans-rule-def/index";
+import CustomQueryBasicInfo from "./custom-query/basic-info/index"
+import CustomQueryDetailList from "./custom-query/detail-list/index"
 
 const Loading = {
     install: function (Vue) {
@@ -67,6 +69,9 @@ const Loading = {
         Gfui.componentView('agnes.chzh.zhgz', TransRule, {title: '转换规则维护'});
         Gfui.componentView('agnes.dop.roster.calendar', RosterCalendar, {title: '值班日历'});
         Gfui.componentView('agnes.dop.product.calendar', ProductCalendar, {title: '产品日历'});
+        Gfui.componentView('agnes.dop.custom.query.basic.info', CustomQueryBasicInfo, {title: '规则基本信息'});
+        Gfui.componentView('agnes.dop.custom.query.detail.list', CustomQueryDetailList, {title: '规则结果列表'});
+
     }
 };
 

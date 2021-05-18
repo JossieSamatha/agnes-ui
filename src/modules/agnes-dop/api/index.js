@@ -18,6 +18,7 @@ import funcConfigApi from './func-config-api';
 import compBoardApi from './comp-board-api';
 import wordsTranslApi from './words-transl-api';
 import productCalendarApi from './product-calendar-api'
+import customQueryApi from './custom-query-api'
 
 export default {
     orgDefineApi,
@@ -39,5 +40,6 @@ export default {
     funcConfigApi,
     compBoardApi,
     wordsTranslApi,
-    productCalendarApi
+    productCalendarApi,
+    customQueryApi
 };
