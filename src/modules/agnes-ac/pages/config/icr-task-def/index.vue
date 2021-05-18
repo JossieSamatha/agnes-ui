@@ -74,7 +74,7 @@
         },
         methods: {
             async getOptions(){
-                const e = this.$api.taskDefineApi.getTaskListByType({taskType:'8'});
+                const e = this.$api.taskDefineApi.getTaskListByType({taskTypes:['8']});
                 const taskR = await this.$app.blockingApp(e);
                 if(taskR.data) {
                     this.taskTypeOptions = taskR.data

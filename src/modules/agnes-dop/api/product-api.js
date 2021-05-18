@@ -20,4 +20,7 @@ export default {
     productList() {
         return request.post("/agnes-app/v1/prdt/info/list/page?pageIndex=0&pageSize=50", {params: {}});
     },
+    getAllProductList() {
+        return request.get("/agnes-app/v1/prdt/info/list/all");
+    },
 };

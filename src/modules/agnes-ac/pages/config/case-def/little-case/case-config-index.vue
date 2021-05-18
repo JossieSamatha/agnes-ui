@@ -104,7 +104,7 @@
               const p = this.$api.caseConfigApi.selectTaskCaseBody(this.row.caseDefInfo.caseDefId)
               rep = await this.$app.blockingApp(p);
             }
-            if (rep && rep.data) {
+            if (rep && rep.data && rep.data.caseDefBody) {
               this.caseModelData = JSON.parse(rep.data.caseDefBody);
               this.row.caseDefInfo.caseDefBody = rep.data.caseDefBody;
             } else {
