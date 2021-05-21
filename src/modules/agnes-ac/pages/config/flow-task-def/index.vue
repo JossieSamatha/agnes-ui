@@ -271,6 +271,9 @@
                     return;
                 }
                 let copyRowData = this.$utils.deepClone(row);
+                const p = this.$api.caseConfigApi.selectTaskCaseBody(copyRowData.caseDefId)
+                let  rep = await this.$app.blockingApp(p);
+                copyRowData.caseDefBody = rep.data.caseDefBody;
                 copyRowData.reTaskDef.taskId = '';
                 copyRowData.reTaskDef.taskName = '';
                 copyRowData.reTaskDef.caseKey = '';
@@ -292,6 +295,9 @@
                 row.reTaskDef.jobId = ''
                 let fileName = row.reTaskDef.taskName + ".txt";
                 const rowData =  JSON.stringify(row);
+                const p = this.$api.caseConfigApi.selectTaskCaseBody(rowData.caseDefId)
+                let  rep = await this.$app.blockingApp(p);
+                rowData.caseDefBody = rep.data.caseDefBody;
                 this.exportRaw(fileName,rowData);
             },
             fakeClick(obj) {

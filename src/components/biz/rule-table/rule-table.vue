@@ -9,7 +9,8 @@
                   :max-height="tableMaxHeight"
                   border stripe
                   style="width: 100%"
-                  :style="{'min-height': tableHeight+'px'}">
+                  :style="{'min-height': tableHeight+'px'}"
+                  :disabled="isDisable">
             <el-table-column prop="ruleTag" label="标签" width="52" align="center"></el-table-column>
             <el-table-column prop="ruleType" label="类型" width="65" align="center"></el-table-column>
             <el-table-column prop="ruleParamKey" label="对象">
@@ -66,7 +67,7 @@
                 <template slot-scope="scope">
                     <div v-if="scope.row.ruleType === 'fn'" class="filter-conf" :class="mustFill('ruleParam') && !jsonNull(scope.row.ruleParam) ? 'error':''">
                         <span class="nowrap-span" :title="scope.row.ruleParam">{{jsonNull(scope.row.ruleParam)}}</span>
-                        <em class="edit-btn fa fa-edit" v-show="scope.row.ruleParam !== '无筛选条件'" @click="editRuleParam(scope.$index, scope.row)"></em>
+                        <em class="edit-btn fa fa-edit" v-show="scope.row.ruleParam !== '无筛选条件'&&!isDisable" @click="editRuleParam(scope.$index, scope.row)"></em>
                     </div>
                 </template>
             </el-table-column>
@@ -110,7 +111,7 @@
             </el-table-column>
             <el-table-column prop="option" label="操作" width="60" align="center">
                 <template slot-scope="scope">
-                    <span class="option-span" @click="deleteRuleRow(scope.$index)">删除</span>
+                    <span class="option-span" @click="deleteRuleRow(scope.$index)"  v-show="!isDisable">删除</span>
                 </template>
             </el-table-column>
         </el-table>
@@ -127,7 +128,7 @@
                                @click="addRule(confItem.dictId)">{{confItem.dictName}}</el-button>
                 </template>
             </div>
-            <el-button slot="reference" class="rule-add-btn" size="small">新增条件</el-button>
+            <el-button slot="reference" class="rule-add-btn" size="small" v-show="!isDisable">新增条件</el-button>
         </el-popover>
         <div class="rule-edit-area">
             <p>规则编辑：默认组合匹配条件，如：</p>
@@ -183,6 +184,10 @@
             confType: {
                 type: String,
                 default: 'fn, object, step, event'
+            },
+            isDisable:{
+                type: Boolean,
+                default:false
             },
             ruleTableData: {
                 type: Object,
