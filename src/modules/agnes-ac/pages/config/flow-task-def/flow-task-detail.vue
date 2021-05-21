@@ -90,13 +90,64 @@
                 </gf-filter-option>
             </el-select>
         </el-form-item>
+        <el-form-item label="取值参数列表" v-if="hasEventParam">
+            <div class="rule-table">
+                <el-table :data="eventParam"
+                          :header-cell-style="{'text-align':'center'}"
+                          border
+                          cell-class-name="rule-cell"
+                          header-cell-class-name="rule-header-cell"
+                          header-row-class-name="rule-header-row" row-class-name="rule-row"
+                          stripe>
+                    style="width: 100%">
+                    <el-table-column label="参数代码">
+                        <template slot-scope="scope">
+                            <el-input :disabled="true" v-model="scope.row.fieldKey"></el-input>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="参数名称">
+                        <template slot-scope="scope">
+                            <el-input :disabled="true" v-model="scope.row.fieldName"></el-input>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </div>
+        </el-form-item>
+        <el-form-item label="取值参数选择" v-if="!hasEventParam">
+            <biz-param-chosen
+                    :paramRefList="this.paramRefList"
+                    @getParamList="getParamList"
+                    chosenType="prdt,prdtType"
+                    ref="bizParamRef">
+            </biz-param-chosen>
+        </el-form-item>
+        <el-form-item label="任务名称展示">
+            <el-radio-group v-model="nameCreateRule">
+                <el-radio :key="ruleNameType.value"
+                          :label="ruleNameType.value"
+                          v-for="ruleNameType in ruleNameTypeOp">
+                    {{ ruleNameType.label }}
+                </el-radio>
+            </el-radio-group>
+        </el-form-item>
+        <el-form-item v-if="nameCreateRule == '1'" prop="taskNameExp">
+            <el-row :gutter="20">
+                <el-col :span="10">
+                    <gf-input v-model="detailForm.taskNameExp"/>
+                </el-col>
+                <el-col :span="14"><em @click="openHelpFile" class="question el-icon-question" title="可选参数"></em></el-col>
+            </el-row>
+        </el-form-item>
         <el-form-item label="任务控制参数">
             <gf-strbool-checkbox v-model="detailForm.needApprove">是否需要复核</gf-strbool-checkbox>
+            <gf-strbool-checkbox v-model="detailForm.taskInitType">任务分发</gf-strbool-checkbox>
         </el-form-item>
     </el-form>
 </template>
 
 <script>
+    import readMeStr from "../mult-task-def/taskNameParams";
+
     export default {
         name: "task-define",
         props: {
@@ -110,6 +161,10 @@
         data() {
             return {
                 isCheckCode:false,
+                eventParam: [],
+                hasEventParam: false,
+                nameCreateRule: '0',
+                paramRefList:[],
                 detailForm: {execScheduler:'* * * * * ?',
                     taskName:'',
                     caseKey:'',
@@ -120,12 +175,15 @@
                     execMode:'0',
                     eventId:'',
                     flowType:'',
+                    taskInitType: '0',          // 任务实例化方式 -- 0：共享；1：分发
                     needApprove:'0',
+                    bizParam:'',
                     taskIcon:''},
                 dayChecked: false,  // 跨日
                 startAllTime: false,       // 是否永久有效
                 // 规则选择类型选项
                 ruleTypeOp: [{label: '默认完成规则', value: '0'}, {label: '自定义完成规则', value: '1'}],
+                ruleNameTypeOp: [{label: '默认生成规则', value: '0'}, {label: '自定义生成规则', value: '1'}],
                 // 消息配置类型类型选项
                 msgInformOp: [{label: '提前通知', value: '0'}, {label: '完成通知', value: '1'}, {label: '超时通知', value: '2'},
                     {label: '异常通知', value: '3'}, {label: '系统内部消息', value: '4'}],
@@ -182,8 +240,10 @@
             }
         },
         mounted() {
-            Object.assign(this.detailForm, this.row);
-            this.onLoadForm();
+            if(this.mode!='add'){
+                Object.assign(this.detailForm, this.row);
+                this.onLoadForm();
+            }
             this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
             this.getEventOptions();
         },
@@ -197,7 +257,52 @@
                     callback();
                 }
             },
+            getParamList(val) {
+                this.paramRefList = val;
+                this.detailForm.bizParam = JSON.stringify(val);
+            },
+            async getEventParam() {
+                this.hasEventParam = false;
+                this.eventParam = [];
+                if (this.detailForm.eventId) {
+                    const e = this.$api.modelConfigApi.getFieldByEventId(this.detailForm.eventId);
+                    const eventR = await this.$app.blockingApp(e);
+                    if (eventR.data && eventR.data.length>0) {
+                        this.paramRefList = [];
+                        this.detailForm.bizParam = '';
+                        this.hasEventParam = true;
+                        this.eventParam = eventR.data;
+                    }
+                }
+                this.getEventFun();
+            },
 
+            async getEventFun() {
+                if (this.detailForm.eventId) {
+                    const f = this.$api.funDefineApi.selectFunByEventId(this.detailForm.eventId);
+                    const eventF = await this.$app.blockingApp(f);
+                    if (eventF && eventF.data && (eventF.data.isReturnArray === '0' || (eventF.data.isReturnArray === '1' && this.stepInitTypeBox2 === '1'))) {
+                        this.hasEventRuleName = true;
+                    } else {
+                        this.hasEventRuleName = false;
+                    }
+                }
+            },
+
+            // 打开帮助文档
+            openHelpFile() {
+                if (this.helpNotify && this.helpNotify.close) {
+                    this.helpNotify.close();
+                }
+                this.helpNotify = this.$notify({
+                    width: 400,
+                    title: '任务名称可选参数',
+                    customClass: 'cronHelpNotify',
+                    dangerouslyUseHTMLString: true,
+                    duration: 0,
+                    message: readMeStr()
+                });
+            },
             openCron() {
                 this.showDlg(this.detailForm.execScheduler, this.setExecScheduler.bind(this));
             },
@@ -244,6 +349,9 @@
                     this.$message.warning("请选择触发事件！");
                     return ;
                 }
+                if (this.nameCreateRule === '0') {
+                    this.detailForm.taskNameExp = ''
+                }
                 try {
                     this.detailForm.bizTag = this.detailForm.bizTagArr.join(",");
                     let resData = this.detailForm;
@@ -280,6 +388,12 @@
                 }
             },
             onLoadForm(){
+                if (this.row.taskNameExp) {
+                    this.nameCreateRule = '1'
+                }
+                if (this.detailForm.bizParam) {
+                    this.paramRefList = JSON.parse(this.row.bizParam);
+                }
                 if (this.mode && this.mode !== 'add') {
                     if (this.detailForm.endTime && this.detailForm.endTime.toString().startsWith('9999-12-31')) {
                         this.startAllTime = true;
@@ -305,6 +419,9 @@
                 } else {
                     this.detailForm.endTime = ''
                 }
+            },
+            'detailForm.eventId'() {
+                this.getEventParam();
             },
             'detailForm.execMode'(val){
                 if(val === '2'){
