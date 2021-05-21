@@ -19,7 +19,7 @@
             <section class="taskSection">
                 <div class="option-panel">
                     <span>阶段层级任务
-                        <el-button type="text" @click="getStepCodeArr">stepCode数组重新获取</el-button>
+                        <el-button type="text" @click="getStepCodeArr" :disabled="mode=='view'">stepCode数组重新获取</el-button>
                     </span>
                     <span>
                         <el-radio-group class="alter-radio-btn" v-model="workflowType" size="small">

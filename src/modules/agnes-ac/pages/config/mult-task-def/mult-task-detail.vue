@@ -182,7 +182,7 @@
         <gf-strbool-checkbox style="margin-left: 10px" v-model="startStepRuleChecked">自定义激活规则</gf-strbool-checkbox>
       </el-form-item>
       <el-form-item v-if="startStepRuleChecked == '1'">
-        <rule-table :ruleTableData="detailForm.activeRuleTableData" confType="fn,object,event"
+        <rule-table :isDisable="mode=='view'" :ruleTableData="detailForm.activeRuleTableData" confType="fn,object,event"
                     ref="activeRuleTable"></rule-table>
       </el-form-item>
       <el-form-item label="执行结束时间" prop="step_endTime" style="width: 90%">
@@ -202,7 +202,7 @@
         <gf-strbool-checkbox style="margin-left: 10px" v-model="timeoutRuleChecked">自定义超时规则</gf-strbool-checkbox>
       </el-form-item>
       <el-form-item v-if="timeoutRuleChecked == '1'">
-        <rule-table :ruleTableData="detailForm.timeoutRuleTableData" confType="fn,object,event"
+        <rule-table :isDisable="mode=='view'" :ruleTableData="detailForm.timeoutRuleTableData" confType="fn,object,event"
                     ref="timeoutRuleTable"></rule-table>
       </el-form-item>
 
@@ -425,7 +425,7 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item v-if="succeedRule == '1'">
-        <rule-table :ruleTableData="detailForm.successRuleTableData" confType="fn" ref="successRuleTable"></rule-table>
+        <rule-table :isDisable="mode=='view'" :ruleTableData="detailForm.successRuleTableData" confType="fn" ref="successRuleTable"></rule-table>
       </el-form-item>
       <el-form-item label="异常规则">
         <el-radio-group v-model="abnormalRule">
@@ -437,7 +437,7 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item v-if="abnormalRule == '1'">
-        <rule-table :ruleTableData="detailForm.failRuleTableData" confType="fn" ref="failRuleTable"></rule-table>
+        <rule-table :isDisable="mode=='view'" :ruleTableData="detailForm.failRuleTableData" confType="fn" ref="failRuleTable"></rule-table>
       </el-form-item>
     </template>
     <template v-if="detailForm.configType==2">
@@ -455,7 +455,7 @@
   <el-form>
     <el-form-item label="查看任务节点"  v-show="mode=='view'">
       <el-button @click="confFlowNode('view')" type="text">
-        点击配置
+        点击查看
       </el-button>
     </el-form-item>
   </el-form>

@@ -17,7 +17,7 @@
                          :colors="rateColor"
                 >
                 </el-rate>
-                <em class="el-icon-refresh-left" @click="caseStepDef.stepLevel = 0"></em>
+                <em class="el-icon-refresh-left" @click="caseStepDef.stepLevel = 0" v-show="optionType!='view'"></em>
             </el-form-item>
             <el-form-item label="任务编号" prop="stepCode">
                 <gf-input v-model="caseStepDef.stepCode" clear-regex="[^0-9]" :max-byte-len="8" :min-byte-len="8"
@@ -57,7 +57,7 @@
                 <gf-strbool-checkbox v-model="startStepRuleChecked" style="margin-left: 10px">自定义激活规则</gf-strbool-checkbox>
             </el-form-item>
             <el-form-item v-if="startStepRuleChecked == '1'">
-                <rule-table ref="activeRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.activeRuleTableData"
+                <rule-table :isDisable="optionType=='view'" ref="activeRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.activeRuleTableData"
                             :ruleTargetOp="ruleTargetOp"></rule-table>
             </el-form-item>
             <el-form-item label="执行结束时间" prop="step_endTime" style="width: 90%">
@@ -76,10 +76,11 @@
                 <gf-strbool-checkbox v-model="timeoutRuleChecked" style="margin-left: 10px">自定义超时规则</gf-strbool-checkbox>
             </el-form-item>
             <el-form-item v-if="timeoutRuleChecked == '1'">
-                <rule-table ref="timeoutRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.timeoutRuleTableData"></rule-table>
+                <rule-table :isDisable="optionType=='view'" ref="timeoutRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.timeoutRuleTableData"></rule-table>
             </el-form-item>
             <el-form-item label="通知人员" prop="">
                 <gf-person-chosen ref="memberRef"
+                                  :disabled="optionType=='view'"
                                   :memberRefList="this.memberRefList"
                                   chosenType="user, group, roster"
                                   :rosterDate="this.rosterDate"
@@ -281,7 +282,7 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item v-if="succeedRule === '1'">
-                <rule-table ref="successRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.successRuleTableData"
+                <rule-table :isDisable="optionType=='view'" ref="successRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.successRuleTableData"
                             :ruleTargetOp="ruleTargetOp"></rule-table>
             </el-form-item>
             <el-form-item label="异常规则">
@@ -294,7 +295,7 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item v-if="abnormalRule === '1'">
-                <rule-table ref="failRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.failRuleTableData"
+                <rule-table :isDisable="optionType=='view'" ref="failRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.failRuleTableData"
                             :ruleTargetOp="ruleTargetOp"></rule-table>
             </el-form-item>
         </el-form>
