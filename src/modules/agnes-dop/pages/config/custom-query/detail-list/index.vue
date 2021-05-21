@@ -3,6 +3,7 @@
     <div class="gf-auth">
       <div class="gf-auth-body">
         <div class="gf-auth-content">
+          <span v-if="tabData === null || tabData.length=== 0">没有可展示的自定义查询</span>
           <el-tabs v-model="tabValue" style="height:100%" @tab-click="handleClick">
             <el-tab-pane
                 :key="item.pkId"
@@ -18,9 +19,9 @@
                       <div v-if="index >= group *2 - 2 && index <group*2" :key="index">
                         <el-form-item :label="item.queryFieldName" prop="queryDefaultValue" :key="item.pkId"
                                       style="width: 100%;">
-                          <el-input v-if="item.queryFieldType === 'string'" v-model="item.queryDefaultValue"/>
+                          <el-input v-if="item.queryFieldType === 'string'" v-model="item.queryDefaultValue" clearable/>
                           <el-input type="number" v-if="item.queryFieldType === 'number'"
-                                    v-model="item.queryDefaultValue"/>
+                                    v-model="item.queryDefaultValue" clearable/>
                           <el-date-picker
                               v-if="item.queryFieldType === 'date' && item.isGroup === '0'"
                               v-model="item.queryDefaultValue"
@@ -107,11 +108,12 @@ export default {
         this.queryData = loadsh.clone(resp.data);
         this.queryDataGroup = Math.ceil(this.queryData.length / 2)
       }
-      await this.loadAgGrid(pkId);
+      await this.loadAgGrid(pkId, '');
     },
-    async loadAgGrid(pkId) {
+    async loadAgGrid(pkId, type) {
       this.gridOptions.columnDefs = [];
       this.gridOptions.rowData = [];
+      this.gridOptions.api.setRowData([])
       const param = {
         pkId: pkId,
         queryData: this.queryData,
@@ -144,9 +146,11 @@ export default {
             columns.push(column);
           }
         })
-        this.gridOptions.api.setColumnDefs(columns)
+        if (type !== 'query') {
+          this.gridOptions.api.setColumnDefs(columns)
+        }
         this.gridOptions.api.setRowData(resp.data.resultMapList)
-        this.gridOptions.api.sizeColumnsToFit()
+        //this.gridOptions.api.sizeColumnsToFit()
       }
     },
     handleClick(tab) {
@@ -156,11 +160,11 @@ export default {
     },
     reSetSearch() {
       this.queryData.forEach(item => {
-        item.queryDefaultValue = '';
+        item.queryDefaultValue = null;
       })
     },
     reloadData(pkId) {
-      this.loadAgGrid(pkId)
+      this.loadAgGrid(pkId, 'query')
     },
     formatNumber(num, pattern) {
       var fmtarr = pattern ? pattern.split('.') : [''];

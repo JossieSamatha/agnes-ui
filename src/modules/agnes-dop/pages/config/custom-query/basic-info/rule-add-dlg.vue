@@ -65,7 +65,7 @@
               label="字典定义"
               min-width="100">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.dictTypeIdue" placeholder="请选择">
+              <el-select v-model="scope.row.dictTypeId" placeholder="请选择">
                 <el-option
                     v-for="dict in dictData"
                     :key="dict.dictTypeId"
@@ -240,8 +240,7 @@ export default {
       let validate = true;
       if (this.form.dopReCustomQueryFields) {
         for (let i = 0; i < this.form.dopReCustomQueryFields.length; i++) {
-          if (this.form.dopReCustomQueryFields[i].queryFieldName === '' ||
-              (this.form.dopReCustomQueryFields[i].isQuery === '1' && !this.form.dopReCustomQueryFields[i].queryDefaultValue)) {
+          if (this.form.dopReCustomQueryFields[i].queryFieldName === '') {
             validate = false;
             break;
           }
