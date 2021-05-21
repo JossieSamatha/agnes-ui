@@ -9,7 +9,7 @@
         >
             <template slot="left">
                 <gf-button class="action-btn" @click="addFlowTask" size="mini" v-if="$hasPermission('agnes.app.business.flowconf.add')">添加</gf-button>
-                <gf-button :disabled="!uploadStatus" class="action-btn"  @click="confFlowNode" size="mini" >配置任务节点</gf-button>
+                <gf-button :disabled="!uploadStatus" class="action-btn"  @click="confFlowNode" size="mini" >{{title}}任务节点</gf-button>
                 <gf-button class="action-btn" @click="copyFlow" size="mini" v-if="$hasPermission('agnes.app.business.flowconf.copy')">复制</gf-button>
                 <gf-button class="action-btn" @click="exportFlow" size="mini"  v-if="$hasPermission('agnes.app.business.flowconf.exportFlow')">导出</gf-button>
                 <el-upload style="margin-left: 4px"
@@ -46,14 +46,20 @@
     export default {
         data() {
             return {
+                title:'配置',
                 uploadStatus:false,
             }
         },
         methods: {
             selectedChanged(){
                 let rows = this.$refs.grid.getSelectedRows();
-                if(rows.length>0&& rows[0].reTaskDef.taskStatus != "03"){
+                if(rows.length>0){
                     this.uploadStatus = true;
+                    if(rows[0].reTaskDef.taskStatus != "03"){
+                        this.title = '配置';
+                    }else {
+                        this.title = '查看';
+                    }
                 }else{
                     this.uploadStatus = false;
                 }
@@ -87,6 +93,7 @@
                     okButtonVisible:isShow,
                     okButtonTitle: row.isCheck ? '审核' : '保存',
                     cancelButtonTitle: cancelTitle,
+                    pageEl: this.$el
 
                 })
             },
@@ -114,7 +121,11 @@
                 if(rows.length>0){
                     row = rows[0];
                 }
-                this.showFlowNode({caseDefInfo:row},'add',this.onAddFlowTask.bind(this))
+                let mode = 'add';
+                if(row.reTaskDef.taskStatus == '03'){
+                    mode = 'view'
+                }
+                this.showFlowNode({caseDefInfo:row},mode,this.onAddFlowTask.bind(this))
             },
             showFlowNode(row, mode, actionOk) {
                 // 抽屉创建
@@ -126,6 +137,7 @@
                     width: 'calc(100% - 250px)',
                     title: ['任务节点配置'],
                     component: 'case-config-index',
+                    okButtonVisible:mode=='view'?false:true,
                     args: {row, mode, actionOk},
                 })
             },
