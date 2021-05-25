@@ -302,8 +302,7 @@
         </gf-strbool-checkbox>
         <gf-strbool-checkbox v-model="detailForm.allowManualConfirm" v-show="detailForm.taskType != '2'">是否允许人工干预通过
         </gf-strbool-checkbox>
-        <gf-strbool-checkbox @change="stepInitTypeChange1" v-model="stepInitTypeBox1">任务共享</gf-strbool-checkbox>
-        <gf-strbool-checkbox @change="stepInitTypeChange2" v-model="stepInitTypeBox2">任务分发</gf-strbool-checkbox>
+        <gf-strbool-checkbox @change="stepInitTypeChange1" v-model="stepInitTypeBox1">任务分发</gf-strbool-checkbox>
       </el-form-item>
       <el-form-item label="消息通知参数">
         <span class="default-checked">系统内部消息</span>
@@ -447,8 +446,7 @@
         </el-button>
       </el-form-item>
       <el-form-item label="任务控制参数">
-        <gf-strbool-checkbox @change="stepInitTypeChange1" v-model="stepInitTypeBox1">任务共享</gf-strbool-checkbox>
-        <gf-strbool-checkbox @change="stepInitTypeChange2" v-model="stepInitTypeBox2">任务分发</gf-strbool-checkbox>
+        <gf-strbool-checkbox @change="stepInitTypeChange2" v-model="stepInitTypeBox1">任务分发</gf-strbool-checkbox>
       </el-form-item>
     </template>
   </el-form>
@@ -519,8 +517,7 @@ export default {
       startStepRuleChecked: '0',  // 激活规则确认框
       endTimeForDay: null,
       startTimeForDay: null,
-      stepInitTypeBox1: '1',
-      stepInitTypeBox2: '0',
+      stepInitTypeBox1: '0',
       succeedRule: '0',
       nameCreateRule: '0',
       abnormalRule: '0',
@@ -720,9 +717,8 @@ export default {
 
     stepInitTypeChange1(val) {
       if ('1' === val) {
-        this.stepInitTypeBox2 = '0';
-        this.detailForm.stepInitType = '0';
-        this.detailForm.taskInitType = '0';
+        this.detailForm.stepInitType = '1';
+        this.detailForm.taskInitType = '1';
       } else {
         this.detailForm.stepInitType = '0';
         this.detailForm.taskInitType = '0';
@@ -731,11 +727,8 @@ export default {
     },
     stepInitTypeChange2(val) {
       if ('1' === val) {
-        this.stepInitTypeBox1 = '0';
-        this.detailForm.stepInitType = '1';
         this.detailForm.taskInitType = '1';
       } else {
-        this.detailForm.stepInitType = '0';
         this.detailForm.taskInitType = '0';
       }
       this.getEventFun();
