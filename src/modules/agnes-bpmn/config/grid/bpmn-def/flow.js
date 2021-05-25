@@ -1,17 +1,12 @@
-import column from "../../../../../config/column";
 import dateUtil from "@hex/gf-ui/src/util/date-utils";
-
-const colButtons = [
-    {key: 'viewerBpmn', title: '查看流程'}
-];
 
 export default {
     columnDefs: [
-        column.buildOpCol(120, colButtons),
         {headerName: "当前任务", field: "activityName"},
         {headerName: "流程类型", field: "categoryName"},
         {headerName: "优先级", field: "priority"},
         {headerName: "发起者", field: "showUserName"},
+
         {
             headerName: "申请时间", field: "applyTime", cellRenderer: (params) => {
                 if (!params.value) {
@@ -34,37 +29,13 @@ export default {
                 }
             }
         },
-        // {headerName: "流程类型", field: "categoryName",  valueFormatter: function (params) {
-        //         var name = params.data.processDefinitionName;
-        //         var category = params.data.categoryName;
-        //         var label = name + "(" + category + ")";
-        //         return label;}},
-        // {headerName: "优先级", field: "priority"},
-        // {headerName: "发起者", field: "showUserName"},
-        // {headerName: "申请时间", field: "createTime",cellRenderer: (params) => {
-        //         if (!params.value) {
-        //             return ''
-        //         } else {
-        //             let formatDate = '';
-        //             formatDate = dateUtil.formatDate(params.value, 'yyyy-MM-dd HH:mm:ss')
-        //             return formatDate;
-        //         }
-        //     }},
-        // {headerName: "接收时间", field: "startTime",cellRenderer: (params) => {
-        //         if (!params.value) {
-        //             return ''
-        //         } else {
-        //             let formatDate = '';
-        //             formatDate = dateUtil.formatDate(params.value, 'yyyy-MM-dd HH:mm:ss')
-        //             return formatDate;
-        //         }
-        //     }},
+
     ],
     // headerHeight: 40,
     // rowHeight: 37,
-    rowSelection:'multiple',
+    rowSelection: 'multiple',
     ext: {
-        fetchUrl: "/agnes-ac/v1/ac/bpmn/process/done-list",
+        fetchUrl: "/agnes-ac/v1/ac/bpmn/process/node",
         fetchMethod: 'get',
         pagingMode: false, //不分页
         checkboxColumn: 2, //是否显示checkbox列,

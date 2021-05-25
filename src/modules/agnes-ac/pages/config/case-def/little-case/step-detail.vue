@@ -78,7 +78,7 @@
             <el-form-item v-if="timeoutRuleChecked == '1'">
                 <rule-table :isDisable="optionType=='view'" ref="timeoutRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.timeoutRuleTableData"></rule-table>
             </el-form-item>
-            <el-form-item label="通知人员" prop="">
+            <el-form-item label="通知人员" prop="" v-if="stepInfo.stepActType !== '3'">
                 <gf-person-chosen ref="memberRef"
                                   :disabled="optionType=='view'"
                                   :memberRefList="this.memberRefList"
@@ -100,16 +100,17 @@
                     </gf-filter-option>
                 </el-select>
             </el-form-item>
-            <el-form-item v-if="stepInfo.stepActType === '3'" label="流程定义选择" prop="stepActKey">
-                <el-select v-model="caseStepDef.stepActKey" placeholder="请选择">
-                    <el-option
-                            v-for="item in bpmnOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                    </el-option>
-                </el-select>
-            </el-form-item>
+          <el-form-item v-if="stepInfo.stepActType === '3'" label="流程定义选择" prop="stepActKey">
+            <!--                <el-select v-model="caseStepDef.stepActKey" placeholder="请选择">-->
+            <!--                    <el-option-->
+            <!--                            v-for="item in bpmnOptions"-->
+            <!--                            :key="item.value"-->
+            <!--                            :label="item.label"-->
+            <!--                            :value="item.value">-->
+            <!--                    </el-option>-->
+            <!--                </el-select>-->
+            <el-input v-model="caseStepDef.stepActKey"></el-input>
+          </el-form-item>
             <el-form-item v-if="stepInfo.stepActType === '4'" label="机器人选择" prop="stepActKey">
                 <el-select style="width: 100%" v-model="caseStepDef.stepActKey" placeholder="请选择" filterable clearable>
                     <gf-filter-option
