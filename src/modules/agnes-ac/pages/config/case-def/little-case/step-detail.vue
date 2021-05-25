@@ -163,8 +163,7 @@
             <el-form-item label="任务控制参数">
                 <gf-strbool-checkbox v-model="caseStepDef.isTodo">是否进入待办</gf-strbool-checkbox>
                 <gf-strbool-checkbox v-model="caseStepDef.allowManualConfirm">是否允许人工干预通过</gf-strbool-checkbox>
-                <gf-strbool-checkbox v-model="stepInitTypeBox1" @change="stepInitTypeChange1">任务共享</gf-strbool-checkbox>
-                <gf-strbool-checkbox v-model="stepInitTypeBox2" @change="stepInitTypeChange2">任务分发</gf-strbool-checkbox>
+                <gf-strbool-checkbox v-model="stepInitTypeBox1" @change="stepInitTypeChange1">任务分发</gf-strbool-checkbox>
             </el-form-item>
             <el-form-item label="消息通知参数">
                 <span class="default-checked">系统内部消息</span>
@@ -518,14 +517,9 @@
             },
             stepInitTypeChange1(val){
                 if('1' === val){
-                    this.stepInitTypeBox2 = '0';
-                    this.caseStepDef.stepInitType = '0';
-                }
-            },
-            stepInitTypeChange2(val){
-                if('1' === val){
-                    this.stepInitTypeBox1 = '0';
                     this.caseStepDef.stepInitType = '1';
+                }else {
+                    this.caseStepDef.stepInitType = '0';
                 }
             },
 
@@ -670,6 +664,7 @@
                     }
                 }
                 if (this.optionType !== 'add') {
+                    console.log(this.stepInfo.stepFormInfo.caseStepDef);
                     this.hisStepCode = JSON.parse(JSON.stringify(this.stepInfo.stepFormInfo.caseStepDef.stepCode));
                 }
                 this.initStepCode = this.stepInfo.stepFormInfo.caseStepDef.stepCode;
@@ -708,31 +703,39 @@
             // 保存表单数据
             async saveForm() {
                 try {
-                    if(this.stepInfo.stepActType=='6' && this.paramList.length>0){
-                        this.paramList.forEach((item)=>{
-                            if(item.paramKey == ''){
-                                this.$message.warning("回填参数中，参数关键字必填！");
-                                return ;
-                            }
-                        });
+                    if(this.stepInfo.stepActType=='6'){
                         let resData = {
                             paramList : this.paramList,
                             reTaskDef:{caseKey:this.caseKey},
                             stepCode:this.caseStepDef.stepCode,
                         };
-                        if(this.hisStepCode != '' && this.caseStepDef.stepCode!=this.hisStepCode){
-                            resData.hisStepCode = this.hisStepCode;
+                        if(this.paramList.length==0){
+                            resData.isClear = true;
+                            const c = this.$api.motConfigApi.checkAndSaveReCaseParams(resData);
+                            await this.$app.blockingApp(c);
                         }
-                        const c = this.$api.motConfigApi.checkAndSaveReCaseParams(resData);
-                        const resp1 = await this.$app.blockingApp(c);
-                        if(resp1 && resp1.code == 'existKey'){
-                            this.$msg.error(resp1.message);
-                            return ;
+                        if(this.paramList.length>0){
+                            resData.isClear = false;
+                            this.paramList.forEach((item)=>{
+                                if(item.paramKey == ''){
+                                    this.$message.warning("回填参数中，参数关键字必填！");
+                                    return ;
+                                }
+                            });
+                            if(this.hisStepCode != '' && this.caseStepDef.stepCode!=this.hisStepCode){
+                                resData.hisStepCode = this.hisStepCode;
+                            }
+                            const c = this.$api.motConfigApi.checkAndSaveReCaseParams(resData);
+                            const resp1 = await this.$app.blockingApp(c);
+                            if(resp1 && resp1.code == 'existKey'){
+                                this.$msg.error(resp1.message);
+                                return ;
+                            }
                         }
                     }
-                } catch (reason) {
-                    this.$msg.error(reason);
-                }
+                    } catch (reason) {
+                        this.$msg.error(reason);
+                    }
                 if(this.stepInfo.stepFormInfo.caseStepDef.stepActOwner == '[]'){
                     this.$message.warning("请选择通知人员！");
                     return ;
