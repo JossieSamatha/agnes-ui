@@ -96,9 +96,11 @@
         },
         methods: {
           async initTaskCaseBody() {
-            const s = this.$api.caseConfigApi.selectHasUpdatedStepInfos(this.row.caseDefInfo.caseDefId)
-            let stepRep = await this.$app.blockingApp(s);
-            this.updatedStepList = stepRep.data;
+              if(this.row.caseDefInfo.caseDefId){
+                  const s = this.$api.caseConfigApi.selectHasUpdatedStepInfos(this.row.caseDefInfo.caseDefId)
+                  let stepRep = await this.$app.blockingApp(s);
+                  this.updatedStepList = stepRep.data;
+              }
             let rep = null;
             if (this.row.caseDefInfo.caseDefId) {
               const p = this.$api.caseConfigApi.selectTaskCaseBody(this.row.caseDefInfo.caseDefId)
