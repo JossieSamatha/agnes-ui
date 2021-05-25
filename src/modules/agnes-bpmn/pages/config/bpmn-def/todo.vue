@@ -2,13 +2,13 @@
     <div>
         <el-form class="search-panel" label-width="75px">
             <div class="line">
-                <el-form-item label="流程标题">
-                    <el-input v-model="queryArgs.title"></el-input>
+                <el-form-item label="流程类型">
+                  <el-input v-model="queryArgs.title"></el-input>
                 </el-form-item>
-                <el-form-item label="流程名称">
-                    <el-input v-model="queryArgs.processDefinitionName"></el-input>
-                </el-form-item>
-                <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
+              <!--                <el-form-item label="流程名称">-->
+              <!--                    <el-input v-model="queryArgs.processDefinitionName"></el-input>-->
+              <!--                </el-form-item>-->
+              <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
                 <el-button @click="reSetSearch" class="option-btn">重置</el-button>
             </div>
         </el-form>
@@ -19,6 +19,7 @@
 
 <script>
     import Flow from "./flow";
+    // import Bpmn from "./bpmn";
 
     export default {
         data() {
@@ -35,24 +36,24 @@
             switchChange(){
                 this.reloadData();
             },
-            showDrawer(mode, processId, actionOk) {
-                let cancelTitle = '关闭';
-                this.$drawerPage.create({
-                    width: 'calc(97% - 215px)',
-                    title: ['流程图查看'],
-                    component: Flow,
-                    okButtonVisible:false,
-                    args: {processId, mode, actionOk},
-                    cancelButtonTitle: cancelTitle,
-                });
-            },
+          showDrawer(mode, procDefId, actionOk) {
+            let cancelTitle = '关闭';
+            this.$drawerPage.create({
+              width: 'calc(97% - 215px)',
+              title: ['流程图查看'],
+              component: Flow,
+              okButtonVisible: false,
+              args: {procDefId, mode, actionOk},
+              cancelButtonTitle: cancelTitle,
+            });
+          },
 
             async viewerBpmn(params) {
-                this.showDrawer('viewerBpmn', params.data.actProcessInstanceId, this.onViewerBpmn.bind(this));
+              this.showDrawer('viewerBpmn', params.data.procDefId, this.onViewerBpmn.bind(this));
             },
             async submit(params) {
                 try {
-                    const p = this.$api.BpmnApi.submitTask(params.data.taskId)
+                  const p = this.$api.BpmnApi.commitTask(params.data.taskId)
                     await this.$app.blockingApp(p);
                     this.$msg.success("任务提交成功!");
                     this.reloadData();

@@ -2,13 +2,13 @@
     <div>
         <el-form class="search-panel" label-width="75px">
             <div class="line">
-                <el-form-item label="流程标题">
-                    <el-input v-model="queryArgs.title"></el-input>
+                <el-form-item label="流程类型">
+                  <el-input v-model="queryArgs.title"></el-input>
                 </el-form-item>
-                <el-form-item label="流程名称">
-                    <el-input v-model="queryArgs.processDefinitionName"></el-input>
-                </el-form-item>
-                <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
+              <!--                <el-form-item label="流程名称">-->
+              <!--                    <el-input v-model="queryArgs.processDefinitionName"></el-input>-->
+              <!--                </el-form-item>-->
+              <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
                 <el-button @click="reSetSearch" class="option-btn">重置</el-button>
             </div>
         </el-form>
