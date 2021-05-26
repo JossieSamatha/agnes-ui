@@ -26,7 +26,7 @@
                             <gf-grid ref="prdtGrid"
                                      grid-no="biz-param-chosen-prdt-info"
                                      :options="rowClassOption()"
-                                     @load-data="(params)=>{gridLoadData(prdtList, 'productId', params)}"
+                                     @load-data="(params)=>{gridLoadData(prdtList, 'productCode', params)}"
                                      height="100%"></gf-grid>
                         </el-tab-pane>
                         <el-tab-pane name="prtdType" v-if="chosenType.indexOf('prdtType')>-1">
@@ -146,7 +146,7 @@
                 const param = {
                     bizType: '1',
                     refType: '1',
-                    paramId: params.data.productId,
+                    paramId: params.data.productCode,
                     paramDesc: params.data.productName
                 }
                 this.prdtList.push(param);

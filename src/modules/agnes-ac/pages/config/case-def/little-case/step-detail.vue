@@ -384,7 +384,7 @@
                 startStepRuleChecked: '0',  // 激活规则确认框
                 activeTerm: '1',
                 timeType: '1',
-                stepInitTypeBox1: '1',
+                stepInitTypeBox1: '0',
                 stepInitTypeBox2: '0',
                 caseSteptype: [],
                 kpiOptions:[],
@@ -679,6 +679,9 @@
                 this.timeoutRuleChecked = timeoutRuleTableData.length <= 0 ? '0' : '1'
                 const startDay = this.caseStepDef.startDay;
                 const endDay = this.caseStepDef.endDay;
+                if (this.stepInfo.stepFormInfo.caseStepDef.stepInitType == '1') {
+                    this.stepInitTypeBox1 = '1';
+                }
                 if(startDay){
                     this.startDayChecked = '1';
                 }

@@ -110,7 +110,11 @@
               this.caseModelData = JSON.parse(rep.data.caseDefBody);
               this.row.caseDefInfo.caseDefBody = rep.data.caseDefBody;
             } else {
-              this.caseModelData = this.$utils.deepClone(mockData)
+                if(this.row.caseDefInfo.caseDefBody){
+                    this.caseModelData = JSON.parse(this.row.caseDefInfo.caseDefBody);
+                }else {
+                    this.caseModelData = this.$utils.deepClone(mockData)
+                }
             }
           },
           getStepCodeArr() {
