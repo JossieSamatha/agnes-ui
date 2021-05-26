@@ -666,6 +666,11 @@ export default {
       }
     },
     async getEventParam() {
+      this.detailForm.eventOptions.forEach((item)=>{
+        if(item.value==this.eventKey){
+          this.detailForm.eventId = item.eventId;
+        }
+      });
       this.hasEventParam = false;
       this.eventParam = [];
       if (this.detailForm.eventId) {
@@ -1203,7 +1208,7 @@ export default {
                     this.detailForm.configType = '2';
                 }
             },
-            'detailForm.eventId'() {
+            'eventKey'() {
                 this.getEventParam();
             },
             'detailForm.taskType'(val){
