@@ -163,7 +163,7 @@
             <el-form-item label="任务控制参数">
                 <gf-strbool-checkbox v-model="caseStepDef.isTodo">是否进入待办</gf-strbool-checkbox>
                 <gf-strbool-checkbox v-model="caseStepDef.allowManualConfirm">是否允许人工干预通过</gf-strbool-checkbox>
-                <gf-strbool-checkbox v-model="stepInitTypeBox1" @change="stepInitTypeChange1">任务分发</gf-strbool-checkbox>
+<!--                <gf-strbool-checkbox v-model="stepInitTypeBox1" @change="stepInitTypeChange1">任务分发</gf-strbool-checkbox>-->
             </el-form-item>
             <el-form-item label="消息通知参数">
                 <span class="default-checked">系统内部消息</span>

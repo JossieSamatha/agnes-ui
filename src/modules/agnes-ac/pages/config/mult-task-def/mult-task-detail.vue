@@ -100,7 +100,7 @@
       </el-form-item>
     </template>
     <el-form-item label="外部事件选择" v-if="detailForm.task_execMode==3">
-      <el-select clearable filterable placeholder="请选择" style="width: 32%" v-model="detailForm.eventId">
+      <el-select clearable filterable placeholder="请选择" style="width: 32%" v-model="eventKey">
         <gf-filter-option
             :key="item.value"
             :label="item.label"
@@ -538,6 +538,7 @@ export default {
       taskTypeOptions: [],
       staticData: staticData(),
       detailForm: initData(),
+      eventKey:'',
       startDayChecked: '0',  // 执行开始时间跨日
       endDayChecked: '0',  // 执行结束时间跨日
       timeoutRuleChecked: '0',  // 超时规则确认框
@@ -650,6 +651,9 @@ export default {
       }
     },
     async getOptions() {
+      if (this.detailForm.eventId) {
+        this.eventKey = this.detailForm.eventId.split('_')[0];
+      }
       this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
       this.taskTypeOptions = this.$app.dict.getDictItems("AGNES_CASE_STEPTYPE");
       const e = this.$api.eventlDefConfigApi.getEventDefList();
@@ -657,7 +661,7 @@ export default {
       if (eventR.data) {
         const eventList = eventR.data
         eventList.forEach((item) => {
-          this.detailForm.eventOptions.push({label: item.eventName, value: item.eventId});
+          this.detailForm.eventOptions.push({label: item.eventName, value: item.eventKey,eventId:item.eventId});
         });
       }
     },
@@ -746,10 +750,8 @@ export default {
 
     stepInitTypeChange1(val) {
       if ('1' === val) {
-        this.detailForm.stepInitType = '1';
         this.detailForm.taskInitType = '1';
       } else {
-        this.detailForm.stepInitType = '0';
         this.detailForm.taskInitType = '0';
       }
       this.getEventFun();
@@ -821,6 +823,13 @@ export default {
       const ok = await this.$refs['taskDefForm'].validate();
       if (!ok) {
         return;
+      }
+      if(this.detailForm.task_execMode == '3'){
+        this.detailForm.eventOptions.forEach((item)=>{
+          if(item.value==this.eventKey){
+            this.detailForm.eventId = item.eventId;
+          }
+        });
       }
       try {
         if (this.detailForm.stepActOwner == '[]' && this.detailForm.configType === '1') {

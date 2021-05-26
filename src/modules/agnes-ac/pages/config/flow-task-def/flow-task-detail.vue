@@ -81,7 +81,7 @@
             </el-button>
         </el-form-item>
         <el-form-item label="外部事件选择" v-if="detailForm.execMode==='3'">
-            <el-select v-model="detailForm.eventId" placeholder="请选择" filterable clearable>
+            <el-select v-model="eventKey" placeholder="请选择" filterable clearable>
                 <gf-filter-option
                         v-for="item in eventOptions"
                         :key="item.value"
@@ -165,6 +165,7 @@
                 hasEventParam: false,
                 nameCreateRule: '0',
                 paramRefList:[],
+                eventKey:'',
                 detailForm: {execScheduler:'* * * * * ?',
                     taskName:'',
                     caseKey:'',
@@ -367,6 +368,13 @@
                         await this.$app.blockingApp(p);
                         msg = '审核成功';
                     }else{
+                        if(this.detailForm.execMode == '3'){
+                            this.eventOptions.forEach((item)=>{
+                                if(item.value==this.eventKey){
+                                    this.detailForm.eventId = item.eventId;
+                                }
+                            });
+                        }
                         let data = {reTaskDef:resData,
                             caseDefId: this.detailForm.caseDefId, caseDefBody: this.detailForm.caseDefBody,versionId:this.detailForm.versionId,isCheckCode:this.isCheckCode}
                         const p = this.$api.flowTaskApi.saveFlowTask(data);
@@ -404,11 +412,14 @@
                 }
             },
             async getEventOptions(){
+                if (this.detailForm.eventId) {
+                    this.eventKey = this.detailForm.eventId.split('_')[0];
+                }
                 const event = this.$api.eventlDefConfigApi.getEventDefList();
                 const eventR = await this.$app.blockingApp(event);
                 const eventList = eventR.data
                 eventList.forEach((item)=>{
-                    this.eventOptions.push({label:item.eventName,value:item.eventId});
+                    this.eventOptions.push({label:item.eventName,value:item.eventKey,eventId:item.eventId});
                 });
             }
         },
