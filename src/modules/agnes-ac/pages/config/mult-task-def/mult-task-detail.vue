@@ -149,12 +149,21 @@
         </el-radio>
       </el-radio-group>
     </el-form-item>
-    <el-form-item v-if="nameCreateRule == '1'" prop="taskNameExp">
+    <el-form-item v-if="nameCreateRule === '1'" prop="taskNameExp">
       <el-row :gutter="20">
         <el-col :span="10">
           <gf-input v-model="detailForm.taskNameExp"/>
         </el-col>
-        <el-col :span="14"><em @click="openHelpFile" class="question el-icon-question" title="可选参数"></em></el-col>
+        <el-col :span="14">
+          <el-popover
+              placement="top-start"
+              title=""
+              width="380"
+              trigger="hover">
+            <div class="popover-content" v-html="taskNameParams"></div>
+            <span slot="reference" style="color: #4E9DE2">可选参数</span>
+          </el-popover>
+        </el-col>
       </el-row>
     </el-form-item>
     <el-form-item label="节点配置方式" prop="configType">
@@ -464,7 +473,6 @@
 import loadsh from 'lodash';
 import staticData from '../../../util/dataFormat'
 import initData from '../../../util/initData'
-import readMeStr from "./taskNameParams";
 
 export default {
   name: "task-define",
@@ -481,12 +489,31 @@ export default {
       if (!value) {
         callback();
       } else {
-        const reg = /\$\{project.*?}/;
-        const result = reg.test(value);
-        if (result) {
+        let dateResult = false;
+        let eventResult = false;
+        const dateReg1 = /\$\{yyyy-MM-dd}/;
+        const dateReg2 = /\$\{yyyyMMdd}/;
+        const dateReg3 = /\$\{.*?}/;
+        if (dateReg1.test(value) || dateReg2.test(value)) {
+          dateResult = true;
+        }
+        if (this.eventParam !== null && this.eventParam.length > 0) {
+          this.eventParam.forEach(param => {
+            const reg = new RegExp("\\$\\{" + param.fieldKey + "}")
+            const result = reg.test(value);
+            if (result) {
+              eventResult = true;
+            }
+          })
+        }
+        if (eventResult) {
           if (!(this.detailForm.eventId && this.hasEventRuleName)) {
-            callback(new Error("非事件触发任务或事件取值参数为数组类型不可选择事件参数"));
+            callback(new Error("输入参数不在可选参数范围内"));
           }
+        } else if (dateResult) {
+          callback();
+        } else if (dateReg3.test(value)) {
+          callback(new Error("输入参数不在可选参数范围内"))
         } else {
           callback();
         }
@@ -531,6 +558,7 @@ export default {
       kpiOptions: [],
       rpaOptions: [],
       bpmnOptions: [],
+      taskNameParams: '',
       // 消息配置类型类型选项
       msgInformOp: [{label: '提前通知', value: '0'}, {label: '完成通知', value: '1'}, {label: '超时通知', value: '2'},
         {label: '异常通知', value: '3'}],
@@ -600,6 +628,7 @@ export default {
     this.getRpaData();
     this.getKpiData();
     this.getServiceResponse();
+    this.changeTaskNameParams();
   },
   methods: {
     hasRepetCode(rule, value, callback) {
@@ -652,7 +681,7 @@ export default {
       if (this.detailForm.eventId) {
         const f = this.$api.funDefineApi.selectFunByEventId(this.detailForm.eventId);
         const eventF = await this.$app.blockingApp(f);
-        if (eventF && eventF.data && (eventF.data.isReturnArray === '0' || (eventF.data.isReturnArray === '1' && this.stepInitTypeBox2 === '1'))) {
+        if (eventF && eventF.data && (eventF.data.isReturnArray === '0' || (eventF.data.isReturnArray === '1' && this.stepInitTypeBox1 === '1'))) {
           this.hasEventRuleName = true;
         } else {
           this.hasEventRuleName = false;
@@ -1103,37 +1132,49 @@ export default {
         width: 'calc(100% - 250px)',
         title: ['任务节点配置'],
         component: 'case-config-index',
-        okButtonVisible:mode=='view'?false:true,
+        okButtonVisible: mode == 'view' ? false : true,
         args: {row, mode, actionOk},
       })
     },
-    // 打开帮助文档
-    openHelpFile() {
-      if (this.helpNotify && this.helpNotify.close) {
-        this.helpNotify.close();
+    changeTaskNameParams() {
+      this.taskNameParams = '';
+      let title = '<p class="title">可选参数</p>' +
+          '<table>' +
+          '<th>参数类型</th>' +
+          '<th>参数含义</th>' +
+          '<th>参数格式</th>' +
+          '<tbody>' +
+          '<tr><td rowspan="2" style="min-width: 100px">基本参数</td><td rowspan="2" style="min-width: 100px">业务日期</td><td style="min-width: 150px">${yyyy-MM-dd}</td></tr>' +
+          '<tr><td style="min-width: 150px">${yyyyMMdd}</td></tr>';
+      let eventMsg = '';
+      if (this.eventParam != null && this.eventParam.length > 0) {
+        eventMsg = '<tr><td rowspan="' + this.eventParam.length + '" style="min-width: 100px">事件参数</td>'
+        this.eventParam.forEach(param => {
+          eventMsg = eventMsg + '<td style="min-width: 100px">' + param.fieldName + '</td><td style="min-width: 150px">${' + param.fieldKey + '}</td></tr>';
+        })
       }
-      this.helpNotify = this.$notify({
-        width: 400,
-        title: '任务名称可选参数',
-        customClass: 'cronHelpNotify',
-        dangerouslyUseHTMLString: true,
-        duration: 0,
-        message: readMeStr()
-      });
+      this.taskNameParams = title + eventMsg + '</tbody></table>';
     },
+
   },
 
         watch: {
-            'startAllTime'(val) {
-                if (val) {
-                    this.detailForm.task_endTime = '9999-12-31'
-                } else {
-                    this.detailForm.task_endTime = ''
-                }
+          eventParam: {
+            handler() {
+              this.changeTaskNameParams();
             },
-            'detailForm.configType'(val){
-                if(val === '1'){
-                    this.detailForm.flowType = '';
+            deep: true
+          },
+          'startAllTime'(val) {
+            if (val) {
+              this.detailForm.task_endTime = '9999-12-31'
+            } else {
+              this.detailForm.task_endTime = ''
+            }
+          },
+          'detailForm.configType'(val) {
+            if (val === '1') {
+              this.detailForm.flowType = '';
                     this.caseModelData = {};
                     this.detailForm.taskType = '';
                 }else if(val === '2'){

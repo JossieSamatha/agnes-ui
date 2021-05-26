@@ -437,9 +437,9 @@ export default {
               this.form.ruleTableData.ruleList.push(item)
             })
           }
-          if (!this.form.eventDef.msgId) {
-            this.$refs.reloadInitDate();
-          }
+          // if (!this.form.eventDef.msgId) {
+          //   this.$refs.reloadInitDate();
+          // }
           // this.form.ruleTableData.ruleList.forEach(item=>{
           //     if(item.ruleParam){
           //         item.ruleParam= JSON.parse(item.ruleParam);
