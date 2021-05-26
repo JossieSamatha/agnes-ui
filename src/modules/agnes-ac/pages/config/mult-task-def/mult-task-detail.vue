@@ -1015,7 +1015,9 @@ export default {
                     }
                     caseFlowInfos = JSON.stringify(caseDef);
                 }else{
-                    caseFlowInfos = this.caseModelData;
+                  if(this.row.caseDefBody){
+                    caseFlowInfos = this.row.caseDefBody;
+                  }
                 }
                 return {reTaskDef: taskDef, caseDefId: this.row.caseDefId, caseDefBody: caseFlowInfos,versionId:this.versionId,isCheckCode:this.isCheckCode,paramList:this.paramList};
             },
