@@ -24,9 +24,9 @@
     <el-form-item label="参数选择" v-if="detailForm.bizType=='1'">
       <el-select clearable filterable  placeholder="请选择" style="width: 50%" v-model="detailForm.prdtCode">
         <gf-filter-option
-                :key="item.productId"
+                :key="item.productCode"
                 :label="item.productName"
-                :value="item.productId"
+                :value="item.productCode"
                 v-for="item in productOptions">
         </gf-filter-option>
       </el-select>
