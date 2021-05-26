@@ -74,7 +74,7 @@
             </el-form-item>
         </template>
         <el-form-item label="外部事件选择" v-if="detailForm.task_execMode==3">
-            <el-select v-model="detailForm.eventId" placeholder="请选择" filterable clearable style="width: 32%">
+            <el-select v-model="eventKey" placeholder="请选择" filterable clearable style="width: 32%">
                 <gf-filter-option
                         v-for="item in detailForm.eventOptions"
                         :key="item.value"
@@ -291,6 +291,7 @@
                 isCheckCode:false,
                 rosterDate:'',
                 versionId:'',
+                eventKey:'',
                 memberRefList:[],
                 serviceRes:[],
                 staticData: staticData(),
@@ -412,13 +413,16 @@
                 }
             },
             async getOptions(){
+                if (this.detailForm.eventId) {
+                    this.eventKey = this.detailForm.eventId.split('_')[0];
+                }
                 this.bizTagOption = this.$app.dict.getDictItems("AGNES_BIZ_TAG");
                 const e = this.$api.eventlDefConfigApi.getEventDefList();
                 const eventR = await this.$app.blockingApp(e);
                 if(eventR.data){
                     const eventList = eventR.data
                     eventList.forEach((item)=>{
-                        this.detailForm.eventOptions.push({label:item.eventName,value:item.eventId});
+                        this.detailForm.eventOptions.push({label:item.eventName,value:item.eventKey,eventId:item.eventId});
                     });
                 }
                 const k = this.$api.kpiTaskApi.getAllKpiList();
@@ -506,6 +510,13 @@
                         }
                         this.$emit("onClose");
                     }else {
+                        if(this.detailForm.task_execMode == '3'){
+                            this.detailForm.eventOptions.forEach((item)=>{
+                                if(item.value==this.eventKey){
+                                    this.detailForm.eventId = item.eventId;
+                                }
+                            });
+                        }
                         const p = this.$api.kpiTaskApi.saveTask(resData);
                         const resp = await this.$app.blockingApp(p);
                         if(resp && resp.code == 'rwbhycz'){
