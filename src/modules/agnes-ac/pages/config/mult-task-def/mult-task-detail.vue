@@ -985,7 +985,7 @@ export default {
                         this.paramList = this.row.paramList;
                     }
                     if (taskDef.taskInitType == '1') {
-                        this.stepInitTypeBox2 = '1';
+                        this.stepInitTypeBox1 = '1';
                     }
                     this.reKeyToValue(taskDef, 'task_');
                     this.versionId = this.row.versionId;
@@ -1082,7 +1082,7 @@ export default {
     },
     confFlowNode(val) {
       let caseDefInfo = {};
-      if (this.mode == 'add') {
+      if (this.mode == 'add' && !this.caseModelData) {
         caseDefInfo = {
           reTaskDef: {
             bizType: '',
