@@ -395,6 +395,14 @@
                     this.$msg.error(reason);
                 }
             },
+            async getCaseBody(caseDefId){
+                if(caseDefId){
+                    const p = this.$api.caseConfigApi.selectTaskCaseBody(caseDefId)
+                    let  rep = await this.$app.blockingApp(p);
+                    this.detailForm.caseDefBody  = rep.data.caseDefBody;
+                    this.row.caseDefBody  = rep.data.caseDefBody;
+                }
+            },
             onLoadForm(){
                 if (this.row.taskNameExp) {
                     this.nameCreateRule = '1'
@@ -402,6 +410,10 @@
                 if (this.detailForm.bizParam) {
                     this.paramRefList = JSON.parse(this.row.bizParam);
                 }
+                if(this.row.caseDefBody){
+                    this.detailForm.caseDefBody  = this.row.caseDefBody;
+                }
+                this.getCaseBody(this.row.caseDefId);
                 if (this.mode && this.mode !== 'add') {
                     if (this.detailForm.endTime && this.detailForm.endTime.toString().startsWith('9999-12-31')) {
                         this.startAllTime = true;

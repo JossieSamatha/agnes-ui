@@ -991,7 +991,11 @@ export default {
                 this.keyToValue(taskDef, 'task_');
                 let caseDef = this.$utils.deepClone(this.staticData.caseDef);
                 let caseFlowInfos = '';
-                if(this.detailForm.configType!='2') {
+                if(this.detailForm.configType=='2'){
+                    if(this.row.caseDefBody){
+                      caseFlowInfos = this.row.caseDefBody;
+                    }
+                  }else{
                     let defId = this.$agnesUtils.randomString(32);
                     let defName = this.detailForm.taskName;
                     this.detailForm.stepName = defName;
@@ -1014,10 +1018,6 @@ export default {
                         this.isCheckCode = true;
                     }
                     caseFlowInfos = JSON.stringify(caseDef);
-                }else{
-                  if(this.row.caseDefBody){
-                    caseFlowInfos = this.row.caseDefBody;
-                  }
                 }
                 return {reTaskDef: taskDef, caseDefId: this.row.caseDefId, caseDefBody: caseFlowInfos,versionId:this.versionId,isCheckCode:this.isCheckCode,paramList:this.paramList};
             },
@@ -1037,9 +1037,12 @@ export default {
                     if (taskDef.bizParam) {
                         this.paramRefList = JSON.parse(taskDef.bizParam);
                     }
+                    if(this.row.caseDefBody){
+                      this.caseModelData = this.row.caseDefBody;
+                    }
+                    this.getCaseBody(this.row.caseDefId);
                     if(taskDef.taskType == '2' || taskDef.taskType == '8'){
                         this.detailForm.configType='2';
-                        this.caseModelData = this.row.caseDefBody;
                     }else {
                         let caseDefBody = JSON.parse(this.row.caseDefBody);
                         let stepFormInfo = this.$utils.deepClone(caseDefBody.stages[0].children[0].stepFormInfo);
@@ -1089,7 +1092,14 @@ export default {
                     }
                 }
             },
-
+    async getCaseBody(caseDefId){
+      if(caseDefId){
+        const p = this.$api.caseConfigApi.selectTaskCaseBody(caseDefId)
+        let  rep = await this.$app.blockingApp(p);
+        this.caseModelData  = rep.data.caseDefBody;
+        this.row.caseDefBody  = rep.data.caseDefBody;
+      }
+    },
     keyToValue(obj, type) {
       Object.keys(obj).forEach((key) => {
         const extraKeyArr = ['startTime', 'endTime', 'execMode', 'execScheduler'];
