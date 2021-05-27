@@ -97,7 +97,7 @@ export default {
           fnReturnKey: '',
           bizParamDb: '',
           bizParamSql: '',
-          isReturnArray: ''
+          isReturnArray: '0'
         },
         isNeedCheck:false,
       },

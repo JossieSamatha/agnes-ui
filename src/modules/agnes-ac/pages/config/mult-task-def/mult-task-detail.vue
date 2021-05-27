@@ -687,6 +687,11 @@ export default {
     },
 
     async getEventFun() {
+      this.detailForm.eventOptions.forEach((item) => {
+        if (item.value == this.eventKey) {
+          this.detailForm.eventId = item.eventId;
+        }
+      });
       if (this.detailForm.eventId) {
         const f = this.$api.funDefineApi.selectFunByEventId(this.detailForm.eventId);
         const eventF = await this.$app.blockingApp(f);
