@@ -702,6 +702,7 @@ export default {
         } else {
           this.hasEventRuleName = false;
         }
+        this.changeTaskNameParams();
       }
     },
 
@@ -1069,6 +1070,7 @@ export default {
                         if (this.detailForm.task_endTime === '9999-12-31') {
                             this.startAllTime = true;
                         }
+
                         if(!loadsh.isEmpty(this.detailForm.successRuleTableData)){
                             this.succeedRule ='1'
                         }
@@ -1180,7 +1182,7 @@ export default {
           '<tr><td rowspan="2" style="min-width: 100px">基本参数</td><td rowspan="2" style="min-width: 100px">业务日期</td><td style="min-width: 150px">${yyyy-MM-dd}</td></tr>' +
           '<tr><td style="min-width: 150px">${yyyyMMdd}</td></tr>';
       let eventMsg = '';
-      if (this.eventParam != null && this.eventParam.length > 0) {
+      if (this.eventParam != null && this.eventParam.length > 0 && this.hasEventRuleName) {
         eventMsg = '<tr><td rowspan="' + this.eventParam.length + '" style="min-width: 100px">事件参数</td>'
         this.eventParam.forEach(param => {
           eventMsg = eventMsg + '<td style="min-width: 100px">' + param.fieldName + '</td><td style="min-width: 150px">${' + param.fieldKey + '}</td></tr>';
@@ -1214,17 +1216,20 @@ export default {
                     this.detailForm.taskType = '2';
                 }
             },
-            'detailForm.task_execMode'(val){
-                if(val === '2'){
-                    this.detailForm.eventId = '';
-                }else if(val === '3'){
-                    this.detailForm.task_execScheduler= ''
-                }else {
-                    this.detailForm.eventId = '';
-                    this.detailForm.task_execScheduler= ''
-                }
-                if(val === '4'){
-                    this.detailForm.configType = '2';
+            'detailForm.task_execMode'(val) {
+              this.hasEventParam = false;
+              this.eventParam = [];
+              this.eventKey = '';
+              if (val === '2') {
+                this.detailForm.eventId = '';
+              } else if (val === '3') {
+                this.detailForm.task_execScheduler = ''
+              } else {
+                this.detailForm.eventId = '';
+                this.detailForm.task_execScheduler = ''
+              }
+              if (val === '4') {
+                this.detailForm.configType = '2';
                 }
             },
             'eventKey'() {
