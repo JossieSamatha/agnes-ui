@@ -54,7 +54,6 @@ export default {
         {
             headerName: "事件名称", field: "eventName",
             cellStyle: function (params) {
-                console.log(params)
                 if (params.data.isLastestVersion === '0') {
                     return {color: 'red'}
                 }
