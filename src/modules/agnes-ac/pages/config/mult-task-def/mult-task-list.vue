@@ -129,19 +129,9 @@
                 this.showDrawer('add', {}, this.onAddModel.bind(this));
             },
             async showTask(params) {
-                if(!params.data.reTaskDef.taskType.match(/2|8/)){
-                    const p = this.$api.caseConfigApi.selectTaskCaseBody(params.data.caseDefId)
-                    let  rep = await this.$app.blockingApp(p);
-                    params.data.caseDefBody = rep.data.caseDefBody;
-                }
                 this.showDrawer('view', params.data);
             },
             async editTask(params) {
-                if(!params.data.reTaskDef.taskType.match(/2|8/)){
-                    const p = this.$api.caseConfigApi.selectTaskCaseBody(params.data.caseDefId)
-                    let  rep = await this.$app.blockingApp(p);
-                    params.data.caseDefBody = rep.data.caseDefBody;
-                }
                 this.showDrawer('edit', params.data, this.onEditModel.bind(this));
             },
             async deleteTask(params) {
