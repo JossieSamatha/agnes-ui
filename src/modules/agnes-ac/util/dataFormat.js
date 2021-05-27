@@ -13,14 +13,15 @@ export default function () {
             bizParam: '',              // 业务参数
             stepScene: '',          // 业务场景
             startTime: '',
-            flowType:'',
-            taskIcon:'',
+            flowType: '',
+            taskIcon: '',
             endTime: '',
             standardDate: '',       // 基准日期(新增字段)
             execMode: '1',          // 任务创建频率 -- 0：一次；1：重复执行；2：事件
             execScheduler: '',      // 任务创建频率 -- 重复执行
             eventId: '',            // 事件Id -- 执行频率--事件
             needApprove: '',       // 是否需要复核
+            taskNameExp: '',    //任务名称生成规则
         },
 
         // case任务对象初始字段
