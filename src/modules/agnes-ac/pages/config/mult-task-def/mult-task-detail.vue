@@ -509,6 +509,8 @@ export default {
         if (eventResult) {
           if (!(this.detailForm.eventId && this.hasEventRuleName)) {
             callback(new Error("输入参数不在可选参数范围内"));
+          } else {
+            callback();
           }
         } else if (dateResult) {
           callback();
@@ -1035,26 +1037,29 @@ export default {
                         this.paramList = this.row.paramList;
                     }
                     if (taskDef.taskInitType == '1') {
-                        this.stepInitTypeBox1 = '1';
+                      this.stepInitTypeBox1 = '1';
                     }
-                    this.reKeyToValue(taskDef, 'task_');
-                    this.versionId = this.row.versionId;
-                    if (taskDef.bizParam) {
-                        this.paramRefList = JSON.parse(taskDef.bizParam);
-                    }
-                    if(this.row.caseDefBody){
-                      this.caseModelData = this.row.caseDefBody;
-                    }
-                    this.getCaseBody(this.row.caseDefId);
-                    if(taskDef.taskType == '2' || taskDef.taskType == '8'){
-                        this.detailForm.configType='2';
-                    }else {
-                        let caseDefBody = JSON.parse(this.row.caseDefBody);
-                        let stepFormInfo = this.$utils.deepClone(caseDefBody.stages[0].children[0].stepFormInfo);
-                        Object.keys(stepFormInfo).forEach((key) => {
-                            if (key === 'caseStepDef') {
-                                this.reKeyToValue(stepFormInfo.caseStepDef, 'step_');
-                            } else {
+                  this.reKeyToValue(taskDef, 'task_');
+                  this.versionId = this.row.versionId;
+                  if (taskDef.bizParam) {
+                    this.paramRefList = JSON.parse(taskDef.bizParam);
+                  }
+                  if (this.row.caseDefBody) {
+                    this.caseModelData = this.row.caseDefBody;
+                  }
+                  if (this.detailForm.taskNameExp !== null) {
+                    this.nameCreateRule = '1'
+                  }
+                  this.getCaseBody(this.row.caseDefId);
+                  if (taskDef.taskType == '2' || taskDef.taskType == '8') {
+                    this.detailForm.configType = '2';
+                  } else {
+                    let caseDefBody = JSON.parse(this.row.caseDefBody);
+                    let stepFormInfo = this.$utils.deepClone(caseDefBody.stages[0].children[0].stepFormInfo);
+                    Object.keys(stepFormInfo).forEach((key) => {
+                      if (key === 'caseStepDef') {
+                        this.reKeyToValue(stepFormInfo.caseStepDef, 'step_');
+                      } else {
                                 this.detailForm[key] = stepFormInfo[key] || this.detailForm[key];
                             }
                         })
@@ -1066,9 +1071,6 @@ export default {
                         }
                         if(!loadsh.isEmpty(this.detailForm.successRuleTableData)){
                             this.succeedRule ='1'
-                        }
-                        if (this.detailForm.taskNameExp !== null) {
-                            this.nameCreateRule = '1'
                         }
                         if(!loadsh.isEmpty(this.detailForm.failRuleTableData)){
                             this.abnormalRule ='1'
