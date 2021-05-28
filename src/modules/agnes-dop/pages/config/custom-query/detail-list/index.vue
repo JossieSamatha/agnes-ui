@@ -137,7 +137,12 @@ export default {
                   formatDate = dateUtil.formatDate(params.value, item.stringFormat)
                   return formatDate;
                 } else if (item.dictTypeId) {
-                  return window.$gfui.$app.dict.getDictItem(item.dictTypeId, params.value).dictName
+                  const dicts = window.$gfui.$app.dict.getDictItem(item.dictTypeId, params.value);
+                  if (dicts) {
+                    return dicts.dictName;
+                  } else {
+                    return params.value;
+                  }
                 } else if (item.queryFieldType === 'amount' && item.stringFormat) {
                   return this.formatNumber(params.value, item.stringFormat);
                 }
