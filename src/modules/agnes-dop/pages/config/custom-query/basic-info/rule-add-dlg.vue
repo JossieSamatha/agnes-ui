@@ -65,7 +65,7 @@
               label="字典定义"
               min-width="100">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.dictTypeId" placeholder="请选择">
+              <el-select v-model="scope.row.dictTypeId" filterable clearable placeholder="请选择">
                 <el-option
                     v-for="dict in dictData"
                     :key="dict.dictTypeId"
@@ -177,10 +177,12 @@ export default {
       }
     }
   },
+  beforeMount() {
+    this.initDict();
+  },
   mounted() {
     if (this.mode !== 'add') {
       Object.assign(this.form, this.row)
-      this.initDict();
       this.queryFields(this.form.pkId);
     }
   },
