@@ -873,6 +873,9 @@ export default {
         if (this.detailForm.task_execMode == '4') {
           resData.reTaskDef.taskType = '8';
         }
+        if (this.mode === 'add' || this.hisStepCode != resData.reTaskDef.caseKey) {
+          resData.isCheckCode = true;
+        }
         if (this.row.isCheck) {
           resData.isPass = '1';
           const p = this.$api.kpiTaskApi.checkTask(resData);
@@ -1022,9 +1025,6 @@ export default {
                     })
                     stepFormInfo.stepInitType = this.detailForm.stepInitType;
                     caseDef.stages[0].children[0].stepFormInfo = stepFormInfo;
-                    if (this.mode === 'add' || this.row.reTaskDef.caseKey != taskDef.caseKey) {
-                        this.isCheckCode = true;
-                    }
                     caseFlowInfos = JSON.stringify(caseDef);
                 }
                 return {reTaskDef: taskDef, caseDefId: this.row.caseDefId, caseDefBody: caseFlowInfos,versionId:this.versionId,isCheckCode:this.isCheckCode,paramList:this.paramList};
