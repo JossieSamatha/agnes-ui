@@ -789,6 +789,10 @@ form .el-icon-lock::before {
 
 =======================================*/
 /* 内容框架样式调整 */
+.gf-flex-content {
+    padding: 0 !important;
+}
+
 .gf-tab-views {
     padding: 0;
 }
