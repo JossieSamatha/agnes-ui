@@ -19,11 +19,21 @@
                       <div v-if="index >= group *2 - 2 && index <group*2" :key="index">
                         <el-form-item :label="item.queryFieldName" prop="queryDefaultValue" :key="item.pkId"
                                       style="width: 100%;">
-                          <el-input v-if="item.queryFieldType === 'string'" v-model="item.queryDefaultValue" clearable/>
-                          <el-input type="number" v-if="item.queryFieldType === 'number'"
+                          <el-select v-model="item.queryDefaultValue" v-if="item.dictTypeId" filterable clearable
+                                     placeholder="请选择">
+                            <el-option
+                                v-for="dict in getOption(item.dictTypeId)"
+                                :key="dict.dictId"
+                                :label="dict.dictName"
+                                :value="dict.dictId">
+                            </el-option>
+                          </el-select>
+                          <el-input v-else-if="item.queryFieldType === 'string'" v-model="item.queryDefaultValue"
+                                    clearable/>
+                          <el-input type="number" v-else-if="item.queryFieldType === 'number'"
                                     v-model="item.queryDefaultValue" clearable/>
                           <el-date-picker
-                              v-if="item.queryFieldType === 'date' && item.isGroup === '0'"
+                              v-else-if="item.queryFieldType === 'date' && item.isGroup === '0'"
                               v-model="item.queryDefaultValue"
                               type="date"
                               placeholder="选择日期"
@@ -31,7 +41,7 @@
                               value-format="yyyy-MM-dd">
                           </el-date-picker>
                           <el-date-picker
-                              v-if="item.queryFieldType === 'date' && item.isGroup === '1'"
+                              v-else-if="item.queryFieldType === 'date' && item.isGroup === '1'"
                               v-model="item.queryDefaultValue"
                               type="daterange"
                               range-separator="-"
@@ -161,6 +171,14 @@ export default {
     handleClick(tab) {
       if (tab && tab.name) {
         this.initQueryData(tab.name);
+      }
+    },
+    getOption(dictTypeId) {
+      const dicts = window.$gfui.$app.dict.getDictItems(dictTypeId);
+      if (dicts) {
+        return dicts;
+      } else {
+        return [];
       }
     },
     reSetSearch() {
