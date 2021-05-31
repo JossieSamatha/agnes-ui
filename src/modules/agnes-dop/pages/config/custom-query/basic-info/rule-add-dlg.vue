@@ -201,7 +201,7 @@ export default {
               indexNo: index + 1,
               dictTypeId: '',
               isDisplay: '1',
-              alignStyle: '1',
+              alignStyle: 'left',
               stringFormat: '',
               isQuery: '0',
               queryDefaultValue: '',
