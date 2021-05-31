@@ -75,7 +75,7 @@
                                     </p>
                                     <el-badge :value="task.errNum" :max="99" :hidden="!task.errNum || task.errNum<=0">
                                     </el-badge>
-                                    <p class="title" :title="task.taskName" :style="{transform: 'scale('+ cardScale +')'}">{{task.taskName}}</p>
+                                    <p class="title" :title="task.taskName" :style="{'font-size': cardScale +'rem'}">{{task.taskName}}</p>
                                     <p style="height: 15px">
                                         <el-progress v-if="task.finishedRate"
                                                      class="monitor-progress"
@@ -249,12 +249,12 @@ export default {
         bizDateChange(val) {
             this.getFLowsbyType(val);
         },
-        
+
         calcCardLength(length){
             const intLength = length % 4 === 0;
             return intLength ? length / 4 : parseInt(length / 4 + 1);
         },
-        
+
         // 根据流程类型加载对应的接口数据
         async getFLowsbyType(bizDate) {
             this.proTask = [];
@@ -281,7 +281,7 @@ export default {
                 this.proTask = [];
             }
         },
-        
+
         // 选择流程-流程类型的取值字段更改 同步分支版本
         chooseTask(task){
             this.curTask = task;
@@ -304,7 +304,7 @@ export default {
                 });
             }
         },
-        
+
         getPercentage(percentage) {
             return parseInt(percentage * 100) ;
         },
@@ -321,12 +321,12 @@ export default {
             const errorPercent = parseFloat(parseInt(stage.exceptionNum) / parseInt(stage.targetNum)).toFixed(2) * 100;
             return `left: ${allPercent-errorPercent}%; width: ${errorPercent}%`;
         },
-        
+
         getStatusColor(statusId) {
             const stepStatus = this.$agnesAcUtils.getStepStatusMap();
             return stepStatus.get(statusId).color;
         },
-        
+
         getDetailColor(statusId){
             if(statusId === '01'){
                 return '#D7DBE4';
@@ -334,7 +334,7 @@ export default {
                 return '#4C6CFF';
             }
         },
-        
+
         // 根据流程id及业务日期加载流程信息{"taskId":"","bizDate":""}、获取任务状态、获取执行情况
         async getFLowDetail(taskId, caseId, bizDate) {
             const flowDetailRes = this.$api.elecProcessApi.getExecProcessDetail({taskId, caseId, bizDate});
@@ -355,16 +355,16 @@ export default {
                 this.executePieData = [];
             }
         },
-        
+
         closeTableDetail(){
             this.ifGridExpand = false;
         },
-        
+
         // 纵向拉伸宽度问题处理
         dragColumnUpdate() {
             this.$refs.dragColumn.style.width = '100%';
         },
-        
+
         stageDetailView(stage, error){
             const gridData = this.getStageData(stage, stage.ruCaseStepList);
             this.$refs.monitorLeader.setRowData(gridData);
@@ -373,11 +373,11 @@ export default {
             }
             this.ifGridExpand = true;
         },
-        
+
         showStageError(stage){
             this.stageDetailView(stage, 'error')
         },
-        
+
         // 展开表格显示详情
         getStageData(listInfo, ruCaseStepList){
             let tableArr = [];
@@ -386,7 +386,7 @@ export default {
             traverseArr = listInfo.children;
             return this.traverseData(traverseArr, orgHierarchy, tableArr, ruCaseStepList);
         },
-        
+
         traverseData(arr, orgHierarchy, tableArr, ruCaseStepList){
             arr.forEach((groupItem)=>{
                 let newHierarchy = [].concat(orgHierarchy);
