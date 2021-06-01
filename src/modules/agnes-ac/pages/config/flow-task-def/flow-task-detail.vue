@@ -260,7 +260,11 @@
             },
             getParamList(val) {
                 this.paramRefList = val;
-                this.detailForm.bizParam = JSON.stringify(val);
+                if(val.length>0){
+                    this.detailForm.bizParam = JSON.stringify(val);
+                }else {
+                    this.detailForm.bizParam = '';
+                }
             },
             async getEventParam() {
                 this.hasEventParam = false;
