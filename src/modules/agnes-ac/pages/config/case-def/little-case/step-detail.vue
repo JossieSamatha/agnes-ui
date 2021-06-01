@@ -509,7 +509,7 @@
                     callback(new Error('任务编号必填'));
                 }else if(value.length !== 8){
                     callback(new Error('任务编号需为8位数字'));
-                }else if(stepCodeArr.includes(value) && value !== this.initStepCode){
+                }else if(stepCodeArr.includes(value) && value !== this.hisStepCode){
                     callback(new Error('当前case中已含有相同任务编号，请勿重复'));
                 }else{
                     callback();

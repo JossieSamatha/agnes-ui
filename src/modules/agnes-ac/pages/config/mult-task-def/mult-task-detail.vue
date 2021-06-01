@@ -783,7 +783,11 @@ export default {
     },
     getParamList(val) {
       this.paramRefList = val;
-      this.detailForm.bizParam = JSON.stringify(val);
+      if(val.length>0){
+        this.detailForm.bizParam = JSON.stringify(val);
+      }else {
+        this.detailForm.bizParam = '';
+      }
     },
     editExecTime(curObj, execScheduler) {
       this.curExecScheduler = curObj;
