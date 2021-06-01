@@ -90,8 +90,7 @@
             stepDetail
         },
         mounted() {
-          this.initTaskCaseBody();
-          this.stepCodeArr = this.caseModelData.stepCodeArr || {};
+            this.initTaskCaseBody();
           this.$app.registerCmd("openStepDialog", this.onShowDialog);
         },
         methods: {
@@ -115,6 +114,11 @@
                 }else {
                     this.caseModelData = this.$utils.deepClone(mockData)
                 }
+            }
+            if(this.caseModelData.stages){
+                this.getStepCodeArr();
+            }else {
+                this.stepCodeArr = this.caseModelData.stepCodeArr || {};
             }
           },
           getStepCodeArr() {
