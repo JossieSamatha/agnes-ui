@@ -142,9 +142,11 @@
         methods: {
             async popoverClick(actionType) {
                 this.form.paramList=[];
-                const p = this.$api.taskTodoApi.selectRollBackTaskParams({stepExecId:this.params.data.stepExecId})
-                const resp = await this.$app.blockingApp(p);
-                this.form.paramList=resp.data;
+                if(actionType=='actionConfirm'){
+                    const p = this.$api.taskTodoApi.selectRollBackTaskParams({stepExecId:this.params.data.stepExecId})
+                    const resp = await this.$app.blockingApp(p);
+                    this.form.paramList=resp.data;
+                }
                 this.form.remark = this.params.data.remark;
                 this.popoverVisible = true;
                 this.actionType = actionType;
