@@ -1,4 +1,4 @@
-const productDetailData = [
+ export const productDetailData = [
     {proName: '东方航空企业年金计划二期',proNo: 'CJ1001',proType: '企业年金',proAttr: '4天',guest: 'XXX投资公司',custodianBank: '招商银行股份有限公司',foundDate: '2018-01-01',
         projectName: '东方航空企业年金计划二期',preEndDate: '2018-06-28',fundManage: '张三',department:'公募', custodianContacts:'张三三',},
     {proName: '东方航空企业年金计划二期',proNo: 'CJ1002',proType: '企业年金',proAttr: '4天',guest: 'XXX投资公司',custodianBank: '招商银行股份有限公司',foundDate: '2018-04-01',
@@ -13,116 +13,150 @@ const productDetailData = [
         projectName: '东方航空企业年金计划二期',preEndDate: '2020-03-03',fundManage: '赵八',department:'公募', custodianContacts:'赵八八',},
 ];
 
-const guestRequireData = [
-    {requireContent: 'XXXXXXXXXXXXX',dealStatus: '进行中',raiseDate: '2020-01-06',sourceChannel: '邮件',exhibitor: '张三',processor: '李四'},
-    {requireContent: 'XXXXXXXXXXXXX',dealStatus: '进行中',raiseDate: '2020-01-06',sourceChannel: '微信',exhibitor: '张三',processor: '李四'},
-    {requireContent: 'XXXXXXXXXXXXX',dealStatus: '已解决',raiseDate: '2020-01-06',sourceChannel: '电话',exhibitor: '张三',processor: '李四'},
-    {requireContent: 'XXXXXXXXXXXXX',dealStatus: '已解决',raiseDate: '2020-01-06',sourceChannel: '邮件',exhibitor: '张三',processor: '李四'},
-    {requireContent: 'XXXXXXXXXXXXX',dealStatus: '已解决',raiseDate: '2020-01-06',sourceChannel: '电话',exhibitor: '张三',processor: '李四'},
-];
+export const bizEventData = [
+    {proName: '产品名称001', defId: '001', stageList: [
+            {defName: '日间提醒', status: '02', processTargetNum: '9', processCompleteNum: '7', percentage: 0.78 },
+            {defName: '交易核对', status: '02', processTargetNum: '4', processCompleteNum: '1', percentage: 0.25},
+            {defName: '持仓核对', status: '01', processTargetNum: '9', processCompleteNum: '0', percentage: 0},
+            {defName: '流程监控', status: '01', processTargetNum: '9', processCompleteNum: '0', percentage: 0},
+        ], ratio: 0.32, dateTime: '2020/11/01-2020/11/09'},
+    {proName: '产品名称002', defId: '002', stageList: [
+            {defName: '日间提醒', status: '06', processTargetNum: '9', processCompleteNum: '9', percentage: 1},
+            {defName: '交易核对', status: '02', processTargetNum: '5', processCompleteNum: '4', percentage: 0.75},
+            {defName: '持仓核对', status: '03', processTargetNum: '8', processCompleteNum: '6', percentage: 0.75},
+            {defName: '流程监控', status: '01', processTargetNum: '9', processCompleteNum: '0', percentage: 0},
+        ], ratio: 0.75, dateTime: '2020/11/01-2020/11/09'},
+    {proName: '产品名称001', defId: '001', stageList: [
+            {defName: '日间提醒', status: '02', processTargetNum: '9', processCompleteNum: '7', percentage: 0.78},
+            {defName: '交易核对', status: '02', processTargetNum: '4', processCompleteNum: '1', percentage: 0.25},
+            {defName: '持仓核对', status: '01', processTargetNum: '9', processCompleteNum: '0', percentage: 0},
+            {defName: '流程监控', status: '01', processTargetNum: '9', processCompleteNum: '0', percentage: 0},
+        ], ratio: 0.32, dateTime: '2020/11/01-2020/11/09'}
+]
 
-const riskEventData = [
-    {riskContent: 'XXXXXXXXXXXXX',dealStatus: '进行中',happenedDate: '2020-01-06',exhibitor: '张三',processor: '李四'},
-    {riskContent: 'XXXXXXXXXXXXX',dealStatus: '进行中',happenedDate: '2020-01-06',exhibitor: '张三',processor: '李四'},
-    {riskContent: 'XXXXXXXXXXXXX',dealStatus: '已解决',happenedDate: '2020-01-06',exhibitor: '张三',processor: '李四'},
-    {riskContent: 'XXXXXXXXXXXXX',dealStatus: '已解决',happenedDate: '2020-01-06',exhibitor: '张三',processor: '李四'},
-    {riskContent: 'XXXXXXXXXXXXX',dealStatus: '已解决',happenedDate: '2020-01-06',exhibitor: '张三',processor: '李四'},
-];
+export const riskNum = {
+    ratio: 0.32, completeNum: 28, targetNum: 85, unCompleteNum: 57
+}
 
-const productDetailCol = [
-    {headerName: '产品名称', field: 'proName'},
-    {headerName: "产品代码", field: "proNo"},
-    {headerName: "产品类型", field: "proType"},
-    {headerName: "产品属性", field: "proAttr"},
-    {headerName: "客户", field: "guest"},
-    {headerName: "托管行", field: "custodianBank"},
-    {headerName: "成立日期", field: "foundDate"},
-];
-
-const productDetailGrid = {
-    columnDefs: productDetailCol,
-    rowData: productDetailData,
-    defaultColDef: {
-        filter: true,
-        enableRowGroup: true,
-        menuTabs: ['generalMenuTab', 'filterMenuTab', 'columnsMenuTab'],
-    },
-    ext: {
-        pagingMode: false,
-        checkboxColumn: 0,
-        autoFitColumnMode: 1,
-        enableExportLocal: true
-    }
-};
-
-const guestRequireCol = [
-    {headerName: '需求内容', field: 'requireContent'},
-    {headerName: "解决状态", field: "dealStatus"},
-    {headerName: "提出日期", field: "raiseDate"},
-    {headerName: "来源渠道", field: "sourceChannel"},
-    {headerName: "提出人", field: "exhibitor"},
-    {headerName: "处理人", field: "processor"},
-    {headerName: "相关任务", field: "relativeTask",
-        cellRenderer: ()=>{
-            let eGui = document.createElement('a');
-            eGui.className = 'action-link';
-            eGui.innerHTML = '详情';
-            return eGui;
-        },},
-];
-
-const guestRequireGrid = {
-    columnDefs: guestRequireCol,
-    rowData: guestRequireData,
-    defaultColDef: {
-        filter: true,
-        enableRowGroup: true,
-        menuTabs: ['generalMenuTab', 'filterMenuTab', 'columnsMenuTab'],
-    },
-    ext: {
-        pagingMode: false,
-        checkboxColumn: 0,
-        autoFitColumnMode: 1,
-        enableExportLocal: true
-    }
-};
-
-const riskEventCol = [
-    {headerName: '风险内容', field: 'riskContent'},
-    {headerName: "解决状态", field: "dealStatus"},
-    {headerName: "发生日期", field: "happenedDate"},
-    {headerName: "提出人", field: "exhibitor"},
-    {headerName: "处理人", field: "processor"},
-    {headerName: "相关任务", field: "relativeTask",
-        cellRenderer: ()=>{
-            let eGui = document.createElement('a');
-            eGui.className = 'action-link';
-            eGui.innerHTML = '详情';
-            return eGui;
-        },},
-];
-
-const riskEventGrid = {
-    columnDefs: riskEventCol,
-    rowData: riskEventData,
-    defaultColDef: {
-        filter: true,
-        enableRowGroup: true,
-        menuTabs: ['generalMenuTab', 'filterMenuTab', 'columnsMenuTab'],
-    },
-    ext: {
-        pagingMode: false,
-        checkboxColumn: 0,
-        autoFitColumnMode: 1,
-        enableExportLocal: true
-    }
-};
-
-export default function() {
-    return {
-        productDetailData,
-        productDetailGrid,
-        guestRequireGrid,
-        riskEventGrid
-    }
+export const manageTreeData = {
+    "code": "00000000",
+    "data": [{
+        "children": [{
+            "children": [{
+                "children": [],
+                "id": "ASS_ZQTZJJ",
+                "name": "证券投资基金"
+            }, {
+                "children": [{
+                    "id": "ZH0592",
+                    "name": "\u0028ZH0592\u0029华安基金-江南农商行单一资产管理计划"
+                }],
+                "id": "ASS_ZCGLJH",
+                "name": "资产管理计划"
+            }, {
+                "children": [],
+                "id": "ASS_QDII",
+                "name": "QDII投资基金"
+            }, {
+                "children": [],
+                "id": "ASS_QDIIZH",
+                "name": "QDII资产计划"
+            }],
+            "id": "admin",
+            "name": "admin"
+        }, {
+            "children": [{
+                "children": [{
+                    "id": "ZH0639",
+                    "name": "\u0028ZH0639\u0029华安基金–稳利1号单一资产管理计划"
+                }],
+                "id": "ASS_ZQTZJJ",
+                "name": "证券投资基金"
+            }, {
+                "children": [],
+                "id": "ASS_ZCGLJH",
+                "name": "资产管理计划"
+            }, {
+                "children": [],
+                "id": "ASS_QDII",
+                "name": "QDII投资基金"
+            }, {
+                "children": [],
+                "id": "ASS_QDIIZH",
+                "name": "QDII资产计划"
+            }],
+            "id": "H00160",
+            "name": "H00160"
+        }, {
+            "children": [{
+                "children": [{
+                    "id": "ZH0639",
+                    "name": "\u0028ZH0639\u0029华安基金–稳利1号单一资产管理计划"
+                }],
+                "id": "ASS_ZQTZJJ",
+                "name": "证券投资基金"
+            }, {
+                "children": [],
+                "id": "ASS_ZCGLJH",
+                "name": "资产管理计划"
+            }, {
+                "children": [],
+                "id": "ASS_QDII",
+                "name": "QDII投资基金"
+            }, {
+                "children": [],
+                "id": "ASS_QDIIZH",
+                "name": "QDII资产计划"
+            }],
+            "id": "H00094",
+            "name": "H00094"
+        }],
+        "id": "1",
+        "name": "清算员信息"
+    }, {
+        "children": [{
+            "children": [{
+                "children": [],
+                "id": "ASS_ZQTZJJ",
+                "name": "证券投资基金"
+            }, {
+                "children": [],
+                "id": "ASS_ZCGLJH",
+                "name": "资产管理计划"
+            }, {
+                "children": [],
+                "id": "ASS_QDII",
+                "name": "QDII投资基金"
+            }, {
+                "children": [],
+                "id": "ASS_QDIIZH",
+                "name": "QDII资产计划"
+            }],
+            "id": "H00160",
+            "name": "H00160"
+        }, {
+            "children": [{
+                "children": [],
+                "id": "ASS_ZQTZJJ",
+                "name": "证券投资基金"
+            }, {
+                "children": [],
+                "id": "ASS_ZCGLJH",
+                "name": "资产管理计划"
+            }, {
+                "children": [],
+                "id": "ASS_QDII",
+                "name": "QDII投资基金"
+            }, {
+                "children": [],
+                "id": "ASS_QDIIZH",
+                "name": "QDII资产计划"
+            }],
+            "id": "H00094",
+            "name": "H00094"
+        }],
+        "id": "2",
+        "name": "核算员信息"
+    }],
+    "service": "agnes-app"
 }

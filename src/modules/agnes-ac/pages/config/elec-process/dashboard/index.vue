@@ -31,12 +31,12 @@
                           style="margin: 0 10px; cursor: pointer"
                           @click.native="getFLowsbyType(bizDate)"/>
                 <div class="interval-ctrl">
-                    <span v-html="svgImg.startInterval"
-                          v-show="ifIntervalStart"
-                          title="定时刷新已开启"
-                          @contextmenu.prevent="intervalListShow = true"
-                          @click="clearFreshInterval(true)"
-                    ></span>
+        <span v-html="svgImg.startInterval"
+              v-show="ifIntervalStart"
+              title="定时刷新已开启"
+              @contextmenu.prevent="intervalListShow = true"
+              @click="clearFreshInterval(true)"
+        ></span>
                     <span v-html="svgImg.stopInterval"
                           v-show="!ifIntervalStart"
                           title="定时刷新已暂停"
@@ -101,10 +101,10 @@
             <div class="card-detail" :class="{'is-full': curTask.finishedRate >= 1}" v-if="curTask.taskId">
                 <div class="process-container">
                     <div class="flow-legend">
-                        <span v-for="(status, statusColor) in stageStatus" :key="statusColor">
-                            <em class="fa fa-circle" :style="{color: statusColor}"
-                            ></em>{{status}}
-                        </span>
+            <span v-for="(status, statusColor) in stageStatus" :key="statusColor">
+                <em class="fa fa-circle" :style="{color: statusColor}"
+                ></em>{{status}}
+            </span>
                     </div>
                     <div class="progress">
                         <div class="progress-item" v-for="stage in stageList" :key="stage.defId">
@@ -133,8 +133,8 @@
                             <svg-icon name="charge-ing" v-show="curTask.finishedRate < 1" height="120px" />
                             <svg-icon name="charge-done" v-show="curTask.finishedRate >= 1" height="120px"/>
                             <span class="text-info" v-show="curTask.finishedRate < 1">已充能：
-                                <span>{{getPercentage(curTask.finishedRate)}}%</span>
-                            </span>
+                    <span>{{getPercentage(curTask.finishedRate)}}%</span>
+                </span>
                         </div>
                     </div>
                 </div>
@@ -162,13 +162,13 @@
                          height="100%"
                          grid-no="agnes-elec-process-field">
                     <template slot="left">
-                        <el-button type="text" icon="fa fa-reply" style="color: #0f5eff;" @click="closeTableDetail">  返回</el-button>
+                        <el-button class="return-btn" size="mini" @click="closeTableDetail">返回</el-button>
                     </template>
                     <template slot="right-before">
-                        <span class="full-screen-btn">
-                             <em v-show="!ifDetailFullScreen" v-html="lcImg.fullScreen" @click="expandDetailFullScreen(true)"></em>
-                            <em v-show="ifDetailFullScreen" v-html="lcImg.exitFullScreen" @click="expandDetailFullScreen(false)"></em>
-                        </span>
+            <span class="full-screen-btn">
+                <em class="iconfont icon-expansion" v-show="!ifDetailFullScreen" @click="expandDetailFullScreen(true)"></em>
+                <em class="iconfont icon-expansion" v-show="ifDetailFullScreen" @click="expandDetailFullScreen(false)"></em>
+            </span>
                     </template>
                 </gf-grid>
             </div>

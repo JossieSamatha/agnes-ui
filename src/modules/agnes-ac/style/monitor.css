@@ -364,7 +364,7 @@ span.el-input__suffix .el-input__icon {
     padding-left: 15px;
     height: 28px;
     line-height: 28px;
-    background: #FBFCE3;
+    /*background: #FBFCE3;*/
 }
 
 .el-form.infoForm .line .el-form-item .el-form-item__content>span{

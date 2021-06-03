@@ -1,6 +1,6 @@
 import processRenderer from './processRenderer'
 import optionalRenderer from './optionalRenderer'
-import AcUtil from "@/modules/agnes-ac/util/common";
+import AcUtil from '../../../util/common'
 
 export default {
     columnDefs: [
@@ -8,8 +8,9 @@ export default {
             headerName: "操作", field: "option", enableRowGroup: false,
             cellRenderer: 'optionalRenderer'
         },
+        {headerName: "产品名称", field: "productName"},
         {
-            headerName: "完成状态", field: "stageStatus", width: 95,
+            headerName: "状态", field: "stageStatus", width: 95,
             suppressSizeToFit: true,
             formatType: 'dict',
             dictType: 'AGNES_TASK_STEP_STATUS',
@@ -24,22 +25,29 @@ export default {
             },
             cellClass: ['fa fa-circle', 'status-circle-cell'],
         },
-        {headerName: "任务名称", field: "taskName"},
-        {headerName: "任务节点", field: "stageName"},
+        {headerName: "当前阶段", field: "stageName"},
         {headerName: "业务场景", field: "bizType", formatType: 'dict', dictType: 'AGNES_BIZ_CASE'},
+        {headerName: "流程名称", field: "taskName"},
+        {headerName: "流程类型", field: "flowType", formatType: 'dict', dictType: 'AGNES_CASE_FLOWTYPE'},
+        {
+            headerName: "处理进度", field: "percentage", enableRowGroup: false,
+            cellRenderer: 'processRenderer',
+            width: '120',
+            suppressSizeToFit: true,
+            tooltipField: 'proportion',
+        },
         {headerName: "任务开始日", field: "taskStartTime"},
         {headerName: "任务截止日", field: "taskEndTime"},
-        {headerName: "剩余天数", field: "remainDays"},
-        {headerName: "处理角色", field: ""},
-        {headerName: "处理人", field: ""},
-        {headerName: "产品代码", field: ""},
-        {headerName: "产品名称", field: ""},
-        {headerName: "项目名称", field: ""},
-        {headerName: "托管行", field: ""},
-        {headerName: "发起人", field: ""},
-        {headerName: "任务来源", field: ""},
-        {headerName: "任务执行方式", field: ""},
-        {headerName: "任务频率", field: ""},
+        // {headerName: "剩余天数", field: "remainDays"},
+        // {headerName: "处理角色", field: ""},
+        // {headerName: "处理人", field: ""},
+        // {headerName: "产品代码", field: ""},
+        // {headerName: "项目名称", field: ""},
+        // {headerName: "托管行", field: ""},
+        // {headerName: "发起人", field: ""},
+        // {headerName: "任务来源", field: ""},
+        // {headerName: "任务执行方式", field: ""},
+        // {headerName: "任务频率", field: ""},
     ],
     defaultColDef: {
         filter: true,
@@ -56,8 +64,8 @@ export default {
     tooltipShowDelay: 0,
     groupDefaultExpanded: -1,
     ext: {
-        fetchUrl: "/agnes-ac/v1/ac/stage/list",    //后台查询数据的URL地址
-        fetchMethod: 'get',
+        fetchUrl: "/agnes-ac/v1/ac/monitoring/station/list",    //后台查询数据的URL地址
+        fetchMethod: 'post',
         pagingMode: false, //不分页
         checkboxColumn: 2, //是否显示checkbox列,
         enableExportLocal: true,

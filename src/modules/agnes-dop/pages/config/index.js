@@ -32,6 +32,7 @@ import FactorDef from "./factor-def/index";
 import TransRule from "./trans-rule-def/index";
 import CustomQueryBasicInfo from "./custom-query/basic-info/index"
 import CustomQueryDetailList from "./custom-query/detail-list/index"
+import OpCalendarIndex from './op-calendar-workbench/op-calendar-index'
 
 const Loading = {
     install: function (Vue) {
@@ -71,6 +72,7 @@ const Loading = {
         Gfui.componentView('agnes.dop.product.calendar', ProductCalendar, {title: '产品日历'});
         Gfui.componentView('agnes.dop.custom.query.basic.info', CustomQueryBasicInfo, {title: '规则基本信息'});
         Gfui.componentView('agnes.dop.custom.query.detail.list', CustomQueryDetailList, {title: '规则结果列表'});
+        Gfui.componentView('agnes.op.calendar.workbench', OpCalendarIndex, {title: '运营日历工作台'});
 
     }
 };

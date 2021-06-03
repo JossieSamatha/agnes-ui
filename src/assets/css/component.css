@@ -150,16 +150,12 @@
     background: #D7DBE4;
 }
 
-
 .el-tree .el-tree-node .el-tree-node__content {
     position: relative;
     display: flex;
-    height: 40px;
-    cursor: default;
-}
-
-.el-tree > .el-tree-node > .el-tree-node__content {
+    height: 30px;
     color: #333;
+    cursor: default;
 }
 
 .el-tree > .el-tree-node.is-expanded > .el-tree-node__content {
@@ -169,29 +165,11 @@
 
 .el-tree .el-tree-node.is-expanded .el-tree-node__children .el-tree-node > .el-tree-node__content:hover,
 .el-tree .el-tree-node.is-expanded .el-tree-node__children .el-tree-node.is-current > .el-tree-node__content {
-    color: #0f5eff;
-    background: #EFF2F7;
+    background: #E8EFFF;
 }
 
-.el-tree .el-tree-node.is-expanded .el-tree-node__children
-.el-tree-node.is-current > .el-tree-node__content::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 2px;
-    height: 100%;
-    background: #0f5eff;
-}
-
-.el-tree .el-tree-node.is-expanded .el-tree-node__children
-.el-tree-node.is-current > .el-tree-node__content::after {
-    content: '';
-    position: absolute;
-    top: calc(50% - 4px);
-    right: 0;
-    border: 5px solid transparent;
-    border-right: 5px solid #0f5eff;
+.el-tree .el-tree-node.is-expanded .el-tree-node__children .el-tree-node.is-checked {
+    background: #E8EFFF;
 }
 
 .el-tree .el-tree-node .el-tree-node__content .tree-node-icon {
@@ -203,11 +181,6 @@
     transform: rotate(0);
     margin: 0 7px 0 15px;
     padding: 0;
-}
-
-.el-tree .el-tree-node .el-tree-node__children
-.el-tree-node > .el-tree-node__content {
-    height: 30px;
 }
 
 .el-tree .el-tree-node.is-expanded .el-tree-node__children
@@ -983,9 +956,8 @@
 
 .ag-grid-box .grid-action-panel .right button > i {
     font-size: 19px;
-    font-weight: bold;
     line-height: 29px;
-    color: #999;
+    color: #A8AED3;
 }
 
 .ag-grid-box .grid-action-panel .right button > span {
@@ -1003,8 +975,7 @@
     padding: 0 2px;
     border: none;
     font-size: 19px;
-    font-weight: bold;
-    color: #999;
+    color: #A8AED3;
 }
 
 .ag-grid-box .grid-action-panel .right .grid-toolbar-more i:hover {
@@ -1303,7 +1274,7 @@
 
 =======================================*/
 .gf-page-drawer {
-    top: 44px;
+    top: 104px;
     bottom: 0;
 }
 
@@ -1319,7 +1290,7 @@
     line-height: 1;
     margin: 0;
     padding: 9px 20px 10px;
-    border-bottom: 1px solid #A8AED3;
+    border-bottom: 1px solid #F1F3F5;
 }
 
 .gf-page-drawer .el-drawer__header .drawer-title{
@@ -1412,5 +1383,59 @@
     padding: 0 4px;
     font-size: 12px;
     border: none;
+    background: #FA4D32;
     transform: scale(.8) !important;
+}
+
+/*=====================================
+
+        日历、树结构组件样式
+
+=======================================*/
+/*.tree-comp .el-tree .el-tree-node .el-tree-node__content::before {*/
+/*    content: '';*/
+/*    position: absolute;*/
+/*    left: 12px;*/
+/*    top: 0px;*/
+/*    border-left: 1px dashed #A8AED3;*/
+/*    width: 1px;*/
+/*    height: 33px;*/
+/*}*/
+
+/*.tree-comp .el-tree>.el-tree-node>.el-tree-node__content:first-child::before,*/
+/*.tree-comp .el-tree>.el-tree-node>.el-tree-node__content:first-child::after {*/
+/*    display: none;*/
+/*}*/
+
+/*.tree-comp .el-tree .el-tree-node .el-tree-node__content::after {*/
+/*    content: '';*/
+/*    position: absolute;*/
+/*    left: 12px;*/
+/*    top: 15px;*/
+/*    width: 50%;*/
+/*    height: 1px;*/
+/*    border-bottom: 1px dashed #A8AED3;*/
+/*}*/
+
+
+
+.module-section .section-title {
+    position: relative;
+    width: 100%;
+    color: #333333;
+    font-size: 16px;
+    font-family: SourceHanSansCN-Medium;
+    margin-bottom: 14px;
+}
+
+.module-section .section-title::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 4px;
+    height: 12px;
+    background: #0f5eff;
+    left: -10px;
+    top: 3px;
+    border-radius: 2px;
 }
