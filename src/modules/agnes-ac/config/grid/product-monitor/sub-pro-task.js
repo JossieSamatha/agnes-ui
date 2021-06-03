@@ -10,8 +10,9 @@ const colButtons = [
 
 export default {
     columnDefs: [
+        column.buildOpCol(120, colButtons, {pinned: "none",}),
         {headerName: "任务内容", field: "stepName"},
-        {headerName: "执行方式", field: "stepActType", formatType: 'dict',dictType: 'AGNES_CASE_STEPTYPE'},
+        {headerName: "执行方式", field: "stepActType", formatType: 'dict', dictType: 'AGNES_CASE_STEPTYPE'},
         {headerName: "处理人", field: "execUser"},
         {
             headerName: "状态", field: "stepStatus", width: 95,
@@ -19,7 +20,6 @@ export default {
             formatType: 'dict',
             dictType: 'AGNES_TASK_STEP_STATUS'
         },
-        column.buildOpCol(120, colButtons, {pinned: "none",}),
         {
             headerName: "完成进度", field: "finishedRate", enableRowGroup: false,
             cellRenderer: 'processRenderer',

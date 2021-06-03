@@ -914,7 +914,7 @@ form .el-icon-lock::before {
 .gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tabs-content {
     display: flex;
     height: 44px;
-    padding-left: 197px;
+    /*padding-left: 197px;*/
 }
 
 .gf-layout-default-content-tabs .gf-tab-bar .chrome-tabs .chrome-tab {
@@ -1773,17 +1773,20 @@ form .el-icon-lock::before {
 }
 
 .el-checkbox__inner {
-    width: 14px;
-    height: 14px;
-    border: 1px solid #C7C7C7;
-    border-radius: 3px;
+    width: 12px;
+    height: 12px;
+    border: 1px solid #A8AED3;
+    border-radius: 2px;
 }
 
 .el-checkbox__input.is-checked:not(.is-disabled) .el-checkbox__inner,
 .el-checkbox__input.is-indeterminate:not(.is-disabled) .el-checkbox__inner {
-    /*background: #0f5eff;*/
-    /*border: 1px solid #0f5eff;*/
-    font-weight: bold;
+    background: #0f5eff;
+    border: 1px solid #0f5eff;
+}
+
+.el-checkbox__input.is-indeterminate .el-checkbox__inner::before {
+    top: 4px;
 }
 
 .el-checkbox__input.is-indeterminate
@@ -1792,11 +1795,11 @@ form .el-icon-lock::before {
 }
 
 .el-checkbox__input.is-checked .el-checkbox__inner::after {
-    border-width: 2px;
-    height: 9px;
-    top: -1px;
-    width: 3px;
+    top: 0px;
     left: 4px;
+    width: 3px;
+    height: 7px;
+    border-width: 1px;
 }
 
 /* =============================
@@ -1828,7 +1831,19 @@ form .el-icon-lock::before {
 }
 
 .el-tabs:not(.el-tabs--card):not(.el-tabs--border-card) > .el-tabs__header .el-tabs__nav {
-    border-bottom: 4px solid #D7DBE4;
+    position: relative;
+    width: 100%;
+    margin-top: 10px;
+    border-bottom: 4px solid transparent;
+}
+
+.el-tabs.none-border-tabs:not(.el-tabs--card):not(.el-tabs--border-card) > .el-tabs__header .el-tabs__nav::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+    border-bottom: 1px solid #E5E7F2;
 }
 
 .content-tab.el-tabs.el-tabs--card > .el-tabs__header .el-tabs__nav
@@ -1838,9 +1853,10 @@ form .el-icon-lock::before {
 }
 
 .el-tabs > .el-tabs__header .el-tabs__nav .el-tabs__active-bar{
-    bottom: -4px;
+    bottom: -2px;
     height: 4px;
-    border-radius: 4px;
+    border-radius: 3px;
+    border-radius: 6px;
     background-color: #0F5EFF;
 }
 
@@ -1964,4 +1980,291 @@ form .el-icon-lock::before {
     left: 0;
     width: 100%;
     height: 100%;
+}
+
+/* ========================================
+
+    monitor-pages 监控台相关页面统一结构
+
+   ======================================== */
+.monitor-pages {
+    height: 100%;
+}
+
+.monitor-pages .monitor-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.monitor-pages .monitor-container .monitor-container-right {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin-left: 13px;
+}
+
+.monitor-pages .monitor-container .monitor-container-right .search-panel {
+    height: 28px;
+    line-height: 28px;
+    padding: 0 14px;
+}
+
+.monitor-pages .monitor-container .monitor-container-right .search-panel.el-form .el-form-item {
+    margin-bottom: 0;
+    max-width: 500px;
+}
+
+.monitor-pages .monitor-container .monitor-container-right .search-panel.el-form .line {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.monitor-pages .module-container p.module-title {
+    font-size: 16px;
+    font-family: 'SourceHanSansCN-Medium';
+    line-height: 21px;
+    color: #333333;
+    margin-bottom: 16px;
+}
+
+.monitor-pages .card-container.new-style {
+    overflow: hidden;
+    transition: 1s all ease;
+    margin-bottom: 25px;
+}
+
+.monitor-pages .card-container.new-style .card-item {
+    display: flex;
+    width: 100%;
+    height: 176px;
+    background: #FFF;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.monitor-pages .card-container.new-style.double {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.monitor-pages .card-container.new-style.double>div {
+    width: calc(50% - 8px);
+    height: 180px;
+    background: #FFF;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.monitor-pages .card-container.new-style.double>div:hover {
+    cursor: pointer;
+    box-shadow: 0px 0px 8px rgba(13, 51, 128, 0.16);
+}
+
+.monitor-pages .card-container.new-style.double .card-item {
+    height: auto;
+    border-radius: 0;
+    padding: 0;
+}
+
+.monitor-pages .card-container.new-style.double .bottom {
+    border-top: 1px solid #EAEAF0;
+    text-align: right;
+    padding: 6px 0;
+}
+
+.monitor-pages .card-container.new-style.double .bottom>.el-button {
+    color: #666;
+    border-color: #B8BECC;
+}
+
+.monitor-pages .card-container.new-style .card-item+.card-item {
+    margin-top: 16px;
+}
+
+.monitor-pages .card-container.new-style .card-left {
+    flex: 1;
+    margin-right: 16px;
+}
+
+.monitor-pages .card-container.new-style .card-left .title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #666;
+    font-size: 18px;
+    font-family: SourceHanSansCN-Medium;
+    margin-bottom: 20px;
+}
+
+.monitor-pages .card-container.new-style.double .card-left .title {
+    color: #333;
+    font-size: 16px;
+    justify-content: flex-start;
+    margin-bottom: 40px;
+}
+
+.monitor-pages .card-container.new-style.double .card-left .title .name {
+    display: block;
+    width: 131px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.monitor-pages .card-container.new-style.double .card-left .title .status {
+    height: 18px;
+    line-height: 18px;
+    padding: 0 6px;
+    color: #666;
+    background: #eaeaea;
+    font-size: 12px;
+    border-radius: 2px;
+    text-align: center;
+    font-family: SourceHanSansCN-Normal;
+    margin-left: 10px;
+}
+
+.monitor-pages .card-container.new-style.double .card-left .title .status.finish {
+    color: #52C41C;
+    background: #EDF9E7;
+}
+
+.monitor-pages .card-container.new-style.double .card-left .title .status.abnormal {
+    color: #F5222E;
+    background: #F4E1E8;
+}
+
+.monitor-pages .card-container.new-style.double .card-left .title .status.executing {
+    color: #4A8EF0;
+    background: #E9F0FB;
+}
+
+.monitor-pages .card-container.new-style .card-right .stage-item-title {
+    color: #999;
+    margin-top: 12px;
+}
+
+.monitor-pages .card-container.new-style .card-left .title .time {
+    color: #ccc;
+    font-size: 14px;
+    font-family: SourceHanSansCN-Normal;
+}
+
+.monitor-pages .card-container.new-style .card-right {
+    flex: none;
+    width: 190px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-left: 1px solid #EAEAF0;
+    margin: 15px 0;
+}
+
+.monitor-pages .card-container.new-style.double .card-right  {
+    width: 105px;
+    padding: 0 8px 0 24px;
+    margin-top: 5px;
+}
+
+.monitor-pages .risk .card-container.new-style .card-right {
+    border-left: none;
+    border-right: 1px solid #EAEAF0;
+}
+
+.monitor-pages .card-container.new-style .card-right
+.define-progress.el-progress--circle .el-progress__text {
+    top: calc(50% - 8px);
+    color: inherit;
+    font-size: 16px!important;
+    transform: scale(1);
+}
+
+.monitor-pages .card-container.new-style .card-item .stage-item
+.define-progress.el-progress--circle .el-progress__text {
+    display: none;
+}
+
+.monitor-pages .risk .card-container.new-style .card-left {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.monitor-pages .risk .card-container.new-style .card-left
+.risk-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+}
+
+.monitor-pages .risk .card-container.new-style .card-left
+.risk-item label {
+    color: #999;
+    margin-bottom: 16px;
+}
+
+.monitor-pages .risk .card-container.new-style .card-left
+.risk-item span {
+    font-size: 48px;
+    font-family: Arial;
+    font-weight: 400;
+    line-height: 71px;
+    color: #4A8EF0;
+}
+
+.monitor-pages .risk .card-container.new-style .card-left
+.risk-item+.risk-item {
+    border-left: 1px dashed #EAEAF0;
+}
+
+.monitor-pages .card-container.new-style:not(.double) .card-item .content {
+    display: flex;
+    margin-left: 25px;
+}
+
+.monitor-pages .card-container.new-style.double .card-item .content>div {
+    display: flex;
+    align-items: center;
+    color: #666;
+    font-size: 14px;
+    margin-top: 6px;
+}
+
+.monitor-pages .card-container.new-style .card-item .stage-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.monitor-pages .card-container.new-style .card-item .stage-item
+.stage-item-title{
+    width: 70px;
+    color: #666;
+    margin: 5px auto 3px auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.monitor-pages .card-container.new-style .card-item .stage-item+.stage-item {
+    position: relative;
+    margin-left: 73px;
+}
+
+.monitor-pages .card-container.new-style .card-item .stage-item+.stage-item::before {
+    position: absolute;
+    content: '';
+    display: block;
+    width: 50px;
+    border-bottom: 4px dotted #C8DDFB;
+    left: -60px;
+    top: 28px;
 }

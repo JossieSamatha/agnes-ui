@@ -624,10 +624,6 @@ p span.num {
     min-height: 320px;
 }
 
-/*.elec-process > section .bottom.left > .drag-column .ag-grid-box .gf-ag-grid {*/
-/*    height: 100%;*/
-/*}*/
-
 .elec-process > section > .right {
     width: 380px;
     flex: 0 0 380px;
@@ -635,16 +631,17 @@ p span.num {
 }
 
 .elec-process > section .el-icon-refresh,
+.elec-process > section .iconfont.icon-reset,
 .el-icon-refresh.refresh-btn {
     font-size: 18px;
     color: #999;
-    font-weight: bold;
-    margin-left: 5px;
+    margin-left: 10px;
     line-height: 26px;
     cursor: pointer;
 }
 
 .elec-process > section .el-icon-refresh:hover,
+.elec-process > section .iconfont.icon-reset:hover,
 .el-icon-refresh.refresh-btn:hover {
     color: #0f5eff;
 }
@@ -699,8 +696,8 @@ p span.num {
     align-content: flex-start;
     position: relative;
     padding: 20px;
-    height: 135px;
-    min-height: 135px;
+    height: 150px;
+    min-height: 150px;
     overflow-x: auto;
     overflow-y: hidden;
 }
@@ -711,19 +708,29 @@ p span.num {
 
 .elec-process .flow-container .stage-item {
     position: relative;
-    text-align: center;
-    font-size: 12px;
+    min-width: 86px;
+    align-self: flex-start;
     color: #333;
+    font-size: 12px;
+    text-align: center;
     cursor: pointer;
+    border-radius: 4px;
+    border: 1px dashed transparent;
+    padding: 12px 6px;
 }
 
+/*.elec-process .flow-container .stage-item.active {*/
+/*    border-color: #0f5eff;*/
+/*    background: #E7EEFD;*/
+/*}*/
+
 .elec-process .flow-container .stage-item .stage-item-title {
+    margin-top: 5px;
     white-space: nowrap;
 }
 
 .elec-process .flow-container .stage-item.active .stage-item-title {
-    border: 2px dashed #8ea9e0;
-    font-weight: bold;
+    color: #0F5EFF;
 }
 
 .elec-process .flow-container .stage-item + .stage-item {
@@ -736,12 +743,11 @@ p span.num {
 
 .elec-process .define-progress.el-progress--circle .el-progress__text {
     font-size: 12px;
-    transform: scale(.8);
-    top: calc(50% - 5px);
+    top: 50%;
 }
 
 .elec-process .define-progress.el-progress--circle path.el-progress-circle__track {
-    stroke: #D7DBE4;
+    stroke: #D3E2F8;
 }
 
 .elec-process .define-progress .el-progress__text {
@@ -752,15 +758,16 @@ p span.num {
     content: '';
     width: 72px;
     height: 1px;
-    background: #DFE1E5;
     position: absolute;
     left: -84px;
-    top: 24px;
+    top: 40px;
+    border-bottom: 4px dotted #D3E2F8;
 }
 
 /* task-board样式 */
 .elec-process .top-section .flow-type,
-.elec-process .top-section .date-search {
+.elec-process .top-section .date-search,
+.monitor-pages .elec-process .date-search {
     display: flex;
     align-items: center;
     margin-bottom: 5px;
@@ -1329,18 +1336,20 @@ p span.num {
     margin: 10px 0;
 }
 
+.monitor-pages .drag-column:not(.fixed-drag-column),
 .elec-process-dashboard .drag-column,
 .elec-process.board-detail > section .bottom.left > .drag-column {
     display: flex;
     flex-direction: column;
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
+    right: 0;
+    width: calc(100% - 33px);
     height: 100%;
     z-index: 2021;
 }
 
+.monitor-pages .drag-column .close-container,
 .elec-process-dashboard .drag-column .close-container,
 .elec-process.board-detail > section .bottom.left > .drag-column
 .close-container {
@@ -1350,6 +1359,7 @@ p span.num {
     background: rgba(255, 255, 255, .5);
 }
 
+.monitor-pages .drag-column .close-container .el-icon-circle-close,
 .elec-process-dashboard .drag-column .close-container .el-icon-circle-close,
 .elec-process.board-detail > section .bottom.left > .drag-column
 .close-container .el-icon-circle-close {
@@ -1361,22 +1371,31 @@ p span.num {
     cursor: pointer;
 }
 
+.monitor-pages .drag-column .close-container:hover .el-icon-circle-close:hover,
 .elec-process-dashboard .drag-column .close-container:hover .el-icon-circle-close:hover,
 .elec-process.board-detail > section .bottom.left > .drag-column
 .close-container:hover .el-icon-circle-close:hover {
     color: #ccc;
 }
 
+.monitor-pages .drag-column .drag-container,
 .elec-process-dashboard .drag-column .drag-container,
 .elec-process.board-detail .drag-column .drag-container {
     width: 100%;
     height: 450px;
     min-height: 300px;
     background: #fff;
-    padding: 10px;
+    padding: 24px 15px 30px 30px;
     box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 40px 40px 0px 0px;
 }
 
+.monitor-pages .drag-column .drag-container .full-screen-btn,
+.elec-process-dashboard .drag-column .drag-container .full-screen-btn,
+.elec-process.board-detail .drag-column .drag-container .full-screen-btn {
+    color: #A8AED3;
+    margin-right: 12px;
+}
 
 
 

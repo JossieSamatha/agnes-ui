@@ -4,6 +4,7 @@ import api from './api/index';
 import components from "./components/index";
 import config from "./config/index";
 import pages from "./pages/index";
+import utils from "./util/index.js";
 
 // 定义 Loading 对象
 const agnesDop = {
@@ -14,6 +15,7 @@ const agnesDop = {
         Vue.use(components, options);
         Vue.use(config, options);
         Vue.use(pages, options);
+        Vue.use(utils, options);
     },
     load: function (Gfui) {
         Gfui.use(pages);

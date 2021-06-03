@@ -93,7 +93,7 @@ export default {
   },
   async mounted() {
     const {caseId, pkId} = this.row;
-    const taskDetail = await this.$api.productCalendarApi.selectTaskDetail(caseId);
+    const taskDetail = await this.$api.OpCalendarApi.selectTaskDetail(caseId);
     this.taskInfo = taskDetail.data;
     if (taskDetail && taskDetail.data) {
       this.stageList = taskDetail.data.acReCaseStageVos;

@@ -1,165 +1,184 @@
 <template>
-    <div class="datavPage" style="height: 100%;" :style="{background: isBoardEdit?'#f2f2f2':'#fff' }">
-        <div class="optionPanel">
-            <span class="boardeEdit" v-if="!isBoardEdit" @click="deployBoard">看板配置</span>
-            <span class="boardeEdit" v-if="isBoardEdit" @click="finishDeploy">完成配置</span>
-        </div>
-        <div class="drawer-wrapper" v-show="isBoardEdit">
-            <div class="drawer-container">
-                <header class="drawer-title">
-                    <span>看板配置</span>
-                </header>
-                <section class="drawer-body">
-                    <ul class="contentUl">
-                        <li class="contentLi" v-for="item in proInfoBoardArr" :key="item.id">
-                            <i><img :src="getImgPath(item.icon)" width="24px" height="auto"/></i>
-                            <span>{{item.label}}</span>
-                        </li>
-                    </ul>
-                    <span class="note">拖动组件增加至页面相应位置</span>
-                </section>
+    <div class="monitor-pages product-monitor">
+        <div class="monitor-container">
+            <div class="monitor-container-left">
+                <complex-widget
+                        :manage-tree-data="mockTreeData"
+                        compTitle="产品员工信息"
+                        @manageCheckNodes="manageCheckNodes"
+                        :treeOptions="treeOptions"
+                >
+                </complex-widget>
             </div>
-        </div>
-        <div class="pagescroll-vertical">
-            <module-card title="产品搜索">
-                <div slot="headOption" class="headOption" @click="productShow = !productShow">
-                <span class="foldBtn" style="color: #0f5eff;border: 1px solid;padding: 5px 10px;border-radius: 3px;">
-                    <span v-show="productShow">折叠</span>
-                    <span v-show="!productShow">去搜索</span>
-                </span>
-                </div>
-                <template slot="content">
-                    <gf-grid :options="productDetailGrid" v-show="productShow" style="height: 210px; margin-top: -40px"></gf-grid>
-                </template>
-            </module-card>
-
-            <module-card title="产品详情">
-                <template slot="content">
-                    <el-form label-width="50%" class="infoForm" size="mini">
+            <div class="monitor-container-right pagescroll">
+                <section class="module-container">
+                    <p class="module-title">产品详情</p>
+                    <el-form label-width="50%" class="infoForm" size="mini" :disabled="true">
                         <div class="line">
                             <el-form-item label="产品名称" prop="proName">
-                                <span>{{choosedProduct.proName}}</span>
+                                <span>{{prdtData.productName}}</span>
                             </el-form-item>
+                            <el-form-item label="产品简称" prop="proNo">
+                                <span>{{prdtData.productShortName}}</span>
+                            </el-form-item>
+                        </div>
+                        <div class="line">
                             <el-form-item label="产品代码" prop="proNo">
-                                <span>{{choosedProduct.proNo}}</span>
+                                <span>{{prdtData.productCode}}</span>
+                            </el-form-item>
+                            <el-form-item label="产品种类" prop="proType">
+                                <gf-dict filterable clearable v-model="prdtData.productClass" dict-type="AGNES_PRODUCT_CLASS"/>
                             </el-form-item>
                         </div>
                         <div class="line">
-                            <el-form-item label="项目名称" prop="projectName">
-                                <span>{{choosedProduct.projectName}}</span>
+                            <el-form-item label="产品类型" prop="proScale">
+                                <gf-dict filterable clearable v-model="prdtData.productType" dict-type="AGNES_PRODUCT_TYPE"/>
                             </el-form-item>
-                            <el-form-item label="托管行" prop="custodianBank">
-                                <span>{{choosedProduct.custodianBank}}</span>
-                            </el-form-item>
-                        </div>
-                        <div class="line">
-                            <el-form-item label="产品类型" prop="proType">
-                                <span>{{choosedProduct.proType}}</span>
-                            </el-form-item>
-                            <el-form-item label="产品属性" prop="proAttr">
-                                <span>{{choosedProduct.proAttr}}</span>
-                            </el-form-item>
-                        </div>
-                        <div class="line">
-                            <el-form-item label="产品规模" prop="proScale">
-                                <span>XXXXXXXXXX元</span>
-                            </el-form-item>
-                            <el-form-item label="产品规模" prop="proScale">
-                                <span>XXXXXXXXXX元</span>
+                            <el-form-item label="产品阶段" prop="proScale">
+                                <gf-dict filterable clearable v-model="prdtData.productStage" dict-type="AGNES_PRODUCT_STAGE"/>
                             </el-form-item>
                         </div>
                         <template v-if="productDetailShow">
                             <div class="line">
                                 <el-form-item label="成立日期" prop="foundDate">
-                                    <span>{{choosedProduct.foundDate}}</span>
+                                    <span>{{prdtData.startDate}}</span>
                                 </el-form-item>
                                 <el-form-item label="预计结束日期" prop="preEndDate">
-                                    <span>{{choosedProduct.preEndDate}}</span>
-                                </el-form-item>
-                            </div>
-                            <div class="line">
-                                <el-form-item label="基金经理" prop="fundManage">
-                                    <span>{{choosedProduct.fundManage}}</span>
-                                </el-form-item>
-                                <el-form-item label="所属部门" prop="department">
-                                    <span>{{choosedProduct.department}}</span>
-                                </el-form-item>
-                            </div>
-                            <div class="line">
-                                <el-form-item label="托管行联系人" prop="custodianContacts">
-                                    <span>{{choosedProduct.custodianContacts}}</span>
-                                </el-form-item>
-                                <el-form-item label="联系电话" prop="contactTel">
-                                    <span>1XXXXXXXXXX</span>
-                                </el-form-item>
-                            </div>
-                            <div class="line">
-                                <el-form-item label="邮箱" label-width="25%" prop="Email">
-                                    <span>XXX@XXXXXX.com</span>
+                                    <span>{{prdtData.dueDate}}</span>
                                 </el-form-item>
                             </div>
                         </template>
                     </el-form>
-                    <p @click="productDetailShow = !productDetailShow" style="text-align: center;cursor: pointer">
-                        <i class="fa fa-chevron-down" v-if="!productDetailShow"></i>
-                        <i class="fa fa-chevron-up" v-else></i>
+                    <p class="fold-arrow" @click="productDetailShow = !productDetailShow">
+                        <em class="iconfont icon-double-arrow-down" v-if="!productDetailShow"></em>
+                        <em class="iconfont icon-double-arrow-up" v-else></em>
                     </p>
-                </template>
-            </module-card>
-
-            <module-card title="产品任务">
-                <template slot="content">
-                    <el-tabs class="content-tab" type="card" value="全部">
-                        <el-tab-pane v-for="(item, index) in proTaskArr" :key="index" :name="item.label" lazy>
-                            <span slot="label">
-                                <el-badge :value="item.num" :hidden="!item.num">
-                                    <span>{{item.label}}</span>
-                                </el-badge>
-                            </span>
-                            <gf-grid grid-no="monitor-pro-task"
-                                     :options="proTaskOption(showProDetail)"
-                                     @row-double-click="showProDetail"
-                                     style="height: 210px;"></gf-grid>
-                        </el-tab-pane>
+                </section>
+                <section class="module-container">
+                    <p class="module-title">产品任务</p>
+                    <el-tabs class="none-border-tabs" value="成立">
+                            <el-tab-pane v-for="(item, index) in proTaskArr" :key="index" :name="item.label" lazy >
+                                <span slot="label">
+                                    <el-badge :value="item.num" :hidden="!item.num">
+                                        <span>{{item.label}}</span>
+                                    </el-badge>
+                                </span>
+                                <div class="elec-process">
+                                    <section class="section">
+                                        <div class="section-title">
+                                            <span>业务事件流程</span>
+                                            <div class="flow-legend">
+                                                <span v-for="(status, statusColor) in stageStatus" :key="statusColor">
+                                                    <em class="fa fa-circle" :style="{color: statusColor}"></em>{{status}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="card-container new-style" :style="{'max-height': foldContainer ? '370px' : 'auto'}">
+                                            <div class="card-item" v-for="bizItem in item.taskData" :key="bizItem.taskId">
+                                                <div class="card-left">
+                                                    <p class="title">
+                                                        <span>{{bizItem.prdtName}}</span>
+                                                        <span class="time">{{subStrTime(bizItem.startTime)}}-{{subStrTime(bizItem.endTime)}}</span>
+                                                    </p>
+                                                    <div class="content">
+                                                        <div class="stage-item" v-for="stage in bizItem.stageList" :key="stage.pkId">
+                                                            <div @click="showStageDetail(stage)">
+                                                            <el-progress class="define-progress"
+                                                                         type="circle"
+                                                                         :percentage="getPercentage(stage.percentage)"
+                                                                         :color="getStatusColor(stage.stageStatus)"
+                                                                         :style="{color: getStatusColor(stage.stageStatus)}"
+                                                                         :width="56"
+                                                                         :stroke-width="10"
+                                                            ></el-progress>
+                                                            <div class="stage-item-title" :title="stage.stageName" >{{ stage.stageName }}</div>
+                                                            <div class="stage-item-num" :style="{color: getStatusColor(stage.stageStatus)}">{{ stage.stageFinishdStepNum}}/{{ stage.stageToatlStepNum }}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-right">
+                                                    <el-progress class="define-progress"
+                                                                 type="circle"
+                                                                 :percentage="getPercentage(bizItem.percentage)"
+                                                                 :color="getStatusColor('02')"
+                                                                 :style="{color: getStatusColor('02')}"
+                                                                 :width="72"
+                                                                 :stroke-width="10"
+                                                    ></el-progress>
+                                                    <div class="stage-item-title">完成进度</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p class="fold-arrow" v-if="item.taskData.length>2" @click="foldContainer = !foldContainer">
+                                            <em class="iconfont icon-double-arrow-down" v-if="foldContainer"></em>
+                                            <em class="iconfont icon-double-arrow-up" v-else></em>
+                                        </p>
+                                    </section>
+                                    <section class="section risk">
+                                        <div class="section-title red">
+                                            <span>风险事项</span>
+                                        </div>
+                                        <div class="card-container new-style">
+                                            <div class="card-item">
+                                                <div class="card-right">
+                                                    <el-progress class="define-progress"
+                                                                 type="circle"
+                                                                 :percentage="getPercentage(riskNum.percentage)"
+                                                                 :color="getStatusColor('02')"
+                                                                 :style="{color: getStatusColor('02')}"
+                                                                 :width="72"
+                                                                 :stroke-width="10"
+                                                    ></el-progress>
+                                                    <div class="stage-item-title">处理进度</div>
+                                                </div>
+                                                <div class="card-left">
+                                                    <p class="risk-item" v-for="riskItem in riskNumArr" :key="riskItem.key">
+                                                        <label>{{riskItem.label}}</label>
+                                                        <span :style="{color: riskItem.color}">{{riskNum[riskItem.key]}}</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </el-tab-pane>
                     </el-tabs>
-                </template>
-            </module-card>
-
-            <module-card title="客户需求">
-                <template slot="content">
-                    <gf-grid :options="guestRequireGrid" style="height: 210px;margin-top: -40px"></gf-grid>
-                </template>
-            </module-card>
-
-            <module-card title="风险事件">
-                <template slot="content">
-                    <gf-grid :options="riskEventGrid" style="height: 210px;margin-top: -40px"></gf-grid>
-                </template>
-            </module-card>
-
-            <module-card title="业务统计">
-                <template slot="content">
-                    <p style="text-align: center;margin: 10px auto;">
-                        <img src="../../../assets/monitor/chart.png" width="auto" height="auto"/>
-                    </p>
-                </template>
-            </module-card>
+                </section>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-    import data from './data'
-    import proDetail from "./pro-detail";
+    import detailPage from "../../../../agnes-dop/pages/config/op-calendar-workbench/detailPage";
     export default {
         data() {
             return {
-                isBoardEdit: false,
-                productDetailGrid: data().productDetailGrid,
-                guestRequireGrid: data().guestRequireGrid,
-                riskEventGrid: data().riskEventGrid,
-                choosedProduct: data().productDetailData[0],
-                productShow: false,
+                mockTreeData: [],
+                treeOptions: [{
+                    treeData: [],
+                    defaultProps: {
+                        showCheckbox: false
+                    },
+                    defaultActions: {
+                        'current-change': this.oneTreeNodeClickOne
+                    }
+                },{
+                    treeData: [],
+                    defaultProps: {
+                        showCheckbox: false
+                    },
+                    defaultActions: {
+                        'current-change': this.twoTreeNodeClickOne
+
+                    }
+                }],
+                oneTreePrdtCode:'',
+                twoTreePrdtCode:'',
+                prdtCode:'',
+                prdtData:{},
+                riskNum: {},
                 productDetailShow: false,
                 proInfoBoardArr: [
                     {id:'proInfo', label:'产品信息', icon:'proInfo'},
@@ -173,51 +192,176 @@
                     {id:'444', label:'业务统计', icon:'bizStatistics'},
                     {id:'5555', label:'业务统计', icon:'bizStatistics'}
                 ],
-                proTaskArr: [
-                    {label: '全部', num: '4'},{label: '成立'},{label: '开放',num: '1'},
-                    {label: '分红'}, {label: '考核'}, {label: '清算', num: '3'}],
-                proTaskOption: (fun) => {
-                    return {
-                        onCellClicked(params) {
-                            if(params.colDef.field === 'proName'){
-                                fun();
-                            }
-                        },
-                    }
-                }
+                proTaskArr: [],
+                stageStatus: {
+                    '#DFE1E5': '未开始',
+                    '#4A8EF0': '执行中',
+                    '#F5222E': '已异常/已超时',
+                    '#FAAE14': '干预通过',
+                    '#52C41C': '已完成'
+                },
+                foldContainer: true,
+                riskNumArr: [
+                    {label: '风险事件总数', key: 'total', color: '#4A8EF0'},
+                    {label: '已处理件数', key: 'finishd', color: '#52C41C'},
+                    {label: '未处理件数', key: 'unfinishd', color: '#ccc'}]
             }
         },
+        mounted() {
+            this.initData();
+            this.initTreeData();
+        },
         methods: {
-            // 配置面板
-            deployBoard(){
-                this.isBoardEdit = true;
+            async initTreeData(){
+                const p1 = this.$api.bizMonitorApi.getRisksSurvey();
+                const resp1 = await this.$app.blockingApp(p1);
+                if(resp1.data){
+                    this.riskNum = resp1.data;
+                }
+                const p2 = this.$api.bizMonitorApi.getTreeData("prdt");
+                const resp2 = await this.$app.blockingApp(p2);
+                if(resp2.data){
+                    this.mockTreeData = resp2.data;
+                }
             },
-
-            // 配置面板 -- 完成配置
-            finishDeploy(){
-                this.isBoardEdit = false;
+            async initData(){
+                let code = '';
+                this.proTaskArr = [];
+                this.prdtData = {};
+                if(this.oneTreePrdtCode){
+                    code = this.oneTreePrdtCode;
+                }
+                if(this.twoTreePrdtCode){
+                    code = this.twoTreePrdtCode;
+                }
+                if(!code){
+                    return ;
+                }
+                const p = this.$api.bizMonitorApi.getPrdtMonitorData({productCode:code});
+                const resp = await this.$app.blockingApp(p);
+                if(resp.data){
+                    this.prdtData = resp.data;
+                    this.proTaskArr.push({label: '成立',num: this.prdtData.establish.length,taskData:this.prdtData.establish});
+                    this.proTaskArr.push({label: '开放',num: this.prdtData.open.length,taskData:this.prdtData.open});
+                    this.proTaskArr.push({label: '分红',num: this.prdtData.aBonus.length,taskData:this.prdtData.aBonus});
+                    this.proTaskArr.push({label: '考核',num: this.prdtData.check.length,taskData:this.prdtData.check});
+                }
             },
-
-            getImgPath(img){
-                return require('../../../assets/monitor/'+img+'.svg');
-            },
-
-            showProDetail(){
+            showStageDetail(params) {
+                let title = [];
+                title.push(params.taskName)
                 // 抽屉创建
                 this.$drawerPage.create({
                     width: 'calc(100% - 250px)',
-                    title: ['东方航空企业年金计划二期'],
-                    component: proDetail,
+                    title: title,
+                    okButtonVisible: false,
+                    cancelButtonTitle: '返回',
+                    component: detailPage,
+                    args: {row: params, mode: 'view'},
                     pageEl: this.$el
                 })
+            },
+
+            getPercentage(percentage) {
+                return parseInt(percentage * 100);
+            },
+
+            getStatusColor(statusId) {
+                const stepStatus = this.$agnesAcUtils.getStepStatusMap();
+                return stepStatus.get(statusId).color;
+            },
+            // 弹框选择数据以后，赋值给组件树
+            manageCheckNodes(val){
+                const treeOptions = this.$lodash.cloneDeep(this.treeOptions);
+                treeOptions[0].treeData = [val[0]];
+                treeOptions[1].treeData = [val[1]];
+                this.treeOptions = treeOptions;
+            },
+            // 首棵树点击事件
+            oneTreeNodeClickOne(nodeObj){
+                this.oneTreePrdtCode = '';
+                if(nodeObj.type && nodeObj.type == 'prdt'){
+                    this.oneTreePrdtCode = nodeObj.code;
+                }
+                this.initData();
+            },
+
+            // 第二颗树勾选事件
+            twoTreeNodeClickOne(nodeObj){
+                this.twoTreePrdtCode = '';
+                if(nodeObj.type && nodeObj.type == 'prdt'){
+                    this.twoTreePrdtCode = nodeObj.code;
+                }
+                this.initData();
+            },
+
+            subStrTime(time){
+                return time.substr(0, 10);
             }
         }
     }
 </script>
 
-<style>
+<style scoped>
+    .monitor-container-right {
+        margin-left: 13px;
+        padding-right: 25px;
+        margin-right: -25px;
+    }
+
+    .monitor-container-right.pagescroll {
+        overflow-y: auto;
+    }
+
     .ag-cell.link-option-cell:hover .ag-cell-value{
         cursor: pointer;
         text-decoration: underline;
+    }
+
+    .fold-arrow {
+        margin-top: 12px;
+        text-align: center;
+        cursor: pointer;
+    }
+    .stage-item .define-progress {
+        cursor: pointer;
+    }
+
+    .fold-arrow > .iconfont {
+        color: #999;
+    }
+
+    .monitor-pages .elec-process{
+        background: #F5F7FA;
+        border-radius: 8px;
+        padding: 16px;
+    }
+
+    .monitor-pages .section-title {
+        width: 100%;
+        color: #666;
+        font-size: 18px;
+        font-family: SourceHanSansCN-Medium;
+        margin-bottom: 14px;
+    }
+
+    .monitor-pages .elec-process > .section {
+        flex-direction: column;
+    }
+
+    .monitor-pages .elec-process > .section .section-title::before {
+        display: block;
+        position: absolute;
+        content: '';
+        width: 4px;
+        height: 16px;
+        background: #0f5eff;
+        left: -10px;
+        top: 7px;
+        border-radius: 2px;
+    }
+
+    .monitor-pages .elec-process > .section .section-title.red::before {
+        background: #F5222E;
     }
 </style>

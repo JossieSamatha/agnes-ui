@@ -13,6 +13,7 @@ import elecProcessApi from './elec-process-api';
 import icrProcessApi from './icr-process-api';
 import monitorKpiApi from './monitor-kpi-api';
 import icrTaskApi from './icr-task-api';
+import bizMonitorApi from './biz-monitor-api';
 
 export default {
     modelConfigApi,
@@ -29,5 +30,6 @@ export default {
     elecProcessApi,
     icrProcessApi,
     monitorKpiApi,
+    bizMonitorApi,
     icrTaskApi
 };

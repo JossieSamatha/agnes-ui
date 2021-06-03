@@ -53,23 +53,6 @@
       </div>
     </el-popover>
     <el-button size="mini" type="text"
-               v-popover:popover v-if="actionShow"
-               @click="popoverClick('actionConfirm')"
-               title="手工确认"
-               :disabled="isDisabled"
-    >
-      <span class="svgSpan" v-html="svgImg.actionConfirm"></span>
-    </el-button>
-    <el-button size="mini" type="text"
-               v-popover:popover
-               v-if="autoSetShow"
-               @click="popoverClick('forcePass')"
-               title="干预通过"
-               :disabled="isDisabled"
-    >
-      <span class="svgSpan" v-html="svgImg.forcePass"></span>
-    </el-button>
-    <el-button size="mini" type="text"
                v-popover:popover
                v-if="indexSetShow"
                @click="popoverClick('forcePass')"
@@ -81,7 +64,7 @@
     <el-button v-if="indexSetShow" class="detail-btn" size="mini" type="text" icon="fa fa-eye"
                @click="indexDetail('showProDetail')"
                title="查看明细"
-               :disabled="isKpiDisabled"
+               :disabled="isDisabled"
     >
     </el-button>
   </div>
@@ -113,22 +96,16 @@ export default {
     indexSetShow() {
       return true;
     },
-    autoSetShow() {
-      return this.params.data.taskType === '7';
-    },
     isDisabled() {
-      return !this.params.data.buttonStatus;
+      return false;
     },
-    isKpiDisabled() {
-      return this.params.data.stepStatus === '01';
-    }
   },
   methods: {
     async popoverClick(actionType) {
       this.form.paramList = [];
-      const p = this.$api.taskTodoApi.selectRollBackTaskParams({stepExecId: this.params.data.stepExecId})
-      const resp = await this.$app.blockingApp(p);
-      this.form.paramList = resp.data;
+      // const p = this.$api.taskTodoApi.selectRollBackTaskParams({stepExecId: this.params.data.stepExecId})
+      // const resp = await this.$app.blockingApp(p);
+      // this.form.paramList = resp.data;
       this.form.remark = this.params.data.remark;
       this.popoverVisible = true;
       this.actionType = actionType;

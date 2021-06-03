@@ -17,8 +17,8 @@
             }
         },
         beforeMount(){
-            if(this.params.data){
-                this.percentage = parseInt(parseInt(this.params.value)*100);
+            if(this.params.data.percentage){
+                this.percentage = parseInt(this.params.data.percentage*100);
             }
         },
         methods: {
@@ -27,7 +27,7 @@
                     return '#F5222E';
                 }else{
                     const colorSet = this.$agnesAcUtils.getStepStatusMap();
-                    return colorSet.get(this.params.data.stepStatus).color;
+                    return colorSet.get(this.params.data.taskStatus).color;
                 }
             }
         }

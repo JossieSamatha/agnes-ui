@@ -18,6 +18,7 @@ import MonitorKPI from './monitor-kpi/index.vue'
 import MonitorDetailPage from './monitor-kpi/detail-page'
 
 import bizMonitor from './biz-monitor/index'
+import bizMonitorPage from './biz-monitor/biz-monitor-index'
 import productMonitor from './product-monitor/index'
 import gusterMonitor from './guster-monitor/index'
 
@@ -25,6 +26,7 @@ import guestComp from './guster-monitor/guest/index'
 import icrTaskDef from './icr-task-def/index'
 import IcrProcess from './icr-process/optional/index'
 
+import elecOptionalIndex from './elec-process/optional/elec-optional-index'
 
 const Loading = {
     install: function(Vue){
@@ -63,6 +65,10 @@ const Loading = {
         Gfui.componentView('agnes.dop.busi.monitor', bizMonitor, {title: '业务监控'});
         Gfui.componentView('agnes.dop.prdt.monitor', productMonitor, {title: '产品监控'});
         Gfui.componentView('agnes.dop.customer.monitor', gusterMonitor, {title: '客户监控'});
+
+
+        Gfui.componentView('agnes.biz.monitor', bizMonitorPage, {title: '业务监控台'});
+        Gfui.componentView('agnes.elec.optional', elecOptionalIndex, {title: '业务事件工作台'});
     }
 };
 
