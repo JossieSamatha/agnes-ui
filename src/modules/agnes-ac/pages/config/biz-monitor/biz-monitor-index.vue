@@ -49,12 +49,14 @@
                                 <div class="section-title">业务事件流程</div>
                                 <div class="card-container new-style double" :style="{height: foldEventContainer ? '185px' : 'auto'}">
                                     <div v-for="bizItem in bizEventData" :key="bizItem.pkId">
-                                      <div class="card-item" @click="showDetail(diaryItem)">
+                                      <div class="card-item" @click="showDetail(bizItem)">
                                         <div class="card-left">
                                           <p class="title">
                                             <span clas="name">{{ bizItem.taskName }}</span>
                                             <span class="status"
-                                                  :class="getStatusKey(bizItem.taskStatus)">{{ tagStatus[bizItem.taskStatus] }}</span>
+                                                  :class="getStatusKey(bizItem.taskStatus)">{{
+                                                tagStatus[bizItem.taskStatus]
+                                              }}</span>
                                           </p>
                                           <div class="content">
                                             <div><span>{{ getBizType(bizItem.bizType) }}</span>

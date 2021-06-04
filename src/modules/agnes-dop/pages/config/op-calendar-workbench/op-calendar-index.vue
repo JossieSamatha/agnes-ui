@@ -83,7 +83,7 @@
           queryArgs: {
             'startBizDate': window.bizDate,
             'endBizDate': window.bizDate,
-            'productCodes': [],
+            'productCodes': "",
           },
           dateTime: [window.bizDate, window.bizDate],
           mockTreeData: [],
@@ -120,15 +120,24 @@
           this.$refs.grid.reloadData(true);
         },
         reloadProductCode() {
-          let prdtCodes = [];
+          let prdtCodes = '';
           if (this.oneTreePrdtCode.length > 0) {
             this.oneTreePrdtCode.forEach((code) => {
-              prdtCodes.push(code);
+              if (prdtCodes === '') {
+                prdtCodes = code;
+              } else {
+                prdtCodes = prdtCodes + ',' + code;
+              }
             })
           }
           if (this.twoTreePrdtCode.length > 0) {
             this.twoTreePrdtCode.forEach((code) => {
-              prdtCodes.push(code);
+              if (prdtCodes === '') {
+                prdtCodes = code;
+              } else {
+                prdtCodes = prdtCodes + ',' + code;
+              }
+
             })
           }
           this.queryArgs.productCodes = prdtCodes;

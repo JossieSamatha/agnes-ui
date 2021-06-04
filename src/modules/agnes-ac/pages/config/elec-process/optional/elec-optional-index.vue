@@ -21,9 +21,6 @@
                     </el-tab-pane>
                 </el-tabs>
                 <section class="bottom-section">
-                    <span class="rightExpandBtn" @click="foldBottomRight">
-                        <em class="menuicon" v-html="ifRightExpand?svgImg.refoldIcon:svgImg.foldIcon"></em>
-                    </span>
                     <div class="bottom left" id="taskContainerLeft">
                         <div class="section-title">
                             <div class="date-search">
