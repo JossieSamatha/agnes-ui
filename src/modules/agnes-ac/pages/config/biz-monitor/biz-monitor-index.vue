@@ -305,7 +305,7 @@
           },
           async commitTask(params) {
             let taskCommit = {};
-            taskCommit.taskCaseId = params.caseId;
+            taskCommit.caseId = params.caseId;
             taskCommit.bizDate = window.bizDate;
             const p1 = this.$api.OpCalendarApi.checkStepStatus(params.caseId, null);
             const resp1 = await this.$app.blockingApp(p1);
@@ -391,9 +391,9 @@
           // 第二颗树勾选事件
           twoTreeNodeClickTwo(nodeObj, nodeData) {
             let businessScenarios = [];
-            if (nodeData && nodeData.checkedKeys && nodeData.checkedKeys.length > 0) {
-              nodeData.checkedKeys.forEach((item) => {
-                businessScenarios.push(item)
+            if (nodeData && nodeData.checkedNodes && nodeData.checkedNodes.length > 0) {
+              nodeData.checkedNodes.forEach((item) => {
+                businessScenarios.push(item.code)
               })
             }
             this.queryArgs.businessScenarios = businessScenarios;

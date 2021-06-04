@@ -10,7 +10,7 @@ export default {
         },
         {headerName: "产品名称", field: "productName"},
         {
-            headerName: "状态", field: "stageStatus", width: 95,
+            headerName: "完成状态", field: "stageStatus", width: 95,
             suppressSizeToFit: true,
             formatType: 'dict',
             dictType: 'AGNES_TASK_STEP_STATUS',
@@ -66,7 +66,7 @@ export default {
     ext: {
         fetchUrl: "/agnes-ac/v1/ac/monitoring/station/list",    //后台查询数据的URL地址
         fetchMethod: 'post',
-        pagingMode: false, //不分页
+        pagingMode: true, //不分页
         checkboxColumn: 2, //是否显示checkbox列,
         enableExportLocal: true,
         autoFitColumnMode: 1,

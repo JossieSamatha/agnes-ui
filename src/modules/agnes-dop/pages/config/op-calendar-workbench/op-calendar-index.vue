@@ -188,8 +188,8 @@
           async forcePass(params) {
             let taskCommit = {};
             taskCommit.remark = params.data.remark;
-            taskCommit.taskCaseId = params.data.caseId;
-            taskCommit.stagePkId = params.data.pkId;
+            taskCommit.caseId = params.data.caseId;
+            taskCommit.stageDefId = params.data.pkId;
             taskCommit.bizDate = window.bizDate;
             const p1 = this.$api.OpCalendarApi.checkStepStatus(params.data.caseId, params.data.pkId);
             const resp1 = await this.$app.blockingApp(p1);
