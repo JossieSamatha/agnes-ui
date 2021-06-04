@@ -12,7 +12,7 @@
         </module-card>
         <module-card title="阶段详情">
             <template slot="content">
-              <el-form label-width="50%" class="infoForm" size="mini">
+              <el-form label-width="80px" class="infoForm" size="mini">
                 <div class="line">
                   <el-form-item label="当前阶段" prop="stageName">
                     <span>{{ curStage.stageName }}</span>
@@ -127,10 +127,10 @@
               endDay = params.endDay;
             }
             let startDate = (new Date(params.exeTime)).setDate((new Date(params.exeTime)).getDate() + startDay);
-            let startTime = this.$dateUtils.formatDate(startDate, 'yyyy-MM-dd') + ' ' + params.startTime + ':00';
+            let startTime = this.$dateUtils.formatDate(startDate, 'yyyy-MM-dd') + ' ' + params.startTime;
             let endDate = (new Date(params.exeTime)).setDate((new Date(params.exeTime)).getDate() + endDay);
-            let endTime = this.$dateUtils.formatDate(endDate, 'yyyy-MM-dd') + ' ' + params.endTime + ':00';
-            return startTime + '至' + endTime;
+            let endTime = this.$dateUtils.formatDate(endDate, 'yyyy-MM-dd') + ' ' + params.endTime;
+            return startTime + ' 至 ' + endTime;
           },
 
           getBizType(dictId) {

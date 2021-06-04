@@ -64,7 +64,7 @@
     <el-button v-if="indexSetShow" class="detail-btn" size="mini" type="text" icon="fa fa-eye"
                @click="indexDetail('showProDetail')"
                title="查看明细"
-               :disabled="isDisabled"
+               :disabled="isDetailDisabled"
     >
     </el-button>
   </div>
@@ -97,15 +97,15 @@ export default {
       return true;
     },
     isDisabled() {
-      return false;
+      return this.params.data.stageStatus === '06' || this.params.data.stageStatus === '07' || this.params.data.stageStatus === '01';
     },
+    isDetailDisabled() {
+      return this.params.data.stageStatus === '01';
+    }
   },
   methods: {
     async popoverClick(actionType) {
       this.form.paramList = [];
-      // const p = this.$api.taskTodoApi.selectRollBackTaskParams({stepExecId: this.params.data.stepExecId})
-      // const resp = await this.$app.blockingApp(p);
-      // this.form.paramList = resp.data;
       this.form.remark = this.params.data.remark;
       this.popoverVisible = true;
       this.actionType = actionType;
