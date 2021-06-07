@@ -233,6 +233,10 @@
                 const resp = await this.$app.blockingApp(p);
                 if(resp.data){
                     this.mockTreeData = JSON.parse(JSON.stringify(resp.data));
+                    const treeOptions = this.$lodash.cloneDeep(this.treeOptions);
+                    treeOptions[0].treeData = [this.mockTreeData[0]];
+                    treeOptions[1].treeData = [this.mockTreeData[1]];
+                    this.treeOptions = treeOptions;
                 }
             },
             // 获取所有流程数据

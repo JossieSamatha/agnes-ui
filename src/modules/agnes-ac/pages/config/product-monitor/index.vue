@@ -47,6 +47,32 @@
                                     <span>{{prdtData.dueDate}}</span>
                                 </el-form-item>
                             </div>
+                            <div class="line">
+                                <el-form-item label="关账日期" prop="closeDate">
+                                    <el-date-picker
+                                            v-model="prdtData.closeDate"
+                                            type="date"
+                                            value-format="yyyy-MM-dd"
+                                    >
+                                    </el-date-picker>
+                                </el-form-item>
+                                <el-form-item label="清算日期" prop="settlementDate">
+                                    <el-date-picker
+                                            v-model="prdtData.settlementDate"
+                                            type="date"
+                                            value-format="yyyy-MM-dd"
+                                    >
+                                    </el-date-picker>
+                                </el-form-item>
+                            </div>
+                            <div class="line">
+                                <el-form-item label="托管费率" prop="trustRate">
+                                    <span>{{prdtData.trustRate}}</span>
+                                </el-form-item>
+                                <el-form-item label="浮动管理费" prop="floatingManagementFee">
+                                    <span>{{prdtData.floatingManagementFee}}</span>
+                                </el-form-item>
+                            </div>
                         </template>
                     </el-form>
                     <p class="fold-arrow" @click="productDetailShow = !productDetailShow">
@@ -222,6 +248,10 @@
                 const resp2 = await this.$app.blockingApp(p2);
                 if(resp2.data){
                     this.mockTreeData = resp2.data;
+                    const treeOptions = this.$lodash.cloneDeep(this.treeOptions);
+                    treeOptions[0].treeData = [this.mockTreeData[0]];
+                    treeOptions[1].treeData = [this.mockTreeData[1]];
+                    this.treeOptions = treeOptions;
                 }
             },
             async initData(){
@@ -363,5 +393,14 @@
 
     .monitor-pages .elec-process > .section .section-title.red::before {
         background: #F5222E;
+    }
+
+    .none-border-tabs >>> .el-badge .el-badge__content {
+        top: -3px;
+        left: calc(100% - 5px);
+    }
+
+    .none-border-tabs.el-tabs >>> .el-tabs__header .el-tabs__item {
+        padding: 0 8px;
     }
 </style>

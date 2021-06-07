@@ -261,6 +261,10 @@
             const resp = await this.$app.blockingApp(p);
             if (resp.data) {
               this.treeData = resp.data;
+                const treeOptions = this.$lodash.cloneDeep(this.treeOptions);
+                treeOptions[0].treeData = [this.treeData[0]];
+                treeOptions[1].treeData = [this.treeData[1]];
+                this.treeOptions = treeOptions;
             }
           },
           async initRisk() {

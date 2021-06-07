@@ -147,6 +147,10 @@
           const resp2 = await this.$app.blockingApp(p2);
           if (resp2.data) {
             this.mockTreeData = resp2.data;
+              const treeOptions = this.$lodash.cloneDeep(this.treeOptions);
+              treeOptions[0].treeData = [this.mockTreeData[0]];
+              treeOptions[1].treeData = [this.mockTreeData[1]];
+              this.treeOptions = treeOptions;
           }
         },
         showProDetail(params) {
