@@ -2086,6 +2086,7 @@ form .el-icon-lock::before {
 
 .monitor-pages .card-container.new-style .card-left {
     flex: 1;
+    width: calc(100% - 150px);
     margin-right: 16px;
 }
 
@@ -2097,6 +2098,13 @@ form .el-icon-lock::before {
     font-size: 18px;
     font-family: SourceHanSansCN-Medium;
     margin-bottom: 20px;
+}
+
+.monitor-pages .card-container.new-style .card-left .title>span {
+    white-space: nowrap;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .monitor-pages .card-container.new-style.double .card-left .title {
@@ -2155,7 +2163,7 @@ form .el-icon-lock::before {
 
 .monitor-pages .card-container.new-style .card-right {
     flex: none;
-    width: 190px;
+    width: 150px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -2226,6 +2234,7 @@ form .el-icon-lock::before {
 .monitor-pages .card-container.new-style:not(.double) .card-item .content {
     display: flex;
     margin-left: 25px;
+    overflow-x: auto;
 }
 
 .monitor-pages .card-container.new-style.double .card-item .content>div {
@@ -2241,6 +2250,10 @@ form .el-icon-lock::before {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.monitor-pages .card-container.new-style .card-item .stage-item>div {
+    text-align: center;
 }
 
 .monitor-pages .card-container.new-style .card-item .stage-item
