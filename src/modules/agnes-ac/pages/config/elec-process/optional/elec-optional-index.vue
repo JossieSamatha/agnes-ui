@@ -324,16 +324,24 @@
                                     headerName: stage.stageName,
                                     field: stage.pkId,
                                     cellStyle: function (params) {
-                                        const colorSet = AcUtil.getStepStatusMap();
-                                        const status = params.data.stageList[index].stageStatus;
-                                        const color = colorSet.get(status).color
-                                        return {color: color};
+                                        if(params.data.stageList&&params.data.stageList[index]){
+                                            const colorSet = AcUtil.getStepStatusMap();
+                                            const status = params.data.stageList[index].stageStatus;
+                                            const color = colorSet.get(status).color
+                                            return {color: color};
+                                        }else {
+                                            return '#DFE1E5';
+                                        }
                                     },
                                     cellClass: ['fa fa-circle', 'status-circle-cell', 'link-cell'],
                                     valueFormatter: function (params) {
                                         let item = params.data;
-                                        let info = item.stageList[index].stageFinishdStepNum+"/"+item.stageList[index].stageToatlStepNum;
-                                        return info;
+                                        if(item && item.stageList[index]){
+                                            let info = item.stageList[index].stageFinishdStepNum+"/"+item.stageList[index].stageToatlStepNum;
+                                            return info;
+                                        }else {
+                                            return '';
+                                        }
                                     }
                                 };
                                 columns.push(column);
@@ -364,6 +372,8 @@
                             if(flowDetailParse.taskVos && flowDetailParse.taskVos.length>0){
                                 // this.gridOptions.rowData = flowDetailParse.taskVos;
                                 this.gridOptions.api.setRowData(flowDetailParse.taskVos)
+                            }else {
+                                this.gridOptions.api.setRowData([])
                             }
                         } else {
                             this.taskStage = [];
