@@ -10,8 +10,8 @@
             <template slot="left">
                 <gf-button class="action-btn" @click="addFlowTask" size="mini" v-if="$hasPermission('agnes.app.business.flowconf.add')">添加</gf-button>
                 <gf-button :disabled="!uploadStatus" class="action-btn"  @click="confFlowNode" size="mini" >{{title}}任务节点</gf-button>
-                <gf-button class="action-btn" @click="copyFlow" size="mini" v-if="$hasPermission('agnes.app.business.flowconf.copy')">复制</gf-button>
-                <gf-button class="action-btn" @click="exportFlow" size="mini"  v-if="$hasPermission('agnes.app.business.flowconf.exportFlow')">导出</gf-button>
+                <gf-button class="action-btn" :disabled="!isCheckOne" @click="copyFlow" size="mini" v-if="$hasPermission('agnes.app.business.flowconf.copy')">复制</gf-button>
+                <gf-button class="action-btn" :disabled="!uploadStatus" @click="exportFlow" size="mini"  v-if="$hasPermission('agnes.app.business.flowconf.exportFlow')">导出</gf-button>
                 <el-upload style="margin-left: 4px"
                         ref="upload"
                         :limit="1"
@@ -48,13 +48,15 @@
             return {
                 title:'配置',
                 uploadStatus:false,
+                isCheckOne:false,
             }
         },
         methods: {
             selectedChanged(){
                 let rows = this.$refs.grid.getSelectedRows();
-                if(rows.length>0){
+                if(rows.length==1){
                     this.uploadStatus = true;
+                    this.isCheckOne = true;
                     if(rows[0].reTaskDef.taskStatus != "03"){
                         this.title = '配置';
                     }else {
@@ -62,6 +64,7 @@
                     }
                 }else{
                     this.uploadStatus = false;
+                    this.isCheckOne = false;
                 }
             },
             showFlowTask(row, mode, actionOk){
@@ -306,10 +309,10 @@
                 row.reTaskDef.taskId = ''
                 row.reTaskDef.jobId = ''
                 let fileName = row.reTaskDef.taskName + ".txt";
-                const rowData =  JSON.stringify(row);
-                const p = this.$api.caseConfigApi.selectTaskCaseBody(rowData.caseDefId)
+                const p = this.$api.caseConfigApi.selectTaskCaseBody(row.caseDefId)
                 let  rep = await this.$app.blockingApp(p);
-                rowData.caseDefBody = rep.data.caseDefBody;
+                row.caseDefBody = rep.data.caseDefBody;
+                const rowData =  JSON.stringify(row);
                 this.exportRaw(fileName,rowData);
             },
             fakeClick(obj) {
@@ -326,18 +329,23 @@
                 this.fakeClick(save_link);
             },
             async importFlow(file){
+                let fileName = file.name;
+                if(!fileName.endsWith(".txt")){
+                    this.$msg.warning("请导入TXT文件！");
+                    return ;
+                }
                 let reader = new FileReader()
                 reader.readAsText(file.raw)
                 let data;
                 reader.onload = async (e) => {
-                    data = JSON.parse(e.target.result);
-                    const p = this.$api.taskDefineApi.queryTaskByCaseId(data.reTaskDef.caseKey)
-                    const resp = await this.$app.blockingApp(p);
-                    if(resp.data){
-                        this.$msg.warning("["+data.reTaskDef.caseKey+"]-已存在该任务");
-                        return ;
-                    }
                     try {
+                        data = JSON.parse(e.target.result);
+                        const p = this.$api.taskDefineApi.queryTaskByCaseId(data.reTaskDef.caseKey)
+                        const resp = await this.$app.blockingApp(p);
+                        if(resp.data){
+                            this.$msg.warning("["+data.reTaskDef.caseKey+"]-已存在该任务");
+                            return ;
+                        }
                         await this.$api.flowTaskApi.saveFlowTask(data);
                         if (this.actionOk) {
                             await this.actionOk();

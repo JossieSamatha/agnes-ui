@@ -186,13 +186,18 @@
           ifChecked
           hasCheckedChild
         },
+        async onAddTempTask() {
+            await this.reloadData();
+        },
         addTask(type) {
           if (type == "1") {
+              let actionOk = this.onAddTempTask.bind(this);
             // 抽屉创建
             this.$drawerPage.create({
               width: 'calc(100% - 250px)',
                 title: ['新增临时任务'],
                 component: addTempTask,
+                args: {actionOk},
                 pageEl: this.$el
               })
             }
