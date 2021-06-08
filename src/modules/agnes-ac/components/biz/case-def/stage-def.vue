@@ -104,9 +104,10 @@
             // 保存Stage标题
             async saveStageTitle() {
                 if(!this.stage.defName){
-                    this.$alert('请补充完整stage标题！', '提示', {
+                    this.$alert('stage标题不完整，将给予默认值！', '提示', {
                         confirmButtonText: '确定',
                         callback: () => {
+                            this.stage.defName='default';
                             this.$refs.titleInput.focus();
                         }
                     });

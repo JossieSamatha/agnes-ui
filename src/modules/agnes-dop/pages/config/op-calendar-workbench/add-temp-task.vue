@@ -70,6 +70,9 @@
 
 <script>
 export default {
+  props: {
+    actionOk: Function
+  },
   data() {
     return {
       hasParam: false,
@@ -138,6 +141,9 @@ export default {
           return;
         }
         this.$msg.success("发布成功！");
+        if (this.actionOk) {
+          await this.actionOk();
+        }
         this.$emit("onClose");
       } catch (e) {
         this.$msg.error(e);

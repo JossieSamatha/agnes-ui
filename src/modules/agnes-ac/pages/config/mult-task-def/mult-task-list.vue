@@ -22,8 +22,8 @@
             <template slot="left">
                 <gf-button class="action-btn" @click="addTask">添加</gf-button>
                 <gf-button :disabled="!uploadStatus" class="action-btn"  @click="confFlowNode" size="mini" >{{title}}任务节点</gf-button>
-                <gf-button class="action-btn" @click="copyTask">复制</gf-button>
-                <gf-button class="action-btn" @click="exportFlow" size="mini"  v-if="$hasPermission('agnes.config.mult.task.exportFlow')">导出</gf-button>
+                <gf-button class="action-btn" :disabled="!isCheckOne" @click="copyTask">复制</gf-button>
+                <gf-button class="action-btn" :disabled="!uploadStatus" @click="exportFlow" size="mini"  v-if="$hasPermission('agnes.config.mult.task.exportFlow')">导出</gf-button>
                 <el-upload style="margin-left: 4px"
                            ref="upload"
                            :limit="1"
@@ -61,6 +61,7 @@
             return {
                 title:'配置',
                 uploadStatus:false,
+                isCheckOne:false,
                 queryArgs:{
                     'taskName':'',
                     'taskType':'',
@@ -78,15 +79,21 @@
             },
             selectedChanged(){
                 let rows = this.$refs.grid.getSelectedRows();
-                if(rows.length>0&&rows[0].reTaskDef.taskType== "2" || rows.length>0&&rows[0].reTaskDef.taskType== "8"){
-                    this.uploadStatus = true;
-                    if(rows[0].reTaskDef.taskStatus != "03"){
-                        this.title = '配置';
+                if(rows.length==1){
+                    this.isCheckOne = true;
+                    if(rows[0].reTaskDef.taskType== "2" || rows[0].reTaskDef.taskType== "8"){
+                        this.uploadStatus = true;
+                        if(rows[0].reTaskDef.taskStatus != "03"){
+                            this.title = '配置';
+                        }else {
+                            this.title = '查看';
+                        }
                     }else {
-                        this.title = '查看';
+                        this.uploadStatus = false;
                     }
                 }else {
                     this.uploadStatus = false;
+                    this.isCheckOne = false;
                 }
             },
             showDrawer(mode, row, actionOk) {
@@ -273,10 +280,10 @@
                 row.reTaskDef.taskId = ''
                 row.reTaskDef.jobId = ''
                 let fileName = row.reTaskDef.taskName + ".txt";
-                const rowData =  JSON.stringify(row);
-                const p = this.$api.caseConfigApi.selectTaskCaseBody(rowData.caseDefId)
+                const p = this.$api.caseConfigApi.selectTaskCaseBody(row.caseDefId)
                 let  rep = await this.$app.blockingApp(p);
-                rowData.caseDefBody = rep.data.caseDefBody;
+                row.caseDefBody = rep.data.caseDefBody;
+                const rowData =  JSON.stringify(row);
                 this.exportRaw(fileName,rowData);
             },
             fakeClick(obj) {
