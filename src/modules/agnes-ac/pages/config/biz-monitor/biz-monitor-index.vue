@@ -46,18 +46,20 @@
                     <div class="elec-process">
                         <section class="module-container">
                             <section class="section">
-                                <div class="section-title">业务事件流程</div>
-                                <div class="card-container new-style double" :style="{height: foldEventContainer ? '185px' : 'auto'}">
-                                    <div v-for="bizItem in bizEventData" :key="bizItem.pkId">
-                                      <div class="card-item" @click="showDetail(bizItem)">
-                                        <div class="card-left">
-                                          <p class="title">
-                                            <span clas="name">{{ bizItem.taskName }}</span>
-                                            <span class="status"
-                                                  :class="getStatusKey(bizItem.taskStatus)">{{
-                                                tagStatus[bizItem.taskStatus]
-                                              }}</span>
-                                          </p>
+                              <div class="section-title">业务事件流程</div>
+                              <div class="card-container new-style double"
+                                   :style="{height: foldEventContainer ? '185px' : eventHeight,transition: '1s'}">
+                                <span v-if="bizEventData.length === 0"> 暂无数据</span>
+                                <div v-for="bizItem in bizEventData" :key="bizItem.pkId">
+                                  <div class="card-item" @click="showDetail(bizItem)">
+                                    <div class="card-left">
+                                      <p class="title">
+                                        <span clas="name">{{ bizItem.taskName }}</span>
+                                        <span class="status"
+                                              :class="getStatusKey(bizItem.taskStatus)">{{
+                                            tagStatus[bizItem.taskStatus]
+                                          }}</span>
+                                      </p>
                                           <div class="content">
                                             <div><span>{{ getBizType(bizItem.bizType) }}</span>
                                               <p style="margin: 0 8px;border-right: 1px solid #666"></p>
@@ -89,20 +91,24 @@
                                     <em class="iconfont icon-double-arrow-up" v-else></em>
                                 </p>
                             </section>
-                            <section class="section">
-                                <div class="section-title">日常作业流程</div>
-                                <div class="card-container new-style double" :style="{height: foldWorkContainer ? '185px' : 'auto'}">
-                                    <div v-for="diaryItem in diaryWorkData" :key="diaryItem.pkId">
-                                      <div class="card-item" @click="showDetail(diaryItem)">
-                                        <div class="card-left">
-                                          <p class="title">
-                                            <span clas="name">{{ diaryItem.taskName }}</span>
-                                            <span class="status"
-                                                  :class="getStatusKey(diaryItem.taskStatus)">{{ tagStatus[diaryItem.taskStatus] }}</span>
-                                          </p>
-                                          <div class="content">
-                                            <div><span>{{ getBizType(diaryItem.bizType) }}</span>
-                                              <p style="margin: 0 8px;border-right: 1px solid #666"></p>
+                          <section class="section">
+                            <div class="section-title">日常作业流程</div>
+                            <div class="card-container new-style double"
+                                 :style="{height: foldWorkContainer ? '185px' : dailyHeight,transition: '1s'}">
+                              <span v-if="diaryWorkData.length === 0"> 暂无数据</span>
+                              <div v-for="diaryItem in diaryWorkData" :key="diaryItem.pkId">
+                                <div class="card-item" @click="showDetail(diaryItem)">
+                                  <div class="card-left">
+                                    <p class="title">
+                                      <span clas="name">{{ diaryItem.taskName }}</span>
+                                      <span class="status"
+                                            :class="getStatusKey(diaryItem.taskStatus)">{{
+                                          tagStatus[diaryItem.taskStatus]
+                                        }}</span>
+                                    </p>
+                                    <div class="content">
+                                      <div><span>{{ getBizType(diaryItem.bizType) }}</span>
+                                        <p style="margin: 0 8px;border-right: 1px solid #666"></p>
                                               <span>{{ getBizTag(diaryItem.bizTag) }}</span>
                                             </div>
                                                     <div><span>{{diaryItem.dateTime}}</span></div>
@@ -215,6 +221,8 @@
           },
           foldEventContainer: true,
           foldWorkContainer: true,
+          dailyHeight: '185px',
+          eventHeight: '185px',
           riskNumArr: [
             {label: '风险事件总数', key: 'total', color: '#4A8EF0'},
             {label: '已处理件数', key: 'finishd', color: '#52C41C'},
@@ -277,11 +285,19 @@
           async initTask() {
             this.bizEventData = [];
             this.diaryWorkData = [];
+            this.dailyHeight = '185px'
+            this.eventHeight = '185px'
             const p = this.$api.bizMonitorApi.queryProcessTasks(this.queryArgs);
             const resp = await this.$app.blockingApp(p);
             if (resp && resp.data) {
               this.bizEventData = resp.data.bizEventData;
               this.diaryWorkData = resp.data.diaryWorkData;
+              if (this.diaryWorkData.length > 0) {
+                this.dailyHeight = Math.ceil(this.diaryWorkData.length / 2) * 193 + 'px';
+              }
+              if (this.bizEventData.length > 0) {
+                this.eventHeight = Math.ceil(this.eventHeight.length / 2) * 193 + 'px';
+              }
             }
           },
           changeDateTime(param) {
@@ -326,7 +342,7 @@
               const resp2 = await this.$app.blockingApp(p2);
               if (resp2.data) {
                 this.$msg.success('提交成功');
-                this.reloadData()// 刷新页面数据
+                this.initTask()// 刷新页面数据
               } else {
                 this.$msg.warning('提交失败');
               }
