@@ -1,6 +1,7 @@
 import processRenderer from './processRenderer'
 import optionalRenderer from './optionalRenderer'
 import AcUtil from '../../../util/common'
+import dateUtil from '@hex/gf-ui/src/util/date-utils'
 
 export default {
     columnDefs: [
@@ -10,7 +11,7 @@ export default {
         },
         {headerName: "产品名称", field: "productName"},
         {
-            headerName: "完成状态", field: "stageStatus", width: 95,
+            headerName: "状态", field: "stageStatus", width: 95,
             suppressSizeToFit: true,
             formatType: 'dict',
             dictType: 'AGNES_TASK_STEP_STATUS',
@@ -36,18 +37,28 @@ export default {
             suppressSizeToFit: true,
             tooltipField: 'proportion',
         },
-        {headerName: "任务开始日", field: "taskStartTime"},
-        {headerName: "任务截止日", field: "taskEndTime"},
-        // {headerName: "剩余天数", field: "remainDays"},
-        // {headerName: "处理角色", field: ""},
-        // {headerName: "处理人", field: ""},
-        // {headerName: "产品代码", field: ""},
-        // {headerName: "项目名称", field: ""},
-        // {headerName: "托管行", field: ""},
-        // {headerName: "发起人", field: ""},
-        // {headerName: "任务来源", field: ""},
-        // {headerName: "任务执行方式", field: ""},
-        // {headerName: "任务频率", field: ""},
+        {
+            headerName: "开始时间", field: "taskStartTime",
+            valueFormatter: function (params) {
+                let startDay = "0"
+                if (params.data.startDay) {
+                    startDay = params.data.startDay;
+                }
+                let startDate = (new Date(params.data.exeTime)).setDate((new Date(params.data.exeTime)).getDate() + startDay);
+                return dateUtil.formatDate(startDate, 'yyyy-MM-dd')
+            }
+        },
+        {
+            headerName: "结束时间", field: "taskEndTime",
+            valueFormatter: function (params) {
+                let endDay = "0"
+                if (params.data.endDay) {
+                    endDay = params.data.endDay;
+                }
+                let endDate = (new Date(params.data.exeTime)).setDate((new Date(params.data.exeTime)).getDate() + endDay);
+                return dateUtil.formatDate(endDate, 'yyyy-MM-dd')
+            }
+        },
     ],
     defaultColDef: {
         filter: true,
