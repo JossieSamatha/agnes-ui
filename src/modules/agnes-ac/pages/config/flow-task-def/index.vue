@@ -312,6 +312,7 @@
                 const p = this.$api.caseConfigApi.selectTaskCaseBody(row.caseDefId)
                 let  rep = await this.$app.blockingApp(p);
                 row.caseDefBody = rep.data.caseDefBody;
+                row.isCheckCode = true;
                 const rowData =  JSON.stringify(row);
                 this.exportRaw(fileName,rowData);
             },

@@ -82,7 +82,7 @@
                 </section>
                 <section class="module-container">
                     <p class="module-title">产品任务</p>
-                    <el-tabs class="none-border-tabs" value="成立">
+                    <el-tabs class="none-border-tabs task-tabs" value="成立">
                             <el-tab-pane v-for="(item, index) in proTaskArr" :key="index" :name="item.label" lazy >
                                 <span slot="label">
                                     <el-badge :value="item.num" :hidden="!item.num">
@@ -104,7 +104,7 @@
                                                 <div class="card-left">
                                                     <p class="title">
                                                         <span>{{bizItem.prdtName}}</span>
-                                                        <span class="time">{{subStrTime(bizItem.startTime)}}-{{subStrTime(bizItem.endTime)}}</span>
+                                                        <span class="time">{{subStrTime(bizItem.execStartTime)}}-{{subStrTime(bizItem.execEndTime)}}</span>
                                                     </p>
                                                     <div class="content">
                                                         <div class="stage-item" v-for="stage in bizItem.stageList" :key="stage.pkId">
@@ -271,10 +271,13 @@
                 const resp = await this.$app.blockingApp(p);
                 if(resp.data){
                     this.prdtData = resp.data;
-                    this.proTaskArr.push({label: '成立',num: this.prdtData.establish.length,taskData:this.prdtData.establish});
-                    this.proTaskArr.push({label: '开放',num: this.prdtData.open.length,taskData:this.prdtData.open});
-                    this.proTaskArr.push({label: '分红',num: this.prdtData.aBonus.length,taskData:this.prdtData.aBonus});
-                    this.proTaskArr.push({label: '考核',num: this.prdtData.check.length,taskData:this.prdtData.check});
+                    if(this.prdtData.dictTypes){
+                        this.prdtData.dictTypes.forEach((item,index)=>{
+                            let num = item.taskList?item.taskList.length:0;
+                            let taskData = item.taskList?item.taskList:[];
+                            this.proTaskArr.push({label: item.lable,key:index,num: num,taskData:taskData});
+                        });
+                    }
                 }
             },
             showStageDetail(params) {
@@ -394,7 +397,9 @@
     .monitor-pages .elec-process > .section .section-title.red::before {
         background: #F5222E;
     }
-
+    .none-border-tabs.task-tabs.el-tabs >>> .el-tabs__header .el-tabs__nav {
+        width: auto;
+    }
     .none-border-tabs >>> .el-badge .el-badge__content {
         top: -3px;
         left: calc(100% - 5px);

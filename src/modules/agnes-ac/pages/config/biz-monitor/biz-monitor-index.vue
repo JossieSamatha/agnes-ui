@@ -46,9 +46,9 @@
                     <div class="elec-process">
                         <section class="module-container">
                             <section class="section">
-                              <div class="section-title">业务事件流程</div>
+                              <div class="section-title">作业流程</div>
                               <div class="card-container new-style double"
-                                   :style="{height: foldEventContainer ? '185px' : eventHeight,transition: '1s'}">
+                                   :style="{height: foldEventContainer ? '386px' : eventHeight,transition: '1s'}">
                                 <span v-if="bizEventData.length === 0"> 暂无数据</span>
                                 <div v-for="bizItem in bizEventData" :key="bizItem.pkId">
                                   <div class="card-item" @click="showDetail(bizItem)">
@@ -60,13 +60,14 @@
                                             tagStatus[bizItem.taskStatus]
                                           }}</span>
                                       </p>
-                                          <div class="content">
-                                            <div><span>{{ getBizType(bizItem.bizType) }}</span>
-                                              <p style="margin: 0 8px;border-right: 1px solid #666"></p>
-                                              <span>{{ getBizTag(bizItem.bizTag) }}</span>
-                                            </div>
-                                                    <div><span>{{bizItem.dateTime}}</span></div>
-                                                </div>
+                                      <div class="content">
+                                        <div>
+                                          <span>{{ getBizType(bizItem.bizType) }}</span>
+                                          <p style="margin: 0 8px;border-right: 1px solid #666;height: 16px"></p>
+                                          <span>{{ getBizTag(bizItem.bizTag) }}</span>
+                                        </div>
+                                        <div><span>{{ getDateTime(bizItem) }}</span></div>
+                                      </div>
                                             </div>
                                             <div class="card-right">
                                                 <el-progress class="define-progress"
@@ -91,53 +92,53 @@
                                     <em class="iconfont icon-double-arrow-up" v-else></em>
                                 </p>
                             </section>
-                          <section class="section">
-                            <div class="section-title">日常作业流程</div>
-                            <div class="card-container new-style double"
-                                 :style="{height: foldWorkContainer ? '185px' : dailyHeight,transition: '1s'}">
-                              <span v-if="diaryWorkData.length === 0"> 暂无数据</span>
-                              <div v-for="diaryItem in diaryWorkData" :key="diaryItem.pkId">
-                                <div class="card-item" @click="showDetail(diaryItem)">
-                                  <div class="card-left">
-                                    <p class="title">
-                                      <span clas="name">{{ diaryItem.taskName }}</span>
-                                      <span class="status"
-                                            :class="getStatusKey(diaryItem.taskStatus)">{{
-                                          tagStatus[diaryItem.taskStatus]
-                                        }}</span>
-                                    </p>
-                                    <div class="content">
-                                      <div><span>{{ getBizType(diaryItem.bizType) }}</span>
-                                        <p style="margin: 0 8px;border-right: 1px solid #666"></p>
-                                              <span>{{ getBizTag(diaryItem.bizTag) }}</span>
-                                            </div>
-                                                    <div><span>{{diaryItem.dateTime}}</span></div>
-                                                </div>
-                                            </div>
-                                            <div class="card-right">
-                                                <el-progress class="define-progress"
-                                                             type="circle"
-                                                             :percentage="getPercentage(diaryItem.percentage)"
-                                                             :color="getStatusColor('02')"
-                                                             :style="{color: getStatusColor('02')}"
-                                                             :width="72"
-                                                             :stroke-width="10"
-                                                ></el-progress>
-                                                <div class="stage-item-title">完成进度</div>
-                                            </div>
-                                        </div>
-                                      <div class="bottom">
-                                        <el-button size="mini" @click="commitTask(diaryItem)">强制通过</el-button>
-                                        <!--                                            <el-button size="mini">重新执行</el-button>-->
-                                      </div>
-                                    </div>
-                                </div>
-                                <p class="fold-arrow" v-if="diaryWorkData.length>2" @click="foldWorkContainer = !foldWorkContainer">
-                                    <em class="iconfont icon-double-arrow-down" v-if="foldWorkContainer"></em>
-                                    <em class="iconfont icon-double-arrow-up" v-else></em>
-                                </p>
-                            </section>
-                            <section class="section risk">
+                          <!--                          <section class="section">-->
+                          <!--                            <div class="section-title">日常作业流程</div>-->
+                          <!--                            <div class="card-container new-style double"-->
+                          <!--                                 :style="{height: foldWorkContainer ? '185px' : dailyHeight,transition: '1s'}">-->
+                          <!--                              <span v-if="diaryWorkData.length === 0"> 暂无数据</span>-->
+                          <!--                              <div v-for="diaryItem in diaryWorkData" :key="diaryItem.pkId">-->
+                          <!--                                <div class="card-item" @click="showDetail(diaryItem)">-->
+                          <!--                                  <div class="card-left">-->
+                          <!--                                    <p class="title">-->
+                          <!--                                      <span clas="name">{{ diaryItem.taskName }}</span>-->
+                          <!--                                      <span class="status"-->
+                          <!--                                            :class="getStatusKey(diaryItem.taskStatus)">{{-->
+                          <!--                                          tagStatus[diaryItem.taskStatus]-->
+                          <!--                                        }}</span>-->
+                          <!--                                    </p>-->
+                          <!--                                    <div class="content">-->
+                          <!--                                      <div><span>{{ getBizType(diaryItem.bizType) }}</span>-->
+                          <!--                                        <p style="margin: 0 8px;border-right: 1px solid #666"></p>-->
+                          <!--                                              <span>{{ getBizTag(diaryItem.bizTag) }}</span>-->
+                          <!--                                            </div>-->
+                          <!--                                                    <div><span>{{diaryItem.dateTime}}</span></div>-->
+                          <!--                                                </div>-->
+                          <!--                                            </div>-->
+                          <!--                                            <div class="card-right">-->
+                          <!--                                                <el-progress class="define-progress"-->
+                          <!--                                                             type="circle"-->
+                          <!--                                                             :percentage="getPercentage(diaryItem.percentage)"-->
+                          <!--                                                             :color="getStatusColor('02')"-->
+                          <!--                                                             :style="{color: getStatusColor('02')}"-->
+                          <!--                                                             :width="72"-->
+                          <!--                                                             :stroke-width="10"-->
+                          <!--                                                ></el-progress>-->
+                          <!--                                                <div class="stage-item-title">完成进度</div>-->
+                          <!--                                            </div>-->
+                          <!--                                        </div>-->
+                          <!--                                      <div class="bottom">-->
+                          <!--                                        <el-button size="mini" @click="commitTask(diaryItem)">强制通过</el-button>-->
+                          <!--                                        &lt;!&ndash;                                            <el-button size="mini">重新执行</el-button>&ndash;&gt;-->
+                          <!--                                      </div>-->
+                          <!--                                    </div>-->
+                          <!--                                </div>-->
+                          <!--                                <p class="fold-arrow" v-if="diaryWorkData.length>2" @click="foldWorkContainer = !foldWorkContainer">-->
+                          <!--                                    <em class="iconfont icon-double-arrow-down" v-if="foldWorkContainer"></em>-->
+                          <!--                                    <em class="iconfont icon-double-arrow-up" v-else></em>-->
+                          <!--                                </p>-->
+                          <!--                            </section>-->
+                          <section class="section risk">
                                 <div class="section-title red">
                                     <span>风险事项</span>
                                 </div>
@@ -222,7 +223,7 @@
           foldEventContainer: true,
           foldWorkContainer: true,
           dailyHeight: '185px',
-          eventHeight: '185px',
+          eventHeight: '386px',
           riskNumArr: [
             {label: '风险事件总数', key: 'total', color: '#4A8EF0'},
             {label: '已处理件数', key: 'finishd', color: '#52C41C'},
@@ -291,14 +292,25 @@
             const resp = await this.$app.blockingApp(p);
             if (resp && resp.data) {
               this.bizEventData = resp.data.bizEventData;
-              this.diaryWorkData = resp.data.diaryWorkData;
-              if (this.diaryWorkData.length > 0) {
-                this.dailyHeight = Math.ceil(this.diaryWorkData.length / 2) * 193 + 'px';
-              }
               if (this.bizEventData.length > 0) {
                 this.eventHeight = Math.ceil(this.eventHeight.length / 2) * 193 + 'px';
               }
             }
+          },
+          getDateTime(param) {
+            let startTime = ''
+            let endTime = ''
+            if (param.execStartTime) {
+              startTime = param.execStartTime;
+            } else {
+              startTime = this.$dateUtils.formatDate(((new Date(param.exeTime)).setDate((new Date(param.exeTime)).getDate() + param.minStartDay)), 'yyyy-MM-dd');
+            }
+            if (param.execEndTime) {
+              endTime = param.execEndTime;
+            } else {
+              endTime = this.$dateUtils.formatDate(((new Date(param.exeTime)).setDate((new Date(param.exeTime)).getDate() + param.maxEndDay)), 'yyyy-MM-dd');
+            }
+            return startTime + '/' + endTime;
           },
           changeDateTime(param) {
             this.queryArgs.startBizDate = ''
@@ -326,6 +338,10 @@
             this.ifGridExpand = false;
           },
           async commitTask(params) {
+            if (params.taskStatus === '06' || params.taskStatus === '07') {
+              this.$msg.warning('任务已完成');
+              return;
+            }
             let taskCommit = {};
             taskCommit.caseId = params.caseId;
             taskCommit.bizDate = window.bizDate;

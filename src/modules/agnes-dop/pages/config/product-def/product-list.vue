@@ -99,6 +99,7 @@
                 okButtonVisible: isShow,
                 okButtonTitle: row.isCheck ? "复核" : '保存',
                 cancelButtonTitle: '取消',
+                pageEl: this.$el
               });
             },
             async onAddLoad() {

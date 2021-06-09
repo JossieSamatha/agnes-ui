@@ -337,8 +337,8 @@
                 </el-button>
               </el-form-item>
               <el-form-item label="预警时间">提前
-                <gf-input style="width: 30%" v-model="detailForm.warningMintues"></gf-input>
-                <el-select placeholder="请选择" v-model="detailForm.warningTimeType">
+                <gf-input style="width: 40%" v-model="detailForm.warningMintues"></gf-input>
+                <el-select style="width: 20%" placeholder="请选择" v-model="detailForm.warningTimeType">
                   <el-option
                       :key="item.value"
                       :label="item.label"
@@ -455,6 +455,7 @@
         </el-button>
       </el-form-item>
       <el-form-item label="任务控制参数">
+        <gf-strbool-checkbox v-model="detailForm.needApprove">是否需要复核</gf-strbool-checkbox>
         <gf-strbool-checkbox @change="stepInitTypeChange2" v-model="stepInitTypeBox1">任务分发</gf-strbool-checkbox>
       </el-form-item>
     </template>
