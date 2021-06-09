@@ -189,8 +189,8 @@
                                 </el-button>
                             </el-form-item>
                             <el-form-item label="预警时间">提前
-                                <gf-input v-model="caseStepDef.warningMintues" style="width: 30%"></gf-input>
-                                <el-select v-model="timeType" placeholder="请选择">
+                                <gf-input v-model="caseStepDef.warningMintues" style="width: 40%"></gf-input>
+                                <el-select style="width: 20%" v-model="timeType" placeholder="请选择">
                                     <el-option
                                             v-for="item in timeTypeData"
                                             :key="item.value"

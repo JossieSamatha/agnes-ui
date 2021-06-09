@@ -259,6 +259,9 @@
                 }
             },
             showDetail(param){
+                if(param.colDef.field.match(/prdtName|percentage|execStartTime|execEndTime/)){
+                    return;
+                }
                 let pkId = param.colDef.field;
                 let title = [];
                 title.push(param.data.taskName+'-'+param.data.prdtName)
