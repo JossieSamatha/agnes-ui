@@ -81,7 +81,11 @@ export default {
         line-height: 32px;
         font-size: 16px;
     }
-   
+
+    .tree-comp .input-box >>> .el-input--suffix {
+        display: none;
+    }
+
    .tree-comp .el-tree {
         /* flex: 1; */
         max-height: 100%;
