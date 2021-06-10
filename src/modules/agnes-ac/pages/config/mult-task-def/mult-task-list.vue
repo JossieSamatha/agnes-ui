@@ -97,7 +97,7 @@
                 }
             },
             async showDrawer(mode, row, actionOk) {
-                if(!row.reTaskDef.taskType.match(/2|8/)){
+                if(mode!='add' && !row.reTaskDef.taskType.match(/2|8/)){
                     const p = this.$api.caseConfigApi.selectTaskCaseBody(row.caseDefId)
                     let  rep = await this.$app.blockingApp(p);
                     row.caseDefBody = rep.data.caseDefBody;

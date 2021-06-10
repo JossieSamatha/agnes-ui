@@ -82,8 +82,8 @@
                 </section>
                 <section class="module-container">
                     <p class="module-title">产品任务</p>
-                    <el-tabs class="none-border-tabs task-tabs" value="成立">
-                            <el-tab-pane v-for="(item, index) in proTaskArr" :key="index" :name="item.label" lazy >
+                    <el-tabs class="none-border-tabs task-tabs" v-model="tabIndex">
+                            <el-tab-pane v-for="item in proTaskArr" :key="item.key" :name="item.key" >
                                 <span slot="label">
                                     <el-badge :value="item.num" :hidden="!item.num">
                                         <span>{{item.label}}</span>
@@ -202,6 +202,7 @@
                 }],
                 oneTreePrdtCode:'',
                 twoTreePrdtCode:'',
+                tabIndex:'all',
                 prdtCode:'',
                 prdtData:{},
                 riskNum: {},
@@ -269,14 +270,20 @@
                 }
                 const p = this.$api.bizMonitorApi.getPrdtMonitorData({productCode:code});
                 const resp = await this.$app.blockingApp(p);
+                this.tabIndex='all';
                 if(resp.data){
                     this.prdtData = resp.data;
                     if(this.prdtData.dictTypes){
-                        this.prdtData.dictTypes.forEach((item,index)=>{
+                        let allTasks = [];
+                        this.prdtData.dictTypes.forEach(item=>{
                             let num = item.taskList?item.taskList.length:0;
                             let taskData = item.taskList?item.taskList:[];
-                            this.proTaskArr.push({label: item.lable,key:index,num: num,taskData:taskData});
+                            if(item.taskList){
+                                allTasks = allTasks.concat(item.taskList);
+                            }
+                            this.proTaskArr.push({label: item.lable,key:item.id,num: num,taskData:taskData});
                         });
+                        this.proTaskArr.splice(0,0,{label:'全部',key:"all",num: allTasks.length,taskData:allTasks});
                     }
                 }
             },
