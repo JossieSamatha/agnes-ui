@@ -229,7 +229,7 @@
         },
         methods: {
             async initTreeData(){
-                const p = this.$api.bizMonitorApi.getTreeData("prdt");
+                const p = this.$api.bizMonitorApi.getTreeData({type:"prdt"});
                 const resp = await this.$app.blockingApp(p);
                 if(resp.data){
                     this.mockTreeData = JSON.parse(JSON.stringify(resp.data));

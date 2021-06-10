@@ -143,7 +143,7 @@
           this.queryArgs.productCodes = prdtCodes;
         },
         async initTreeData() {
-          const p2 = this.$api.bizMonitorApi.getTreeData("prdt");
+          const p2 = this.$api.bizMonitorApi.getTreeData({type:"prdt"});
           const resp2 = await this.$app.blockingApp(p2);
           if (resp2.data) {
             this.mockTreeData = resp2.data;

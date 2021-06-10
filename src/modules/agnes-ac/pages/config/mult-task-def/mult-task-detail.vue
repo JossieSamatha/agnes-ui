@@ -1107,11 +1107,13 @@ export default {
                 }
             },
     async getCaseBody(caseDefId){
-      if(caseDefId){
+      if(caseDefId && !this.row.caseDefBody){
         const p = this.$api.caseConfigApi.selectTaskCaseBody(caseDefId)
         let  rep = await this.$app.blockingApp(p);
-        this.caseModelData  = rep.data.caseDefBody;
-        this.row.caseDefBody  = rep.data.caseDefBody;
+        if(rep.data.caseDefBody){
+          this.caseModelData  = rep.data.caseDefBody;
+          this.row.caseDefBody  = rep.data.caseDefBody;
+        }
       }
     },
     keyToValue(obj, type) {
@@ -1224,9 +1226,9 @@ export default {
             'detailForm.task_execMode'(val) {
               this.hasEventParam = false;
               this.eventParam = [];
-              this.eventKey = '';
               if (val === '2') {
                 this.detailForm.eventId = '';
+                this.eventKey = '';
               } else if (val === '3') {
                 this.detailForm.task_execScheduler = ''
               } else {

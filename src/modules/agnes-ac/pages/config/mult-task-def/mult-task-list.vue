@@ -96,7 +96,12 @@
                     this.isCheckOne = false;
                 }
             },
-            showDrawer(mode, row, actionOk) {
+            async showDrawer(mode, row, actionOk) {
+                if(!row.reTaskDef.taskType.match(/2|8/)){
+                    const p = this.$api.caseConfigApi.selectTaskCaseBody(row.caseDefId)
+                    let  rep = await this.$app.blockingApp(p);
+                    row.caseDefBody = rep.data.caseDefBody;
+                }
                 if (mode !== 'add' && !row) {
                     this.$msg.warning("请选中一条记录!");
                     return;
@@ -297,18 +302,23 @@
                 this.fakeClick(save_link);
             },
             async importFlow(file){
+                let fileName = file.name;
+                if(!fileName.endsWith(".txt")){
+                    this.$msg.warning("请导入TXT文件！");
+                    return ;
+                }
                 let reader = new FileReader()
                 reader.readAsText(file.raw)
                 let data;
                 reader.onload = async (e) => {
-                    data = JSON.parse(e.target.result);
-                    const p = this.$api.taskDefineApi.queryTaskByCaseId(data.reTaskDef.caseKey)
-                    const resp = await this.$app.blockingApp(p);
-                    if(resp.data){
-                        this.$msg.warning("["+data.reTaskDef.caseKey+"]-已存在该任务");
-                        return ;
-                    }
                     try {
+                        data = JSON.parse(e.target.result);
+                        const p = this.$api.taskDefineApi.queryTaskByCaseId(data.reTaskDef.caseKey)
+                        const resp = await this.$app.blockingApp(p);
+                        if(resp.data){
+                            this.$msg.warning("["+data.reTaskDef.caseKey+"]-已存在该任务");
+                            return ;
+                        }
                         await this.$api.flowTaskApi.saveFlowTask(data);
                         if (this.actionOk) {
                             await this.actionOk();
