@@ -1,8 +1,8 @@
 import request from '@hex/gf-ui/src/util/request';
 
 export default {
-    getTreeData(type) {
-        return request.post("/agnes-app/v1/prdt/info/get/tree-data", null, {params: {type}});
+    getTreeData(from) {
+        return request.post("/agnes-app/v1/prdt/info/get/tree-data", from);
     },
     getPrdtMonitorData(form) {
         return request.post("/agnes-ac/v1/ac/monitoring/station/get/prdt-monitor/info", form);

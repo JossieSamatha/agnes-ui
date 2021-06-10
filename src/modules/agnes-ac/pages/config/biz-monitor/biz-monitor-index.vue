@@ -266,7 +266,7 @@
         },
         methods: {
           async initTree() {
-            const p = this.$api.bizMonitorApi.getTreeData("group");
+            const p = this.$api.bizMonitorApi.getTreeData({type:"group"});
             const resp = await this.$app.blockingApp(p);
             if (resp.data) {
               this.treeData = resp.data;
@@ -286,14 +286,13 @@
           async initTask() {
             this.bizEventData = [];
             this.diaryWorkData = [];
-            this.dailyHeight = '185px'
-            this.eventHeight = '185px'
+            this.eventHeight = '386px'
             const p = this.$api.bizMonitorApi.queryProcessTasks(this.queryArgs);
             const resp = await this.$app.blockingApp(p);
             if (resp && resp.data) {
               this.bizEventData = resp.data.bizEventData;
               if (this.bizEventData.length > 0) {
-                this.eventHeight = Math.ceil(this.eventHeight.length / 2) * 193 + 'px';
+                this.eventHeight = Math.ceil(this.bizEventData.length / 2) * 193 + 'px';
               }
             }
           },

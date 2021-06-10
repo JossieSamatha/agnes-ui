@@ -244,7 +244,7 @@
                 if(resp1.data){
                     this.riskNum = resp1.data;
                 }
-                const p2 = this.$api.bizMonitorApi.getTreeData("prdt");
+                const p2 = this.$api.bizMonitorApi.getTreeData({type:"prdt",isChecked:'1'});
                 const resp2 = await this.$app.blockingApp(p2);
                 if(resp2.data){
                     this.mockTreeData = resp2.data;
@@ -329,7 +329,8 @@
             },
 
             subStrTime(time){
-                return time.substr(0, 10);
+                // return time.substr(0, 10);
+                return time;
             }
         }
     }
