@@ -431,7 +431,7 @@
                         {required: true, message: '基准日期必填', trigger: 'change'},
                     ],
                     stepLevel: [
-                        {required: true, message: '任务等级必填', trigger: 'change'},
+                        {required: true, message: '任务等级必填', trigger: 'blur'},
                     ],
                     stepCode: [
                         {validator: this.hasRepetCode, required: true, trigger: 'change'},
@@ -524,7 +524,7 @@
             },
 
             async getParamList(){
-                let repData = {caseKey:this.args.caseKey,stepCode:this.caseStepDef.stepCode};
+                let repData = {caseKey:this.args.caseKey?this.args.caseKey:'',stepCode:this.caseStepDef.stepCode};
                 const c = this.$api.motConfigApi.queryReCaseParams(repData);
                 const resp = await this.$app.blockingApp(c);
                 if(resp.data){
@@ -651,7 +651,7 @@
                 this.stepInfo.stepActType = this.args.stepData;
                 this.resetFormFields();
                 this.bizType = this.args.bizType;
-                this.caseKey = this.args.caseKey;
+                this.caseKey = this.args.caseKey?this.args.caseKey:'';
                 this.bizTagArr = this.args.bizTagArr;
             },
 
@@ -707,6 +707,10 @@
             async saveForm() {
                 try {
                     if(this.stepInfo.stepActType=='6'){
+                        if(!this.caseStepDef.stepCode){
+                            this.$message.warning("请填写step编号！");
+                            return ;
+                        }
                         let resData = {
                             paramList : this.paramList,
                             reTaskDef:{caseKey:this.caseKey},
