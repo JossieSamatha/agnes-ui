@@ -118,13 +118,13 @@
             this.$emit("onClose");
           },
           getDateTime(params) {
-            let startDay = "0"
-            let endDay = "0";
+            let startDay = 0
+            let endDay = 0;
             if (params.startDay) {
-              startDay = params.startDay;
+              startDay = parseInt(params.startDay);
             }
             if (params.endDay) {
-              endDay = params.endDay;
+              endDay = parseInt(params.endDay);
             }
             let startDate = (new Date(params.exeTime)).setDate((new Date(params.exeTime)).getDate() + startDay);
             let startTime = this.$dateUtils.formatDate(startDate, 'yyyy-MM-dd') + ' ' + params.startTime;

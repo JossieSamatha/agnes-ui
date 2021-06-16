@@ -743,7 +743,7 @@
                     } catch (reason) {
                         this.$msg.error(reason);
                     }
-                if(this.stepInfo.stepFormInfo.caseStepDef.stepActOwner == '[]'){
+                if(!this.stepInfo.stepFormInfo.caseStepDef.stepActOwner){
                     this.$message.warning("请选择通知人员！");
                     return ;
                 }
