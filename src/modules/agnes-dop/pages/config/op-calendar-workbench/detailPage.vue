@@ -248,7 +248,7 @@
             taskCommit.stepInfo.jobId = params.data.jobId;
             taskCommit.inst.taskId = params.data.taskId;
             taskCommit.stepInfo.stepCode = params.data.stepCode;
-            taskCommit.stepInfo.bizDate = this.bizDate;
+            taskCommit.stepInfo.bizDate = window.bizDate;
             taskCommit.stepInfo.caseId = params.data.caseId;
             try {
               const p = this.$api.taskTodoApi.confirmKpiTask(taskCommit)
