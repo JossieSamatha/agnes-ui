@@ -43,9 +43,9 @@ export default {
                 if (params.data.stepExecStartTime) {
                     return params.data.stepExecStartTime;
                 }
-                let startDay = "0"
+                let startDay = 0
                 if (params.data.startDay) {
-                    startDay = params.data.startDay;
+                    startDay = parseInt(params.data.startDay);
                 }
                 let startDate = (new Date(params.data.exeTime)).setDate((new Date(params.data.exeTime)).getDate() + startDay);
                 let startTime = dateUtil.formatDate(startDate, 'yyyy-MM-dd') + ' ' + params.data.startTime + ':00';
@@ -59,9 +59,9 @@ export default {
                 if (params.data.stepExecEndTime) {
                     return params.data.stepExecEndTime;
                 }
-                let endDay = "0"
+                let endDay = 0;
                 if (params.data.endDay) {
-                    endDay = params.data.endDay;
+                    endDay = parseInt(params.data.endDay);
                 }
                 let endDate = (new Date(params.data.exeTime)).setDate((new Date(params.data.exeTime)).getDate() + endDay);
                 let endTime = dateUtil.formatDate(endDate, 'yyyy-MM-dd') + ' ' + params.data.endTime + ':00';
