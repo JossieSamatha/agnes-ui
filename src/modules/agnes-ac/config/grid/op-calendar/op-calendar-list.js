@@ -38,25 +38,35 @@ export default {
             tooltipField: 'proportion',
         },
         {
-            headerName: "开始时间", field: "taskStartTime",
+            headerName: "开始时间", field: "stepExecStartTime",
             valueFormatter: function (params) {
+                if (params.data.stepExecStartTime) {
+                    return params.data.stepExecStartTime;
+                }
                 let startDay = "0"
                 if (params.data.startDay) {
                     startDay = params.data.startDay;
                 }
                 let startDate = (new Date(params.data.exeTime)).setDate((new Date(params.data.exeTime)).getDate() + startDay);
-                return dateUtil.formatDate(startDate, 'yyyy-MM-dd')
+                let startTime = dateUtil.formatDate(startDate, 'yyyy-MM-dd') + ' ' + params.data.startTime + ':00';
+                return startTime;
+
             }
         },
         {
-            headerName: "结束时间", field: "taskEndTime",
+            headerName: "结束时间", field: "stepExecEndTime",
             valueFormatter: function (params) {
+                if (params.data.stepExecEndTime) {
+                    return params.data.stepExecEndTime;
+                }
                 let endDay = "0"
                 if (params.data.endDay) {
                     endDay = params.data.endDay;
                 }
                 let endDate = (new Date(params.data.exeTime)).setDate((new Date(params.data.exeTime)).getDate() + endDay);
-                return dateUtil.formatDate(endDate, 'yyyy-MM-dd')
+                let endTime = dateUtil.formatDate(endDate, 'yyyy-MM-dd') + ' ' + params.data.endTime + ':00';
+
+                return endTime;
             }
         },
     ],
