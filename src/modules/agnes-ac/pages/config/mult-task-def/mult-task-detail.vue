@@ -1157,6 +1157,7 @@ export default {
         caseDefInfo = {
           reTaskDef: {
             bizType: '',
+            caseKey: '',
           }
         };
       } else {
@@ -1165,6 +1166,11 @@ export default {
       if (this.caseModelData) {
         caseDefInfo.caseDefBody = this.caseModelData;
       }
+      if(!this.detailForm.caseKey){
+        this.$message.warning("请先填写任务编号！");
+        return;
+      }
+      caseDefInfo.reTaskDef.caseKey = this.detailForm.caseKey;
       caseDefInfo.reTaskDef.bizType = this.detailForm.bizType;
       this.showFlowNode({caseDefInfo: caseDefInfo}, val, this.onEditFlowInfo.bind(this))
     },
