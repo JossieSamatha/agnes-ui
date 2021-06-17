@@ -248,7 +248,7 @@
                     // 默认加载第一项流程数据
                     this.choosedTaskId = this.proTask[0].taskId;
                     this.currentTaskObj = this.proTask[0];
-                    this.getFLowDetail(this.proTask[0].taskId, bizDate, true);
+                    this.getFLowDetail(this.proTask[0].taskId, bizDate, true,false);
                 } else {
                     this.proTask = [];
                     this.taskStage = [];
@@ -278,7 +278,7 @@
             },
 
             // 根据流程id及业务日期加载流程信息{"taskId":"","bizDate":""}、获取任务状态、获取执行情况
-            async getFLowDetail(taskId, bizDate, ifLoading) {
+            async getFLowDetail(taskId, bizDate, ifLoading,isRefresh) {
                 if (ifLoading) {
                     this.loading = true;
                 }
@@ -291,117 +291,122 @@
                     this.initGrid();
                     return ;
                 }
+                this.prdtCodes = [];
+                if(this.oneTreeData && this.oneTreeData.length>0){
+                    this.prdtCodes = this.prdtCodes.concat(this.oneTreeData);
+                }
+                if(this.twoTreeData && this.twoTreeData.length>0){
+                    this.prdtCodes = this.prdtCodes.concat(this.twoTreeData);
+                }
+                let flowDetailStr = null;
                 try {
-                    this.prdtCodes = [];
-                    if(this.oneTreeData && this.oneTreeData.length>0){
-                        this.prdtCodes = this.prdtCodes.concat(this.oneTreeData);
-                    }
-                    if(this.twoTreeData && this.twoTreeData.length>0){
-                        this.prdtCodes = this.prdtCodes.concat(this.twoTreeData);
-                    }
-                    const flowDetailStr = await this.$api.bizMonitorApi.getBizEventFlowListByPrdtCode({taskId, bizDate,prdtCodes:this.prdtCodes});
-
-                    if (flowDetailStr.data) {
-                        const flowDetailParse = flowDetailStr.data;
-                        if (flowDetailParse && flowDetailParse.caseStageVos.length > 0) {
-                            this.taskStage = flowDetailParse.caseStageVos;
-                            if (this.curStage && this.curStage.pkId) {
-                                const hasStage = this.$lodash.find(flowDetailParse.caseStageVos, {pkId: this.curStage.pkId});
-                                if (hasStage) {
-                                    this.curStage = hasStage;
-                                } else {
-                                    this.curStage = flowDetailParse.caseStageVos[0];
-                                }
+                    flowDetailStr = await this.$api.bizMonitorApi.getBizEventFlowListByPrdtCode({taskId, bizDate,prdtCodes:this.prdtCodes});
+                } catch (e) {
+                    this.$msg.error(e);
+                }
+                if (flowDetailStr && flowDetailStr.data) {
+                    const flowDetailParse = flowDetailStr.data;
+                    if (flowDetailParse && flowDetailParse.caseStageVos.length > 0) {
+                        this.taskStage = flowDetailParse.caseStageVos;
+                        if (this.curStage && this.curStage.pkId) {
+                            const hasStage = this.$lodash.find(flowDetailParse.caseStageVos, {pkId: this.curStage.pkId});
+                            if (hasStage) {
+                                this.curStage = hasStage;
                             } else {
                                 this.curStage = flowDetailParse.caseStageVos[0];
                             }
-                            this.loading = false;
-                            const columns = [];
-                            let firstColumn = {
-                                headerName: '产品名称',
-                                field: 'prdtName'
-                            };
-                            columns.push(firstColumn);
-                            this.taskStage.forEach((stage,index)=>{
-                                let column = {
-                                    headerName: stage.stageName,
-                                    field: stage.pkId,
-                                    cellStyle: function (params) {
-                                        if(params.data.stageList&&params.data.stageList[index]){
-                                            const colorSet = AcUtil.getStepStatusMap();
-                                            const status = params.data.stageList[index].stageStatus;
-                                            const color = colorSet.get(status).color
-                                            return {color: color};
-                                        }else {
-                                            return '#DFE1E5';
-                                        }
-                                    },
-                                    cellClass: ['fa fa-circle', 'status-circle-cell', 'link-cell'],
-                                    valueFormatter: function (params) {
-                                        let item = params.data;
-                                        if(item && item.stageList[index]){
-                                            let info = item.stageList[index].stageFinishdStepNum+"/"+item.stageList[index].stageToatlStepNum;
-                                            return info;
-                                        }else {
-                                            return '';
-                                        }
-                                    }
-                                };
-                                columns.push(column);
-                            });
-                            let percentageColumn ={
-                                        headerName: "完成进度", field: "percentage", enableRowGroup: false,
-                                        cellRenderer: 'processRenderer',
-                                        width: '120',
-                                        suppressSizeToFit: true,
-                                        tooltipField: 'proportion',
-                                    };
-                            columns.push(percentageColumn);
-                            let startTimeColumn = {
-                                headerName: '开始时间',
-                                field: 'execStartTime'
-                            };
-                            columns.push(startTimeColumn);
-                            let endTimeColumn = {
-                                headerName: '结束时间',
-                                field: 'execEndTime'
-                            };
-
-                            columns.push(endTimeColumn);
-                            if(this.gridOptions.api && columns){
-                                // this.gridOptions.columnDefs = columns;
-                                this.gridOptions.api.setColumnDefs(columns)
-                            }
-                            if(flowDetailParse.taskVos && flowDetailParse.taskVos.length>0){
-                                // this.gridOptions.rowData = flowDetailParse.taskVos;
-                                this.gridOptions.api.setRowData(flowDetailParse.taskVos)
-                            }else {
-                                this.gridOptions.api.setRowData([])
-                            }
                         } else {
-                            this.taskStage = [];
-                            this.executePieData = [];
-                            this.taskIdList = [];
-                            this.loading = false;
-                            this.initGrid();
+                            this.curStage = flowDetailParse.caseStageVos[0];
+                        }
+                        this.loading = false;
+                        if(!isRefresh){
+                            this.initColumns();
+                        }
+                        if(flowDetailParse.taskVos && flowDetailParse.taskVos.length>0){
+                            // this.gridOptions.rowData = flowDetailParse.taskVos;
+                            this.gridOptions.api.setRowData(flowDetailParse.taskVos)
+                        }else {
+                            this.gridOptions.api.setRowData([])
                         }
                     } else {
                         this.taskStage = [];
                         this.executePieData = [];
-                        this.execLog = [];
-                        this.initGrid();
+                        this.taskIdList = [];
                         this.loading = false;
+                        this.initGrid();
                     }
-                } catch (e) {
-                    this.$msg.error(e);
+                } else {
+                    this.taskStage = [];
+                    this.executePieData = [];
+                    this.execLog = [];
+                    this.initGrid();
+                    this.loading = false;
                 }
             },
 
+            initColumns(){
+                const columns = [];
+                let firstColumn = {
+                    headerName: '产品名称',
+                    field: 'prdtName'
+                };
+                columns.push(firstColumn);
+                this.taskStage.forEach((stage,index)=>{
+                    let column = {
+                        headerName: stage.stageName,
+                        field: stage.pkId,
+                        cellStyle: function (params) {
+                            if(params.data.stageList&&params.data.stageList[index]){
+                                const colorSet = AcUtil.getStepStatusMap();
+                                const status = params.data.stageList[index].stageStatus;
+                                const color = colorSet.get(status).color
+                                return {color: color};
+                            }else {
+                                return '#DFE1E5';
+                            }
+                        },
+                        cellClass: ['fa fa-circle', 'status-circle-cell', 'link-cell'],
+                        valueFormatter: function (params) {
+                            let item = params.data;
+                            if(item && item.stageList[index]){
+                                let info = item.stageList[index].stageFinishdStepNum+"/"+item.stageList[index].stageToatlStepNum;
+                                return info;
+                            }else {
+                                return '';
+                            }
+                        }
+                    };
+                    columns.push(column);
+                });
+                let percentageColumn ={
+                    headerName: "完成进度", field: "percentage", enableRowGroup: false,
+                    cellRenderer: 'processRenderer',
+                    width: '120',
+                    suppressSizeToFit: true,
+                    tooltipField: 'proportion',
+                };
+                columns.push(percentageColumn);
+                let startTimeColumn = {
+                    headerName: '开始时间',
+                    field: 'execStartTime'
+                };
+                columns.push(startTimeColumn);
+                let endTimeColumn = {
+                    headerName: '结束时间',
+                    field: 'execEndTime'
+                };
+
+                columns.push(endTimeColumn);
+                if(this.gridOptions.api && columns){
+                    // this.gridOptions.columnDefs = columns;
+                    this.gridOptions.api.setColumnDefs(columns)
+                }
+            },
             // 任务流程 -- 选择
             chooseTask() {
                 const taskId = this.choosedTaskId;
                 this.curStage = {};
-                this.getFLowDetail(taskId, this.bizDate, true);
+                this.getFLowDetail(taskId, this.bizDate, true,false);
                 this.currentTaskObj = this.$lodash.find(this.proTask, {taskId});
                 this.choosedTaskId = taskId;
             },
@@ -468,7 +473,7 @@
             },
 
             freshFlowData(ifLoading) {
-                this.getFLowDetail(this.choosedTaskId, this.bizDate, ifLoading);
+                this.getFLowDetail(this.choosedTaskId, this.bizDate, ifLoading,true);
             },
 
             getExecIcon(status) {
@@ -542,7 +547,7 @@
                         }
                     })
                 }
-                this.getFLowDetail(this.choosedTaskId, this.bizDate, true);
+                this.getFLowDetail(this.choosedTaskId, this.bizDate, true,true);
             },
 
             // 第二颗树勾选事件
@@ -556,7 +561,7 @@
                         }
                     })
                 }
-                this.getFLowDetail(this.choosedTaskId, this.bizDate, true);
+                this.getFLowDetail(this.choosedTaskId, this.bizDate, true,true);
             }
         },
     }
