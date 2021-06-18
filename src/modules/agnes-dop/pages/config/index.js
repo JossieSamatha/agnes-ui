@@ -33,6 +33,15 @@ import TransRule from "./trans-rule-def/index";
 import CustomQueryBasicInfo from "./custom-query/basic-info/index"
 import CustomQueryDetailList from "./custom-query/detail-list/index"
 import OpCalendarIndex from './op-calendar-workbench/op-calendar-index'
+import PerformancePerson from "./performance/person"
+import PerformanceTeam from "./performance/team"
+import PerformanceRisk from "./performance/risk"
+import PerformanceIndex from "./performance/index"
+import OverviewIndex from "./overview/index"
+import OverviewTa from "./overview/ta"
+import OverviewFa from "./overview/fa"
+import OverviewPay from "./overview/pay"
+import OverviewBusiness from "./overview/business"
 
 const Loading = {
     install: function (Vue) {
@@ -73,6 +82,15 @@ const Loading = {
         Gfui.componentView('agnes.dop.custom.query.basic.info', CustomQueryBasicInfo, {title: '规则基本信息'});
         Gfui.componentView('agnes.dop.custom.query.detail.list', CustomQueryDetailList, {title: '规则结果列表'});
         Gfui.componentView('agnes.op.calendar.workbench', OpCalendarIndex, {title: '运营日历工作台'});
+        Gfui.componentView('agnes.performance.person', PerformancePerson, {title: '个人排名'});
+        Gfui.componentView('agnes.performance.team', PerformanceTeam, {title: '团队概况'});
+        Gfui.componentView('agnes.performance.risk', PerformanceRisk, {title: '操作风险'});
+        Gfui.componentView('agnes.performance.index', PerformanceIndex, {title: '部门总览'});
+        Gfui.componentView('agnes.overview.index', OverviewIndex, {title: '运营总览'});
+        Gfui.componentView('agnes.overview.ta', OverviewTa, {title: 'TA大屏'});
+        Gfui.componentView('agnes.overview.fa', OverviewFa, {title: '估值大屏'});
+        Gfui.componentView('agnes.overview.pay', OverviewPay, {title: '清算大屏'});
+        Gfui.componentView('agnes.overview.business', OverviewBusiness, {title: '交易支持大屏'});
 
     }
 };
