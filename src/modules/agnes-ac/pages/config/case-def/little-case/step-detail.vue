@@ -6,79 +6,145 @@
         </div>
         <el-form ref="stepInfoForm" :disabled="optionType=='view'"  class="task-def-form" :rules="caseStepRules"
                  :model="caseStepDef" label-width="105px">
-            <el-form-item label="任务名称" prop="stepName">
-                <gf-input v-model.trim="caseStepDef.stepName" :max-byte-len="120"/>
-            </el-form-item>
-            <el-form-item label="任务等级" prop="stepLevel">
-                <el-rate v-model="caseStepDef.stepLevel"
-                         :max="max"
-                         show-text
-                         :texts="texts"
-                         :colors="rateColor"
-                >
-                </el-rate>
-                <em class="el-icon-refresh-left" @click="caseStepDef.stepLevel = 0" v-show="optionType!='view'"></em>
-            </el-form-item>
-            <el-form-item label="任务编号" prop="stepCode">
-                <gf-input v-model="caseStepDef.stepCode" clear-regex="[^0-9]" :max-byte-len="8" :min-byte-len="8"
-                          placeholder="任务编号仅支持8位数字"/>
-            </el-form-item>
-            <el-form-item label="业务场景" prop="bizType">
-                <gf-dict filterable clearable v-model="bizType" dict-type="AGNES_BIZ_CASE" :disabled="true"/>
-            </el-form-item>
-            <el-form-item label="业务标签" prop="bizTag">
-                <el-select class="multiple-select" v-model="caseStepDef.stepTag"
-                           multiple filterable clearable
-                           default-first-option placeholder="请选择">
-                    <gf-filter-option
-                            v-for="item in bizTagOption"
-                            :key="item.dictId"
-                            :label="item.dictName"
-                            :value="item.dictId">
-                    </gf-filter-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="任务说明" prop="stepRemark">
-                <gf-input v-model="caseStepDef.stepRemark" type="textarea"></gf-input>
-            </el-form-item>
-            <el-form-item label="执行开始时间" prop="step_startTime" style="width: 90%">
-                <div class="line none-shrink">
-                    <el-input v-model.number="caseStepDef.startDay" v-show="startDayChecked === '1'" style="width: 10%;margin-right: 10px"></el-input>
-                    <span v-show="startDayChecked === '1'" >天
-                </span>
-                    <el-time-picker
-                            v-model="caseStepDef.startTime"
-                            :picker-options=startTimeForDay
-                            placeholder="执行开始时间"
-                            value-format="HH:mm" @change="timeChange" style="margin-left: 10px">
-                    </el-time-picker>
-                    <gf-strbool-checkbox v-model="startDayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
-                </div>
-                <gf-strbool-checkbox v-model="startStepRuleChecked" style="margin-left: 10px">自定义激活规则</gf-strbool-checkbox>
-            </el-form-item>
-            <el-form-item v-if="startStepRuleChecked == '1'">
-                <rule-table :isDisable="optionType=='view'" ref="activeRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.activeRuleTableData"
-                            :ruleTargetOp="ruleTargetOp"></rule-table>
-            </el-form-item>
-            <el-form-item label="执行结束时间" prop="step_endTime" style="width: 90%">
-                <div class="line none-shrink">
-                    <el-input v-model.number="caseStepDef.endDay" v-show="endDayChecked === '1'" style="width: 10%;margin-right: 10px"></el-input>
-                    <span v-show="endDayChecked === '1'" >天
-                </span>
-                    <el-time-picker
-                            v-model="caseStepDef.endTime"
-                            :picker-options=endTimeForDay
-                            placeholder="执行结束时间"
-                            value-format="HH:mm" @change="timeChange" style="margin-left: 10px">
-                    </el-time-picker>
-                    <gf-strbool-checkbox v-model="endDayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
-                </div>
-                <gf-strbool-checkbox v-model="timeoutRuleChecked" style="margin-left: 10px">自定义超时规则</gf-strbool-checkbox>
-            </el-form-item>
-            <el-form-item v-if="timeoutRuleChecked == '1'">
-                <rule-table :isDisable="optionType=='view'" ref="timeoutRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.timeoutRuleTableData"></rule-table>
-            </el-form-item>
-            <el-form-item label="通知人员" prop="" v-if="stepInfo.stepActType !== '3'">
+            <module-card title="任务内容" shadow="never">
+                <template slot="content">
+                    <el-form-item label="任务名称" prop="stepName">
+                        <gf-input v-model.trim="caseStepDef.stepName" :max-byte-len="120"/>
+                    </el-form-item>
+                    <el-form-item label="任务编号" prop="stepCode">
+                        <gf-input v-model="caseStepDef.stepCode" clear-regex="[^0-9]" :max-byte-len="8" :min-byte-len="8"
+                                  placeholder="任务编号仅支持8位数字"/>
+                    </el-form-item>
+                    <el-form-item label="任务等级" prop="stepLevel">
+                        <el-rate v-model="caseStepDef.stepLevel"
+                                 :max="max"
+                                 show-text
+                                 :texts="texts"
+                                 :colors="rateColor"
+                        >
+                        </el-rate>
+                        <em class="el-icon-refresh-left" @click="caseStepDef.stepLevel = 0" v-show="optionType!='view'"></em>
+                    </el-form-item>
+                    <el-form-item label="任务说明" prop="stepRemark">
+                        <gf-input v-model="caseStepDef.stepRemark" type="textarea"></gf-input>
+                    </el-form-item>
+                    <el-form-item label="任务类型" prop="stepActType">
+                        <gf-dict v-model="stepInfo.stepActType" dictType="AGNES_CASE_STEPTYPE" @change="stepActTypeChange"></gf-dict>
+                    </el-form-item>
+                    <el-form-item v-if="stepInfo.stepActType === '1' || stepInfo.stepActType === '8'" label="执行逻辑选择" prop="stepActKey">
+                        <el-select style="width: 100%" v-model="caseStepDef.stepActKey" placeholder="请选择" filterable clearable>
+                            <gf-filter-option
+                                    v-for="item in kpiOptions"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </gf-filter-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item v-if="stepInfo.stepActType === '3'" label="流程定义选择" prop="stepActKey">
+                        <!--                <el-select v-model="caseStepDef.stepActKey" placeholder="请选择">-->
+                        <!--                    <el-option-->
+                        <!--                            v-for="item in bpmnOptions"-->
+                        <!--                            :key="item.value"-->
+                        <!--                            :label="item.label"-->
+                        <!--                            :value="item.value">-->
+                        <!--                    </el-option>-->
+                        <!--                </el-select>-->
+                        <el-input v-model="caseStepDef.stepActKey"></el-input>
+                    </el-form-item>
+                    <el-form-item v-if="stepInfo.stepActType === '4'" label="机器人选择" prop="stepActKey">
+                        <el-select style="width: 100%" v-model="caseStepDef.stepActKey" placeholder="请选择" filterable clearable>
+                            <gf-filter-option
+                                    v-for="item in rpaOptions"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </gf-filter-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item v-if="stepInfo.stepActType === '6'" label="回填参数">
+                        <div class="rule-table">
+                            <el-table header-row-class-name="rule-header-row"
+                                      header-cell-class-name="rule-header-cell"
+                                      row-class-name="rule-row"
+                                      cell-class-name="rule-cell"
+                                      :data="this.paramList"
+                                      border stripe
+                                      :header-cell-style="{'text-align':'center'}">
+                                style="width: 100%">
+                                <el-table-column prop="accNo" label="参数关键字">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.paramKey"></el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="accNo" label="参数名称">
+                                    <template slot-scope="scope">
+                                        <el-input v-model="scope.row.paramName"></el-input>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="market" label="参数类型">
+                                    <template slot-scope="scope">
+                                        <gf-dict filterable clearable v-model="scope.row.paramType" dict-type="TASK_DEF_DATATYPE"/>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column  prop="option" label="操作" width="52" align="center">
+                                    <template slot-scope="scope">
+                                        <span class="option-span" @click="deleteRuleRow(scope.$index)">删除</span>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                            <el-button  @click="addRule()" class="rule-add-btn" size="small">新增</el-button>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="执行频率配置" v-if="stepInfo.stepActType === '1' || stepInfo.stepActType === '4' || stepInfo.stepActType === '8'" prop="execScheduler">
+                        <el-button type="text" @click="editExecTime(caseStepDef.execScheduler,'执行频率配置')">
+                            {{caseStepDef.execScheduler}}点击配置
+                        </el-button>
+                    </el-form-item>
+
+                </template>
+            </module-card>
+
+            <module-card title="执行规则" shadow="never">
+                <template slot="content">
+                    <el-form-item label="执行开始时间" prop="step_startTime" style="width: 90%">
+                        <div class="line none-shrink">
+                            <el-input v-model.number="caseStepDef.startDay" v-show="startDayChecked === '1'" style="width: 10%;margin-right: 10px"></el-input>
+                            <span v-show="startDayChecked === '1'" >天
+                        </span>
+                            <el-time-picker
+                                    v-model="caseStepDef.startTime"
+                                    :picker-options=startTimeForDay
+                                    placeholder="执行开始时间"
+                                    value-format="HH:mm" @change="timeChange" style="margin-left: 10px">
+                            </el-time-picker>
+                            <gf-strbool-checkbox v-model="startDayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
+                        </div>
+                        <gf-strbool-checkbox v-model="startStepRuleChecked" style="margin-left: 10px">自定义激活规则</gf-strbool-checkbox>
+                    </el-form-item>
+                    <el-form-item v-if="startStepRuleChecked == '1'">
+                        <rule-table :isDisable="optionType=='view'" ref="activeRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.activeRuleTableData"
+                                    :ruleTargetOp="ruleTargetOp"></rule-table>
+                    </el-form-item>
+                    <el-form-item label="执行结束时间" prop="step_endTime" style="width: 90%">
+                        <div class="line none-shrink">
+                            <el-input v-model.number="caseStepDef.endDay" v-show="endDayChecked === '1'" style="width: 10%;margin-right: 10px"></el-input>
+                            <span v-show="endDayChecked === '1'" >天
+                        </span>
+                            <el-time-picker
+                                    v-model="caseStepDef.endTime"
+                                    :picker-options=endTimeForDay
+                                    placeholder="执行结束时间"
+                                    value-format="HH:mm" @change="timeChange" style="margin-left: 10px">
+                            </el-time-picker>
+                            <gf-strbool-checkbox v-model="endDayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
+                        </div>
+                        <gf-strbool-checkbox v-model="timeoutRuleChecked" style="margin-left: 10px">自定义超时规则</gf-strbool-checkbox>
+                    </el-form-item>
+                    <el-form-item v-if="timeoutRuleChecked == '1'">
+                        <rule-table :isDisable="optionType=='view'" ref="timeoutRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.timeoutRuleTableData"></rule-table>
+                    </el-form-item>
+                    <el-form-item label="执行人" prop="" v-if="stepInfo.stepActType !== '3'">
                 <gf-person-chosen ref="memberRef"
                                   :disabled="optionType=='view'"
                                   :memberRefList="this.memberRefList"
@@ -87,84 +153,42 @@
                                   @getMemberList="getMemberList">
                 </gf-person-chosen>
             </el-form-item>
-            <el-form-item label="任务类型" prop="stepActType">
-                <gf-dict v-model="stepInfo.stepActType" dictType="AGNES_CASE_STEPTYPE" @change="stepActTypeChange"></gf-dict>
-            </el-form-item>
-            <el-form-item v-if="stepInfo.stepActType === '1' || stepInfo.stepActType === '8'" label="执行逻辑选择" prop="stepActKey">
-                <el-select style="width: 100%" v-model="caseStepDef.stepActKey" placeholder="请选择" filterable clearable>
-                    <gf-filter-option
-                            v-for="item in kpiOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                    </gf-filter-option>
-                </el-select>
-            </el-form-item>
-          <el-form-item v-if="stepInfo.stepActType === '3'" label="流程定义选择" prop="stepActKey">
-            <!--                <el-select v-model="caseStepDef.stepActKey" placeholder="请选择">-->
-            <!--                    <el-option-->
-            <!--                            v-for="item in bpmnOptions"-->
-            <!--                            :key="item.value"-->
-            <!--                            :label="item.label"-->
-            <!--                            :value="item.value">-->
-            <!--                    </el-option>-->
-            <!--                </el-select>-->
-            <el-input v-model="caseStepDef.stepActKey"></el-input>
-          </el-form-item>
-            <el-form-item v-if="stepInfo.stepActType === '4'" label="机器人选择" prop="stepActKey">
-                <el-select style="width: 100%" v-model="caseStepDef.stepActKey" placeholder="请选择" filterable clearable>
-                    <gf-filter-option
-                            v-for="item in rpaOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                    </gf-filter-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item v-if="stepInfo.stepActType === '6'" label="回填参数">
-                <div class="rule-table">
-                    <el-table header-row-class-name="rule-header-row"
-                              header-cell-class-name="rule-header-cell"
-                              row-class-name="rule-row"
-                              cell-class-name="rule-cell"
-                              :data="this.paramList"
-                              border stripe
-                              :header-cell-style="{'text-align':'center'}">
-                        style="width: 100%">
-                        <el-table-column prop="accNo" label="参数关键字">
-                            <template slot-scope="scope">
-                                <el-input v-model="scope.row.paramKey"></el-input>
-                            </template>
-                        </el-table-column>
-                        <el-table-column prop="accNo" label="参数名称">
-                            <template slot-scope="scope">
-                                <el-input v-model="scope.row.paramName"></el-input>
-                            </template>
-                        </el-table-column>
-                        <el-table-column prop="market" label="参数类型">
-                            <template slot-scope="scope">
-                                <gf-dict filterable clearable v-model="scope.row.paramType" dict-type="TASK_DEF_DATATYPE"/>
-                            </template>
-                        </el-table-column>
-                        <el-table-column  prop="option" label="操作" width="52" align="center">
-                            <template slot-scope="scope">
-                                <span class="option-span" @click="deleteRuleRow(scope.$index)">删除</span>
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                    <el-button  @click="addRule()" class="rule-add-btn" size="small">新增</el-button>
-                </div>
-            </el-form-item>
-            <el-form-item label="执行频率配置" v-if="stepInfo.stepActType === '1' || stepInfo.stepActType === '4' || stepInfo.stepActType === '8'" prop="execScheduler">
-                <el-button type="text" @click="editExecTime(caseStepDef.execScheduler,'执行频率配置')">
-                    {{caseStepDef.execScheduler}}点击配置
-                </el-button>
-            </el-form-item>
-            <el-form-item label="任务控制参数">
-                <gf-strbool-checkbox v-model="caseStepDef.isTodo">是否进入待办</gf-strbool-checkbox>
-                <gf-strbool-checkbox v-model="caseStepDef.allowManualConfirm">是否允许人工干预通过</gf-strbool-checkbox>
-<!--                <gf-strbool-checkbox v-model="stepInitTypeBox1" @change="stepInitTypeChange1">任务分发</gf-strbool-checkbox>-->
-            </el-form-item>
+                    <el-form-item label="完成规则">
+                        <el-radio-group v-model="succeedRule">
+                            <el-radio v-for="ruleType in ruleTypeOp"
+                                      :key="ruleType.value"
+                                      :label="ruleType.value">
+                                {{ruleType.label}}
+                            </el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item v-if="succeedRule === '1'">
+                        <rule-table :isDisable="optionType=='view'" ref="successRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.successRuleTableData"
+                                    :ruleTargetOp="ruleTargetOp"></rule-table>
+                    </el-form-item>
+                    <el-form-item label="异常规则">
+                        <el-radio-group v-model="abnormalRule">
+                            <el-radio v-for="ruleType in ruleTypeOp"
+                                      :key="ruleType.value"
+                                      :label="ruleType.value">
+                                {{ruleType.label}}
+                            </el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item v-if="abnormalRule === '1'">
+                        <rule-table :isDisable="optionType=='view'" ref="failRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.failRuleTableData"
+                                    :ruleTargetOp="ruleTargetOp"></rule-table>
+                    </el-form-item>
+                    <el-form-item label="任务控制参数">
+                        <gf-strbool-checkbox v-model="caseStepDef.isTodo">是否进入待办</gf-strbool-checkbox>
+                        <gf-strbool-checkbox v-model="caseStepDef.allowManualConfirm">是否允许人工干预通过</gf-strbool-checkbox>
+                        <!--                <gf-strbool-checkbox v-model="stepInitTypeBox1" @change="stepInitTypeChange1">任务分发</gf-strbool-checkbox>-->
+                    </el-form-item>
+                </template>
+            </module-card>
+
+            <module-card title="消息通知" shadow="never">
+                <template slot="content">
             <el-form-item label="消息通知参数">
                 <span class="default-checked">系统内部消息</span>
                 <el-checkbox-group v-model="msgInformParam">
@@ -272,32 +296,8 @@
                     </el-tab-pane>
                 </el-tabs>
             </el-form-item>
-            <el-form-item label="完成规则">
-                <el-radio-group v-model="succeedRule">
-                    <el-radio v-for="ruleType in ruleTypeOp"
-                              :key="ruleType.value"
-                              :label="ruleType.value">
-                        {{ruleType.label}}
-                    </el-radio>
-                </el-radio-group>
-            </el-form-item>
-            <el-form-item v-if="succeedRule === '1'">
-                <rule-table :isDisable="optionType=='view'" ref="successRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.successRuleTableData"
-                            :ruleTargetOp="ruleTargetOp"></rule-table>
-            </el-form-item>
-            <el-form-item label="异常规则">
-                <el-radio-group v-model="abnormalRule">
-                    <el-radio v-for="ruleType in ruleTypeOp"
-                              :key="ruleType.value"
-                              :label="ruleType.value">
-                        {{ruleType.label}}
-                    </el-radio>
-                </el-radio-group>
-            </el-form-item>
-            <el-form-item v-if="abnormalRule === '1'">
-                <rule-table :isDisable="optionType=='view'" ref="failRuleTable" confType="fn,step,event" :ruleTableData="stepInfo.stepFormInfo.failRuleTableData"
-                            :ruleTargetOp="ruleTargetOp"></rule-table>
-            </el-form-item>
+                </template>
+            </module-card>
         </el-form>
     </div>
 </template>
@@ -648,7 +648,9 @@
 
             onCreateForm() {
                 this.stepInfo = resetForm();
-                this.stepInfo.stepActType = this.args.stepData;
+                if(this.args.stepData){
+                    this.stepInfo.stepActType = this.args.stepData;
+                }
                 this.resetFormFields();
                 this.bizType = this.args.bizType;
                 this.caseKey = this.args.caseKey?this.args.caseKey:'';
