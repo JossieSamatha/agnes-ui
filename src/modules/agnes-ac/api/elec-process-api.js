@@ -29,4 +29,9 @@ export default {
         return request.post("/agnes-remind/v1/remind/msg/query/msg/name", params);
     },
 
+    // 修改step结束时间
+    editStepPlanEndTime(params) {
+        return request.post("/agnes-ac/v1/ac/exec/process/edit/plan-end-time", params);
+    }
+
 };

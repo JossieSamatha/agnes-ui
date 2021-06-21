@@ -501,37 +501,57 @@
 
             // 查看指标详情
             showIndexDetail(params) {
-                const row = params.data;
-                this.$drawerPage.create({
-                    className: 'elec-dashboard-drawer',
-                    width: 'calc(100% - 250px)',
-                    title: [row.stepName],
-                    component: 'monitor-detail-page',
-                    args: {stepCode: row.stepCode, stepActKey: row.stepActKey, bizDate: this.bizDate, status: 3},
-                    cancelButtonTitle: '返回',
-                    okButtonVisible: false
-                });
+              const row = params.data;
+              this.$drawerPage.create({
+                className: 'elec-dashboard-drawer',
+                width: 'calc(100% - 250px)',
+                title: [row.stepName],
+                component: 'monitor-detail-page',
+                args: {stepCode: row.stepCode, stepActKey: row.stepActKey, bizDate: this.bizDate, status: 3},
+                cancelButtonTitle: '返回',
+                okButtonVisible: false
+              });
             },
+          async editEndTime(params) {
+            let form = {
+              stepExecId: '',
+              planEndTime: ''
+            };
+            form.stepExecId = params.data.stepExecId;
+            form.planEndTime = params.data.planEndTime;
+            try {
+              const p = this.$api.elecProcessApi.editStepPlanEndTime(form)
+              await this.$app.blockingApp(p);
+              if (this.actionOk) {
+                await this.actionOk();
+              }
+              this.$msg.success('修改成功');
+              this.freshFlowData(false); // 刷新页面数据
+              this.$emit("onClose");
+            } catch (e) {
+              this.$msg.error(e);
+            }
+          },
 
-            // 获取任务进度
-            getTaskScheduler() {
-                let executePieData = [];
-                let completeCnt = Math.floor(Math.random() * 100);
-                let uncompleteCnt = 100 - completeCnt;
-                executePieData = [
-                    {name: '完成', value: completeCnt},
-                    {name: '未完成', value: uncompleteCnt}
-                ];
-                this.executePieData = executePieData;
-            },
+          // 获取任务进度
+          getTaskScheduler() {
+            let executePieData = [];
+            let completeCnt = Math.floor(Math.random() * 100);
+            let uncompleteCnt = 100 - completeCnt;
+            executePieData = [
+              {name: '完成', value: completeCnt},
+              {name: '未完成', value: uncompleteCnt}
+            ];
+            this.executePieData = executePieData;
+          },
 
-            // 获取执行情况
-            async getExecuteData(taskIds, msgType) {
-                const resp = await this.$api.elecProcessApi.getMsgNameAndType({taskIds, msgType});
-                if (resp.data) {
-                    this.execLog = resp.data;
-                } else {
-                    this.execLog = [];
+          // 获取执行情况
+          async getExecuteData(taskIds, msgType) {
+            const resp = await this.$api.elecProcessApi.getMsgNameAndType({taskIds, msgType});
+            if (resp.data) {
+              this.execLog = resp.data;
+            } else {
+              this.execLog = [];
                 }
             },
 

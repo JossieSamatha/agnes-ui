@@ -168,6 +168,26 @@
           //     }
           //     this.$refs.subRemindGrid.setRowData(rowDate);
           // }
+          async editEndTime(params) {
+            let form = {
+              stepExecId: '',
+              planEndTime: ''
+            };
+            form.stepExecId = params.data.stepExecId;
+            form.planEndTime = params.data.planEndTime;
+            try {
+              const p = this.$api.elecProcessApi.editStepPlanEndTime(form)
+              await this.$app.blockingApp(p);
+              if (this.actionOk) {
+                await this.actionOk();
+              }
+              this.$msg.success('修改成功');
+              this.freshFlowData(false); // 刷新页面数据
+              this.$emit("onClose");
+            } catch (e) {
+              this.$msg.error(e);
+            }
+          },
           // 查看指标详情
           showIndexDetail(params) {
             const row = params.data;
