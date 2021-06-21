@@ -29,22 +29,31 @@
                                     <el-input v-model="scope.row.paramNumber" oninput="value=value.replace(/[^\d]/g,'')"
                                               maxLength='9' placeholder="请输入数字" v-if="scope.row.paramType=='number'"/>
                                     <el-input v-model.number="scope.row.paramAmount" placeholder="请输入金额" v-if="scope.row.paramType=='amount'"/>
-                                    <el-date-picker
-                                        v-model="scope.row.paramDate"
-                                        type="date"
-                                        placeholder="选择日期" v-if="scope.row.paramType=='date'">
-                                </el-date-picker>
+                                  <el-date-picker
+                                      v-model="scope.row.paramDate"
+                                      type="date"
+                                      placeholder="选择日期" v-if="scope.row.paramType=='date'">
+                                  </el-date-picker>
                                 </template>
                             </el-table-column>
                         </el-table>
                     </div>
                 </el-form-item>
-                <el-form-item label="备注">
-                    <el-input type="textarea" :rows="1" placeholder="请输入备注内容"
-                              v-model="form.remark">
-                    </el-input>
-                </el-form-item>
+              <el-form-item label="备注" v-show="!isShowEndTime">
+                <el-input type="textarea" :rows="1" placeholder="请输入备注内容"
+                          v-model="form.remark">
+                </el-input>
+              </el-form-item>
+              <el-form-item label="结束时间" v-show="isShowEndTime">
+                <el-date-picker
+                    v-model="form.planEndTime"
+                    type="datetime"
+                    value-format="yyyy-MM-dd HH:mm:ss"
+                    placeholder="选择日期时间">
+                </el-date-picker>
+              </el-form-item>
             </el-form>
+
 
             <div style="text-align: right; margin-top: 10px">
                 <el-button class="op-btn" size="mini" type="text" @click="popoverVisible = false">取消</el-button>
@@ -97,6 +106,14 @@
                  :disabled="isKpiDisabled"
       >
       </el-button>
+
+      <el-button size="mini" type="text"
+                 @click="editEndTime('editEndTime')"
+                 title="编辑"
+                 :disabled="isEditDisabled"
+      >
+        <span class="svgSpan" v-html="svgImg.editEndTime"></span>
+      </el-button>
     </div>
 </template>
 
@@ -104,14 +121,16 @@
     export default {
         data() {
             return {
-                form:{
-                    paramList:[],
-                    remark:'',
-                },
+              form: {
+                paramList: [],
                 remark: '',
-                popoverVisible: false,
-                actionType: '',
-                svgImg: this.$lcImg,
+                planEndTime: '',
+              },
+              remark: '',
+              popoverVisible: false,
+              isShowEndTime: false,
+              actionType: '',
+              svgImg: this.$lcImg,
             }
         },
         beforeMount() {
@@ -137,6 +156,9 @@
           },
           indexircShow() {
             return this.params.data.stepActType === '8';
+          },
+          isEditDisabled() {
+            return !(this.params.data.stepStatus === '02');
           }
         },
         methods: {
@@ -152,30 +174,36 @@
                 this.actionType = actionType;
             },
 
-            async reExecute(actionType) {
-                this.actionType = actionType;
-                const ok = await this.$msg.ask(`是否确认重新执行`);
-                if (ok) {
-                    this.handleCmd(this.actionType);
-                }
-            },
-
-            indexDetail(actionType){
-                this.handleCmd(actionType);
-            },
-
-            // 备注确定 -- 保存
-            confirmRemark() {
-                this.popoverVisible = false;
-                this.params.data.remark = this.form.remark;
-                this.params.data.paramList = this.form.paramList;
-                this.params.api.refreshCells(this.params.node)
-                this.handleCmd(this.actionType);
-            },
-
-            handleCmd(actionType) {
-                this.params.api.execCmd(actionType, this.params);
+          async reExecute(actionType) {
+            this.actionType = actionType;
+            const ok = await this.$msg.ask(`是否确认重新执行`);
+            if (ok) {
+              this.handleCmd(this.actionType);
             }
+          },
+
+          indexDetail(actionType) {
+            this.handleCmd(actionType);
+          },
+          editEndTime(actionType) {
+            this.popoverVisible = true;
+            this.isShowEndTime = true;
+            this.actionType = actionType;
+          },
+
+          // 备注确定 -- 保存
+          confirmRemark() {
+            this.popoverVisible = false;
+            this.params.data.remark = this.form.remark;
+            this.params.data.paramList = this.form.paramList;
+            this.params.data.planEndTime = this.form.planEndTime;
+            this.params.api.refreshCells(this.params.node)
+            this.handleCmd(this.actionType);
+          },
+
+          handleCmd(actionType) {
+            this.params.api.execCmd(actionType, this.params);
+          }
         }
     }
 </script>

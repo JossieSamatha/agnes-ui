@@ -262,7 +262,8 @@
           const dateReg1 = /\$\{yyyy-MM-dd}/;
           const dateReg2 = /\$\{yyyyMMdd}/;
           const dateReg3 = /\$\{.*?}/;
-          if (dateReg1.test(value) || dateReg2.test(value)) {
+          const dateReg4 = /\$\{yyyyMM}/;
+          if (dateReg1.test(value) || dateReg2.test(value) || dateReg4.test(value)) {
             dateResult = true;
           }
           if (this.eventParam !== null && this.eventParam.length > 0) {
