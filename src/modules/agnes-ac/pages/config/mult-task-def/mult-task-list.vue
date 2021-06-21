@@ -53,7 +53,7 @@
 </template>
 
 <script>
-    import MotDetail from "./mult-task-detail";
+    import TaskDetail from "./mult-task-config";
     import {transferCaseDefData} from '../../../util/transferCaseData.js'
 
     export default {
@@ -123,7 +123,7 @@
                 this.$drawerPage.create({
                     width: 'calc(100% - 250px)',
                     title: ['综合任务配置',mode],
-                    component: MotDetail,
+                    component: TaskDetail,
                     args: {row, mode, actionOk},
                     okButtonVisible:isShow,
                     okButtonTitle: row.isCheck ? '审核' : '保存',

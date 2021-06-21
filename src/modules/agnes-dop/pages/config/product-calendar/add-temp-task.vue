@@ -45,10 +45,10 @@
       <el-form-item
               v-for="(item,index) in fieldOption"
               :key="index"
-              :label="item.fieldName"
-              :prop="item.fieldKey"
+              :label="item.paramName"
+              :prop="item.paramKey"
       >
-        <el-input v-model="detailForm.eventParams[item.fieldKey]" clearable  style="width: 50%"></el-input>
+        <el-input v-model="detailForm.eventParams[item.paramKey]" clearable  style="width: 50%"></el-input>
       </el-form-item>
     </template>
     <el-form-item label="执行方式" prop="execMode">
@@ -145,12 +145,12 @@ export default {
     },
 
     async checkHasParam(){
-      let eventId = '';
+      let execMode = '';
+      let caseKey = '';
       this.taskOptions.forEach(item=>{
         if(item.taskId == this.detailForm.taskId){
-          if(item.execMode == '3' && item.eventId){
-            eventId = item.eventId;
-          }
+          caseKey = item.caseKey;
+          execMode = item.execMode;
         }
       });
       this.hasParam = false;
@@ -159,13 +159,14 @@ export default {
       this.detailForm.acntCode ='';
       this.detailForm.eventParams = {};
       this.fieldOption = [];
-      if(eventId!=''){
-        const e = this.$api.modelConfigApi.getFieldByEventId(eventId);
-        const eventR = await this.$app.blockingApp(e);
-        if (eventR.data && eventR.data.length>0) {
-          this.fieldOption = eventR.data;
+      if(execMode=='3' || execMode == '4'){
+        let repData = {'caseKey':caseKey,'stepCode':''};
+        const c = this.$api.motConfigApi.queryReCaseParams(repData);
+        const resp = await this.$app.blockingApp(c);
+        if (resp.data && resp.data.length>0) {
+          this.fieldOption = resp.data;
           this.fieldOption.forEach((item)=>{
-            this.$set(this.detailForm.eventParams, item.fieldKey, '');
+            this.$set(this.detailForm.eventParams, item.paramKey, '');
           });
           this.hasParam = true;
         }

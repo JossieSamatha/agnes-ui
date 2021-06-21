@@ -1,6 +1,6 @@
 <template>
     <div class="person-chosen">
-        <el-button :disabled="disabled" type="text" @click="chooseUser">选择取值参数</el-button>
+        <el-button :disabled="disabled" type="text" @click="chooseUser">选择业务范围</el-button>
         <chosen-list-view v-if="paramList.length>0"
                           :prdtList="prdtList"
                           :prdtTypeList="prdtTypeList"
