@@ -1197,7 +1197,7 @@ export default {
           '<th>参数含义</th>' +
           '<th>参数格式</th>' +
           '<tbody>' +
-          '<tr><td rowspan="1" style="min-width: 100px">基本参数</td><td rowspan="3" style="min-width: 100px">业务日期</td><td style="min-width: 150px">${yyyy-MM-dd}</td></tr>' +
+          '<tr><td rowspan="3" style="min-width: 100px">基本参数</td><td rowspan="3" style="min-width: 100px">业务日期</td><td style="min-width: 150px">${yyyy-MM-dd}</td></tr>' +
           '<tr><td style="min-width: 150px">${yyyyMMdd}</td></tr>' +
           '<tr><td style="min-width: 150px">${yyyyMM}</td></tr>';
       let eventMsg = '';
