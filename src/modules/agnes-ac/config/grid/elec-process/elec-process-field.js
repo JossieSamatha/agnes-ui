@@ -65,7 +65,12 @@ export default {
             suppressSizeToFit: true,
             tooltipField: 'proportion',
         },
-        {headerName: "计划执行时间", field: "planTime"},
+        {
+            headerName: "计划执行时间", field: "planTime",
+            valueFormatter: function (params) {
+                return params.data.planStartTime + "/" + params.data.planEndTime;
+            }
+        },
         {
             headerName: "实际完成时间", field: "execEndTime",
             cellRenderer: (params) => {
