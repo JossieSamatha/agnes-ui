@@ -45,8 +45,8 @@
         </el-form-item>
 
         <el-form-item label="执行频率配置" prop="eventDef.execScheduler" v-if="form.eventDef.execMode === '1'">
-          <el-button type="text" ref="innerVueCron"
-                     @click="editExecTime('execScheduler', form.eventDef.execScheduler)">
+          <el-button type="text"
+                     @click="editExecTime(form.eventDef.execScheduler)">
             {{ form.eventDef.execScheduler }}点击配置
           </el-button>
         </el-form-item>
@@ -72,7 +72,7 @@
         </el-form-item>
 
         <el-form-item label="取值函数" prop="fnKey">
-          <el-select v-model="form.eventMsg.fnKey" placeholder="选择业务对象" style="width: 50%" filterable
+          <el-select v-model="form.eventMsg.fnKey" placeholder="选择业务对象" style="width: 50%" filterable clearable
                      @change="changeFunDef">
             <el-option
                 v-for="item in funDefList"
@@ -119,7 +119,7 @@
         </el-form-item>
 
         <el-form-item label="消息对象选择" prop="modelTypeKey">
-          <el-select v-model="form.eventMsg.modelTypeKey" placeholder="选择业务对象" style="width: 50%" filterable
+          <el-select v-model="form.eventMsg.modelTypeKey" placeholder="选择业务对象" style="width: 50%" filterable clearable
                      @change="changeMsgType">
             <el-option
                 v-for="item in msgDefList"

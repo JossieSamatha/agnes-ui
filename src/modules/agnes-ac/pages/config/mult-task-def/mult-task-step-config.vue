@@ -45,7 +45,7 @@
             <!--                </el-select>-->
             <el-input v-model="caseStepDef.stepActKey"></el-input>
           </el-form-item>
-          <el-form-item label="执行频率配置" v-if="stepInfo.stepActType === '1' || stepInfo.stepActType === '4' || stepInfo.stepActType === '8'">
+          <el-form-item label="执行频率配置" v-if="stepInfo.stepActType === '1' || stepInfo.stepActType === '8'">
             <el-button type="text" @click="editExecTime(caseStepDef.execScheduler,'执行频率配置')">
               {{caseStepDef.execScheduler}}点击配置
             </el-button>
@@ -718,6 +718,10 @@
         }
         if(!this.stepInfo.stepFormInfo.caseStepDef.stepActOwner){
           this.$message.warning("请选择通知人员！");
+          return ;
+        }
+        if(this.stepInfo.stepFormInfo.caseStepDef.execScheduler == '' && this.stepInfo.stepActType.match(/1|8/)){
+          this.$message.warning("请选择执行频率！");
           return ;
         }
         if(this.startDayChecked == '1' && !this.stepInfo.stepFormInfo.caseStepDef.startDay){

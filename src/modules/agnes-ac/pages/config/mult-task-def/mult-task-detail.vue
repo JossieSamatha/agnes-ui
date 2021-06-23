@@ -494,8 +494,9 @@ export default {
         let eventResult = false;
         const dateReg1 = /\$\{yyyy-MM-dd}/;
         const dateReg2 = /\$\{yyyyMMdd}/;
+        const dateReg4 = /\$\{yyyyMM}/;
         const dateReg3 = /\$\{.*?}/;
-        if (dateReg1.test(value) || dateReg2.test(value)) {
+        if (dateReg1.test(value) || dateReg2.test(value) || dateReg4.test(value)) {
           dateResult = true;
         }
         if (this.eventParam !== null && this.eventParam.length > 0) {
@@ -874,6 +875,10 @@ export default {
           this.$message.warning("请选择触发事件！");
           return;
         }
+        if(this.detailForm.execMode == '2' && this.detailForm.execScheduler == ''){
+          this.$message.warning("请选择任务创建频率！");
+          return ;
+        }
         let resData = this.dataTransfer();
         if (this.detailForm.task_execMode == '4') {
           resData.reTaskDef.taskType = '8';
@@ -1053,7 +1058,7 @@ export default {
                   if (this.row.caseDefBody) {
                     this.caseModelData = this.row.caseDefBody;
                   }
-                  if (this.detailForm.taskNameExp !== null) {
+                  if (this.detailForm.taskNameExp) {
                     this.nameCreateRule = '1'
                   }
                   this.getCaseBody(this.row.caseDefId);
@@ -1192,8 +1197,9 @@ export default {
           '<th>参数含义</th>' +
           '<th>参数格式</th>' +
           '<tbody>' +
-          '<tr><td rowspan="2" style="min-width: 100px">基本参数</td><td rowspan="2" style="min-width: 100px">业务日期</td><td style="min-width: 150px">${yyyy-MM-dd}</td></tr>' +
-          '<tr><td style="min-width: 150px">${yyyyMMdd}</td></tr>';
+          '<tr><td rowspan="1" style="min-width: 100px">基本参数</td><td rowspan="3" style="min-width: 100px">业务日期</td><td style="min-width: 150px">${yyyy-MM-dd}</td></tr>' +
+          '<tr><td style="min-width: 150px">${yyyyMMdd}</td></tr>' +
+          '<tr><td style="min-width: 150px">${yyyyMM}</td></tr>';
       let eventMsg = '';
       if (this.eventParam != null && this.eventParam.length > 0 && this.hasEventRuleName) {
         eventMsg = '<tr><td rowspan="' + this.eventParam.length + '" style="min-width: 100px">事件参数</td>'
