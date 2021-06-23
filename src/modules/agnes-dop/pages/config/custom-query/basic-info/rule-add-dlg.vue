@@ -270,19 +270,19 @@ export default {
         return;
       }
       const item = items[0];
-      let index = item.indexNo;
-      if (direction === 'up' && index !== 0) {
-        const row = this.form.dopReCustomQueryFields[index - 1];
+      let index = lodash.clone(item.indexNo);
+      if (direction === 'up' && index > 1) {
+        const row = this.form.dopReCustomQueryFields[index - 2];
         item.indexNo = index - 1;
         row.indexNo = index;
-        this.form.dopReCustomQueryFields[index - 1] = item;
-        this.form.dopReCustomQueryFields[index] = row;
-      } else if (direction === 'down' && index !== this.form.dopReCustomQueryFields.length - 1) {
-        const row = this.form.dopReCustomQueryFields[index + 1];
+        this.form.dopReCustomQueryFields[index - 2] = item;
+        this.form.dopReCustomQueryFields[index - 1] = row;
+      } else if (direction === 'down' && index < this.form.dopReCustomQueryFields.length) {
+        const row = this.form.dopReCustomQueryFields[index];
         item.indexNo = index + 1;
         row.indexNo = index;
-        this.form.dopReCustomQueryFields[index + 1] = item;
-        this.form.dopReCustomQueryFields[index] = row;
+        this.form.dopReCustomQueryFields[index] = item;
+        this.form.dopReCustomQueryFields[index - 1] = row;
       }
     },
     async removeRow() {
