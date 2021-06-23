@@ -228,22 +228,23 @@
                 if (!value) {
                     callback();
                 } else {
-                    let dateResult = false;
-                    let eventResult = false;
-                    const dateReg1 = /\$\{yyyy-MM-dd}/;
-                    const dateReg2 = /\$\{yyyyMMdd}/;
-                    const dateReg3 = /\$\{.*?}/;
-                    if (dateReg1.test(value) || dateReg2.test(value)) {
-                        dateResult = true;
-                    }
-                    if (this.eventParam !== null && this.eventParam.length > 0) {
-                        this.eventParam.forEach(param => {
-                            const reg = new RegExp("\\$\\{" + param.fieldKey + "}")
-                            const result = reg.test(value);
-                            if (result) {
-                                eventResult = true;
-                            }
-                        })
+                  let dateResult = false;
+                  let eventResult = false;
+                  const dateReg1 = /\$\{yyyy-MM-dd}/;
+                  const dateReg2 = /\$\{yyyyMMdd}/;
+                  const dateReg4 = /\$\{yyyyMM}/;
+                  const dateReg3 = /\$\{.*?}/;
+                  if (dateReg1.test(value) || dateReg2.test(value) || dateReg4.test(value)) {
+                    dateResult = true;
+                  }
+                  if (this.eventParam !== null && this.eventParam.length > 0) {
+                    this.eventParam.forEach(param => {
+                      const reg = new RegExp("\\$\\{" + param.fieldKey + "}")
+                      const result = reg.test(value);
+                      if (result) {
+                        eventResult = true;
+                      }
+                    })
                     }
                     if (eventResult) {
                         if (!(this.detailForm.eventId && this.hasEventRuleName)) {
@@ -391,15 +392,16 @@
             },
             changeTaskNameParams() {
                 this.taskNameParams = '';
-                let title = '<p class="title">可选参数</p>' +
-                    '<table>' +
-                    '<th>参数类型</th>' +
-                    '<th>参数含义</th>' +
-                    '<th>参数格式</th>' +
-                    '<tbody>' +
-                    '<tr><td rowspan="2" style="min-width: 100px">基本参数</td><td rowspan="2" style="min-width: 100px">业务日期</td><td style="min-width: 150px">${yyyy-MM-dd}</td></tr>' +
-                    '<tr><td style="min-width: 150px">${yyyyMMdd}</td></tr>';
-                let eventMsg = '';
+              let title = '<p class="title">可选参数</p>' +
+                  '<table>' +
+                  '<th>参数类型</th>' +
+                  '<th>参数含义</th>' +
+                  '<th>参数格式</th>' +
+                  '<tbody>' +
+                  '<tr><td rowspan="2" style="min-width: 100px">基本参数</td><td rowspan="2" style="min-width: 100px">业务日期</td><td style="min-width: 150px">${yyyy-MM-dd}</td></tr>' +
+                  '<tr><td style="min-width: 150px">${yyyyMMdd}</td></tr>' +
+                  '<tr><td style="min-width: 150px">${yyyyMM}</td></tr>';
+              let eventMsg = '';
                 if (this.eventParam != null && this.eventParam.length > 0 && this.hasEventRuleName) {
                     eventMsg = '<tr><td rowspan="' + this.eventParam.length + '" style="min-width: 100px">事件参数</td>'
                     this.eventParam.forEach(param => {
@@ -518,6 +520,10 @@
                 }
                 if (this.nameCreateRule === '0') {
                     this.detailForm.taskNameExp = ''
+                }
+                if(this.detailForm.execMode == '2' && this.detailForm.execScheduler == ''){
+                    this.$message.warning("请选择任务创建频率！");
+                    return ;
                 }
                 try {
                     this.detailForm.bizTag = this.detailForm.bizTagArr.join(",");

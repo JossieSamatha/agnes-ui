@@ -1,237 +1,243 @@
 <template>
-  <el-form ref="taskDefForm" class="taskDefForm" :model="detailForm" :disabled="mode==='view'"
-           :rules="detailFormRules" label-width="110px" style="max-width: 850px">
-    <module-card title="基本信息" shadow="never">
-      <template slot="content">
-        <el-form-item label="任务名称" prop="taskName">
-          <gf-input v-model.trim="detailForm.taskName" placeholder="任务名称" :max-byte-len="120"/>
-        </el-form-item>
-        <el-form-item label="任务编号" prop="caseKey">
-          <gf-input v-model.trim="detailForm.caseKey" placeholder="任务编号" clear-regex="[^0-9]" :max-byte-len="8"/>
-        </el-form-item>
-        <el-form-item label="任务类型" prop="taskType">
-          <gf-dict filterable clearable v-model="detailForm.taskType" dict-type="AGNES_TASK_TYPE"/>
-        </el-form-item>
-        <el-form-item label="业务场景" prop="bizType">
-          <gf-dict filterable clearable v-model="detailForm.bizType" dict-type="AGNES_BIZ_CASE"/>
-        </el-form-item>
-        <el-form-item label="业务标签" prop="bizTag">
-          <el-select style="width: 100%" v-model="detailForm.bizTagArr" placeholder="请选择" filterable clearable multiple>
-            <gf-filter-option
-                    v-for="item in bizTagOption"
-                    :key="item.dictId"
-                    :label="item.dictName"
-                    :value="item.dictId">
-            </gf-filter-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="任务图标" prop="taskIcon">
-          <gf-input v-model.trim="detailForm.taskIcon"
-                    placeholder="任务图标"
-                    style="width: calc(100% - 30px); margin-right: 10px"
-          />
-          <el-popover placement="bottom"
-                      title="图标库使用"
-                      width="220"
-                      trigger="click"
-                      popper-class="question-popover">
-            <el-button slot="reference"
-                       icon="fa fa-question-circle-o"
-                       style="border: none;padding: 0;font-size: 20px;vertical-align: middle"
-            ></el-button>
-            <p>图标库中选择需要的图标对应名称，前面加上【fa fa-】前缀即可。</p>
-            <p>如：<span><em class="fa fa-bus"></em> bus</span>填写为【fa fa-bus】</p>
-            <p>图标库链接地址为：
-              <a href="https://fontawesome.dashgame.com/" target="_blank" rel="noopener noreferrer" style="color: #4183C4;">点我跳转</a>
-            </p>
-          </el-popover>
-        </el-form-item>
-      </template>
-    </module-card>
+  <div>
+    <el-form ref="taskDefForm" class="taskDefForm" :model="detailForm" :disabled="mode==='view'"
+             :rules="detailFormRules" label-width="110px" style="max-width: 850px">
+      <module-card title="基本信息" shadow="never">
+        <template slot="content">
+          <el-form-item label="任务名称" prop="taskName">
+            <gf-input v-model.trim="detailForm.taskName" placeholder="任务名称" :max-byte-len="120"/>
+          </el-form-item>
+          <el-form-item label="任务编号" prop="caseKey">
+            <gf-input v-model.trim="detailForm.caseKey" placeholder="任务编号" clear-regex="[^0-9]" :max-byte-len="8"/>
+          </el-form-item>
+          <el-form-item label="任务类型" prop="taskType">
+            <gf-dict filterable clearable v-model="detailForm.taskType" dict-type="AGNES_TASK_TYPE"/>
+          </el-form-item>
+          <el-form-item label="业务场景" prop="bizType">
+            <gf-dict filterable clearable v-model="detailForm.bizType" dict-type="AGNES_BIZ_CASE"/>
+          </el-form-item>
+          <el-form-item label="业务标签" prop="bizTag">
+            <el-select style="width: 100%" v-model="detailForm.bizTagArr" placeholder="请选择" filterable clearable multiple>
+              <gf-filter-option
+                      v-for="item in bizTagOption"
+                      :key="item.dictId"
+                      :label="item.dictName"
+                      :value="item.dictId">
+              </gf-filter-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="任务图标" prop="taskIcon">
+            <gf-input v-model.trim="detailForm.taskIcon"
+                      placeholder="任务图标"
+                      style="width: calc(100% - 30px); margin-right: 10px"
+            />
+            <el-popover placement="bottom"
+                        title="图标库使用"
+                        width="220"
+                        trigger="click"
+                        popper-class="question-popover">
+              <el-button slot="reference"
+                         icon="fa fa-question-circle-o"
+                         style="border: none;padding: 0;font-size: 20px;vertical-align: middle"
+              ></el-button>
+              <p>图标库中选择需要的图标对应名称，前面加上【fa fa-】前缀即可。</p>
+              <p>如：<span><em class="fa fa-bus"></em> bus</span>填写为【fa fa-bus】</p>
+              <p>图标库链接地址为：
+                <a href="https://fontawesome.dashgame.com/" target="_blank" rel="noopener noreferrer" style="color: #4183C4;">点我跳转</a>
+              </p>
+            </el-popover>
+          </el-form-item>
+        </template>
+      </module-card>
 
-    <module-card title="运行规则" shadow="never">
-      <template slot="content">
-        <el-form-item label="运行周期配置" prop="startTime">
-          <div class="line none-shrink">
-            <el-form-item prop="startTime"  style="margin-left:1px">
-              <el-date-picker
-                      v-model="detailForm.startTime"
-                      :picker-options="pickerOptionsStart"
-                      type="date"
-                      value-format="yyyy-MM-dd"
-                      placeholder="开始日期">
-              </el-date-picker>
-            </el-form-item>
-            <span style="margin: 0 10px">~</span>
-            <el-form-item prop="endTime">
-              <el-date-picker
-                      v-model="detailForm.endTime"
-                      :picker-options="pickerOptionsEnd"
-                      type="date"
-                      value-format="yyyy-MM-dd"
-                      placeholder="结束日期" :disabled="startAllTime">
-              </el-date-picker>
-            </el-form-item>
-            <el-checkbox v-model="startAllTime" style="margin-left: 10px">永久有效</el-checkbox>
-          </div>
-        </el-form-item>
-        <el-form-item label="基准日期" prop="dayendDefId" >
-          <gf-dict clearable dict-type="AGNES_BASE_DATE" filterable v-model="detailForm.dayendDefId"/>
-        </el-form-item>
-        <el-form-item label="创建方式选择" prop="execMode">
-          <el-radio-group v-model="detailForm.execMode">
-            <el-radio label="1">按运行周期创建一次</el-radio>
-            <el-radio label="2">按自定义频率创建</el-radio>
-            <el-radio label="3">按外部事件触发时创建</el-radio>
-            <el-radio label="4">手动触发</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="创建频率配置" v-if="detailForm.execMode==='2'" prop="execScheduler">
-          <el-button type="text" @click="editExecTime(detailForm.execScheduler,'创建频率配置')">
-            {{detailForm.execScheduler}}点击配置
-          </el-button>
-        </el-form-item>
-        <el-form-item label="外部事件选择" v-if="detailForm.execMode==='3'">
-          <el-select v-model="eventKey" placeholder="请选择" filterable clearable>
-            <gf-filter-option
-                    v-for="item in eventOptions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-            </gf-filter-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item v-if="detailForm.execMode==='4'" label="任务参数">
-          <div class="rule-table">
-            <el-table header-row-class-name="rule-header-row"
-                      header-cell-class-name="rule-header-cell"
-                      row-class-name="rule-row"
-                      cell-class-name="rule-cell"
-                      :data="this.paramList"
-                      border stripe
-                      :header-cell-style="{'text-align':'center'}">
-              style="width: 100%">
-              <el-table-column prop="accNo" label="参数编号">
-                <template slot-scope="scope">
-                  <el-input v-model="scope.row.paramKey"></el-input>
-                </template>
-              </el-table-column>
-              <el-table-column prop="accNo" label="参数名称">
-                <template slot-scope="scope">
-                  <el-input v-model="scope.row.paramName"></el-input>
-                </template>
-              </el-table-column>
-              <el-table-column prop="market" label="参数类型">
-                <template slot-scope="scope">
-                  <gf-dict filterable clearable v-model="scope.row.paramType" dict-type="TASK_DEF_DATATYPE"/>
-                </template>
-              </el-table-column>
-              <el-table-column  prop="option" label="操作" width="52" align="center">
-                <template slot-scope="scope">
-                  <span class="option-span" @click="deleteRuleRow(scope.$index)">删除</span>
-                </template>
-              </el-table-column>
-            </el-table>
-            <el-button  @click="addRule()" class="rule-add-btn" size="small">新增</el-button>
-          </div>
-        </el-form-item>
-        <el-form-item label="取值参数列表" v-if="hasEventParam">
-          <div class="rule-table">
-            <el-table :data="eventParam"
-                      :header-cell-style="{'text-align':'center'}"
-                      border
-                      cell-class-name="rule-cell"
-                      header-cell-class-name="rule-header-cell"
-                      header-row-class-name="rule-header-row" row-class-name="rule-row"
-                      stripe>
-              style="width: 100%">
-              <el-table-column label="参数代码">
-                <template slot-scope="scope">
-                  <el-input :disabled="true" v-model="scope.row.fieldKey"></el-input>
-                </template>
-              </el-table-column>
-              <el-table-column label="参数名称">
-                <template slot-scope="scope">
-                  <el-input :disabled="true" v-model="scope.row.fieldName"></el-input>
-                </template>
-              </el-table-column>
-            </el-table>
-          </div>
-        </el-form-item>
-      </template>
-    </module-card>
+      <module-card title="运行规则" shadow="never">
+        <template slot="content">
+          <el-form-item label="运行周期配置" prop="startTime">
+            <div class="line none-shrink">
+              <el-form-item prop="startTime"  style="margin-left:1px">
+                <el-date-picker
+                        v-model="detailForm.startTime"
+                        :picker-options="pickerOptionsStart"
+                        type="date"
+                        value-format="yyyy-MM-dd"
+                        placeholder="开始日期">
+                </el-date-picker>
+              </el-form-item>
+              <span style="margin: 0 10px">~</span>
+              <el-form-item prop="endTime">
+                <el-date-picker
+                        v-model="detailForm.endTime"
+                        :picker-options="pickerOptionsEnd"
+                        type="date"
+                        value-format="yyyy-MM-dd"
+                        placeholder="结束日期" :disabled="startAllTime">
+                </el-date-picker>
+              </el-form-item>
+              <el-checkbox v-model="startAllTime" style="margin-left: 10px">永久有效</el-checkbox>
+            </div>
+          </el-form-item>
+          <el-form-item label="基准日期" prop="dayendDefId" >
+            <gf-dict clearable dict-type="AGNES_BASE_DATE" filterable v-model="detailForm.dayendDefId"/>
+          </el-form-item>
+          <el-form-item label="创建方式选择" prop="execMode">
+            <el-radio-group v-model="detailForm.execMode">
+              <el-radio label="1">按运行周期创建一次</el-radio>
+              <el-radio label="2">按自定义频率创建</el-radio>
+              <el-radio label="3">按外部事件触发时创建</el-radio>
+              <el-radio label="4">手动触发</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="创建频率配置" v-if="detailForm.execMode==='2'" prop="execScheduler">
+            <el-button type="text" @click="editExecTime(detailForm.execScheduler,'创建频率配置')">
+              {{detailForm.execScheduler}}点击配置
+            </el-button>
+          </el-form-item>
+          <el-form-item label="外部事件选择" v-if="detailForm.execMode==='3'">
+            <el-select v-model="eventKey" placeholder="请选择" filterable clearable>
+              <gf-filter-option
+                      v-for="item in eventOptions"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+              </gf-filter-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item v-if="detailForm.execMode==='4'" label="任务参数">
+            <div class="rule-table">
+              <el-table header-row-class-name="rule-header-row"
+                        header-cell-class-name="rule-header-cell"
+                        row-class-name="rule-row"
+                        cell-class-name="rule-cell"
+                        :data="this.paramList"
+                        border stripe
+                        :header-cell-style="{'text-align':'center'}">
+                style="width: 100%">
+                <el-table-column prop="accNo" label="参数编号">
+                  <template slot-scope="scope">
+                    <el-input v-model="scope.row.paramKey"></el-input>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="accNo" label="参数名称">
+                  <template slot-scope="scope">
+                    <el-input v-model="scope.row.paramName"></el-input>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="market" label="参数类型">
+                  <template slot-scope="scope">
+                    <gf-dict filterable clearable v-model="scope.row.paramType" dict-type="TASK_DEF_DATATYPE"/>
+                  </template>
+                </el-table-column>
+                <el-table-column  prop="option" label="操作" width="52" align="center">
+                  <template slot-scope="scope">
+                    <span class="option-span" @click="deleteRuleRow(scope.$index)">删除</span>
+                  </template>
+                </el-table-column>
+              </el-table>
+              <el-button  @click="addRule()" class="rule-add-btn" size="small">新增</el-button>
+            </div>
+          </el-form-item>
+          <el-form-item label="取值参数列表" v-if="hasEventParam">
+            <div class="rule-table">
+              <el-table :data="eventParam"
+                        :header-cell-style="{'text-align':'center'}"
+                        border
+                        cell-class-name="rule-cell"
+                        header-cell-class-name="rule-header-cell"
+                        header-row-class-name="rule-header-row" row-class-name="rule-row"
+                        stripe>
+                style="width: 100%">
+                <el-table-column label="参数代码">
+                  <template slot-scope="scope">
+                    <el-input :disabled="true" v-model="scope.row.fieldKey"></el-input>
+                  </template>
+                </el-table-column>
+                <el-table-column label="参数名称">
+                  <template slot-scope="scope">
+                    <el-input :disabled="true" v-model="scope.row.fieldName"></el-input>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </el-form-item>
+        </template>
+      </module-card>
 
-    <module-card title="业务关联" shadow="never">
-      <template slot="content">
-        <el-form-item label="业务范围" v-if="!hasEventParam">
-          <biz-param-chosen
-                  :paramRefList="this.paramRefList"
-                  @getParamList="getParamList"
-                  chosenType="prdt,prdtType"
-                  ref="bizParamRef">
-          </biz-param-chosen>
-        </el-form-item>
-        <el-checkbox v-model="taskInitTypeBoolen" style="margin-left: 50px">根据不同的业务数据产生多条任务</el-checkbox>
-      </template>
-    </module-card>
+      <module-card title="业务关联" shadow="never">
+        <template slot="content">
+          <el-form-item label="业务范围" v-if="!hasEventParam">
+            <biz-param-chosen
+                    :paramRefList="this.paramRefList"
+                    @getParamList="getParamList"
+                    chosenType="prdt,prdtType"
+                    ref="bizParamRef">
+            </biz-param-chosen>
+          </el-form-item>
+          <el-checkbox v-model="taskInitTypeBoolen" style="margin-left: 50px">根据不同的业务数据产生多条任务</el-checkbox>
+        </template>
+      </module-card>
 
-    <module-card title="任务展示" shadow="never">
-      <template slot="content">
-        <el-form-item label="任务名称展示">
-          <el-radio-group v-model="nameCreateRule">
-            <el-radio :key="ruleNameType.value"
-                      :label="ruleNameType.value"
-                      v-for="ruleNameType in ruleNameTypeOp">
-              {{ ruleNameType.label }}
-            </el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item v-if="nameCreateRule == '1'" prop="taskNameExp">
-          <el-row :gutter="20">
-            <el-col :span="10">
-              <gf-input v-model="detailForm.taskNameExp"/>
-            </el-col>
-            <el-col :span="14">
-              <el-popover
-                      placement="top-start"
-                      title=""
-                      width="380"
-                      trigger="hover">
-                <div class="popover-content" v-html="taskNameParams"></div>
-                <span slot="reference" style="color: #4E9DE2">可选参数</span>
-              </el-popover>
-            </el-col>
-          </el-row>
-        </el-form-item>
-        <el-checkbox v-model="isNeedApprove" style="margin-left: 50px">需要复核通过后展示任务</el-checkbox>
-      </template>
-    </module-card>
+      <module-card title="任务展示" shadow="never">
+        <template slot="content">
+          <el-form-item label="任务名称展示">
+            <el-radio-group v-model="nameCreateRule">
+              <el-radio :key="ruleNameType.value"
+                        :label="ruleNameType.value"
+                        v-for="ruleNameType in ruleNameTypeOp">
+                {{ ruleNameType.label }}
+              </el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item v-if="nameCreateRule == '1'" prop="taskNameExp">
+            <el-row :gutter="20">
+              <el-col :span="10">
+                <gf-input v-model="detailForm.taskNameExp"/>
+              </el-col>
+              <el-col :span="14">
+                <el-popover
+                        placement="top-start"
+                        title=""
+                        width="380"
+                        trigger="hover">
+                  <div class="popover-content" v-html="taskNameParams"></div>
+                  <span slot="reference" style="color: #4E9DE2">可选参数</span>
+                </el-popover>
+              </el-col>
+            </el-row>
+          </el-form-item>
+          <el-checkbox v-model="isNeedApprove" style="margin-left: 50px">需要复核通过后展示任务</el-checkbox>
+        </template>
+      </module-card>
 
-    <module-card title="节点设置" shadow="never">
-      <template slot="content">
-        <el-form-item label="任务节点" prop="configType">
-          <el-radio-group v-model="detailForm.configType">
-            <el-radio label="1">简单任务</el-radio>
-            <el-radio label="2">复杂任务</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-drawer class="step-detail-drawer"
-                   ref="stepDetailDrawer"
-                   :withHeader="false"
-                   :show-close="false"
-                   :visible.sync="drawerVisible"
-                   :destroy-on-close="true"
-                   :append-to-body="false"
-                   :modal="false"
-                   direction="rtl"
-                   size="890px">
-          <stepDetail class="step-detail" v-bind="stepDetailProps" @saveStepInfo="saveStepInfo" @cancelAction="cancelAction"></stepDetail>
-        </el-drawer>
-        <el-button style="height: 28px;font-size: 13px;margin-left: 42px;background: #0f5eff;color: #fff;"  class="op-btn primary" size="mini" v-if="detailForm.configType=='1'" @click="openStep">{{this.mode=='view'?'查看':'继续配置'}}任务节点></el-button>
-        <el-button style="height: 28px;font-size: 13px;margin-left: 42px;background: #0f5eff;color: #fff;"  class="op-btn primary" size="mini" v-if="detailForm.configType=='2'" @click="openStepDetail">{{this.mode=='view'?'查看':'继续配置'}}任务节点></el-button>
-      </template>
-    </module-card>
-  </el-form>
+      <module-card title="节点设置" shadow="never">
+        <template slot="content">
+          <el-form-item label="任务节点" prop="configType">
+            <el-radio-group v-model="detailForm.configType">
+              <el-radio label="1">简单任务</el-radio>
+              <el-radio label="2">复杂任务</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-drawer class="step-detail-drawer"
+                     ref="stepDetailDrawer"
+                     :withHeader="false"
+                     :show-close="false"
+                     :visible.sync="drawerVisible"
+                     :destroy-on-close="true"
+                     :append-to-body="false"
+                     :modal="false"
+                     direction="rtl"
+                     size="890px">
+            <stepDetail class="step-detail" v-bind="stepDetailProps" @saveStepInfo="saveStepInfo" @cancelAction="cancelAction"></stepDetail>
+          </el-drawer>
+          <el-button style="height: 28px;font-size: 13px;margin-left: 42px;background: #0f5eff;color: #fff;"  class="op-btn primary" size="mini" v-if="detailForm.configType=='1'&&this.mode!='view'" @click="openStep">继续配置任务节点></el-button>
+          <el-button style="height: 28px;font-size: 13px;margin-left: 42px;background: #0f5eff;color: #fff;"  class="op-btn primary" size="mini" v-if="detailForm.configType=='2'&&this.mode!='view'" @click="openStepDetail">继续配置任务节点></el-button>
+        </template>
+      </module-card>
+    </el-form>
+      <el-form>
+        <el-button style="height: 28px;font-size: 13px;margin-left: 42px;background: #0f5eff;color: #fff;"  class="op-btn primary" size="mini" v-if="detailForm.configType=='1'&&this.mode=='view'" @click="openStep">查看任务节点></el-button>
+        <el-button style="height: 28px;font-size: 13px;margin-left: 42px;background: #0f5eff;color: #fff;"  class="op-btn primary" size="mini" v-if="detailForm.configType=='2'&&this.mode=='view'" @click="openStepDetail">查看任务节点></el-button>
+      </el-form>
+  </div>
 </template>
 
 <script>
@@ -308,7 +314,7 @@
         detailForm: {execScheduler:'* * * * * ?',
           taskName:'',
           caseKey:'',
-          configType:'1',
+          configType:'2',
           bizType:'',
           bizTagArr:'',
           startTime:'',
@@ -422,13 +428,14 @@
       changeTaskNameParams() {
         this.taskNameParams = '';
         let title = '<p class="title">可选参数</p>' +
-                '<table>' +
-                '<th>参数类型</th>' +
-                '<th>参数含义</th>' +
-                '<th>参数格式</th>' +
-                '<tbody>' +
-                '<tr><td rowspan="2" style="min-width: 100px">基本参数</td><td rowspan="2" style="min-width: 100px">业务日期</td><td style="min-width: 150px">${yyyy-MM-dd}</td></tr>' +
-                '<tr><td style="min-width: 150px">${yyyyMMdd}</td></tr>';
+            '<table>' +
+            '<th>参数类型</th>' +
+            '<th>参数含义</th>' +
+            '<th>参数格式</th>' +
+            '<tbody>' +
+            '<tr><td rowspan="2" style="min-width: 100px">基本参数</td><td rowspan="2" style="min-width: 100px">业务日期</td><td style="min-width: 150px">${yyyy-MM-dd}</td></tr>' +
+            '<tr><td style="min-width: 150px">${yyyyMMdd}</td></tr>' +
+            '<tr><td style="min-width: 150px">${yyyyMM}</td></tr>';
         let eventMsg = '';
         if (this.eventParam != null && this.eventParam.length > 0 && this.hasEventRuleName) {
           eventMsg = '<tr><td rowspan="' + this.eventParam.length + '" style="min-width: 100px">事件参数</td>'
@@ -546,6 +553,10 @@
           this.$message.warning("请选择触发事件！");
           return ;
         }
+        if(this.detailForm.execMode == '2' && this.detailForm.execScheduler == ''){
+          this.$message.warning("请选择任务创建频率！");
+          return ;
+        }
         if (this.nameCreateRule === '0') {
           this.detailForm.taskNameExp = ''
         }
@@ -633,7 +644,7 @@
         }
       },
       async getCaseBody(caseDefId){
-        if(caseDefId && !this.row.caseDefBody){
+        if(caseDefId && !this.row.caseDefBody && this.mode!='add'){
           const p = this.$api.caseConfigApi.selectTaskCaseBody(caseDefId)
           let  rep = await this.$app.blockingApp(p);
           if(rep.data.caseDefBody){
@@ -672,6 +683,7 @@
         if(this.row.caseDefBody){
           this.detailForm.caseDefBody  = this.row.caseDefBody;
         }
+        // if(this.row.reTaskDef.taskType)
         if(this.detailForm.taskInitType == '1'){
           this.taskInitTypeBoolen = true;
         }
@@ -695,13 +707,12 @@
         }else {
           let caseDefBody = JSON.parse(this.row.caseDefBody);
           let stepFormInfo = this.$utils.deepClone(caseDefBody.stages[0].children[0]);
-          console.log("ddd")
           this.$app.runCmd('openDialog', this.mode, stepFormInfo, { stepType: this.detailForm.taskType});
         }
       },
       openStepDetail() {
         let caseDefInfo = {};
-        if (this.mode == 'add' && !this.caseModelData) {
+        if (this.mode == 'add') {
           caseDefInfo = {
             reTaskDef: {
               bizType: '',
@@ -710,9 +721,6 @@
           };
         } else {
           caseDefInfo = this.row;
-        }
-        if (this.caseModelData) {
-          caseDefInfo.caseDefBody = this.caseModelData;
         }
         if(!this.detailForm.caseKey){
           this.$message.warning("请先填写任务编号！");

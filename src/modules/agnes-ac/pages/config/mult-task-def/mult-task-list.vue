@@ -53,7 +53,7 @@
 </template>
 
 <script>
-    import TaskDetail from "./mult-task-config";
+    import TaskDetail from "./mult-task-detail";
     import {transferCaseDefData} from '../../../util/transferCaseData.js'
 
     export default {
