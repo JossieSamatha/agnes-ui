@@ -3,12 +3,12 @@
     <el-popover ref="popover"
                 placement="top-start"
                 title="手工确认"
-                width="600"
+                width="450"
                 trigger="manual"
                 v-model="popoverVisible"
     >
       <el-form ref="form" :model="form"
-               label-width="80px">
+               label-width="70px">
         <el-form-item label="回填参数" v-show="form.paramList.length>0">
           <div class="rule-table">
             <el-table header-row-class-name="rule-header-row"

@@ -90,11 +90,6 @@
     }
 
     .pro-calendar >>> .el-calendar__header .el-calendar__button-group
-    .el-button-group {
-        justify-content: flex-end;
-    }
-
-    .pro-calendar >>> .el-calendar__header .el-calendar__button-group
     .el-button-group .el-calendar__title {
         margin: 0 5px;
         flex: none!important;

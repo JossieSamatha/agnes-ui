@@ -1,9 +1,10 @@
 <template>
-    <vue-drag-resize class="move-widget"
+    <vue-drag-resize class="move-widget" ref="moveWidget"
                      :class="{move: canMove}"
                      :isActive="canMove"
                      :isDraggable="canMove"
                      :isResizable="canMove"
+                     v-bind="compRec"
     >
         <div class="top">
             <div class="title">
@@ -36,10 +37,10 @@ export default {
         return {
             canMove: false,
             compRec: {
-                y: 0,
-                x: 0,
+                y: 126,
+                x: 211,
                 w: 248,
-                h: 'auto'
+                h: 400
             }
         }
     },
@@ -54,30 +55,8 @@ export default {
             this.$emit('settingClick');
         },
 
-        // resize(newRect) {
-        //     this.compRec.w = newRect.width;
-        //     this.compRec.h = newRect.height;
-        //     this.compRec.y = newRect.top;
-        //     this.compRec.x = newRect.left;
-        // },
-
         canMoveChange(){
             this.canMove = !this.canMove;
-            // if(this.canMove){
-            //     this.compRec = {
-            //         y: 120,
-            //         w: 248,
-            //         x: window.innerWidth / 2 - 125,
-            //         h: 'auto'
-            //     }
-            // }else{
-            //     this.compRec = {
-            //         x: 0,
-            //         y: 0,
-            //         w: 248,
-            //         h: 'auto'
-            //     }
-            // }
         }
     }
 }

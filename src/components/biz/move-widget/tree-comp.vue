@@ -6,13 +6,14 @@
             </el-input>
         </div>
         <el-tree class="tree-self" ref="treeComp"
-            v-for="(treeItem, index) in treeOptions" :key="index" 
+            v-for="(treeItem, index) in treeOptions" :key="index"
             node-key="id"
             :data="treeItem.treeData"
             :filter-node-method="filterNode"
             :props="metaCategoryProps"
             :highlight-current="true"
              :default-expand-all="true"
+             :check-on-click-node="true"
             v-bind="treeItem.defaultProps"
             v-on="treeItem.defaultActions"
         >
