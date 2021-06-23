@@ -127,6 +127,9 @@
         border-radius: 0!important;
         padding: 11px 20px;
         transition: none;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 170px;
     }
 
     .stage-list-item >>> .el-radio-button__orig-radio:checked+.el-radio-button__inner {

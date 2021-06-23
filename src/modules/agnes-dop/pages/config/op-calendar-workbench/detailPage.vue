@@ -4,7 +4,7 @@
             <template slot="content">
                 <el-radio-group class="stage-list" v-model="curStageId" @change="changeStage">
                   <el-radio-button class="stage-item" v-for="stageItem in stageList" :key="stageItem.pkId"
-                                   :label="stageItem.pkId">
+                                   :label="stageItem.pkId" :title="stageItem.stageName">
                     {{ stageItem.stageName }}
                   </el-radio-button>
                 </el-radio-group>
@@ -337,6 +337,9 @@
         background: transparent!important;
         padding: 0;
         transition: none;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 170px;
     }
 
     .stage-item >>> .el-radio-button__orig-radio:checked+.el-radio-button__inner {
