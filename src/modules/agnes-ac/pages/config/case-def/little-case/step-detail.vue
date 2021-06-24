@@ -109,16 +109,20 @@
                 <template slot="content">
                     <el-form-item label="执行开始时间" prop="step_startTime" style="width: 90%">
                         <div class="line none-shrink">
-                            <el-input v-model.number="caseStepDef.startDay" v-show="startDayChecked === '1'" style="width: 10%;margin-right: 10px"></el-input>
-                            <span v-show="startDayChecked === '1'" >天
+                          <gf-dict clearable v-model="caseStepDef.startDayType" dict-type="AGNES_ACROS_DAY_TYPE"
+                                   v-show="startDayChecked === '1'" style="width: 26%"/>
+                          <el-input v-model.number="caseStepDef.startDay" v-show="startDayChecked === '1'"
+                                    style="width: 15%;margin-right: 10px;margin-left: 10px"></el-input>
+                          <span v-show="startDayChecked === '1'">天
                         </span>
-                            <el-time-picker
-                                    v-model="caseStepDef.startTime"
-                                    :picker-options=startTimeForDay
-                                    placeholder="执行开始时间"
-                                    value-format="HH:mm" @change="timeChange" style="margin-left: 10px">
-                            </el-time-picker>
-                            <gf-strbool-checkbox v-model="startDayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
+                          <el-time-picker
+                              v-model="caseStepDef.startTime"
+                              :picker-options=startTimeForDay
+                              placeholder="执行开始时间"
+                              value-format="HH:mm" @change="timeChange" style="margin-left: 10px">
+                          </el-time-picker>
+                          <gf-strbool-checkbox v-model="startDayChecked" style="margin-left: 10px">跨日
+                          </gf-strbool-checkbox>
                         </div>
                         <gf-strbool-checkbox v-model="startStepRuleChecked" style="margin-left: 10px">自定义激活规则</gf-strbool-checkbox>
                     </el-form-item>
@@ -127,18 +131,21 @@
                                     :ruleTargetOp="ruleTargetOp"></rule-table>
                     </el-form-item>
                     <el-form-item label="执行结束时间" prop="step_endTime" style="width: 90%">
-                        <div class="line none-shrink">
-                            <el-input v-model.number="caseStepDef.endDay" v-show="endDayChecked === '1'" style="width: 10%;margin-right: 10px"></el-input>
-                            <span v-show="endDayChecked === '1'" >天
+                      <div class="line none-shrink">
+                        <gf-dict clearable v-model="caseStepDef.endDayType" dict-type="AGNES_ACROS_DAY_TYPE"
+                                 v-show="endDayChecked === '1'" style="width: 26%"/>
+                        <el-input v-model.number="caseStepDef.endDay" v-show="endDayChecked === '1'"
+                                  style="width: 15%;margin-right: 10px;margin-left: 10px"></el-input>
+                        <span v-show="endDayChecked === '1'">天
                         </span>
-                            <el-time-picker
-                                    v-model="caseStepDef.endTime"
-                                    :picker-options=endTimeForDay
-                                    placeholder="执行结束时间"
-                                    value-format="HH:mm" @change="timeChange" style="margin-left: 10px">
-                            </el-time-picker>
-                            <gf-strbool-checkbox v-model="endDayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
-                        </div>
+                        <el-time-picker
+                            v-model="caseStepDef.endTime"
+                            :picker-options=endTimeForDay
+                            placeholder="执行结束时间"
+                            value-format="HH:mm" @change="timeChange" style="margin-left: 10px">
+                        </el-time-picker>
+                        <gf-strbool-checkbox v-model="endDayChecked" style="margin-left: 10px">跨日</gf-strbool-checkbox>
+                      </div>
                         <gf-strbool-checkbox v-model="timeoutRuleChecked" style="margin-left: 10px">自定义超时规则</gf-strbool-checkbox>
                     </el-form-item>
                     <el-form-item v-if="timeoutRuleChecked == '1'">
@@ -324,17 +331,19 @@
                     startTime: '',
                     endDay: '',
                     endTime: '',
-                    execScheduler: '00#01#01#* * * * * ?',
-                    stepRemark: '',
-                    allowManualConfirm: '0',
-                    isRecordError: '',
-                    errorType: '',
-                    errorContent: '',
-                    isRecordTimeoutError: '',
-                    timeoutErrorType: '',
-                    timeoutErrorContent: '',
-                    isTodo:'0',
-                    warningMintues:''
+                  execScheduler: '00#01#01#* * * * * ?',
+                  stepRemark: '',
+                  allowManualConfirm: '0',
+                  isRecordError: '',
+                  errorType: '',
+                  errorContent: '',
+                  isRecordTimeoutError: '',
+                  timeoutErrorType: '',
+                  timeoutErrorContent: '',
+                  isTodo: '0',
+                  warningMintues: '',
+                  startDayType: '00',
+                  endDayType: '00',
                 },
                 exceptionRemind: [],
                 finishRemind: [],

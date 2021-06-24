@@ -176,7 +176,9 @@
     <template v-if="detailForm.configType==1">
       <el-form-item label="执行开始时间" prop="step_startTime" style="width: 90%">
         <div class="line none-shrink">
-          <el-input style="width: 10%;margin-right: 10px" v-model.number="detailForm.startDay"
+          <gf-dict clearable v-model="detailForm.startDayType" dict-type="AGNES_ACROS_DAY_TYPE"
+                   v-show="startDayChecked === '1'" style="width: 22%"/>
+          <el-input style="width: 13%;margin-right: 10px;margin-left: 10px" v-model.number="detailForm.startDay"
                     v-show="startDayChecked === '1'"></el-input>
           <span v-show="startDayChecked === '1'">天
                 </span>
@@ -196,7 +198,9 @@
       </el-form-item>
       <el-form-item label="执行结束时间" prop="step_endTime" style="width: 90%">
         <div class="line none-shrink">
-          <el-input style="width: 10%;margin-right: 10px" v-model.number="detailForm.endDay"
+          <gf-dict clearable v-model="detailForm.endDayType" dict-type="AGNES_ACROS_DAY_TYPE"
+                   v-show="endDayChecked === '1'" style="width: 22%"/>
+          <el-input style="width: 13%;margin-right: 10px;margin-left: 10px" v-model.number="detailForm.endDay"
                     v-show="endDayChecked === '1'"></el-input>
           <span v-show="endDayChecked === '1'">天
                 </span>
@@ -301,7 +305,7 @@
       </el-form-item>
       <el-form-item label="执行频率配置" prop="execScheduler"
                     v-if="detailForm.taskType === '1' || detailForm.taskType === '4'">
-        <el-button @click="editExecTime(detailForm.step_execScheduler,'执行频率配置')" type="text">
+        <el-button @click="editExecTime('step_execScheduler',detailForm.step_execScheduler)" type="text">
           {{ detailForm.step_execScheduler }}点击配置
         </el-button>
       </el-form-item>
@@ -875,9 +879,9 @@ export default {
           this.$message.warning("请选择触发事件！");
           return;
         }
-        if(this.detailForm.execMode == '2' && this.detailForm.execScheduler == ''){
+        if (this.detailForm.task_execMode == '2' && !this.detailForm.execScheduler) {
           this.$message.warning("请选择任务创建频率！");
-          return ;
+          return;
         }
         let resData = this.dataTransfer();
         if (this.detailForm.task_execMode == '4') {
@@ -1154,26 +1158,30 @@ export default {
 
     //多节点相关操作
     async onEditFlowInfo(item) {
-      this.caseModelData = item;
+      if (item && JSON.stringify(item) != '{}') {
+        this.caseModelData = item;
+      }
     },
     confFlowNode(val) {
       let caseDefInfo = {};
+      let reTaskDef = {
+        bizType: '',
+        caseKey: '',
+      }
       if (this.mode == 'add' && !this.caseModelData) {
-        caseDefInfo = {
-          reTaskDef: {
-            bizType: '',
-            caseKey: '',
-          }
-        };
+        caseDefInfo.reTaskDef = reTaskDef;
       } else {
         caseDefInfo = this.row;
       }
       if (this.caseModelData) {
         caseDefInfo.caseDefBody = this.caseModelData;
       }
-      if(!this.detailForm.caseKey){
+      if (!this.detailForm.caseKey) {
         this.$message.warning("请先填写任务编号！");
         return;
+      }
+      if (!caseDefInfo.reTaskDef) {
+        caseDefInfo.reTaskDef = reTaskDef;
       }
       caseDefInfo.reTaskDef.caseKey = this.detailForm.caseKey;
       caseDefInfo.reTaskDef.bizType = this.detailForm.bizType;

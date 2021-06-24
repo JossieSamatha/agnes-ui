@@ -56,7 +56,7 @@
 
 
             <div style="text-align: right; margin-top: 10px">
-                <el-button class="op-btn" size="mini" type="text" @click="popoverVisible = false">取消</el-button>
+                <el-button class="op-btn" size="mini" type="text" @click="closeRemake">取消</el-button>
                 <el-button class="op-btn primary" size="mini" @click="confirmRemark">保存</el-button>
             </div>
         </el-popover>
@@ -194,11 +194,18 @@
           // 备注确定 -- 保存
           confirmRemark() {
             this.popoverVisible = false;
+            this.isShowEndTime = false;
             this.params.data.remark = this.form.remark;
             this.params.data.paramList = this.form.paramList;
             this.params.data.planEndTime = this.form.planEndTime;
             this.params.api.refreshCells(this.params.node)
             this.handleCmd(this.actionType);
+            this.form.paramList = [];
+          },
+          closeRemake() {
+            this.popoverVisible = false
+            this.isShowEndTime = false;
+            this.form.paramList = [];
           },
 
           handleCmd(actionType) {

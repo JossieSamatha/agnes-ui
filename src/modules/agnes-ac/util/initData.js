@@ -25,6 +25,8 @@ export default function () {
         eventId: '',            // 事件Id -- 执行频率--事件
         needApprove: '0',       // 是否需要复核
         taskNameExp: '',    //任务名称生成规则
+        endDayType: '00',
+        startDayType: '00',
 
 
         // case任务对象初始字段

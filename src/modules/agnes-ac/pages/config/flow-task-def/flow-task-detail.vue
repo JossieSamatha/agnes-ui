@@ -509,25 +509,29 @@
                 }else {
                     this.detailForm.needApprove = '0';
                 }
-                if(this.taskInitTypeBoolen){
-                    this.detailForm.taskInitType = '1';
-                }else {
-                    this.detailForm.taskInitType = '0';
-                }
-                if(this.detailForm.execMode == '3' && this.detailForm.eventId == ''){
-                    this.$message.warning("请选择触发事件！");
-                    return ;
-                }
-                if (this.nameCreateRule === '0') {
-                    this.detailForm.taskNameExp = ''
-                }
-                try {
-                    this.detailForm.bizTag = this.detailForm.bizTagArr.join(",");
-                    let resData = this.detailForm;
-                    let msg = '';
-                    if(this.mode === 'add'){
-                        this.isCheckCode=true;
-                    }else if(this.row.reTaskDef.caseKey != resData.caseKey){
+              if (this.taskInitTypeBoolen) {
+                this.detailForm.taskInitType = '1';
+              } else {
+                this.detailForm.taskInitType = '0';
+              }
+              if (this.detailForm.execMode == '3' && this.detailForm.eventId == '') {
+                this.$message.warning("请选择触发事件！");
+                return;
+              }
+              if (this.detailForm.execMode == '2' && !this.detailForm.execScheduler) {
+                this.$message.warning("请选择任务创建频率！");
+                return;
+              }
+              if (this.nameCreateRule === '0') {
+                this.detailForm.taskNameExp = ''
+              }
+              try {
+                this.detailForm.bizTag = this.detailForm.bizTagArr.join(",");
+                let resData = this.detailForm;
+                let msg = '';
+                if (this.mode === 'add') {
+                  this.isCheckCode = true;
+                } else if (this.row.reTaskDef.caseKey != resData.caseKey) {
                         this.isCheckCode=true;
                     }
                     if(this.row.isCheck){
