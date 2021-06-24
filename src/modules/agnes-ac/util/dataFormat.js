@@ -22,6 +22,8 @@ export default function () {
             eventId: '',            // 事件Id -- 执行频率--事件
             needApprove: '',       // 是否需要复核
             taskNameExp: '',    //任务名称生成规则
+            endDayType: '',
+            startDayType: '',
         },
 
         // case任务对象初始字段
@@ -70,6 +72,8 @@ export default function () {
                             timeoutErrorContent: '',    // 超时通知 -- 异常内容
                             warningMintues: '',         // 预警通知 -- 预警时间
                             warningTimeType: '1',       // 预警通知 -- 预警时间类型
+                            endDayType: '',
+                            startDayType: '',
                         },
                         exceptionRemind: [],        // 异常通知 -- 通知方式配置
                         finishRemind: [],          // 完成通知 -- 通知方式配置

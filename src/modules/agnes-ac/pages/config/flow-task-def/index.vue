@@ -113,10 +113,10 @@
                 this.showFlowTask({},'add', this.onAddFlowTask.bind(this));
             },
             updateFlowTask(params){
-                this.showFlowTask(params.data.reTaskDef,'edit' , this.onUpdateFlowTask.bind(this));
+                this.showFlowTask(params.data, 'edit', this.onUpdateFlowTask.bind(this));
             },
             showFlowTaskDetail(params){
-                this.showFlowTask(params.data.reTaskDef,'view' , this.onUpdateFlowTask.bind(this));
+              this.showFlowTask(params.data, 'view', this.onUpdateFlowTask.bind(this));
             },
             confFlowNode(){
                 let rows = this.$refs.grid.getSelectedRows();
@@ -177,7 +177,7 @@
             //复核
             checkFlowTask(params){
                 if(params.data.reTaskDef.taskStatus.match(/01|04/)){
-                    this.showFlowTask(params.data.reTaskDef,'check', this.onAddFlowTask.bind(this));
+                  this.showFlowTask(params.data, 'check', this.onAddFlowTask.bind(this));
                 }else {
                     this.$msg.warning("该状态无法审核!");
                     return;
@@ -294,8 +294,8 @@
                 copyRowData.reTaskDef.caseKey = '';
                 copyRowData.reTaskDef.jobId = '';
                 copyRowData.reTaskDef.taskStatus = '01';
-                copyRowData.reTaskDef.caseDefId = '';
-                this.showFlowTask(copyRowData.reTaskDef,'edit' , this.onUpdateFlowTask.bind(this));
+              copyRowData.reTaskDef.caseDefId = '';
+              this.showFlowTask(copyRowData, 'edit', this.onUpdateFlowTask.bind(this));
             },
             async exportFlow(){
                 let rows = this.$refs.grid.getSelectedRows();
