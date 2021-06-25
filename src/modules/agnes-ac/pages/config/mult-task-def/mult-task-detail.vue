@@ -879,7 +879,7 @@ export default {
           this.$message.warning("请选择触发事件！");
           return;
         }
-        if (this.detailForm.task_execMode == '2' && !this.detailForm.execScheduler) {
+        if (this.detailForm.task_execMode == '2' && !this.detailForm.task_execScheduler) {
           this.$message.warning("请选择任务创建频率！");
           return;
         }

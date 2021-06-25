@@ -136,6 +136,7 @@
         beforeMount() {
             if (this.params.data) {
                 this.remark = this.params.data.remark;
+              this.form.planEndTime = this.params.data.planEndTime;
             }
         },
         computed: {

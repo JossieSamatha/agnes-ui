@@ -431,7 +431,9 @@
 
             // 业务日期切换
             bizDateChange(val) {
-                this.getAllFlow(val);
+
+              this.bizDate = val;
+              this.freshFlowData(true);
             },
 
             // 展开/收起底部右侧

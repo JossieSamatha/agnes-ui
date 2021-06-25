@@ -60,7 +60,7 @@
                 </el-button>
                 <el-button class="option-btn" @click="reSetSearch" v-if="queryData.length > 0">重置</el-button>
               </el-form>
-              <gf-grid :options="gridOptions" quick-text-max-width="300px" height="100%" ref="grid"></gf-grid>
+              <gf-grid :options="gridOptions" quick-text-max-width="300px" height="80%" ref="grid"></gf-grid>
             </el-tab-pane>
           </el-tabs>
         </div>
