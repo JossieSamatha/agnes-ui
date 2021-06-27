@@ -6,6 +6,7 @@ import agnesTc from "./agnes-tc/index";
 import agnesDc from "./agnes-dc/index";
 import agnesAcnt from "./agnes-acnt/index";
 import agnesRemind from "./agnes-remind/index";
+import agnesBpmnProcess from "./agnes-bpmn-process/index";
 import agnesBpmn from "./agnes-bpmn/index";
 const Loading = {
     load: function (Gfui) {
@@ -18,6 +19,7 @@ const Loading = {
         Gfui.use(agnesDc);
         Gfui.use(agnesRemind);
         Gfui.use(agnesBpmn);
+        Gfui.use(agnesBpmnProcess);
     }
 };
 
