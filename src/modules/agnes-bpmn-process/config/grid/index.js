@@ -1,10 +1,10 @@
-import MsgDef from "./msg-def"
+import BpmnDef from "./bpmn-def"
 
 
 const Loading = {
     load: function (Gfui) {
 
-        Gfui.use(MsgDef);
+        Gfui.use(BpmnDef);
 
     }
 };

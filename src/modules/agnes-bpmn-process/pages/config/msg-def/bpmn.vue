@@ -286,7 +286,7 @@ export default {
   position: absolute;
   background-color: #ffffff;
   width: 100%;
-  height: 100%;
+  height: 1000px;
 }
 .canvas{
   width: 100%;

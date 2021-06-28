@@ -7,6 +7,25 @@
 import BpmnJS from 'bpmn-js' // 引入 bpmn-js
 export default {
   data () {
+    return{
+      xml:''
+    }
+
+  },
+  created(){
+    this.getParams()
+  },
+  watch: {
+    '$route': 'getParams'
+  },
+  methods:{
+    getParams(){
+      // 取到路由带过来的参数
+      const routerParams = this.$route.query.xmlStr
+      // const routerBpmnParams = this.$route.query.bpmnData
+      // 将数据放在当前组件的数据内
+      this.xml = routerParams;
+    }
   },
   mounted() {
     var viewer = new BpmnJS({
@@ -17,7 +36,7 @@ export default {
     // // var diagramUrl = 'http://localhost:8080/pizza-collaboration.bpmn20.xml';
     // this.$http.get(diagramUrl)
     //     .then(function(res){
-          viewer.importXML(res.data, function(err){
+          viewer.importXML(this.xml, function(err){
             if (!err) {
               console.log('success!')
               viewer.get('canvas').zoom('fit-viewport')
