@@ -40,7 +40,8 @@
     "vue-grid-layout": "^2.3.7",
     "vue-quill-editor": "^3.0.6",
     "vuedraggable": "^2.23.2",
-    "vuex": "^3.1.2"
+    "vuex": "^3.1.2",
+    "yarn": "^1.22.10"
   },
   "devDependencies": {
     "@hex/swagger-api": "1.0.6",
