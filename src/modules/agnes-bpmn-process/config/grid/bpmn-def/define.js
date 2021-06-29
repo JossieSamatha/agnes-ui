@@ -5,9 +5,9 @@ import dateUtil from "@hex/gf-ui/src/util/date-utils";
 
 export default {
     columnDefs: [
-        {headerName: "名称", field: "activityName"},
-        {headerName: "分类", field: "categoryName"},
-        {headerName: "KEY", field: "priority"},
+        {headerName: "名称", field: "title"},
+        {headerName: "分类", field: "categoryId"},
+        {headerName: "KEY", field: "key"},
         {headerName: "版本", field: "showUserName"},
         {headerName: "状态", field: "showUserName"},
         {headerName: "创建者", field: "showUserName"},

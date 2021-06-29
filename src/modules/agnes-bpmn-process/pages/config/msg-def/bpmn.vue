@@ -1,17 +1,22 @@
 <template>
   <div class="containers" ref="content">
+    <div style="height: 350px">
     <div class="canvas" ref="canvas"></div>
+    </div>
     <div id="js-properties-panel" class="panel"></div>
+
+    <div style="max-height: 10%">
     <el-button-group>
     <el-button @click="downloadBpmn">
       <el-icon type="download"/>
-      保存BPMN
+      DownLoadBPMN
     </el-button>
     <el-button @click="downloadSvg">
       <a-icon type="download"/>
-      保存SVG
+      DownLoadSVG
     </el-button>
-
+    </el-button-group>
+    <el-button-group>
     <el-upload
         :file-list="uploadBpmnFileList"
         :before-upload="beforeUpload"
@@ -26,6 +31,11 @@
       <el-button @click="handlerUndo">撤销</el-button>
       <el-button @click="handlerRedo">恢复</el-button>
     </el-button-group>
+    <el-button-group>
+      <el-button @click="handlerSaveBpmn">保存Bpmn</el-button>
+      <el-button @click="handlerSaveSvg">保存Svg</el-button>
+      <el-button @click="handlerPublish">发布</el-button>
+    </el-button-group>
 
     <el-button-group>
       <el-button @click="handlerZoom(0.1)">放大</el-button>
@@ -34,7 +44,7 @@
     </el-button-group>
 
     <a hidden ref="downloadLink"></a>
-
+    </div>
   </div>
 </template>
 
@@ -63,6 +73,9 @@ export default {
       canvas: null,
       // uploadBpmnFileList: [],
       // scale: 1,
+      order:{
+        bpmnXml:''
+      }
     }
   },
   methods: {
@@ -145,6 +158,61 @@ export default {
       this.bpmnModeler.get("commandStack").redo();
     },
     handlerUndo() {
+      this.bpmnModeler.get("commandStack").undo();
+    },
+    handlerSaveBpmn() {
+      try{
+        this.bpmnModeler.saveXML({format: true}, (err, xml) => {
+
+          if (!err) {
+            this.order.bpmnXml=xml
+            const p = this.$api.BpmnProcessApi.handlerSaveBpmn(this.order)
+            this.$app.blockingApp(p);
+            this.$msg.success("任务提交成功!");
+            this.reloadData();
+          }
+        })
+      }catch (e) {
+        this.$msg.error(e);
+      }
+
+    },
+    handlerSaveSvg() {
+      try {
+        // 从建模器画布中提取svg图形标签
+        let context = "";
+        const djsGroupAll = this.$refs.canvas.querySelectorAll(".djs-group");
+        for (let item of djsGroupAll) {
+          context += item.innerHTML;
+        }
+        // 获取svg的基本数据，长宽高
+        const viewport = this.$refs.canvas
+            .querySelector(".viewport")
+            .getBBox();
+
+        // 将标签和数据拼接成一个完整正常的svg图形
+        const svg = `
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                            width="${viewport.width}"
+                            height="${viewport.height}"
+                            viewBox="${viewport.x} ${viewport.y} ${viewport.width} ${viewport.height}"
+                            version="1.1"
+                            >
+                            ${context}
+                          </svg>
+                        `;
+            const p = this.$api.BpmnApi.commitTask(svg)
+            this.$app.blockingApp(p);
+            this.$msg.success("任务提交成功!");
+            this.reloadData();
+      } catch (e) {
+        this.$msg.error(e);
+      }
+
+    },
+    handlerPublish() {
       this.bpmnModeler.get("commandStack").undo();
     },
     handlerZoom(radio) {

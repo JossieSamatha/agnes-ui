@@ -7,42 +7,43 @@
                 <el-form-item label="标题:">
                   <el-input v-model="queryArgs.title"></el-input>
                 </el-form-item>
-              <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
               <el-form-item label="KEY:">
                 <el-input v-model="queryArgs.title"></el-input>
               </el-form-item>
+              <el-button @click="reloadData" class="option-btn" type="primary">查询</el-button>
               <el-button @click="reSetSearch" class="option-btn" type="primary">重置</el-button>
             </div>
         </el-form>
 
         <el-dialog  title="新增"
                     :visible="addVisible"
-                    width="90%" style="height: auto"
-                    :before-close="doCloseLog"
+                    width="90%"
+                    :before-close="doCloseAdd"
                     >
-          <el-row style="height:700px">
+          <el-row style="height:400px">
           <bpmn />
           </el-row>
           <span slot="footer" class="dialog-footer">
-            <el-button @click="doCloseLog()">取 消</el-button>
-            <el-button type="primary" @click="doCloseLog()">确 定</el-button>
+            <el-button @click="doCloseAdd">取 消</el-button>
+            <el-button type="primary" @click="doCloseAdd">确 定</el-button>
           </span>
         </el-dialog>
       <el-dialog  title="编辑"
                     :visible="editVisible"
-                    width="90%" style="height: auto"
+                    width="90%"
+                  :before-close="editUnVisible"
                     >
-        <el-row style="height:1000px">
-          <bpmn :xml="queryLog"/>
+        <el-row style="height:400px">
+          <bpmn/>
         </el-row>
           <span slot="footer" class="dialog-footer">
-            <el-button @click="editVisible()">取 消</el-button>
-            <el-button type="primary" @click="editVisible = false">确 定</el-button>
+            <el-button @click="editUnVisible">取 消</el-button>
+            <el-button type="primary" @click="editUnVisible">确 定</el-button>
           </span>
         </el-dialog>
-        <gf-grid  :query-args="queryArgs" grid-no="bpmn-done" ref="grid" toolbar="find,refresh,more">
+        <gf-grid  :query-args="queryArgs" grid-no="process-define" ref="grid" toolbar="find,refresh,more">
           <template slot="left">
-            <el-button class="action-btn" type="primary" @click="doShowLog()" >新增</el-button>
+            <el-button class="action-btn" type="primary" @click="doShowAdd()" >新增</el-button>
             <el-button class="action-btn" type="primary" @click="edit()" >编辑</el-button>
           </template>
         </gf-grid>
@@ -61,7 +62,6 @@
       components:{bpmn},
         data() {
             return {
-                viewSrc:'/bpmn.html',
                 queryArgs:{
                     'title':'',
                     'processDefinitionName':'',
@@ -71,11 +71,21 @@
         beforeMount() {
         },
       watch: {
-        '$route': 'getParams'
+        '$route': 'edit'
       },
         methods: {
           edit(){
-            this.editVisible=true
+            let rows = this.$refs.grid.getSelectedRows();
+            let row =[];
+            if(rows.length>0){
+              row = rows[0];
+            }else{
+              this.$msg.warning("请选中一条记录!");
+              return;
+            }
+            const id=row.activityName;
+            const p = this.$api.fileScan.updateFileMove(id,status);
+            this.$app.blockingApp(p);
             this.$router.push({
               path:'',
               query:{
@@ -142,13 +152,19 @@
                     '  </bpmndi:BPMNDiagram>\n' +
                     '</bpmn:definitions>\n'}
             });
+            this.reSetSearch();
+            this.editVisible=true
           },
 
-          doCloseLog() {
+          doCloseAdd() {
             this.addVisible = false;
-            this.reSetSearch()
           },
-          doShowLog() {
+          editUnVisible() {
+
+            this.reSetSearch()
+            this.editVisible = false;
+          },
+          doShowAdd() {
             this.addVisible = true;
             this.queryArgs = {
               'title':'',

@@ -1,7 +1,7 @@
-import MsgApi from './msg-api';
+import BpmnProcessApi from './bpmn-process-api';
 
 
 export default {
-    MsgApi
+    BpmnProcessApi
 
 };

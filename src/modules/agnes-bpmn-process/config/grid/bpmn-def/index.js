@@ -1,11 +1,11 @@
-import Todo from "./todo";
-import Done from "./done";
+import Dtl from "./dtl";
+import Define from "./define";
 import Flow from "./flow"
 
 const Loading = {
     load: function (Gfui) {
-        Gfui.grid('bpmn-todo', Todo);
-        Gfui.grid('bpmn-done', Done);
+        Gfui.grid('process-define', Define);
+        Gfui.grid('process-dtl', Dtl);
         Gfui.grid('bpmn-flow', Flow);
     }
 };

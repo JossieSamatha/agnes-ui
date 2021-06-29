@@ -3,7 +3,7 @@ import dateUtil from "@hex/gf-ui/src/util/date-utils";
 import column from "@/config/column";
 
 const colButtons = [
-    {key: 'showDeal', title: '查看',cellClass:''},
+    {key: 'updateFileMove', title: '查看',cellClass:''},
 ];
 export default {
     columnDefs: [

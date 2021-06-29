@@ -6,8 +6,8 @@ export default {
         return request.post("/agnes-remind/v1/remind/msg/batch/read", form);
     },
 
-    queryMsg(form) {
-        return request.post("/agnes-remind/v1/remind/msg/query", form);
+    handlerSaveBpmn(form) {
+        return request.post("test/order/v1/remind/msg/query", form);
     },
 
 };

@@ -1,10 +1,10 @@
 <template>
   <div>
-  <div style="width:100%;height:49%">
+  <div style="width:100%;height:49%;position:relative">
         <bpmnDtl :xml="queryLog" />
   </div>
   <el-row style="width:100%;height:49%">
-    <gf-grid  :query-args="queryArgs" grid-no="bpmn-todo" ref="grid" toolbar="find,refresh,more">
+    <gf-grid  :query-args="queryArgs" grid-no="process-dtl" ref="grid" toolbar="find,refresh,more">
     </gf-grid>
   </el-row>
   </div>
@@ -29,11 +29,10 @@ export default {
       this.showLog = false;
     },
     doShowLog() {
-      this.showLog = true;
       this.$router.push({
         path:'',
         query:{
-          xmlStr: '<?xml version="1.0" encoding="UTF-8"?>\n' +
+          xmlDtl: '<?xml version="1.0" encoding="UTF-8"?>\n' +
           '<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0fppxr8" targetNamespace="http://bpmn.io/schema/bpmn">\n' +
           '  <bpmn:process id="Process_1" isExecutable="false">\n' +
           '    <bpmn:startEvent id="StartEvent_1" name="begin&#10;">\n' +
@@ -96,6 +95,20 @@ export default {
           '  </bpmndi:BPMNDiagram>\n' +
           '</bpmn:definitions>\n'}
     });
+      this.showLog = true;
+      this.reSetSearch()
+    },
+    async updateFileMove(params,status){
+      const p = this.$api.fileScan.updateFileMove(params.data.activityName,status);
+      await this.$app.blockingApp(p);
+      this.reSetSearch()
+    },
+    reSetSearch() {
+      this.queryArgs = {
+        'title':'',
+        'processDefinitionName':''
+      };
+      this.$refs.grid.reloadData();
     },
   },
   mounted() {
