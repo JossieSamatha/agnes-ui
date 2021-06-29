@@ -1,9 +1,13 @@
 
 import dateUtil from "@hex/gf-ui/src/util/date-utils";
+import column from "@/config/column";
 
-
+const colButtons = [
+    {key: 'showDeal', title: '查看',cellClass:''},
+];
 export default {
     columnDefs: [
+        column.buildOpCol(80, colButtons),
         {headerName: "序号", field: "activityName"},
         {headerName: "处理环节", field: "categoryName"},
         {headerName: "处理人", field: "priority"},
